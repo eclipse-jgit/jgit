@@ -26,7 +26,7 @@ public interface MultiPackIndex {
 	 * <p>
 	 * The pack ids correspond to positions in this list.
 	 *
-	 * @return array of packnames refered in this multipak index
+	 * @return array of packnames refered in this multipack index
 	 */
 	String[] getPackNames();
 
@@ -66,6 +66,35 @@ public interface MultiPackIndex {
 	int findPosition(AnyObjectId objectId);
 
 	/**
+	 * Return the position in offset order (i.e. ridx or bitmap position) for
+	 * the (packId, offset) pair.
+	 *
+	 * @param po
+	 *            a location in the midx (packId, offset)
+	 * @return the position in the midx, in offset order
+	 */
+	int findBitmapPosition(PackOffset po);
+
+	/**
+	 * Object id at the specified position in offset order (i.e. position in the
+	 * ridx or bitmap)
+	 *
+	 * @param bitmapPosition
+	 *            position in the bitmap
+	 * @return object id at that position.
+	 */
+	ObjectId getObjectAtBitmapPosition(int bitmapPosition);
+
+	/**
+	 * ObjectId at this position in the midx
+	 *
+	 * @param position
+	 *            position inside this midx in sha1 order
+	 * @return the object id at that position
+	 */
+	ObjectId getObjectAt(int position);
+
+	/**
 	 * Number of objects in this midx
 	 * <p>
 	 * This number doesn't match with the sum of objects in each covered pack
@@ -90,6 +119,13 @@ public interface MultiPackIndex {
 	void resolve(Set<ObjectId> matches, AbbreviatedObjectId id, int matchLimit);
 
 	/**
+	 * Index checksum of the contents of this midx file
+	 *
+	 * @return checksum of the contents of this midx file
+	 */
+	byte[] getChecksum();
+
+	/**
 	 * Memory size of this multipack index
 	 *
 	 * @return size of this multipack index in memory, in bytes
@@ -102,7 +138,7 @@ public interface MultiPackIndex {
 	 * Mutable object to avoid creating many instances while looking for objects
 	 * in the pack. Use #copy() to get a new instance with the data.
 	 */
-	class PackOffset {
+	class PackOffset implements Comparable<PackOffset> {
 
 		private int packId;
 
@@ -123,7 +159,7 @@ public interface MultiPackIndex {
 			return new PackOffset().setValues(packId, offset);
 		}
 
-		protected PackOffset setValues(int packId, long offset) {
+		public PackOffset setValues(int packId, long offset) {
 			this.packId = packId;
 			this.offset = offset;
 			return this;
@@ -140,6 +176,16 @@ public interface MultiPackIndex {
 		public PackOffset copy() {
 			PackOffset copy = new PackOffset();
 			return copy.setValues(this.packId, this.offset);
+		}
+
+		@Override
+		public int compareTo(PackOffset packOffset) {
+			int cmp = this.packId - packOffset.packId;
+			if (cmp != 0) {
+				return cmp;
+			}
+
+			return Long.compare(this.offset, packOffset.offset);
 		}
 	}
 }

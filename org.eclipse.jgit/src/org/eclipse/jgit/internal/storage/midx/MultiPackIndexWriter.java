@@ -10,6 +10,7 @@
 package org.eclipse.jgit.internal.storage.midx;
 
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.CHUNK_LOOKUP_WIDTH;
+import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_BITMAPPEDPACKS;
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_LARGEOFFSETS;
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_OBJECTOFFSETS;
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_OIDFANOUT;
@@ -137,6 +138,8 @@ public class MultiPackIndexWriter {
 		}
 		chunkHeaders.add(new ChunkHeader(MIDX_CHUNKID_REVINDEX,
 				4L * data.getUniqueObjectCount(), this::writeRidx));
+		chunkHeaders.add(new ChunkHeader(MIDX_CHUNKID_BITMAPPEDPACKS,
+				8L * data.getPackCount(), this::writeBitmappedPackfiles));
 
 		int packNamesSize = data.getPackNames().stream()
 				.mapToInt(String::length).map(i -> i + 1 /* null at the end */)
@@ -308,13 +311,12 @@ public class MultiPackIndexWriter {
 			MidxMutableEntry e = iterator.next();
 			OffsetPosition op = new OffsetPosition(e.getOffset(), midxPosition);
 			midxPosition++;
-			packOffsets.computeIfAbsent(Integer.valueOf(e.getPackId()),
-					k -> new ArrayList<>()).add(op);
+			packOffsets.computeIfAbsent(e.getPackId(), k -> new ArrayList<>())
+					.add(op);
 		}
 
 		for (int i = 0; i < ctx.data.getPackCount(); i++) {
-			List<OffsetPosition> offsetsForPack = packOffsets
-					.get(Integer.valueOf(i));
+			List<OffsetPosition> offsetsForPack = packOffsets.get(i);
 			if (offsetsForPack == null) {
 				continue;
 			}
@@ -326,6 +328,21 @@ public class MultiPackIndexWriter {
 			}
 			ctx.out.write(ridxForPack);
 		}
+	}
+
+	private void writeBitmappedPackfiles(WriteContext ctx) throws IOException {
+		int[] objsPerPack = ctx.data.getObjectsPerPack();
+
+		byte[] buffer = new byte[8 * objsPerPack.length];
+		int bufferPos = 0;
+		int accruedBitmapPositions = 0;
+		for (int pack = 0; pack < objsPerPack.length; pack++) {
+			NB.encodeInt32(buffer, bufferPos, accruedBitmapPositions);
+			NB.encodeInt32(buffer, bufferPos + 4, objsPerPack[pack]);
+			accruedBitmapPositions += objsPerPack[pack];
+			bufferPos += 8;
+		}
+		ctx.out.write(buffer);
 	}
 
 	/**
