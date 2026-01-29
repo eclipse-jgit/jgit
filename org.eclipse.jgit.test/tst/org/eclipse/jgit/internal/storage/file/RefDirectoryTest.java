@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.internal.storage.file.RefDirectory.PackedRefList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
@@ -1115,6 +1116,70 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 						masterIndex < otherIndex &&
 						otherIndex < tagIndex
 		);
+	}
+
+	@Test
+	public void testPackedRefsHeaderWithPeeled() throws Exception {
+		writeLooseRef("refs/heads/master", A);
+		writeLooseRef("refs/heads/other", B);
+		writeLooseRef("refs/tags/v1.0", v1_0);
+
+		PackRefsCommand packRefsCommand = new PackRefsCommand(diskRepo);
+		packRefsCommand.setAll(true);
+		packRefsCommand.call();
+
+		File packedRefsFile = new File(diskRepo.getCommonDirectory(), "packed-refs");
+		assertTrue("packed-refs should exist", packedRefsFile.exists());
+
+		String firstLine = read(packedRefsFile).split("\n")[0];
+		assertTrue("packed-refs should have header",
+				firstLine.startsWith("# pack-refs with: "));
+		assertTrue("packed-refs should have header with peeled",
+				firstLine.contains(" peeled"));
+		assertTrue("packed-refs should have header with fully-peeled",
+				firstLine.contains(" fully-peeled"));
+
+		RefDirectory.PackedRefList packedRefs = refdir.getPackedRefs();
+		Ref tag = packedRefs.get("refs/tags/v1.0");
+		assertTrue("tag should be peeled", tag.isPeeled());
+		assertEquals(v1_0.getObject(), tag.getPeeledObjectId());
+	}
+
+	@Test
+	public void testPackRefsPeelsUnpeeledPackedTag() throws Exception {
+		writePackedRefs(
+				"# pack-refs with: sorted\n" +
+				A.name() + " refs/heads/master\n" +
+				B.name() + " refs/heads/other\n" +
+				v1_0.name() + " refs/tags/v1.0\n" // This isn't peeled
+		);
+
+		// extra loose-ref to trigger packing
+		writeLooseRef("refs/heads/loose", A);
+
+		PackRefsCommand packRefsCommand = new PackRefsCommand(diskRepo);
+		packRefsCommand.setAll(true);
+		packRefsCommand.call();
+
+		Ref tag = refdir.getPackedRefs().get("refs/tags/v1.0");
+		assertNotNull("tag ref should be packed", tag);
+		assertTrue("tag should be peeled", tag.isPeeled());
+		assertEquals(v1_0.getObject(), tag.getPeeledObjectId());
+	}
+
+	@Test
+	public void testPackRefsPeelsTagOutsideTagsNamespace() throws Exception {
+		writeLooseRef("refs/other/tag-v1.0", v1_0);
+
+		PackRefsCommand packRefsCommand = new PackRefsCommand(diskRepo);
+		packRefsCommand.setAll(true);
+		packRefsCommand.call();
+
+		Ref tag = refdir.getPackedRefs().get("refs/other/tag-v1.0");
+
+		assertNotNull("tag ref should be packed", tag);
+		assertTrue("tag should be peeled", tag.isPeeled());
+		assertEquals(v1_0.getObject(), tag.getPeeledObjectId());
 	}
 
 	@Test
