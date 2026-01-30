@@ -36,6 +36,23 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f547ff6c_1cc4b6d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-30T14:42:20Z",
+      "side": 1,
+      "message": "Still have a few things left to do, but pushing what I have so long",
+      "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ad6536f_6c88ebb9",
@@ -70,6 +87,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1034583b_2d4ae429",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/SignatureVerifiers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-30T14:42:20Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b9793bea_ae1f882a",
+      "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45704df1_86978f16",
@@ -87,6 +122,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c15bfdd_c5cc6684",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Signers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-30T14:42:20Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "45704df1_86978f16",
+      "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "afcd706c_6f2343dd",
@@ -100,6 +153,24 @@
       "writtenOn": "2026-01-27T17:53:16Z",
       "side": 1,
       "message": "TRUST_UNDEFINED should probably result in TrustLevel.UNKNOWN?",
+      "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a3b80cd_610071c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/signing/GpgBinarySignatureVerifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-30T14:42:20Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "afcd706c_6f2343dd",
       "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -134,6 +205,24 @@
       "writtenOn": "2026-01-27T17:53:16Z",
       "side": 1,
       "message": "Where does this \"operation cancelled\" text come from? If it\u0027s gpg: is it guaranteed to be in English? What does gpg print if the locale is de_DE?",
+      "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdf34b66_22870356",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/signing/GpgProcessRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-01-30T14:42:20Z",
+      "side": 1,
+      "message": "This is related to closing the `pinentry` prompt. More generally:\n```\ngpg-error 99        \n99 \u003d (0, 99) \u003d (GPG_ERR_SOURCE_UNKNOWN, GPG_ERR_CANCELED) \u003d (Unspecified source, Operation cancelled)\n```\nYeah not guaranteed to be in English. More robust to check `99` with the `--status-fd` flag.",
+      "parentUuid": "c92b8f58_cde646f6",
       "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
