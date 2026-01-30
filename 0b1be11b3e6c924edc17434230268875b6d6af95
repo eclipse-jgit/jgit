@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d32df9b_44237ce8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-30T07:33:54Z",
+      "side": 1,
+      "message": "The LocalFile subclass needs to handle this, too.",
+      "revId": "0b1be11b3e6c924edc17434230268875b6d6af95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39bf814b_27245e18",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-30T07:33:54Z",
+      "side": 1,
+      "message": "This will set `closed` to `true`, which is wrong for `reset`.",
+      "revId": "0b1be11b3e6c924edc17434230268875b6d6af95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87a891d3_8ae329bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-30T07:33:54Z",
+      "side": 1,
+      "message": "Instead of this just set `closed \u003d true` here.",
+      "revId": "0b1be11b3e6c924edc17434230268875b6d6af95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "054b4ef5_d86fba73",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-30T07:33:54Z",
+      "side": 1,
+      "message": "The `if (closed) return;` is superfluous here.",
+      "revId": "0b1be11b3e6c924edc17434230268875b6d6af95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac612738_02a84554",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-30T07:33:54Z",
+      "side": 1,
+      "message": "So calling this `length` after `close` is possible until `destroy` gets called, and if called after `destroy`, we\u0027ll still get an NPE.",
+      "revId": "0b1be11b3e6c924edc17434230268875b6d6af95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
