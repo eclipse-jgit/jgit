@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ed88aa7_8c13b66c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-01-30T07:40:11Z",
+      "side": 1,
+      "message": "Usually we don\u0027t write initializations if they are equal to the default. Personally it\u0027s OK either way for me; code sometimes _is_ clearer if it\u0027s stated explicitly, and I would expect any self-respecting compiler to not generate code for it.",
+      "revId": "0b1be11b3e6c924edc17434230268875b6d6af95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "39bf814b_27245e18",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
         "patchSetId": 3
