@@ -21,8 +21,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.GcConfig;
+import org.eclipse.jgit.lib.GcConfig.PackRefsMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -375,5 +378,105 @@ public class GcBasicPackingTest extends GcTestCase {
 			pconfig = new PackConfig(repo);
 		myGc.setPackConfig(pconfig);
 		return pconfig;
+	}
+
+	@Test
+	public void testPackRefs() throws Exception {
+		tr.branch("refs/heads/master").commit().add("A", "A").add("B", "B")
+				.create();
+		assertHasLooseRef(repo);
+
+		// by default, refs should be packed
+		gc.gc().get();
+		assertHasNoLooseRef(repo);
+
+		// now create a loose ref again
+		tr.branch("refs/heads/foo").commit().add("C", "C").create();
+		assertHasLooseRef(repo);
+		// and disable packing of refs
+		gc.setGcConfig(new GcConfig(PackRefsMode.FALSE));
+		gc.gc().get();
+		assertHasLooseRef(repo);
+	}
+
+	@Test
+	public void testPackRefsWithConfig() throws Exception {
+		tr.branch("refs/heads/master").commit().add("A", "A").add("B", "B")
+				.create();
+		assertHasLooseRef(repo);
+
+		// disable packing of refs via config
+		FileBasedConfig config = repo.getConfig();
+		config.setEnum(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_PACK_REFS, PackRefsMode.FALSE);
+		config.save();
+		// create a new GC instance to reread the config
+		gc = new GC(repo);
+
+		gc.gc().get();
+		assertHasLooseRef(repo);
+
+		// now enable packing of refs via API
+		gc.setGcConfig(new GcConfig(PackRefsMode.TRUE));
+		gc.gc().get();
+		assertHasNoLooseRef(repo);
+	}
+
+	@Test
+	public void testPackRefsWithNotBareConfig() throws Exception {
+		// non-bare repo
+		tr.branch("refs/heads/master").commit().add("A", "A").add("B", "B")
+				.create();
+		assertHasLooseRef(repo);
+
+		// configure packing of refs only for non-bare repositories
+		FileBasedConfig config = repo.getConfig();
+		config.setEnum(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_PACK_REFS, PackRefsMode.NOTBARE);
+		config.save();
+		// create a new GC instance to reread the config
+		gc = new GC(repo);
+
+		gc.gc().get();
+		assertHasNoLooseRef(repo);
+
+		// bare repo
+		FileRepository bareRepo = (FileRepository) Git.cloneRepository()
+				.setBare(true).setURI(repo.getDirectory().toURI().toString())
+				.setDirectory(createUniqueTestGitDir(true)).call()
+				.getRepository();
+		try (Git git = new Git(bareRepo)) {
+			git.branchCreate().setName("refs/heads/branch-in-bare-repo")
+					.setStartPoint("refs/heads/master").call();
+			assertHasLooseRef(bareRepo);
+
+			// configure packing of refs only for non-bare repositories
+			FileBasedConfig bareConfig = bareRepo.getConfig();
+			bareConfig.setEnum(ConfigConstants.CONFIG_GC_SECTION, null,
+					ConfigConstants.CONFIG_KEY_PACK_REFS, PackRefsMode.NOTBARE);
+			bareConfig.save();
+			// create a new GC instance to reread the config
+			gc = new GC(bareRepo);
+
+			gc.gc().get();
+			assertHasLooseRef(bareRepo);
+		}
+	}
+
+	private static boolean hasLooseRef(FileRepository repository)
+			throws IOException {
+		return repository.getRefDatabase().getRefs().stream()
+				.filter(r -> !r.isSymbolic())
+				.anyMatch(r -> r.getStorage().isLoose());
+	}
+
+	private static void assertHasLooseRef(FileRepository repository)
+			throws IOException {
+		assertTrue("should have loose ref", hasLooseRef(repository));
+	}
+
+	private static void assertHasNoLooseRef(FileRepository repository)
+			throws IOException {
+		assertFalse("should have no loose ref", hasLooseRef(repository));
 	}
 }
