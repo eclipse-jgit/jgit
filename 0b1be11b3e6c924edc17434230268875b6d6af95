@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "879c2363_6da1ec63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-30T13:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ed88aa7_8c13b66c",
+      "revId": "0b1be11b3e6c924edc17434230268875b6d6af95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39bf814b_27245e18",
@@ -48,6 +66,24 @@
       "writtenOn": "2026-01-30T07:33:54Z",
       "side": 1,
       "message": "This will set `closed` to `true`, which is wrong for `reset`.",
+      "revId": "0b1be11b3e6c924edc17434230268875b6d6af95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e055798_45bfc324",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-30T13:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39bf814b_27245e18",
       "revId": "0b1be11b3e6c924edc17434230268875b6d6af95",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -69,6 +105,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63b02264_f444d849",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-30T13:14:36Z",
+      "side": 1,
+      "message": "we only need to track if destroy was called since that\u0027s potentially causing NPEs",
+      "parentUuid": "87a891d3_8ae329bb",
+      "revId": "0b1be11b3e6c924edc17434230268875b6d6af95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "054b4ef5_d86fba73",
@@ -86,6 +140,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ad2ab2b_3439c615",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-30T13:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "054b4ef5_d86fba73",
+      "revId": "0b1be11b3e6c924edc17434230268875b6d6af95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac612738_02a84554",
@@ -99,6 +171,24 @@
       "writtenOn": "2026-01-30T07:33:54Z",
       "side": 1,
       "message": "So calling this `length` after `close` is possible until `destroy` gets called, and if called after `destroy`, we\u0027ll still get an NPE.",
+      "revId": "0b1be11b3e6c924edc17434230268875b6d6af95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52f8a4e5_3f3345f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-01-30T13:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac612738_02a84554",
       "revId": "0b1be11b3e6c924edc17434230268875b6d6af95",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
