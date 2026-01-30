@@ -376,4 +376,64 @@ public class GcBasicPackingTest extends GcTestCase {
 		myGc.setPackConfig(pconfig);
 		return pconfig;
 	}
+
+	@Test
+	public void testPackRefs() throws Exception {
+		tr.branch("refs/heads/master").commit().add("A", "A").add("B", "B")
+				.create();
+		// check that a loose ref exists
+		assertTrue(repo.getRefDatabase().getRefs().stream()
+				.anyMatch(r -> r.getStorage().isLoose()));
+
+		// by default, refs should be packed
+		gc.gc().get();
+		// check that no loose refs exist
+		assertFalse(repo.getRefDatabase().getRefs().stream()
+				.filter(r -> !r.isSymbolic())
+				.anyMatch(r -> r.getStorage().isLoose()));
+
+		// now create a loose ref again
+		tr.branch("refs/heads/foo").commit().add("C", "C").create();
+		assertTrue(repo.getRefDatabase().getRefs().stream()
+				.anyMatch(r -> r.getStorage().isLoose()));
+
+		// and disable packing of refs
+		gc.setPackRefs(false);
+		gc.gc().get();
+		// check that the loose ref still exists
+		assertTrue(repo.getRefDatabase().getRefs().stream()
+				.filter(r -> !r.isSymbolic())
+				.anyMatch(r -> r.getStorage().isLoose()));
+	}
+
+	@Test
+	public void testPackRefsWithConfig() throws Exception {
+		tr.branch("refs/heads/master").commit().add("A", "A").add("B", "B")
+				.create();
+		// check that a loose ref exists
+		assertTrue(repo.getRefDatabase().getRefs().stream()
+				.anyMatch(r -> r.getStorage().isLoose()));
+
+		// disable packing of refs via config
+		FileBasedConfig config = repo.getConfig();
+		config.setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_PACK_REFS, false);
+		config.save();
+		// create a new GC instance to reread the config
+		gc = new GC(repo);
+
+		gc.gc().get();
+		// check that the loose ref still exists
+		assertTrue(repo.getRefDatabase().getRefs().stream()
+				.filter(r -> !r.isSymbolic())
+				.anyMatch(r -> r.getStorage().isLoose()));
+
+		// now enable packing of refs via API
+		gc.setPackRefs(true);
+		gc.gc().get();
+		// check that no loose refs exist
+		assertFalse(repo.getRefDatabase().getRefs().stream()
+				.filter(r -> !r.isSymbolic())
+				.anyMatch(r -> r.getStorage().isLoose()));
+	}
 }
