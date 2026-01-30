@@ -82,6 +82,8 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.GcConfig;
+import org.eclipse.jgit.lib.GcConfig.PackRefsMode;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSet;
@@ -171,6 +173,8 @@ public class GC {
 
 	private PackConfig pconfig;
 
+	private GcConfig gcConfig;
+
 	/**
 	 * the refs which existed during the last call to {@link #repack()}. This is
 	 * needed during {@link #prune(Set)} where we can optimize by looking at the
@@ -207,6 +211,7 @@ public class GC {
 		this.repo = repo;
 		this.pconfig = new PackConfig(repo);
 		this.pm = NullProgressMonitor.INSTANCE;
+		this.gcConfig = repo.getConfig().get(GcConfig.KEY);
 	}
 
 	/**
@@ -282,6 +287,18 @@ public class GC {
 		return (executor != null) ? executor : WorkQueue.getExecutor();
 	}
 
+	/**
+	 * Set the gc configuration.
+	 *
+	 * @param gcConfig
+	 *            the gc configuration
+	 * @return this instance
+	 */
+	public GC setGcConfig(GcConfig gcConfig) {
+		this.gcConfig = gcConfig;
+		return this;
+	}
+
 	private Collection<Pack> doGc()
 			throws IOException, ParseException, GitAPIException {
 		if (automatic && !needGc()) {
@@ -292,8 +309,13 @@ public class GC {
 				return Collections.emptyList();
 			}
 			pm.start(6 /* tasks */);
-			new PackRefsCommand(repo).setProgressMonitor(pm).setAll(true)
-					.call();
+			boolean packRefs = gcConfig.getPackRefs() == PackRefsMode.TRUE
+					|| (gcConfig.getPackRefs() == PackRefsMode.NOTBARE
+							&& !repo.isBare());
+			if (packRefs) {
+				new PackRefsCommand(repo).setProgressMonitor(pm).setAll(true)
+						.call();
+			}
 			// TODO: implement reflog_expire(pm, repo);
 			Collection<Pack> newPacks = repack();
 			prune(Collections.emptySet());
@@ -344,8 +366,8 @@ public class GC {
 	 * directory. If an expirationDate is set then pack files which are younger
 	 * than the expirationDate will not be deleted nor preserved.
 	 * <p>
-	 * If we're not immediately expiring loose objects, loosen any objects in
-	 * the old pack files which aren't in the new pack files.
+	 * If we're not immediately expiring loose objects, loosen any objects in the
+	 * old pack files which aren't in the new pack files.
 	 *
 	 * @param oldPacks
 	 *            old pack files
@@ -744,6 +766,15 @@ public class GC {
 			packExpireDate = System.currentTimeMillis() - packExpireAgeMillis;
 		}
 		return packExpireDate;
+	}
+
+	/**
+	 * Get the gc configuration.
+	 *
+	 * @return the gc configuration.
+	 */
+	public GcConfig getGcConfig() {
+		return gcConfig;
 	}
 
 	/**
@@ -1752,27 +1783,11 @@ public class GC {
 	 * {@code gc --auto} after performing operations that could create many
 	 * loose objects.
 	 * <p>
-	 * Housekeeping is required if there are too many loose objects or too many
-	 * packs in the repository. If the number of loose objects exceeds the value
-	 * of the gc.auto option JGit GC consolidates all existing packs into a
-	 * single pack (equivalent to {@code -A} option), whereas git-core would
-	 * combine all loose objects into a single pack using {@code repack -d -l}.
-	 * Setting the value of {@code gc.auto} to 0 disables automatic packing of
-	 * loose objects.
+	 * Housekeeping is required if the number of loose objects or the number of
+	 * packs in the repository exceeds the values of the gc.auto and
+	 * gc.autoPackLimit options respectively. If the value of {@code gc.auto} is
+	 * set to 0, automatic housekeeping is disabled.
 	 * <p>
-	 * If the number of packs exceeds the value of {@code gc.autoPackLimit},
-	 * then existing packs (except those marked with a .keep file) are
-	 * consolidated into a single pack by using the {@code -A} option of repack.
-	 * Setting {@code gc.autoPackLimit} to 0 disables automatic consolidation of
-	 * packs.
-	 * <p>
-	 * Like git the following jgit commands run auto gc:
-	 * <ul>
-	 * <li>fetch</li>
-	 * <li>merge</li>
-	 * <li>rebase</li>
-	 * <li>receive-pack</li>
-	 * </ul>
 	 * The auto gc for receive-pack can be suppressed by setting the config
 	 * option {@code receive.autogc = false}
 	 *
