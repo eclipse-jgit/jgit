@@ -30,6 +30,14 @@ class Gc extends TextBuiltin {
 	@Option(name = "--pack-kept-objects", usage = "usage_PackKeptObjects")
 	private Boolean packKeptObjects;
 
+	@Option(name = "--pack-refs", usage = "usage_PackRefs")
+	private Boolean packRefs;
+
+	@Option(name = "--no-pack-refs", usage = "usage_NoPackRefs")
+	void nothin(@SuppressWarnings("unused") final boolean ignored) {
+		packRefs = Boolean.FALSE;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
@@ -45,6 +53,9 @@ class Gc extends TextBuiltin {
 			}
 			if (packKeptObjects != null) {
 				command.setPackKeptObjects(packKeptObjects.booleanValue());
+			}
+			if (packRefs != null) {
+				command.setPackRefs(packRefs.booleanValue());
 			}
 			command.call();
 		} catch (GitAPIException e) {
