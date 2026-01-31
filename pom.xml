@@ -357,7 +357,7 @@
         <plugin>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
-          <version>4.0.1</version>
+          <version>3.5.10</version>
         </plugin>
         <plugin>
           <groupId>org.eclipse.dash</groupId>
