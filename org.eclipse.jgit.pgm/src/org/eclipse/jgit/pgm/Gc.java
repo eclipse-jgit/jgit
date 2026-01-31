@@ -13,6 +13,8 @@ package org.eclipse.jgit.pgm;
 import org.eclipse.jgit.api.GarbageCollectCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.GcConfig;
+import org.eclipse.jgit.lib.GcConfig.PackRefsMode;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.kohsuke.args4j.Option;
 
@@ -30,6 +32,16 @@ class Gc extends TextBuiltin {
 	@Option(name = "--pack-kept-objects", usage = "usage_PackKeptObjects")
 	private Boolean packKeptObjects;
 
+	@Option(name = "--pack-refs", forbids = {
+			"--no-pack-refs" }, usage = "usage_GcPackRefs")
+	private Boolean packRefs;
+
+	@Option(name = "--no-pack-refs", forbids = {
+			"--pack-refs" }, usage = "usage_GcNoPackRefs")
+	void noPackRefs(@SuppressWarnings("unused") final boolean ignored) {
+		packRefs = Boolean.FALSE;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
@@ -45,6 +57,11 @@ class Gc extends TextBuiltin {
 			}
 			if (packKeptObjects != null) {
 				command.setPackKeptObjects(packKeptObjects.booleanValue());
+			}
+			if (packRefs != null) {
+				command.setGcConfig(
+						new GcConfig(packRefs.booleanValue() ? PackRefsMode.TRUE
+								: PackRefsMode.FALSE));
 			}
 			command.call();
 		} catch (GitAPIException e) {
