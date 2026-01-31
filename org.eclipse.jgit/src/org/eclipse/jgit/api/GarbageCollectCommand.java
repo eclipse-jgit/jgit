@@ -66,6 +66,8 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 
 	private Boolean packKeptObjects;
 
+	private Boolean packRefs;
+
 	/**
 	 * Constructor for GarbageCollectCommand.
 	 *
@@ -200,6 +202,20 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 		return this;
 	}
 
+	/**
+	 * Whether to pack refs. If not set, the value from the {@code gc.packRefs}
+	 * configuration option is used.
+	 *
+	 * @param packRefs
+	 *            whether to pack refs
+	 * @return {@code this}
+	 * @since 7.6
+	 */
+	public GarbageCollectCommand setPackRefs(boolean packRefs) {
+		this.packRefs = Boolean.valueOf(packRefs);
+		return this;
+	}
+
 	@Override
 	public Properties call() throws GitAPIException {
 		checkCallable();
@@ -213,6 +229,9 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 					gc.setExpire(expire);
 				if (this.packKeptObjects != null) {
 					gc.setPackKeptObjects(packKeptObjects.booleanValue());
+				}
+				if (this.packRefs != null) {
+					gc.setPackRefs(packRefs.booleanValue());
 				}
 				try {
 					gc.gc().get();
