@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -78,6 +79,8 @@ class PackDirectory {
 
 	private final AtomicReference<PackList> packList;
 
+	private final Set<Pack> packsToRemove;
+
 	private final TrustStat trustPackStat;
 
 	private static ThreadLocal<HashMap<AnyObjectId,Pack>> objectIdToPackMap = ThreadLocal.withInitial(() -> new HashMap<>());
@@ -98,6 +101,7 @@ class PackDirectory {
 		this.config = config;
 		this.directory = directory;
 		packList = new AtomicReference<>(NO_PACKS);
+		packsToRemove = Collections.synchronizedSet(new HashSet<>());
 		trustPackStat = config.get(CoreConfig.KEY).getTrustPackStat();
 
 		PackConfig packConfig = new PackConfig(config);
@@ -167,19 +171,23 @@ class PackDirectory {
 	Pack getPack(AnyObjectId objectId) {
 		PackList pList;
 		int searchPacksCount = 0;
-		do {
-			pList = packList.get();
-			for (Pack p : pList.packs) {
-				try {
-					if (p.hasObject(objectId)) {
-						return p;
+		try {
+			do {
+				pList = packList.get();
+				for (Pack p : pList.packs) {
+					try {
+						if (p.hasObject(objectId)) {
+							return p;
+						}
+					} catch (IOException e) {
+						handlePackError(e, p);
 					}
-				} catch (IOException e) {
-					handlePackError(e, p);
 				}
-			}
-		} while ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList));
-		return null;
+			} while ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList));
+			return null;
+		} finally {
+			doRemovePacks();
+		}
 	}
 
 	/**
@@ -202,21 +210,25 @@ class PackDirectory {
 		// scan for new packs and check once more.
 		int oldSize = matches.size();
 		PackList pList;
-		do {
-			pList = packList.get();
-			for (Pack p : pList.packs) {
-				try {
-					p.resolve(matches, id, matchLimit);
-					p.resetTransientErrorCount();
-				} catch (IOException e) {
-					handlePackError(e, p);
+		try {
+			do {
+				pList = packList.get();
+				for (Pack p : pList.packs) {
+					try {
+						p.resolve(matches, id, matchLimit);
+						p.resetTransientErrorCount();
+					} catch (IOException e) {
+						handlePackError(e, p);
+					}
+					if (matches.size() > matchLimit) {
+						return false;
+					}
 				}
-				if (matches.size() > matchLimit) {
-					return false;
-				}
-			}
-		} while (matches.size() == oldSize && searchPacksAgain(pList));
-		return true;
+			} while (matches.size() == oldSize && searchPacksAgain(pList));
+			return true;
+		} finally {
+			doRemovePacks();
+		}
 	}
 
 	ObjectLoader open(WindowCursor curs, AnyObjectId objectId)
@@ -234,95 +246,110 @@ class PackDirectory {
 		}
 		PackList pList;
 		int searchPacksCount = 0;
-		do {
-			int retries = 0;
-			SEARCH: for (;;) {
-				pList = packList.get();
-				for (Pack p : pList.packs) {
-					try {
-						ObjectLoader ldr = p.get(curs, objectId);
-						p.resetTransientErrorCount();
-						if (ldr != null) {
-							if (rememberObjectIdToPack) {
-								objectIdToPackMap.get().put(objectId, p);
+		try {
+			do {
+				int retries = 0;
+				SEARCH:
+				for (; ; ) {
+					pList = packList.get();
+					for (Pack p : pList.packs) {
+						try {
+							ObjectLoader ldr = p.get(curs, objectId);
+							p.resetTransientErrorCount();
+							if (ldr != null) {
+								if (rememberObjectIdToPack) {
+									objectIdToPackMap.get().put(objectId, p);
+								}
+								return ldr;
 							}
-							return ldr;
+						} catch (PackMismatchException e) {
+							// Pack was modified; refresh the entire pack list.
+							if ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList)) {
+								retries = checkRescanPackThreshold(retries, e);
+								continue SEARCH;
+							}
+						} catch (IOException e) {
+							handlePackError(e, p);
 						}
-					} catch (PackMismatchException e) {
-						// Pack was modified; refresh the entire pack list.
-						if ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList)) {
-							retries = checkRescanPackThreshold(retries, e);
-							continue SEARCH;
-						}
-					} catch (IOException e) {
-						handlePackError(e, p);
 					}
+					break SEARCH;
 				}
-				break SEARCH;
-			}
-		} while ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList));
-		return null;
+			} while ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList));
+			return null;
+		} finally {
+			doRemovePacks();
+		}
 	}
 
 	long getSize(WindowCursor curs, AnyObjectId id)
 			throws PackMismatchException {
 		PackList pList;
 		int searchPacksCount = 0;
-		do {
-			int retries = 0;
-			SEARCH: for (;;) {
-				pList = packList.get();
-				for (Pack p : pList.packs) {
-					try {
-						long len = p.getObjectSize(curs, id);
-						p.resetTransientErrorCount();
-						if (0 <= len) {
-							return len;
+		try {
+			do {
+				int retries = 0;
+				SEARCH:
+				for (; ; ) {
+					pList = packList.get();
+					for (Pack p : pList.packs) {
+						try {
+							long len = p.getObjectSize(curs, id);
+							p.resetTransientErrorCount();
+							if (0 <= len) {
+								return len;
+							}
+						} catch (PackMismatchException e) {
+							// Pack was modified; refresh the entire pack list.
+							if ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList)) {
+								retries = checkRescanPackThreshold(retries, e);
+								continue SEARCH;
+							}
+						} catch (IOException e) {
+							handlePackError(e, p);
 						}
-					} catch (PackMismatchException e) {
-						// Pack was modified; refresh the entire pack list.
-						if ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList)) {
-							retries = checkRescanPackThreshold(retries, e);
-							continue SEARCH;
-						}
-					} catch (IOException e) {
-						handlePackError(e, p);
 					}
+					break SEARCH;
 				}
-				break SEARCH;
-			}
-		} while ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList));
-		return -1;
+			} while ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList));
+			return -1;
+		} finally {
+			doRemovePacks();
+		}
 	}
 
 	void selectRepresentation(PackWriter packer, ObjectToPack otp,
 			WindowCursor curs) throws PackMismatchException {
 		PackList pList = packList.get();
 		int retries = 0;
-		SEARCH: for (;;) {
-			for (Pack p : pList.inReverse()) {
-				try {
-					LocalObjectRepresentation rep = p.representation(curs, otp);
-					p.resetTransientErrorCount();
-					if (rep != null) {
-						if (!packer.select(otp, rep)) {
-							return;
+		try {
+			SEARCH:
+			for (; ; ) {
+				for (Pack p : pList.inReverse()) {
+					try {
+						LocalObjectRepresentation rep = p.representation(curs, otp);
+						p.resetTransientErrorCount();
+						if (rep != null) {
+							if (!packer.select(otp, rep)) {
+								return;
+							}
+							packer.checkSearchForReuseTimeout();
 						}
-						packer.checkSearchForReuseTimeout();
+					} catch (SearchForReuseTimeout e) {
+						break SEARCH;
+					} catch (PackMismatchException e) {
+						// Pack was modified; refresh the entire pack list.
+						//
+						retries = checkRescanPackThreshold(retries, e);
+						pList = scanPacks(pList);
+						continue SEARCH;
+					} catch (IOException e) {
+						handlePackError(e, p);
 					}
-				} catch (SearchForReuseTimeout e) {
-					break SEARCH;
-				} catch (PackMismatchException e) {
-					// Pack was modified; refresh the entire pack list.
-					//
-					retries = checkRescanPackThreshold(retries, e);
-					pList = scanPacks(pList);
-					continue SEARCH;
-				} catch (IOException e) {
-					handlePackError(e, p);
 				}
+				break SEARCH;
 			}
-			break SEARCH;
+		} finally {
+			doRemovePacks();
 		}
 	}
 
@@ -436,22 +463,32 @@ class PackDirectory {
 	}
 
 	private void remove(Pack deadPack) {
-		PackList o, n;
-		do {
-			o = packList.get();
+		packsToRemove.add(deadPack);
+	}
 
-			final Pack[] oldList = o.packs;
-			final int j = indexOf(oldList, deadPack);
-			if (j < 0) {
-				break;
-			}
+	private void doRemovePacks() {
+	PackList o, n;
+		Set<Pack> deadPacks = new HashSet<>();
+		for(Pack deadPack : packsToRemove) {
+			do {
+				o = packList.get();
 
-			final Pack[] newList = new Pack[oldList.length - 1];
-			System.arraycopy(oldList, 0, newList, 0, j);
-			System.arraycopy(oldList, j + 1, newList, j, newList.length - j);
-			n = new PackList(o.snapshot, newList);
-		} while (!packList.compareAndSet(o, n));
-		deadPack.close();
+				final Pack[] oldList = o.packs;
+				final int j = indexOf(oldList, deadPack);
+				if (j < 0) {
+					break;
+				}
+
+				final Pack[] newList = new Pack[oldList.length - 1];
+				System.arraycopy(oldList, 0, newList, 0, j);
+				System.arraycopy(oldList, j + 1, newList, j, newList.length - j);
+				n = new PackList(o.snapshot, newList);
+			} while (!packList.compareAndSet(o, n));
+			deadPacks.add(deadPack);
+			deadPack.closeIndices();
+		}
+		WindowCache.purge(deadPacks);
+		packsToRemove.removeAll(deadPacks);
 	}
 
 	private static int indexOf(Pack[] list, Pack pack) {
