@@ -41,6 +41,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "105e0583_0e8a29b8",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Gc.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-01T23:33:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b92149b_b47a2044",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 26
+      },
+      "revId": "44f30993307c1275a35de741620ecb3efc1fcf0f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1e514d1_a61fe627",
@@ -54,6 +78,24 @@
       "writtenOn": "2026-02-01T10:45:50Z",
       "side": 1,
       "message": "nit: unrelated change?",
+      "revId": "44f30993307c1275a35de741620ecb3efc1fcf0f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a880a574_1d5cf274",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Gc.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-01T23:33:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1e514d1_a61fe627",
       "revId": "44f30993307c1275a35de741620ecb3efc1fcf0f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
