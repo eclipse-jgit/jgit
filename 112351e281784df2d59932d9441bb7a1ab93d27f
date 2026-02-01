@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f35b8e3_23e10cb2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-01T08:12:05Z",
+      "side": 1,
+      "message": "I found \nhttps://github.com/spring-projects/spring-boot/commit/81aa674adb11b0155823d4a3575edfa0c6d72b9f       \nremoving support for embedded jar launch scripts from the spring-boot-maven-plugin which broke running the standalone jgit cammandline client.\n\nThe uber-jar packaging of this plugin is still available in 4.x.\n\nSee https://github.com/spring-projects/spring-boot/issues/47666\nwhere alternative solutions to embed a launch script are discussed.",
+      "revId": "112351e281784df2d59932d9441bb7a1ab93d27f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
