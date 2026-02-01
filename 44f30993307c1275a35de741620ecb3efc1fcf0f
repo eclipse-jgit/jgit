@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d521c14c_5745cd99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-01T10:45:50Z",
+      "side": 1,
+      "message": "Thanks @matthias.sohn@sap.com, we had that card on our board as we typically do custom builds for disabling the packing of refs.",
+      "revId": "44f30993307c1275a35de741620ecb3efc1fcf0f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b92149b_b47a2044",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Gc.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-01T10:45:50Z",
+      "side": 1,
+      "message": "The `usage_PackRefs` doesn\u0027t mention that this is the default. How can the user know?",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 26
+      },
+      "revId": "44f30993307c1275a35de741620ecb3efc1fcf0f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1e514d1_a61fe627",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Gc.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-01T10:45:50Z",
+      "side": 1,
+      "message": "nit: unrelated change?",
+      "revId": "44f30993307c1275a35de741620ecb3efc1fcf0f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
