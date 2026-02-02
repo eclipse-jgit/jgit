@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fc91bec_c0e0674d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1144,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-02-02T15:56:12Z",
+      "side": 1,
+      "message": "We already are testing that loose tags get peeled, so we don\u0027t want to repeat that here. The intent of the test is to prove that we ensure that all tags are peeled before adding the \"fully-peeled\" tag, even if the previous repack did not fully peel the tags. Since you need at least one loose ref to ensure that the file actually gets repacked, that loose ref should be a different ref than the one you are trying to test for peeling.",
+      "revId": "bb87f947f7815333746a4949d69d2c50bc758bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
