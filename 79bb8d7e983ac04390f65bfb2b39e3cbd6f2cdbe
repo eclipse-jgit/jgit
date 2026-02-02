@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ef4b121_456c02b5",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-02-02T17:26:55Z",
+      "side": 1,
+      "message": "I find a bit strange that we talk about `defaut` in the description that *sets* a particular value.\n\nShouldn\u0027t this just say `Force packing refs`?\n\nimho, the default should be described in the `JGit configuration options` page.",
+      "range": {
+        "startLine": 287,
+        "startChar": 53,
+        "endLine": 287,
+        "endChar": 95
+      },
+      "revId": "79bb8d7e983ac04390f65bfb2b39e3cbd6f2cdbe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f356b992_8a6eaa46",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Gc.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-02-02T17:26:55Z",
+      "side": 1,
+      "message": "These are mutually exclusives. What if a user passes both these values?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 63
+      },
+      "revId": "79bb8d7e983ac04390f65bfb2b39e3cbd6f2cdbe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e33080f_7f8e946f",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Gc.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-02-02T17:26:55Z",
+      "side": 1,
+      "message": "nit: rename this to something more meaningful? `disablePackRefs`",
+      "range": {
+        "startLine": 39,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 12
+      },
+      "revId": "79bb8d7e983ac04390f65bfb2b39e3cbd6f2cdbe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5abde1d3_ae21f3d6",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Gc.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-02-02T17:26:55Z",
+      "side": 1,
+      "message": "What about `PackRefsMode.NOTBARE`, how can GC be executed in a non-bare repository?",
+      "range": {
+        "startLine": 61,
+        "startChar": 45,
+        "endLine": 61,
+        "endChar": 62
+      },
+      "revId": "79bb8d7e983ac04390f65bfb2b39e3cbd6f2cdbe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
