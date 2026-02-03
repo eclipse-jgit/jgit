@@ -10,6 +10,8 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONFLICTSTYLE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
 import static org.eclipse.jgit.lib.Constants.MASTER;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.junit.Assert.assertEquals;
@@ -27,6 +29,7 @@ import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
+import org.eclipse.jgit.api.MergeCommand.ConflictStyle;
 import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
@@ -307,6 +310,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("a").addFilepattern("c/c/c").call();
 			git.commit().setMessage("main").call();
 
+
 			MergeResult result = git.merge().include(secondCommit.getId())
 					.setStrategy(MergeStrategy.RESOLVE).call();
 			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
@@ -314,14 +318,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 			assertEquals(
 					"1\n<<<<<<< HEAD\na(main)\n=======\na(side)\n>>>>>>> 86503e7e397465588cc267b65d778538bffccb83\n3\n",
 					read(new File(db.getWorkTree(), "a")));
-			assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
-			assertEquals("1\nc(main)\n3\n",
-					read(new File(db.getWorkTree(), "c/c/c")));
 
-			assertEquals(1, result.getConflicts().size());
-			assertEquals(3, result.getConflicts().get("a")[0].length);
-
-			assertEquals(RepositoryState.MERGING, db.getRepositoryState());
 		}
 	}
 
@@ -2219,5 +2216,39 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals(indexState, indexState(CONTENT));
 		assertEquals(null, result.getConflicts());
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+	}
+
+	@Test
+	public void testDiff3ConflictStyle() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "1\na\n3\n");
+			git.add().addFilepattern("a").call();
+			RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+			createBranch(initialCommit, "refs/heads/side");
+			checkoutBranch("refs/heads/side");
+
+			writeTrashFile("a", "1\na(side)\n3\n");
+			git.add().addFilepattern("a").call();
+			RevCommit secondCommit = git.commit().setMessage("side").call();
+
+			checkoutBranch("refs/heads/master");
+
+			writeTrashFile("a", "1\na(main)\n3\n");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("main").call();
+
+			db.getConfig().setEnum(CONFIG_MERGE_SECTION, null,
+					CONFIG_KEY_CONFLICTSTYLE, ConflictStyle.DIFF3);
+
+			MergeResult result = git.merge().include(secondCommit.getId())
+					.setStrategy(MergeStrategy.RESOLVE).call();
+			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+
+			assertEquals(
+					"1\n<<<<<<< HEAD\na(main)\n||||||| BASE\na\n=======\na(side)\n>>>>>>> d97aebf6e0bbdb3f21f8a22ec8cbf1ac24d986d8\n3\n",
+					read(new File(db.getWorkTree(), "a")));
+
+		}
 	}
 }

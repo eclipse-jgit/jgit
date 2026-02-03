@@ -9,6 +9,9 @@
  */
 package org.eclipse.jgit.api;
 
+import org.eclipse.jgit.api.MergeCommand.ConflictStyle;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONFLICTSTYLE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
 import static org.eclipse.jgit.api.CherryPickCommitMessageProvider.ORIGINAL;
 import static org.eclipse.jgit.api.CherryPickCommitMessageProvider.ORIGINAL_WITH_REFERENCE;
 import static org.junit.Assert.assertEquals;
@@ -396,6 +399,23 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testCherryPickConflictDiff3Markers() throws Exception {
+		try (Git git = new Git(db)) {
+			RevCommit sideCommit = prepareCherryPick(git);
+
+			db.getConfig().setEnum(CONFIG_MERGE_SECTION, null,
+					CONFIG_KEY_CONFLICTSTYLE, ConflictStyle.DIFF3);
+
+			CherryPickResult result = git.cherryPick()
+					.include(sideCommit.getId()).call();
+			assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
+
+			String expected = "<<<<<<< master\na(master)\n||||||| BASE\na\n=======\na(side)\n>>>>>>> 527460a side\n";
+			checkFile(new File(db.getWorkTree(), "a"), expected);
+		}
+	}
+
+	@Test
 	public void testCherryPickConflictFiresModifiedEvent() throws Exception {
 		ListenerHandle listener = null;
 		try (Git git = new Git(db)) {
@@ -777,4 +797,6 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern(fileName).call();
 		return git.commit().setMessage(commitMessage).call();
 	}
+
+
 }

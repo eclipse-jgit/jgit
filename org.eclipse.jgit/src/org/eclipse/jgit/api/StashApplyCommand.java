@@ -9,6 +9,9 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.api.MergeCommand.ConflictStyle.MERGE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONFLICTSTYLE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
 import static org.eclipse.jgit.treewalk.TreeWalk.OperationType.CHECKOUT_OP;
 
 import java.io.IOException;
@@ -17,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.jgit.api.MergeCommand.ConflictStyle;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -75,6 +79,8 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
 
 	private ContentMergeStrategy contentStrategy;
+
+	private ConflictStyle conflictStyle;
 
 	/**
 	 * Create command to apply the changes of a stashed commit
@@ -173,8 +179,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 
 			Merger merger = strategy.newMerger(repo);
 			boolean mergeSucceeded;
-			if (merger instanceof ResolveMerger) {
-				ResolveMerger resolveMerger = (ResolveMerger) merger;
+			if (merger instanceof ResolveMerger resolveMerger) {
 				resolveMerger
 						.setCommitNames(new String[] { "stashed HEAD", "HEAD", //$NON-NLS-1$ //$NON-NLS-2$
 								"stash" }); //$NON-NLS-1$
@@ -182,6 +187,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 				resolveMerger
 						.setWorkingTreeIterator(new FileTreeIterator(repo));
 				resolveMerger.setContentMergeStrategy(contentStrategy);
+				resolveMerger.setConflictStyle(getConflictStyle());
 				mergeSucceeded = resolveMerger.merge(headCommit, stashCommit);
 				List<String> modifiedByMerge = resolveMerger.getModifiedFiles();
 				if (!modifiedByMerge.isEmpty()) {
@@ -199,12 +205,12 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 				dco.checkout(); // Ignoring failed deletes....
 				if (restoreIndex) {
 					Merger ixMerger = strategy.newMerger(repo, true);
-					if (ixMerger instanceof ResolveMerger) {
-						ResolveMerger resolveMerger = (ResolveMerger) ixMerger;
+					if (ixMerger instanceof ResolveMerger resolveMerger) {
 						resolveMerger.setCommitNames(new String[] { "stashed HEAD", //$NON-NLS-1$
 								"HEAD", "stashed index" }); //$NON-NLS-1$//$NON-NLS-2$
 						resolveMerger.setBase(stashHeadCommit);
 						resolveMerger.setContentMergeStrategy(contentStrategy);
+						resolveMerger.setConflictStyle(getConflictStyle());
 					}
 					boolean ok = ixMerger.merge(headCommit, stashIndexCommit);
 					if (ok) {
@@ -218,8 +224,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 
 				if (untrackedCommit != null) {
 					Merger untrackedMerger = strategy.newMerger(repo, true);
-					if (untrackedMerger instanceof ResolveMerger) {
-						ResolveMerger resolveMerger = (ResolveMerger) untrackedMerger;
+					if (untrackedMerger instanceof ResolveMerger resolveMerger) {
 						resolveMerger.setCommitNames(new String[] { "null", "HEAD", //$NON-NLS-1$//$NON-NLS-2$
 								"untracked files" }); //$NON-NLS-1$
 						// There is no common base for HEAD & untracked files
@@ -230,6 +235,7 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 						// commit.
 						resolveMerger.setBase(null);
 						resolveMerger.setContentMergeStrategy(contentStrategy);
+						resolveMerger.setConflictStyle(getConflictStyle());
 					}
 					boolean ok = untrackedMerger.merge(headCommit,
 							untrackedCommit);
@@ -302,6 +308,25 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 		checkCallable();
 		this.contentStrategy = strategy;
 		return this;
+	}
+
+	/**
+	 * Sets the conflict style to be used when formatting merge conflicts.
+	 *
+	 * @param conflictStyle
+	 *            a {@link org.eclipse.jgit.api.MergeCommand.ConflictStyle}
+	 * @return {@code this}
+	 * @since 7.6
+	 */
+	public StashApplyCommand setConflictStyle(ConflictStyle conflictStyle) {
+		this.conflictStyle = conflictStyle;
+		return this;
+	}
+
+	private ConflictStyle getConflictStyle() {
+		return conflictStyle != null ? conflictStyle
+				: repo.getConfig().getEnum(CONFIG_MERGE_SECTION, null,
+						CONFIG_KEY_CONFLICTSTYLE, MERGE);
 	}
 
 	/**
