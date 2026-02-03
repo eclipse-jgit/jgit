@@ -30,11 +30,12 @@ class Add extends TextBuiltin {
 	private boolean update = false;
 
 	@Option(name = "--all", aliases = { "-A",
-			"--no-ignore-removal" }, usage = "usage_addStageDeletions")
+			"--no-ignore-removal" }, forbids = {
+					"--no-all" }, usage = "usage_addStageDeletions")
 	private Boolean all;
 
-	@Option(name = "--no-all", aliases = {
-			"--ignore-removal" }, usage = "usage_addDontStageDeletions")
+	@Option(name = "--no-all", aliases = { "--ignore-removal" }, forbids = {
+			"--all" }, usage = "usage_addDontStageDeletions")
 	private void noAll(@SuppressWarnings("unused") boolean ignored) {
 		all = Boolean.FALSE;
 	}
