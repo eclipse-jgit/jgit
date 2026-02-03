@@ -57,10 +57,10 @@ class Push extends TextBuiltin {
 	@Option(name = "--verbose", aliases = { "-v" })
 	private boolean verbose = false;
 
-	@Option(name = "--thin")
+	@Option(name = "--thin", forbids = { "--no-thin" })
 	private boolean thin = Transport.DEFAULT_PUSH_THIN;
 
-	@Option(name = "--no-thin")
+	@Option(name = "--no-thin", forbids = { "--thin" })
 	void nothin(@SuppressWarnings("unused") final boolean ignored) {
 		thin = false;
 	}
