@@ -11,6 +11,8 @@ package org.eclipse.jgit.merge;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.time.Instant.EPOCH;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONFLICTSTYLE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -30,6 +32,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.MergeCommand.ConflictStyle;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.RebaseResult;
@@ -959,6 +962,39 @@ public class MergerTest extends RepositoryTestCase {
 				+ "1side\n"
 				+ ">>>>>>> " + sideCommit.name() + "\n"
 				+ "2\n"
+				+ "3";
+		assertEquals(expected, read("file"));
+	}
+
+	@Theory
+	public void checkContentMergeConflictDiff3(MergeStrategy strategy)
+			throws Exception {
+		Git git = Git.wrap(db);
+
+		writeTrashFile("file", "1\n2\n3");
+		git.add().addFilepattern("file").call();
+		RevCommit first = git.commit().setMessage("added file").call();
+
+		writeTrashFile("file", "1master\n2\n3");
+		git.commit().setAll(true).setMessage("modified file on master").call();
+
+		git.checkout().setCreateBranch(true).setStartPoint(first)
+				.setName("side").call();
+		writeTrashFile("file", "1side\n2\n3");
+		RevCommit sideCommit = git.commit().setAll(true)
+				.setMessage("modified file on side").call();
+
+		git.checkout().setName("master").call();
+
+		db.getConfig().setEnum(CONFIG_MERGE_SECTION, null,
+				CONFIG_KEY_CONFLICTSTYLE, ConflictStyle.DIFF3);
+
+		MergeResult result = git.merge().setStrategy(strategy)
+				.include(sideCommit).call();
+		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+		String expected = "<<<<<<< HEAD\n" + "1master\n" + "||||||| BASE\n"
+				+ "1\n" + "=======\n" + "1side\n" + ">>>>>>> "
+				+ sideCommit.name() + "\n" + "2\n"
 				+ "3";
 		assertEquals(expected, read("file"));
 	}
