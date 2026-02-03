@@ -54,12 +54,12 @@ class Merge extends TextBuiltin {
 
 	private FastForwardMode ff = FastForwardMode.FF;
 
-	@Option(name = "--ff", usage = "usage_mergeFf")
+	@Option(name = "--ff", forbids = { "--no-ff" }, usage = "usage_mergeFf")
 	void ff(@SuppressWarnings("unused") final boolean ignored) {
 		ff = FastForwardMode.FF;
 	}
 
-	@Option(name = "--no-ff", usage = "usage_mergeNoFf")
+	@Option(name = "--no-ff", forbids = { "--ff" }, usage = "usage_mergeNoFf")
 	void noff(@SuppressWarnings("unused") final boolean ignored) {
 		ff = FastForwardMode.NO_FF;
 	}
