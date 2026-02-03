@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5a706d10_b1305f1c",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-03T15:15:25Z",
+      "side": 1,
+      "message": "I want to relate this command option to the config option `gc.packRefs` so that the user knows that it can be configured in git config",
+      "parentUuid": "4ef4b121_456c02b5",
+      "range": {
+        "startLine": 287,
+        "startChar": 53,
+        "endLine": 287,
+        "endChar": 95
+      },
+      "revId": "79bb8d7e983ac04390f65bfb2b39e3cbd6f2cdbe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f356b992_8a6eaa46",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Gc.java",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2026-02-02T17:26:55Z",
       "side": 1,
       "message": "These are mutually exclusives. What if a user passes both these values?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 63
+      },
+      "revId": "79bb8d7e983ac04390f65bfb2b39e3cbd6f2cdbe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "faf21d49_d6da6bf0",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Gc.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-03T15:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f356b992_8a6eaa46",
       "range": {
         "startLine": 35,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e9a38af_4c34c11f",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Gc.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-03T15:15:25Z",
+      "side": 1,
+      "message": "No, I did this intentionally. Prepending \"no-\" for such pairs of mutually exclusive options technically implementing the 2 values of a boolean is done all over the place across git\u0027s CLI interface.\n\nFor example see https://git-scm.com/docs/git-fetch which has\n```\n--all --no-all\n--write-fetch-head    --no-write-fetch-head\n--auto-maintenance    --no-auto-maintenance\n--auto-gc             --no-auto-gc\n--write-commit-graph  --no-write-commit-graph\n--tags                --no-tags\n--recurse-submodules  --no-recurse-submodules\n--show-forced-updates --no-show-forced-updates\n```",
+      "parentUuid": "7e33080f_7f8e946f",
+      "range": {
+        "startLine": 39,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 12
+      },
+      "revId": "79bb8d7e983ac04390f65bfb2b39e3cbd6f2cdbe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5abde1d3_ae21f3d6",
@@ -83,6 +155,30 @@
       "writtenOn": "2026-02-02T17:26:55Z",
       "side": 1,
       "message": "What about `PackRefsMode.NOTBARE`, how can GC be executed in a non-bare repository?",
+      "range": {
+        "startLine": 61,
+        "startChar": 45,
+        "endLine": 61,
+        "endChar": 62
+      },
+      "revId": "79bb8d7e983ac04390f65bfb2b39e3cbd6f2cdbe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b00f5a41_c20c5236",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Gc.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-03T15:15:25Z",
+      "side": 1,
+      "message": "this command runs on a single repository so either you want to pack refs or not\n\na command like \n```\njgit gc --pack-refs-if-non-bare\n```\nseems awkward to me, you probably know if it\u0027s bare or not and if you want to use `--pack-refs` or `--no-pack-refs`.",
+      "parentUuid": "5abde1d3_ae21f3d6",
       "range": {
         "startLine": 61,
         "startChar": 45,
