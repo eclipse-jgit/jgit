@@ -22,6 +22,30 @@
       },
       "revId": "213955d1f19b1faf3463c0bcda1e969e4fba7d4a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a0ae7b5_01c302c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsMidxWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-02-03T22:49:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6012fe00_205dc416",
+      "range": {
+        "startLine": 127,
+        "startChar": 27,
+        "endLine": 127,
+        "endChar": 30
+      },
+      "revId": "213955d1f19b1faf3463c0bcda1e969e4fba7d4a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
