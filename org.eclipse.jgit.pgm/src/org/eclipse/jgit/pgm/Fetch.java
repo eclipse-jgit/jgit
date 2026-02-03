@@ -61,7 +61,8 @@ class Fetch extends AbstractFetchCommand implements FetchCommand.Callback {
 	@Option(name = "--quiet", usage = "usage_quiet")
 	private Boolean quiet;
 
-	@Option(name = "--tags", usage="usage_tags", aliases = { "-t" })
+	@Option(name = "--tags", forbids = {
+			"--no-tags" }, usage = "usage_tags", aliases = { "-t" })
 	private Boolean tags;
 
 	@Option(name = "--depth", metaVar = "metaVar_depth", usage = "usage_depth")
@@ -73,7 +74,8 @@ class Fetch extends AbstractFetchCommand implements FetchCommand.Callback {
 	@Option(name = "--shallow-exclude", metaVar = "metaVar_shallowExclude", usage = "usage_shallowExclude")
 	private List<String> shallowExcludes = new ArrayList<>();
 
-	@Option(name = "--no-tags", usage = "usage_notags", aliases = { "-n" })
+	@Option(name = "--no-tags", forbids = {
+			"--tags" }, usage = "usage_notags", aliases = { "-n" })
 	void notags(@SuppressWarnings("unused")
 	final boolean ignored) {
 		tags = Boolean.FALSE;
@@ -84,7 +86,8 @@ class Fetch extends AbstractFetchCommand implements FetchCommand.Callback {
 
 	private FetchRecurseSubmodulesMode recurseSubmodules;
 
-	@Option(name = "--recurse-submodules", usage = "usage_recurseSubmodules")
+	@Option(name = "--recurse-submodules", forbids = {
+			"--no-recurse-submodules" }, usage = "usage_recurseSubmodules")
 	void recurseSubmodules(String mode) {
 		if (mode == null || mode.isEmpty()) {
 			recurseSubmodules = FetchRecurseSubmodulesMode.YES;
@@ -101,7 +104,8 @@ class Fetch extends AbstractFetchCommand implements FetchCommand.Callback {
 		}
 	}
 
-	@Option(name = "--no-recurse-submodules", usage = "usage_noRecurseSubmodules")
+	@Option(name = "--no-recurse-submodules", forbids = {
+			"--recurse-submodules" }, usage = "usage_noRecurseSubmodules")
 	void noRecurseSubmodules(@SuppressWarnings("unused")
 	final boolean ignored) {
 		recurseSubmodules = FetchRecurseSubmodulesMode.NO;
