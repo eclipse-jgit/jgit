@@ -92,12 +92,14 @@ class DiffTool extends TextBuiltin {
 
 	private BooleanTriState prompt = BooleanTriState.UNSET;
 
-	@Option(name = "--prompt", usage = "usage_prompt")
+	@Option(name = "--prompt", forbids = {
+			"--no-prompt" }, usage = "usage_prompt")
 	void setPrompt(@SuppressWarnings("unused") boolean on) {
 		prompt = BooleanTriState.TRUE;
 	}
 
-	@Option(name = "--no-prompt", aliases = { "-y" }, usage = "usage_noPrompt")
+	@Option(name = "--no-prompt", aliases = { "-y" }, forbids = {
+			"--prompt" }, usage = "usage_noPrompt")
 	void noPrompt(@SuppressWarnings("unused") boolean on) {
 		prompt = BooleanTriState.FALSE;
 	}
@@ -107,24 +109,27 @@ class DiffTool extends TextBuiltin {
 
 	private boolean gui = false;
 
-	@Option(name = "--gui", aliases = { "-g" }, usage = "usage_DiffGuiTool")
+	@Option(name = "--gui", aliases = { "-g" }, forbids = {
+			"--no-gui" }, usage = "usage_DiffGuiTool")
 	void setGui(@SuppressWarnings("unused") boolean on) {
 		gui = true;
 	}
 
-	@Option(name = "--no-gui", usage = "usage_noGui")
+	@Option(name = "--no-gui", forbids = { "--gui" }, usage = "usage_noGui")
 	void noGui(@SuppressWarnings("unused") boolean on) {
 		gui = false;
 	}
 
 	private BooleanTriState trustExitCode = BooleanTriState.UNSET;
 
-	@Option(name = "--trust-exit-code", usage = "usage_trustExitCode")
+	@Option(name = "--trust-exit-code", forbids = {
+			"--no-trust-exit-code" }, usage = "usage_trustExitCode")
 	void setTrustExitCode(@SuppressWarnings("unused") boolean on) {
 		trustExitCode = BooleanTriState.TRUE;
 	}
 
-	@Option(name = "--no-trust-exit-code", usage = "usage_noTrustExitCode")
+	@Option(name = "--no-trust-exit-code", forbids = {
+			"--trust-exit-code" }, usage = "usage_noTrustExitCode")
 	void noTrustExitCode(@SuppressWarnings("unused") boolean on) {
 		trustExitCode = BooleanTriState.FALSE;
 	}
