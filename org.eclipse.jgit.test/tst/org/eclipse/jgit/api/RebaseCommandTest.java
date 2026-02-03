@@ -10,6 +10,8 @@
 package org.eclipse.jgit.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONFLICTSTYLE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -30,6 +32,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.jgit.api.MergeCommand.ConflictStyle;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.RebaseCommand.InteractiveHandler;
 import org.eclipse.jgit.api.RebaseCommand.InteractiveHandler2;
@@ -368,6 +371,43 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				+ "=======\n"
 				+ "file1\n"
 				+ ">>>>>>> " + first.abbreviate(7).name() + " Add file\n");
+	}
+
+	/**
+	 * Create a commit A and an unrelated commit B creating the same file with
+	 * different content. Then rebase A onto B. The rebase should stop with a
+	 * conflict and the conflict style should be DIFF3.
+	 *
+	 * @throws Exception on errors
+	 */
+	@Test
+	public void testRebaseNoMergeBaseConflictDiff3() throws Exception {
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		RevCommit first = git.commit().setMessage("Add file").call();
+		File file1 = new File(db.getWorkTree(), FILE1);
+		assertTrue(file1.exists());
+		// Create an independent branch
+		git.checkout().setOrphan(true).setName("orphan").call();
+		git.rm().addFilepattern(FILE1).call();
+		assertFalse(file1.exists());
+		writeTrashFile(FILE1, "something else");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("Orphan").call();
+		checkoutBranch("refs/heads/master");
+		assertEquals(first.getId(), db.resolve("HEAD"));
+
+		db.getConfig().setEnum(CONFIG_MERGE_SECTION, null,
+				CONFIG_KEY_CONFLICTSTYLE, ConflictStyle.DIFF3);
+
+		RebaseResult res = git.rebase().setUpstream("refs/heads/orphan").call();
+		assertEquals(Status.STOPPED, res.getStatus());
+		assertEquals(first, res.getCurrentCommit());
+		checkFile(file1,
+				"<<<<<<< Upstream, based on orphan\n" + "something else\n"
+						+ "||||||| BASE\n" + "=======\n" + "file1\n"
+						+ ">>>>>>> "
+						+ first.abbreviate(7).name() + " Add file\n");
 	}
 
 	/**

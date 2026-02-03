@@ -16,9 +16,12 @@ package org.eclipse.jgit.merge;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.time.Instant.EPOCH;
+import static org.eclipse.jgit.api.MergeCommand.ConflictStyle.MERGE;
 import static org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm.HISTOGRAM;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DIFF_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_ALGORITHM;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONFLICTSTYLE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import java.io.Closeable;
@@ -39,6 +42,7 @@ import java.util.TreeMap;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.api.MergeCommand.ConflictStyle;
 import org.eclipse.jgit.attributes.Attribute;
 import org.eclipse.jgit.attributes.Attributes;
 import org.eclipse.jgit.attributes.AttributesNodeProvider;
@@ -831,6 +835,8 @@ public class ResolveMerger extends ThreeWayMerger {
 	 */
 	protected MergeAlgorithm mergeAlgorithm;
 
+	private ConflictStyle conflictStyle;
+
 	/**
 	 * The {@link ContentMergeStrategy} to use for "resolve" and "recursive"
 	 * merges.
@@ -870,6 +876,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		super(local);
 		Config config = local.getConfig();
 		mergeAlgorithm = getMergeAlgorithm(config);
+		conflictStyle = getConflictStyle(config);
 		commitNames = defaultCommitNames();
 		this.inCore = inCore;
 	}
@@ -896,6 +903,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	protected ResolveMerger(ObjectInserter inserter, Config config) {
 		super(inserter);
 		mergeAlgorithm = getMergeAlgorithm(config);
+		conflictStyle = getConflictStyle(config);
 		commitNames = defaultCommitNames();
 		inCore = true;
 	}
@@ -921,6 +929,23 @@ public class ResolveMerger extends ThreeWayMerger {
 	public void setContentMergeStrategy(ContentMergeStrategy strategy) {
 		contentStrategy = strategy == null ? ContentMergeStrategy.CONFLICT
 				: strategy;
+	}
+
+	/**
+	 * Sets the conflict style to be used when formatting merge conflicts.
+	 *
+	 * @param conflictStyle
+	 *            a {@link org.eclipse.jgit.api.MergeCommand.ConflictStyle}
+	 * @since 7.6
+	 */
+	public void setConflictStyle(ConflictStyle conflictStyle) {
+		this.conflictStyle = conflictStyle;
+	}
+
+	private ConflictStyle getConflictStyle(Config config) {
+		return config.getEnum(CONFIG_MERGE_SECTION,
+				null,
+				CONFIG_KEY_CONFLICTSTYLE, MERGE);
 	}
 
 	@Override
@@ -1668,8 +1693,16 @@ public class ResolveMerger extends ThreeWayMerger {
 				db != null ? nonNullRepo().getDirectory() : null, workTreeUpdater.getInCoreFileSizeLimit());
 		boolean success = false;
 		try {
-			new MergeFormatter().formatMerge(buf, result,
-					Arrays.asList(commitNames), UTF_8);
+			switch (conflictStyle) {
+			case MERGE:
+				new MergeFormatter().formatMerge(buf, result,
+						Arrays.asList(commitNames), UTF_8);
+				break;
+			case DIFF3:
+				new MergeFormatter().formatMergeDiff3(buf, result,
+						Arrays.asList(commitNames), UTF_8);
+				break;
+			}
 			buf.close();
 			success = true;
 		} finally {

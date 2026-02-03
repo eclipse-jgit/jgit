@@ -10,6 +10,8 @@
 package org.eclipse.jgit.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONFLICTSTYLE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -25,6 +27,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
+import org.eclipse.jgit.api.MergeCommand.ConflictStyle;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.junit.JGitTestUtil;
@@ -160,6 +163,40 @@ public class PullCommandTest extends RepositoryTestCase {
 		Map<String, StageState> conflicting = status.getConflictingStageState();
 		assertEquals(1, conflicting.size());
 		assertEquals(StageState.BOTH_MODIFIED, conflicting.get("SomeFile.txt"));
+	}
+
+	@Test
+	public void testPullConflictDiff3() throws Exception {
+		PullResult res = target.pull().call();
+		// nothing to update since we don't have different data yet
+		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
+		assertTrue(res.getMergeResult().getMergeStatus()
+				.equals(MergeStatus.ALREADY_UP_TO_DATE));
+
+		assertFileContentsEqual(targetFile, "Hello world");
+
+		// change the source file
+		writeToFile(sourceFile, "Source change");
+		source.add().addFilepattern("SomeFile.txt").call();
+		source.commit().setMessage("Source change in remote").call();
+
+		// change the target file
+		writeToFile(targetFile, "Target change");
+		target.add().addFilepattern("SomeFile.txt").call();
+		target.commit().setMessage("Target change in local").call();
+
+		target.getRepository().getConfig().setEnum(CONFIG_MERGE_SECTION, null,
+				CONFIG_KEY_CONFLICTSTYLE, ConflictStyle.DIFF3);
+
+		res = target.pull().call();
+
+		String sourceChangeString = "Source change\n>>>>>>> branch 'master' of "
+				+ target.getRepository().getConfig().getString("remote",
+						"origin", "url");
+
+		assertFileContentsEqual(targetFile, "<<<<<<< HEAD\n" + "Target change\n"
+				+ "||||||| BASE\n" + "Hello world\n" + "=======\n"
+				+ sourceChangeString + "\n");
 	}
 
 	@Test

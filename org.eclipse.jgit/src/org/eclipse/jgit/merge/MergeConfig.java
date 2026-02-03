@@ -9,8 +9,13 @@
  *******************************************************************************/
 package org.eclipse.jgit.merge;
 
+import static org.eclipse.jgit.api.MergeCommand.ConflictStyle.MERGE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONFLICTSTYLE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
+
 import java.io.IOException;
 
+import org.eclipse.jgit.api.MergeCommand.ConflictStyle;
 import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
@@ -60,6 +65,8 @@ public class MergeConfig {
 
 	private final FastForwardMode fastForwardMode;
 
+	private final ConflictStyle conflictStyle;
+
 	private final boolean squash;
 
 	private final boolean commit;
@@ -67,12 +74,14 @@ public class MergeConfig {
 	private MergeConfig(String branch, Config config) {
 		String[] mergeOptions = getMergeOptions(branch, config);
 		fastForwardMode = getFastForwardMode(config, mergeOptions);
+		conflictStyle = getConflictStyle(config);
 		squash = isMergeConfigOptionSet("--squash", mergeOptions); //$NON-NLS-1$
 		commit = !isMergeConfigOptionSet("--no-commit", mergeOptions); //$NON-NLS-1$
 	}
 
 	private MergeConfig() {
 		fastForwardMode = FastForwardMode.FF;
+		conflictStyle = ConflictStyle.MERGE;
 		squash = false;
 		commit = true;
 	}
@@ -84,6 +93,16 @@ public class MergeConfig {
 	 */
 	public FastForwardMode getFastForwardMode() {
 		return fastForwardMode;
+	}
+
+	/**
+	 * Get the configured conflict style
+	 *
+	 * @return the configured conflict style
+	 * @since 7.6
+	 */
+	public ConflictStyle getConflictStyle() {
+		return conflictStyle;
 	}
 
 	/**
@@ -118,6 +137,11 @@ public class MergeConfig {
 				ConfigConstants.CONFIG_KEY_MERGE, null,
 				ConfigConstants.CONFIG_KEY_FF, FastForwardMode.Merge.TRUE));
 		return ffmode;
+	}
+
+	private ConflictStyle getConflictStyle(Config config) {
+		return config.getEnum(CONFIG_MERGE_SECTION, null,
+						CONFIG_KEY_CONFLICTSTYLE, MERGE);
 	}
 
 	private static boolean isMergeConfigOptionSet(String optionToLookFor,

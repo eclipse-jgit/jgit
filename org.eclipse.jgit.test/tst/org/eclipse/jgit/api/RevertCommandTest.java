@@ -9,6 +9,8 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONFLICTSTYLE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -20,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.eclipse.jgit.api.MergeCommand.ConflictStyle;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -372,6 +375,25 @@ public class RevertCommandTest extends RepositoryTestCase {
 			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
 
 			String expected = "<<<<<<< master\na(latest)\n=======\na\n>>>>>>> ca96c31 second master\n";
+			checkFile(new File(db.getWorkTree(), "a"), expected);
+		}
+	}
+
+	@Test
+	public void testRevertConflictMarkersDiff3() throws Exception {
+		try (Git git = new Git(db)) {
+			RevCommit sideCommit = prepareRevert(git);
+
+			db.getConfig().setEnum(CONFIG_MERGE_SECTION, null,
+					CONFIG_KEY_CONFLICTSTYLE, ConflictStyle.DIFF3);
+
+			RevertCommand revert = git.revert();
+			RevCommit newHead = revert.include(sideCommit.getId()).call();
+			assertNull(newHead);
+			MergeResult result = revert.getFailingResult();
+			assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+
+			String expected = "<<<<<<< master\na(latest)\n||||||| BASE\na(previous)\n=======\na\n>>>>>>> ca96c31 second master\n";
 			checkFile(new File(db.getWorkTree(), "a"), expected);
 		}
 	}
