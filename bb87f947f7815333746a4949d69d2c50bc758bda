@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7cf67100_cfd7e53a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-02-03T00:37:14Z",
+      "side": 1,
+      "message": "I can\u0027t help but think that this is really two separate features, and that splitting this in two would help make the tests more focused and to the point. It also would make this more easy to revert in case of issues.",
+      "revId": "bb87f947f7815333746a4949d69d2c50bc758bda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0fc91bec_c0e0674d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
         "patchSetId": 4
