@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "352084ba_fd11be58",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcBasicPackingTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-04T22:59:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "467592e8_a8520b4e",
+      "revId": "1ac95c6f12316298403aae70a2f27f462ba1f4a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e433acf1_dfc5e7d7",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-02-04T21:17:13Z",
       "side": 1,
       "message": "Missing copyright header?",
+      "revId": "1ac95c6f12316298403aae70a2f27f462ba1f4a1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0983f3e6_78e97508",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GcConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-04T22:59:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e433acf1_dfc5e7d7",
       "revId": "1ac95c6f12316298403aae70a2f27f462ba1f4a1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
