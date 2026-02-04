@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "701abefd_9f0d6bc4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1775,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-04T21:17:13Z",
+      "side": 0,
+      "message": "Is this refactoring intentional? It doesn\u0027t look related to the change.",
+      "range": {
+        "startLine": 1755,
+        "startChar": 0,
+        "endLine": 1775,
+        "endChar": 9
+      },
+      "revId": "0f88fcab1ac2ce601d2159ad05931a34d6bced98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
