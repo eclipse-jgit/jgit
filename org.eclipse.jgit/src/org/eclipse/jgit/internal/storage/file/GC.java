@@ -1964,7 +1964,11 @@ public class GC {
 		}
 
 		private long getPID() {
-			return ProcessHandle.current().pid();
+			try {
+				return ProcessHandle.current().pid();
+			} catch (NoClassDefFoundError e) {
+				return 0;
+			}
 		}
 
 		private String getHostName() {
