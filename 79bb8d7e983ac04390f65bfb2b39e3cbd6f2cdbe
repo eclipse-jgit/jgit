@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a05dd9ec_33707b95",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-02-04T15:52:32Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "5a706d10_b1305f1c",
+      "range": {
+        "startLine": 287,
+        "startChar": 53,
+        "endLine": 287,
+        "endChar": 95
+      },
+      "revId": "79bb8d7e983ac04390f65bfb2b39e3cbd6f2cdbe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f356b992_8a6eaa46",
@@ -179,6 +203,30 @@
       "side": 1,
       "message": "this command runs on a single repository so either you want to pack refs or not\n\na command like \n```\njgit gc --pack-refs-if-non-bare\n```\nseems awkward to me, you probably know if it\u0027s bare or not and if you want to use `--pack-refs` or `--no-pack-refs`.",
       "parentUuid": "5abde1d3_ae21f3d6",
+      "range": {
+        "startLine": 61,
+        "startChar": 45,
+        "endLine": 61,
+        "endChar": 62
+      },
+      "revId": "79bb8d7e983ac04390f65bfb2b39e3cbd6f2cdbe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "520dc59a_983caa8e",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Gc.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-02-04T15:52:32Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b00f5a41_c20c5236",
       "range": {
         "startLine": 61,
         "startChar": 45,
