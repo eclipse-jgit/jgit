@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import org.eclipse.jgit.internal.storage.file.PackIndex;
+import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.MutableEntry;
 import org.eclipse.jgit.junit.FakeIndexFactory;
 import org.eclipse.jgit.junit.FakeIndexFactory.IndexObject;
 import org.junit.Test;
@@ -44,7 +45,7 @@ public class PackIndexMergerTest {
 		assertEquals(9, merger.getUniqueObjectCount());
 		assertEquals(3, merger.getPackCount());
 		assertFalse(merger.needsLargeOffsetsChunk());
-		Iterator<PackIndexMerger.MidxMutableEntry> it = merger.rawIterator();
+		Iterator<MutableEntry> it = merger.rawIterator();
 		assertNextEntry(it, "0000000000000000000000000000000000000001", 0, 500);
 		assertNextEntry(it, "0000000000000000000000000000000000000002", 1, 501);
 		assertNextEntry(it, "0000000000000000000000000000000000000003", 1, 13);
@@ -79,7 +80,7 @@ public class PackIndexMergerTest {
 		assertEquals(9, merger.getUniqueObjectCount());
 		assertEquals(3, merger.getPackCount());
 		assertFalse(merger.needsLargeOffsetsChunk());
-		Iterator<PackIndexMerger.MidxMutableEntry> it = merger.rawIterator();
+		Iterator<MutableEntry> it = merger.rawIterator();
 		assertNextEntry(it, "0000000000000000000000000000000000000001", 2, 500);
 		assertNextEntry(it, "0000000000000000000000000000000000000002", 1, 501);
 		assertNextEntry(it, "0000000000000000000000000000000000000003", 1, 13);
@@ -106,7 +107,7 @@ public class PackIndexMergerTest {
 		assertEquals(3, merger.getUniqueObjectCount());
 		assertEquals(3, merger.getPackCount());
 		assertFalse(merger.needsLargeOffsetsChunk());
-		Iterator<PackIndexMerger.MidxMutableEntry> it = merger.rawIterator();
+		Iterator<MutableEntry> it = merger.rawIterator();
 		assertNextEntry(it, "0000000000000000000000000000000000000001", 0, 500);
 		assertNextEntry(it, "0000000000000000000000000000000000000001", 1, 500);
 		assertNextEntry(it, "0000000000000000000000000000000000000001", 2, 500);
@@ -141,7 +142,7 @@ public class PackIndexMergerTest {
 		assertEquals(9, merger.getUniqueObjectCount());
 		assertEquals(3, merger.getPackCount());
 		assertFalse(merger.needsLargeOffsetsChunk());
-		Iterator<PackIndexMerger.MidxMutableEntry> it = merger.bySha1Iterator();
+		Iterator<MutableEntry> it = merger.bySha1Iterator();
 		assertNextEntry(it, "0000000000000000000000000000000000000001", 0, 500);
 		assertNextEntry(it, "0000000000000000000000000000000000000002", 1, 501);
 		assertNextEntry(it, "0000000000000000000000000000000000000003", 1, 13);
@@ -168,7 +169,7 @@ public class PackIndexMergerTest {
 		assertEquals(3, merger.getUniqueObjectCount());
 		assertEquals(3, merger.getPackCount());
 		assertFalse(merger.needsLargeOffsetsChunk());
-		Iterator<PackIndexMerger.MidxMutableEntry> it = merger.bySha1Iterator();
+		Iterator<MutableEntry> it = merger.bySha1Iterator();
 		assertNextEntry(it, "0000000000000000000000000000000000000001", 0, 500);
 		assertNextEntry(it, "0000000000000000000000000000000000000005", 0, 12);
 		assertNextEntry(it, "0000000000000000000000000000000000000010", 0,
@@ -192,7 +193,7 @@ public class PackIndexMergerTest {
 		assertEquals(6, merger.getUniqueObjectCount());
 		assertEquals(3, merger.getPackCount());
 		assertFalse(merger.needsLargeOffsetsChunk());
-		Iterator<PackIndexMerger.MidxMutableEntry> it = merger.bySha1Iterator();
+		Iterator<MutableEntry> it = merger.rawIterator();
 		assertNextEntry(it, "0000000000000000000000000000000000000002", 1, 500);
 		assertNextEntry(it, "0000000000000000000000000000000000000003", 1, 12);
 		assertNextEntry(it, "0000000000000000000000000000000000000004", 2, 500);
@@ -315,10 +316,9 @@ public class PackIndexMergerTest {
 	}
 
 	private static void assertNextEntry(
-			Iterator<PackIndexMerger.MidxMutableEntry> it, String oid,
-			int packId, long offset) {
+			Iterator<MutableEntry> it, String oid, int packId, long offset) {
 		assertTrue(it.hasNext());
-		PackIndexMerger.MidxMutableEntry e = it.next();
+		MutableEntry e = it.next();
 		assertEquals(oid, e.getObjectId().name());
 		assertEquals(packId, e.getPackId());
 		assertEquals(offset, e.getOffset());
