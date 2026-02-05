@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4701584e_93f3cf47",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcBasicPackingTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-05T20:51:18Z",
+      "side": 1,
+      "message": "This should also be part of the `try()` enclosure, so that can be closed automatically.",
+      "range": {
+        "startLine": 444,
+        "startChar": 0,
+        "endLine": 447,
+        "endChar": 21
+      },
+      "revId": "1b1b006a2563ec0b9c603bd189250d2c5814c568",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
