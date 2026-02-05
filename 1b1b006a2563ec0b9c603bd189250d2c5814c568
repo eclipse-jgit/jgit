@@ -22,6 +22,30 @@
       },
       "revId": "1b1b006a2563ec0b9c603bd189250d2c5814c568",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e161937_a0dba2f2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcBasicPackingTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-05T23:13:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4701584e_93f3cf47",
+      "range": {
+        "startLine": 444,
+        "startChar": 0,
+        "endLine": 447,
+        "endChar": 21
+      },
+      "revId": "1b1b006a2563ec0b9c603bd189250d2c5814c568",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
