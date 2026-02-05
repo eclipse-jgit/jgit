@@ -317,14 +317,8 @@ class PackDirectory {
 		String debugTemplate = null;
 		int transientErrorCount = 0;
 		String errorTemplate = JGitText.get().exceptionWhileReadingPack;
-		if ((e instanceof CorruptObjectException)
-				|| (e instanceof PackInvalidException)) {
-			warnTemplate = JGitText.get().corruptPack;
-			LOG.warn(MessageFormat.format(warnTemplate,
-					p.getPackFile().getAbsolutePath()), e);
-			// Assume the pack is corrupted, and remove it from the list.
-			remove(p);
-		} else if (e instanceof FileNotFoundException) {
+		Throwable executionCause = e.getCause();
+		if (e instanceof FileNotFoundException || executionCause instanceof FileNotFoundException) {
 			if (p.getPackFile().exists()) {
 				errorTemplate = JGitText.get().packInaccessible;
 				transientErrorCount = p.incrementTransientErrorCount();
@@ -332,6 +326,13 @@ class PackDirectory {
 				debugTemplate = JGitText.get().packWasDeleted;
 				remove(p);
 			}
+		} else if ((e instanceof CorruptObjectException)
+			|| (e instanceof PackInvalidException)) {
+			warnTemplate = JGitText.get().corruptPack;
+			LOG.warn(MessageFormat.format(warnTemplate,
+				p.getPackFile().getAbsolutePath()), e);
+			// Assume the pack is corrupted, and remove it from the list.
+			remove(p);
 		} else if (FileUtils.isStaleFileHandleInCausalChain(e)) {
 			warnTemplate = JGitText.get().packHandleIsStale;
 			remove(p);
@@ -341,9 +342,9 @@ class PackDirectory {
 		if (warnTemplate != null) {
 			LOG.warn(MessageFormat.format(warnTemplate,
 					p.getPackFile().getAbsolutePath()), e);
-		} else if (debugTemplate != null) {
+		} else if (debugTemplate != null && LOG.isDebugEnabled()) {
 			LOG.debug(MessageFormat.format(debugTemplate,
-				p.getPackFile().getAbsolutePath()), e);
+					p.getPackFile().getAbsolutePath()), e);
 		} else {
 			if (doLogExponentialBackoff(transientErrorCount)) {
 				// Don't remove the pack from the list, as the error may be
