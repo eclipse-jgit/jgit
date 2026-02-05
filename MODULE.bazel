@@ -5,6 +5,7 @@ bazel_dep(name = "rules_android", version = "0.7.1")
 bazel_dep(name = "rules_go", version = "0.60.0")
 bazel_dep(name = "rules_java", version = "9.3.0")
 bazel_dep(name = "rules_jvm_external", version = "6.10")
+bazel_dep(name = "rules_python", version = "1.9.0")
 
 bazel_dep(name = "rbe_autoconfig")
 git_override(
