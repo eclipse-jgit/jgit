@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f53ac45_3c1ceb41",
+        "filename": ".bazelrc",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-06T09:20:52Z",
+      "side": 1,
+      "message": "Good finding ! 👍",
+      "range": {
+        "startLine": 3,
+        "startChar": 22,
+        "endLine": 3,
+        "endChar": 44
+      },
+      "revId": "87f19cfdacafc30c9baca60166e249cc8fe383e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed54a38a_4ee8d5be",
