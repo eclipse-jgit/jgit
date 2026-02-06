@@ -9,8 +9,9 @@
  */
 package org.eclipse.jgit.internal.storage.midx;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.function.Supplier;
 
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.MidxIterator;
@@ -36,7 +37,7 @@ class PackIndexMerger {
 
 	private static final long LIMIT_32_BITS = (1L << 32) - 1;
 
-	private final Map<String, PackIndex> packs;
+	private final List<Supplier<MidxIterator>> sources;
 
 	private final boolean needsLargeOffsetsChunk;
 
@@ -46,18 +47,37 @@ class PackIndexMerger {
 
 	private final int[] objectsPerPack;
 
+	static class Builder {
+
+		private final List<Supplier<MidxIterator>> suppliers = new ArrayList<>();
+
+		public Builder addPack(String name, PackIndex idx) {
+			suppliers.add(() -> MidxIterators.fromPackIndexIterator(name,
+					idx.iterator()));
+			return this;
+		}
+
+		public PackIndexMerger build() {
+			return new PackIndexMerger(suppliers);
+		}
+	}
+
+	public static Builder builder() {
+		return new Builder();
+	}
+
 	/**
 	 * Build a common view of these pack indexes
 	 * <p>
 	 * Order matters: in case of duplicates, the first pack with the object wins
 	 *
-	 * @param packs
-	 *            map of pack names to indexes, ordered.
+	 * @param sources
+	 *            Suppliers of MidxIterators for each source
 	 */
-	PackIndexMerger(Map<String, PackIndex> packs) {
-		this.packs = packs;
+	private PackIndexMerger(List<Supplier<MidxIterator>> sources) {
+		this.sources = sources;
 
-		objectsPerPack = new int[packs.size()];
+		objectsPerPack = new int[sources.size()];
 		// Iterate for duplicates
 		int objectCount = 0;
 		boolean hasLargeOffsets = false;
@@ -119,7 +139,7 @@ class PackIndexMerger {
 	}
 
 	/**
-	 * Number of objects selected for the midx per packid
+	 * Number of objects selected for the midx per pack id
 	 *
 	 * @return array where position n contains the amount of objects selected
 	 *         for pack id n
@@ -138,7 +158,7 @@ class PackIndexMerger {
 	 * @return List of pack names, in the order used by the merge.
 	 */
 	List<String> getPackNames() {
-		return packs.keySet().stream().toList();
+		return rawIterator().getPackNames();
 	}
 
 	/**
@@ -147,7 +167,7 @@ class PackIndexMerger {
 	 * @return count of packs merged
 	 */
 	int getPackCount() {
-		return packs.size();
+		return rawIterator().getPackNames().size();
 	}
 
 	/**
@@ -168,9 +188,7 @@ class PackIndexMerger {
 	 * @return an iterator of all objects in sha1 order, including duplicates.
 	 */
 	MidxIterator rawIterator() {
-		List<MidxIterator> list = packs.entrySet().stream()
-				.map(e -> MidxIterators.fromPackIndexIterator(e.getKey(),
-						e.getValue().iterator()))
+		List<MidxIterator> list = sources.stream().map(Supplier::get)
 				.toList();
 		return MidxIterators.join(list);
 	}
