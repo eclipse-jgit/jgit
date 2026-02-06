@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "16c1a966_86944eab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-02-06T07:27:46Z",
+      "side": 1,
+      "message": "To prevent desynchronization between MODULE.bazel and MODULE.bazel.lock, I enabled strict lockfile mode in change 1230731.",
+      "parentUuid": "46ed7381_2ef240d2",
+      "range": {
+        "startLine": 16,
+        "startChar": 61,
+        "endLine": 17,
+        "endChar": 59
+      },
+      "revId": "4961fe666d14f896f09580b140dd6e6d777ba988",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5f2e6d9c_2751da29",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
