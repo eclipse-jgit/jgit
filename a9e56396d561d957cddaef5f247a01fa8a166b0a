@@ -1,0 +1,203 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fa265f4_49f2aa13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-06T08:53:38Z",
+      "side": 1,
+      "message": "thanks for working on this enhancement :-)",
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a36f6481_9748e1fe",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-06T08:53:38Z",
+      "side": 1,
+      "message": "nit: We use the Eclipse code formatter which sorts imports differently. If you don\u0027t use Eclipse IDE I can fix this for you.",
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7073441_fb8a77fc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-06T08:53:38Z",
+      "side": 1,
+      "message": "nit: remove these empty lines",
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c72fccd2_a65c54ba",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-06T08:53:38Z",
+      "side": 1,
+      "message": "nit: remove this extra blank line",
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45427d9f_ec95bd42",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-06T08:53:38Z",
+      "side": 1,
+      "message": "nit: remove this empty line",
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd90143d_24ff8ee1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2251,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-06T08:53:38Z",
+      "side": 1,
+      "message": "nit: remove this unnecessary blank line",
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a54dd4a4_52821c13",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashApplyCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-06T08:53:38Z",
+      "side": 1,
+      "message": "use assertThrows ?\n\n```suggestion\n\t\tassertThrows(StashApplyFailureException.class, () -\u003e git.stashApply().call());\n```",
+      "range": {
+        "startLine": 461,
+        "startChar": 0,
+        "endLine": 466,
+        "endChar": 3
+      },
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e80b00ff_c0a0ccc0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-06T08:53:38Z",
+      "side": 1,
+      "message": "do you plan to implement zdiff3 in jgit ?",
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "617a9589_af6eec3a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-06T08:53:38Z",
+      "side": 1,
+      "message": "I think this should be moved to MergeConfig like for the other merge.* config options",
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "360c9be7_a466265d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-06T08:53:38Z",
+      "side": 1,
+      "message": "Move this to MergeConfig like getFastForwardMode ?",
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58df4d98_1ecde8f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1704,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-06T08:53:38Z",
+      "side": 1,
+      "message": "use a switch statement to improve readability ?\n```suggestion\n\t\t\tswitch (conflictStyle) {\n\t\t\tcase MERGE -\u003e new MergeFormatter().formatMerge(buf, result,\n\t\t\t\t\tArrays.asList(commitNames), UTF_8);\n\t\t\tcase DIFF3, ZDIFF3 -\u003e new MergeFormatter().formatMergeDiff3(buf,\n\t\t\t\t\tresult, Arrays.asList(commitNames), UTF_8);\n\t\t\t}\n```",
+      "range": {
+        "startLine": 1698,
+        "startChar": 0,
+        "endLine": 1704,
+        "endChar": 4
+      },
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
