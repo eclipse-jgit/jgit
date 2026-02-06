@@ -39,6 +39,24 @@
       "message": "we have some documentation of the JGit bazel build in the contributor guide\nhttps://github.com/eclipse-egit/egit/wiki/Contributor-Guide#jgit-bazel-build",
       "revId": "87f19cfdacafc30c9baca60166e249cc8fe383e6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04efeef7_547753b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-06T10:41:03Z",
+      "side": 1,
+      "message": "I updated the contributor guide and added a section how to update the lock file when updating dependencies:\nhttps://github.com/eclipse-egit/egit/wiki/Contributor-Guide#updating-dependencies",
+      "parentUuid": "ed54a38a_4ee8d5be",
+      "revId": "87f19cfdacafc30c9baca60166e249cc8fe383e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
