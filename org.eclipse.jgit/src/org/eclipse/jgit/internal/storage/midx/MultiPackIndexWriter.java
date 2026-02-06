@@ -87,7 +87,12 @@ public class MultiPackIndexWriter {
 	 */
 	public Result write(ProgressMonitor monitor, OutputStream outputStream,
 			Map<String, PackIndex> inputs) throws IOException {
-		PackIndexMerger data = new PackIndexMerger(inputs);
+		// TODO(ifrade): Pass the PackIndexMerger as parameter instead of making
+		// a map to them make the merger.
+		PackIndexMerger.Builder builder = PackIndexMerger.builder();
+		inputs.entrySet().stream()
+				.forEach(e -> builder.addPack(e.getKey(), e.getValue()));
+		PackIndexMerger data = builder.build();
 
 		// List of chunks in the order they need to be written
 		List<ChunkHeader> chunkHeaders = createChunkHeaders(data);
