@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b391f768_b61ad2b3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1039212
+      },
+      "writtenOn": "2026-02-07T15:43:49Z",
+      "side": 1,
+      "message": "Organizing imports was disabled in eclipse for some reason. :)\nWill fix.\n\nEDIT: In many of the egit projects sp_cleanup.organize_imports is set to false...",
+      "parentUuid": "a36f6481_9748e1fe",
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7073441_fb8a77fc",
@@ -48,6 +66,24 @@
       "writtenOn": "2026-02-06T08:53:38Z",
       "side": 1,
       "message": "nit: remove these empty lines",
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2fe6951_3a78eb25",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 1039212
+      },
+      "writtenOn": "2026-02-07T15:43:49Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a7073441_fb8a77fc",
       "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -69,6 +105,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c900240_1b1f3093",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1039212
+      },
+      "writtenOn": "2026-02-07T15:43:49Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c72fccd2_a65c54ba",
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45427d9f_ec95bd42",
@@ -86,6 +140,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cce14119_5966fce6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1039212
+      },
+      "writtenOn": "2026-02-07T15:43:49Z",
+      "side": 1,
+      "message": "Whoops these lines should not be removed!",
+      "parentUuid": "45427d9f_ec95bd42",
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd90143d_24ff8ee1",
@@ -99,6 +171,24 @@
       "writtenOn": "2026-02-06T08:53:38Z",
       "side": 1,
       "message": "nit: remove this unnecessary blank line",
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbe89741_e3c2dcb0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2251,
+      "author": {
+        "id": 1039212
+      },
+      "writtenOn": "2026-02-07T15:43:49Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "dd90143d_24ff8ee1",
       "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -126,6 +216,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e51b6a7_fac47777",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashApplyCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1039212
+      },
+      "writtenOn": "2026-02-07T15:43:49Z",
+      "side": 1,
+      "message": "Copied that from some line 390.\nBut you are absolutely right!",
+      "parentUuid": "a54dd4a4_52821c13",
+      "range": {
+        "startLine": 461,
+        "startChar": 0,
+        "endLine": 466,
+        "endChar": 3
+      },
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e80b00ff_c0a0ccc0",
@@ -139,6 +253,24 @@
       "writtenOn": "2026-02-06T08:53:38Z",
       "side": 1,
       "message": "do you plan to implement zdiff3 in jgit ?",
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9823c3bc_491f6552",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1039212
+      },
+      "writtenOn": "2026-02-07T15:43:49Z",
+      "side": 1,
+      "message": "No. :)\nI added the constant because in https://github.com/eclipse-egit/egit/issues/96\nthis behaviour was requested: \"Finally add a zdiff3 constant to MergeCommand.ConflictStyle (treat zdiff3 like diff3 for now in the MergeFormatter)\"\n\nEDIT: Will remove this! Makes this PR so much cleaner!",
+      "parentUuid": "e80b00ff_c0a0ccc0",
       "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -160,6 +292,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fd23a47_ddd8095c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1039212
+      },
+      "writtenOn": "2026-02-07T15:43:49Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "617a9589_af6eec3a",
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "360c9be7_a466265d",
@@ -177,6 +327,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15ea9735_b407b669",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1039212
+      },
+      "writtenOn": "2026-02-07T15:43:49Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "360c9be7_a466265d",
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58df4d98_1ecde8f1",
@@ -190,6 +358,30 @@
       "writtenOn": "2026-02-06T08:53:38Z",
       "side": 1,
       "message": "use a switch statement to improve readability ?\n```suggestion\n\t\t\tswitch (conflictStyle) {\n\t\t\tcase MERGE -\u003e new MergeFormatter().formatMerge(buf, result,\n\t\t\t\t\tArrays.asList(commitNames), UTF_8);\n\t\t\tcase DIFF3, ZDIFF3 -\u003e new MergeFormatter().formatMergeDiff3(buf,\n\t\t\t\t\tresult, Arrays.asList(commitNames), UTF_8);\n\t\t\t}\n```",
+      "range": {
+        "startLine": 1698,
+        "startChar": 0,
+        "endLine": 1704,
+        "endChar": 4
+      },
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3145778f_e26c6ac8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1704,
+      "author": {
+        "id": 1039212
+      },
+      "writtenOn": "2026-02-07T15:43:49Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "58df4d98_1ecde8f1",
       "range": {
         "startLine": 1698,
         "startChar": 0,
