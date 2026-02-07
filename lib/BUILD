@@ -312,7 +312,7 @@ java_library(
         "//org.eclipse.jgit.lfs.server.test:__pkg__",
         "//org.eclipse.jgit.pgm:__pkg__",
     ],
-    exports = ["@external_deps//:jakarta_servlet_jakarta_servlet_api_4_0_4"],
+    exports = ["@external_deps//:javax_servlet_javax_servlet_api"],
 )
 
 java_library(

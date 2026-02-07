@@ -75,10 +75,10 @@
    <bundle id="com.googlecode.javaewah.JavaEWAH.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="jakarta.servlet-api">
+   <bundle id="javax.servlet-api">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="jakarta.servlet-api.source">
+   <bundle id="javax.servlet-api.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <bundle id="org.eclipse.jetty.http">

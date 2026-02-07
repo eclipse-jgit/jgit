@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.34" sequenceNumber="1770852958">
+<target name="jgit-4.34" sequenceNumber="1770853782">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20230916-1400"/>
@@ -165,9 +165,9 @@
           <type>jar</type>
         </dependency>
         <dependency>
-          <groupId>jakarta.servlet</groupId>
-          <artifactId>jakarta.servlet-api</artifactId>
-          <version>4.0.4</version>
+          <groupId>javax.servlet</groupId>
+          <artifactId>javax.servlet-api</artifactId>
+          <version>3.1.0</version>
           <type>jar</type>
         </dependency>
       </dependencies>
