@@ -15,8 +15,10 @@ package org.eclipse.jgit.lib;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.UncheckedIOException;
 import java.util.Collection;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.util.RefList;
@@ -111,7 +113,7 @@ public abstract class RefWriter {
 				w.write("^{}\n"); //$NON-NLS-1$
 			}
 		}
-		writeFile(Constants.INFO_REFS, Constants.encode(w.toString()));
+		writeFile(Constants.INFO_REFS, () -> Constants.encode(w.toString()));
 	}
 
 	/**
@@ -127,6 +129,49 @@ public abstract class RefWriter {
 	 *             failed, possibly due to permissions or remote disk full, etc.
 	 */
 	public void writePackedRefs() throws IOException {
+		boolean peeled = isPeeled();
+
+		writeFile(Constants.PACKED_REFS, () ->
+		{
+			final StringWriter w = new StringWriter();
+			if (peeled) {
+				w.write(RefDirectory.PACKED_REFS_HEADER);
+				w.write(RefDirectory.PACKED_REFS_PEELED);
+				w.write('\n');
+			}
+
+			final char[] tmp = new char[Constants.OBJECT_ID_STRING_LENGTH];
+			for (Ref r : refs) {
+				try {
+					if (r.getStorage() != Ref.Storage.PACKED)
+						continue;
+
+					ObjectId objectId = r.getObjectId();
+					if (objectId == null) {
+						// A packed ref cannot be a symref, let alone a symref
+						// to an unborn branch.
+						throw new NullPointerException();
+					}
+					objectId.copyTo(tmp, w);
+					w.write(' ');
+					w.write(r.getName());
+					w.write('\n');
+
+					ObjectId peeledObjectId = r.getPeeledObjectId();
+					if (peeledObjectId != null) {
+						w.write('^');
+						peeledObjectId.copyTo(tmp, w);
+						w.write('\n');
+					}
+				} catch (IOException e) {
+					throw new UncheckedIOException(e);
+				}
+			}
+			return Constants.encode(w.toString());
+		});
+	}
+
+	private boolean isPeeled() {
 		boolean peeled = false;
 		for (Ref r : refs) {
 			if (r.getStorage().isPacked() && r.isPeeled()) {
@@ -134,38 +179,7 @@ public abstract class RefWriter {
 				break;
 			}
 		}
-
-		final StringWriter w = new StringWriter();
-		if (peeled) {
-			w.write(RefDirectory.PACKED_REFS_HEADER);
-			w.write(RefDirectory.PACKED_REFS_PEELED);
-			w.write('\n');
-		}
-
-		final char[] tmp = new char[Constants.OBJECT_ID_STRING_LENGTH];
-		for (Ref r : refs) {
-			if (r.getStorage() != Ref.Storage.PACKED)
-				continue;
-
-			ObjectId objectId = r.getObjectId();
-			if (objectId == null) {
-				// A packed ref cannot be a symref, let alone a symref
-				// to an unborn branch.
-				throw new NullPointerException();
-			}
-			objectId.copyTo(tmp, w);
-			w.write(' ');
-			w.write(r.getName());
-			w.write('\n');
-
-			ObjectId peeledObjectId = r.getPeeledObjectId();
-			if (peeledObjectId != null) {
-				w.write('^');
-				peeledObjectId.copyTo(tmp, w);
-				w.write('\n');
-			}
-		}
-		writeFile(Constants.PACKED_REFS, Constants.encode(w.toString()));
+		return peeled;
 	}
 
 	/**
@@ -174,11 +188,11 @@ public abstract class RefWriter {
 	 *
 	 * @param file
 	 *            path to ref file.
-	 * @param content
+	 * @param contentFunc
 	 *            byte content of file to be written.
 	 * @throws java.io.IOException
 	 *             if an IO error occurred
 	 */
-	protected abstract void writeFile(String file, byte[] content)
+	protected abstract void writeFile(String file, Supplier<byte[]> contentFunc)
 			throws IOException;
 }
