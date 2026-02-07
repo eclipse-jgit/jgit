@@ -48,7 +48,7 @@ maven.install(
         "commons-codec:commons-codec:1.20.0",
         "commons-io:commons-io:2.21.0",
         "commons-logging:commons-logging:1.3.5",
-        "jakarta.servlet:jakarta.servlet-api:4.0.4",
+        "javax.servlet:javax.servlet-api:3.1.0",
         "junit:junit:4.13.2",
         "net.bytebuddy:byte-buddy-agent:" + BYTE_BUDDY_VERSION,
         "net.bytebuddy:byte-buddy:" + BYTE_BUDDY_VERSION,
