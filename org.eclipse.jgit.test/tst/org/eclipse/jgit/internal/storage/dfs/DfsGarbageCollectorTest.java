@@ -1243,9 +1243,7 @@ public class DfsGarbageCollectorTest {
 				.add("file.txt", git.blob("a blob")).parent(root).create();
 		assertEquals(3, countPacks(INSERT));
 
-		DfsPackDescription midx = DfsMidxWriter.writeMidx(
-				NullProgressMonitor.INSTANCE, odb,
-				Arrays.asList(odb.getPacks()), null);
+		DfsPackDescription midx = midx(Arrays.asList(odb.getPacks()), null);
 		odb.commitPack(List.of(midx), null);
 
 		gcNoTtl();
@@ -1279,13 +1277,11 @@ public class DfsGarbageCollectorTest {
 
 		List<DfsPackFile> basicPacks = Arrays.stream(odb.getPacks())
 				.collect(Collectors.toUnmodifiableList());
-		DfsPackDescription midx = DfsMidxWriter.writeMidx(NULL_PM, odb,
-				basicPacks.subList(0, 9), null);
-		odb.commitPack(List.of(midx), null);
+		DfsPackDescription baseMidx = midx(basicPacks.subList(0, 9), null);
+		odb.commitPack(List.of(baseMidx), null);
 
-		DfsPackDescription midx2 = DfsMidxWriter.writeMidx(NULL_PM, odb,
-				basicPacks.subList(9, 21), midx);
-		odb.commitPack(List.of(midx2), null);
+		DfsPackDescription tipMidx = midx(basicPacks.subList(9, 21), baseMidx);
+		odb.commitPack(List.of(tipMidx), null);
 
 		// Verify we got one pack that is an midx
 		// This is testing the test code
@@ -1294,7 +1290,7 @@ public class DfsGarbageCollectorTest {
 		DfsPackDescription theDesc = odb.getPacks()[0].getPackDescription();
 		assertTrue(theDesc.hasFileExt(MULTI_PACK_INDEX));
 		assertEquals(12, theDesc.getCoveredPacks().size());
-		assertEquals(theDesc.getMultiPackIndexBase(), midx);
+		assertEquals(theDesc.getMultiPackIndexBase(), baseMidx);
 		assertEquals(9,
 				theDesc.getMultiPackIndexBase().getCoveredPacks().size());
 		gcNoTtl();
@@ -1308,8 +1304,8 @@ public class DfsGarbageCollectorTest {
 		for (RevCommit c : knownCommits) {
 			assertTrue(isObjectInPack(c, pack));
 		}
-		assertFalse(odb.listPacks().contains(midx));
-		assertFalse(odb.listPacks().contains(midx2));
+		assertFalse(odb.listPacks().contains(baseMidx));
+		assertFalse(odb.listPacks().contains(tipMidx));
 	}
 
 	@Test
@@ -1323,8 +1319,7 @@ public class DfsGarbageCollectorTest {
 		assertEquals(3, countPacks(INSERT));
 
 		List<DfsPackFile> packs = Arrays.stream(odb.getPacks()).toList();
-		DfsPackDescription midx = DfsMidxWriter.writeMidx(NULL_PM, odb, packs,
-				null);
+		DfsPackDescription midx = midx(packs, null);
 		odb.commitPack(List.of(midx), null);
 
 		RevBlob blobOutOfMidx = git.blob("some content");
@@ -1498,6 +1493,15 @@ public class DfsGarbageCollectorTest {
 		return Arrays.stream(packs)
 				.filter(p -> p.getPackDescription().getPackSource() == source)
 				.findFirst().get();
+	}
+
+	private DfsPackDescription midx(List<DfsPackFile> coveredPacks,
+			DfsPackDescription base) throws IOException {
+		DfsPackDescription midx = DfsMidxWriter.writeMidx(NULL_PM, odb,
+				coveredPacks, base);
+		git.tick(1);
+		midx.setLastModified(git.getInstant().toEpochMilli());
+		return midx;
 	}
 
 	private TestRepository<InMemoryRepository>.CommitBuilder commit() {

@@ -10,6 +10,7 @@
 package org.eclipse.jgit.internal.storage.midx;
 
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.CHUNK_LOOKUP_WIDTH;
+import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_BITMAPPEDPACKS;
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_LARGEOFFSETS;
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_OBJECTOFFSETS;
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_OIDFANOUT;
@@ -54,21 +55,23 @@ public class MultiPackIndexWriterTest {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, data);
 		// header (12 bytes)
-		// + chunkHeader (6 * 12 bytes)
+		// + chunkHeader (7 * 12 bytes)
 		// + fanout table (256 * 4 bytes)
 		// + OIDs (6 * 20 bytes)
 		// + (pack, offset) pairs (6 * 8)
 		// + RIDX (6 * 4 bytes)
+		// + bitmap pack segments (2 * 8)
 		// + packfile names (2 * 10)
 		// + checksum (20)
-		assertEquals(1340, out.size());
+		assertEquals(1368, out.size());
 		List<Integer> chunkIds = readChunkIds(out);
-		assertEquals(5, chunkIds.size());
+		assertEquals(6, chunkIds.size());
 		assertEquals(0, chunkIds.indexOf(MIDX_CHUNKID_OIDFANOUT));
 		assertEquals(1, chunkIds.indexOf(MIDX_CHUNKID_OIDLOOKUP));
 		assertEquals(2, chunkIds.indexOf(MIDX_CHUNKID_OBJECTOFFSETS));
 		assertEquals(3, chunkIds.indexOf(MIDX_CHUNKID_REVINDEX));
-		assertEquals(4, chunkIds.indexOf(MIDX_CHUNKID_PACKNAMES));
+		assertEquals(4, chunkIds.indexOf(MIDX_CHUNKID_BITMAPPEDPACKS));
+		assertEquals(5, chunkIds.indexOf(MIDX_CHUNKID_PACKNAMES));
 	}
 
 	@Test
@@ -90,21 +93,23 @@ public class MultiPackIndexWriterTest {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, data);
 		// header (12 bytes)
-		// + chunkHeader (6 * 12 bytes)
+		// + chunkHeader (7 * 12 bytes)
 		// + fanout table (256 * 4 bytes)
 		// + OIDs (6 * 20 bytes)
 		// + (pack, offset) pairs (6 * 8)
 		// + RIDX (6 * 4 bytes)
+		// + bitmap pack segments (2 * 8)
 		// + packfile names (2 * 10)
 		// + checksum (20)
-		assertEquals(1340, out.size());
+		assertEquals(1368, out.size());
 		List<Integer> chunkIds = readChunkIds(out);
-		assertEquals(5, chunkIds.size());
+		assertEquals(6, chunkIds.size());
 		assertEquals(0, chunkIds.indexOf(MIDX_CHUNKID_OIDFANOUT));
 		assertEquals(1, chunkIds.indexOf(MIDX_CHUNKID_OIDLOOKUP));
 		assertEquals(2, chunkIds.indexOf(MIDX_CHUNKID_OBJECTOFFSETS));
 		assertEquals(3, chunkIds.indexOf(MIDX_CHUNKID_REVINDEX));
-		assertEquals(4, chunkIds.indexOf(MIDX_CHUNKID_PACKNAMES));
+		assertEquals(4, chunkIds.indexOf(MIDX_CHUNKID_BITMAPPEDPACKS));
+		assertEquals(5, chunkIds.indexOf(MIDX_CHUNKID_PACKNAMES));
 	}
 
 	@Test
@@ -126,23 +131,25 @@ public class MultiPackIndexWriterTest {
 		MultiPackIndexWriter.Result result = writer
 				.write(NullProgressMonitor.INSTANCE, out, data);
 		// header (12 bytes)
-		// + chunkHeader (7 * 12 bytes)
+		// + chunkHeader (8 * 12 bytes)
 		// + fanout table (256 * 4 bytes)
 		// + OIDs (6 * 20 bytes)
 		// + (pack, offset) pairs (6 * 8)
 		// + (large-offset) (1 * 8)
 		// + RIDX (6 * 4 bytes)
+		// + bitmap pack segments (2 * 8)
 		// + packfile names (2 * 10)
 		// + checksum (20)
-		assertEquals(1360, out.size());
+		assertEquals(1388, out.size());
 		List<Integer> chunkIds = readChunkIds(out);
-		assertEquals(6, chunkIds.size());
+		assertEquals(7, chunkIds.size());
 		assertEquals(0, chunkIds.indexOf(MIDX_CHUNKID_OIDFANOUT));
 		assertEquals(1, chunkIds.indexOf(MIDX_CHUNKID_OIDLOOKUP));
 		assertEquals(2, chunkIds.indexOf(MIDX_CHUNKID_OBJECTOFFSETS));
 		assertEquals(3, chunkIds.indexOf(MIDX_CHUNKID_LARGEOFFSETS));
 		assertEquals(4, chunkIds.indexOf(MIDX_CHUNKID_REVINDEX));
-		assertEquals(5, chunkIds.indexOf(MIDX_CHUNKID_PACKNAMES));
+		assertEquals(5, chunkIds.indexOf(MIDX_CHUNKID_BITMAPPEDPACKS));
+		assertEquals(6, chunkIds.indexOf(MIDX_CHUNKID_PACKNAMES));
 
 		assertEquals("bbbbbbbbb", result.packNames().get(0));
 		assertEquals("aaaaaaaaa", result.packNames().get(1));
@@ -159,13 +166,14 @@ public class MultiPackIndexWriterTest {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, packs);
 		List<Integer> chunkIds = readChunkIds(out);
-		assertEquals(1134, out.size());
-		assertEquals(5, chunkIds.size());
+		assertEquals(1162, out.size());
+		assertEquals(6, chunkIds.size());
 		assertEquals(0, chunkIds.indexOf(MIDX_CHUNKID_OIDFANOUT));
 		assertEquals(1, chunkIds.indexOf(MIDX_CHUNKID_OIDLOOKUP));
 		assertEquals(2, chunkIds.indexOf(MIDX_CHUNKID_OBJECTOFFSETS));
 		assertEquals(3, chunkIds.indexOf(MIDX_CHUNKID_REVINDEX));
-		assertEquals(4, chunkIds.indexOf(MIDX_CHUNKID_PACKNAMES));
+		assertEquals(4, chunkIds.indexOf(MIDX_CHUNKID_BITMAPPEDPACKS));
+		assertEquals(5, chunkIds.indexOf(MIDX_CHUNKID_PACKNAMES));
 	}
 
 	private List<Integer> readChunkIds(ByteArrayOutputStream out) {

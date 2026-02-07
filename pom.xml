@@ -120,7 +120,7 @@
 
     <jgit-last-release-version>7.5.0.202512021534-r</jgit-last-release-version>
     <ant-version>1.10.15</ant-version>
-    <apache-sshd-version>2.16.0</apache-sshd-version>
+    <apache-sshd-version>2.17.1</apache-sshd-version>
     <jsch-version>0.1.55</jsch-version>
     <jzlib-version>1.1.3</jzlib-version>
     <javaewah-version>1.2.3</javaewah-version>
@@ -131,24 +131,24 @@
     <osgi-core-version>6.0.0</osgi-core-version>
     <servlet-api-version>4.0.4</servlet-api-version>
     <jetty-version>12.1.5</jetty-version>
-    <japicmp-version>0.24.2</japicmp-version>
+    <japicmp-version>0.25.0</japicmp-version>
     <httpclient-version>4.5.14</httpclient-version>
     <httpcore-version>4.4.16</httpcore-version>
     <slf4j-version>2.0.17</slf4j-version>
     <maven-javadoc-plugin-version>3.12.0</maven-javadoc-plugin-version>
     <gson-version>2.13.2</gson-version>
     <bouncycastle-version>1.83</bouncycastle-version>
-    <spotbugs-maven-plugin-version>4.9.8.1</spotbugs-maven-plugin-version>
+    <spotbugs-maven-plugin-version>4.9.8.2</spotbugs-maven-plugin-version>
     <maven-project-info-reports-plugin-version>3.9.0</maven-project-info-reports-plugin-version>
     <maven-jxr-plugin-version>3.6.0</maven-jxr-plugin-version>
     <maven-surefire-plugin-version>3.5.4</maven-surefire-plugin-version>
     <maven-surefire-report-plugin-version>${maven-surefire-plugin-version}</maven-surefire-report-plugin-version>
     <maven-compiler-plugin-version>3.14.1</maven-compiler-plugin-version>
-    <plexus-compiler-version>2.16.0</plexus-compiler-version>
+    <plexus-compiler-version>2.16.1</plexus-compiler-version>
     <hamcrest-version>3.0</hamcrest-version>
-    <assertj-version>3.27.6</assertj-version>
+    <assertj-version>3.27.7</assertj-version>
     <jna-version>5.18.1</jna-version>
-    <byte-buddy-version>1.18.2</byte-buddy-version>
+    <byte-buddy-version>1.18.4</byte-buddy-version>
 
     <!-- Properties to enable jacoco code coverage analysis -->
     <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -184,7 +184,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.4.2</version>
+          <version>3.5.0</version>
           <configuration>
             <archive>
               <manifestEntries>
@@ -220,7 +220,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.2.0</version>
         </plugin>
 
         <plugin>
@@ -232,7 +232,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.3.1</version>
+          <version>3.4.0</version>
         </plugin>
 
         <plugin>
@@ -277,7 +277,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-pmd-plugin</artifactId>
-          <version>3.27.0</version>
+          <version>3.28.0</version>
           <configuration>
             <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
             <minimumTokens>100</minimumTokens>
@@ -352,12 +352,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>3.3.1</version>
+          <version>3.4.0</version>
         </plugin>
         <plugin>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>4.0.1</version>
         </plugin>
         <plugin>
           <groupId>org.eclipse.dash</groupId>
@@ -1020,7 +1020,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>5.20.0</version>
+        <version>5.21.0</version>
       </dependency>
 
       <dependency>
@@ -1129,7 +1129,7 @@
               <dependency>
                 <groupId>org.eclipse.jdt</groupId>
                 <artifactId>ecj</artifactId>
-                <version>3.43.0</version>
+                <version>3.44.0</version>
               </dependency>
             </dependencies>
           </plugin>

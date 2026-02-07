@@ -52,6 +52,8 @@ public abstract class TemporaryBuffer extends OutputStream {
 	/** If {@link #inCoreLimit} has been reached, remainder goes here. */
 	private OutputStream overflow;
 
+	private boolean destroyed;
+
 	/**
 	 * Create a new empty temporary buffer.
 	 *
@@ -85,6 +87,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	/** {@inheritDoc} */
 	@Override
 	public void write(int b) throws IOException {
+		checkDestroyed();
 		if (overflow != null) {
 			overflow.write(b);
 			return;
@@ -106,6 +109,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	/** {@inheritDoc} */
 	@Override
 	public void write(byte[] b, int off, int len) throws IOException {
+		checkDestroyed();
 		if (overflow == null) {
 			while (len > 0) {
 				Block s = last();
@@ -152,6 +156,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 *             writing to a local temporary file.
 	 */
 	public void copy(InputStream in) throws IOException {
+		checkDestroyed();
 		if (blocks != null) {
 			for (;;) {
 				Block s = last();
@@ -183,6 +188,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 * @return total length of the buffer, in bytes.
 	 */
 	public long length() {
+		checkDestroyedUnchecked();
 		return inCoreLength();
 	}
 
@@ -201,6 +207,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 *             an error occurred reading from a local temporary file
 	 */
 	public byte[] toByteArray() throws IOException {
+		checkDestroyed();
 		final long len = length();
 		if (Integer.MAX_VALUE < len)
 			throw new OutOfMemoryError(JGitText.get().lengthExceedsMaximumArraySize);
@@ -245,6 +252,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 * @since 4.2
 	 */
 	public byte[] toByteArray(int limit) throws IOException {
+		checkDestroyed();
 		final long len = Math.min(length(), limit);
 		if (Integer.MAX_VALUE < len)
 			throw new OutOfMemoryError(
@@ -281,6 +289,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 */
 	public void writeTo(OutputStream os, ProgressMonitor pm)
 			throws IOException {
+		checkDestroyed();
 		if (pm == null)
 			pm = NullProgressMonitor.INSTANCE;
 		for (Block b : blocks) {
@@ -301,6 +310,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 *             an error occurred opening the temporary file.
 	 */
 	public InputStream openInputStream() throws IOException {
+		checkDestroyed();
 		return new BlockInputStream();
 	}
 
@@ -315,6 +325,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 * @since 4.11
 	 */
 	public InputStream openInputStreamWithAutoDestroy() throws IOException {
+		checkDestroyed();
 		return new BlockInputStream() {
 			@Override
 			public void close() throws IOException {
@@ -328,13 +339,15 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 * Reset this buffer for reuse, purging all buffered content.
 	 */
 	public void reset() {
-		if (overflow != null) {
-			destroy();
+		if (destroyed) {
+			return;
 		}
-		if (blocks != null)
+		closeOverflow();
+		if (blocks != null) {
 			blocks.clear();
-		else
+		} else {
 			blocks = new ArrayList<>(initialBlocks);
+		}
 		blocks.add(new Block(Math.min(inCoreLimit, Block.SZ)));
 	}
 
@@ -372,24 +385,24 @@ public abstract class TemporaryBuffer extends OutputStream {
 		overflow.write(last.buffer, 0, last.count);
 	}
 
-	/** {@inheritDoc} */
 	@Override
 	public void close() throws IOException {
-		if (overflow != null) {
-			try {
-				overflow.close();
-			} finally {
-				overflow = null;
-			}
+		if (destroyed) {
+			return;
 		}
+		closeOverflow();
 	}
 
 	/**
 	 * Clear this buffer so it has no data, and cannot be used again.
 	 */
 	public void destroy() {
+		destroyed = true;
 		blocks = null;
+		closeOverflow();
+	}
 
+	private void closeOverflow() {
 		if (overflow != null) {
 			try {
 				overflow.close();
@@ -398,6 +411,19 @@ public abstract class TemporaryBuffer extends OutputStream {
 			} finally {
 				overflow = null;
 			}
+		}
+	}
+
+	private void checkDestroyed() throws IOException {
+		if (destroyed) {
+			throw new IOException(JGitText.get().temporaryBufferIsDestroyed);
+		}
+	}
+
+	private void checkDestroyedUnchecked() {
+		if (destroyed) {
+			throw new UncheckedIOException(
+					new IOException(JGitText.get().temporaryBufferIsDestroyed));
 		}
 	}
 
@@ -462,6 +488,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 
 		@Override
 		public long length() {
+			super.checkDestroyedUnchecked();
 			if (onDiskFile == null) {
 				return super.length();
 			}
