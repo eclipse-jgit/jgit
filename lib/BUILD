@@ -303,6 +303,7 @@ java_library(
 
 java_library(
     name = "servlet-api",
+    neverlink = 1,
     visibility = [
         "//org.eclipse.jgit.http.apache:__pkg__",
         "//org.eclipse.jgit.http.server:__pkg__",
