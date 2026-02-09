@@ -37,17 +37,15 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.jgit.api.PackRefsCommand;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.Repeat;
 import org.eclipse.jgit.junit.TestRepository;
-import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.lib.Ref.Storage;
-import org.eclipse.jgit.lib.RefDatabase;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.util.FS;
@@ -1059,6 +1057,31 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		assertEquals(Storage.PACKED, all.get("refs/tags/v1.0").getStorage());
 		assertEquals(Storage.PACKED, all.get("refs/tags/v0.1").getStorage());
 		assertEquals(v0_1.getId(), all.get("refs/tags/v0.1").getObjectId());
+	}
+
+	@Test
+	public void testPackedRefsHeaderWithSorted() throws Exception {
+		writeLooseRef("refs/heads/master", A);
+		writeLooseRef("refs/heads/other", B);
+		writeLooseRef("refs/tags/v1.0", v1_0);
+
+		PackRefsCommand packRefsCommand = new PackRefsCommand(diskRepo);
+		packRefsCommand.setAll(true);
+		packRefsCommand.call();
+
+		File packedRefsFile = new File(diskRepo.getCommonDirectory(), Constants.PACKED_REFS);
+		assertTrue("packed-refs should exist", packedRefsFile.exists());
+
+		String content = read(packedRefsFile);
+		String firstLine = content.split("\n")[0];
+		assertTrue("packed-refs should have header with sorted",
+				firstLine.contains(" sorted"));
+
+		int masterIndex = content.indexOf(A.name() + " refs/heads/master");
+		int otherIndex = content.indexOf(B.name() + " refs/heads/other");
+		int tagIndex = content.indexOf(v1_0.name() + " refs/tags/v1.0");
+		assertTrue("packed-refs should be sorted",
+				masterIndex < otherIndex && otherIndex < tagIndex);
 	}
 
 	@Test
