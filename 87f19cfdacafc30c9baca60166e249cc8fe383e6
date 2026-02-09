@@ -34,6 +34,24 @@
       "parentUuid": "fb07b69a_673762ad",
       "revId": "87f19cfdacafc30c9baca60166e249cc8fe383e6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "384f5d11_833ed38d",
+        "filename": "bazelw",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-02-09T09:57:41Z",
+      "side": 0,
+      "message": "\u003e Would be nice, if the wrapper wouldn\u0027t be needed.\n\n+1\n\n\u003e could this decision (whether to run bazel with the standalone root module or not) be configured in .bazelrc in jgit and gerrit respectively instead of using this wrapper ?\n\nUnfortunately, I’m not aware of another way to make this work (or at least I haven’t found one so far).\n\nI completely agree with you that avoiding the wrapper would be preferable, but I haven’t found an easier alternative. As discussed in another Gerrit change, there are still alternative approaches involving merging the two maven.install definitions in Gerrit and JGit, which I would like to avoid as well.\n\nThis split — and the resulting need for the wrapper — is the reason why I raised this question in the Bazel Slack channel: [1], quoting:\n\n\"\"\"\n[...]\nIn JGit we implemented (1) by splitting the Bazel setup into:\na library module that relies on the root module for dependency resolution, anda standalone wrapper module used to build and test JGit in isolation\n\nTo support standalone builds, we currently use a small bazelw wrapper that runs Bazel from tools/standalone (making that directory the root module):\n\n#!/usr/bin/env bash\nset -euo pipefail\nROOT_DIR\u003d\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" \u0026\u0026 pwd)\"\nSTANDALONE_DIR\u003d\"${ROOT_DIR}/tools/standalone\"\ncd \"${STANDALONE_DIR}\"\nexec bazelisk \"$@\"\n\nThis works, but it feels a bit convoluted and adds friction to the developer workflow, so we’d very much like to avoid such wrappers if there’s a cleaner pattern.\n\nWe haven’t tried approach (2) yet and would love to hear opinions from folks who’ve dealt with similar setups:\n\nIs approach (1) the recommended way to model “library modules” with bzlmod + rules_jvm_external?If approach (2) is viable, what’s the best practice to ensure the root module’s versions always win, to avoid classpath duplication, and to ensure that the library (JGit) is built against exactly the same dependency versions selected by the root module (Gerrit), so that runtime errors are avoided?\n[...]\n\"\"\"\n\n[1]: https://bazelbuild.slack.com/archives/CDCE4DFAP/p1770243177511579",
+      "parentUuid": "788db167_477a4e93",
+      "revId": "87f19cfdacafc30c9baca60166e249cc8fe383e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
