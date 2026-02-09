@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb07b69a_673762ad",
+        "filename": "bazelw",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2026-02-09T09:39:54Z",
+      "side": 0,
+      "message": "Would be nice, if the wrapper wouldn\u0027t be needed.\nAt least we could maybe rename it to `standalone-build`.\nOr we just document that users should navigate to the `tools/standalone` dir and use bazel from there.",
+      "revId": "87f19cfdacafc30c9baca60166e249cc8fe383e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
