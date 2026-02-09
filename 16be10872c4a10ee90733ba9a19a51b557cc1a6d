@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b0adb0cb_c700aeaf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-02-09T16:44:50Z",
+      "side": 1,
+      "message": "fixed hardcoded literal. there is no commonDirectory var available.",
+      "parentUuid": "a411a835_887c90c2",
+      "revId": "16be10872c4a10ee90733ba9a19a51b557cc1a6d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "edabfeee_67d1244f",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2026-02-09T15:02:55Z",
       "side": 1,
       "message": "This should assert that the *first* line contains the `sorted` keyword.",
+      "range": {
+        "startLine": 1079,
+        "startChar": 0,
+        "endLine": 1080,
+        "endChar": 33
+      },
+      "revId": "16be10872c4a10ee90733ba9a19a51b557cc1a6d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d27e4cb_a624471a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1080,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-02-09T16:44:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edabfeee_67d1244f",
       "range": {
         "startLine": 1079,
         "startChar": 0,
