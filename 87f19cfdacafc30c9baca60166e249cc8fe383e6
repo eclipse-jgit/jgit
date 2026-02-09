@@ -16,6 +16,24 @@
       "message": "Would be nice, if the wrapper wouldn\u0027t be needed.\nAt least we could maybe rename it to `standalone-build`.\nOr we just document that users should navigate to the `tools/standalone` dir and use bazel from there.",
       "revId": "87f19cfdacafc30c9baca60166e249cc8fe383e6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "788db167_477a4e93",
+        "filename": "bazelw",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-09T09:47:58Z",
+      "side": 0,
+      "message": "could this decision (whether to run bazel with the standalone root module or not) be configured in `.bazelrc` in jgit and gerrit respectively instead of using this wrapper ?",
+      "parentUuid": "fb07b69a_673762ad",
+      "revId": "87f19cfdacafc30c9baca60166e249cc8fe383e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
