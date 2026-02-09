@@ -22,6 +22,30 @@
       },
       "revId": "3a8e33a85377d8354bfd404d9048797a78559310",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b0ef662_60ebf257",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-02-09T22:25:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8dcebfc0_1ef40d9a",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 30
+      },
+      "revId": "3a8e33a85377d8354bfd404d9048797a78559310",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
