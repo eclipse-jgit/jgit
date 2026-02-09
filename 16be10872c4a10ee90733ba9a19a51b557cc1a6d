@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a411a835_887c90c2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-09T15:02:55Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tFile packedRefsFile \u003d new File(commonDirectory, Constants.PACKED_REFS);\n```",
+      "revId": "16be10872c4a10ee90733ba9a19a51b557cc1a6d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edabfeee_67d1244f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1080,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-09T15:02:55Z",
+      "side": 1,
+      "message": "This should assert that the *first* line contains the `sorted` keyword.",
+      "range": {
+        "startLine": 1079,
+        "startChar": 0,
+        "endLine": 1080,
+        "endChar": 33
+      },
+      "revId": "16be10872c4a10ee90733ba9a19a51b557cc1a6d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
