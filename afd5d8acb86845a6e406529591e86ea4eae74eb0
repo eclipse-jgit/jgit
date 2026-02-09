@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af8ed33d_d5714a1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-02-09T23:35:13Z",
+      "side": 1,
+      "message": "This is just make them effectively final so that lambdas are happy. We are only using setPlain and getPlain methods so that there is no extra overhead.",
+      "parentUuid": "c41a23d5_08a3c8fe",
+      "revId": "afd5d8acb86845a6e406529591e86ea4eae74eb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "772d509d_7a9b7c06",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
         "patchSetId": 1
@@ -100,6 +118,24 @@
       "writtenOn": "2026-01-29T09:00:47Z",
       "side": 1,
       "message": "Interesting. Does that work? Waiting in the main thread on a latch set in a shutdown hook?",
+      "revId": "afd5d8acb86845a6e406529591e86ea4eae74eb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78b05bec_5ca4ff58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-02-09T23:35:13Z",
+      "side": 1,
+      "message": "yeah, works for now.",
+      "parentUuid": "8e97bff4_f32e293e",
       "revId": "afd5d8acb86845a6e406529591e86ea4eae74eb0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
