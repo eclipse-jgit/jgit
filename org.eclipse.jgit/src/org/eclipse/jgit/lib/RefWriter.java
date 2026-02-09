@@ -139,6 +139,7 @@ public abstract class RefWriter {
 		if (peeled) {
 			w.write(RefDirectory.PACKED_REFS_HEADER);
 			w.write(RefDirectory.PACKED_REFS_PEELED);
+			w.write(RefDirectory.PACKED_REFS_SORTED);
 			w.write('\n');
 		}
 
