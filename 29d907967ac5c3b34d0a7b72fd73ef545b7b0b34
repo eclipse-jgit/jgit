@@ -16,6 +16,24 @@
       "message": "I don\u0027t know if it is OK to revert, @matthias.sohn@sap.com?",
       "revId": "29d907967ac5c3b34d0a7b72fd73ef545b7b0b34",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2afbff0_1c25f95e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-10T07:47:21Z",
+      "side": 1,
+      "message": "Yes, we need to revert I think best to 3.5.10, which is the latest version supporting embedded launch scripts, until we found a different solution. The 4.x version doesn\u0027t support embedding of launch scripts anymore but still supports nested jar files, in the issue https://github.com/spring-projects/spring-boot/issues/47666 alternative solutions are discussed.\n\nI already pushed a revert here: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1229711, please review that. \n\nFound this while adding an option to the Gc command in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1229712 and manual tests failed.",
+      "parentUuid": "80f9ede1_2de94825",
+      "revId": "29d907967ac5c3b34d0a7b72fd73ef545b7b0b34",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
