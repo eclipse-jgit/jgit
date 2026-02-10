@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40a972e5_cb6217dc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcBasicPackingTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-10T08:37:12Z",
+      "side": 1,
+      "message": "This is a pattern you\u0027ve used multiple times: would it be worth to just introduce a method called `reloadGcFromRepoConfig()` so that you can avoid also the comment?",
+      "range": {
+        "startLine": 437,
+        "startChar": 0,
+        "endLine": 438,
+        "endChar": 20
+      },
+      "revId": "c7792a1bbd4d06cf237f7c2b29abb915096a316a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f63eb1a_10ec372f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-10T08:37:12Z",
+      "side": 1,
+      "message": "Missing `@since 7.6`",
+      "revId": "c7792a1bbd4d06cf237f7c2b29abb915096a316a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c80f2cf_a07cd200",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-10T08:37:12Z",
+      "side": 1,
+      "message": "Missing `@since 7.6`",
+      "revId": "c7792a1bbd4d06cf237f7c2b29abb915096a316a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
