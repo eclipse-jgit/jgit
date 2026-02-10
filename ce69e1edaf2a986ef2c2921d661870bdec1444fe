@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67c086c5_58a53aba",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/GarbageCollectCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-10T08:42:35Z",
+      "side": 1,
+      "message": "This can be factored out into a method with a self-documenting name",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 46
+      },
+      "revId": "ce69e1edaf2a986ef2c2921d661870bdec1444fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "553de02c_f18faa00",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/GarbageCollectCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-10T08:42:35Z",
+      "side": 1,
+      "message": "nit: unrelated change",
+      "revId": "ce69e1edaf2a986ef2c2921d661870bdec1444fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
