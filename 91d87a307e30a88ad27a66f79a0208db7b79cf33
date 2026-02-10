@@ -22,6 +22,30 @@
       },
       "revId": "91d87a307e30a88ad27a66f79a0208db7b79cf33",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf61a009_914bb1eb",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-10T09:24:04Z",
+      "side": 1,
+      "message": "I think `1` and `0` should be handled correctly as boolean the git way if the enum contains values `true` and `false` by `DefaultTypedConfigGetter.getEnum()` which is used by `Config.getEnum()`.\n\nSee https://github.com/eclipse-jgit/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/lib/DefaultTypedConfigGetter.java#L97",
+      "parentUuid": "7ef7bb2b_c827a15d",
+      "range": {
+        "startLine": 83,
+        "startChar": 205,
+        "endLine": 83,
+        "endChar": 218
+      },
+      "revId": "91d87a307e30a88ad27a66f79a0208db7b79cf33",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
