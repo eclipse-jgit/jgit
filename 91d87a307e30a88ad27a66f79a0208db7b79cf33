@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ef7bb2b_c827a15d",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-02-10T08:44:16Z",
+      "side": 1,
+      "message": "It would be best to say explicitly that can be set to `true|false|notbare`, not generically to a boolean.\n\nIn JGit we tend to also accept `1` and `0` as boolean values, but not here, therefore it would be to clarify that it\u0027s an enum.",
+      "range": {
+        "startLine": 83,
+        "startChar": 205,
+        "endLine": 83,
+        "endChar": 218
+      },
+      "revId": "91d87a307e30a88ad27a66f79a0208db7b79cf33",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
