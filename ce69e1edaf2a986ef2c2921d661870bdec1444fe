@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "498ad24a_dc32c2c6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/GarbageCollectCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-10T09:23:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67c086c5_58a53aba",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 46
+      },
+      "revId": "ce69e1edaf2a986ef2c2921d661870bdec1444fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "553de02c_f18faa00",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-02-10T08:42:35Z",
       "side": 1,
       "message": "nit: unrelated change",
+      "revId": "ce69e1edaf2a986ef2c2921d661870bdec1444fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07298e8d_85e96d3f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/GarbageCollectCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-10T09:23:15Z",
+      "side": 1,
+      "message": "moved to a separate change",
+      "parentUuid": "553de02c_f18faa00",
       "revId": "ce69e1edaf2a986ef2c2921d661870bdec1444fe",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
