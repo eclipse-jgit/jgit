@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6ba8998_7a55179a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-02-10T23:16:20Z",
+      "side": 1,
+      "message": "Any reason for this not to implement Iterable?",
+      "revId": "acf1bea7848953e95ff4d0c863200928b021f7ee",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
