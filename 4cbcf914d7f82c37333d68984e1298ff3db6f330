@@ -16,6 +16,24 @@
       "message": "Can you add a test which confirms that the packed refs get sorted if they were unsorted?",
       "revId": "4cbcf914d7f82c37333d68984e1298ff3db6f330",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddd8064e_8e35bd01",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-02-10T02:39:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7340cf88_0a220c93",
+      "revId": "4cbcf914d7f82c37333d68984e1298ff3db6f330",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
