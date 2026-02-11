@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.midx;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -20,6 +21,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndexLoader.MultiPackIndexFormatException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.NB;
 
@@ -34,20 +36,25 @@ class MultiPackIndexV1 implements MultiPackIndex {
 
 	private final String[] packNames;
 
-	private final byte[] bitmappedPackfiles;
-
 	private final OffsetLookup offsets;
 
 	private final PackOffset result = new PackOffset();
 
+	private final ReverseIndex ridx;
+
+	private final byte[] checksum;
+
 	MultiPackIndexV1(int hashLength, @NonNull byte[] oidFanout,
 			@NonNull byte[] oidLookup, String[] packNames,
 			byte[] bitmappedPackfiles, byte[] objectOffsets,
-			byte[] largeObjectOffsets) throws MultiPackIndexFormatException {
-		this.bitmappedPackfiles = bitmappedPackfiles;
+			byte[] largeObjectOffsets, byte[] bitmapPackOrder, byte[] checksum)
+			throws MultiPackIndexFormatException {
 		this.idx = new OidLookup(hashLength, oidFanout, oidLookup);
 		this.offsets = new OffsetLookup(objectOffsets, largeObjectOffsets);
 		this.packNames = packNames;
+		this.ridx = new ReverseIndex(bitmapPackOrder, idx, offsets,
+				bitmappedPackfiles);
+		this.checksum = checksum;
 	}
 
 	@Override
@@ -63,6 +70,21 @@ class MultiPackIndexV1 implements MultiPackIndex {
 	@Override
 	public int findPosition(AnyObjectId oid) {
 		return idx.findMultiPackIndexPosition(oid);
+	}
+
+	@Override
+	public int findBitmapPosition(PackOffset po) {
+		return ridx.findBitmapPosition(po);
+	}
+
+	@Override
+	public ObjectId getObjectAtBitmapPosition(int bitmapPosition) {
+		return ridx.getObjectId(bitmapPosition);
+	}
+
+	@Override
+	public ObjectId getObjectAt(int position) {
+		return idx.getObjectAt(position);
 	}
 
 	@Override
@@ -88,23 +110,30 @@ class MultiPackIndexV1 implements MultiPackIndex {
 	}
 
 	@Override
+	public byte[] getChecksum() {
+		return checksum;
+	}
+
+	@Override
 	public long getMemorySize() {
 		int packNamesSize = Arrays.stream(packNames)
 				.mapToInt(s -> s.getBytes(StandardCharsets.UTF_8).length).sum();
-		return packNamesSize + byteArrayLengh(bitmappedPackfiles)
-				+ idx.getMemorySize() + offsets.getMemorySize();
+		return packNamesSize + ridx.getMemorySize() + idx.getMemorySize()
+				+ offsets.getMemorySize() + checksum.length;
 	}
+
 
 	@Override
 	public String toString() {
 		return "MultiPackIndexV1 {idx=" + idx + ", packfileNames=" //$NON-NLS-1$ //$NON-NLS-2$
-				+ Arrays.toString(packNames) + ", bitmappedPackfiles=" //$NON-NLS-1$
-				+ byteArrayToString(bitmappedPackfiles) + ", objectOffsets=" //$NON-NLS-1$
+				+ Arrays.toString(packNames) + ", ridx=" //$NON-NLS-1$
+				+ ridx + ", objectOffsets=" //$NON-NLS-1$
 				+ offsets + '}';
 	}
 
-	private static String byteArrayToString(byte[] array) {
-		return array == null ? "null" : new String(array); //$NON-NLS-1$
+	@Override
+	public MidxIterator iterator() {
+		return new LocalMidxIterator(this);
 	}
 
 	private static int byteArrayLengh(byte[] array) {
@@ -246,6 +275,11 @@ class MultiPackIndexV1 implements MultiPackIndex {
 			return -1;
 		}
 
+		ObjectId getObjectAt(int midxPosition) {
+			int rawOffset = hashLength * midxPosition;
+			return ObjectId.fromRaw(oidLookup, rawOffset);
+		}
+
 		void resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
 				int matchLimit) {
 			if (matches.size() >= matchLimit) {
@@ -306,6 +340,130 @@ class MultiPackIndexV1 implements MultiPackIndex {
 
 		int getObjectCount() {
 			return fanoutTable[FANOUT - 1];
+		}
+
+		void readOidAt(int position, MutableObjectId output) {
+			output.fromRaw(oidLookup, idOffset(position));
+		}
+	}
+
+	/**
+	 * Iterates over a single midx
+	 */
+	private static class LocalMidxIterator implements MidxIterator {
+
+		private final MultiPackIndexV1 midx;
+
+		private int position;
+
+		private final MutableEntry entry;
+
+		/**
+		 * Iterator over a single idx (ignoring the bse)
+		 *
+		 * @param midx
+		 *            the midx to iterate
+		 */
+		LocalMidxIterator(MultiPackIndexV1 midx) {
+			this.midx = midx;
+			this.entry = new MutableEntry();
+		}
+
+		@Override
+		public boolean hasNext() {
+			return position < midx.idx.getObjectCount();
+		}
+
+		@Override
+		public MutableEntry next() {
+			MutableEntry current = peek();
+			position++;
+			return current;
+		}
+
+		@Override
+		public MutableEntry peek() {
+			midx.idx.readOidAt(position, entry.oid);
+			midx.offsets.getObjectOffset(position, entry.packOffset);
+			return entry;
+		}
+
+		@Override
+		public List<String> getPackNames() {
+			return Arrays.asList(midx.getPackNames());
+		}
+	}
+
+	private static class ReverseIndex {
+		private final byte[] bitmappedPackfiles;
+
+		private final byte[] bitmapPackOrder;
+
+		private final OffsetLookup offsets;
+
+		private final OidLookup oids;
+
+		ReverseIndex(byte[] bitmapPackOrder, OidLookup oids,
+				OffsetLookup offsets, byte[] bitmappedPackfiles) {
+			this.bitmappedPackfiles = bitmappedPackfiles;
+			this.bitmapPackOrder = bitmapPackOrder;
+			this.oids = oids;
+			this.offsets = offsets;
+		}
+
+		public int findBitmapPosition(PackOffset po) {
+			if (bitmapPackOrder == null || bitmappedPackfiles == null) {
+				return -1;
+			}
+
+			/*
+			 * Bitmapped Packfiles (ID: {'B', 'T', 'M', 'P'}) Stores a table of
+			 * two 4-byte unsigned integers in network order. Each table entry
+			 * corresponds to a single pack (in the order that they appear above
+			 * in the `PNAM` chunk). The values for each table entry are as
+			 * follows: - The first bit position (in pseudo-pack order, see
+			 * below) to contain an object from that pack. - The number of bits
+			 * whose objects are selected from that pack.
+			 */
+			int packStartBit = NB.decodeInt32(bitmappedPackfiles,
+					po.getPackId() * 8);
+			int packBitLength = NB.decodeInt32(bitmappedPackfiles,
+					(po.getPackId() * 8) + 4);
+			return binarySearch(packStartBit, packStartBit + packBitLength, po);
+		}
+
+		private int binarySearch(int start, int end, PackOffset needle) {
+			PackOffset result = new PackOffset();
+			int low = start;
+			int high = end;
+			while (low < high) {
+				int mid = (low + high) >>> 1;
+				int midxPosition = NB.decodeInt32(bitmapPackOrder, mid * 4);
+				offsets.getObjectOffset(midxPosition, result);
+				int cmp = needle.compareTo(result);
+				if (cmp < 0) {
+					high = mid;
+				} else if (cmp == 0) {
+					return mid;
+				} else {
+					low = mid + 1;
+				}
+			}
+			return -1;
+		}
+
+		public ObjectId getObjectId(int bitmapPosition) {
+			if (bitmapPackOrder == null) {
+				return null;
+			}
+			int midxPosition = NB.decodeInt32(bitmapPackOrder,
+					bitmapPosition * 4);
+			return oids.getObjectAt(midxPosition);
+		}
+
+		public long getMemorySize() {
+			return (long) byteArrayLengh(bitmapPackOrder)
+					+ byteArrayLengh(bitmappedPackfiles);
 		}
 	}
 }

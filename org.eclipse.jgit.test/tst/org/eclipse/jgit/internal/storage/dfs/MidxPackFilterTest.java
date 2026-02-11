@@ -130,6 +130,81 @@ public class MidxPackFilterTest {
 	}
 
 	@Test
+	public void useMidx_unconnectedValidMidx_onlyTop() {
+
+		DfsPackDescription gc = pack("aaaa", GC, PACK);
+		DfsPackDescription compact = pack("cccc", COMPACT, PACK);
+		DfsPackDescription firstMidx = pack("midx1", GC, MULTI_PACK_INDEX);
+		firstMidx.setCoveredPacks(List.of(gc, compact));
+
+		DfsPackDescription unconnectedValid = pack("randoMidx", GC,
+				MULTI_PACK_INDEX);
+		unconnectedValid.setCoveredPacks(List.of(gc));
+
+		DfsPackDescription compact2 = pack("dddd", COMPACT, PACK);
+		DfsPackDescription compact3 = pack("eeee", COMPACT, PACK);
+		DfsPackDescription topMidx = pack("midx2", GC, MULTI_PACK_INDEX);
+		topMidx.setCoveredPacks(List.of(compact2, compact3));
+		topMidx.setMultiPackIndexBase(firstMidx);
+
+		List<DfsPackDescription> reorgPacks = MidxPackFilter
+				.useMidx(List.of(gc, compact, firstMidx, unconnectedValid,
+						compact2, compact3, topMidx));
+		assertEquals(1, reorgPacks.size());
+		assertTrue(reorgPacks.contains(topMidx));
+	}
+
+	@Test
+	public void useMidx_unconnectedInvalidMidx_onlyTop() {
+		DfsPackDescription gc = pack("aaaa", GC, PACK);
+		DfsPackDescription compact = pack("cccc", COMPACT, PACK);
+		DfsPackDescription firstMidx = pack("midx1", GC, MULTI_PACK_INDEX);
+		firstMidx.setCoveredPacks(List.of(gc, compact));
+
+		DfsPackDescription notCommitted = pack("not-in-db", GC, PACK);
+		DfsPackDescription unconnectedInvalid = pack("randoMidx", GC,
+				MULTI_PACK_INDEX);
+		unconnectedInvalid.setCoveredPacks(List.of(notCommitted));
+
+		DfsPackDescription compact2 = pack("dddd", COMPACT, PACK);
+		DfsPackDescription compact3 = pack("eeee", COMPACT, PACK);
+		DfsPackDescription topMidx = pack("midx2", GC, MULTI_PACK_INDEX);
+		topMidx.setCoveredPacks(List.of(compact2, compact3));
+		topMidx.setMultiPackIndexBase(firstMidx);
+
+		List<DfsPackDescription> reorgPacks = MidxPackFilter
+				.useMidx(List.of(gc, compact, firstMidx, unconnectedInvalid,
+						compact2, compact3, topMidx));
+		assertEquals(1, reorgPacks.size());
+		assertTrue(reorgPacks.contains(topMidx));
+	}
+
+	@Test
+	public void useMidx_latestMidxInvalid_takeNext() {
+		DfsPackDescription gc = pack("aaaa", GC, PACK);
+		DfsPackDescription compact = pack("cccc", COMPACT, PACK);
+		DfsPackDescription firstMidx = pack("midx1", GC, MULTI_PACK_INDEX);
+		firstMidx.setCoveredPacks(List.of(gc, compact));
+
+		DfsPackDescription compact2 = pack("dddd", COMPACT, PACK);
+		DfsPackDescription compact3 = pack("eeee", COMPACT, PACK);
+		DfsPackDescription topMidx = pack("midx2", GC, MULTI_PACK_INDEX);
+		topMidx.setCoveredPacks(List.of(compact2, compact3));
+		topMidx.setMultiPackIndexBase(firstMidx);
+
+		DfsPackDescription notCommitted = pack("not-in-db", GC, PACK);
+		DfsPackDescription unconnectedInvalid = pack("randoMidx", GC,
+				MULTI_PACK_INDEX);
+		unconnectedInvalid.setCoveredPacks(List.of(notCommitted));
+
+		List<DfsPackDescription> reorgPacks = MidxPackFilter
+				.useMidx(List.of(gc, compact, firstMidx, unconnectedInvalid,
+						compact2, compact3, topMidx));
+		assertEquals(1, reorgPacks.size());
+		assertTrue(reorgPacks.contains(topMidx));
+	}
+
+	@Test
 	public void skipMidx_oneMidxCoversAll_allPacks() {
 		DfsPackDescription gc = pack("aaaa", GC, PACK);
 		DfsPackDescription compact = pack("cccc", COMPACT, PACK);

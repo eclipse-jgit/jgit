@@ -56,7 +56,7 @@ maven assertj
 	dependency {
 		groupId = "org.assertj"
 		artifactId = "assertj-core"
-		version = "3.27.6"
+		version = "3.27.7"
 	}
 }
 
@@ -97,12 +97,12 @@ maven bytebuddy
 	dependency {
 		groupId = "net.bytebuddy"
 		artifactId = "byte-buddy"
-		version = "1.18.2"
+		version = "1.18.4"
 	}
 	dependency {
 		groupId = "net.bytebuddy"
 		artifactId = "byte-buddy-agent"
-		version = "1.18.2"
+		version = "1.18.4"
 	}
 }
 
@@ -235,7 +235,7 @@ maven mockito
 	dependency {
 		groupId = "org.mockito"
 		artifactId = "mockito-core"
-		version = "5.20.0"
+		version = "5.21.0"
 	}
 }
 
@@ -248,12 +248,12 @@ maven sshd
 	dependency {
 		groupId = "org.apache.sshd"
 		artifactId = "sshd-osgi"
-		version = "2.16.0"
+		version = "2.17.1"
 	}
 	dependency {
 		groupId = "org.apache.sshd"
 		artifactId = "sshd-sftp"
-		version = "2.16.0"
+		version = "2.17.1"
 	}
 }
 

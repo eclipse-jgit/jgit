@@ -11,14 +11,20 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.zip.DataFormatException;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
+import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 
 /**
@@ -31,7 +37,7 @@ import org.eclipse.jgit.lib.ObjectLoader;
  * and forward to the pack.
  */
 public abstract sealed class DfsPackFileMidx extends DfsPackFile
-		permits DfsPackFileMidxNPacks {
+		permits DfsPackFileMidxNPacks, DfsPackFileMidxSingle {
 
 	/**
 	 * Create a midx pack
@@ -49,6 +55,10 @@ public abstract sealed class DfsPackFileMidx extends DfsPackFile
 	public static DfsPackFileMidx create(DfsBlockCache cache,
 			DfsPackDescription desc, List<DfsPackFile> requiredPacks,
 			@Nullable DfsPackFileMidx base) {
+		if (desc.getCoveredPacks().size() == 1) {
+			return new DfsPackFileMidxSingle(cache, desc, requiredPacks.get(0),
+					base);
+		}
 		return new DfsPackFileMidxNPacks(cache, desc, requiredPacks, base);
 	}
 
@@ -100,6 +110,24 @@ public abstract sealed class DfsPackFileMidx extends DfsPackFile
 	}
 
 	/**
+	 * Get the objectId at the corresponding position in the midx chain up to
+	 * this point
+	 * <p>
+	 * In a chain with midx-tip (100 objects) and midx-base (50 objects),
+	 * positions 0-49 belong to the base midx and 50-149 to the tip midx.
+	 *
+	 * @param ctx
+	 *            a reader for the midx data
+	 * @param nthPosition
+	 *            position in midx chain
+	 * @return the objectId
+	 * @throws IOException
+	 *             a problem reading midx bytes
+	 */
+	abstract ObjectId getObjectAt(DfsReader ctx, long nthPosition)
+			throws IOException;
+
+	/**
 	 * Count of objects in this <b>pack</b> (i.e. including, recursively, its
 	 * base)
 	 *
@@ -113,17 +141,42 @@ public abstract sealed class DfsPackFileMidx extends DfsPackFile
 		return (int) getPackDescription().getObjectCount();
 	}
 
-	@Override
-	public PackIndex getPackIndex(DfsReader ctx) {
-		throw new IllegalStateException(
-				"Shouldn't use multipack index if the primary index is needed"); //$NON-NLS-1$
-	}
+	/**
+	 * Return checksum of the midx
+	 *
+	 * @param ctx
+	 *            a reader
+	 * @return checksum of the midx
+	 * @throws IOException
+	 *             an error reading the file
+	 */
+	protected abstract byte[] getChecksum(DfsReader ctx) throws IOException;
 
 	@Override
-	public PackReverseIndex getReverseIdx(DfsReader ctx) {
-		throw new IllegalStateException(
-				"Shouldn't use multipack index if the reverse index is needed"); //$NON-NLS-1$
+	public final PackIndex getPackIndex(DfsReader ctx) {
+		return new MidxPackIndex(this, ctx);
 	}
+
+	/**
+	 * Return all objects in this midx (not recursively) as ObjectToPack
+	 * instances (oid, offset, type). Ordered by sha1.
+	 * <p>
+	 * ObjectToPack is the preferred format for the bitmap builder. This can
+	 * probably be optimized.
+	 *
+	 * @param ctx
+	 *            a reader
+	 * @return list of objects in this midx (NOT in its chain) with offset and
+	 *         type
+	 * @throws IOException
+	 *             an error reading the midx
+	 */
+	abstract List<ObjectToPack> getLocalObjects(DfsReader ctx)
+			throws IOException;
+
+	@Override
+	public abstract PackReverseIndex getReverseIdx(DfsReader ctx)
+			throws IOException;
 
 	@Override
 	ObjectLoader load(DfsReader ctx, long midxOffset) throws IOException {
@@ -329,6 +382,103 @@ public abstract sealed class DfsPackFileMidx extends DfsPackFile
 		 */
 		long getPackOffset() {
 			return midxOffset - packStart;
+		}
+	}
+
+	private static class MidxPackIndex implements PackIndex {
+
+		private final DfsPackFileMidx pack;
+
+		private final DfsReader ctx;
+
+		MidxPackIndex(DfsPackFileMidx pack, DfsReader ctx) {
+			this.pack = pack;
+			this.ctx = ctx;
+		}
+
+		@Override
+		public Iterator<MutableEntry> iterator() {
+			throw new UnsupportedOperationException("Not implemented yet");
+		}
+
+		@Override
+		public long getObjectCount() {
+			try {
+				return pack.getObjectCount(ctx);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		@Override
+		public long getOffset64Count() {
+			// TODO(ifrade): This method seems to be used only for stats.
+			// Maybe we can just remove it.
+			return 0;
+		}
+
+		@Override
+		public ObjectId getObjectId(long nthPosition) {
+			try {
+				return pack.getObjectAt(ctx, nthPosition);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		@Override
+		public long getOffset(long nthPosition) {
+			ObjectId objectAt;
+			try {
+				objectAt = pack.getObjectAt(ctx, nthPosition);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			if (objectAt == null) {
+				return -1;
+			}
+
+			return findOffset(objectAt);
+		}
+
+		@Override
+		public long findOffset(AnyObjectId objId) {
+			try {
+				return pack.findOffset(ctx, objId);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		@Override
+		public int findPosition(AnyObjectId objId) {
+			try {
+				return pack.findIdxPosition(ctx, objId);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		@Override
+		public long findCRC32(AnyObjectId objId)
+				throws UnsupportedOperationException {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean hasCRC32Support() {
+			return false;
+		}
+
+		@Override
+		public void resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
+				int matchLimit) throws IOException {
+			pack.resolve(ctx, matches, id, matchLimit);
+		}
+
+		@Override
+		public byte[] getChecksum() {
+			throw new UnsupportedOperationException();
 		}
 	}
 }
