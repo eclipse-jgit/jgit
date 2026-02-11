@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a62bd60_53189b1f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MidxIterators.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-02-11T19:47:09Z",
+      "side": 1,
+      "message": "Whitespace",
+      "revId": "49d29eb70c50fce9fde382fafee102dbd2523edf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
