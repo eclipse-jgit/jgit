@@ -88,6 +88,24 @@
       "parentUuid": "10d359af_36b0aa37",
       "revId": "87f19cfdacafc30c9baca60166e249cc8fe383e6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9e12e05_8788889d",
+        "filename": "bazelw",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-02-11T06:07:06Z",
+      "side": 0,
+      "message": "While the current split (library module + standalone wrapper) avoids duplicate dependency universes, I wonder whether we could simplify this further.\n\nWould a variant of approach (2) be viable?\n\nConcretely:\n\n* Keep maven.install() in both JGit and Gerrit, contributing to the same `external_deps` repository.\n* In Gerrit (as root module), enforce deterministic resolution via:\n*** `conflict_resolution_strategy \u003d \"pinned\"`\n*** `force_version \u003d True`\n* Potentially use `known_contributing_module` in `rules_jvm_external` to explicitly model JGit and Gerrit as a contributing modules.\n\nIf resolution is strictly root-preferential under `pinned` mode, this could allow us to:\n* avoid the standalone wrapper, and\n* still guarantee a single effective classpath at compile and runtime.\n\nThe open question is whether this pattern is officially supported and robust enough to prevent duplicate artifacts and compile-time vs runtime mismatches, or whether the current split-module approach remains the safer long-term design.",
+      "parentUuid": "4a51e036_48e73be3",
+      "revId": "87f19cfdacafc30c9baca60166e249cc8fe383e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
