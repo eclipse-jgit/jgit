@@ -37,7 +37,7 @@ SSHD_VERSION = "2.17.1"
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(
-    name = "jgit_deps",
+    name = "external_deps",
     artifacts = [
         "args4j:args4j:2.37",
         "com.google.code.gson:gson:2.13.2",
@@ -87,9 +87,10 @@ maven.install(
     duplicate_version_warning = "warn",
     fail_on_missing_checksum = True,
     fetch_sources = True,
+    known_contributing_modules = ["jgit"],
     repositories = [
         "https://repo1.maven.org/maven2",
     ],
     strict_visibility = True,
 )
-use_repo(maven, "jgit_deps")
+use_repo(maven, "external_deps")
