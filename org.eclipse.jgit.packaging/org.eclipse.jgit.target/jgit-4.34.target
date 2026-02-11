@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.34" sequenceNumber="1765188982">
+<target name="jgit-4.34" sequenceNumber="1770852958">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20230916-1400"/>
@@ -65,13 +65,13 @@
         <dependency>
           <groupId>org.apache.sshd</groupId>
           <artifactId>sshd-osgi</artifactId>
-          <version>2.16.0</version>
+          <version>2.17.1</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.apache.sshd</groupId>
           <artifactId>sshd-sftp</artifactId>
-          <version>2.16.0</version>
+          <version>2.17.1</version>
           <type>jar</type>
         </dependency>
       </dependencies>
@@ -81,7 +81,7 @@
         <dependency>
           <groupId>org.mockito</groupId>
           <artifactId>mockito-core</artifactId>
-          <version>5.20.0</version>
+          <version>5.21.0</version>
           <type>jar</type>
         </dependency>
       </dependencies>
@@ -207,13 +207,13 @@
         <dependency>
           <groupId>net.bytebuddy</groupId>
           <artifactId>byte-buddy</artifactId>
-          <version>1.18.2</version>
+          <version>1.18.4</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>net.bytebuddy</groupId>
           <artifactId>byte-buddy-agent</artifactId>
-          <version>1.18.2</version>
+          <version>1.18.4</version>
           <type>jar</type>
         </dependency>
       </dependencies>
@@ -251,7 +251,7 @@
         <dependency>
           <groupId>org.assertj</groupId>
           <artifactId>assertj-core</artifactId>
-          <version>3.27.6</version>
+          <version>3.27.7</version>
           <type>jar</type>
         </dependency>
       </dependencies>

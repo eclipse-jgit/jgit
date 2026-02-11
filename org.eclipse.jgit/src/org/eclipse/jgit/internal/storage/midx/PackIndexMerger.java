@@ -92,6 +92,8 @@ class PackIndexMerger {
 
 	private final int uniqueObjectCount;
 
+	private final int[] objectsPerPack;
+
 	/**
 	 * Build a common view of these pack indexes
 	 * <p>
@@ -104,6 +106,7 @@ class PackIndexMerger {
 		this.packNames = packs.keySet().stream().toList();
 		this.indexes = packs.values().stream().toList();
 
+		objectsPerPack = new int[packNames.size()];
 		// Iterate for duplicates
 		int objectCount = 0;
 		boolean hasLargeOffsets = false;
@@ -127,6 +130,7 @@ class PackIndexMerger {
 
 			lastSeen.fromObjectId(entry.oid);
 			objectCount++;
+			objectsPerPack[entry.packId]++;
 		}
 		uniqueObjectCount = objectCount;
 		offsetsOver31BitsCount = over31bits;
@@ -161,6 +165,16 @@ class PackIndexMerger {
 	 */
 	int getOffsetsOver31BitsCount() {
 		return offsetsOver31BitsCount;
+	}
+
+	/**
+	 * Number of objects selected for the midx per packid
+	 *
+	 * @return array where position n contains the amount of objects selected
+	 *         for pack id n
+	 */
+	int[] getObjectsPerPack() {
+		return objectsPerPack;
 	}
 
 	/**

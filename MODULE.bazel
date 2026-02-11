@@ -1,7 +1,7 @@
 module(name = "jgit")
 
 bazel_dep(name = "rules_java", version = "8.11.0")
-bazel_dep(name = "rules_jvm_external", version = "6.7")
+bazel_dep(name = "rules_jvm_external", version = "6.10")
 bazel_dep(name = "rbe_autoconfig")
 git_override(
     module_name = "rbe_autoconfig",
@@ -23,7 +23,7 @@ git_repository(
 
 BOUNCYCASTLE_VERSION = "1.83"
 
-BYTE_BUDDY_VERSION = "1.18.2"
+BYTE_BUDDY_VERSION = "1.18.4"
 
 JETTY_VERSION = "12.1.5"
 
@@ -33,15 +33,15 @@ JNA_VERSION = "5.18.1"
 
 SLF4J_VERSION = "2.0.17"
 
-SSHD_VERSION = "2.16.0"
+SSHD_VERSION = "2.17.1"
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(
-    name = "jgit_deps",
+    name = "external_deps",
     artifacts = [
         "args4j:args4j:2.37",
         "com.google.code.gson:gson:2.13.2",
-        "com.google.errorprone:error_prone_type_annotations:2.38.0",
+        "com.google.errorprone:error_prone_type_annotations:2.46.0",
         "com.googlecode.javaewah:JavaEWAH:1.2.3",
         "com.jcraft:jsch:0.1.55",
         "com.jcraft:jzlib:1.1.3",
@@ -62,7 +62,7 @@ maven.install(
         "org.apache.httpcomponents:httpcore:4.4.16",
         "org.apache.sshd:sshd-osgi:" + SSHD_VERSION,
         "org.apache.sshd:sshd-sftp:" + SSHD_VERSION,
-        "org.assertj:assertj-core:3.27.6",
+        "org.assertj:assertj-core:3.27.7",
         "org.bouncycastle:bcpg-jdk18on:" + BOUNCYCASTLE_VERSION,
         "org.bouncycastle:bcpkix-jdk18on:" + BOUNCYCASTLE_VERSION,
         "org.bouncycastle:bcprov-jdk18on:" + BOUNCYCASTLE_VERSION,
@@ -78,7 +78,7 @@ maven.install(
         "org.eclipse.jetty.ee8:jetty-ee8-security:" + JETTY_VERSION,
         "org.eclipse.jetty.ee8:jetty-ee8-servlet:" + JETTY_VERSION,
         "org.hamcrest:hamcrest:3.0",
-        "org.mockito:mockito-core:5.20.0",
+        "org.mockito:mockito-core:5.21.0",
         "org.objenesis:objenesis:3.4",
         "org.openjdk.jmh:jmh-core:" + JMH_VERSION,
         "org.openjdk.jmh:jmh-generator-annprocess:" + JMH_VERSION,
@@ -89,9 +89,10 @@ maven.install(
     duplicate_version_warning = "warn",
     fail_on_missing_checksum = True,
     fetch_sources = True,
+    known_contributing_modules = ["jgit"],
     repositories = [
         "https://repo1.maven.org/maven2",
     ],
     strict_visibility = True,
 )
-use_repo(maven, "jgit_deps")
+use_repo(maven, "external_deps")

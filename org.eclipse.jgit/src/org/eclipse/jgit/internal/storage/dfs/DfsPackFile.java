@@ -241,20 +241,6 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 	}
 
 	/**
-	 * Get the PackIndex for this PackFile.
-	 *
-	 * @param ctx
-	 *            reader context to support reading from the backing store if
-	 *            the index is not already loaded in memory.
-	 * @return the PackIndex.
-	 * @throws java.io.IOException
-	 *             the pack index is not available, or is corrupt.
-	 */
-	public PackIndex getPackIndex(DfsReader ctx) throws IOException {
-		return idx(ctx);
-	}
-
-	/**
 	 * Get a view of this packfile as a set of objects
 	 * <p>
 	 * To use when the caller only needs to check inclusion (without specific
@@ -267,10 +253,20 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 	 *             cannot load the backing data from storage
 	 */
 	public ObjectIdSet asObjectIdSet(DfsReader ctx) throws IOException {
-		return idx(ctx);
+		return getPackIndex(ctx);
 	}
 
-	private PackIndex idx(DfsReader ctx) throws IOException {
+	/**
+	 * Get the PackIndex for this PackFile.
+	 *
+	 * @param ctx
+	 *            reader context to support reading from the backing store if
+	 *            the index is not already loaded in memory.
+	 * @return the PackIndex.
+	 * @throws java.io.IOException
+	 *             the pack index is not available, or is corrupt.
+	 */
+	public PackIndex getPackIndex(DfsReader ctx) throws IOException {
 		if (index != null) {
 			return index;
 		}
@@ -399,7 +395,8 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 			return reverseIndex;
 		}
 
-		reverseIndex = indexFactory.getPackIndexes().reverseIndex(ctx, idx(ctx));
+		reverseIndex = indexFactory.getPackIndexes().reverseIndex(ctx,
+				getPackIndex(ctx));
 		if (reverseIndex == null) {
 			throw new IOException(
 					"Couldn't get a reference to the reverse index"); //$NON-NLS-1$
@@ -460,12 +457,12 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 	 *             the pack index is not available, or is corrupt.
 	 */
 	public boolean hasObject(DfsReader ctx, AnyObjectId id) throws IOException {
-		final long offset = idx(ctx).findOffset(id);
+		final long offset = getPackIndex(ctx).findOffset(id);
 		return 0 < offset && !isCorrupt(offset);
 	}
 
 	int findIdxPosition(DfsReader ctx, AnyObjectId id) throws IOException {
-		return idx(ctx).findPosition(id);
+		return getPackIndex(ctx).findPosition(id);
 	}
 
 	/**
@@ -482,12 +479,12 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 	 */
 	ObjectLoader get(DfsReader ctx, AnyObjectId id)
 			throws IOException {
-		long offset = idx(ctx).findOffset(id);
+		long offset = getPackIndex(ctx).findOffset(id);
 		return 0 < offset && !isCorrupt(offset) ? load(ctx, offset) : null;
 	}
 
 	long findOffset(DfsReader ctx, AnyObjectId id) throws IOException {
-		return idx(ctx).findOffset(id);
+		return getPackIndex(ctx).findOffset(id);
 	}
 
 	/**
@@ -513,7 +510,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 			if (skipFound && otp.isFound()) {
 				continue;
 			}
-			long p = idx(ctx).findOffset(otp);
+			long p = getPackIndex(ctx).findOffset(otp);
 			if (p <= 0 || isCorrupt(p)) {
 				continue;
 			}
@@ -526,7 +523,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 
 	void resolve(DfsReader ctx, Set<ObjectId> matches, AbbreviatedObjectId id,
 			int matchLimit) throws IOException {
-		idx(ctx).resolve(matches, id, matchLimit);
+		getPackIndex(ctx).resolve(matches, id, matchLimit);
 	}
 
 	private byte[] decompress(long position, int sz, DfsReader ctx)
@@ -703,11 +700,11 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 		try {
 			quickCopy = ctx.quickCopy(this, dataOffset, dataLength);
 
-			if (validate && idx(ctx).hasCRC32Support()) {
+			if (validate && getPackIndex(ctx).hasCRC32Support()) {
 				assert(crc1 != null);
 				// Index has the CRC32 code cached, validate the object.
 				//
-				expectedCRC = idx(ctx).findCRC32(src);
+				expectedCRC = getPackIndex(ctx).findCRC32(src);
 				if (quickCopy != null) {
 					quickCopy.crc32(crc1, dataOffset, (int) dataLength);
 				} else {
@@ -1000,7 +997,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 
 	private long findDeltaBase(DfsReader ctx, ObjectId baseId)
 			throws IOException, MissingObjectException {
-		long ofs = idx(ctx).findOffset(baseId);
+		long ofs = getPackIndex(ctx).findOffset(baseId);
 		if (ofs < 0) {
 			throw new MissingObjectException(baseId,
 					JGitText.get().missingDeltaBase);
@@ -1094,7 +1091,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 	}
 
 	long getObjectSize(DfsReader ctx, AnyObjectId id) throws IOException {
-		final long offset = idx(ctx).findOffset(id);
+		final long offset = getPackIndex(ctx).findOffset(id);
 		return 0 < offset ? getObjectSize(ctx, offset) : -1;
 	}
 
@@ -1545,7 +1542,8 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 				PackBitmapIndex bmidx;
 				try {
 					bmidx = PackBitmapIndex.read(alignTo8kBlocks(rc),
-							() -> pack.idx(ctx), () -> pack.getReverseIdx(ctx),
+							() -> pack.getPackIndex(ctx),
+							() -> pack.getReverseIdx(ctx),
 							ctx.getOptions().shouldLoadRevIndexInParallel());
 				} finally {
 					size = rc.position();

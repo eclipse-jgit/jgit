@@ -9,12 +9,15 @@
  */
 package org.eclipse.jgit.internal.storage.dfs;
 
-import org.eclipse.jgit.internal.storage.pack.PackExt;
-
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 
 /**
  * Format a flat list of packs and midxs into a valid list of packs.
@@ -28,6 +31,23 @@ import java.util.stream.Collectors;
 public class MidxPackFilter {
 
 	private MidxPackFilter() {
+	}
+
+	private static Comparator<DfsPackDescription> midxComparator = Comparator
+			.comparingLong(DfsPackDescription::getLastModified)
+			// If multiple midx where written at the same time, take the one
+			// with covering most objects first (it must be the tip)
+			.thenComparingLong(MidxPackFilter::getTotalCoveredObjects)
+			.reversed();
+
+	private static long getTotalCoveredObjects(DfsPackDescription desc) {
+		long objCount = 0;
+		DfsPackDescription current = desc;
+		while (current != null) {
+			objCount += current.getObjectCount();
+			current = current.getMultiPackIndexBase();
+		}
+		return objCount;
 	}
 
 	/**
@@ -59,40 +79,60 @@ public class MidxPackFilter {
 	 */
 	public static List<DfsPackDescription> useMidx(
 			List<DfsPackDescription> packs) {
-		// Take the packs covered by the midxs out of the list
 		List<DfsPackDescription> midxs = packs.stream()
 				.filter(desc -> desc.hasFileExt(PackExt.MULTI_PACK_INDEX))
-				.toList();
+				.sorted(midxComparator).toList();
 		if (midxs.isEmpty()) {
 			return packs;
 		}
 
-		Set<DfsPackDescription> inputPacks = new HashSet<>(packs);
-		Set<DfsPackDescription> allCoveredPacks = new HashSet<>();
-		for (DfsPackDescription midx : midxs) {
-			Set<DfsPackDescription> coveredPacks = new HashSet<>();
-			findCoveredPacks(midx, coveredPacks);
-			if (!inputPacks.containsAll(coveredPacks)) {
-				// This midx references packs not in the pack db.
-				// It could be part of a chain, so we just ignore all midxs
-				return skipMidxs(packs);
-			}
-			allCoveredPacks.addAll(coveredPacks);
+		Set<DfsPackDescription> packsSet = new HashSet<>(packs);
+		Optional<DfsPackDescription> bestMidx = midxs.stream()
+				.filter(midx -> isValid(midx, packsSet)).findFirst();
+		if (bestMidx.isEmpty()) {
+			return skipMidxs(packs);
 		}
 
-		return packs.stream().filter(d -> !allCoveredPacks.contains(d))
-				.collect(Collectors.toList());
+		// Take the packs covered by the midxs and other midxs themselves out of
+		// the list
+		Set<DfsPackDescription> coveredPacksAndMidxs = getAllCoveredPacks(
+				bestMidx.get());
+		return packs.stream().filter(p -> !coveredPacksAndMidxs.contains(p))
+				// At this point, any midx in the list besides bestMidx is a
+				// straggler.
+				.filter(p -> !p.hasFileExt(PackExt.MULTI_PACK_INDEX)
+						|| p.equals(bestMidx.get()))
+				.collect(Collectors.toCollection(ArrayList::new));
 	}
 
-	private static void findCoveredPacks(DfsPackDescription midx,
-			Set<DfsPackDescription> covered) {
-		if (!midx.getCoveredPacks().isEmpty()) {
-			covered.addAll(midx.getCoveredPacks());
-		}
+	private static boolean isValid(DfsPackDescription midx,
+			Set<DfsPackDescription> packs) {
+		DfsPackDescription tip = midx;
+		while (tip != null) {
+			if (!packs.containsAll(tip.getCoveredPacks())) {
+				return false;
+			}
 
-		if (midx.getMultiPackIndexBase() != null) {
-			findCoveredPacks(midx.getMultiPackIndexBase(), covered);
-			covered.add(midx.getMultiPackIndexBase());
+			tip = tip.getMultiPackIndexBase();
 		}
+		return true;
+	}
+
+	private static Set<DfsPackDescription> getAllCoveredPacks(
+			DfsPackDescription midx) {
+		Set<DfsPackDescription> covered = new HashSet<>();
+		DfsPackDescription current = midx;
+		while (current != null) {
+			if (!current.getCoveredPacks().isEmpty()) {
+				covered.addAll(current.getCoveredPacks());
+			}
+
+			DfsPackDescription base = current.getMultiPackIndexBase();
+			if (base != null) {
+				covered.add(base);
+			}
+			current = base;
+		}
+		return covered;
 	}
 }

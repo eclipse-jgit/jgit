@@ -80,6 +80,7 @@ For details on native git options see also the official [git config documentatio
 | `gc.autoDetach` | `true` |  &#x2705; | Make auto gc return immediately and run in background. |
 | `gc.autoPackLimit` | `50` |  &#x2705; | Number of packs until auto gc consolidates existing packs (except those marked with a .keep file) into a single pack. Setting `gc.autoPackLimit` to 0 disables automatic consolidation of packs. |
 | `gc.logExpiry` | `1.day.ago` | &#x2705; | If the file `gc.log` exists, then auto gc will print its content and exit successfully instead of running unless that file is more than `gc.logExpiry` old. |
+| `gc.packRefs`| `true` | &#x2705; | This variable determines whether JGit garbage collection will also pack refs. This can be set to `notbare` to enable it within all non-bare repos or it can be set to a boolean value. |
 | `gc.pruneExpire` | `2.weeks.ago` | &#x2705; | Grace period after which unreachable objects will be pruned. |
 | `gc.prunePackExpire` | `1.hour.ago` |  &#x20DE; | Grace period after which packfiles only containing unreachable objects will be pruned. |
 | `gc.writeChangedPaths` | `false`| &#x20DE; | Whether bloom filter should be written to commit-graph during a gc operation. |
