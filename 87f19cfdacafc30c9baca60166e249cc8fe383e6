@@ -106,6 +106,24 @@
       "parentUuid": "4a51e036_48e73be3",
       "revId": "87f19cfdacafc30c9baca60166e249cc8fe383e6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75fcc4e4_f0b6ed4d",
+        "filename": "bazelw",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016501
+      },
+      "writtenOn": "2026-02-11T07:35:31Z",
+      "side": 0,
+      "message": "AFAIK `force_version` is not an option of `from_toml` or `install`. We would have to explicitly do that for every affected dependency using `amend_artifact`. This would mean some effort and be error_prone, i.e. if there is a new dep in jgit, it might be missed to be overridden in Gerrit. There should then at least be a test to guard from this.\nAlternatively, we could of course contribute that option to maven_install as well.",
+      "parentUuid": "a9e12e05_8788889d",
+      "revId": "87f19cfdacafc30c9baca60166e249cc8fe383e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
