@@ -160,6 +160,24 @@
       "parentUuid": "d741d9ff_5d294d6e",
       "revId": "87f19cfdacafc30c9baca60166e249cc8fe383e6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0eaf3a1e_7e8366cb",
+        "filename": "bazelw",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-02-11T12:34:44Z",
+      "side": 0,
+      "message": "There are actually good news with a simpler approach. @thomas.draebing@googlemail.com actually commented on my prototype, to use `maven.amend_artifact()`. With that approach we can enforce specific version from root module.",
+      "parentUuid": "31b3b81d_33824b20",
+      "revId": "87f19cfdacafc30c9baca60166e249cc8fe383e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
