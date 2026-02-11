@@ -16,6 +16,24 @@
       "message": "commons-io is a dependency of commons-compress and hence a transitive dependency of org.eclipse.jgit.archive, see https://central.sonatype.com/artifact/org.apache.commons/commons-compress/1.28.0\nhttps://github.com/search?q\u003drepo%3Aapache%2Fcommons-compress%20org.apache.commons.io\u0026type\u003dcode\n\nthis dependency was added in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1177075",
       "revId": "bb89f62313adb32d3723cd3e855e09c65162df36",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f270c64_3f6150d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-02-11T13:00:02Z",
+      "side": 1,
+      "message": "Thanks for the pointer. I missed that `commons-compress` 1.28 added compile time dependency to `commons-io`. And Gerrit still used version 1.25, that contributed to the confusion.",
+      "parentUuid": "500a9bcd_e13f28ec",
+      "revId": "bb89f62313adb32d3723cd3e855e09c65162df36",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
