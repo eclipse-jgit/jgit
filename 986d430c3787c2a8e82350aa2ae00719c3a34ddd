@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a93800b_97861eb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-02-11T22:26:21Z",
+      "side": 1,
+      "message": "This approach looks good to me.\n\nAre we OK to submit this series so we can proceed with the broader bzlmod + rules_jvm_external migration in Gerrit?",
+      "revId": "986d430c3787c2a8e82350aa2ae00719c3a34ddd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
