@@ -124,6 +124,24 @@
       "parentUuid": "a9e12e05_8788889d",
       "revId": "87f19cfdacafc30c9baca60166e249cc8fe383e6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d741d9ff_5d294d6e",
+        "filename": "bazelw",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-02-11T09:52:42Z",
+      "side": 0,
+      "message": "The alternative unfortunately does not work in practice.\n\nI tried keeping maven.install(name \u003d \"external_deps\") in both JGit and Gerrit and relying on:\n\n- version_conflict_policy \u003d \"pinned\"\n- force_version \u003d True\n- known_contributing_modules\n\nto make the root module (Gerrit) authoritative.\n\nHowever, when both modules contribute the same coordinate with different\nversions (e.g. args4j:2.33 in Gerrit vs 2.37 in JGit), the resolved\nartifact remains at 2.37 (the version contributed by JGit), even with\nforce_version \u003d True.\n\nIn other words, force_version does not override explicit cross-module\ncontributions when both modules contribute to the same maven.install\nrepository under bzlmod.\n\nA minimal reproduction is documented here [1].\n\nThis confirms that the root-preferential resolution pattern we were\nconsidering is not robust enough to guarantee a single authoritative\nclasspath when both modules contribute dependencies.\n\nGiven this behavior, the current split (library module without\nmaven.install() + standalone wrapper module) remains the safer and\nmore deterministic design.\n\nShould we continue with this separation for now and revisit alternative\napproaches once we have a robust and officially supported way to make\nroot-preferential resolution reliable across modules?\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit/+/551102",
+      "parentUuid": "75fcc4e4_f0b6ed4d",
+      "revId": "87f19cfdacafc30c9baca60166e249cc8fe383e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
