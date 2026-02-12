@@ -313,47 +313,58 @@ class PackDirectory {
 	}
 
 	private void handlePackError(IOException e, Pack p) {
-		String warnTemplate = null;
-		String debugTemplate = null;
-		int transientErrorCount = 0;
-		String errorTemplate = JGitText.get().exceptionWhileReadingPack;
-		Throwable executionCause = e.getCause();
+		Throwable cause = e.getCause();
 		if (e instanceof FileNotFoundException
-				|| executionCause instanceof FileNotFoundException) {
-			if (p.getPackFile().exists()) {
-				errorTemplate = JGitText.get().packInaccessible;
-				transientErrorCount = p.incrementTransientErrorCount();
-			} else {
-				debugTemplate = JGitText.get().packWasDeleted;
-				remove(p);
-			}
-		} else if ((e instanceof CorruptObjectException)
-			|| (e instanceof PackInvalidException)) {
-			warnTemplate = JGitText.get().corruptPack;
-			LOG.warn(MessageFormat.format(warnTemplate,
-				p.getPackFile().getAbsolutePath()), e);
-			// Assume the pack is corrupted, and remove it from the list.
-			remove(p);
+				|| cause instanceof FileNotFoundException) {
+			handleFileNotFound(e, p);
+		} else if (e instanceof CorruptObjectException
+				|| e instanceof PackInvalidException) {
+			handleCorruptPack(e, p);
 		} else if (FileUtils.isStaleFileHandleInCausalChain(e)) {
-			warnTemplate = JGitText.get().packHandleIsStale;
-			remove(p);
+			handleStaleFileHandle(e, p);
 		} else {
-			transientErrorCount = p.incrementTransientErrorCount();
+			handleTransientError(e, p);
 		}
-		if (warnTemplate != null) {
-			LOG.warn(MessageFormat.format(warnTemplate,
-					p.getPackFile().getAbsolutePath()), e);
-		} else if (debugTemplate != null && LOG.isDebugEnabled()) {
-			LOG.debug(MessageFormat.format(debugTemplate,
-					p.getPackFile().getAbsolutePath()), e);
-		} else {
+	}
+
+	private void handleFileNotFound(IOException e, Pack p) {
+		if (p.getPackFile().exists()) {
+			int transientErrorCount = p.incrementTransientErrorCount();
 			if (doLogExponentialBackoff(transientErrorCount)) {
-				// Don't remove the pack from the list, as the error may be
-				// transient.
-				LOG.error(MessageFormat.format(errorTemplate,
+				LOG.error(MessageFormat.format(JGitText.get().packInaccessible,
 						p.getPackFile().getAbsolutePath(),
 						Integer.valueOf(transientErrorCount)), e);
 			}
+		} else {
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(MessageFormat.format(JGitText.get().packWasDeleted,
+						p.getPackFile().getAbsolutePath()), e);
+			}
+			remove(p);
+		}
+	}
+
+	private void handleCorruptPack(IOException e, Pack p) {
+		LOG.warn(MessageFormat.format(JGitText.get().corruptPack,
+				p.getPackFile().getAbsolutePath()), e);
+		remove(p);
+	}
+
+	private void handleStaleFileHandle(IOException e, Pack p) {
+		LOG.warn(MessageFormat.format(JGitText.get().packHandleIsStale,
+				p.getPackFile().getAbsolutePath()), e);
+		remove(p);
+	}
+
+	private void handleTransientError(IOException e, Pack p) {
+		int transientErrorCount = p.incrementTransientErrorCount();
+		if (doLogExponentialBackoff(transientErrorCount)) {
+			LOG.error(
+					MessageFormat.format(
+							JGitText.get().exceptionWhileReadingPack,
+							p.getPackFile().getAbsolutePath(),
+							Integer.valueOf(transientErrorCount)),
+					e);
 		}
 	}
 
