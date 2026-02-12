@@ -51,6 +51,42 @@
       "message": "see e.g. https://readlearncode.com/servlet-4-features/",
       "revId": "3ad15c4f5010bacd952ebd73360b035707a7ab3a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76ca51c2_976a41e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-02-12T09:21:35Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "463f285c_c38e1679",
+      "revId": "3ad15c4f5010bacd952ebd73360b035707a7ab3a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c838b785_c404e951",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-02-12T09:21:35Z",
+      "side": 1,
+      "message": "Thanks for confirming. We can submit this series as-is for now and switch to servlet-api 4.0 if and when the upgrade is accepted by Google.",
+      "parentUuid": "aa4117e8_6d6d98b1",
+      "revId": "3ad15c4f5010bacd952ebd73360b035707a7ab3a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
