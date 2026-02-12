@@ -16,6 +16,47 @@
       "message": "I think it\u0027s time to refactor this method, the complex conditional logic hampers readability. Maybe we can refactor it into multiple methods to fix this.",
       "revId": "79f767908a0a5943d6724e8b1fb5b7b0a99b56bf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6b350f0_484b3d1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-12T12:20:41Z",
+      "side": 1,
+      "message": "let\u0027s do this in another change",
+      "parentUuid": "c219d8b1_56ff3c62",
+      "revId": "79f767908a0a5943d6724e8b1fb5b7b0a99b56bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0a8bc11_bd4fc300",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-12T12:20:41Z",
+      "side": 1,
+      "message": "avoid another indentation ?\n\n```suggestion\n\t\t} else if (debugTemplate !\u003d null \u0026\u0026 LOG.isDebugEnabled()) {\n```",
+      "range": {
+        "startLine": 345,
+        "startChar": 0,
+        "endLine": 346,
+        "endChar": 30
+      },
+      "revId": "79f767908a0a5943d6724e8b1fb5b7b0a99b56bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
