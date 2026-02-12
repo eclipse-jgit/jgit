@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1813679_704e9d54",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-02-12T07:11:56Z",
+      "side": 1,
+      "message": "I started an effort to align servlet-api 4.0.4 between JGit and Gerrit, see: [1].\n\nAnother option would be to keep it as-is and exclude jakarta.servlet-api:4.0.4 from the release.war in Gerrit.\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit/+/551681",
+      "revId": "3ad15c4f5010bacd952ebd73360b035707a7ab3a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
