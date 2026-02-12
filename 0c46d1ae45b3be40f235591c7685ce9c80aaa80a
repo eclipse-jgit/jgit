@@ -16,6 +16,23 @@
       "message": "To test it, you can add a Thread.sleep(500) inside the while-loop affected by this change and click different commits in the history view.\nBefore this change, you would have seen a task with the name \"Building commit info\" in the progress view and if you click another commit, the task would also show \"(Cancel requested)\" but would keep processing. After this change, the processing stops and the next task starts sooner.",
       "revId": "0c46d1ae45b3be40f235591c7685ce9c80aaa80a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd6f0bb3_cbe69290",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-02-12T13:20:37Z",
+      "side": 1,
+      "message": "@matthias.sohn@sap.com would it be possible to review and merge this one soon? It is a small change but noticeable helps usability for our DEVs since we have lots of commits in our history.",
+      "revId": "0c46d1ae45b3be40f235591c7685ce9c80aaa80a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
