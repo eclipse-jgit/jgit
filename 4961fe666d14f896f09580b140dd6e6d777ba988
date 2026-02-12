@@ -92,6 +92,30 @@
       },
       "revId": "4961fe666d14f896f09580b140dd6e6d777ba988",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8cc8562_39d922c6",
+        "filename": "MODULE.bazel",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-12T09:38:01Z",
+      "side": 1,
+      "message": "In the meantime 1.8.4 is available. The fix is available since 1.8.0-rc0:\n\n```\nrules_python (main)]$ git tag --contains 23397d5\n1.8.0\n1.8.0-rc0\n1.8.0-rc1\n1.8.0-rc2\n1.8.0-rc3\n1.8.0-rc4\n1.8.1\n1.8.2\n1.8.3\n1.8.4\n```",
+      "parentUuid": "f53bc267_9b695c89",
+      "range": {
+        "startLine": 6,
+        "startChar": 43,
+        "endLine": 6,
+        "endChar": 53
+      },
+      "revId": "4961fe666d14f896f09580b140dd6e6d777ba988",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
