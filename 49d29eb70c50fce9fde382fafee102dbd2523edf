@@ -16,6 +16,24 @@
       "message": "Whitespace",
       "revId": "49d29eb70c50fce9fde382fafee102dbd2523edf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b2507e3_889f9ab8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MidxIterators.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-02-12T16:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a62bd60_53189b1f",
+      "revId": "49d29eb70c50fce9fde382fafee102dbd2523edf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
