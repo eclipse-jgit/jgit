@@ -16,6 +16,24 @@
       "message": "I started an effort to align servlet-api 4.0.4 between JGit and Gerrit, see: [1].\n\nAnother option would be to keep it as-is and exclude jakarta.servlet-api:4.0.4 from the release.war in Gerrit.\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit/+/551681",
       "revId": "3ad15c4f5010bacd952ebd73360b035707a7ab3a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa4117e8_6d6d98b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-12T09:04:53Z",
+      "side": 1,
+      "message": "I think either way works with the current Gerrit code, package name is javax.servlet in both, we neither use HTTP/2 nor PushBuilder which were added in 4.0. This change is the conservative solution. https://gerrit-review.googlesource.com/c/gerrit/+/551681 would allow to use these new features, not sure if Google would accept that.",
+      "parentUuid": "a1813679_704e9d54",
+      "revId": "3ad15c4f5010bacd952ebd73360b035707a7ab3a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
