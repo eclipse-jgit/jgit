@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d35b60d4_f2783933",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-02-12T06:39:24Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com\n\nAre we missing a `Depends-On` in GerritForge-CI feature similar to what Zuul-CI provides?\n\nThis change can only be successfully verified when built together with the corresponding Gerrit change. With Zuul, I could add a footer like:\n\n```\nDepends-On: https://gerrit-review.googlesource.com/c/gerrit/+/550161\n```\n\nThe CI would then fetch the referenced change from the other repository and build both changes together.\n\nWe already rely on this behaviour in the plugin build CI. For example, when updating Gerrit core, the `delete-project` plugin can only be built successfully if the corresponding Gerrit change is used together with it (see [1]).\n\nIf this functionality is currently missing, I can file a Gerrit issue to track it as a feature request.\n\n[1]: https://gerrit-review.googlesource.com/c/plugins/delete-project/+/549766",
+      "revId": "3ebe43ccae153e078e511cf86347ddb39fbd8e33",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
