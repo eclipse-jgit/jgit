@@ -30,7 +30,7 @@ import org.eclipse.jgit.lib.MutableObjectId;
  * entries. The stats of the combined index are calculated in an iteration at
  * construction time.
  */
-class PackIndexMerger {
+public class PackIndexMerger {
 
 	private static final int LIMIT_31_BITS = (1 << 31) - 1;
 
@@ -48,21 +48,45 @@ class PackIndexMerger {
 
 	private final List<String> packnames;
 
-	static class Builder {
+	/**
+	 * Builder collecting the inputs for the merger.
+	 * <p>
+	 * Order matters. Packs will appear in the midx in the order they are added.
+	 */
+	public static class Builder {
 
 		private final List<MidxIterator> packIndexes = new ArrayList<>();
 
+		/**
+		 * Add a regular pack to the midx
+		 * 
+		 * @param name
+		 *            name of the pack
+		 * @param idx
+		 *            primary index of the pack
+		 * @return this builder
+		 */
 		public Builder addPack(String name, PackIndex idx) {
 			packIndexes.add(MidxIterators.fromPackIndexIterator(name, idx));
 			return this;
 		}
 
+		/**
+		 * Build the merger instance
+		 *
+		 * @return a merger instance
+		 */
 		public PackIndexMerger build() {
 			return new PackIndexMerger(
 					MidxIterators.dedup(MidxIterators.join(packIndexes)));
 		}
 	}
 
+	/**
+	 * Create a builder
+	 *
+	 * @return an empty builder
+	 */
 	public static Builder builder() {
 		return new Builder();
 	}
@@ -78,7 +102,8 @@ class PackIndexMerger {
 		this.packnames = source.getPackNames();
 
 		objectsPerPack = new int[packnames.size()];
-		// Iterate for duplicates
+		// Iterate for duplicates and counts that we need to build the chunk
+		// headers.
 		int objectCount = 0;
 		boolean hasLargeOffsets = false;
 		int over31bits = 0;
@@ -97,6 +122,8 @@ class PackIndexMerger {
 
 			lastSeen.fromObjectId(entry.oid);
 			objectCount++;
+			// TODO(ifrade): we can calculate the fanout table already here.
+			// It saves an iteration over all objects for only 1Kb of memory
 			objectsPerPack[entry.getPackId()]++;
 		}
 		uniqueObjectCount = objectCount;
