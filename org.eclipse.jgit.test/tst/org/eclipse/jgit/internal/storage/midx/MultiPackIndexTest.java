@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -114,7 +113,7 @@ public class MultiPackIndexTest {
 						"0000000000000000000000000000000000000002", (1L << 35)),
 				new FakeIndexFactory.IndexObject(
 						"0000000000000000000000000000000000000003", 13)));
-		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+		PackIndexMerger packs = midxDataFor("p1", idxOne,
 				"p2", idxTwo);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -145,7 +144,7 @@ public class MultiPackIndexTest {
 						"0000000000000000000000000000000000000002", 501),
 				new FakeIndexFactory.IndexObject(
 						"0000000000000000000000000000000000000003", 13)));
-		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+		PackIndexMerger packs = midxDataFor("p1", idxOne,
 				"p2", idxTwo);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -182,7 +181,7 @@ public class MultiPackIndexTest {
 				// Match
 				"32fe829a1c000000000000000000000000000010");
 
-		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+		PackIndexMerger packs = midxDataFor("p1", idxOne,
 				"p2", idxTwo);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -226,7 +225,7 @@ public class MultiPackIndexTest {
 				// Match
 				"32fe829a1c000000000000000000000000000010");
 
-		LinkedHashMap<String, PackIndex> packs = orderedMapOf("r1", idxOne,
+		PackIndexMerger packs = midxDataFor("r1", idxOne,
 				"r2", idxTwo);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -261,7 +260,7 @@ public class MultiPackIndexTest {
 				"bbbbbb0000000000000000000000000000000003",
 				"32fe829a1c000000000000000000000000000010");
 
-		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+		PackIndexMerger packs = midxDataFor("p1", idxOne,
 				"p2", idxTwo);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -292,7 +291,7 @@ public class MultiPackIndexTest {
 				"bbbbbb0000000000000000000000000000000003",
 				"32fe829a1c000000000000000000000000000010");
 
-		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+		PackIndexMerger packs = midxDataFor("p1", idxOne,
 				"p2", idxTwo);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -314,11 +313,11 @@ public class MultiPackIndexTest {
 		PackIndex idxOne = FakeIndexFactory.indexOf(List.of());
 		PackIndex idxTwo = FakeIndexFactory.indexOf(List.of());
 
-		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+		PackIndexMerger data = midxDataFor("p1", idxOne,
 				"p2", idxTwo);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+		writer.write(NullProgressMonitor.INSTANCE, out, data);
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
 
@@ -377,11 +376,11 @@ public class MultiPackIndexTest {
 				new FakeIndexFactory.IndexObject(
 						"0000000000000000000000000000000000000012", 1502)));
 
-		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+		PackIndexMerger data = midxDataFor("p1", idxOne,
 				"p2", idxTwo, "p3", idxThree);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+		writer.write(NullProgressMonitor.INSTANCE, out, data);
 
 		return MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
@@ -398,11 +397,11 @@ public class MultiPackIndexTest {
 		PackIndex idxOne = FakeIndexFactory.indexOf(List.of());
 		PackIndex idxTwo = FakeIndexFactory.indexOf(List.of());
 
-		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+		PackIndexMerger data = midxDataFor("p1", idxOne,
 				"p2", idxTwo);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+		writer.write(NullProgressMonitor.INSTANCE, out, data);
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
 
@@ -433,11 +432,11 @@ public class MultiPackIndexTest {
 				new FakeIndexFactory.IndexObject(
 						"0000000000000000000000000000000000000012", 1502)));
 
-		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+		PackIndexMerger data = midxDataFor("p1", idxOne,
 				"p2", idxTwo, "p3", idxThree);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+		writer.write(NullProgressMonitor.INSTANCE, out, data);
 
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
@@ -495,11 +494,11 @@ public class MultiPackIndexTest {
 				new FakeIndexFactory.IndexObject(
 						"0000000000000000000000000000000000000012", 1502)));
 
-		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+		PackIndexMerger data = midxDataFor("p1", idxOne,
 				"p2", idxTwo, "p3", idxThree);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+		writer.write(NullProgressMonitor.INSTANCE, out, data);
 
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
@@ -563,11 +562,11 @@ public class MultiPackIndexTest {
 		PackIndex idxOne = FakeIndexFactory.indexOf(List.of());
 		PackIndex idxTwo = FakeIndexFactory.indexOf(List.of());
 
-		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+		PackIndexMerger data = midxDataFor("p1", idxOne,
 				"p2", idxTwo);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+		writer.write(NullProgressMonitor.INSTANCE, out, data);
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
 
@@ -591,11 +590,11 @@ public class MultiPackIndexTest {
 				new FakeIndexFactory.IndexObject(
 						"0000000000000000000000000000000000000015", 1501)));
 
-		LinkedHashMap<String, PackIndex> packs = orderedMapOf("p1", idxOne,
+		PackIndexMerger data = midxDataFor("p1", idxOne,
 				"p2", idxTwo);
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+		writer.write(NullProgressMonitor.INSTANCE, out, data);
 
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
@@ -662,21 +661,16 @@ public class MultiPackIndexTest {
 		assertEquals(expectedOffset, e.packOffset.getOffset());
 	}
 
-	private static LinkedHashMap<String, PackIndex> orderedMapOf(String s1,
-			PackIndex pi1, String s2, PackIndex pi2) {
-		LinkedHashMap<String, PackIndex> map = new LinkedHashMap<>(2);
-		map.put(s1, pi1);
-		map.put(s2, pi2);
-		return map;
+	private static PackIndexMerger midxDataFor(String s1, PackIndex pi1,
+			String s2, PackIndex pi2) {
+		return PackIndexMerger.builder().addPack(s1, pi1).addPack(s2, pi2)
+				.build();
 	}
 
-	private static LinkedHashMap<String, PackIndex> orderedMapOf(String s1,
+	private static PackIndexMerger midxDataFor(String s1,
 			PackIndex pi1, String s2, PackIndex pi2, String s3, PackIndex pi3) {
-		LinkedHashMap<String, PackIndex> map = new LinkedHashMap<>(3);
-		map.put(s1, pi1);
-		map.put(s2, pi2);
-		map.put(s3, pi3);
-		return map;
+		return PackIndexMerger.builder().addPack(s1, pi1).addPack(s2, pi2)
+				.addPack(s3, pi3).build();
 	}
 
 	private static ObjectId oid(String last3chars) {

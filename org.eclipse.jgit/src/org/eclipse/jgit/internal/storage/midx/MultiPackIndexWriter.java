@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.io.CancellableDigestOutputStream;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.MutableEntry;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -78,22 +77,15 @@ public class MultiPackIndexWriter {
 	 *            progress monitor
 	 * @param outputStream
 	 *            stream to write the multipack index file
-	 * @param inputs
-	 *            pairs of name and index for each pack to include in the
-	 *            multipack index.
+	 * @param data
+	 *            a pack index merger with the data sources (in order) for this
+	 *            midx
 	 * @return data about the write (e.g. bytes written)
 	 * @throws IOException
 	 *             Error writing to the stream
 	 */
 	public Result write(ProgressMonitor monitor, OutputStream outputStream,
-			Map<String, PackIndex> inputs) throws IOException {
-		// TODO(ifrade): Pass the PackIndexMerger as parameter instead of making
-		// a map to them make the merger.
-		PackIndexMerger.Builder builder = PackIndexMerger.builder();
-		inputs.entrySet().stream()
-				.forEach(e -> builder.addPack(e.getKey(), e.getValue()));
-		PackIndexMerger data = builder.build();
-
+			PackIndexMerger data) throws IOException {
 		// List of chunks in the order they need to be written
 		List<ChunkHeader> chunkHeaders = createChunkHeaders(data);
 		long expectedSize = calculateExpectedSize(chunkHeaders);
