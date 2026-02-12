@@ -17,7 +17,6 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -26,8 +25,8 @@ import java.util.function.Function;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
-import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndexWriter;
+import org.eclipse.jgit.internal.storage.midx.PackIndexMerger;
 import org.eclipse.jgit.internal.storage.pack.PackBitmapCalculator;
 import org.eclipse.jgit.internal.storage.pack.PackBitmapIndexWriter;
 import org.eclipse.jgit.lib.Constants;
@@ -92,11 +91,10 @@ public class DfsMidxWriter {
 			DfsObjDatabase objdb, List<DfsPackFile> packs,
 			@Nullable DfsPackDescription base, PackConfig packConfig)
 			throws IOException {
-		LinkedHashMap<String, PackIndex> inputs = new LinkedHashMap<>(
-				packs.size());
+		PackIndexMerger.Builder dataBuilder = PackIndexMerger.builder();
 		try (DfsReader ctx = objdb.newReader()) {
 			for (DfsPackFile pack : packs) {
-				inputs.put(pack.getPackDescription().getPackName(),
+				dataBuilder.addPack(pack.getPackDescription().getPackName(),
 						pack.getPackIndex(ctx));
 			}
 		}
@@ -105,7 +103,8 @@ public class DfsMidxWriter {
 		try (DfsOutputStream out = objdb.writeFile(midxPackDesc,
 				MULTI_PACK_INDEX)) {
 			MultiPackIndexWriter w = new MultiPackIndexWriter();
-			MultiPackIndexWriter.Result result = w.write(pm, out, inputs);
+			MultiPackIndexWriter.Result result = w.write(pm, out,
+					dataBuilder.build());
 			midxPackDesc.addFileExt(MULTI_PACK_INDEX);
 			midxPackDesc.setFileSize(MULTI_PACK_INDEX, result.bytesWritten());
 			midxPackDesc.setObjectCount(result.objectCount());
