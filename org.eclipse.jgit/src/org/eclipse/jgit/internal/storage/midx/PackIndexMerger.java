@@ -31,7 +31,7 @@ import org.eclipse.jgit.lib.MutableObjectId;
  * entries. The stats of the combined index are calculated in an iteration at
  * construction time.
  */
-class PackIndexMerger {
+public class PackIndexMerger {
 
 	private static final int LIMIT_31_BITS = (1 << 31) - 1;
 
@@ -47,7 +47,7 @@ class PackIndexMerger {
 
 	private final int[] objectsPerPack;
 
-	static class Builder {
+	public static class Builder {
 
 		private final List<Supplier<MidxIterator>> suppliers = new ArrayList<>();
 
