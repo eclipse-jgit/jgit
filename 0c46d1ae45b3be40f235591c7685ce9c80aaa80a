@@ -33,6 +33,41 @@
       "message": "@matthias.sohn@sap.com would it be possible to review and merge this one soon? It is a small change but noticeable helps usability for our DEVs since we have lots of commits in our history.",
       "revId": "0c46d1ae45b3be40f235591c7685ce9c80aaa80a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27349a14_9a3fda00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-12T14:35:19Z",
+      "side": 1,
+      "message": "thanks for the fix",
+      "revId": "0c46d1ae45b3be40f235591c7685ce9c80aaa80a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc2b678b_894cc6ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-12T14:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd6f0bb3_cbe69290",
+      "revId": "0c46d1ae45b3be40f235591c7685ce9c80aaa80a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
