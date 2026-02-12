@@ -623,7 +623,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 				markStart(c);
 				boolean commitFound = false;
 				RevCommit next;
-				while ((next = next()) != null) {
+				while ((next = next()) != null && !monitor.isCancelled()) {
 					if (next.getGeneration() < cutoff) {
 						markUninteresting(next);
 						uninteresting.add(next);
