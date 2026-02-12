@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c219d8b1_56ff3c62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-12T09:33:23Z",
+      "side": 1,
+      "message": "I think it\u0027s time to refactor this method, the complex conditional logic hampers readability. Maybe we can refactor it into multiple methods to fix this.",
+      "revId": "79f767908a0a5943d6724e8b1fb5b7b0a99b56bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
