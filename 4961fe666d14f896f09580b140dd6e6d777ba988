@@ -116,6 +116,30 @@
       },
       "revId": "4961fe666d14f896f09580b140dd6e6d777ba988",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ada3d287_fd769745",
+        "filename": "MODULE.bazel",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-12T09:58:10Z",
+      "side": 1,
+      "message": "After updating to 1.8.4 I get the warning:\n\n```\nWARNING: For repository \u0027rules_java\u0027, the root module requires module\nversion rules_java@8.11.0, but got rules_java@8.13.0 in the resolved\ndependency graph.\n```\n\nHence it seems we should also update rules_java to 8.13.0.",
+      "parentUuid": "a8cc8562_39d922c6",
+      "range": {
+        "startLine": 6,
+        "startChar": 43,
+        "endLine": 6,
+        "endChar": 53
+      },
+      "revId": "4961fe666d14f896f09580b140dd6e6d777ba988",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
