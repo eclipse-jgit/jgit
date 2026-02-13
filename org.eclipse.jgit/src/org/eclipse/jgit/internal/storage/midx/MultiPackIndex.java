@@ -162,6 +162,11 @@ public interface MultiPackIndex extends Iterable<MultiPackIndex.MutableEntry> {
 		 * @return pack names
 		 */
 		List<String> getPackNames();
+
+		/**
+		 * Restart the iteration from the beginning
+		 */
+		void reset();
 	}
 
 	/**
@@ -276,6 +281,11 @@ public interface MultiPackIndex extends Iterable<MultiPackIndex.MutableEntry> {
 
 		public long getOffset() {
 			return packOffset.getOffset();
+		}
+
+		public void clear() {
+			oid.clear();
+			packOffset.setValues(0, 0);
 		}
 
 		@Override

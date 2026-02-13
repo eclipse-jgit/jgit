@@ -29,14 +29,14 @@ public final class MidxIterators {
 	 *
 	 * @param packName
 	 *            pack name this iterator is going over
-	 * @param idxIt
-	 *            iterator over a PackIndex
+	 * @param idx
+	 *            a PackIndex
 	 * @return a midx iterator that returns the objects of the pack index in the
 	 *         original iterator order
 	 */
 	public static MidxIterator fromPackIndexIterator(String packName,
-			Iterator<PackIndex.MutableEntry> idxIt) {
-		return new MidxIteratorOverPackIndex(packName, idxIt);
+			PackIndex idx) {
+		return new MidxIteratorOverPackIndex(packName, idx);
 	}
 
 	/**
@@ -80,17 +80,19 @@ public final class MidxIterators {
 
 		private final List<String> packNames;
 
-		private final Iterator<PackIndex.MutableEntry> idxIt;
+		private final PackIndex idx;
+
+		private Iterator<PackIndex.MutableEntry> idxIt;
 
 		private boolean peeked;
 
-		private final MutableEntry entry;
+		private final MutableEntry entry = new MutableEntry();
 
 		MidxIteratorOverPackIndex(String packName,
-				Iterator<PackIndex.MutableEntry> idxIt) {
+				PackIndex idx) {
 			this.packNames = List.of(packName);
-			this.idxIt = idxIt;
-			this.entry = new MutableEntry();
+			this.idx = idx;
+			this.idxIt = idx.iterator();
 		}
 
 		@Override
@@ -131,6 +133,13 @@ public final class MidxIterators {
 			PackIndex.MutableEntry idx = idxIt.next();
 			idx.copyOidTo(entry.oid);
 			entry.packOffset.setValues(0, idx.getOffset());
+		}
+
+		@Override
+		public void reset() {
+			this.idxIt = idx.iterator();
+			this.entry.clear();
+			peeked = false;
 		}
 	}
 
@@ -205,6 +214,11 @@ public final class MidxIterators {
 
 			return winnerPos;
 		}
+
+		@Override
+		public void reset() {
+			indexIterators.stream().forEach(MidxIterator::reset);
+		}
 	}
 
 	private static class DedupMidxIterator implements MidxIterator {
@@ -263,6 +277,12 @@ public final class MidxIterators {
 					return;
 				}
 			}
+		}
+
+		@Override
+		public void reset() {
+			src.reset();
+			readNext();
 		}
 	}
 }
