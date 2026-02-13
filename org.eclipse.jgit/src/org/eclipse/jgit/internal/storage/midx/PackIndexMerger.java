@@ -63,12 +63,9 @@ class PackIndexMerger {
 		boolean hasLargeOffsets = false;
 		int over31bits = 0;
 		MutableObjectId lastSeen = new MutableObjectId();
-		MidxIterator it = rawIterator();
+		MidxIterator it = bySha1Iterator();
 		while (it.hasNext()) {
 			MutableEntry entry = it.next();
-			if (lastSeen.equals(entry.oid)) {
-				continue;
-			}
 			// If there is at least one offset value larger than 2^32-1, then
 			// the large offset chunk must exist, and offsets larger than
 			// 2^31-1 must be stored in it instead
