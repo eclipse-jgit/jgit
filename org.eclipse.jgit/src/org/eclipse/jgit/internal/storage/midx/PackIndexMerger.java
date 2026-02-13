@@ -158,7 +158,7 @@ class PackIndexMerger {
 	MidxIterator bySha1Iterator() {
 		List<MidxIterator> list = packs.entrySet().stream()
 				.map(e -> MidxIterators.fromPackIndexIterator(e.getKey(),
-						e.getValue().iterator()))
+						e.getValue()))
 				.toList();
 		return MidxIterators.dedup(MidxIterators.join(list));
 	}

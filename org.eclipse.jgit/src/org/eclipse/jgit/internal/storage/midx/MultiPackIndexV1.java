@@ -392,6 +392,11 @@ class MultiPackIndexV1 implements MultiPackIndex {
 		public List<String> getPackNames() {
 			return Arrays.asList(midx.getPackNames());
 		}
+
+		@Override
+		public void reset() {
+			position = 0;
+		}
 	}
 
 	private static class ReverseIndex {
