@@ -46,6 +46,51 @@ public class DfsMidxWriter {
 	}
 
 	/**
+	 *
+	 */
+	public static DfsPackDescription mergeMidx(ProgressMonitor pm,
+			DfsObjDatabase objdb, DfsPackFileMidx base, DfsPackFileMidx tip)
+			throws IOException {
+		PackIndexMerger.Builder dataBuilder = PackIndexMerger.builder();
+		try (DfsReader ctx = objdb.newReader()) {
+			dataBuilder.addMidx(base.localIterator(ctx));
+			dataBuilder.addMidx(tip.localIterator(ctx));
+		}
+
+		DfsPackDescription midxPackDesc = objdb.newPack(GC);
+		try (DfsOutputStream out = objdb.writeFile(midxPackDesc,
+				MULTI_PACK_INDEX)) {
+			MultiPackIndexWriter w = new MultiPackIndexWriter();
+			MultiPackIndexWriter.Result result = w.write(pm, out,
+					dataBuilder.build());
+			midxPackDesc.addFileExt(MULTI_PACK_INDEX);
+			midxPackDesc.setFileSize(MULTI_PACK_INDEX, result.bytesWritten());
+			midxPackDesc.setObjectCount(result.objectCount());
+
+			Map<String, DfsPackDescription> byName = packs.stream()
+					.map(DfsPackFile::getPackDescription)
+					.collect(toMap(DfsPackDescription::getPackName,
+							Function.identity()));
+			List<DfsPackDescription> coveredPacks = result.packNames().stream()
+					.map(byName::get).collect(toList());
+			midxPackDesc.setCoveredPacks(coveredPacks);
+			if (base != null) {
+				midxPackDesc.setMultiPackIndexBase(base);
+			}
+		}
+
+		// TODO(ifrade): At the moment write bitmaps only in the bottom midx.
+		// A single-pack midx in the base should be covering only GC. No
+		// need to write midx bitmaps (we will use GC bitmaps).
+		if (base == null && midxPackDesc.getCoveredPacks().size() > 1) {
+			createAndAttachBitmaps(objdb.getRepository(), midxPackDesc,
+					packConfig);
+		}
+
+		return midxPackDesc;
+	}
+
+	/**
 	 * Create a pack with the multipack index (without bitmaps).
 	 *
 	 * @param pm
@@ -94,8 +139,12 @@ public class DfsMidxWriter {
 		PackIndexMerger.Builder dataBuilder = PackIndexMerger.builder();
 		try (DfsReader ctx = objdb.newReader()) {
 			for (DfsPackFile pack : packs) {
-				dataBuilder.addPack(pack.getPackDescription().getPackName(),
-						pack.getPackIndex(ctx));
+				if (pack instanceof DfsPackFileMidx midxPack) {
+					dataBuilder.addMidx(midxPack.localIterator(ctx));
+				} else {
+					dataBuilder.addPack(pack.getPackDescription().getPackName(),
+							pack.getPackIndex(ctx));
+				}
 			}
 		}
 

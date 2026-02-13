@@ -72,6 +72,22 @@ public class PackIndexMerger {
 		}
 
 		/**
+		 * Add an existing midx to this merged midx
+		 * <p>
+		 * Packs keep the order inside that midx. Duplicated packs appear in the
+		 * pack list but copies won't have any content, as it all gets removed
+		 * as duplicates.
+		 * 
+		 * @param midx
+		 *            a midx iterator
+		 * @return this builder
+		 */
+		public Builder addMidx(MidxIterator midx) {
+			packIndexes.add(midx);
+			return this;
+		}
+
+		/**
 		 * Build the merger instance
 		 *
 		 * @return a merger instance
