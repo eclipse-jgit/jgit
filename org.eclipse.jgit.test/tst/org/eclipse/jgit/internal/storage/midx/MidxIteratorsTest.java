@@ -31,8 +31,7 @@ public class MidxIteratorsTest {
 		PackIndex index1 = indexOf(object("000001", 500),
 				object("000003", 3000), object("000005", 1500));
 
-		MidxIterator it = MidxIterators.fromPackIndexIterator("index1",
-				index1.iterator());
+		MidxIterator it = MidxIterators.fromPackIndexIterator("index1", index1);
 		assertNextEntry(it, "000001", 0, 500);
 		assertNextEntry(it, "000003", 0, 3000);
 		assertNextEntry(it, "000005", 0, 1500);
@@ -44,8 +43,7 @@ public class MidxIteratorsTest {
 		PackIndex index1 = indexOf(object("000001", 500),
 				object("000003", 3000), object("000005", 1500));
 
-		MidxIterator it = MidxIterators.fromPackIndexIterator("index1",
-				index1.iterator());
+		MidxIterator it = MidxIterators.fromPackIndexIterator("index1", index1);
 		assertPeekEntry(it, "000001", 0, 500);
 		assertPeekEntry(it, "000001", 0, 500);
 		assertNextEntry(it, "000001", 0, 500);
@@ -61,19 +59,34 @@ public class MidxIteratorsTest {
 	}
 
 	@Test
+	public void fromPackIndexIterator_reset() {
+		PackIndex index1 = indexOf(object("000001", 500),
+				object("000003", 3000), object("000005", 1500));
+
+		MidxIterator it = MidxIterators.fromPackIndexIterator("index1", index1);
+		while (it.hasNext()) {
+			it.next();
+		}
+		it.reset();
+		assertNextEntry(it, "000001", 0, 500);
+		assertNextEntry(it, "000003", 0, 3000);
+
+		it.reset();
+		assertPeekEntry(it, "000001", 0, 500);
+	}
+
+	@Test
 	public void fromPackIndexIterator_getPackNames() {
 		PackIndex index1 = indexOf(object("000001", 500),
 				object("000003", 1500), object("000005", 3000));
-		MidxIterator it = MidxIterators.fromPackIndexIterator("index1",
-				index1.iterator());
+		MidxIterator it = MidxIterators.fromPackIndexIterator("index1", index1);
 		assertEquals(List.of("index1"), it.getPackNames());
 	}
 
 	@Test
 	public void fromPackIndexIterator_empty() {
-		PackIndex index1 = indexOf();
 		MidxIterator it = MidxIterators.fromPackIndexIterator("index1",
-				index1.iterator());
+				indexOf());
 		assertFalse(it.hasNext());
 	}
 
@@ -104,10 +117,8 @@ public class MidxIteratorsTest {
 				object("000003", 1500), object("000004", 3000));
 
 		List<MidxIterator> packIts = List.of(
-				MidxIterators.fromPackIndexIterator("index1",
-						idxOne.iterator()),
-				MidxIterators.fromPackIndexIterator("index2",
-						idxTwo.iterator()));
+				MidxIterators.fromPackIndexIterator("index1", idxOne),
+				MidxIterators.fromPackIndexIterator("index2", idxTwo));
 		MidxIterator it = MidxIterators.join(packIts);
 		assertNextEntry(it, "000001", 0, 500);
 		assertNextEntry(it, "000002", 1, 500);
@@ -163,6 +174,29 @@ public class MidxIteratorsTest {
 		assertPeekEntry(it, "000004", 3, 1500);
 		assertNextEntry(it, "000004", 3, 1500);
 		assertFalse(it.hasNext());
+	}
+
+	@Test
+	public void join_reset() {
+		FakeMidxIterator itOne = FakeMidxIterator.from("itOne", 2,
+				List.of(new IndexEntry("000001", 0, 500),
+						new IndexEntry("000003", 1, 1500)));
+
+		FakeMidxIterator itTwo = FakeMidxIterator.from("itTwo", 2,
+				List.of(new IndexEntry("000002", 0, 500),
+						new IndexEntry("000004", 1, 1500)));
+
+		MidxIterator it = MidxIterators.join(List.of(itOne, itTwo));
+		while (it.hasNext()) {
+			it.next();
+		}
+
+		it.reset();
+		assertNextEntry(it, "000001", 0, 500);
+		assertNextEntry(it, "000002", 2, 500);
+
+		it.reset();
+		assertPeekEntry(it, "000001", 0, 500);
 	}
 
 	@Test
@@ -234,6 +268,28 @@ public class MidxIteratorsTest {
 		assertNextEntry(it, "000003", 0, 1500);
 
 		assertFalse(it.hasNext());
+	}
+
+	@Test
+	public void dedup_reset() {
+		FakeMidxIterator itOne = FakeMidxIterator.from("itOne", 2,
+				List.of(new IndexEntry("000001", 0, 500),
+						new IndexEntry("000001", 1, 600),
+						new IndexEntry("000003", 0, 1500),
+						new IndexEntry("000003", 1, 1501),
+						new IndexEntry("000005", 0, 200),
+						new IndexEntry("000005", 1, 201)));
+
+		MidxIterator it = MidxIterators.dedup(itOne);
+		while (it.hasNext()) {
+			it.next();
+		}
+		it.reset();
+		assertNextEntry(it, "000001", 0, 500);
+		assertNextEntry(it, "000003", 0, 1500);
+
+		it.reset();
+		assertPeekEntry(it, "000001", 0, 500);
 	}
 
 	@Test
@@ -322,6 +378,10 @@ public class MidxIteratorsTest {
 			return entries.get(position++).asMutableEntry();
 		}
 
+		@Override
+		public void reset() {
+			position = 0;
+		}
 	}
 
 	record IndexEntry(String shortOid, int packId, int offset) {
