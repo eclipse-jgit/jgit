@@ -150,8 +150,14 @@ public class MidxTestUtils {
 				Arrays.asList(packs),
 				base != null ? base.getPackDescription() : null, packConfig);
 		db.getObjectDatabase().commitPack(List.of(desc), null);
+
+		// "packs" argument can have a midx and its base in the list.
+		// It is easier to reread packs from the db than unraveling/dedupping
+		// "packs".
+		List<DfsPackFile> allPlainPacks = MidxPackList
+				.create(db.getObjectDatabase().getPacks()).getAllPlainPacks();
 		return DfsPackFileMidx.create(DfsBlockCache.getInstance(), desc,
-				Arrays.asList(packs), base);
+				allPlainPacks, base);
 	}
 
 	record CommitObjects(RevCommit commit, RevTree tree, RevBlob blob) {
