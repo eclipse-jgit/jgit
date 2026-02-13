@@ -57,7 +57,12 @@ public abstract sealed class DfsPackFileMidx extends DfsPackFile
 			DfsPackDescription desc, List<DfsPackFile> requiredPacks,
 			@Nullable DfsPackFileMidx base) {
 		if (desc.getCoveredPacks().size() == 1) {
-			return new DfsPackFileMidxSingle(cache, desc, requiredPacks.get(0),
+			String coveredPackName = desc.getCoveredPacks().get(0)
+					.getPackName();
+			DfsPackFile coveredPack = requiredPacks.stream().filter(p -> p
+					.getPackDescription().getPackName().equals(coveredPackName))
+					.findFirst().orElseThrow();
+			return new DfsPackFileMidxSingle(cache, desc, coveredPack,
 					base);
 		}
 		return new DfsPackFileMidxNPacks(cache, desc, requiredPacks, base);
