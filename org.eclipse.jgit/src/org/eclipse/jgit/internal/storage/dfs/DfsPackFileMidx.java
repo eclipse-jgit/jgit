@@ -20,6 +20,7 @@ import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
+import org.eclipse.jgit.internal.storage.midx.MultiPackIndex;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -151,6 +152,18 @@ public abstract sealed class DfsPackFileMidx extends DfsPackFile
 	 *             an error reading the file
 	 */
 	protected abstract byte[] getChecksum(DfsReader ctx) throws IOException;
+
+	/**
+	 * Get a midx iterator over the contents of *this* midx, without the base.
+	 *
+	 * @param ctx
+	 *            a ready
+	 * @return an iterator over the objects in this midx in sha1 order
+	 * @throws IOException
+	 *             an error loading the underlying data
+	 */
+	protected abstract MultiPackIndex.MidxIterator localIterator(DfsReader ctx)
+			throws IOException;
 
 	@Override
 	public final PackIndex getPackIndex(DfsReader ctx) {

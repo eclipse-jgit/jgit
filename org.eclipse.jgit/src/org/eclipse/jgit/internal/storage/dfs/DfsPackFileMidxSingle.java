@@ -25,6 +25,8 @@ import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
+import org.eclipse.jgit.internal.storage.midx.MidxIterators;
+import org.eclipse.jgit.internal.storage.midx.MultiPackIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.PackOffset;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
@@ -147,6 +149,14 @@ public final class DfsPackFileMidxSingle extends DfsPackFileMidx {
 			}
 		}
 		return checksum;
+	}
+
+	@Override
+	protected MultiPackIndex.MidxIterator localIterator(DfsReader ctx)
+			throws IOException {
+		String packName = pack.getPackDescription().getPackName();
+		PackIndex packIndex = pack.getPackIndex(ctx);
+		return MidxIterators.fromPackIndexIterator(packName, packIndex);
 	}
 
 	/**
