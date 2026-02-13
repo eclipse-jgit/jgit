@@ -14,6 +14,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -21,6 +24,7 @@ import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.MutableEntry;
 import org.eclipse.jgit.junit.FakeIndexFactory;
 import org.eclipse.jgit.junit.FakeIndexFactory.IndexObject;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.junit.Test;
 
 public class PackIndexMergerTest {
@@ -144,6 +148,44 @@ public class PackIndexMergerTest {
 	}
 
 	@Test
+	public void bySha1Iterator_withAnotherMidx() throws IOException {
+		PackIndex idxOne = indexOf(
+				oidOffset("0000000000000000000000000000000000000010", 1500));
+		PackIndex idxTwo = indexOf(
+				oidOffset("0000000000000000000000000000000000000002", 500),
+				oidOffset("0000000000000000000000000000000000000003", 12));
+		PackIndex idxThree = indexOf(
+				oidOffset("0000000000000000000000000000000000000004", 500),
+				oidOffset("0000000000000000000000000000000000000007", 12),
+				oidOffset("0000000000000000000000000000000000000012", 1500));
+		MultiPackIndex midx = midxOf("one", idxOne, "two", idxTwo, "three",
+				idxThree);
+
+		PackIndex idxFour = indexOf(
+				oidOffset("0000000000000000000000000000000000000001", 12),
+				oidOffset("0000000000000000000000000000000000000007", 600),
+				oidOffset("0000000000000000000000000000000000000015", 300));
+
+		PackIndexMerger merger = PackIndexMerger.builder()
+				.addMidx(midx.iterator()).addPack("four", idxFour).build();
+		assertEquals(8, merger.getUniqueObjectCount());
+		assertEquals(4, merger.getPackCount());
+		assertFalse(merger.needsLargeOffsetsChunk());
+		Iterator<MutableEntry> it = merger.bySha1Iterator();
+		assertNextEntry(it, "0000000000000000000000000000000000000001", 3, 12);
+		assertNextEntry(it, "0000000000000000000000000000000000000002", 1, 500);
+		assertNextEntry(it, "0000000000000000000000000000000000000003", 1, 12);
+		assertNextEntry(it, "0000000000000000000000000000000000000004", 2, 500);
+		assertNextEntry(it, "0000000000000000000000000000000000000007", 2, 12);
+		assertNextEntry(it, "0000000000000000000000000000000000000010", 0,
+				1500);
+		assertNextEntry(it, "0000000000000000000000000000000000000012", 2,
+				1500);
+		assertNextEntry(it, "0000000000000000000000000000000000000015", 3, 300);
+		assertFalse(it.hasNext());
+	}
+
+	@Test
 	public void merger_noIndexes() {
 		PackIndexMerger merger = PackIndexMerger.builder().build();
 		assertEquals(0, merger.getUniqueObjectCount());
@@ -251,8 +293,8 @@ public class PackIndexMergerTest {
 		assertArrayEquals(new int[] { 0, 0 }, merger.getObjectsPerPack());
 	}
 
-	private static void assertNextEntry(
-			Iterator<MutableEntry> it, String oid, int packId, long offset) {
+	private static void assertNextEntry(Iterator<MutableEntry> it, String oid,
+			int packId, long offset) {
 		assertTrue(it.hasNext());
 		MutableEntry e = it.next();
 		assertEquals(oid, e.getObjectId().name());
@@ -266,6 +308,18 @@ public class PackIndexMergerTest {
 
 	private static PackIndex indexOf(IndexObject... objs) {
 		return FakeIndexFactory.indexOf(Arrays.asList(objs));
+	}
+
+	private static MultiPackIndex midxOf(String s1, PackIndex idx1, String s2,
+			PackIndex idx2, String s3, PackIndex idx3) throws IOException {
+		PackIndexMerger merger = createMergerFor(s1, idx1, s2, idx2, s3, idx3);
+		MultiPackIndexWriter w = new MultiPackIndexWriter();
+
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		w.write(NullProgressMonitor.INSTANCE, out, merger);
+
+		ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
+		return MultiPackIndexLoader.read(in);
 	}
 
 	private static PackIndexMerger createMergerFor(String s1, PackIndex pi1,
