@@ -148,6 +148,24 @@ public class MidxIteratorsTest {
 	}
 
 	@Test
+	public void join_duplicates_inPackIdOrder_shift() {
+		FakeMidxIterator itOne = FakeMidxIterator.from("itOne", 5,
+				List.of(new IndexEntry("000001", 4, 501),
+						new IndexEntry("000003", 2, 1501)));
+
+		FakeMidxIterator itTwo = FakeMidxIterator.from("itTwo", 2,
+				List.of(new IndexEntry("000001", 0, 500),
+						new IndexEntry("000003", 1, 1500)));
+
+		MidxIterator it = MidxIterators.join(List.of(itOne, itTwo));
+		assertNextEntry(it, "000001", 4, 501);
+		assertNextEntry(it, "000001", 5, 500);
+		assertNextEntry(it, "000003", 2, 1501);
+		assertNextEntry(it, "000003", 6, 1500);
+		assertFalse(it.hasNext());
+	}
+
+	@Test
 	public void join_peek() {
 		FakeMidxIterator itOne = FakeMidxIterator.from("itOne", 2,
 				List.of(new IndexEntry("000001", 0, 500),

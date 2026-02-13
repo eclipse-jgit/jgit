@@ -195,6 +195,7 @@ public final class MidxIterators {
 
 		private int best() {
 			int winnerPos = -1;
+			int winnerPackShift = 0;
 			MidxIterator winner = null;
 			for (int index = 0; index < indexIterators.size(); index++) {
 				MidxIterator current = indexIterators.get(index);
@@ -202,9 +203,11 @@ public final class MidxIterators {
 					continue;
 				}
 				if (winner == null
-						|| current.peek().compareTo(winner.peek()) < 0) {
+						|| compareEntries(current.peek(), packCountAgg[index],
+								winner.peek(), winnerPackShift) < 0) {
 					winner = current;
 					winnerPos = index;
+					winnerPackShift = packCountAgg[winnerPos];
 				}
 			}
 
@@ -213,6 +216,17 @@ public final class MidxIterators {
 			}
 
 			return winnerPos;
+		}
+
+		private static int compareEntries(MutableEntry a, int aPackShift,
+				MutableEntry b, int bPackShift) {
+			int cmp = a.oid.compareTo(b.oid);
+			if (cmp != 0) {
+				return cmp;
+			}
+
+			return Integer.compare(a.getPackId() + aPackShift,
+					b.getPackId() + bPackShift);
 		}
 
 		@Override
