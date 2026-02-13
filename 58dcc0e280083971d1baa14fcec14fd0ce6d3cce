@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20766807_a775a470",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-02-13T20:58:06Z",
+      "side": 1,
+      "message": "Minor change and passes the tests, I submit directly.",
+      "revId": "58dcc0e280083971d1baa14fcec14fd0ce6d3cce",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
