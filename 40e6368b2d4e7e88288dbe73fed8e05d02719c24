@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17de1ae9_8806d909",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-02-13T20:58:34Z",
+      "side": 1,
+      "message": "This is removing an unnecessary helper method. Submitting directly.",
+      "revId": "40e6368b2d4e7e88288dbe73fed8e05d02719c24",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
