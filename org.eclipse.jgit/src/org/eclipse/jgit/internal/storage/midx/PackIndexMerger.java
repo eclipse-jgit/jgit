@@ -156,19 +156,10 @@ class PackIndexMerger {
 	 * @return an iterator in sha1 order without duplicates.
 	 */
 	MidxIterator bySha1Iterator() {
-		return MidxIterators.dedup(rawIterator());
-	}
-
-	/**
-	 * For testing. Iterate all entries, not skipping duplicates (stable order)
-	 *
-	 * @return an iterator of all objects in sha1 order, including duplicates.
-	 */
-	MidxIterator rawIterator() {
 		List<MidxIterator> list = packs.entrySet().stream()
 				.map(e -> MidxIterators.fromPackIndexIterator(e.getKey(),
 						e.getValue().iterator()))
 				.toList();
-		return MidxIterators.join(list);
+		return MidxIterators.dedup(MidxIterators.join(list));
 	}
 }
