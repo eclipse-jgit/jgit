@@ -31,8 +31,7 @@ public class MidxIteratorsTest {
 		PackIndex index1 = indexOf(object("000001", 500),
 				object("000003", 3000), object("000005", 1500));
 
-		MidxIterator it = MidxIterators.fromPackIndexIterator("index1",
-				index1.iterator());
+		MidxIterator it = MidxIterators.fromPackIndexIterator("index1", index1);
 		assertNextEntry(it, "000001", 0, 500);
 		assertNextEntry(it, "000003", 0, 3000);
 		assertNextEntry(it, "000005", 0, 1500);
@@ -44,8 +43,7 @@ public class MidxIteratorsTest {
 		PackIndex index1 = indexOf(object("000001", 500),
 				object("000003", 3000), object("000005", 1500));
 
-		MidxIterator it = MidxIterators.fromPackIndexIterator("index1",
-				index1.iterator());
+		MidxIterator it = MidxIterators.fromPackIndexIterator("index1", index1);
 		assertPeekEntry(it, "000001", 0, 500);
 		assertPeekEntry(it, "000001", 0, 500);
 		assertNextEntry(it, "000001", 0, 500);
@@ -64,16 +62,14 @@ public class MidxIteratorsTest {
 	public void fromPackIndexIterator_getPackNames() {
 		PackIndex index1 = indexOf(object("000001", 500),
 				object("000003", 1500), object("000005", 3000));
-		MidxIterator it = MidxIterators.fromPackIndexIterator("index1",
-				index1.iterator());
+		MidxIterator it = MidxIterators.fromPackIndexIterator("index1", index1);
 		assertEquals(List.of("index1"), it.getPackNames());
 	}
 
 	@Test
 	public void fromPackIndexIterator_empty() {
-		PackIndex index1 = indexOf();
 		MidxIterator it = MidxIterators.fromPackIndexIterator("index1",
-				index1.iterator());
+				indexOf());
 		assertFalse(it.hasNext());
 	}
 
@@ -104,10 +100,8 @@ public class MidxIteratorsTest {
 				object("000003", 1500), object("000004", 3000));
 
 		List<MidxIterator> packIts = List.of(
-				MidxIterators.fromPackIndexIterator("index1",
-						idxOne.iterator()),
-				MidxIterators.fromPackIndexIterator("index2",
-						idxTwo.iterator()));
+				MidxIterators.fromPackIndexIterator("index1", idxOne),
+				MidxIterators.fromPackIndexIterator("index2", idxTwo));
 		MidxIterator it = MidxIterators.join(packIts);
 		assertNextEntry(it, "000001", 0, 500);
 		assertNextEntry(it, "000002", 1, 500);
@@ -322,6 +316,10 @@ public class MidxIteratorsTest {
 			return entries.get(position++).asMutableEntry();
 		}
 
+		@Override
+		public void reset() {
+			position = 0;
+		}
 	}
 
 	record IndexEntry(String shortOid, int packId, int offset) {
