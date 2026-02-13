@@ -10,18 +10,17 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Function;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
@@ -77,7 +76,10 @@ public class DfsMidxWriter {
 	 * @param objdb
 	 *            an object database
 	 * @param packs
-	 *            the packs to cover
+	 *            the packs to cover in the expected midx order. If a pack is a
+	 *            midx, its contents are added respecting its internal pack
+	 *            order, but its base is ignored. Callers must add each midx in
+	 *            the chain they want included in the new midx.
 	 * @param base
 	 *            parent of this midx in the chain (if any).
 	 * @param packConfig
@@ -91,11 +93,23 @@ public class DfsMidxWriter {
 			DfsObjDatabase objdb, List<DfsPackFile> packs,
 			@Nullable DfsPackDescription base, PackConfig packConfig)
 			throws IOException {
+
+		Map<String, DfsPackDescription> inputPacksByName = new HashMap<>();
 		PackIndexMerger.Builder dataBuilder = PackIndexMerger.builder();
 		try (DfsReader ctx = objdb.newReader()) {
 			for (DfsPackFile pack : packs) {
-				dataBuilder.addPack(pack.getPackDescription().getPackName(),
-						pack.getPackIndex(ctx));
+				if (pack instanceof DfsPackFileMidx midxPack) {
+					dataBuilder.addMidx(midxPack.localIterator(ctx));
+					midxPack.getCoveredPacks().forEach(
+							p -> addToDescriptionsIndex(inputPacksByName,
+									p.getPackDescription()));
+
+				} else {
+					dataBuilder.addPack(pack.getPackDescription().getPackName(),
+							pack.getPackIndex(ctx));
+					addToDescriptionsIndex(inputPacksByName,
+							pack.getPackDescription());
+				}
 			}
 		}
 
@@ -109,12 +123,8 @@ public class DfsMidxWriter {
 			midxPackDesc.setFileSize(MULTI_PACK_INDEX, result.bytesWritten());
 			midxPackDesc.setObjectCount(result.objectCount());
 
-			Map<String, DfsPackDescription> byName = packs.stream()
-					.map(DfsPackFile::getPackDescription)
-					.collect(toMap(DfsPackDescription::getPackName,
-							Function.identity()));
 			List<DfsPackDescription> coveredPacks = result.packNames().stream()
-					.map(byName::get).collect(toList());
+					.map(inputPacksByName::get).collect(toList());
 			midxPackDesc.setCoveredPacks(coveredPacks);
 			if (base != null) {
 				midxPackDesc.setMultiPackIndexBase(base);
@@ -166,6 +176,17 @@ public class DfsMidxWriter {
 			PackBitmapIndexWriter pbiWriter = db.getObjectDatabase()
 					.getPackBitmapIndexWriter(desc);
 			pbiWriter.write(writeBitmaps, checksum);
+		}
+	}
+
+	private static void addToDescriptionsIndex(
+			Map<String, DfsPackDescription> index, DfsPackDescription desc) {
+		DfsPackDescription prevValue = index.putIfAbsent(desc.getPackName(),
+				desc);
+		if (prevValue != null) {
+			throw new IllegalArgumentException(
+					String.format("Pack %s was already added to midx",
+							prevValue.getPackName()));
 		}
 	}
 
