@@ -72,6 +72,20 @@ public class PackIndexMerger {
 		}
 
 		/**
+		 * Add data from this midx iterator to the merge
+		 * <p>
+		 * Packs are kept in the order of the iterator.
+		 *
+		 * @param midx
+		 *            a midx iterator
+		 * @return this builder
+		 */
+		public Builder addMidx(MidxIterator midx) {
+			packIndexes.add(midx);
+			return this;
+		}
+
+		/**
 		 * Build the merger instance
 		 *
 		 * @return a merger instance
