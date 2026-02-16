@@ -49,6 +49,7 @@ import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.CoreConfig.TrustStat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.Iterators;
 import org.slf4j.Logger;
@@ -79,6 +80,8 @@ class PackDirectory {
 
 	private final TrustStat trustPackStat;
 
+	private final int maxSearchPacksCount;
+
 	/**
 	 * Initialize a reference to an on-disk 'pack' directory.
 	 *
@@ -92,6 +95,8 @@ class PackDirectory {
 		this.directory = directory;
 		packList = new AtomicReference<>(NO_PACKS);
 		trustPackStat = config.get(CoreConfig.KEY).getTrustPackStat();
+		PackConfig packConfig = new PackConfig(config);
+		maxSearchPacksCount = packConfig.getMaxSearchPacksCount();
 	}
 
 	/**
@@ -116,12 +121,13 @@ class PackDirectory {
 
 	Collection<Pack> getPacks() {
 		PackList list;
+		int searchPacksCount = 0;
 		do {
 			list = packList.get();
 			if (list == NO_PACKS) {
 				list = scanPacks(list);
 			}
-		} while (searchPacksAgain(list));
+		} while ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(list));
 		Pack[] packs = list.packs;
 		return Collections.unmodifiableCollection(Arrays.asList(packs));
 	}
@@ -155,6 +161,7 @@ class PackDirectory {
 	@Nullable
 	Pack getPack(AnyObjectId objectId) {
 		PackList pList;
+		int searchPacksCount = 0;
 		do {
 			pList = packList.get();
 			for (Pack p : pList.packs) {
@@ -172,7 +179,7 @@ class PackDirectory {
 					remove(p);
 				}
 			}
-		} while (searchPacksAgain(pList));
+		} while ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList));
 		return null;
 	}
 
@@ -216,6 +223,7 @@ class PackDirectory {
 	ObjectLoader open(WindowCursor curs, AnyObjectId objectId)
 			throws PackMismatchException {
 		PackList pList;
+		int searchPacksCount = 0;
 		do {
 			int retries = 0;
 			SEARCH: for (;;) {
@@ -228,7 +236,7 @@ class PackDirectory {
 							return ldr;
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
-						if (searchPacksAgain(pList)) {
+						if ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList)) {
 							retries = checkRescanPackThreshold(retries, e);
 							continue SEARCH;
 						}
@@ -238,13 +246,14 @@ class PackDirectory {
 				}
 				break SEARCH;
 			}
-		} while (searchPacksAgain(pList));
+		} while ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList));
 		return null;
 	}
 
 	long getSize(WindowCursor curs, AnyObjectId id)
 			throws PackMismatchException {
 		PackList pList;
+		int searchPacksCount = 0;
 		do {
 			int retries = 0;
 			SEARCH: for (;;) {
@@ -258,7 +267,7 @@ class PackDirectory {
 						}
 					} catch (PackMismatchException e) {
 						// Pack was modified; refresh the entire pack list.
-						if (searchPacksAgain(pList)) {
+						if ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList)) {
 							retries = checkRescanPackThreshold(retries, e);
 							continue SEARCH;
 						}
@@ -268,7 +277,7 @@ class PackDirectory {
 				}
 				break SEARCH;
 			}
-		} while (searchPacksAgain(pList));
+		} while ((searchPacksCount++) < maxSearchPacksCount && searchPacksAgain(pList));
 		return -1;
 	}
 

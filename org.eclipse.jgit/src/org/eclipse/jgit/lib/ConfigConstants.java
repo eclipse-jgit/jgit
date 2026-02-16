@@ -1129,4 +1129,9 @@ public final class ConfigConstants {
 	 * @since 7.6
 	 */
 	public static final String CONFIG_KEY_PACK_REFS = "packRefs";
+
+	/**
+	 * The "maxSearchPacksCount" key
+	 */
+	public static final String CONFIG_KEY_MAX_SEARCH_PACKS_COUNT = "maxSearchPacksCount";
 }
