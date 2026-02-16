@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f53e639_a613905e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-16T22:50:38Z",
+      "side": 1,
+      "message": "```suggestion\nPackIndexMerger. Let the callers do that. The PackIndexMerger.Builder\n```",
+      "revId": "1799d5425a5f3e534af8166903427ff46d4573cb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
