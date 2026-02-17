@@ -19,108 +19,12 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import org.eclipse.jgit.internal.storage.file.PackIndex;
+import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.MutableEntry;
 import org.eclipse.jgit.junit.FakeIndexFactory;
 import org.eclipse.jgit.junit.FakeIndexFactory.IndexObject;
 import org.junit.Test;
 
 public class PackIndexMergerTest {
-
-	@Test
-	public void rawIterator_noDuplicates() {
-		PackIndex idxOne = indexOf(
-				oidOffset("0000000000000000000000000000000000000001", 500),
-				oidOffset("0000000000000000000000000000000000000005", 12),
-				oidOffset("0000000000000000000000000000000000000010", 1500));
-		PackIndex idxTwo = indexOf(
-				oidOffset("0000000000000000000000000000000000000002", 501),
-				oidOffset("0000000000000000000000000000000000000003", 13),
-				oidOffset("0000000000000000000000000000000000000015", 1501));
-		PackIndex idxThree = indexOf(
-				oidOffset("0000000000000000000000000000000000000004", 502),
-				oidOffset("0000000000000000000000000000000000000007", 14),
-				oidOffset("0000000000000000000000000000000000000012", 1502));
-		PackIndexMerger merger = new PackIndexMerger(
-				orderedMapOf("p1", idxOne, "p2", idxTwo, "p3", idxThree));
-		assertEquals(9, merger.getUniqueObjectCount());
-		assertEquals(3, merger.getPackCount());
-		assertFalse(merger.needsLargeOffsetsChunk());
-		Iterator<PackIndexMerger.MidxMutableEntry> it = merger.rawIterator();
-		assertNextEntry(it, "0000000000000000000000000000000000000001", 0, 500);
-		assertNextEntry(it, "0000000000000000000000000000000000000002", 1, 501);
-		assertNextEntry(it, "0000000000000000000000000000000000000003", 1, 13);
-		assertNextEntry(it, "0000000000000000000000000000000000000004", 2, 502);
-		assertNextEntry(it, "0000000000000000000000000000000000000005", 0, 12);
-		assertNextEntry(it, "0000000000000000000000000000000000000007", 2, 14);
-		assertNextEntry(it, "0000000000000000000000000000000000000010", 0,
-				1500);
-		assertNextEntry(it, "0000000000000000000000000000000000000012", 2,
-				1502);
-		assertNextEntry(it, "0000000000000000000000000000000000000015", 1,
-				1501);
-		assertFalse(it.hasNext());
-	}
-
-	@Test
-	public void rawIterator_noDuplicates_honorPackOrder() {
-		PackIndex idxOne = indexOf(
-				oidOffset("0000000000000000000000000000000000000001", 500),
-				oidOffset("0000000000000000000000000000000000000005", 12),
-				oidOffset("0000000000000000000000000000000000000010", 1500));
-		PackIndex idxTwo = indexOf(
-				oidOffset("0000000000000000000000000000000000000002", 501),
-				oidOffset("0000000000000000000000000000000000000003", 13),
-				oidOffset("0000000000000000000000000000000000000015", 1501));
-		PackIndex idxThree = indexOf(
-				oidOffset("0000000000000000000000000000000000000004", 502),
-				oidOffset("0000000000000000000000000000000000000007", 14),
-				oidOffset("0000000000000000000000000000000000000012", 1502));
-        PackIndexMerger merger = new PackIndexMerger(
-				orderedMapOf("p3", idxThree, "p2", idxTwo, "p1", idxOne));
-		assertEquals(9, merger.getUniqueObjectCount());
-		assertEquals(3, merger.getPackCount());
-		assertFalse(merger.needsLargeOffsetsChunk());
-		Iterator<PackIndexMerger.MidxMutableEntry> it = merger.rawIterator();
-		assertNextEntry(it, "0000000000000000000000000000000000000001", 2, 500);
-		assertNextEntry(it, "0000000000000000000000000000000000000002", 1, 501);
-		assertNextEntry(it, "0000000000000000000000000000000000000003", 1, 13);
-		assertNextEntry(it, "0000000000000000000000000000000000000004", 0, 502);
-		assertNextEntry(it, "0000000000000000000000000000000000000005", 2, 12);
-		assertNextEntry(it, "0000000000000000000000000000000000000007", 0, 14);
-		assertNextEntry(it, "0000000000000000000000000000000000000010", 2,
-				1500);
-		assertNextEntry(it, "0000000000000000000000000000000000000012", 0,
-				1502);
-		assertNextEntry(it, "0000000000000000000000000000000000000015", 1,
-				1501);
-		assertFalse(it.hasNext());
-	}
-
-	@Test
-	public void rawIterator_allDuplicates() {
-		PackIndex idxOne = indexOf(
-				oidOffset("0000000000000000000000000000000000000001", 500),
-				oidOffset("0000000000000000000000000000000000000005", 12),
-				oidOffset("0000000000000000000000000000000000000010", 1500));
-		PackIndexMerger merger = new PackIndexMerger(
-				orderedMapOf("p1", idxOne, "p2", idxOne, "p3", idxOne));
-		assertEquals(3, merger.getUniqueObjectCount());
-		assertEquals(3, merger.getPackCount());
-		assertFalse(merger.needsLargeOffsetsChunk());
-		Iterator<PackIndexMerger.MidxMutableEntry> it = merger.rawIterator();
-		assertNextEntry(it, "0000000000000000000000000000000000000001", 0, 500);
-		assertNextEntry(it, "0000000000000000000000000000000000000001", 1, 500);
-		assertNextEntry(it, "0000000000000000000000000000000000000001", 2, 500);
-		assertNextEntry(it, "0000000000000000000000000000000000000005", 0, 12);
-		assertNextEntry(it, "0000000000000000000000000000000000000005", 1, 12);
-		assertNextEntry(it, "0000000000000000000000000000000000000005", 2, 12);
-		assertNextEntry(it, "0000000000000000000000000000000000000010", 0,
-				1500);
-		assertNextEntry(it, "0000000000000000000000000000000000000010", 1,
-				1500);
-		assertNextEntry(it, "0000000000000000000000000000000000000010", 2,
-				1500);
-		assertFalse(it.hasNext());
-	}
 
 	@Test
 	public void bySha1Iterator_noDuplicates() {
@@ -141,12 +45,48 @@ public class PackIndexMergerTest {
 		assertEquals(9, merger.getUniqueObjectCount());
 		assertEquals(3, merger.getPackCount());
 		assertFalse(merger.needsLargeOffsetsChunk());
-		Iterator<PackIndexMerger.MidxMutableEntry> it = merger.bySha1Iterator();
+		Iterator<MutableEntry> it = merger.bySha1Iterator();
 		assertNextEntry(it, "0000000000000000000000000000000000000001", 0, 500);
 		assertNextEntry(it, "0000000000000000000000000000000000000002", 1, 501);
 		assertNextEntry(it, "0000000000000000000000000000000000000003", 1, 13);
 		assertNextEntry(it, "0000000000000000000000000000000000000004", 2, 502);
 		assertNextEntry(it, "0000000000000000000000000000000000000005", 0, 12);
+		assertNextEntry(it, "0000000000000000000000000000000000000007", 2, 14);
+		assertNextEntry(it, "0000000000000000000000000000000000000010", 0,
+				1500);
+		assertNextEntry(it, "0000000000000000000000000000000000000012", 2,
+				1502);
+		assertNextEntry(it, "0000000000000000000000000000000000000015", 1,
+				1501);
+		assertFalse(it.hasNext());
+	}
+
+	@Test
+	public void bySha1Iterator_withDuplicates() {
+		PackIndex idxOne = indexOf(
+				oidOffset("0000000000000000000000000000000000000001", 500),
+				oidOffset("0000000000000000000000000000000000000010", 1500));
+		PackIndex idxTwo = indexOf(
+				oidOffset("0000000000000000000000000000000000000002", 501),
+				oidOffset("0000000000000000000000000000000000000003", 13),
+				oidOffset("0000000000000000000000000000000000000005", 800),
+				oidOffset("0000000000000000000000000000000000000015", 1501));
+		PackIndex idxThree = indexOf(
+				oidOffset("0000000000000000000000000000000000000004", 502),
+				oidOffset("0000000000000000000000000000000000000005", 12),
+				oidOffset("0000000000000000000000000000000000000007", 14),
+				oidOffset("0000000000000000000000000000000000000012", 1502));
+		PackIndexMerger merger = new PackIndexMerger(
+				orderedMapOf("p1", idxOne, "p2", idxTwo, "p3", idxThree));
+		assertEquals(9, merger.getUniqueObjectCount());
+		assertEquals(3, merger.getPackCount());
+		assertFalse(merger.needsLargeOffsetsChunk());
+		Iterator<MutableEntry> it = merger.bySha1Iterator();
+		assertNextEntry(it, "0000000000000000000000000000000000000001", 0, 500);
+		assertNextEntry(it, "0000000000000000000000000000000000000002", 1, 501);
+		assertNextEntry(it, "0000000000000000000000000000000000000003", 1, 13);
+		assertNextEntry(it, "0000000000000000000000000000000000000004", 2, 502);
+		assertNextEntry(it, "0000000000000000000000000000000000000005", 1, 800);
 		assertNextEntry(it, "0000000000000000000000000000000000000007", 2, 14);
 		assertNextEntry(it, "0000000000000000000000000000000000000010", 0,
 				1500);
@@ -168,7 +108,7 @@ public class PackIndexMergerTest {
 		assertEquals(3, merger.getUniqueObjectCount());
 		assertEquals(3, merger.getPackCount());
 		assertFalse(merger.needsLargeOffsetsChunk());
-		Iterator<PackIndexMerger.MidxMutableEntry> it = merger.bySha1Iterator();
+		Iterator<MutableEntry> it = merger.bySha1Iterator();
 		assertNextEntry(it, "0000000000000000000000000000000000000001", 0, 500);
 		assertNextEntry(it, "0000000000000000000000000000000000000005", 0, 12);
 		assertNextEntry(it, "0000000000000000000000000000000000000010", 0,
@@ -192,7 +132,7 @@ public class PackIndexMergerTest {
 		assertEquals(6, merger.getUniqueObjectCount());
 		assertEquals(3, merger.getPackCount());
 		assertFalse(merger.needsLargeOffsetsChunk());
-		Iterator<PackIndexMerger.MidxMutableEntry> it = merger.bySha1Iterator();
+		Iterator<MutableEntry> it = merger.bySha1Iterator();
 		assertNextEntry(it, "0000000000000000000000000000000000000002", 1, 500);
 		assertNextEntry(it, "0000000000000000000000000000000000000003", 1, 12);
 		assertNextEntry(it, "0000000000000000000000000000000000000004", 2, 500);
@@ -315,10 +255,9 @@ public class PackIndexMergerTest {
 	}
 
 	private static void assertNextEntry(
-			Iterator<PackIndexMerger.MidxMutableEntry> it, String oid,
-			int packId, long offset) {
+			Iterator<MutableEntry> it, String oid, int packId, long offset) {
 		assertTrue(it.hasNext());
-		PackIndexMerger.MidxMutableEntry e = it.next();
+		MutableEntry e = it.next();
 		assertEquals(oid, e.getObjectId().name());
 		assertEquals(packId, e.getPackId());
 		assertEquals(offset, e.getOffset());

@@ -1122,4 +1122,11 @@ public final class ConfigConstants {
 	 * @since 7.5
 	 */
 	public static final String CONFIG_KEY_MULTIPACKINDEX = "multiPackIndex";
+
+	/**
+	 * The "packRefs" key
+	 *
+	 * @since 7.6
+	 */
+	public static final String CONFIG_KEY_PACK_REFS = "packRefs";
 }

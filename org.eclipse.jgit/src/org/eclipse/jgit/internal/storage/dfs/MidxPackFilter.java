@@ -82,10 +82,6 @@ public class MidxPackFilter {
 		List<DfsPackDescription> midxs = packs.stream()
 				.filter(desc -> desc.hasFileExt(PackExt.MULTI_PACK_INDEX))
 				.sorted(midxComparator).toList();
-		for (DfsPackDescription d : midxs) {
-			System.out.println(String.format(" %s - %d - %d", d.getPackName(),
-					d.getLastModified(), getTotalCoveredObjects(d)));
-		}
 		if (midxs.isEmpty()) {
 			return packs;
 		}
