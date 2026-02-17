@@ -16,6 +16,24 @@
       "message": "```suggestion\nPackIndexMerger. Let the callers do that. The PackIndexMerger.Builder\n```",
       "revId": "1799d5425a5f3e534af8166903427ff46d4573cb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69300e83_df035cf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-02-17T21:36:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f53e639_a613905e",
+      "revId": "1799d5425a5f3e534af8166903427ff46d4573cb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
