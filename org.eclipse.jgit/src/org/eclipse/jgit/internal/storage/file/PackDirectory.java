@@ -574,14 +574,14 @@ class PackDirectory {
 		return new PackList(snapshot, r);
 	}
 
-	private static Map<String, Pack> reuseMap(PackList old) {
+	private Map<String, Pack> reuseMap(PackList old) {
 		final Map<String, Pack> forReuse = new HashMap<>();
 		for (Pack p : old.packs) {
 			if (p.invalid()) {
 				// The pack instance is corrupted, and cannot be safely used
 				// again. Do not include it in our reuse map.
 				//
-				p.close();
+				remove(p);
 				continue;
 			}
 
@@ -594,7 +594,7 @@ class PackDirectory {
 				// readers are likely to be actively using the first.
 				//
 				forReuse.put(prior.getPackFile().getName(), prior);
-				p.close();
+				remove(p);
 			}
 		}
 		return forReuse;
