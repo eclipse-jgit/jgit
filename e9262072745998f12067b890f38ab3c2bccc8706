@@ -210,6 +210,30 @@
       },
       "revId": "e9262072745998f12067b890f38ab3c2bccc8706",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "113ebe37_33168758",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-17T20:53:22Z",
+      "side": 1,
+      "message": "you didn\u0027t rename the parameter to `midxIterator`, was that intentional ?",
+      "parentUuid": "6e2dd310_106768ff",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 57
+      },
+      "revId": "e9262072745998f12067b890f38ab3c2bccc8706",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
