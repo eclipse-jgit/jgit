@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87b5d17e_e7790ea6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-02-17T17:21:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b141d42_3e1c70e6",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "e9262072745998f12067b890f38ab3c2bccc8706",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f94023c9_52c99d26",
@@ -41,6 +65,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30a1f5bf_65551a53",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/midx/PackIndexMergerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-02-17T17:21:34Z",
+      "side": 1,
+      "message": "I changed the order of the indexes to merge and that forced changes in the input and assertions. I keep the previous order to minimize the change.",
+      "parentUuid": "f94023c9_52c99d26",
+      "revId": "e9262072745998f12067b890f38ab3c2bccc8706",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18ab12bd_8eb18cfe",
@@ -54,6 +96,24 @@
       "writtenOn": "2026-02-16T22:47:24Z",
       "side": 1,
       "message": "why does this change need to change assertions ?",
+      "revId": "e9262072745998f12067b890f38ab3c2bccc8706",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7274d8a1_7c1d1d78",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/midx/PackIndexMergerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-02-17T17:21:34Z",
+      "side": 1,
+      "message": "I changed the merge order when building the merger. Reverted to previous order.\n\nIf I want a test with inputs in different order, I\u0027ll add it in a different change.",
+      "parentUuid": "18ab12bd_8eb18cfe",
       "revId": "e9262072745998f12067b890f38ab3c2bccc8706",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -81,6 +141,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72704b29_376729e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-02-17T17:21:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08afd767_e566c571",
+      "range": {
+        "startLine": 53,
+        "startChar": 35,
+        "endLine": 53,
+        "endChar": 42
+      },
+      "revId": "e9262072745998f12067b890f38ab3c2bccc8706",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6dfad45d_92646321",
@@ -94,6 +178,30 @@
       "writtenOn": "2026-02-16T22:47:24Z",
       "side": 1,
       "message": "```suggestion\n\t * @param midxIterator\n\t *            MidxIterator built by deduping union of all pack indexes\n```",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 57
+      },
+      "revId": "e9262072745998f12067b890f38ab3c2bccc8706",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e2dd310_106768ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-02-17T17:21:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6dfad45d_92646321",
       "range": {
         "startLine": 75,
         "startChar": 0,
