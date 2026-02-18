@@ -3,6 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.eclipse.jgit.junit - Sources
 Bundle-SymbolicName: org.eclipse.jgit.junit.source
 Bundle-Vendor: Eclipse.org - JGit
-Bundle-Version: 7.6.0.202602181523-m3
+Bundle-Version: 7.6.0.qualifier
 Bundle-SCM: url=https://github.com/eclipse-jgit/jgit, connection=scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit.git, developerConnection=scm:git:https://eclipse.gerrithub.io/a/eclipse-jgit/jgit.git
-Eclipse-SourceBundle: org.eclipse.jgit.junit;version="7.6.0.202602181523-m3";roots="."
+Eclipse-SourceBundle: org.eclipse.jgit.junit;version="7.6.0.qualifier";roots="."

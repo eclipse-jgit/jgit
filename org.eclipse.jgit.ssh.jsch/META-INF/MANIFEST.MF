@@ -7,7 +7,7 @@ Fragment-Host: org.eclipse.jgit;bundle-version="[7.6.0,7.7.0)"
 Bundle-Vendor: %Bundle-Vendor
 Bundle-Localization: OSGI-INF/l10n/jsch
 Bundle-ActivationPolicy: lazy
-Bundle-Version: 7.6.0.202602181523-m3
+Bundle-Version: 7.6.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-SCM: url=https://github.com/eclipse-jgit/jgit, connection=scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit.git, developerConnection=scm:git:https://eclipse.gerrithub.io/a/eclipse-jgit/jgit.git
 Export-Package: org.eclipse.jgit.transport.ssh.jsch;version="7.6.0"
