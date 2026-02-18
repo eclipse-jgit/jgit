@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f4a3141_4210a6b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/PackIndexMerger.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-02-18T19:12:16Z",
+      "side": 1,
+      "message": "Whitespace",
+      "revId": "7ed50d902d1d16a43b42990257a7023f5152c065",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
