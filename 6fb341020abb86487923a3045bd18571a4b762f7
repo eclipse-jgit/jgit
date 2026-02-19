@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48977f29_8460b1e5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-02-19T18:11:33Z",
+      "side": 1,
+      "message": "Since this is also a transient error case, it would be nice to call `handleTransientError()` here. The only difference is the first parameter passed to `MessageFormat.format()`. What if you made that method signature `handleTransientError(IOException e, Pack p, String errorTemplate)`? Then this becomes:\n```suggestion\n\t\t\thandleTransientError(e, p, JGitText.get().packInaccessible);\n```\n\nAnd L326 is still simple to read as `handleTransientError(e, p, JGitText.get().exceptionWhileReadingPack);`",
+      "range": {
+        "startLine": 332,
+        "startChar": 3,
+        "endLine": 337,
+        "endChar": 4
+      },
+      "revId": "6fb341020abb86487923a3045bd18571a4b762f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12b32d30_a7744083",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-02-19T18:11:33Z",
+      "side": 1,
+      "message": "Do you want to keep the comment?\n```suggestion\n\t\t// Assume the pack is corrupted, and remove it from the list.\n\t\tremove(p);\n```",
+      "revId": "6fb341020abb86487923a3045bd18571a4b762f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
