@@ -1,0 +1,9 @@
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+2: Nasser Grainawi <nasser.grainawi@oss.qualcomm.com>
+Verified+1: eclipse-jgit-bot <jgit-bot@eclipse.org>
+Submitted-by: Luca Milanesio <luca.milanesio@gmail.com>
+Submitted-at: Fri, 20 Feb 2026 23:59:18 +0000
+Reviewed-on: https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1230695
+Comments-Total: 4
+Project: eclipse-jgit/jgit
+Branch: refs/heads/master
