@@ -70,6 +70,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d069141_54efc6e7",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/signing/GpgSigningText.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-02-20T08:59:11Z",
+      "side": 1,
+      "message": "Makes sense to move it to JGitText, so I\u0027ve moved them now",
+      "parentUuid": "0ad6536f_6c88ebb9",
+      "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9793bea_ae1f882a",
@@ -188,6 +206,24 @@
       "writtenOn": "2026-01-28T08:02:12Z",
       "side": 1,
       "message": "Thinking ahead: once this in JGit, we\u0027d want to use it from EGit, too. But a GUI program needs to make sure that gpg uses a GUI passphrase prompt, not a terminal prompt. EGit currently does two things:\n\n* It removes two environment variables from the process\u0027s environment.\n* It checks the [GNUPG] lines to detect whether a terminal prompt was used.\n\nIf one runs JGit on the command line, this is not needed.\n\nSo the code using JGit needs to have some way to configure the process runner to do the above things; otherwise things may not work well from a GUI application.",
+      "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6bb0bed_d3afd9ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/signing/GpgProcessRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-02-20T08:59:11Z",
+      "side": 1,
+      "message": "Added GpgProcessConfiguration for this now and migrated some logic from EGit on disabling these env variables",
+      "parentUuid": "fb764a0f_d40694d9",
       "revId": "978f1f0f0c8985032574237e56ca1e80af09b65a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },

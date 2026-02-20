@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dce7f6a_2a2d38a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039178
+      },
+      "writtenOn": "2026-02-20T08:59:11Z",
+      "side": 1,
+      "message": "The latest patch set has addressed these last two review notes.",
+      "revId": "18561c2131c8d63aa3687edfab69cbebdbf4a100",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
