@@ -119,7 +119,7 @@ __org.eclipse.jgit.junit.ssh__: Helpers for unit testing
 - Only the timestamp of the index is used by JGit if the index is
   dirty.
 
-- JGit 6.0 and newer requires at least Java 11. Older versions require at least Java 1.8.
+- While Java 11 is the minimum requirement, building JGit with newer Java versions (for example Java 25) may fail due to toolchain incompatibilities. Java **17** is recommended for a stable build.
 
 - CRLF conversion is performed depending on the `core.autocrlf` setting,
   however Git for Windows by default stores that setting during
