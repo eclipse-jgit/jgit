@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb580b17_08b6dc28",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-21T23:07:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48977f29_8460b1e5",
+      "range": {
+        "startLine": 332,
+        "startChar": 3,
+        "endLine": 337,
+        "endChar": 4
+      },
+      "revId": "6fb341020abb86487923a3045bd18571a4b762f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12b32d30_a7744083",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-02-19T18:11:33Z",
       "side": 1,
       "message": "Do you want to keep the comment?\n```suggestion\n\t\t// Assume the pack is corrupted, and remove it from the list.\n\t\tremove(p);\n```",
+      "revId": "6fb341020abb86487923a3045bd18571a4b762f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab5a18a8_7f6a0bf7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-21T23:07:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12b32d30_a7744083",
       "revId": "6fb341020abb86487923a3045bd18571a4b762f7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
