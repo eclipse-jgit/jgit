@@ -1,4 +1,22 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "395f2032_a37fadf4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-02-23T23:00:57Z",
+      "side": 1,
+      "message": "This looks like a pretty tiny but useful change. Is it worth backporting to some older branch(es)?",
+      "revId": "707fe22bc7d3807faa11f00c3c8f3ce0eef502f4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }
