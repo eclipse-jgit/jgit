@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5ec66b9_94751c39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-02-23T10:01:45Z",
+      "side": 1,
+      "message": "@matthias.sohn@sap.com in case you are interested, we did this also in our internal GitHub repos in order to force our DEVs to use the templates that we provided for them. The problem was, that many DEVs were adding low quality issue reports.\n\nThe same could be done for EGit",
+      "revId": "a18985148557f5c210d8ebb221d77fde90d69b14",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
