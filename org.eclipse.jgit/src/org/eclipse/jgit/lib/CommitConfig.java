@@ -97,11 +97,11 @@ public class CommitConfig {
 
 	private final static Charset DEFAULT_COMMIT_MESSAGE_ENCODING = StandardCharsets.UTF_8;
 
-	private String i18nCommitEncoding;
+	private final String i18nCommitEncoding;
 
-	private String commitTemplatePath;
+	private final String commitTemplatePath;
 
-	private CleanupMode cleanupMode;
+	private final CleanupMode cleanupMode;
 
 	private char commentCharacter = '#';
 

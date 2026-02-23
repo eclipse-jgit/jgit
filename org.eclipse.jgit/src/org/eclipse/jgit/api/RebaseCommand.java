@@ -1039,6 +1039,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				CommitCommand commit = git.commit();
 				commit.setMessage(rebaseState.readFile(MESSAGE));
 				commit.setAuthor(parseAuthor());
+				commit.setCleanupMode(
+						commitConfig.resolve(CleanupMode.DEFAULT, false));
 				return commit.call();
 			}
 		}
