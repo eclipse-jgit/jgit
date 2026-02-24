@@ -240,6 +240,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2febcf3_6e5cc3d2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashApplyCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-24T22:45:07Z",
+      "side": 1,
+      "message": "we can do the same for the other occurrences in another change",
+      "parentUuid": "6e51b6a7_fac47777",
+      "range": {
+        "startLine": 461,
+        "startChar": 0,
+        "endLine": 466,
+        "endChar": 3
+      },
+      "revId": "a9e56396d561d957cddaef5f247a01fa8a166b0a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e80b00ff_c0a0ccc0",
