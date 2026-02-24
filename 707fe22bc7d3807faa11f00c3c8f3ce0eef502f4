@@ -16,6 +16,24 @@
       "message": "This looks like a pretty tiny but useful change. Is it worth backporting to some older branch(es)?",
       "revId": "707fe22bc7d3807faa11f00c3c8f3ce0eef502f4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0684da6_41c7e92d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-02-24T16:05:01Z",
+      "side": 1,
+      "message": "From my testing, it may not be worth it, but others might have different results. However, from my testing, this one will be once it gets updated to just do the \"fully-peeled\" part: https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1230152 as this seems to be the flag that improves things for us.",
+      "parentUuid": "395f2032_a37fadf4",
+      "revId": "707fe22bc7d3807faa11f00c3c8f3ce0eef502f4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
