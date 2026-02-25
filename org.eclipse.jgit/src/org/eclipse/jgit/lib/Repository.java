@@ -1421,7 +1421,6 @@ public abstract class Repository implements AutoCloseable {
 				if (p == '@')
 					return false;
 				break;
-			case '~': case '^': case ':':
 			case '?': case '[': case '*':
 			case '\\':
 			case '\u007F':
