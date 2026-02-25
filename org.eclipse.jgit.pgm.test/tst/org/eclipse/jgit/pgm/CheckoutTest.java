@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
@@ -677,6 +678,77 @@ public class CheckoutTest extends CLIRepositoryTestCase {
 			assertEquals("Hello world", read(f));
 			assertEquals("[a, mode:100644, content:Hello world]",
 					indexState(db, LocalDiskRepositoryTestCase.CONTENT));
+		}
+	}
+
+	@Test
+	public void testCheckoutToParentWithTilde_HEAD() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("a","This is the first file");
+			git.add().addFilepattern("a").call();
+			RevCommit commit1 = git.commit().setMessage("created a").call();
+
+			writeTrashFile("b","This is the second file");
+			git.add().addFilepattern("b").call();
+			git.commit().setMessage("created b").call();
+
+			execute("git checkout HEAD~1");
+
+			String headAfterCheckout = git.getRepository().resolve("HEAD").getName();
+
+			assertEquals(headAfterCheckout,commit1.getId().getName());
+		}
+	}
+
+	@Test
+	public void testCheckoutToParentWithTilde_COMMITID() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("a","This is the first file");
+			git.add().addFilepattern("a").call();
+			RevCommit commit1 = git.commit().setMessage("created a").call();
+
+			writeTrashFile("b","This is the second file");
+			git.add().addFilepattern("b").call();
+			RevCommit commit2 = git.commit().setMessage("created b").call();
+
+			execute("git checkout " + commit2.getId().getName() + "~1");
+
+			String headAfterCheckout = git.getRepository().resolve("HEAD").getName();
+			assertEquals(headAfterCheckout,commit1.getId().getName());
+		}
+	}
+
+	@Test
+	public void testCheckoutToParentWithCap() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("a","This is the first file");
+			git.add().addFilepattern("a").call();
+			RevCommit commit1 = git.commit().setMessage("created a").call();
+
+			writeTrashFile("b","This is the second file");
+			git.add().addFilepattern("b").call();
+			RevCommit commit2 = git.commit().setMessage("created b").call();
+
+			execute("git checkout " + commit1.getId().getName());
+
+			writeTrashFile("c","This is the third file");
+			git.add().addFilepattern("c").call();
+
+			RevCommit commit3 = git.commit().setMessage("created c").call();
+
+			MergeResult result = git.merge().include(commit2).call();
+
+			execute("git checkout HEAD^1");
+
+			assertEquals(git.getRepository().resolve("HEAD").getName(),commit3.getId().getName());
+
+			execute("git checkout " + result.getNewHead().getName());
+
+			execute("git checkout HEAD^2");
+
+			assertEquals(git.getRepository().resolve("HEAD").getName(),commit2.getId().getName());
+
+			execute("git checkout " + result.getNewHead().getName());
 		}
 	}
 }
