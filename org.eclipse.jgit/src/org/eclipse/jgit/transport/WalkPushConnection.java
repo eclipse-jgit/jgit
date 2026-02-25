@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.function.Supplier;
 
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
@@ -156,9 +157,9 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 
 		RefWriter refWriter = new RefWriter(newRefs.values()) {
 			@Override
-			protected void writeFile(String file, byte[] content)
+			protected void writeFile(String file, Supplier<byte[]> content)
 					throws IOException {
-				dest.writeFile(ROOT_DIR + file, content);
+				dest.writeFile(ROOT_DIR + file, content.get());
 			}
 		};
 		if (!packedRefUpdates.isEmpty()) {

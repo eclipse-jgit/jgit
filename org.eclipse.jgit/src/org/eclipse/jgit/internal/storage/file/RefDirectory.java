@@ -54,6 +54,7 @@ import java.util.concurrent.FutureTask;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -826,6 +827,7 @@ public class RefDirectory extends RefDatabase {
 				// The new content for packed-refs is collected. Persist it.
 				commitPackedRefs(lck, newPacked, oldPacked,false);
 
+
 				// Now delete the loose refs which are now packed
 				for (String refName : refs) {
 					// Lock the loose ref
@@ -1147,12 +1149,12 @@ public class RefDirectory extends RefDatabase {
 			throws IOException {
 		new RefWriter(refs) {
 			@Override
-			protected void writeFile(String name, byte[] content)
+			protected void writeFile(String name, Supplier<byte[]> contentFunc)
 					throws IOException {
 				lck.setFSync(true);
 				lck.setNeedSnapshot(true);
 				try {
-					lck.write(content);
+					lck.write(contentFunc.get());
 				} catch (IOException ioe) {
 					throw new ObjectWritingException(MessageFormat.format(JGitText.get().unableToWrite, name), ioe);
 				}
@@ -1168,7 +1170,7 @@ public class RefDirectory extends RefDatabase {
 				if (!lck.commit())
 					throw new ObjectWritingException(MessageFormat.format(JGitText.get().unableToWrite, name));
 
-				byte[] digest = Constants.newMessageDigest().digest(content);
+				byte[] digest = Constants.newMessageDigest().digest(contentFunc.get());
 				PackedRefList newPackedList = new NonEmptyPackedRefList(
 						refs, lck.getCommitSnapshot(), ObjectId.fromRaw(digest));
 				packedRefs.compareAndSet(oldPackedList, newPackedList);
