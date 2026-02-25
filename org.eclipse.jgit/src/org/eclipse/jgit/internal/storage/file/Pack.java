@@ -439,7 +439,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		closeIndices();
 	}
 
-	private synchronized void closeIndices() {
+	public synchronized void closeIndices() {
 		loadedIdx = Optionally.empty();
 		reverseIdx = Optionally.empty();
 		bitmapIdx = Optionally.empty();
