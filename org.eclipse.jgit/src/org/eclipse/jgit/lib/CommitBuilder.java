@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.util.References;
@@ -53,11 +55,34 @@ public class CommitBuilder extends ObjectBuilder {
 
 	private PersonIdent committer;
 
+	private List<String[]> extraHeaders = new ArrayList<>();
+
 	/**
 	 * Initialize an empty commit.
 	 */
 	public CommitBuilder() {
 		parentIds = EMPTY_OBJECTID_LIST;
+	}
+
+	/**
+	 * Add an extra commit-object header written after the committer line.
+	 *
+	 * @param name
+	 *            header name (must not contain spaces or newlines).
+	 * @param value
+	 *            header value (single-line; must not contain newlines).
+	 */
+	public void addExtraHeader(String name, String value) {
+		extraHeaders.add(new String[] { name, value });
+	}
+
+	/**
+	 * Get the extra commit-object headers.
+	 *
+	 * @return unmodifiable list of {@code [name, value]} pairs.
+	 */
+	public List<String[]> getExtraHeaders() {
+		return Collections.unmodifiableList(extraHeaders);
 	}
 
 	/**
@@ -222,6 +247,14 @@ public class CommitBuilder extends ObjectBuilder {
 			w.write(getCommitter().toExternalString());
 			w.flush();
 			os.write('\n');
+
+			for (String[] header : extraHeaders) {
+				w.write(header[0]);
+				w.write(' ');
+				w.write(header[1]);
+				w.flush();
+				os.write('\n');
+			}
 
 			GpgSignature signature = getGpgSignature();
 			if (signature != null) {
