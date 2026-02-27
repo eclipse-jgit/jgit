@@ -33,6 +33,23 @@
       "message": "we need to do the same in the maven build which also resolves to org.slf4j:jcl-over-slf4j:jar:1.7.36",
       "revId": "8a18ba2bbb1efea06df7fda975ea37110436080a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1ee6e2b_46391dfb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-27T10:13:44Z",
+      "side": 1,
+      "message": "run `mvn dependency:tree` and check which version of org.slf4j:jcl-over-slf4j is resolved",
+      "revId": "8a18ba2bbb1efea06df7fda975ea37110436080a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
