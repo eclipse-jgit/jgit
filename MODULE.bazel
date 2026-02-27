@@ -81,6 +81,7 @@ maven.install(
         "org.openjdk.jmh:jmh-core:" + JMH_VERSION,
         "org.openjdk.jmh:jmh-generator-annprocess:" + JMH_VERSION,
         "org.slf4j:slf4j-api:" + SLF4J_VERSION,
+        "org.slf4j:jcl-over-slf4j:" + SLF4J_VERSION,
         "org.slf4j:slf4j-simple:" + SLF4J_VERSION,
         "org.tukaani:xz:1.11",
     ],
