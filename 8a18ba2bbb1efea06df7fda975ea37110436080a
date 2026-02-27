@@ -50,6 +50,24 @@
       "message": "run `mvn dependency:tree` and check which version of org.slf4j:jcl-over-slf4j is resolved",
       "revId": "8a18ba2bbb1efea06df7fda975ea37110436080a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e50262e_59afa576",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-27T10:20:44Z",
+      "side": 1,
+      "message": "the old version is pulled in as transitive dependency of org.apache.sshd:sshd-osgi:2.17.1:\n\n```\r\n$ mvn dependency:tree -Dincludes\u003dorg.slf4j:jcl-over-slf4j\n...\n[INFO] --- dependency:3.9.0:tree (default-cli) @ org.eclipse.jgit.junit.ssh ---\n[INFO] org.eclipse.jgit:org.eclipse.jgit.ssh.apache:jar:7.6.0-SNAPSHOT\n[INFO] \\- org.apache.sshd:sshd-osgi:jar:2.17.1:compile\n[INFO]    \\- org.slf4j:jcl-over-slf4j:jar:1.7.36:compile\n...\n```",
+      "parentUuid": "d1ee6e2b_46391dfb",
+      "revId": "8a18ba2bbb1efea06df7fda975ea37110436080a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
