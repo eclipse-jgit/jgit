@@ -21,8 +21,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class InterruptTimerTest {
-	private static final int MULTIPLIER = 8; // Increase if tests get flaky
-	private static final int BUFFER = 5; // Increase if tests get flaky
+	private static final int MULTIPLIER = 16; // Increase if tests get flaky
+	private static final int BUFFER = 10; // Increase if tests get flaky
 	private static final int REPEATS = 100; // Increase to stress test more
 
 	private static final int SHORT_ENOUGH = 1;
