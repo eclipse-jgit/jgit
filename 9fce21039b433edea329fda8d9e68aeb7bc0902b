@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56a2ba33_4eed52ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-02-27T10:41:54Z",
+      "side": 1,
+      "message": "Thanks for tracking this down.\n\nIt looks like org.apache.sshd:sshd-osgi is pulling in org.slf4j:jcl-over-slf4j:1.7.36 transitively, and that upgrading SLF4J beyond 1.x was previously avoided upstream due to Checkstyle execution failures (see mina-sshd POM).\n\n```\n\u003c!-- NOTE: upgrading slf4j beyond this version causes\n\n            Execution verify-style of goal org.apache.maven.plugins:maven-checkstyle-plugin:3.1.2:check failed.: NullPointerException\n            --\u003e\n\u003cslf4j.version\u003e1.7.36\u003c/slf4j.version\u003e\n```\n\nSince JGit already uses SLF4J 2.x, this change explicitly pins jcl-over-slf4j to ${slf4j-version} in both Bazel and Maven builds to avoid mixing SLF4J 1.x and 2.x on the runtime classpath.\n\n@twolf@apache.org:\n\nIs SLF4J 2.x expected to work with current SSHD releases, or should this be addressed upstream first?",
+      "revId": "9fce21039b433edea329fda8d9e68aeb7bc0902b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
