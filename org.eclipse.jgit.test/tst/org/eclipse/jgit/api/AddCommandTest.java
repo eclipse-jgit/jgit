@@ -104,7 +104,27 @@ public class AddCommandTest extends RepositoryTestCase {
 			git.add().addFilepattern("a.txt").call();
 
 			assertEquals(
-					"[a.txt, mode:100644, content:content]",
+					"[a.txt, mode:100644, content:][b.txt, mode:100644, content:content]",
+					indexState(CONTENT));
+		}
+	}
+
+	@Test
+	public void testAddExistingMultipleFiles()
+			throws IOException, GitAPIException {
+		File file = new File(db.getWorkTree(), "a.txt");
+		FileUtils.createNewFile(file);
+		file = new File(db.getWorkTree(), "b.txt");
+		FileUtils.createNewFile(file);
+		try (PrintWriter writer = new PrintWriter(file, UTF_8.name())) {
+			writer.print("content");
+		}
+
+		try (Git git = new Git(db)) {
+			git.add().addFilepatterns("a.txt", "b.txt").call();
+
+			assertEquals(
+					"[a.txt, mode:100644, content:][b.txt, mode:100644, content:content]",
 					indexState(CONTENT));
 		}
 	}
