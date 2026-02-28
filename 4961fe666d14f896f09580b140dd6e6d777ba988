@@ -164,6 +164,30 @@
       },
       "revId": "4961fe666d14f896f09580b140dd6e6d777ba988",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93764005_ef2b0140",
+        "filename": "MODULE.bazel",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-02-28T12:04:12Z",
+      "side": 1,
+      "message": "I tried updating to 8.16.1. When trying to update the lock file I get this error\n\n```\n$ bazelisk mod deps --lockfile_mode\u003dupdate\nDEBUG: /Users/xxx/.cache/bazel/60705e27b74c370310311cbb011c59a0/external/gazelle~/internal/bzlmod/go_deps.bzl:571:40:\n\nMismatch between versions requested for module github.com/bazelbuild/rules_go\nBazel dependency version requested in MODULE.bazel: 0.51.0-rc2\nGo module version requested in go.mod: 0.50.1\nPlease resolve this mismatch to prevent discrepancies between native Go and Bazel builds\n\n\u003croot\u003e (jgit@_)\n```\nnot sure how to fix this",
+      "parentUuid": "dac76528_bef03525",
+      "range": {
+        "startLine": 6,
+        "startChar": 43,
+        "endLine": 6,
+        "endChar": 53
+      },
+      "revId": "4961fe666d14f896f09580b140dd6e6d777ba988",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
