@@ -1,0 +1,8 @@
+Code-Review+1: Name of user not set #1039280
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Verified+1: eclipse-jgit-bot <jgit-bot@eclipse.org>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Sun, 01 Mar 2026 15:22:54 +0000
+Reviewed-on: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1231939
+Project: eclipse-jgit/jgit
+Branch: refs/heads/master
