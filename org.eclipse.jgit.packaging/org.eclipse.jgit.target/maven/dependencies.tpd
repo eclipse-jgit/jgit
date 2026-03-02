@@ -263,6 +263,11 @@ maven slf4j
 		artifactId = "slf4j-simple"
 		version = "2.0.17"
 	}
+	dependency {
+		groupId = "org.slf4j"
+		artifactId = "jcl-over-slf4j"
+		version = "2.0.17"
+	}
 }
 
 maven xz
