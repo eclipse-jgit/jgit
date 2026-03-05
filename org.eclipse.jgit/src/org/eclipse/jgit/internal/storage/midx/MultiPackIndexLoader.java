@@ -162,7 +162,7 @@ public class MultiPackIndexLoader {
 
 			if (len > Integer.MAX_VALUE - 8) { // http://stackoverflow.com/a/8381338
 				throw new MultiPackIndexFormatException(
-						JGitText.get().multiPackIndexFileIsTooLargeForJgit);
+						JGitText.get().midxChunkTooBig, chunkId, len);
 			}
 
 			byte[] buffer = new byte[(int) len];
