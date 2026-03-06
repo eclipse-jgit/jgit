@@ -46,30 +46,6 @@ public class DfsMidxWriter {
 	}
 
 	/**
-	 * Create a pack with the multipack index (without bitmaps).
-	 *
-	 * @param pm
-	 *            a progress monitor
-	 * @param objdb
-	 *            an object database
-	 * @param packs
-	 *            the packs to cover
-	 * @param base
-	 *            parent of this midx in the chain (if any).
-	 *
-	 * @return a pack (uncommitted) with the multipack index of the packs passed
-	 *         as parameter.
-	 * @throws IOException
-	 *             an error opening the packs or writing the stream.
-	 */
-	public static DfsPackDescription writeMidx(ProgressMonitor pm,
-			DfsObjDatabase objdb, List<DfsPackFile> packs,
-			@Nullable DfsPackDescription base) throws IOException {
-		return writeMidx(pm, objdb, packs, base,
-				new PackConfig(objdb.getRepository()));
-	}
-
-	/**
 	 * Create a pack with the multipack index
 	 *
 	 * @param pm
@@ -80,8 +56,6 @@ public class DfsMidxWriter {
 	 *            the packs to cover
 	 * @param base
 	 *            parent of this midx in the chain (if any).
-	 * @param packConfig
-	 *            pack config with the parameters to write bitmaps.
 	 * @return a pack (uncommitted) with the multipack index of the packs passed
 	 *         as parameter.
 	 * @throws IOException
@@ -89,7 +63,7 @@ public class DfsMidxWriter {
 	 */
 	public static DfsPackDescription writeMidx(ProgressMonitor pm,
 			DfsObjDatabase objdb, List<DfsPackFile> packs,
-			@Nullable DfsPackDescription base, PackConfig packConfig)
+			@Nullable DfsPackDescription base)
 			throws IOException {
 		PackIndexMerger.Builder dataBuilder = PackIndexMerger.builder();
 		try (DfsReader ctx = objdb.newReader()) {
@@ -121,18 +95,10 @@ public class DfsMidxWriter {
 			}
 		}
 
-		// TODO(ifrade): At the moment write bitmaps only in the bottom midx.
-		// A single-pack midx in the base should be covering only GC. No
-		// need to write midx bitmaps (we will use GC bitmaps).
-		if (base == null && midxPackDesc.getCoveredPacks().size() > 1) {
-			createAndAttachBitmaps(objdb.getRepository(), midxPackDesc,
-					packConfig);
-		}
-
 		return midxPackDesc;
 	}
 
-	private static void createAndAttachBitmaps(DfsRepository db,
+	public static void createAndAttachBitmaps(DfsRepository db,
 			DfsPackDescription desc, PackConfig cfg) throws IOException {
 
 		DfsObjDatabase objdb = db.getObjectDatabase();
