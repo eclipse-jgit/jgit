@@ -148,8 +148,11 @@ public class MidxTestUtils {
 		DfsPackDescription desc = DfsMidxWriter.writeMidx(
 				NullProgressMonitor.INSTANCE, db.getObjectDatabase(),
 				Arrays.asList(packs),
-				base != null ? base.getPackDescription() : null, packConfig);
+				base != null ? base.getPackDescription() : null);
 		db.getObjectDatabase().commitPack(List.of(desc), null);
+		if (base == null) {
+			DfsMidxWriter.createAndAttachBitmaps(db, desc, packConfig);
+		}
 
 		// "packs" argument can have a midx and its base in the list.
 		List<DfsPackFile> allPlainPacks = MidxPackList
@@ -173,9 +176,7 @@ public class MidxTestUtils {
 		}
 
 		try (TestRepository<InMemoryRepository> repository = new TestRepository<>(
-				(InMemoryRepository) db);
-				DfsInserter ins = (DfsInserter) db.getObjectDatabase()
-						.newInserter()) {
+				(InMemoryRepository) db)) {
 			for (int i = 0; i < length; i++) {
 				RevBlob blob = repository.blob("blob" + commitCounter);
 
