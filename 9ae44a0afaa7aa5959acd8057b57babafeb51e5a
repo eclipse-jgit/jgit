@@ -16,6 +16,24 @@
       "message": "@matthias.sohn@sap.com Do you think the test is correct?",
       "revId": "9ae44a0afaa7aa5959acd8057b57babafeb51e5a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3b52d29_dd29958c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-06T10:29:44Z",
+      "side": 1,
+      "message": "I am currently busy releasing 7.6.0, I will try to look at this series next week when the release work is done",
+      "parentUuid": "fe055f2e_57e4325d",
+      "revId": "9ae44a0afaa7aa5959acd8057b57babafeb51e5a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
