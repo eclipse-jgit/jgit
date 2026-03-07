@@ -15,6 +15,7 @@ import org.eclipse.jgit.annotations.NonNull;
 /**
  * Route request metadata.
  *
+ * @param requestId unique request id
  * @param commandInfo parsed command info, if available
  * @param sourceIp source IP address, if available
  * @param listenHost listen host
@@ -23,6 +24,7 @@ import org.eclipse.jgit.annotations.NonNull;
  * @since 7.7
  */
 public record RouteRequest(
+	@NonNull String requestId,
 	@NonNull CommandInfo commandInfo,
 	@NonNull String sourceIp,
 	@NonNull String listenHost,

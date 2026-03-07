@@ -69,8 +69,8 @@ public final class CommandInfo {
 		}
 		this.command = resolvedCommand;
 		if (resolvedArgument != null) {
-			String stripped = stripLeadingSlashes(resolvedArgument);
-			this.project = stripped.isEmpty() ? null : stripped;
+			String sanitizedProject = sanitizeProjectName(resolvedArgument);
+			this.project = sanitizedProject.isEmpty() ? null : sanitizedProject;
 		} else {
 			this.project = null;
 		}
@@ -128,13 +128,19 @@ public final class CommandInfo {
 
 	/**
 	 * @param in input to normalize
-	 * @return input without leading slashes
+	 * @return input without leading slashes and .git suffix
 	 */
-	public static String stripLeadingSlashes(String in) {
+	public static String sanitizeProjectName(String in) {
 		int start = 0;
 		while (start < in.length() && in.charAt(start) == '/') {
 			start++;
 		}
-		return start == 0 ? in : in.substring(start);
+
+		String result = in.substring(start);
+		if (result.endsWith(".git")) {
+			result = result.substring(0, result.length() - 4);
+		}
+
+		return result;
 	}
 }

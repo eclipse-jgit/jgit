@@ -11,14 +11,19 @@
 package org.eclipse.jgit.transport.forwarder;
 
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 
 /**
  * Route response from the listener.
  *
  * @param destinationHost destination host
  * @param destinationPort destination port
+ * @param errorMessage error message when a route request isn't provided
  *
  * @since 7.7
  */
-public record RouteResponse(@NonNull String destinationHost, int destinationPort) {
+public record RouteResponse(
+        @NonNull String destinationHost,
+        int destinationPort,
+        @Nullable String errorMessage) {
 }
