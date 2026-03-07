@@ -10,9 +10,12 @@
 
 package org.eclipse.jgit.transport.forwarder;
 
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_ERR;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -23,6 +26,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -30,6 +34,7 @@ import java.util.function.Supplier;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.transport.PacketLineOut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +48,7 @@ public class GitForwarder implements AutoCloseable {
 	private static final Logger LOG = LoggerFactory.getLogger(GitForwarder.class);
 	private static final int SOCKET_TIMEOUT = 30_000;
 	private final InetSocketAddress listenOn;
+	private static final AtomicInteger REQUEST_ID = new AtomicInteger(1);
 	private final RoutingListener routingListener;
 	private final ExecutorService acceptExecutor = Executors.newSingleThreadExecutor();
 	private final ExecutorService workerPool;
@@ -97,6 +103,7 @@ public class GitForwarder implements AutoCloseable {
 		try {
 			CommandInfo commandInfo = new CommandInfo(clientSocket);
 			request = new RouteRequest(
+							generateRequestId(),
 							commandInfo,
 							clientSocket.getInetAddress().getHostAddress(),
 							listenOn
@@ -116,9 +123,23 @@ public class GitForwarder implements AutoCloseable {
 		boolean opened = false;
 		try (Socket client = clientSocket) {
 			response = routingListener.onConnect(request);
+
 			if (response == null) {
 				return;
 			}
+
+			if (response.errorMessage() != null) {
+				LOG.warn(MessageFormat.format(JGitText.get().forwarderRejectingRequest,
+						request.requestId(), response.errorMessage()));
+				try {
+					new PacketLineOut(client.getOutputStream())
+							.writeString(PACKET_ERR + response.errorMessage() + '\n');
+				} catch (IOException e) {
+					LOG.debug(JGitText.get().forwarderFailedToWriteErrorToClient, e);
+				}
+				return;
+			}
+
 			try (Socket upstreamSocket = new Socket()) {
 				upstreamSocket.connect(response.destination(), SOCKET_TIMEOUT);
 				opened = true;
@@ -237,5 +258,9 @@ public class GitForwarder implements AutoCloseable {
 				LOG.debug(JGitText.get().forwarderFailedToCloseClientSocket, e);
 			}
 		}
+	}
+
+	private String generateRequestId() {
+		return System.currentTimeMillis() + "-" + REQUEST_ID.incrementAndGet();
 	}
 }

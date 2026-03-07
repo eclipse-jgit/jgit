@@ -17,6 +17,7 @@ import java.net.InetSocketAddress;
 /**
  * Route request metadata.
  *
+ * @param requestId unique request id
  * @param commandInfo parsed command info, if available
  * @param sourceIp source IP address, if available
  * @param listenAddr listen address
@@ -24,7 +25,15 @@ import java.net.InetSocketAddress;
  * @since 7.7
  */
 public record RouteRequest(
+		@NonNull String requestId,
 		@NonNull CommandInfo commandInfo,
 		@NonNull String sourceIp,
 		@NonNull InetSocketAddress listenAddr) {
+	/**
+	 *
+	 * @return repository associated with this request
+	 */
+	public String repo() {
+		return commandInfo().repo;
+	}
 }

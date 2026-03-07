@@ -386,6 +386,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String forwarderInterruptedWaitingForThreads;
 	/***/ public String forwarderFailedToCloseServerSocket;
 	/***/ public String forwarderFailedToCloseClientSocket;
+	/***/ public String forwarderRejectingRequest;
+	/***/ public String forwarderFailedToWriteErrorToClient;
 	/***/ public String failureDueToOneOfTheFollowing;
 	/***/ public String failureUpdatingFETCH_HEAD;
 	/***/ public String failureUpdatingTrackingRef;

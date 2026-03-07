@@ -171,6 +171,11 @@ public class CLIText extends TranslationBundle {
 	/***/ public String lfsUnknownStoreType;
 	/***/ public String lineFormat;
 	/***/ public String forwardingTo;
+	/***/ public String forwarderRejectingGlobalMaxStart;
+	/***/ public String forwarderRejectingRepoMaxStart;
+	/***/ public String forwarderConfigFileRequired;
+	/***/ public String forwarderGlobalMaxStartExceeded;
+	/***/ public String forwarderRepoMaxStartExceeded;
 	/***/ public String listeningOn;
 	/***/ public String logNoSignatureVerifier;
 	/***/ public String mergeCheckoutConflict;

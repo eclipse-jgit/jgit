@@ -10,7 +10,7 @@
 
 package org.eclipse.jgit.transport.forwarder;
 
-import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.annotations.Nullable;
 
 import java.net.InetSocketAddress;
 
@@ -18,8 +18,9 @@ import java.net.InetSocketAddress;
  * Route response from the listener.
  *
  * @param destination destination address
+ * @param errorMessage error message when a route request isn't provided
  *
  * @since 7.7
  */
-public record RouteResponse(@NonNull InetSocketAddress destination) {
+public record RouteResponse(InetSocketAddress destination, @Nullable String errorMessage) {
 }
