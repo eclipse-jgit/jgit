@@ -10,45 +10,30 @@
 
 package org.eclipse.jgit.transport.forwarder;
 
-import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.Socket;
 
 import org.eclipse.jgit.annotations.NonNull;
 
 /**
  * Route request metadata.
  *
- * @param socket
- *            incoming socket
- * @param commandInfo
- *            parsed command info
- * @param sourceIp
- *            source IP address
- * @param listenAddr
- *            listen address
+ * @param requestId unique request id
+ * @param commandInfo parsed command info, if available
+ * @param sourceIp source IP address, if available
+ * @param listenAddr listen address
  *
  * @since 7.7
  */
-public record RouteRequest(@NonNull Socket socket,
-		@NonNull CommandInfo commandInfo, @NonNull String sourceIp,
+public record RouteRequest(
+		@NonNull String requestId,
+		@NonNull CommandInfo commandInfo,
+		@NonNull String sourceIp,
 		@NonNull InetSocketAddress listenAddr) {
-
 	/**
-	 * Constructor for RouteRequest
 	 *
-	 * @param socket
-	 *            incoming socket
-	 * @param sourceIp
-	 *            source IP address
-	 * @param listenAddr
-	 *            listen address
-	 *
-	 * @throws IOException
-	 *             if failed to parse command infor from the socket.
+	 * @return repository associated with this request
 	 */
-	public RouteRequest(Socket socket, String sourceIp,
-			InetSocketAddress listenAddr) throws IOException {
-		this(socket, new CommandInfo(socket), sourceIp, listenAddr);
+	public String repo() {
+		return commandInfo().repo;
 	}
 }

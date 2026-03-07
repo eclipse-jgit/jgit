@@ -10,6 +10,8 @@
 
 package org.eclipse.jgit.transport.forwarder;
 
+import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_ERR;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -22,11 +24,13 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.transport.PacketLineOut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +47,8 @@ public class GitForwarder implements AutoCloseable {
 	private static final int SOCKET_TIMEOUT_MS = 30_000;
 
 	private boolean keepAlive;
+
+	private static final AtomicInteger REQUEST_ID = new AtomicInteger(1);
 
 	private final InetSocketAddress listenOn;
 
@@ -102,19 +108,7 @@ public class GitForwarder implements AutoCloseable {
 			try {
 				Socket clientSocket = serverSocket.accept();
 				clientSocket.setKeepAlive(keepAlive);
-				workerPool.execute(() -> {
-					try {
-						handleConnection(new RouteRequest(clientSocket,
-								clientSocket.getInetAddress().getHostAddress(),
-								listenOn));
-					} catch (IOException e) {
-						LOG.error(MessageFormat.format(JGitText
-								.get().forwarderFailedToParseCommandInfo,
-								clientSocket.getInetAddress()), e);
-					} finally {
-						closeQuietly(clientSocket);
-					}
-				});
+				workerPool.execute(() -> handleConnection(clientSocket));
 			} catch (IOException e) {
 				// Ignore transient accept errors while running.
 				// This could happen when client closes abruptly just doing a
@@ -123,33 +117,65 @@ public class GitForwarder implements AutoCloseable {
 		}
 	}
 
-	private void handleConnection(RouteRequest request) {
-		RouteResponse response = routingListener.onConnect(request);
-		if (response == null) {
+	private void handleConnection(Socket clientSocket) {
+		final RouteRequest request;
+		try {
+			request = new RouteRequest(
+					generateRequestId(),
+					new CommandInfo(clientSocket),
+					clientSocket.getInetAddress().getHostAddress(),
+					listenOn);
+		} catch (IOException e) {
+			LOG.error(MessageFormat.format(JGitText.get().forwarderFailedToParseCommandInfo,
+					clientSocket.getInetAddress()), e);
+			closeQuietly(clientSocket);
 			return;
 		}
 
-		LOG.info(JGitText.get().forwarderIncomingConnection, request.sourceIp(),
-				request.commandInfo().command, request.commandInfo().repo,
-				request.commandInfo().host, request.listenAddr(),
-				response.destination());
+		LOG.info(JGitText.get().forwarderIncomingConnection,
+				request.sourceIp(),
+				request.commandInfo().command,
+				request.commandInfo().repo,
+				request.commandInfo().host,
+				request.listenAddr());
+
+		RouteResponse response = routingListener.onConnect(request);
+		if (response == null) {
+			closeQuietly(clientSocket);
+			return;
+		}
+
+		if (response.errorMessage() != null) {
+			LOG.warn(MessageFormat.format(JGitText.get().forwarderRejectingRequest,
+					request.requestId(), response.errorMessage()));
+			try {
+				new PacketLineOut(clientSocket.getOutputStream())
+						.writeString(PACKET_ERR + response.errorMessage() + '\n');
+			} catch (IOException e) {
+				LOG.debug(JGitText.get().forwarderFailedToWriteErrorToClient, e);
+			}
+			routingListener.onClose(request, response);
+			closeQuietly(clientSocket);
+			return;
+		}
 
 		Socket upstreamSocket = new Socket();
 		try {
-			upstreamSocket.connect(response.destination(), SOCKET_TIMEOUT_MS);
 			upstreamSocket.setKeepAlive(keepAlive);
+			upstreamSocket.connect(response.destination(), SOCKET_TIMEOUT_MS);
 		} catch (IOException e) {
-			LOG.error(MessageFormat.format(
-					JGitText.get().forwarderFailedConnection,
-					upstreamSocket.getInetAddress()), e);
+			LOG.error(MessageFormat.format(JGitText.get().forwarderFailedConnection,
+					clientSocket.getInetAddress()), e);
 			routingListener.onConnectException(request, e);
+			closeQuietly(clientSocket);
 			closeQuietly(upstreamSocket);
 			return;
 		}
 
-		proxyBidirectional(request.socket(), upstreamSocket,
+		final RouteResponse finalResponse = response;
+		proxyBidirectional(clientSocket, upstreamSocket,
 				request.commandInfo().recordedPrefix,
-				e -> routingListener.afterOpenException(request, response, e));
+				e -> routingListener.afterOpenException(request, finalResponse, e));
 		routingListener.onClose(request, response);
 	}
 
@@ -243,5 +269,9 @@ public class GitForwarder implements AutoCloseable {
 						serverSocket.getInetAddress()), e);
 			}
 		}
+	}
+
+	private String generateRequestId() {
+		return System.currentTimeMillis() + "-" + REQUEST_ID.incrementAndGet();
 	}
 }

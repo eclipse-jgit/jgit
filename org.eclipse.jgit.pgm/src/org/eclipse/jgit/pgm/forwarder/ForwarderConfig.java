@@ -16,26 +16,73 @@ import org.eclipse.jgit.pgm.Die;
 import org.eclipse.jgit.transport.Daemon;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * Class to parse the forwarder configuration.
  *
  * <pre>
  * [global]
- *  # Required. Any of the following forms are accepted:
- *  # "0.0.0.0:9418"
- *  #	"localhost" -> localhost:9418 (default port)
- *  listen = 127.0.0.1:9418
+ *     # Required. Any of the following forms are accepted:
+ *     #   "0.0.0.0:9418"
+ *     #   "localhost"   -> localhost:9418 (default port)
+ *     listen = 127.0.0.1:9418
  *
- *  # Required. Same parsing rules as listen.
- *  remote = 127.0.0.1:9419
+ *     # Required. Same parsing rules as listen.
+ *     remote = 127.0.0.1:9419
  *
- *  # Optional. Enable TCP keep-alives on client and upstream sockets.
- *  # Defaults to false.
- *  keepAlive = true
+ *     # Optional. Enable TCP keep-alives on client and upstream sockets.
+ *     # Defaults to false.
+ *     keepAlive = true
+ *
+ *     # Optional. If > 0, limits total concurrent forward connects.
+ *     maxStart = 100
+ *
+ * # Optional per-project limits
+ * # Only considers the first applicable match
+ * # .git suffix not needed
+ *
+ * [project "&lt;java-style-regex&gt;"]
+ *     maxStart = 20
  * </pre>
  */
 class ForwarderConfig {
+	/**
+	 * Per-repo concurrency limit identified by a regex pattern.
+	 *
+	 * @param pattern
+	 *            Java regex matched against the project path
+	 * @param maxStart
+	 *            maximum concurrent forward connections for matching projects
+	 */
+	public record RepositoryLimit(Pattern pattern, int maxStart) {
+		/**
+		 * Validates pattern and maxStart.
+		 */
+		public RepositoryLimit {
+			if (pattern == null) {
+				throw new IllegalArgumentException("pattern must not be null"); //$NON-NLS-1$
+			}
+			if (maxStart <= 0) {
+				throw new IllegalArgumentException("maxStart must be > 0"); //$NON-NLS-1$
+			}
+		}
+
+		/**
+		 * Check whether the given project path matches this limit's pattern.
+		 *
+		 * @param project
+		 *            project path to match
+		 * @return true if the pattern matches
+		 */
+		public boolean matches(String project) {
+			return pattern.matcher(project).matches();
+		}
+	}
+
 	private static final String GLOBAL = "global"; //$NON-NLS-1$
 
 	private static final String LISTEN = "listen"; //$NON-NLS-1$
@@ -44,11 +91,19 @@ class ForwarderConfig {
 
 	private static final String KEEP_ALIVE = "keepAlive"; //$NON-NLS-1$
 
+	private static final String MAX_START = "maxStart"; //$NON-NLS-1$
+
+	private static final String REPO = "project"; //$NON-NLS-1$
+
 	private final InetSocketAddress listen;
 
 	private final InetSocketAddress remote;
 
 	private final boolean keepAlive;
+
+	private final int globalLimit;
+
+	private final List<RepositoryLimit> repositoryLimits;
 
 	/**
 	 * Build forwarder config from a JGit config.
@@ -59,7 +114,6 @@ class ForwarderConfig {
 	 *             if required keys are missing or invalid
 	 */
 	ForwarderConfig(@NonNull Config cfg) throws Die {
-
 		String listenValue = cfg.getString(GLOBAL, null, LISTEN);
 		String remoteValue = cfg.getString(GLOBAL, null, REMOTE);
 
@@ -73,6 +127,8 @@ class ForwarderConfig {
 		this.listen = parseAddress(listenValue);
 		this.remote = parseAddress(remoteValue);
 		this.keepAlive = cfg.getBoolean(GLOBAL, null, KEEP_ALIVE, false);
+		this.globalLimit = cfg.getInt(GLOBAL, null, MAX_START, -1);
+		this.repositoryLimits = loadRepoLimits(cfg);
 	}
 
 	/**
@@ -100,6 +156,42 @@ class ForwarderConfig {
 	 */
 	public boolean isKeepAlive() {
 		return keepAlive;
+	}
+
+	/**
+	 * Global maximum concurrent forward connections, or -1 if unset.
+	 *
+	 * @return global maxStart from config
+	 */
+	public int getGlobalLimit() {
+		return globalLimit;
+	}
+
+	/**
+	 * Per-project limits; first matching pattern applies.
+	 *
+	 * @return list of RepositoryLimit entries from config
+	 */
+	public List<RepositoryLimit> getProjectLimits() {
+		return repositoryLimits;
+	}
+
+	private static List<RepositoryLimit> loadRepoLimits(Config cfg) throws Die {
+		Set<String> patterns = cfg.getSubsections(REPO);
+		List<RepositoryLimit> limits = new ArrayList<>();
+
+		for (String pattern : patterns) {
+			int max = cfg.getInt(REPO, pattern, MAX_START, -1);
+			if (max <= 0) {
+				continue;
+			}
+			try {
+				limits.add(new RepositoryLimit(Pattern.compile(pattern), max));
+			} catch (IllegalArgumentException e) {
+				throw new Die("Invalid project regex: " + pattern, e); //$NON-NLS-1$
+			}
+		}
+		return limits;
 	}
 
 	private InetSocketAddress parseAddress(String in) {

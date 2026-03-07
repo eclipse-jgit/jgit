@@ -14,6 +14,7 @@ java_library(
     deps = [
         "//lib:args4j",
         "//lib:commons-logging",
+        "//lib:slf4j-api",
         "//lib:httpclient",
         "//lib:httpcore",
         "//lib:jetty-http",

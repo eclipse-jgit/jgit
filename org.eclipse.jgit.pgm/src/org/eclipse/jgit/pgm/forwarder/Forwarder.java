@@ -32,7 +32,6 @@ import org.kohsuke.args4j.Option;
  */
 @Command(usage = "usage_forwarder")
 public class Forwarder extends TextBuiltin {
-
 	@Option(name = "--config-file", metaVar = "metaVar_configFile", usage = "usage_forwarderConfigFile")
 	File configFile;
 
@@ -60,7 +59,7 @@ public class Forwarder extends TextBuiltin {
 
 		ForwarderConfig fc = new ForwarderConfig(cfg);
 		try (GitForwarder forwarder = new GitForwarder(fc.getListen(),
-				new FixedRouteListener(fc.getRemote()),
+				new FixedRouteListener(fc.getRemote(), fc),
 				Executors.newCachedThreadPool())) {
 			forwarder.setKeepAlive(fc.isKeepAlive());
 			errw.println(MessageFormat.format(CLIText.get().listeningOn,
