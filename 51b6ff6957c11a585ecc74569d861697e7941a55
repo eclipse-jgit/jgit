@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25c4167a_cad03ec2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1967,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-08T22:02:14Z",
+      "side": 1,
+      "message": "don\u0027t depend on exception, instead\n- add a method `SystemReader.isAndroid()` and use `SystemReader.getProperty(\"java.vendor\")` to detect if JGit runs on Android\n- cache the result in `SystemReader`\n- use this new method here",
+      "revId": "51b6ff6957c11a585ecc74569d861697e7941a55",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
