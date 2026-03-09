@@ -20,10 +20,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.text.MessageFormat;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -45,6 +48,7 @@ import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.CoreConfig.TrustStat;
 import org.eclipse.jgit.lib.ObjectId;
@@ -79,6 +83,8 @@ class PackDirectory {
 
 	private final TrustStat trustPackStat;
 
+	private final boolean useMidx;
+
 	/**
 	 * Initialize a reference to an on-disk 'pack' directory.
 	 *
@@ -92,6 +98,8 @@ class PackDirectory {
 		this.directory = directory;
 		packList = new AtomicReference<>(NO_PACKS);
 		trustPackStat = config.get(CoreConfig.KEY).getTrustPackStat();
+		useMidx = config.getBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_MULTIPACKINDEX, true);
 	}
 
 	/**
@@ -111,6 +119,7 @@ class PackDirectory {
 		PackList packs = packList.get();
 		if (packs != NO_PACKS && packList.compareAndSet(packs, NO_PACKS)) {
 			Pack.close(Set.of(packs.packs));
+			// TODO(ifrade): Close the midx!
 		}
 	}
 
@@ -122,8 +131,7 @@ class PackDirectory {
 				list = scanPacks(list);
 			}
 		} while (searchPacksAgain(list));
-		Pack[] packs = list.packs;
-		return Collections.unmodifiableCollection(Arrays.asList(packs));
+		return Collections.unmodifiableCollection(Arrays.asList(list.packs));
 	}
 
 	@Override
@@ -136,7 +144,8 @@ class PackDirectory {
 	 *
 	 * @param objectId
 	 *            identity of the object to test for existence of.
-	 * @return {@code true} if the specified object is stored in this PackDirectory.
+	 * @return {@code true} if the specified object is stored in this
+	 *         PackDirectory.
 	 */
 	boolean has(AnyObjectId objectId) {
 		return getPack(objectId) != null;
@@ -379,7 +388,8 @@ class PackDirectory {
 		case AFTER_OPEN:
 			try (InputStream stream = Files
 					.newInputStream(directory.toPath())) {
-				// open the pack directory to refresh attributes (on some NFS clients)
+				// open the pack directory to refresh attributes (on some NFS
+				// clients)
 			} catch (IOException e) {
 				// ignore
 			}
@@ -470,6 +480,7 @@ class PackDirectory {
 	private PackList scanPacksImpl(PackList old) {
 		final Map<String, Pack> forReuse = reuseMap(old);
 		final FileSnapshot snapshot = FileSnapshot.save(directory);
+
 		Map<String, Map<PackExt, PackFile>> packFilesByExtById = getPackFilesByExtById();
 		List<Pack> list = new ArrayList<>(packFilesByExtById.size());
 		boolean foundNew = false;
@@ -496,8 +507,30 @@ class PackDirectory {
 				continue;
 			}
 
-			list.add(new Pack(config, packFile, packFilesByExt.get(BITMAP_INDEX)));
+			list.add(new Pack(config, packFile,
+					packFilesByExt.get(BITMAP_INDEX)));
 			foundNew = true;
+		}
+
+		PackMidx theMidx = null;
+		File midx = new File(directory, "multi-pack-index");
+		if (useMidx && midx.exists()) {
+			Pack oldMidx = forReuse.get(midx.getName());
+			if (oldMidx != null
+					&& !oldMidx.getFileSnapshot().isModified(midx)) {
+				// Reuse the previous instance
+				forReuse.remove(midx.getName());
+				theMidx = (PackMidx) oldMidx;
+			} else {
+				try {
+					theMidx = new PackMidx(config, midx, list);
+					foundNew = true;
+				} catch (IOException e) {
+					// pass
+					LOG.warn("Couldn't open midx in %s",
+							midx.getAbsolutePath());
+				}
+			}
 		}
 
 		// If we did not discover any new files, the modification time was not
@@ -516,6 +549,22 @@ class PackDirectory {
 			return new PackList(snapshot, NO_PACKS.packs);
 		}
 
+		if (useMidx && theMidx != null) {
+			// Replace the covered packs with the midx in the list
+			Set<String> coveredPackNames = theMidx.getCoveredPacks().stream()
+					.map(p -> p.getPackName())
+					.collect(Collectors.toUnmodifiableSet());
+			int packsBefore = list.size();
+			list = list.stream()
+					.filter(p -> !coveredPackNames.contains(p.getPackName()))
+					.collect(Collectors.toCollection(ArrayList::new));
+			int packsAfter = list.size();
+			System.out.println(String.format(
+					"Mangling packlist: midx replaces %d packs (list went from %d to %d packs)",
+					coveredPackNames.size(), packsBefore, packsAfter));
+			list.add(theMidx);
+		}
+
 		final Pack[] r = list.toArray(new Pack[0]);
 		Arrays.sort(r, Pack.SORT);
 		return new PackList(snapshot, r);
@@ -523,13 +572,19 @@ class PackDirectory {
 
 	private static Map<String, Pack> reuseMap(PackList old) {
 		final Map<String, Pack> forReuse = new HashMap<>();
-		for (Pack p : old.packs) {
+		Deque<Pack> queue = new ArrayDeque<>(List.of(old.packs));
+		while (!queue.isEmpty()) {
+			Pack p = queue.removeFirst();
 			if (p.invalid()) {
 				// The pack instance is corrupted, and cannot be safely used
 				// again. Do not include it in our reuse map.
 				//
 				p.close();
 				continue;
+			}
+
+			if (p instanceof PackMidx midx) {
+				queue.addAll(midx.getCoveredPacks());
 			}
 
 			final Pack prior = forReuse.put(p.getPackFile().getName(), p);
