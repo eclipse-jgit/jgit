@@ -14,10 +14,10 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACKED_INDEX_GIT_USE_STRONGREFS;
-import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 
 import java.io.EOFException;
 import java.io.File;
@@ -1399,7 +1399,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 				+ ObjectId.fromRaw(packChecksum).name() + "]";
 	}
 
-	private <T> Optionally<T> optionally(T element) {
+	protected <T> Optionally<T> optionally(T element) {
 		return useStrongRefs ? new Optionally.Hard<>(element) : new Optionally.Soft<>(element);
 	}
 }
