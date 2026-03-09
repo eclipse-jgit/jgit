@@ -16,6 +16,8 @@ import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.MidxIterator;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.MutableEntry;
 import org.eclipse.jgit.lib.MutableObjectId;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ProgressMonitor;
 
 /**
  * Collect the stats and offers an iterator over the union of n-pack indexes.
@@ -57,6 +59,8 @@ public class PackIndexMerger {
 
 		private final List<MidxIterator> packIndexes = new ArrayList<>();
 
+		private ProgressMonitor pm = NullProgressMonitor.INSTANCE;
+
 		/**
 		 * Add a regular pack to the midx
 		 *
@@ -86,13 +90,29 @@ public class PackIndexMerger {
 		}
 
 		/**
+		 * Add a progress monitor to the build process
+		 * <p>
+		 * Give visibility over the first iteration of the packs calculating the
+		 * data needed for midx headers (unique object count, if large offsets
+		 * are needed...)
+		 * 
+		 * @param pm
+		 *            a progress monitor
+		 * @return this builder
+		 */
+		public Builder setProgressMonitor(ProgressMonitor pm) {
+			this.pm = pm;
+			return this;
+		}
+
+		/**
 		 * Build the merger instance
 		 *
 		 * @return a merger instance
 		 */
 		public PackIndexMerger build() {
 			return new PackIndexMerger(
-					MidxIterators.dedup(MidxIterators.join(packIndexes)));
+					MidxIterators.dedup(MidxIterators.join(packIndexes)), pm);
 		}
 	}
 
@@ -111,11 +131,13 @@ public class PackIndexMerger {
 	 * @param midxIterator
 	 *            MidxIterator built by deduping union of all pack indexes
 	 */
-	private PackIndexMerger(MidxIterator midxIterator) {
+	private PackIndexMerger(MidxIterator midxIterator, ProgressMonitor pm) {
 		this.midxIterator = midxIterator;
 		this.packnames = midxIterator.getPackNames();
 
 		objectsPerPack = new int[packnames.size()];
+		pm.beginTask("Iterating objects for midx headers",
+				ProgressMonitor.UNKNOWN);
 		// Iterate for duplicates and counts that we need to build the chunk
 		// headers.
 		int objectCount = 0;
@@ -139,10 +161,12 @@ public class PackIndexMerger {
 			// TODO(ifrade): we can calculate the fanout table already here.
 			// It saves an iteration over all objects for only 1Kb of memory
 			objectsPerPack[entry.getPackId()]++;
+			pm.update(1);
 		}
 		uniqueObjectCount = objectCount;
 		offsetsOver31BitsCount = over31bits;
 		needsLargeOffsetsChunk = hasLargeOffsets;
+		pm.endTask();
 	}
 
 	/**
