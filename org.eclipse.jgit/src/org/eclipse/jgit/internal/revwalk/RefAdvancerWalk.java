@@ -7,7 +7,7 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-package org.eclipse.jgit.internal.storage.dfs;
+package org.eclipse.jgit.internal.revwalk;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -16,6 +16,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
@@ -25,9 +26,9 @@ import org.eclipse.jgit.revwalk.filter.RevFilter;
 /**
  * Walk from some commits and find where to they enter a pack
  */
-class RefAdvancerWalk {
+public class RefAdvancerWalk {
 
-	private final DfsRepository db;
+	private final Repository db;
 
 	private final InPackPredicate includeP;
 
@@ -35,11 +36,11 @@ class RefAdvancerWalk {
 	 * True when the commit is in the pack
 	 */
 	@FunctionalInterface
-	interface InPackPredicate {
+	public interface InPackPredicate {
 		boolean test(RevCommit c) throws IOException;
 	}
 
-	RefAdvancerWalk(DfsRepository db, InPackPredicate include) {
+	public RefAdvancerWalk(Repository db, InPackPredicate include) {
 		this.db = db;
 		this.includeP = include;
 	}
@@ -64,7 +65,7 @@ class RefAdvancerWalk {
 	 * @throws IOException
 	 *             error browsing history
 	 */
-	Set<RevCommit> advance(List<ObjectId> allTips) throws IOException {
+	public Set<RevCommit> advance(List<ObjectId> allTips) throws IOException {
 		Set<RevCommit> tipsInMidx = new HashSet<>(allTips.size());
 		try (RevWalk rw = createRevWalk()) {
 			for (ObjectId tip : allTips) {
