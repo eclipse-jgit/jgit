@@ -1,0 +1,477 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed11e201_652824eb",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "mention that this can proxy anonymous git protocol to a fixed destination ?",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca3c7052_4cea5d17",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "import the package `org.eclipse.jgit.annotations` in `META-INF/MANIFEST.xml`",
+      "range": {
+        "startLine": 21,
+        "startChar": 7,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b6a89ca_58497769",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "import the package `org.eclipse.jgit.transport.forwarder` in `META-INF/MANIFEST.xml`",
+      "range": {
+        "startLine": 24,
+        "startChar": 7,
+        "endLine": 24,
+        "endChar": 43
+      },
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05827cef_5c5e9fcd",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "nit: empty code block raises a warning",
+      "range": {
+        "startLine": 51,
+        "startChar": 83,
+        "endLine": 51,
+        "endChar": 86
+      },
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "528b8b13_fbcd78a4",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "```suggestion\n\tint listenPort \u003d Daemon.DEFAULT_PORT;\n```",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0297612f_c4cb56a3",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "```suggestion\n\tint destinationPort \u003d Daemon.DEFAULT_PORT + 1;\n```",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4efc2dba_a3cd20dc",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "this key isn\u0027t defined in `ClIText.properties` and getting online help for this command fails:\n```\n$ jgit forwarder --help\n```\nadd something like: `metaVar_pid\u003dPID` there",
+      "range": {
+        "startLine": 77,
+        "startChar": 41,
+        "endLine": 77,
+        "endChar": 52
+      },
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b533e2b_7eead047",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "set a default filename, e.g. `jgit-forwarder.pid` in current working directory ?\n```suggestion\n\tFile pidFile \u003d new File(\"jgit-forwarder.pid\"); //$NON-NLS-1$\n```",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f41af41_cef4795f",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "externalize the message like the other one ?",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "086c0272_5219d1df",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "Print these messages to `errw` since they are a message to the user but no command output ?",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 16
+      },
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6585c15_cf841fb7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/CommandInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "does this need to be public ?",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb720f93_aae9a5ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/CommandInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "should we use RemoteConfig.getUploadPack() here in case it\u0027s overridden ?",
+      "range": {
+        "startLine": 61,
+        "startChar": 42,
+        "endLine": 61,
+        "endChar": 57
+      },
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eff1e273_4929540c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/CommandInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "should we use RemoteConfig.getReceivePack() here in case it\u0027s overridden ?",
+      "range": {
+        "startLine": 62,
+        "startChar": 5,
+        "endLine": 62,
+        "endChar": 21
+      },
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f3a7b44_50dfe474",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/CommandInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "can we use `PacketLineIn` to make this more robust ?",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e14f5476_2ff44f97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/CommandInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "can we use `PacketLineIn` to make this more robust ?",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2895609_d494cc9d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "mention this can be used for the anonymous git protocol ?",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccaeeb72_f2206b6d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "nit: externalize error message",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9d72ccc_24376a0b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "can we use this to avoid an infinite loop ?\n\n```suggestion\n\t\twhile (!serverSocket.isClosed()) {\n```",
+      "range": {
+        "startLine": 89,
+        "startChar": 9,
+        "endLine": 89,
+        "endChar": 13
+      },
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71395bf4_4e99e6c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "nit: externalize info message",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2cd37fe_a9308233",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "nit: externalize error message",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2958a9b_56bb48c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "maybe use a connection timeout to prevent hanging here if the destination server is stuck ?",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "244a8a25_757df727",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "nit: externalize error message",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c01d0ac_4e5f948e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "can we run these on the workerPool instead of unmanaged raw threads ?",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8322882d_bcb36c3d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "nit: externalize error message",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28eb4066_507048d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RecordingInputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-09T13:27:31Z",
+      "side": 1,
+      "message": "Can we use a bounded buffer to avoid a malicious client could send a massive first \"line\" leading to an `OutOfMemoryError`? The protocol specifies that pkt-line are limited to 64k: \"The maximum length of a pkt-line’s data component is 65516 bytes.\", see https://git-scm.com/docs/protocol-common#_pkt_line_format",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
