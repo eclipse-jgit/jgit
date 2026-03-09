@@ -42,6 +42,9 @@ import org.eclipse.jgit.util.io.SilentFileInputStream;
  */
 public class MidxMetadataReader {
 
+	private MidxMetadataReader() {
+	}
+
 	/**
 	 * Metadata useful before loading the full midx
 	 *
@@ -220,7 +223,7 @@ public class MidxMetadataReader {
 			throw new IllegalArgumentException("Asking for unknown chunk"); //$NON-NLS-1$
 		}
 
-		public long getEndOffset(int chunkId) {
+		long getEndOffset(int chunkId) {
 			int pos = -1;
 			for (int i = 0; i < chunks.size(); i++) {
 				if (chunks.get(i).id() == chunkId) {
@@ -235,7 +238,7 @@ public class MidxMetadataReader {
 			return chunks.get(pos + 1).offset();
 		}
 
-		public long getLastOffset() {
+		long getLastOffset() {
 			return chunks.get(chunks.size() - 1).offset();
 		}
 	}
