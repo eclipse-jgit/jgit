@@ -36,6 +36,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -177,6 +178,18 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 */
 	protected void setPackChecksum(byte[] checksum) {
 		this.packChecksum = checksum;
+	}
+
+	/**
+	 * Packs covered by this pack
+	 * <p>
+	 * For regular packs, this list is empty. For midx packs, this list has the
+	 * names of packs indexed by the midx.
+	 * 
+	 * @return list of packs covered by this pack.
+	 */
+	protected List<Pack> getCoveredPacks() {
+		return Collections.emptyList();
 	}
 
 	private PackIndex idx() throws IOException {
