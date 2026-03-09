@@ -69,6 +69,10 @@ public class MidxWriter {
 				.sorted(Comparator.comparing(Pack::getPackName)).toList();
 		pm.beginTask("Adding packs to midx", packList.size());
 		for (Pack pack : packList) {
+			if (pack instanceof PackMidx) {
+				throw new IllegalArgumentException(
+						"Building midx from other midx not supported yet");
+			}
 			PackFile packFile = pack.getPackFile().create(PackExt.INDEX);
 			builder.addPack(packFile.getName(), pack.getIndex());
 			pm.update(1);
