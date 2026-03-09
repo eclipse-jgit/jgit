@@ -94,10 +94,13 @@ public class MultiPackIndexWriter {
 			writeHeader(out, chunkHeaders.size(), data.getPackCount());
 			writeChunkLookup(out, chunkHeaders);
 
+			monitor.beginTask("Writing midx chuncks", chunkHeaders.size());
 			WriteContext ctx = new WriteContext(out, data);
 			for (ChunkHeader chunk : chunkHeaders) {
 				chunk.writerFn.write(ctx);
+				monitor.update(1);
 			}
+			monitor.endTask();
 			writeCheckSum(out);
 			if (expectedSize != out.length()) {
 				throw new IllegalStateException(String.format(
