@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.file;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -22,6 +23,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.internal.revwalk.RefAdvancerWalk;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex;
+import org.eclipse.jgit.internal.storage.midx.MultiPackIndexLoader;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndexWriter;
 import org.eclipse.jgit.internal.storage.midx.PackIndexMerger;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
@@ -37,6 +39,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.util.Base64;
+import org.eclipse.jgit.util.FileUtils;
 
 /**
  * Helper to write multipack indexes.
@@ -65,35 +68,67 @@ public class MidxWriter {
 		PackIndexMerger.Builder builder = PackIndexMerger.builder();
 		builder.setProgressMonitor(pm);
 
-		Collection<Pack> packList = packs.stream()
+		Collection<Pack> packList = flattenMidxPackList(packs).stream()
 				.sorted(Comparator.comparing(Pack::getPackName)).toList();
 		pm.beginTask("Adding packs to midx", packList.size());
 		for (Pack pack : packList) {
 			if (pack instanceof PackMidx) {
-				throw new IllegalArgumentException(
-						"Building midx from other midx not supported yet");
+				throw new IllegalStateException("There should be no midx here"); //$NON-NLS-1$
 			}
 			PackFile packFile = pack.getPackFile().create(PackExt.INDEX);
 			builder.addPack(packFile.getName(), pack.getIndex());
+
 			pm.update(1);
 		}
 		PackIndexMerger data = builder.build();
 		pm.endTask();
 
+		File oldMidxBitmaps = null;
+		if (midxOut.exists()) {
+			// TODO(ifrade): This loads the old midx just to read the checksum.
+			// Do something more clever.
+			MultiPackIndex oldMidx = MultiPackIndexLoader.open(midxOut);
+			String midxBitmapsPath = midxOut.getAbsoluteFile() + "-"
+					+ ObjectId.fromRaw(oldMidx.getChecksum()).name()
+					+ ".bitmap";
+			File previousBitmaps = new File(midxBitmapsPath);
+			if (previousBitmaps.exists()) {
+				oldMidxBitmaps = previousBitmaps;
+			}
+		}
+
+		File midxOutTmp = new File(midxOut.getAbsolutePath() + ".tmp");
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		MultiPackIndexWriter.Result result;
 		try (FileOutputStream out = new FileOutputStream(
-				midxOut.getAbsolutePath())) {
+				midxOutTmp.getAbsolutePath())) {
 			result = writer.write(pm, out, data);
 		}
 
+		File midxOutBitmaps = new File(midxOut.getAbsoluteFile() + "-"
+				+ ObjectId.fromRaw(Base64.decode(result.checksum())).name()
+				+ ".bitmap");
+		File midxOutBitmapsTmp = null;
 		if (packConfig != null) {
-			File midxOutBitmaps = new File(
-					midxOut.getAbsolutePath() + ".bitmaps");
-			createAndAttachBitmaps(pm, repo, midxOutBitmaps,
+			midxOutBitmapsTmp = new File(
+					midxOutBitmaps.getAbsolutePath() + ".tmp");
+			createAndAttachBitmaps(pm, repo, midxOutBitmapsTmp,
 					Base64.decode(result.checksum()), data, packList,
 					new PackConfig(repo));
 		}
+
+		FileUtils.rename(midxOutTmp.getAbsoluteFile(),
+				midxOut.getAbsoluteFile(), StandardCopyOption.ATOMIC_MOVE);
+		if (midxOutBitmapsTmp != null) {
+			FileUtils.rename(midxOutBitmapsTmp.getAbsoluteFile(),
+					midxOutBitmaps.getAbsoluteFile(),
+					StandardCopyOption.ATOMIC_MOVE);
+		}
+
+		if (oldMidxBitmaps != null && !oldMidxBitmaps.equals(midxOutBitmaps)) {
+			FileUtils.delete(oldMidxBitmaps);
+		}
+
 	}
 
 	private static void createAndAttachBitmaps(ProgressMonitor pm,
@@ -161,5 +196,17 @@ public class MidxWriter {
 		}
 		pm.endTask();
 		return result;
+	}
+
+	static List<Pack> flattenMidxPackList(Collection<Pack> packs) {
+		List<Pack> output = new ArrayList<>();
+		for (Pack p : packs) {
+			if (p instanceof PackMidx packMidx) {
+				output.addAll(packMidx.getCoveredPacks());
+			} else {
+				output.add(p);
+			}
+		}
+		return output;
 	}
 }
