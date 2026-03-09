@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.internal.revwalk.RefAdvancerWalk;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexBuilder;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndexWriter;
 import org.eclipse.jgit.internal.storage.midx.PackIndexMerger;
