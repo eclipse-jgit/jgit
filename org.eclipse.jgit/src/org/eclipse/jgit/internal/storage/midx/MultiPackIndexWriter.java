@@ -86,7 +86,7 @@ public class MultiPackIndexWriter {
 	 */
 	public Result write(ProgressMonitor monitor, OutputStream outputStream,
 			PackIndexMerger data) throws IOException {
-		// List of chunks in the order they need to be written
+		// List of chunks in the order they need to be writte
 		List<ChunkHeader> chunkHeaders = createChunkHeaders(data);
 		long expectedSize = calculateExpectedSize(chunkHeaders);
 		try (CancellableDigestOutputStream out = new CancellableDigestOutputStream(
@@ -94,10 +94,13 @@ public class MultiPackIndexWriter {
 			writeHeader(out, chunkHeaders.size(), data.getPackCount());
 			writeChunkLookup(out, chunkHeaders);
 
+			monitor.beginTask("Writing midx chuncks", chunkHeaders.size());
 			WriteContext ctx = new WriteContext(out, data);
 			for (ChunkHeader chunk : chunkHeaders) {
 				chunk.writerFn.write(ctx);
+				monitor.update(1);
 			}
+			monitor.endTask();
 			writeCheckSum(out);
 			if (expectedSize != out.length()) {
 				throw new IllegalStateException(String.format(
