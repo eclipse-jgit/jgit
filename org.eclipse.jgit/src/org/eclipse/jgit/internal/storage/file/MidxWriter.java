@@ -82,13 +82,14 @@ public class MidxWriter {
 		if (packConfig != null) {
 			File midxOutBitmaps = new File(
 					midxOut.getAbsolutePath() + ".bitmaps");
-			createAndAttachBitmaps(db, midxOutBitmaps,
-					Base64.decode(result.checksum()), data, packs,
+			createAndAttachBitmaps(pm, db, midxOutBitmaps,
+					Base64.decode(result.checksum()), data, packList,
 					new PackConfig(db));
 		}
 	}
 
-	private static void createAndAttachBitmaps(Repository db,
+	private static void createAndAttachBitmaps(ProgressMonitor pm,
+			Repository db,
 			File midxBitmapsOut, byte[] checksum, PackIndexMerger data,
 			Collection<Pack> packs, PackConfig cfg) throws IOException {
 
@@ -102,7 +103,7 @@ public class MidxWriter {
 		}
 
 		ObjectIdOwnerMap<ObjectToPack> byId = new ObjectIdOwnerMap<>();
-		List<ObjectToPack> otps = asObjectsToPack(
+		List<ObjectToPack> otps = asObjectsToPack(pm,
 				(WindowCursor) db.newObjectReader(), data,
 				new ArrayList<>(packs), byId);
 
@@ -123,7 +124,8 @@ public class MidxWriter {
 		}
 	}
 
-	private static List<ObjectToPack> asObjectsToPack(WindowCursor ctx,
+	private static List<ObjectToPack> asObjectsToPack(ProgressMonitor pm,
+			WindowCursor ctx,
 			PackIndexMerger data, List<Pack> packs,
 			ObjectIdOwnerMap<ObjectToPack> byId) throws IOException {
 		long[] accPackSize = new long[packs.size()];
@@ -133,6 +135,8 @@ public class MidxWriter {
 					+ packs.get(i - 1).getPackFile().length();
 		}
 
+		pm.beginTask("Converting midx to ObjectsToPack",
+				data.getUniqueObjectCount());
 		List<ObjectToPack> result = new ArrayList<>(
 				data.getUniqueObjectCount());
 		MultiPackIndex.MidxIterator it = data.bySha1Iterator();
@@ -145,7 +149,9 @@ public class MidxWriter {
 			o.setOffset(accPackSize[entry.getPackId()] + entry.getOffset());
 			result.add(o);
 			byId.add(o);
+			pm.update(1);
 		}
+		pm.endTask();
 		return result;
 	}
 }
