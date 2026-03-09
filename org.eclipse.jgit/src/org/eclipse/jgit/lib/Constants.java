@@ -839,6 +839,13 @@ public final class Constants {
 	 */
 	public static final int COMMIT_GENERATION_NOT_COMPUTED = 0;
 
+	/**
+	 * Name of the .git/objects/packs/multi-pack-index file.
+	 *
+	 * @since 7.7
+	 */
+	public static final String MIDX_FILE = "multi-pack-index";
+
 	private Constants() {
 		// Hide the default constructor
 	}
