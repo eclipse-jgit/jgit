@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "682a8a45_bcc9e267",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-03-10T21:04:22Z",
+      "side": 1,
+      "message": "Nit: Add a period at the end of the sentence.",
+      "revId": "1321c39a1b1ae13efec7a7f9516ffccb54928fa9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
