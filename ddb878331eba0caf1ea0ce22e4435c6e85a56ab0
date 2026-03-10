@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93a4cae4_30eb8673",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T05:19:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5406211e_bb55bafa",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 6
+      },
+      "revId": "ddb878331eba0caf1ea0ce22e4435c6e85a56ab0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "106109a3_324356cc",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-03-09T23:08:55Z",
       "side": 1,
       "message": "why do you remove the simple FixedRouteListener ?",
+      "range": {
+        "startLine": 41,
+        "startChar": 28,
+        "endLine": 41,
+        "endChar": 51
+      },
+      "revId": "ddb878331eba0caf1ea0ce22e4435c6e85a56ab0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3e60a35_94d2c02f",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T05:19:32Z",
+      "side": 1,
+      "message": "That could still be effectively achieved by specifying the following config:\n\n```\n[global]\n\tlisten \u003d 0.0.0.:9418\n\tremote \u003d 0.0.0.:9419\n```",
+      "parentUuid": "106109a3_324356cc",
       "range": {
         "startLine": 41,
         "startChar": 28,
@@ -66,6 +114,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "516df08d_c4424999",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T05:19:32Z",
+      "side": 1,
+      "message": "The reason was to avoid defaulting things, since in future we need to support forwarding to non local remotes/backends and defaulting might introduce bugs.",
+      "parentUuid": "5709c2d3_a31144cd",
+      "revId": "ddb878331eba0caf1ea0ce22e4435c6e85a56ab0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "59ccba17_6b5b82f2",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
         "patchSetId": 1
@@ -77,6 +143,24 @@
       "writtenOn": "2026-03-09T23:08:55Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "ddb878331eba0caf1ea0ce22e4435c6e85a56ab0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd8495e5_e0c47d68",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T05:19:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59ccba17_6b5b82f2",
       "revId": "ddb878331eba0caf1ea0ce22e4435c6e85a56ab0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -98,6 +182,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d427b256_9482413b",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T05:19:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d1689ea_580b68e3",
+      "revId": "ddb878331eba0caf1ea0ce22e4435c6e85a56ab0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce5b222f_dbc6109e",
@@ -111,6 +213,24 @@
       "writtenOn": "2026-03-09T23:08:55Z",
       "side": 1,
       "message": "What do you mean by project ?",
+      "revId": "ddb878331eba0caf1ea0ce22e4435c6e85a56ab0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef9d97f2_19c2d52b",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T05:19:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce5b222f_dbc6109e",
       "revId": "ddb878331eba0caf1ea0ce22e4435c6e85a56ab0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -132,6 +252,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea04b0c0_3f45991f",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T05:19:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54d717b6_b8aaca8e",
+      "revId": "ddb878331eba0caf1ea0ce22e4435c6e85a56ab0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad22fa76_0f281b48",
@@ -145,6 +283,30 @@
       "writtenOn": "2026-03-09T23:08:55Z",
       "side": 1,
       "message": "you import this class above",
+      "range": {
+        "startLine": 181,
+        "startChar": 56,
+        "endLine": 181,
+        "endChar": 83
+      },
+      "revId": "ddb878331eba0caf1ea0ce22e4435c6e85a56ab0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edb59601_fe18a8ac",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T05:19:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad22fa76_0f281b48",
       "range": {
         "startLine": 181,
         "startChar": 56,
