@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "688ea1c5_85fbacf0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T01:28:24Z",
+      "side": 1,
+      "message": "renamed, So we can remove `testPackRefsPeelsUnpeeledPackedTag` now ? Since this test is modified to include it.",
+      "parentUuid": "890a5aae_59fcbbbe",
+      "range": {
+        "startLine": 1121,
+        "startChar": 13,
+        "endLine": 1121,
+        "endChar": 43
+      },
+      "revId": "6200e7b5de00ed754e1ce47847ef5706401bbfb3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9e715d35_cad29b8d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
         "patchSetId": 8
@@ -37,6 +61,24 @@
       "writtenOn": "2026-03-09T17:28:31Z",
       "side": 1,
       "message": "This behavior of adding the fully-peeled tag should probably be tied to a test which confirms that we actually do peel all tags, whether they started as loose or as packed and unpeeled. Otherwise, I believe this header should not be added.",
+      "revId": "6200e7b5de00ed754e1ce47847ef5706401bbfb3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fedb002_e4d34002",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1138,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T01:28:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e715d35_cad29b8d",
       "revId": "6200e7b5de00ed754e1ce47847ef5706401bbfb3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
