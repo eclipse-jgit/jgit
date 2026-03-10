@@ -43,7 +43,7 @@ import org.eclipse.jgit.util.StringUtils;
  *            type of values in this tree
  * @since 6.5
  */
-public final class TernarySearchTree<Value> {
+public class TernarySearchTree<Value> {
 
 	private static final char WILDCARD = '?';
 
