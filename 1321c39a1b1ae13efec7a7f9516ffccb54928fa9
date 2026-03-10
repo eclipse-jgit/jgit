@@ -16,6 +16,24 @@
       "message": "Nit: Add a period at the end of the sentence.",
       "revId": "1321c39a1b1ae13efec7a7f9516ffccb54928fa9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d656f409_7004353e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-10T21:12:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "682a8a45_bcc9e267",
+      "revId": "1321c39a1b1ae13efec7a7f9516ffccb54928fa9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
