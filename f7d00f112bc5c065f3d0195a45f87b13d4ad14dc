@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d477d4c_1fc79d96",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed11e201_652824eb",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca3c7052_4cea5d17",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-03-09T13:27:31Z",
       "side": 1,
       "message": "import the package `org.eclipse.jgit.annotations` in `META-INF/MANIFEST.xml`",
+      "range": {
+        "startLine": 21,
+        "startChar": 7,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0404ea3_91e40aa5",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca3c7052_4cea5d17",
       "range": {
         "startLine": 21,
         "startChar": 7,
@@ -64,6 +106,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86e0ae8e_05c1966c",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b6a89ca_58497769",
+      "range": {
+        "startLine": 24,
+        "startChar": 7,
+        "endLine": 24,
+        "endChar": 43
+      },
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05827cef_5c5e9fcd",
@@ -77,6 +143,30 @@
       "writtenOn": "2026-03-09T13:27:31Z",
       "side": 1,
       "message": "nit: empty code block raises a warning",
+      "range": {
+        "startLine": 51,
+        "startChar": 83,
+        "endLine": 51,
+        "endChar": 86
+      },
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa47fe02_d29663b2",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05827cef_5c5e9fcd",
       "range": {
         "startLine": 51,
         "startChar": 83,
@@ -104,6 +194,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05bdf8e0_5f000e1b",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "528b8b13_fbcd78a4",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0297612f_c4cb56a3",
@@ -117,6 +225,24 @@
       "writtenOn": "2026-03-09T13:27:31Z",
       "side": 1,
       "message": "```suggestion\n\tint destinationPort \u003d Daemon.DEFAULT_PORT + 1;\n```",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea813747_94bc479c",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0297612f_c4cb56a3",
       "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -144,6 +270,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "316c6352_baf349b0",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4efc2dba_a3cd20dc",
+      "range": {
+        "startLine": 77,
+        "startChar": 41,
+        "endLine": 77,
+        "endChar": 52
+      },
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b533e2b_7eead047",
@@ -161,6 +311,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf8eb513_35650afe",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b533e2b_7eead047",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f41af41_cef4795f",
@@ -174,6 +342,24 @@
       "writtenOn": "2026-03-09T13:27:31Z",
       "side": 1,
       "message": "externalize the message like the other one ?",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08a18d6a_28dcdfef",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f41af41_cef4795f",
       "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -201,6 +387,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2946e41f_7a9f2fac",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "086c0272_5219d1df",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 16
+      },
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6585c15_cf841fb7",
@@ -218,6 +428,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "233349c2_c92aee8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/CommandInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6585c15_cf841fb7",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb720f93_aae9a5ae",
@@ -231,6 +459,30 @@
       "writtenOn": "2026-03-09T13:27:31Z",
       "side": 1,
       "message": "should we use RemoteConfig.getUploadPack() here in case it\u0027s overridden ?",
+      "range": {
+        "startLine": 61,
+        "startChar": 42,
+        "endLine": 61,
+        "endChar": 57
+      },
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e148125_4f1f3c8b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/CommandInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb720f93_aae9a5ae",
       "range": {
         "startLine": 61,
         "startChar": 42,
@@ -264,6 +516,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5f7fa4f_ffecc0df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/CommandInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eff1e273_4929540c",
+      "range": {
+        "startLine": 62,
+        "startChar": 5,
+        "endLine": 62,
+        "endChar": 21
+      },
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f3a7b44_50dfe474",
@@ -277,6 +553,24 @@
       "writtenOn": "2026-03-09T13:27:31Z",
       "side": 1,
       "message": "can we use `PacketLineIn` to make this more robust ?",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5054788c_8667bb31",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/CommandInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "I want to avoid repeated IO. for now, marking them as private methods.",
+      "parentUuid": "5f3a7b44_50dfe474",
       "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -298,6 +592,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "137aabe3_4deb6a86",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/CommandInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "I want to avoid repeated IO. for now, marking them as private methods.",
+      "parentUuid": "e14f5476_2ff44f97",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2895609_d494cc9d",
@@ -315,6 +627,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41c48a75_ee1c4339",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2895609_d494cc9d",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccaeeb72_f2206b6d",
@@ -328,6 +658,24 @@
       "writtenOn": "2026-03-09T13:27:31Z",
       "side": 1,
       "message": "nit: externalize error message",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "936092f9_1572353c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccaeeb72_f2206b6d",
       "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -355,6 +703,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2893aa5c_58de7147",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9d72ccc_24376a0b",
+      "range": {
+        "startLine": 89,
+        "startChar": 9,
+        "endLine": 89,
+        "endChar": 13
+      },
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71395bf4_4e99e6c0",
@@ -368,6 +740,24 @@
       "writtenOn": "2026-03-09T13:27:31Z",
       "side": 1,
       "message": "nit: externalize info message",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1a1d6d8_b1ffdf89",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71395bf4_4e99e6c0",
       "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -389,6 +779,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0df78b78_3f1c0a78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2cd37fe_a9308233",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2958a9b_56bb48c5",
@@ -402,6 +810,24 @@
       "writtenOn": "2026-03-09T13:27:31Z",
       "side": 1,
       "message": "maybe use a connection timeout to prevent hanging here if the destination server is stuck ?",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "817c6448_5983c05b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2958a9b_56bb48c5",
       "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -423,6 +849,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77b38542_65825693",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "244a8a25_757df727",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c01d0ac_4e5f948e",
@@ -436,6 +880,24 @@
       "writtenOn": "2026-03-09T13:27:31Z",
       "side": 1,
       "message": "can we run these on the workerPool instead of unmanaged raw threads ?",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "819ab03e_6021b32f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c01d0ac_4e5f948e",
       "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -457,6 +919,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c25bbc2e_345c0ef0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8322882d_bcb36c3d",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28eb4066_507048d0",
@@ -470,6 +950,24 @@
       "writtenOn": "2026-03-09T13:27:31Z",
       "side": 1,
       "message": "Can we use a bounded buffer to avoid a malicious client could send a massive first \"line\" leading to an `OutOfMemoryError`? The protocol specifies that pkt-line are limited to 64k: \"The maximum length of a pkt-line’s data component is 65516 bytes.\", see https://git-scm.com/docs/protocol-common#_pkt_line_format",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07bd5d9b_70186bbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RecordingInputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-10T16:32:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28eb4066_507048d0",
       "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
