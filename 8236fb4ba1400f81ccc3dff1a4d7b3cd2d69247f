@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42a80aef_78a6cea3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-11T17:10:05Z",
+      "side": 1,
+      "message": "Happy for this to go through, @matthias.sohn@sap.com any objections?",
+      "revId": "8236fb4ba1400f81ccc3dff1a4d7b3cd2d69247f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
