@@ -15,7 +15,9 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import java.io.IOException;
 import java.net.URI;
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -24,6 +26,7 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.InvalidPathException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.gitrepo.RepoCommand.ManifestErrorException;
 import org.eclipse.jgit.gitrepo.RepoCommand.RemoteFile;
 import org.eclipse.jgit.gitrepo.RepoCommand.RemoteReader;
@@ -44,6 +47,7 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FileUtils;
 
 /**
@@ -82,6 +86,8 @@ class BareSuperprojectWriter {
 		boolean recordSubmoduleLabels = true;
 
 		boolean recordShallowSubmodules = true;
+
+		boolean reuseTipGitlinks = false;
 
 		static BareWriterConfig getDefault() {
 			return new BareWriterConfig();
@@ -123,7 +129,13 @@ class BareSuperprojectWriter {
 		ObjectInserter inserter = repo.newObjectInserter();
 
 		try (RevWalk rw = new RevWalk(repo)) {
-			prepareIndex(repoProjects, index, inserter);
+			Map<String, ObjectId> currentProjects;
+			if (config.reuseTipGitlinks) {
+				currentProjects = parseCurrentProjects(rw);
+			} else {
+				currentProjects = new HashMap<>();
+			}
+			prepareIndex(repoProjects, index, inserter, currentProjects);
 			ObjectId treeId = index.writeTree(inserter);
 			long prevDelay = 0;
 			for (int i = 0; i < LOCK_FAILURE_MAX_RETRIES - 1; i++) {
@@ -144,8 +156,62 @@ class BareSuperprojectWriter {
 		}
 	}
 
+	private Map<String, ObjectId> parseCurrentProjects(RevWalk rw)
+			throws IOException {
+		Map<String, ObjectId> currentProjects = new HashMap<>();
+		ObjectId headId = repo.resolve(targetBranch + "^{commit}"); //$NON-NLS-1$
+		if (headId == null) {
+			return currentProjects;
+		}
+		RevCommit headCommit = rw.parseCommit(headId);
+		Config gitmodules = new Config();
+		try (TreeWalk modulesWalk = TreeWalk.forPath(repo,
+				Constants.DOT_GIT_MODULES, headCommit.getTree())) {
+			if (modulesWalk == null) {
+				return currentProjects;
+			}
+
+			ObjectId modulesId = modulesWalk.getObjectId(0);
+			try {
+				gitmodules.fromText(new String(
+						repo.open(modulesId).getCachedBytes(), UTF_8));
+			} catch (ConfigInvalidException e) {
+				// Invalid .gitmodules? Ignore to overwrite.
+				return currentProjects;
+			}
+		}
+
+		for (String submoduleName : gitmodules.getSubsections("submodule")) { //$NON-NLS-1$
+			String path = gitmodules.getString("submodule", submoduleName, //$NON-NLS-1$
+					"path");
+			if (path == null) {
+				continue;
+			}
+			String url = gitmodules.getString("submodule", submoduleName, //$NON-NLS-1$
+					"url");
+			String branch = gitmodules.getString("submodule", submoduleName, //$NON-NLS-1$
+					"branch");
+			String ref = gitmodules.getString("submodule", submoduleName, //$NON-NLS-1$
+					"ref");
+			String revision = branch != null ? branch : ref;
+
+			if (url == null || revision == null) {
+				continue;
+			}
+			try (TreeWalk tw = TreeWalk.forPath(repo, path,
+					headCommit.getTree())) {
+				if (tw != null && tw.getFileMode(0) == FileMode.GITLINK) {
+					String key = url + "|" + path + "|" + revision; //$NON-NLS-1$ //$NON-NLS-2$
+					currentProjects.put(key, tw.getObjectId(0));
+				}
+			}
+		}
+		return currentProjects;
+	}
+
 	private void prepareIndex(List<RepoProject> projects, DirCache index,
-			ObjectInserter inserter) throws IOException, GitAPIException {
+			ObjectInserter inserter, Map<String, ObjectId> currentProjects)
+			throws IOException, GitAPIException {
 		Config cfg = new Config();
 		StringBuilder attributes = new StringBuilder();
 		DirCacheBuilder builder = index.builder();
@@ -160,7 +226,15 @@ class BareSuperprojectWriter {
 					cfg.setString("submodule", name, "ref", proj.getUpstream()); //$NON-NLS-1$//$NON-NLS-2$
 				}
 			} else {
-				objectId = callback.sha1(url, proj.getRevision());
+				String key = url + "|" + proj.getPath() + "|" //$NON-NLS-1$ //$NON-NLS-2$
+						+ proj.getRevision();
+				ObjectId oid = currentProjects.get(key);
+				if (oid != null) {
+					objectId = oid;
+				} else {
+					objectId = callback.sha1(url, proj.getRevision());
+				}
+
 				if (objectId == null && !config.ignoreRemoteFailures) {
 					throw new RemoteUnavailableException(url);
 				}
