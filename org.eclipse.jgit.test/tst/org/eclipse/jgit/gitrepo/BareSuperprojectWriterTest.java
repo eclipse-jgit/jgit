@@ -14,6 +14,8 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.nio.charset.StandardCharsets;
@@ -134,6 +136,67 @@ public class BareSuperprojectWriterTest extends RepositoryTestCase {
 
 			String contents = readContents(bareRepo, commit, "x");
 			assertThat(contents, is("extra-content"));
+		}
+	}
+
+	@Test
+	public void write_reuseGitlinks() throws Exception {
+		try (Repository bareRepo = createBareRepository()) {
+			// 1. Create initial commit
+			RepoProject initialProject = new RepoProject("subprojectX", "path/to",
+					"refs/heads/branch-x", "remote", "");
+			initialProject.setUrl("http://example.com/a");
+
+			RemoteReader mockRemoteReader = mock(RemoteReader.class);
+			when(mockRemoteReader.sha1("http://example.com/a",
+					"refs/heads/branch-x"))
+							.thenReturn(ObjectId.fromString(SHA1_A));
+
+			BareWriterConfig config = BareWriterConfig.getDefault();
+			BareSuperprojectWriter w = new BareSuperprojectWriter(bareRepo,
+					null, "refs/heads/master", author, mockRemoteReader,
+					config, List.of());
+			w.write(Arrays.asList(initialProject));
+
+
+			// 2. Test with reuseTipGitlinks = true (cache hit)
+			RepoProject projectToReuse = new RepoProject("subprojectX", "path/to",
+					"refs/heads/branch-x", "remote", "");
+			projectToReuse.setUrl("http://example.com/a");
+
+			RemoteReader verifyingMockReader = mock(RemoteReader.class);
+			config.reuseTipGitlinks = true;
+			BareSuperprojectWriter reusingWriter = new BareSuperprojectWriter(bareRepo,
+					null, "refs/heads/master", author, verifyingMockReader,
+					config, List.of());
+			reusingWriter.write(Arrays.asList(projectToReuse));
+
+			verify(verifyingMockReader, never()).sha1("http://example.com/a", "refs/heads/branch-x");
+
+
+			// 3. Test with reuseTipGitlinks = true (cache miss - different branch)
+			RepoProject projectToMiss = new RepoProject("subprojectX", "path/to",
+					"refs/heads/branch-y", "remote", "");
+			projectToMiss.setUrl("http://example.com/a");
+			when(verifyingMockReader.sha1("http://example.com/a",
+					"refs/heads/branch-y"))
+							.thenReturn(ObjectId.fromString("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"));
+
+
+			reusingWriter.write(Arrays.asList(projectToMiss));
+			verify(verifyingMockReader).sha1("http://example.com/a", "refs/heads/branch-y");
+
+
+			// 4. Test with reuseTipGitlinks = false
+			config.reuseTipGitlinks = false;
+			when(verifyingMockReader.sha1("http://example.com/a",
+					"refs/heads/branch-x"))
+							.thenReturn(ObjectId.fromString(SHA1_A));
+			BareSuperprojectWriter nonReusingWriter = new BareSuperprojectWriter(bareRepo,
+					null, "refs/heads/master", author, verifyingMockReader,
+					config, List.of());
+			nonReusingWriter.write(Arrays.asList(projectToReuse));
+			verify(verifyingMockReader).sha1("http://example.com/a", "refs/heads/branch-x");
 		}
 	}
 

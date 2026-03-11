@@ -17,6 +17,10 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -769,6 +773,53 @@ public class RepoCommandTest extends RepositoryTestCase {
 					.decode(IO.readFully(dotmodules));
 			assertTrue(gitModulesContents.contains("branch = branch"));
 		}
+	}
+
+	@Test
+	public void testReuseTipGitlinks() throws Exception {
+		// 1. Create remote repo
+		Repository remoteDb = createWorkRepository();
+		String remoteUri = remoteDb.getDirectory().toURI().toString();
+
+		// 2. Create a commit in remote repo
+		ObjectId expectedCommitId;
+		try (Git git = new Git(remoteDb)) {
+			JGitTestUtil.writeTrashFile(remoteDb, "sub.txt", "content");
+			git.add().addFilepattern("sub.txt").call();
+			expectedCommitId = git.commit().setMessage("commit").call().getId();
+		}
+
+		// 3. Create a bare superproject repo and an initial commit
+        Repository dest = createBareRepository();
+        StringBuilder xmlContent = new StringBuilder();
+        xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+                .append("<manifest>")
+                .append("<remote name=\"remote1\" fetch=\".\" />")
+                .append("<default revision=\"master\" remote=\"remote1\" />")
+                .append("<project path=\"sub\" name=\"").append(remoteUri)
+                .append("\" />").append("</manifest>");
+
+		RepoCommand command = new RepoCommand(dest);
+		command.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(UTF_8)))
+				.setURI(rootUri).call();
+
+		// At this point, dest HEAD has a gitlink to expectedCommitId.
+
+		// 4. Run RepoCommand again with reuseTipGitlinks = true
+		RepoCommand reuseCommand = new RepoCommand(dest);
+		// Use a mock reader to verify it's not called
+		RepoCommand.RemoteReader mockReader = mock(RepoCommand.RemoteReader.class);
+		reuseCommand.setInputStream(new ByteArrayInputStream(xmlContent.toString().getBytes(UTF_8)))
+				.setURI(rootUri)
+				.setReuseTipGitlinks(true)
+				.setRemoteReader(mockReader)
+				.call();
+
+		// 5. Verify that the remote reader was not called, and the gitlink is correct.
+		verify(mockReader, never()).sha1(anyString(), anyString());
+		ObjectId gitlink = dest.resolve(Constants.HEAD + ":sub");
+		assertEquals("The gitlink should be the reused one",
+				expectedCommitId, gitlink);
 	}
 
 	@Test

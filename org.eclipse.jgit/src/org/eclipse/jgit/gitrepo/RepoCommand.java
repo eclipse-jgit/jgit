@@ -415,6 +415,21 @@ public class RepoCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Set whether to reuse existing gitlinks from tip.
+	 * <p>
+	 * Not implemented for non-bare repositories.
+	 *
+	 * @param enable
+	 *            Whether to reuse existing gitlinks from tip.
+	 * @return this command
+	 * @since 7.6
+	 */
+	public RepoCommand setReuseTipGitlinks(boolean enable) {
+		this.bareWriterConfig.reuseTipGitlinks = enable;
+		return this;
+	}
+
+	/**
 	 * The progress monitor associated with the clone operation. By default,
 	 * this is set to <code>NullProgressMonitor</code>
 	 *
