@@ -148,11 +148,9 @@ public class MidxTestUtils {
 		DfsPackDescription desc = DfsMidxWriter.writeMidx(
 				NullProgressMonitor.INSTANCE, db.getObjectDatabase(),
 				Arrays.asList(packs),
-				base != null ? base.getPackDescription() : null);
+				base != null ? base.getPackDescription() : null,
+				base != null ? null : packConfig);
 		db.getObjectDatabase().commitPack(List.of(desc), null);
-		if (base == null) {
-			DfsMidxWriter.createAndAttachBitmaps(db, desc, packConfig);
-		}
 
 		// "packs" argument can have a midx and its base in the list.
 		List<DfsPackFile> allPlainPacks = MidxPackList
