@@ -188,7 +188,7 @@ public class PullCommandTest extends RepositoryTestCase {
 		target.getRepository().getConfig().setEnum(CONFIG_MERGE_SECTION, null,
 				CONFIG_KEY_CONFLICTSTYLE, ConflictStyle.DIFF3);
 
-		res = target.pull().call();
+		target.pull().call();
 
 		String sourceChangeString = "Source change\n>>>>>>> branch 'master' of "
 				+ target.getRepository().getConfig().getString("remote",
