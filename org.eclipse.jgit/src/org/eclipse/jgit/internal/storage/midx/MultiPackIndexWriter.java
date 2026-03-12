@@ -65,9 +65,11 @@ public class MultiPackIndexWriter {
 	 *            packs)
 	 * @param packNames
 	 *            packNames
+	 * @param checksum
+	 *            checksum of the written midx
 	 */
 	public record Result(long bytesWritten, int objectCount,
-			List<String> packNames) {
+			List<String> packNames, byte[] checksum) {
 	}
 
 	/**
@@ -101,7 +103,7 @@ public class MultiPackIndexWriter {
 				monitor.update(1);
 			}
 			monitor.endTask();
-			writeCheckSum(out);
+			byte[] checksum = writeCheckSum(out);
 			if (expectedSize != out.length()) {
 				throw new IllegalStateException(String.format(
 						JGitText.get().multiPackIndexUnexpectedSize,
@@ -109,7 +111,7 @@ public class MultiPackIndexWriter {
 						Long.valueOf(out.length())));
 			}
 			return new Result(expectedSize, data.getUniqueObjectCount(),
-					data.getPackNames());
+					data.getPackNames(), checksum);
 		} catch (InterruptedIOException e) {
 			throw new IOException(JGitText.get().multiPackIndexWritingCancelled,
 					e);
@@ -387,10 +389,12 @@ public class MultiPackIndexWriter {
 	 * @throws IOException
 	 *             error writing to the output stream
 	 */
-	private void writeCheckSum(CancellableDigestOutputStream out)
+	private byte[] writeCheckSum(CancellableDigestOutputStream out)
 			throws IOException {
-		out.write(out.getDigest());
+		byte[] checksum = out.getDigest();
+		out.write(checksum);
 		out.flush();
+		return checksum;
 	}
 
 	private record OffsetPosition(long offset, int position) {
