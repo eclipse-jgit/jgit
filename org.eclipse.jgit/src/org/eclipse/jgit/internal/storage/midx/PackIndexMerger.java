@@ -176,7 +176,7 @@ public class PackIndexMerger {
 	 *
 	 * @return object count of the merged index
 	 */
-	int getUniqueObjectCount() {
+	public int getUniqueObjectCount() {
 		return uniqueObjectCount;
 	}
 
@@ -244,7 +244,7 @@ public class PackIndexMerger {
 	 *
 	 * @return an iterator in sha1 order without duplicates.
 	 */
-	MidxIterator bySha1Iterator() {
+	public MidxIterator bySha1Iterator() {
 		midxIterator.reset();
 		return midxIterator;
 	}

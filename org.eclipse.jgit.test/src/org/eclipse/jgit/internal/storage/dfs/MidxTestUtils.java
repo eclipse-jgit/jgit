@@ -145,6 +145,7 @@ public class MidxTestUtils {
 			DfsPackFile[] packs, DfsPackFileMidx base) throws IOException {
 		PackConfig packConfig = new PackConfig(db);
 		packConfig.setBitmapRecentCommitSpan(1); // bitmap every commit!
+
 		DfsPackDescription desc = DfsMidxWriter.writeMidx(
 				NullProgressMonitor.INSTANCE, db.getObjectDatabase(),
 				Arrays.asList(packs),
