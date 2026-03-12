@@ -57,6 +57,9 @@ public class DfsMidxWriter {
 	 *            the packs to cover
 	 * @param base
 	 *            parent of this midx in the chain (if any).
+	 * @param packConfig
+	 *            pack config with parameter to build bitmaps. Null to disable
+	 *            bitmaps.
 	 * @return a pack (uncommitted) with the multipack index of the packs passed
 	 *         as parameter.
 	 * @throws IOException
@@ -64,7 +67,7 @@ public class DfsMidxWriter {
 	 */
 	public static DfsPackDescription writeMidx(ProgressMonitor pm,
 			DfsObjDatabase objdb, List<DfsPackFile> packs,
-			@Nullable DfsPackDescription base)
+			@Nullable DfsPackDescription base, @Nullable PackConfig packConfig)
 			throws IOException {
 		PackIndexMerger.Builder dataBuilder = PackIndexMerger.builder();
 		try (DfsReader ctx = objdb.newReader()) {
@@ -96,22 +99,16 @@ public class DfsMidxWriter {
 			}
 		}
 
+		// TODO(ifrade): At the moment we only support bitmaps on the base
+		if (base == null && packConfig != null) {
+			createAndAttachBitmaps(objdb.getRepository(), midxPackDesc,
+					packConfig);
+		}
+
 		return midxPackDesc;
 	}
 
-	/**
-	 * Calculate bitmps for the midx and add them as a stream in the description
-	 *
-	 * @param db
-	 *            the repository
-	 * @param desc
-	 *            the pack description of the midx
-	 * @param cfg
-	 *            pack config with the parameters for the bitmaps
-	 * @throws IOException
-	 *             an error reading from storage
-	 */
-	public static void createAndAttachBitmaps(DfsRepository db,
+	private static void createAndAttachBitmaps(DfsRepository db,
 			DfsPackDescription desc, PackConfig cfg) throws IOException {
 
 		DfsObjDatabase objdb = db.getObjectDatabase();

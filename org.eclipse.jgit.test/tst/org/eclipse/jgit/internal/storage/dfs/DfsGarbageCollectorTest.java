@@ -1498,7 +1498,7 @@ public class DfsGarbageCollectorTest {
 	private DfsPackDescription midx(List<DfsPackFile> coveredPacks,
 			DfsPackDescription base) throws IOException {
 		DfsPackDescription midx = DfsMidxWriter.writeMidx(NULL_PM, odb,
-				coveredPacks, base);
+				coveredPacks, base, null);
 		git.tick(1);
 		midx.setLastModified(git.getInstant().toEpochMilli());
 		return midx;
