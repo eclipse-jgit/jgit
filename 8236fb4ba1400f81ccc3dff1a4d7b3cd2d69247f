@@ -33,6 +33,23 @@
       "message": "Can you show us the code which you have in mind to extend this class ?\n\nI implemented this class to support the following series \nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/197557\nintroducing a caching InMemoryRefDatabase. I should come back to this series and finish it.",
       "revId": "8236fb4ba1400f81ccc3dff1a4d7b3cd2d69247f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27fc529c_63412232",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-12T10:36:01Z",
+      "side": 1,
+      "message": "Lowering the approval, waiting for @danielesassoli@gmail.com to answer @matthias.sohn@sap.com\u0027s questions.",
+      "revId": "8236fb4ba1400f81ccc3dff1a4d7b3cd2d69247f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
