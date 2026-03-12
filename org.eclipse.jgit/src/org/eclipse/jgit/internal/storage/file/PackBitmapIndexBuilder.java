@@ -36,17 +36,39 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	private static final int MAX_XOR_OFFSET_SEARCH = 10;
 
 	private final EWAHCompressedBitmap commits;
+
 	private final EWAHCompressedBitmap trees;
+
 	private final EWAHCompressedBitmap blobs;
+
 	private final EWAHCompressedBitmap tags;
+
 	private final BlockList<PositionEntry> byOffset;
 
 	private final ArrayDeque<StoredBitmap> bitmapsToWriteXorBuffer = new ArrayDeque<>();
 
 	private List<StoredEntry> bitmapsToWrite = new ArrayList<>();
 
-	final ObjectIdOwnerMap<PositionEntry>
-			positionEntries = new ObjectIdOwnerMap<>();
+	final ObjectIdOwnerMap<PositionEntry> positionEntries = new ObjectIdOwnerMap<>();
+
+	@FunctionalInterface
+	public interface FindType {
+		int apply(ObjectId oid);
+	}
+
+	public PackBitmapIndexBuilder(List<PositionEntry> entries,
+			FindType typeFn) {
+		for (PositionEntry e : entries) {
+			positionEntries.add(e);
+		}
+		Collections.sort(entries, (ObjectToPack a, ObjectToPack b) -> Long
+				.signum(a.getOffset() - b.getOffset()));
+		for (int i = 0; i < entries.size(); i++) {
+			PositionEntry e = positionEntries.get(entries.get(i));
+			e.ridxPosition = i;
+			byOffset.add(e);
+		}
+	}
 
 	/**
 	 * Creates a PackBitmapIndex used for building the contents of an index
@@ -206,16 +228,16 @@ public class PackBitmapIndexBuilder extends BasePackBitmapIndex {
 	 * @param flags
 	 *            the flags to be stored with the bitmap
 	 */
-	public void addBitmap(
-			AnyObjectId objectId, EWAHCompressedBitmap bitmap, int flags) {
+	public void addBitmap(AnyObjectId objectId, EWAHCompressedBitmap bitmap,
+			int flags) {
 		bitmap.trim();
 		StoredBitmap result = new StoredBitmap(objectId, bitmap, null, flags);
 		getBitmaps().add(result);
 	}
 
 	@Override
-	public EWAHCompressedBitmap ofObjectType(
-			EWAHCompressedBitmap bitmap, int type) {
+	public EWAHCompressedBitmap ofObjectType(EWAHCompressedBitmap bitmap,
+			int type) {
 		switch (type) {
 		case Constants.OBJ_BLOB:
 			return getBlobs().and(bitmap);
