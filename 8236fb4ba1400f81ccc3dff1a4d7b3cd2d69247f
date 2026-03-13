@@ -104,6 +104,23 @@
       "parentUuid": "9a24c000_f52b9725",
       "revId": "8236fb4ba1400f81ccc3dff1a4d7b3cd2d69247f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "987db860_7207cff8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-13T10:39:37Z",
+      "side": 1,
+      "message": "Note that this class in an internal package, this means we may change API in minor releases",
+      "revId": "8236fb4ba1400f81ccc3dff1a4d7b3cd2d69247f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
