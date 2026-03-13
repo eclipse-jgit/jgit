@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b100570_e6efa36c",
+        "filename": "org.eclipse.jgit.test/src/org/eclipse/jgit/internal/storage/dfs/MidxTestUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-03-13T18:18:13Z",
+      "side": 1,
+      "message": "If base is null, this won\u0027t write bitmaps either way, right? For simplicity why not just pass the packConfig here?",
+      "revId": "20f8b1f05000a2445cba5e4711723978dccbf49a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
