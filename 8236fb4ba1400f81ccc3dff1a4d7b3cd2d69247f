@@ -50,6 +50,24 @@
       "message": "Lowering the approval, waiting for @danielesassoli@gmail.com to answer @matthias.sohn@sap.com\u0027s questions.",
       "revId": "8236fb4ba1400f81ccc3dff1a4d7b3cd2d69247f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a24c000_f52b9725",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-13T09:39:34Z",
+      "side": 1,
+      "message": "\u003e Can you show us the code which you have in mind to extend this class ?\n\nThe intent of the code is already described in the commit message. I don\u0027t have a concrete implementation yet.\n\n\u003e I implemented this class to support the following series \n\u003e https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/197557\n\u003e introducing a caching InMemoryRefDatabase. I should come back to this series and \u003e finish it.\n\nThis chain seems stuck to 4 years ago, are you planning on working on it soon?\nIn this thread[1], also from 4 years ago, looked like you didn\u0027t have much time to work on it.\n\n[1] https://groups.google.com/g/repo-discuss/c/QAwT5FMnQdM/m/owR0zbS1AgAJ",
+      "parentUuid": "70ca8c3a_91659bbd",
+      "revId": "8236fb4ba1400f81ccc3dff1a4d7b3cd2d69247f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
