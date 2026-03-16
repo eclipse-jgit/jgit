@@ -40,6 +40,7 @@ import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.eclipse.jgit.util.Base64;
 
 /**
  * Create a pack with a multipack index, setting the required fields in the
@@ -92,7 +93,7 @@ public class DfsMidxWriter {
 			midxPackDesc.addFileExt(MULTI_PACK_INDEX);
 			midxPackDesc.setFileSize(MULTI_PACK_INDEX, result.bytesWritten());
 			midxPackDesc.setObjectCount(result.objectCount());
-			checksum = result.checksum();
+			checksum = Base64.decode(result.checksum());
 
 			Map<String, DfsPackDescription> byName = packs.stream()
 					.map(DfsPackFile::getPackDescription)

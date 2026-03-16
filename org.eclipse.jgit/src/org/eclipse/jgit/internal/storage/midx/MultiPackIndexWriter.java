@@ -38,6 +38,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.io.CancellableDigestOutputStream;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.MutableEntry;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.NB;
 
 /**
@@ -69,7 +70,7 @@ public class MultiPackIndexWriter {
 	 *            checksum of the written midx
 	 */
 	public record Result(long bytesWritten, int objectCount,
-			List<String> packNames, byte[] checksum) {
+			List<String> packNames, String checksum) {
 	}
 
 	/**
@@ -111,7 +112,7 @@ public class MultiPackIndexWriter {
 						Long.valueOf(out.length())));
 			}
 			return new Result(expectedSize, data.getUniqueObjectCount(),
-					data.getPackNames(), checksum);
+					data.getPackNames(), Base64.encodeBytes(checksum));
 		} catch (InterruptedIOException e) {
 			throw new IOException(JGitText.get().multiPackIndexWritingCancelled,
 					e);
