@@ -16,6 +16,23 @@
       "message": "Fails for unrelated reasons. Verified locally.\n\nTrigger build.",
       "revId": "c0d5111e99a9e91db000c70806f49100c72196a6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56d4652a_98faa355",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-16T18:49:30Z",
+      "side": 1,
+      "message": "trigger build",
+      "revId": "c0d5111e99a9e91db000c70806f49100c72196a6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
