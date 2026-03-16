@@ -20,6 +20,7 @@ import org.eclipse.jgit.internal.storage.file.MidxWriter;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndexPrettyPrinter;
 import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -79,7 +80,7 @@ class MultiPackIndex extends TextBuiltin {
 		errw.println("Writing " + midx.getAbsolutePath());
 
 		ObjectDirectory odb = (ObjectDirectory) db.getObjectDatabase();
-		MidxWriter.writeMidx(new TextProgressMonitor(errw), odb.getPacks(),
-				midx);
+		MidxWriter.writeMidx(new TextProgressMonitor(errw), db, odb.getPacks(),
+				midx, new PackConfig(db));
 	}
 }
