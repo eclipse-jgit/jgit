@@ -10,14 +10,14 @@
 package org.eclipse.jgit.internal.storage.midx;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
 
 import org.eclipse.jgit.internal.storage.file.PackIndex;
-import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.MidxIterator;
+import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.MutableEntry;
 import org.eclipse.jgit.lib.MutableObjectId;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ProgressMonitor;
 
 /**
  * Collect the stats and offers an iterator over the union of n-pack indexes.
@@ -32,59 +32,13 @@ import org.eclipse.jgit.lib.MutableObjectId;
  * entries. The stats of the combined index are calculated in an iteration at
  * construction time.
  */
-class PackIndexMerger {
+public class PackIndexMerger {
 
 	private static final int LIMIT_31_BITS = (1 << 31) - 1;
 
 	private static final long LIMIT_32_BITS = (1L << 32) - 1;
 
-	/**
-	 * Object returned by the iterator.
-	 * <p>
-	 * The iterator returns (on each next()) the same instance with different
-	 * values, to avoid allocating many short-lived objects. Callers should not
-	 * keep a reference to that returned value.
-	 */
-	static class MidxMutableEntry {
-		// The object id
-		private final MutableObjectId oid = new MutableObjectId();
-
-		// Position of the pack in the ordered list of pack in this merger
-		private int packId;
-
-		// Offset in its pack
-		private long offset;
-
-		public AnyObjectId getObjectId() {
-			return oid;
-		}
-
-		public int getPackId() {
-			return packId;
-		}
-
-		public long getOffset() {
-			return offset;
-		}
-
-		/**
-		 * Copy values from another mutable entry
-		 *
-		 * @param packId
-		 *            packId
-		 * @param other
-		 *            another mutable entry
-		 */
-		private void fill(int packId, PackIndex.MutableEntry other) {
-			other.copyOidTo(oid);
-			this.packId = packId;
-			this.offset = other.getOffset();
-		}
-	}
-
-	private final List<String> packNames;
-
-	private final List<PackIndex> indexes;
+	private final MidxIterator midxIterator;
 
 	private final boolean needsLargeOffsetsChunk;
 
@@ -94,47 +48,127 @@ class PackIndexMerger {
 
 	private final int[] objectsPerPack;
 
-	/**
-	 * Build a common view of these pack indexes
-	 * <p>
-	 * Order matters: in case of duplicates, the first pack with the object wins
-	 *
-	 * @param packs
-	 *            map of pack names to indexes, ordered.
-	 */
-	PackIndexMerger(Map<String, PackIndex> packs) {
-		this.packNames = packs.keySet().stream().toList();
-		this.indexes = packs.values().stream().toList();
+	private final List<String> packnames;
 
-		objectsPerPack = new int[packNames.size()];
-		// Iterate for duplicates
+	/**
+	 * Builder collecting the inputs for the merger.
+	 * <p>
+	 * Order matters. Packs will appear in the midx in the order they are added.
+	 */
+	public static class Builder {
+
+		private final List<MidxIterator> packIndexes = new ArrayList<>();
+
+		private ProgressMonitor pm = NullProgressMonitor.INSTANCE;
+
+		/**
+		 * Add a regular pack to the midx
+		 *
+		 * @param name
+		 *            name of the pack
+		 * @param idx
+		 *            primary index of the pack
+		 * @return this builder
+		 */
+		public Builder addPack(String name, PackIndex idx) {
+			packIndexes.add(MidxIterators.fromPackIndexIterator(name, idx));
+			return this;
+		}
+
+		/**
+		 * Add data from this midx iterator to the merge
+		 * <p>
+		 * Packs are kept in the order of the iterator.
+		 *
+		 * @param midx
+		 *            a midx iterator
+		 * @return this builder
+		 */
+		public Builder addMidx(MidxIterator midx) {
+			packIndexes.add(midx);
+			return this;
+		}
+
+		/**
+		 * Add a progress monitor to the build process
+		 * <p>
+		 * Give visibility over the first iteration of the packs calculating the
+		 * data needed for midx headers (unique object count, if large offsets
+		 * are needed...)
+		 *
+		 * @param pm
+		 *            a progress monitor
+		 * @return this builder
+		 */
+		public Builder setProgressMonitor(ProgressMonitor pm) {
+			this.pm = pm;
+			return this;
+		}
+
+		/**
+		 * Build the merger instance
+		 *
+		 * @return a merger instance
+		 */
+		public PackIndexMerger build() {
+			return new PackIndexMerger(
+					MidxIterators.dedup(MidxIterators.join(packIndexes)), pm);
+		}
+	}
+
+	/**
+	 * Create a builder
+	 *
+	 * @return an empty builder
+	 */
+	public static Builder builder() {
+		return new Builder();
+	}
+
+	/**
+	 * A common view of the input pack indexes
+	 *
+	 * @param midxIterator
+	 *            MidxIterator built by deduping union of all pack indexes
+	 * @param pm
+	 *            a progress monitor
+	 */
+	private PackIndexMerger(MidxIterator midxIterator, ProgressMonitor pm) {
+		this.midxIterator = midxIterator;
+		this.packnames = midxIterator.getPackNames();
+
+		objectsPerPack = new int[packnames.size()];
+		pm.beginTask("Iterating objects for midx headers",
+				ProgressMonitor.UNKNOWN);
+		// Iterate for duplicates and counts that we need to build the chunk
+		// headers.
 		int objectCount = 0;
 		boolean hasLargeOffsets = false;
 		int over31bits = 0;
 		MutableObjectId lastSeen = new MutableObjectId();
-		MultiIndexIterator it = new MultiIndexIterator(indexes);
-		while (it.hasNext()) {
-			MidxMutableEntry entry = it.next();
-			if (lastSeen.equals(entry.oid)) {
-				continue;
-			}
+		while (midxIterator.hasNext()) {
+			MutableEntry entry = midxIterator.next();
 			// If there is at least one offset value larger than 2^32-1, then
 			// the large offset chunk must exist, and offsets larger than
 			// 2^31-1 must be stored in it instead
-			if (entry.offset > LIMIT_32_BITS) {
+			if (entry.getOffset() > LIMIT_32_BITS) {
 				hasLargeOffsets = true;
 			}
-			if (entry.offset > LIMIT_31_BITS) {
+			if (entry.getOffset() > LIMIT_31_BITS) {
 				over31bits++;
 			}
 
 			lastSeen.fromObjectId(entry.oid);
 			objectCount++;
-			objectsPerPack[entry.packId]++;
+			// TODO(ifrade): we can calculate the fanout table already here.
+			// It saves an iteration over all objects for only 1Kb of memory
+			objectsPerPack[entry.getPackId()]++;
+			pm.update(1);
 		}
 		uniqueObjectCount = objectCount;
 		offsetsOver31BitsCount = over31bits;
 		needsLargeOffsetsChunk = hasLargeOffsets;
+		pm.endTask();
 	}
 
 	/**
@@ -142,7 +176,7 @@ class PackIndexMerger {
 	 *
 	 * @return object count of the merged index
 	 */
-	int getUniqueObjectCount() {
+	public int getUniqueObjectCount() {
 		return uniqueObjectCount;
 	}
 
@@ -168,7 +202,7 @@ class PackIndexMerger {
 	}
 
 	/**
-	 * Number of objects selected for the midx per packid
+	 * Number of objects selected for the midx per pack id
 	 *
 	 * @return array where position n contains the amount of objects selected
 	 *         for pack id n
@@ -187,7 +221,7 @@ class PackIndexMerger {
 	 * @return List of pack names, in the order used by the merge.
 	 */
 	List<String> getPackNames() {
-		return packNames;
+		return packnames;
 	}
 
 	/**
@@ -196,160 +230,22 @@ class PackIndexMerger {
 	 * @return count of packs merged
 	 */
 	int getPackCount() {
-		return packNames.size();
+		return packnames.size();
 	}
 
 	/**
 	 * Iterator over the merged indexes in sha1 order without duplicates
+	 * <p>
+	 * This always returns the same iterator resetted. We don't support two
+	 * iterators over this merged data.
 	 * <p>
 	 * The returned entry in the iterator is mutable, callers should NOT keep a
 	 * reference to it.
 	 *
 	 * @return an iterator in sha1 order without duplicates.
 	 */
-	Iterator<MidxMutableEntry> bySha1Iterator() {
-		return new DedupMultiIndexIterator(new MultiIndexIterator(indexes),
-				getUniqueObjectCount());
-	}
-
-	/**
-	 * For testing. Iterate all entries, not skipping duplicates (stable order)
-	 *
-	 * @return an iterator of all objects in sha1 order, including duplicates.
-	 */
-	Iterator<MidxMutableEntry> rawIterator() {
-		return new MultiIndexIterator(indexes);
-	}
-
-	/**
-	 * Iterator over n-indexes in ObjectId order.
-	 * <p>
-	 * It returns duplicates if the same object id is in different indexes. Wrap
-	 * it with {@link DedupMultiIndexIterator (Iterator, int)} to avoid
-	 * duplicates.
-	 */
-	private static final class MultiIndexIterator
-			implements Iterator<MidxMutableEntry> {
-
-		private final List<PackIndexPeekIterator> indexIterators;
-
-		private final MidxMutableEntry mutableEntry = new MidxMutableEntry();
-
-		MultiIndexIterator(List<PackIndex> indexes) {
-			this.indexIterators = new ArrayList<>(indexes.size());
-			for (int i = 0; i < indexes.size(); i++) {
-				PackIndexPeekIterator it = new PackIndexPeekIterator(i,
-						indexes.get(i));
-				// Position in the first element
-				if (it.next() != null) {
-					indexIterators.add(it);
-				}
-			}
-		}
-
-		@Override
-		public boolean hasNext() {
-			return !indexIterators.isEmpty();
-		}
-
-		@Override
-		public MidxMutableEntry next() {
-			PackIndexPeekIterator winner = null;
-			for (int index = 0; index < indexIterators.size(); index++) {
-				PackIndexPeekIterator current = indexIterators.get(index);
-				if (winner == null
-						|| current.peek().compareBySha1To(winner.peek()) < 0) {
-					winner = current;
-				}
-			}
-
-			if (winner == null) {
-				throw new NoSuchElementException();
-			}
-
-			mutableEntry.fill(winner.getPackId(), winner.peek());
-			if (winner.next() == null) {
-				indexIterators.remove(winner);
-			}
-			return mutableEntry;
-		}
-	}
-
-	private static class DedupMultiIndexIterator
-			implements Iterator<MidxMutableEntry> {
-		private final MultiIndexIterator src;
-
-		private int remaining;
-
-		private final MutableObjectId lastOid = new MutableObjectId();
-
-		DedupMultiIndexIterator(MultiIndexIterator src, int totalCount) {
-			this.src = src;
-			this.remaining = totalCount;
-		}
-
-		@Override
-		public boolean hasNext() {
-			return remaining > 0;
-		}
-
-		@Override
-		public MidxMutableEntry next() {
-			MidxMutableEntry next = src.next();
-			while (next != null && lastOid.equals(next.oid)) {
-				next = src.next();
-			}
-
-			if (next == null) {
-				throw new NoSuchElementException();
-			}
-
-			lastOid.fromObjectId(next.oid);
-			remaining--;
-			return next;
-		}
-	}
-
-	/**
-	 * Convenience around the PackIndex iterator to read the current value
-	 * multiple times without consuming it.
-	 * <p>
-	 * This is used to merge indexes in the multipack index, where we need to
-	 * compare the current value between indexes multiple times to find the
-	 * next.
-	 * <p>
-	 * We could also implement this keeping the position (int) and
-	 * MutableEntry#getObjectId, but that would create an ObjectId per entry.
-	 * This implementation reuses the MutableEntry and avoid instantiations.
-	 */
-	// Visible for testing
-	static class PackIndexPeekIterator {
-		private final Iterator<PackIndex.MutableEntry> it;
-
-		private final int packId;
-
-		PackIndex.MutableEntry current;
-
-		PackIndexPeekIterator(int packId, PackIndex index) {
-			it = index.iterator();
-			this.packId = packId;
-		}
-
-		PackIndex.MutableEntry next() {
-			if (it.hasNext()) {
-				current = it.next();
-			} else {
-				current = null;
-			}
-			return current;
-		}
-
-		PackIndex.MutableEntry peek() {
-			return current;
-		}
-
-		int getPackId() {
-			return packId;
-		}
+	public MidxIterator bySha1Iterator() {
+		midxIterator.reset();
+		return midxIterator;
 	}
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.35" sequenceNumber="1770853782">
+<target name="jgit-4.35" sequenceNumber="1772188163">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20230916-1400"/>
@@ -58,6 +58,12 @@
           <version>2.0.17</version>
           <type>jar</type>
         </dependency>
+        <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>jcl-over-slf4j</artifactId>
+          <version>2.0.17</version>
+          <type>jar</type>
+        </dependency>
       </dependencies>
     </location>
     <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="error" type="Maven" label="sshd">
@@ -107,61 +113,61 @@
         <dependency>
           <groupId>org.eclipse.jetty.ee8</groupId>
           <artifactId>jetty-ee8-servlet</artifactId>
-          <version>12.1.5</version>
+          <version>12.1.6</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty.ee8</groupId>
           <artifactId>jetty-ee8-nested</artifactId>
-          <version>12.1.5</version>
+          <version>12.1.6</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty.ee8</groupId>
           <artifactId>jetty-ee8-security</artifactId>
-          <version>12.1.5</version>
+          <version>12.1.6</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-http</artifactId>
-          <version>12.1.5</version>
+          <version>12.1.6</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-io</artifactId>
-          <version>12.1.5</version>
+          <version>12.1.6</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-security</artifactId>
-          <version>12.1.5</version>
+          <version>12.1.6</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-server</artifactId>
-          <version>12.1.5</version>
+          <version>12.1.6</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-session</artifactId>
-          <version>12.1.5</version>
+          <version>12.1.6</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-util</artifactId>
-          <version>12.1.5</version>
+          <version>12.1.6</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-util-ajax</artifactId>
-          <version>12.1.5</version>
+          <version>12.1.6</version>
           <type>jar</type>
         </dependency>
         <dependency>
@@ -207,13 +213,13 @@
         <dependency>
           <groupId>net.bytebuddy</groupId>
           <artifactId>byte-buddy</artifactId>
-          <version>1.18.4</version>
+          <version>1.18.5</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>net.bytebuddy</groupId>
           <artifactId>byte-buddy-agent</artifactId>
-          <version>1.18.4</version>
+          <version>1.18.5</version>
           <type>jar</type>
         </dependency>
       </dependencies>
@@ -271,7 +277,7 @@
         <dependency>
           <groupId>commons-codec</groupId>
           <artifactId>commons-codec</artifactId>
-          <version>1.20.0</version>
+          <version>1.21.0</version>
           <type>jar</type>
         </dependency>
         <dependency>

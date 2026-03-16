@@ -216,6 +216,12 @@
    <bundle id="slf4j.simple.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
+   <bundle id="jcl.over.slf4j">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="jcl.over.slf4j.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
    <bundle id="org.tukaani.xz">
       <category name="JGit-dependency-bundles"/>
    </bundle>

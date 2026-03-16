@@ -87,7 +87,7 @@
   - update the version in its `pom.xml` to the new JGit release you staged
   - delete all jgit artifacts from your local m2 repository
     ```
-    $ rm -r ~/.m2/org/eclipse/jgit
+    $ rm -r ~/.m2/repository/org/eclipse/jgit
     ```
   - build the jgit-built-test maven project to test if all artifacts of the new release
     can be downloaded and used in a build

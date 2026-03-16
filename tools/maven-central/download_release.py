@@ -10,7 +10,7 @@ from concurrent.futures import ThreadPoolExecutor
 from functools import partial
 
 
-BASE_REPO_URL = "https://repo.eclipse.org/content/groups/releases"
+BASE_REPO_URL = "https://repo.eclipse.org/content/repositories/releases"
 JGIT_GROUP_ID = "org.eclipse.jgit"
 JGIT_PARENT_ARTIFACT_ID = "org.eclipse.jgit-parent"
 DOWNLOAD_DIR = "staging-deploy"

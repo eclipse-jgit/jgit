@@ -37,7 +37,7 @@ import org.junit.runners.Parameterized;
 import com.googlecode.javaewah.EWAHCompressedBitmap;
 
 @RunWith(Parameterized.class)
-public class DfsMidxWriterTest {
+public class DfsMidxWriterBitmapsTest {
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<TestInput> data() throws Exception {
@@ -55,7 +55,7 @@ public class DfsMidxWriterTest {
 
 	private TestInput ti;
 
-	public DfsMidxWriterTest(TestInput ti) {
+	public DfsMidxWriterBitmapsTest(TestInput ti) {
 		this.ti = ti;
 	}
 
