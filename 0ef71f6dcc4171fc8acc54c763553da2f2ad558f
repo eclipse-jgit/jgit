@@ -1,0 +1,299 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b1266e2_4707f79e",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "public?",
+      "revId": "0ef71f6dcc4171fc8acc54c763553da2f2ad558f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46cdc083_8bff0de8",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "This feels like it should be in the lib instead.",
+      "revId": "0ef71f6dcc4171fc8acc54c763553da2f2ad558f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56cc0056_bf28eea6",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "Why duplicate these?",
+      "revId": "0ef71f6dcc4171fc8acc54c763553da2f2ad558f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "436a1d1e_69647349",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/CommandInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "Should be public if in RouteRequest?",
+      "revId": "0ef71f6dcc4171fc8acc54c763553da2f2ad558f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc3c0d2c_d968e235",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/CommandInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "Hmm, we probably need to be catching whether protocol 2 was requested by the client used and forwarding the request as pv2 if appropriate.",
+      "revId": "0ef71f6dcc4171fc8acc54c763553da2f2ad558f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08c1ea5d_22f98237",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "Needs units",
+      "revId": "0ef71f6dcc4171fc8acc54c763553da2f2ad558f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f447505f_21a828bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "Seems like this could be final instead of volatile since it is set in the constructor?",
+      "revId": "0ef71f6dcc4171fc8acc54c763553da2f2ad558f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "056631a6_d663b9df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "d/to/",
+      "range": {
+        "startLine": 52,
+        "startChar": 37,
+        "endLine": 52,
+        "endChar": 40
+      },
+      "revId": "0ef71f6dcc4171fc8acc54c763553da2f2ad558f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be8f20ad_dd1a86ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "Seems like it should be OK to let the IOException bubble up here?",
+      "revId": "0ef71f6dcc4171fc8acc54c763553da2f2ad558f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64c12bf7_4bfe0353",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "Would it make sense to create a Request object here and move most of the processing to that object?",
+      "revId": "0ef71f6dcc4171fc8acc54c763553da2f2ad558f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "324f5302_b808d662",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "Do we want things to terminate if we get an error on accept()?",
+      "revId": "0ef71f6dcc4171fc8acc54c763553da2f2ad558f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "855e506a_fb1385da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "Perhaps wrap the logic in the try below in a function which optionally returns the RouteRequest, I think it might simplify the return paths? For example, does an error here close the socket (it doesn\u0027t look like it), but I think it should?",
+      "revId": "0ef71f6dcc4171fc8acc54c763553da2f2ad558f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36dfb6a6_81c29123",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "This is hard to follow, any way we can simplify to avoid the \"open\" state variable? Call a subfunction?",
+      "revId": "0ef71f6dcc4171fc8acc54c763553da2f2ad558f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6aa6490b_95b6161f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "s/forwardFuture/forwarderFuture/?",
+      "revId": "0ef71f6dcc4171fc8acc54c763553da2f2ad558f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "927b1bc4_03afe2df",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "This can NPE if it happens before line 152 is reached? Feels like maybe there could be a better way to handle this that is less error prone, maybe instead of futures, use a CountDownLatch?",
+      "revId": "0ef71f6dcc4171fc8acc54c763553da2f2ad558f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ba203a2_7ddd63f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "This can never be null, no need to check?",
+      "revId": "0ef71f6dcc4171fc8acc54c763553da2f2ad558f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e8a2f61_b00c2cc1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RoutingListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "The naming of these two methods makes me think they are the opposite.",
+      "revId": "0ef71f6dcc4171fc8acc54c763553da2f2ad558f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

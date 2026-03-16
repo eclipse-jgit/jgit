@@ -179,6 +179,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c9a6bba1_71f1decf",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "Although I appreciate the simplicity of using args for these things on the first pass, I think we likely want to move to a config file soon. If we use args, are we committed to support them \"long term\"? If so, then we might want to move to a config file right away.",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "528b8b13_fbcd78a4",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
         "patchSetId": 2
@@ -325,6 +342,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "0b533e2b_7eead047",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eccf718a_efdc699c",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-03-16T23:28:39Z",
+      "side": 1,
+      "message": "I would suggest not using a PID file, they are racy and problematic.",
       "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
