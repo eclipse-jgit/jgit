@@ -33,6 +33,40 @@
       "message": "Looks like the build for servlet-4 is still failing as this change brings in jetty 12.1.5, while Gerrit is still using 9.4.x.",
       "revId": "4e67a230612b894160aecd786388519bec17f5fe",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51f6efd2_5be1493f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-17T11:53:49Z",
+      "side": 1,
+      "message": "Post-merge -1: the `JETTY_VERSION` bump is incorrect for the `servlet-4` branch. I believe this is wrong.",
+      "revId": "4e67a230612b894160aecd786388519bec17f5fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58b776ba_6c054254",
+        "filename": "MODULE.bazel",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-17T11:53:49Z",
+      "side": 1,
+      "message": "This looks wrong: the `servlet-4` should be 9.4.57.v20241219.\n\n\n\n```suggestion\nJETTY_VERSION \u003d \"9.4.57.v20241219\"\n```",
+      "revId": "4e67a230612b894160aecd786388519bec17f5fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
