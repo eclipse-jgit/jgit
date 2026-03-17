@@ -17,7 +17,6 @@ import static org.junit.Assert.assertThrows;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.eclipse.jgit.internal.storage.file.PackIndex;
@@ -64,13 +63,11 @@ public class MultiPackIndexLoaderTest {
 				new FakeIndexFactory.IndexObject(
 						"0000000000000000000000000000000000000012", 1502)));
 
-		LinkedHashMap<String, PackIndex> packs = new LinkedHashMap<>(3);
-		packs.put("p1", idxOne);
-		packs.put("p2", idxTwo);
-		packs.put("p3", idxThree);
+		PackIndexMerger data = PackIndexMerger.builder().addPack("p1", idxOne)
+				.addPack("p2", idxTwo).addPack("p3", idxThree).build();
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		writer.write(NullProgressMonitor.INSTANCE, out, packs);
+		writer.write(NullProgressMonitor.INSTANCE, out, data);
 
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));

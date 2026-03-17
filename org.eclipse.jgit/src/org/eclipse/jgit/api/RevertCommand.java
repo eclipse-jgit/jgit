@@ -9,6 +9,9 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.api.MergeCommand.ConflictStyle.MERGE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONFLICTSTYLE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
 
 import java.io.IOException;
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.api.MergeCommand.ConflictStyle;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -73,6 +77,8 @@ public class RevertCommand extends GitCommand<RevCommit> {
 	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
 
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
+
+	private ConflictStyle conflictStyle;
 
 	/**
 	 * <p>
@@ -138,6 +144,7 @@ public class RevertCommand extends GitCommand<RevCommit> {
 						+ srcCommit.getShortMessage();
 
 				ResolveMerger merger = (ResolveMerger) strategy.newMerger(repo);
+				merger.setConflictStyle(getConflictStyle());
 				merger.setWorkingTreeIterator(new FileTreeIterator(repo));
 				merger.setBase(srcCommit.getTree());
 				merger.setCommitNames(new String[] {
@@ -342,6 +349,25 @@ public class RevertCommand extends GitCommand<RevCommit> {
 	public RevertCommand setInsertChangeId(boolean insertChangeId) {
 		this.insertChangeId = insertChangeId;
 		return this;
+	}
+
+	/**
+	 * Sets the conflict style to be used when formatting merge conflicts.
+	 *
+	 * @param conflictStyle
+	 *            a {@link org.eclipse.jgit.api.MergeCommand.ConflictStyle}
+	 * @return {@code this}
+	 * @since 7.6
+	 */
+	public RevertCommand setConflictStyle(ConflictStyle conflictStyle) {
+		this.conflictStyle = conflictStyle;
+		return this;
+	}
+
+	private ConflictStyle getConflictStyle() {
+		return conflictStyle != null ? conflictStyle
+				: repo.getConfig().getEnum(CONFIG_MERGE_SECTION, null,
+						CONFIG_KEY_CONFLICTSTYLE, MERGE);
 	}
 
 }

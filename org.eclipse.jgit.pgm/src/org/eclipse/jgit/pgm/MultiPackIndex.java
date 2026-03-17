@@ -13,19 +13,13 @@ package org.eclipse.jgit.pgm;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.LinkedHashMap;
 
+import org.eclipse.jgit.internal.storage.file.MidxWriter;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
-import org.eclipse.jgit.internal.storage.file.Pack;
-import org.eclipse.jgit.internal.storage.file.PackFile;
-import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndexPrettyPrinter;
-import org.eclipse.jgit.internal.storage.midx.MultiPackIndexWriter;
-import org.eclipse.jgit.internal.storage.pack.PackExt;
-import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -85,22 +79,7 @@ class MultiPackIndex extends TextBuiltin {
 		errw.println("Writing " + midx.getAbsolutePath());
 
 		ObjectDirectory odb = (ObjectDirectory) db.getObjectDatabase();
-
-		LinkedHashMap<String, PackIndex> indexes = new LinkedHashMap<>();
-		for (Pack pack : odb.getPacks()) {
-			PackFile packFile = pack.getPackFile().create(PackExt.INDEX);
-			try {
-				indexes.put(packFile.getName(), pack.getIndex());
-			} catch (IOException e) {
-				throw die("Cannot open index in pack", e);
-			}
-		}
-
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
-		try (FileOutputStream out = new FileOutputStream(midxPath)) {
-			writer.write(NullProgressMonitor.INSTANCE, out, indexes);
-		} catch (IOException e) {
-			throw die("Cannot write midx " + midxPath, e);
-		}
+		MidxWriter.writeMidx(new TextProgressMonitor(errw), odb.getPacks(),
+				midx);
 	}
 }

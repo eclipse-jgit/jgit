@@ -162,6 +162,11 @@ public interface MultiPackIndex extends Iterable<MultiPackIndex.MutableEntry> {
 		 * @return pack names
 		 */
 		List<String> getPackNames();
+
+		/**
+		 * Restart the iteration from the beginning
+		 */
+		void reset();
 	}
 
 	/**
@@ -235,20 +240,10 @@ public interface MultiPackIndex extends Iterable<MultiPackIndex.MutableEntry> {
 	 * <p>
 	 * Mutable so the iterator can reuse the instance for performance.
 	 */
-	class MutableEntry implements Comparable<MutableEntry> {
+	class MutableEntry {
 		protected final MutableObjectId oid = new MutableObjectId();
 
 		protected final PackOffset packOffset = new PackOffset();
-
-		@Override
-		public int compareTo(MutableEntry mutableEntry) {
-			int cmp = oid.compareTo(mutableEntry.oid);
-			if (cmp != 0) {
-				return cmp;
-			}
-
-			return packOffset.getPackId() - mutableEntry.packOffset.getPackId();
-		}
 
 		/**
 		 * Copy data from other into this instance, adding the shift to the
@@ -276,6 +271,11 @@ public interface MultiPackIndex extends Iterable<MultiPackIndex.MutableEntry> {
 
 		public long getOffset() {
 			return packOffset.getOffset();
+		}
+
+		public void clear() {
+			oid.clear();
+			packOffset.setValues(0, 0);
 		}
 
 		@Override
