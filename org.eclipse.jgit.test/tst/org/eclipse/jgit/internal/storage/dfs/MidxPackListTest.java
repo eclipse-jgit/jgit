@@ -327,7 +327,7 @@ public class MidxPackListTest {
 		List<DfsPackFile> packfiles = asList(packs);
 		DfsPackDescription desc = DfsMidxWriter.writeMidx(
 				NullProgressMonitor.INSTANCE, db.getObjectDatabase(), packfiles,
-				base != null ? base.getPackDescription() : null);
+				base != null ? base.getPackDescription() : null, null);
 		db.getObjectDatabase().commitPack(List.of(desc), null);
 		return DfsPackFileMidx.create(DfsBlockCache.getInstance(), desc,
 				packfiles, base);

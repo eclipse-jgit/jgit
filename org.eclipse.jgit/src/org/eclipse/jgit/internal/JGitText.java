@@ -543,6 +543,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String messageAndTaggerNotAllowedInUnannotatedTags;
 	/***/ public String midxChunkNeeded;
 	/***/ public String midxChunkRepeated;
+    /***/ public String midxChunkTooBig;
 	/***/ public String midxChunkUnknown;
 	/***/ public String minutesAgo;
 	/***/ public String mismatchOffset;

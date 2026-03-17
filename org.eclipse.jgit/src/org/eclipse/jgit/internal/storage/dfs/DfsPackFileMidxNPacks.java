@@ -52,8 +52,6 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 
 	private static final int REF_POSITION = 0;
 
-	private final List<DfsPackFile> packs;
-
 	// The required packs, in the order specified in the multipack index
 	// Initialized lazily, when the midx is loaded
 	private final DfsPackFile[] packsInIdOrder;
@@ -64,14 +62,27 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 
 	private final VOffsetCalculatorNPacks offsetCalculator;
 
+	/**
+	 * Create the DfsPackFileMidx instance for this midx with n packs
+	 *
+	 * @param cache
+	 *            dfs block cache
+	 * @param desc
+	 *            description of the midx
+	 * @param knownPacks
+	 *            known packs, to translate the pack names in coveredPacks into
+	 *            DfsPackFile instances. It must contain at least all packs
+	 *            covered by this midx.
+	 * @param base
+	 *            base used by this midx.
+	 */
 	DfsPackFileMidxNPacks(DfsBlockCache cache, DfsPackDescription desc,
-			List<DfsPackFile> requiredPacks, @Nullable DfsPackFileMidx base) {
+			List<DfsPackFile> knownPacks, @Nullable DfsPackFileMidx base) {
 		super(cache, desc);
 		this.base = base;
-		this.packs = requiredPacks;
 		String[] coveredPackNames = desc.getCoveredPacks().stream()
 				.map(DfsPackDescription::getPackName).toArray(String[]::new);
-		packsInIdOrder = getPacksInMidxIdOrder(coveredPackNames);
+		packsInIdOrder = getPacksInMidxIdOrder(knownPacks, coveredPackNames);
 		offsetCalculator = VOffsetCalculatorNPacks.fromPacks(packsInIdOrder,
 				base != null ? base.getOffsetCalculator() : null);
 		this.length = offsetCalculator.getMaxOffset();
@@ -114,8 +125,9 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 	private record RefWithSize(MultiPackIndex idx, long size) {
 	}
 
-	private DfsPackFile[] getPacksInMidxIdOrder(String[] packNames) {
-		Map<String, DfsPackFile> byName = packs.stream()
+	private DfsPackFile[] getPacksInMidxIdOrder(List<DfsPackFile> knownPacks,
+			String[] packNames) {
+		Map<String, DfsPackFile> byName = knownPacks.stream()
 				.collect(Collectors.toUnmodifiableMap(
 						p -> p.getPackDescription().getPackName(),
 						Function.identity()));
@@ -170,7 +182,7 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 	List<DfsPackFile> fullyIncludedIn(DfsReader ctx,
 			BitmapIndex.BitmapBuilder need) throws IOException {
 		List<DfsPackFile> fullyIncluded = new ArrayList<>();
-		for (DfsPackFile pack : packs) {
+		for (DfsPackFile pack : packsInIdOrder) {
 			List<DfsPackFile> includedPacks = pack.fullyIncludedIn(ctx, need);
 			if (!includedPacks.isEmpty()) {
 				fullyIncluded.addAll(includedPacks);
@@ -186,7 +198,7 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 
 	@Override
 	public CommitGraph getCommitGraph(DfsReader ctx) throws IOException {
-		for (DfsPackFile pack : packs) {
+		for (DfsPackFile pack : packsInIdOrder) {
 			CommitGraph cg = pack.getCommitGraph(ctx);
 			if (cg != null) {
 				return cg;
@@ -242,6 +254,12 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 		return midx(ctx).getChecksum();
 	}
 
+	@Override
+	protected MultiPackIndex.MidxIterator localIterator(DfsReader ctx)
+			throws IOException {
+		return midx(ctx).iterator();
+	}
+
 	/**
 	 * Packs indexed by this multipack index (base NOT included)
 	 *
@@ -249,7 +267,7 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 	 */
 	@Override
 	public List<DfsPackFile> getCoveredPacks() {
-		return packs;
+		return List.of(packsInIdOrder);
 	}
 
 	/**
@@ -344,7 +362,7 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 	@Override
 	void copyPackAsIs(PackOutputStream out, DfsReader ctx) throws IOException {
 		// Assumming the order of the packs does not really matter
-		for (DfsPackFile pack : packs) {
+		for (DfsPackFile pack : packsInIdOrder) {
 			pack.copyPackAsIs(out, ctx);
 		}
 

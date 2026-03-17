@@ -9,15 +9,19 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONFLICTSTYLE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.text.MessageFormat;
 
+import org.eclipse.jgit.api.MergeCommand.ConflictStyle;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoHeadException;
@@ -425,6 +429,43 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		assertEquals(1, status.getConflicting().size());
 		assertEquals(
 				"content\n<<<<<<< HEAD\n=======\nstashed change\n>>>>>>> stash\nmore content\ncommitted change\n",
+				read(PATH));
+	}
+
+	@Test
+	public void stashedContentMergeDiff3() throws Exception {
+		writeTrashFile(PATH, "content\nmore content\n");
+		git.add().addFilepattern(PATH).call();
+		git.commit().setMessage("more content").call();
+
+		writeTrashFile(PATH, "content\nhead change\nmore content\n");
+		git.add().addFilepattern(PATH).call();
+		git.commit().setMessage("even content").call();
+
+		writeTrashFile(PATH, "content\nstashed change\nmore content\n");
+
+		db.getConfig().setEnum(CONFIG_MERGE_SECTION, null,
+				CONFIG_KEY_CONFLICTSTYLE, ConflictStyle.DIFF3);
+
+		RevCommit stashed = git.stashCreate().call();
+		assertNotNull(stashed);
+		assertEquals("content\nhead change\nmore content\n",
+				read(committedFile));
+		assertTrue(git.status().call().isClean());
+		recorder.assertEvent(new String[] { PATH }, ChangeRecorder.EMPTY);
+
+		writeTrashFile(PATH, "content\nmore content\ncommitted change\n");
+		git.add().addFilepattern(PATH).call();
+		git.commit().setMessage("committed change").call();
+		recorder.assertNoEvent();
+
+		assertThrows(StashApplyFailureException.class,
+				() -> git.stashApply().call());
+		recorder.assertEvent(new String[] { PATH }, ChangeRecorder.EMPTY);
+		Status status = new StatusCommand(db).call();
+		assertEquals(1, status.getConflicting().size());
+		assertEquals(
+				"content\n<<<<<<< HEAD\n||||||| stashed HEAD\nhead change\n=======\nstashed change\n>>>>>>> stash\nmore content\ncommitted change\n",
 				read(PATH));
 	}
 

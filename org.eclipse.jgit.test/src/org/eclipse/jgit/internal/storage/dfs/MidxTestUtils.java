@@ -150,8 +150,12 @@ public class MidxTestUtils {
 				Arrays.asList(packs),
 				base != null ? base.getPackDescription() : null, packConfig);
 		db.getObjectDatabase().commitPack(List.of(desc), null);
+
+		// "packs" argument can have a midx and its base in the list.
+		List<DfsPackFile> allPlainPacks = MidxPackList
+				.create(db.getObjectDatabase().getPacks()).getAllPlainPacks();
 		return DfsPackFileMidx.create(DfsBlockCache.getInstance(), desc,
-				Arrays.asList(packs), base);
+				allPlainPacks, base);
 	}
 
 	record CommitObjects(RevCommit commit, RevTree tree, RevBlob blob) {
@@ -169,9 +173,7 @@ public class MidxTestUtils {
 		}
 
 		try (TestRepository<InMemoryRepository> repository = new TestRepository<>(
-				(InMemoryRepository) db);
-				DfsInserter ins = (DfsInserter) db.getObjectDatabase()
-						.newInserter()) {
+				(InMemoryRepository) db)) {
 			for (int i = 0; i < length; i++) {
 				RevBlob blob = repository.blob("blob" + commitCounter);
 
