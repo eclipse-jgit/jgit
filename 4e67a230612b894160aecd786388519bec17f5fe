@@ -67,6 +67,24 @@
       "message": "This looks wrong: the `servlet-4` should be 9.4.57.v20241219.\n\n\n\n```suggestion\nJETTY_VERSION \u003d \"9.4.57.v20241219\"\n```",
       "revId": "4e67a230612b894160aecd786388519bec17f5fe",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "998e1a70_fdd93978",
+        "filename": "MODULE.bazel",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-17T13:05:11Z",
+      "side": 1,
+      "message": "When creating the servlet-4 branch we downgraded from ee10 to the ee8 variant of Jetty 12 which works with javax.servlet-api since that\u0027s the constraint we have from Google.\n\nSo on the servlet-4 branch of jgit we so far use Jetty 12 ee8 with javax.servlet-api and in Gerrit we use Jetty 9 which works with the same javax.servlet-api version. I think that shouldn\u0027t be a big deal since in JGit we use Jetty only to run tests (for git http protocols, lfs). With the bazel module migration we maybe need to reconsider that.",
+      "parentUuid": "58b776ba_6c054254",
+      "revId": "4e67a230612b894160aecd786388519bec17f5fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
