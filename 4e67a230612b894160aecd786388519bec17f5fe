@@ -16,6 +16,23 @@
       "message": "This is preparating the migration of the Gerrit build to bazel modules [1], hence it is expected that the master branch of Gerrit currently does not build against this change since the changes migrating to bazel modules aren\u0027t yet merged.\n\n[1] see the change series starting with https://gerrit-review.googlesource.com/c/gerrit/+/488984",
       "revId": "4e67a230612b894160aecd786388519bec17f5fe",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89a6eff6_5e7763a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-17T11:44:30Z",
+      "side": 1,
+      "message": "Looks like the build for servlet-4 is still failing as this change brings in jetty 12.1.5, while Gerrit is still using 9.4.x.",
+      "revId": "4e67a230612b894160aecd786388519bec17f5fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
