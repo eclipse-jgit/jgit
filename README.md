@@ -198,3 +198,5 @@ There are some missing features:
 More information about Git, its repository format, and the canonical
 C based implementation can be obtained from the
 [Git website](http://git-scm.com/).
+
+Just testing the build
