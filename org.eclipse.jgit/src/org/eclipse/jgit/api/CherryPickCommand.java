@@ -10,6 +10,9 @@
 package org.eclipse.jgit.api;
 
 import static org.eclipse.jgit.api.CherryPickCommitMessageProvider.ORIGINAL;
+import static org.eclipse.jgit.api.MergeCommand.ConflictStyle.MERGE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CONFLICTSTYLE;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_MERGE_SECTION;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_ABBREV_STRING_LENGTH;
 
 import java.io.IOException;
@@ -18,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.api.MergeCommand.ConflictStyle;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -72,6 +76,8 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	private MergeStrategy strategy = MergeStrategy.RECURSIVE;
 
 	private ContentMergeStrategy contentStrategy;
+
+	private ConflictStyle conflictStyle;
 
 	private Integer mainlineParentNumber;
 
@@ -138,9 +144,9 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 				boolean noProblems;
 				Map<String, MergeFailureReason> failingPaths = null;
 				List<String> unmergedPaths = null;
-				if (merger instanceof ResolveMerger) {
-					ResolveMerger resolveMerger = (ResolveMerger) merger;
+				if (merger instanceof ResolveMerger resolveMerger) {
 					resolveMerger.setContentMergeStrategy(contentStrategy);
+					resolveMerger.setConflictStyle(getConflictStyle());
 					resolveMerger.setCommitNames(
 							new String[] { "BASE", ourName, cherryPickName }); //$NON-NLS-1$
 					resolveMerger
@@ -360,6 +366,25 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 			ContentMergeStrategy strategy) {
 		this.contentStrategy = strategy;
 		return this;
+	}
+
+	/**
+	 * Sets the conflict style to be used when formatting merge conflicts.
+	 *
+	 * @param conflictStyle
+	 *            a {@link org.eclipse.jgit.api.MergeCommand.ConflictStyle}
+	 * @return {@code this}
+	 * @since 7.6
+	 */
+	public CherryPickCommand setConflictStyle(ConflictStyle conflictStyle) {
+		this.conflictStyle = conflictStyle;
+		return this;
+	}
+
+	private ConflictStyle getConflictStyle() {
+		return conflictStyle != null ? conflictStyle
+				: repo.getConfig().getEnum(CONFIG_MERGE_SECTION, null,
+						CONFIG_KEY_CONFLICTSTYLE, MERGE);
 	}
 
 	/**

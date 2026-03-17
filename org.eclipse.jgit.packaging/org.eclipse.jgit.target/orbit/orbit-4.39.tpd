@@ -22,8 +22,8 @@ location "https://download.eclipse.org/tools/orbit/simrel/orbit-aggregation/2026
 	org.objectweb.asm.util [9.9.1,9.9.1]
 	org.objectweb.asm.tree [9.9.1,9.9.1]
 	org.objectweb.asm.tree.analysis [9.9.1,9.9.1]
-	org.objenesis [3.4,3.4]
-	org.objenesis.source [3.4,3.4]
+	org.objenesis [3.5.0,3.5.0]
+	org.objenesis.source [3.5.0,3.5.0]
 	org.osgi.service.cm [1.6.1.202109301733,1.6.1.202109301733]
 	org.osgi.service.cm.source [1.6.1.202109301733,1.6.1.202109301733]
 }

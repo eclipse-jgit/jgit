@@ -35,10 +35,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.io.CancellableDigestOutputStream;
-import org.eclipse.jgit.internal.storage.midx.PackIndexMerger.MidxMutableEntry;
+import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.MutableEntry;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.NB;
 
 /**
@@ -66,9 +66,11 @@ public class MultiPackIndexWriter {
 	 *            packs)
 	 * @param packNames
 	 *            packNames
+	 * @param checksum
+	 *            checksum of the written midx
 	 */
 	public record Result(long bytesWritten, int objectCount,
-			List<String> packNames) {
+			List<String> packNames, String checksum) {
 	}
 
 	/**
@@ -78,17 +80,15 @@ public class MultiPackIndexWriter {
 	 *            progress monitor
 	 * @param outputStream
 	 *            stream to write the multipack index file
-	 * @param inputs
-	 *            pairs of name and index for each pack to include in the
-	 *            multipack index.
+	 * @param data
+	 *            a pack index merger with the data sources (in order) for this
+	 *            midx
 	 * @return data about the write (e.g. bytes written)
 	 * @throws IOException
 	 *             Error writing to the stream
 	 */
 	public Result write(ProgressMonitor monitor, OutputStream outputStream,
-			Map<String, PackIndex> inputs) throws IOException {
-		PackIndexMerger data = new PackIndexMerger(inputs);
-
+			PackIndexMerger data) throws IOException {
 		// List of chunks in the order they need to be written
 		List<ChunkHeader> chunkHeaders = createChunkHeaders(data);
 		long expectedSize = calculateExpectedSize(chunkHeaders);
@@ -97,11 +97,14 @@ public class MultiPackIndexWriter {
 			writeHeader(out, chunkHeaders.size(), data.getPackCount());
 			writeChunkLookup(out, chunkHeaders);
 
+			monitor.beginTask("Writing midx chuncks", chunkHeaders.size());
 			WriteContext ctx = new WriteContext(out, data);
 			for (ChunkHeader chunk : chunkHeaders) {
 				chunk.writerFn.write(ctx);
+				monitor.update(1);
 			}
-			writeCheckSum(out);
+			monitor.endTask();
+			byte[] checksum = writeCheckSum(out);
 			if (expectedSize != out.length()) {
 				throw new IllegalStateException(String.format(
 						JGitText.get().multiPackIndexUnexpectedSize,
@@ -109,7 +112,7 @@ public class MultiPackIndexWriter {
 						Long.valueOf(out.length())));
 			}
 			return new Result(expectedSize, data.getUniqueObjectCount(),
-					data.getPackNames());
+					data.getPackNames(), Base64.encodeBytes(checksum));
 		} catch (InterruptedIOException e) {
 			throw new IOException(JGitText.get().multiPackIndexWritingCancelled,
 					e);
@@ -223,9 +226,9 @@ public class MultiPackIndexWriter {
 	private void writeFanoutTable(WriteContext ctx) throws IOException {
 		byte[] tmp = new byte[4];
 		int[] fanout = new int[256];
-		Iterator<MidxMutableEntry> iterator = ctx.data.bySha1Iterator();
+		Iterator<MutableEntry> iterator = ctx.data.bySha1Iterator();
 		while (iterator.hasNext()) {
-			MidxMutableEntry e = iterator.next();
+			MutableEntry e = iterator.next();
 			fanout[e.getObjectId().getFirstByte() & 0xff]++;
 		}
 		for (int i = 1; i < fanout.length; i++) {
@@ -250,9 +253,9 @@ public class MultiPackIndexWriter {
 	private void writeOidLookUp(WriteContext ctx) throws IOException {
 		byte[] tmp = new byte[OBJECT_ID_LENGTH];
 
-		Iterator<MidxMutableEntry> iterator = ctx.data.bySha1Iterator();
+		Iterator<MutableEntry> iterator = ctx.data.bySha1Iterator();
 		while (iterator.hasNext()) {
-			MidxMutableEntry e = iterator.next();
+			MutableEntry e = iterator.next();
 			e.getObjectId().copyRawTo(tmp, 0);
 			ctx.out.write(tmp, 0, OBJECT_ID_LENGTH);
 		}
@@ -272,9 +275,9 @@ public class MultiPackIndexWriter {
 	 */
 	private void writeObjectOffsets(WriteContext ctx) throws IOException {
 		byte[] entry = new byte[8];
-		Iterator<MidxMutableEntry> iterator = ctx.data.bySha1Iterator();
+		Iterator<MutableEntry> iterator = ctx.data.bySha1Iterator();
 		while (iterator.hasNext()) {
-			MidxMutableEntry e = iterator.next();
+			MutableEntry e = iterator.next();
 			NB.encodeInt32(entry, 0, e.getPackId());
 			if (!ctx.data.needsLargeOffsetsChunk()
 					|| fitsIn31bits(e.getOffset())) {
@@ -305,10 +308,10 @@ public class MultiPackIndexWriter {
 		// memory. We could also iterate reverse indexes looking up
 		// their position in the midx (and discarding if the pack doesn't
 		// match).
-		Iterator<MidxMutableEntry> iterator = ctx.data.bySha1Iterator();
+		Iterator<MutableEntry> iterator = ctx.data.bySha1Iterator();
 		int midxPosition = 0;
 		while (iterator.hasNext()) {
-			MidxMutableEntry e = iterator.next();
+			MutableEntry e = iterator.next();
 			OffsetPosition op = new OffsetPosition(e.getOffset(), midxPosition);
 			midxPosition++;
 			packOffsets.computeIfAbsent(e.getPackId(), k -> new ArrayList<>())
@@ -384,13 +387,16 @@ public class MultiPackIndexWriter {
 	 *
 	 * @param out
 	 *            output stream used to write
+	 * @return the checksum (same value that is written as footer of the file)
 	 * @throws IOException
 	 *             error writing to the output stream
 	 */
-	private void writeCheckSum(CancellableDigestOutputStream out)
+	private byte[] writeCheckSum(CancellableDigestOutputStream out)
 			throws IOException {
-		out.write(out.getDigest());
+		byte[] checksum = out.getDigest();
+		out.write(checksum);
 		out.flush();
+		return checksum;
 	}
 
 	private record OffsetPosition(long offset, int position) {
