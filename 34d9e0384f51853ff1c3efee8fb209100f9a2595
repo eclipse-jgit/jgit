@@ -16,6 +16,24 @@
       "message": "@david.ostrovsky@gmail.com @matthias.sohn@sap.com\n\nLooks like the build for gerrit 3.13 is failing due to the bazel mod changes.\n\nCan you guys take a look? Otherwise any update of jgit for Gerrit is blocked.",
       "revId": "34d9e0384f51853ff1c3efee8fb209100f9a2595",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "157de76e_10a86760",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-18T19:02:01Z",
+      "side": 1,
+      "message": "Unless we just go with [1].\n\n[1]https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/563181",
+      "parentUuid": "fa1c0fa2_e302817e",
+      "revId": "34d9e0384f51853ff1c3efee8fb209100f9a2595",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
