@@ -34,6 +34,24 @@
       "parentUuid": "fa1c0fa2_e302817e",
       "revId": "34d9e0384f51853ff1c3efee8fb209100f9a2595",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "062ef1b6_deae51b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-18T19:05:06Z",
+      "side": 1,
+      "message": "\u003e Unless we just go with [1].\n\u003e \n\u003e [1]https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/563181\n\nYeah, we won\u0027t introduce bzlmods on Gerrit stable-3.13, so I guess we\u0027ll need to leave with validating only against master.\n\n**OUT OF TOPIC**: what if we find a critical JGit issue on stable-3.13, where are we going to push the JGit fix? master? servlet-4? Do we create one servlet-4 for each stable version of JGit?\n\n@matthias.sohn@sap.com what\u0027s your view on that?",
+      "parentUuid": "157de76e_10a86760",
+      "revId": "34d9e0384f51853ff1c3efee8fb209100f9a2595",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
