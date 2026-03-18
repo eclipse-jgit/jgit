@@ -52,6 +52,24 @@
       "parentUuid": "157de76e_10a86760",
       "revId": "34d9e0384f51853ff1c3efee8fb209100f9a2595",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60009870_0434b6e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-03-18T19:59:06Z",
+      "side": 1,
+      "message": "First of all, looking at the verification setup [1], it feels a bit hacky to me.\n\nWe clone Gerrit from a stable branch (`stable-3.13` in that case) and then replace the JGit module with an arbitrary change from JGit@HEAD (which is essentially what the `servlet-4` branch represents: JGit@HEAD with some dependencies downgraded).\n\nGiven the breakage we’re seeing, we would likely need to backport quite a few changes—most notably the major Bazel modules integration change [2].\n\nEven that probably wouldn’t be sufficient, since a number of dependencies were updated in JGit@HEAD and then merged into the servlet-4 branch.\n\nSo while this approach is technically doable, I would be a bit hesitant to introduce such a tight sync between JGit@HEAD and the JGit@stable-* branches unless there’s a strong justification (e.g. a high-priority issue).\n\nA possible workflow could be:\n\n* Fix the critical issue in JGit on HEAD.\n* Backport the fix to the JGit@servlet-4 branch.\n* From the JGit commit currently used by Gerrit@stable-3.13, create a dedicated branch (e.g. JGit@servlet-4-gerrit-stable-13), and backport the change from JGit@servlet-4 onto that branch.\n* Update Gerrit@stable-3.13 to point JGit module to the new commit from that branch.\n\nThis way, we keep changes aligned with the `servlet-4` line while still maintaining a stable branch tailored for Gerrit 3.13.\n\nWhat do you think? Happy to adjust if there’s a better approach.\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/563181/2/vars/gerritJGitServlet4Pipeline.groovy\n[2]: https://gerrit-review.googlesource.com/c/gerrit/+/488984",
+      "parentUuid": "062ef1b6_deae51b7",
+      "revId": "34d9e0384f51853ff1c3efee8fb209100f9a2595",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
