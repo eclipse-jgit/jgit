@@ -70,6 +70,24 @@
       "parentUuid": "062ef1b6_deae51b7",
       "revId": "34d9e0384f51853ff1c3efee8fb209100f9a2595",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d26ccbd5_eabb3a5f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-03-18T20:57:54Z",
+      "side": 1,
+      "message": "I think we need to look beyond Gerrit 3.13, what if there are issues we need to fix for other Gerrit versions, even prior to 3.10?\n\nBut yeah, we might end up needing to maintain stable branches of jgit, which is going to be a nightmare.\n\nI think this even goes beyond servlet-4 scope, even if we got Google to upgrade the dependencies and go back to using master, this issue is related to bazelmod specifically.\n\nWhat about a nonbazelmod-servlet-4?",
+      "parentUuid": "60009870_0434b6e7",
+      "revId": "34d9e0384f51853ff1c3efee8fb209100f9a2595",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
