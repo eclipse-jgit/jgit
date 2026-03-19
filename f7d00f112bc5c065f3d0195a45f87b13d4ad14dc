@@ -196,6 +196,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7d0996ae_c4772266",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-19T20:11:05Z",
+      "side": 1,
+      "message": "I don\u0027t think it implies long term support, I want this change to simple focussing on the forwarder logic instead. The next change modifies it to be a config.",
+      "parentUuid": "c9a6bba1_71f1decf",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "528b8b13_fbcd78a4",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
         "patchSetId": 2
@@ -359,6 +377,24 @@
       "writtenOn": "2026-03-16T23:28:39Z",
       "side": 1,
       "message": "I would suggest not using a PID file, they are racy and problematic.",
+      "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "778c4217_ad93d7cd",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-03-19T20:11:05Z",
+      "side": 1,
+      "message": "There is no good way to get the pid if we put this as part of init.d/systemd because when use \u0026 to run in background and capture the PID it doesn\u0027t work (because it is forked differently.)",
+      "parentUuid": "eccf718a_efdc699c",
       "revId": "f7d00f112bc5c065f3d0195a45f87b13d4ad14dc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
