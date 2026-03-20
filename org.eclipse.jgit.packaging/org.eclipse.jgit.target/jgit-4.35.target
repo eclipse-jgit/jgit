@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.35" sequenceNumber="1772188163">
+<target name="jgit-4.35" sequenceNumber="1774019585">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20230916-1400"/>
@@ -289,7 +289,7 @@
         <dependency>
           <groupId>commons-logging</groupId>
           <artifactId>commons-logging</artifactId>
-          <version>1.3.5</version>
+          <version>1.3.6</version>
           <type>jar</type>
         </dependency>
       </dependencies>
