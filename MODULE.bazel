@@ -83,7 +83,7 @@ maven.install(
         "org.slf4j:slf4j-api:" + SLF4J_VERSION,
         "org.slf4j:jcl-over-slf4j:" + SLF4J_VERSION,
         "org.slf4j:slf4j-simple:" + SLF4J_VERSION,
-        "org.tukaani:xz:1.11",
+        "org.tukaani:xz:1.12",
     ],
     duplicate_version_warning = "warn",
     fail_on_missing_checksum = True,

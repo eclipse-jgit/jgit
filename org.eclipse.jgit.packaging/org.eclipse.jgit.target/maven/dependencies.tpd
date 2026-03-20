@@ -279,6 +279,6 @@ maven xz
 	dependency {
 		groupId = "org.tukaani"
 		artifactId = "xz"
-		version = "1.11"
+		version = "1.12"
 	}
 }
