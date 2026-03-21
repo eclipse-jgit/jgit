@@ -971,10 +971,10 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	}
 
 	/**
-	 * This method is intended to be invoked only by {@link RevCommitCG}, in
-	 * order to give commit the correct graphPosition before accessing the
-	 * commit-graph. In this way, the headers of the commit can be obtained in
-	 * constant time.
+	 * This method is intended to be invoked only by
+	 * {@link RevCommit#parseInGraph(RevWalk)}, in order to give commit the
+	 * correct graphPosition before accessing the commit-graph. In this way, the
+	 * headers of the commit can be obtained in constant time.
 	 *
 	 * @param id
 	 *            name of the commit object.
@@ -1785,10 +1785,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @since 7.7
 	 */
 	protected RevCommit createCommit(AnyObjectId id, int graphPos) {
-		if (graphPos >= 0) {
-			return new RevCommitCG(id, graphPos);
-		}
-		return new RevCommit(id);
+		return new RevCommit(id, graphPos);
 	}
 
 	void carryFlagsImpl(RevCommit c) {

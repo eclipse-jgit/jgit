@@ -23,9 +23,11 @@ import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -133,6 +135,10 @@ public class RevCommit extends RevObject {
 	 */
 	protected byte[] buffer;
 
+	private final int graphPosition;
+
+	private int generation = Constants.COMMIT_GENERATION_UNKNOWN;
+
 	/**
 	 * Create a new commit reference.
 	 *
@@ -140,17 +146,31 @@ public class RevCommit extends RevObject {
 	 *            object name for the commit.
 	 */
 	protected RevCommit(AnyObjectId id) {
+		this(id, -1);
+	}
+
+	/**
+	 * Create a new commit reference.
+	 *
+	 * @param id
+	 *            object name for the commit.
+	 * @param graphPosition
+	 *            the position of this commit in the commit graph
+	 * @since 7.7
+	 */
+	protected RevCommit(AnyObjectId id, int graphPosition) {
 		super(id);
+		this.graphPosition = graphPosition;
 	}
 
 	@Override
-	void parseHeaders(RevWalk walk) throws MissingObjectException,
+	final void parseHeaders(RevWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		parseCanonical(walk, walk.getCachedBytes(this));
 	}
 
 	@Override
-	void parseBody(RevWalk walk) throws MissingObjectException,
+	final void parseBody(RevWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		if (buffer == null) {
 			buffer = walk.getCachedBytes(this);
@@ -159,11 +179,25 @@ public class RevCommit extends RevObject {
 		}
 	}
 
-	void parseCanonical(RevWalk walk, byte[] raw) throws IOException {
+	final void parseCanonical(RevWalk walk, byte[] raw) throws IOException {
 		if (!walk.shallowCommitsInitialized) {
 			walk.initializeShallowCommits(this);
 		}
 
+		if (graphPosition >= 0) {
+			if (walk.isRetainBody()) {
+				buffer = raw;
+			}
+
+			parseInGraph(walk);
+		} else {
+			parseFromObject(walk, raw);
+		}
+
+		flags |= PARSED;
+	}
+
+	final void parseFromObject(RevWalk walk, byte[] raw) {
 		final MutableObjectId idBuffer = walk.idBuffer;
 		idBuffer.fromString(raw, 5);
 		tree = walk.lookupTree(idBuffer);
@@ -217,7 +251,36 @@ public class RevCommit extends RevObject {
 		if (walk.isRetainBody()) {
 			buffer = raw;
 		}
-		flags |= PARSED;
+	}
+
+	final void parseInGraph(RevWalk walk) {
+		CommitGraph graph = walk.commitGraph();
+		CommitGraph.CommitData data = graph.getCommitData(graphPosition);
+		if (data == null) {
+			// RevCommitCG was created because we got its graphPosition from
+			// commit-graph. If now the commit-graph doesn't know about it,
+			// something went wrong.
+			throw new IllegalStateException();
+		}
+
+		this.tree = walk.lookupTree(data.getTree());
+		this.commitTime = (int) data.getCommitTime();
+		this.generation = data.getGeneration();
+
+		if (getParents() == null) {
+			int[] pGraphList = data.getParents();
+			if (pGraphList.length == 0) {
+				this.parents = RevCommit.NO_PARENTS;
+			} else {
+				RevCommit[] pList = new RevCommit[pGraphList.length];
+				for (int i = 0; i < pList.length; i++) {
+					int graphPos = pGraphList[i];
+					ObjectId objId = graph.getObjectId(graphPos);
+					pList[i] = walk.lookupCommit(objId, graphPos);
+				}
+				this.parents = pList;
+			}
+		}
 	}
 
 	@Override
@@ -656,7 +719,7 @@ public class RevCommit extends RevObject {
 	 * @since 6.5
 	 */
 	int getGeneration() {
-		return Constants.COMMIT_GENERATION_UNKNOWN;
+		return generation;
 	}
 
 	/**
@@ -671,6 +734,10 @@ public class RevCommit extends RevObject {
 	 * @since 6.7
 	 */
 	public ChangedPathFilter getChangedPathFilter(RevWalk rw) {
+		if (graphPosition >= 0) {
+			return rw.commitGraph().getChangedPathFilter(graphPosition);
+		}
+
 		return null;
 	}
 
