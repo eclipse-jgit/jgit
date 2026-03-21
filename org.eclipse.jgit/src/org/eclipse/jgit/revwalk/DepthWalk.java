@@ -196,7 +196,7 @@ public interface DepthWalk {
 		}
 
 		@Override
-		protected RevCommit createCommit(AnyObjectId id) {
+		protected RevCommit createCommit(AnyObjectId id, int graphPos) {
 			return new Commit(id);
 		}
 
@@ -367,7 +367,7 @@ public interface DepthWalk {
 		}
 
 		@Override
-		protected RevCommit createCommit(AnyObjectId id) {
+		protected RevCommit createCommit(AnyObjectId id, int graphPos) {
 			return new Commit(id);
 		}
 
