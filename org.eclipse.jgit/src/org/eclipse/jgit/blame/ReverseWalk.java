@@ -36,7 +36,7 @@ final class ReverseWalk extends RevWalk {
 	}
 
 	@Override
-	protected RevCommit createCommit(AnyObjectId id) {
+	protected RevCommit createCommit(AnyObjectId id, int graphPos) {
 		return new ReverseCommit(id);
 	}
 
