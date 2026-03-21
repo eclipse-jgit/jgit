@@ -125,9 +125,23 @@ public interface DepthWalk {
 		 *            object name for the commit.
 		 */
 		protected Commit(AnyObjectId id) {
-			super(id);
+			this(id, -1);
+		}
+
+		/**
+		 * Initialize a new commit.
+		 *
+		 * @param id
+		 *            object name for the commit.
+		 * @param graphPosition
+		 *            the position of this commit in the commit graph
+		 * @since 7.7
+		 */
+		protected Commit(AnyObjectId id, int graphPosition) {
+			super(id, graphPosition);
 			depth = -1;
 		}
+
 	}
 
 	/** Subclass of RevWalk that performs depth filtering. */
@@ -197,7 +211,7 @@ public interface DepthWalk {
 
 		@Override
 		protected RevCommit createCommit(AnyObjectId id, int graphPos) {
-			return new Commit(id);
+			return new Commit(id, graphPos);
 		}
 
 		@Override
@@ -368,7 +382,7 @@ public interface DepthWalk {
 
 		@Override
 		protected RevCommit createCommit(AnyObjectId id, int graphPos) {
-			return new Commit(id);
+			return new Commit(id, graphPos);
 		}
 
 		@Override

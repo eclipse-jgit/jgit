@@ -37,7 +37,7 @@ final class ReverseWalk extends RevWalk {
 
 	@Override
 	protected RevCommit createCommit(AnyObjectId id, int graphPos) {
-		return new ReverseCommit(id);
+		return new ReverseCommit(id, graphPos);
 	}
 
 	static final class ReverseCommit extends RevCommit {
@@ -45,8 +45,8 @@ final class ReverseWalk extends RevWalk {
 
 		private ReverseCommit[] children = NO_CHILDREN;
 
-		ReverseCommit(AnyObjectId id) {
-			super(id);
+		ReverseCommit(AnyObjectId id, int graphPosition) {
+			super(id, graphPosition);
 		}
 
 		void addChild(ReverseCommit c) {

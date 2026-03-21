@@ -60,7 +60,6 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 
 		RevCommit notParseInGraph = rw.lookupCommit(c1);
 		rw.parseHeaders(notParseInGraph);
-		assertFalse(notParseInGraph instanceof RevCommitCG);
 		assertNotNull(notParseInGraph.getRawBuffer());
 		assertEquals(Constants.COMMIT_GENERATION_UNKNOWN,
 				notParseInGraph.getGeneration());
@@ -71,7 +70,6 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		RevCommit parseInGraph = rw.lookupCommit(c1);
 		parseInGraph.parseHeaders(rw);
 
-		assertTrue(parseInGraph instanceof RevCommitCG);
 		assertNotNull(parseInGraph.getRawBuffer());
 		assertEquals(1, parseInGraph.getGeneration());
 		assertEquals(notParseInGraph.getId(), parseInGraph.getId());
@@ -84,7 +82,6 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		RevCommit noBody = rw.lookupCommit(c1);
 		noBody.parseHeaders(rw);
 
-		assertTrue(noBody instanceof RevCommitCG);
 		assertNull(noBody.getRawBuffer());
 		assertEquals(1, noBody.getGeneration());
 		assertEquals(notParseInGraph.getId(), noBody.getId());
@@ -105,7 +102,6 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		RevCommit parseInGraph = rw.lookupCommit(c1);
 		parseInGraph.parseCanonical(rw, rw.getCachedBytes(c1));
 
-		assertTrue(parseInGraph instanceof RevCommitCG);
 		assertNotNull(parseInGraph.getRawBuffer());
 		assertEquals(1, parseInGraph.getGeneration());
 		assertEquals(notParseInGraph.getId(), parseInGraph.getId());
@@ -120,7 +116,6 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		RevCommit noBody = rw.lookupCommit(c1);
 		noBody.parseCanonical(rw, rw.getCachedBytes(c1));
 
-		assertTrue(noBody instanceof RevCommitCG);
 		assertNull(noBody.getRawBuffer());
 		assertEquals(1, noBody.getGeneration());
 		assertEquals(notParseInGraph.getId(), noBody.getId());
@@ -140,7 +135,6 @@ public class RevWalkCommitGraphTest extends RevWalkTestCase {
 		RevCommit parseInGraph = rw.lookupCommit(c1);
 		parseInGraph.parseHeaders(rw);
 
-		assertTrue(parseInGraph instanceof RevCommitCG);
 		assertNotNull(parseInGraph.getRawBuffer());
 		assertEquals(2, parseInGraph.getGeneration());
 		assertEquals(0, parseInGraph.getParentCount());
