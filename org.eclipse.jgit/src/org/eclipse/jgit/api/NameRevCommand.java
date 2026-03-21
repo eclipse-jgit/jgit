@@ -96,7 +96,7 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 		revs = new ArrayList<>(2);
 		walk = new RevWalk(repo) {
 			@Override
-			public NameRevCommit createCommit(AnyObjectId id) {
+			protected RevCommit createCommit(AnyObjectId id, int graphPos) {
 				return new NameRevCommit(id);
 			}
 		};
