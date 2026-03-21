@@ -47,7 +47,20 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 	 *            the identity of this commit.
 	 */
 	protected PlotCommit(AnyObjectId id) {
-		super(id);
+		this(id, -1);
+	}
+
+	/**
+	 * Create a new commit.
+	 *
+	 * @param id
+	 *            the identity of this commit.
+	 * @param graphPosition
+	 *            the position of this commit in the commit graph
+	 * @since 7.7
+	 */
+	protected PlotCommit(AnyObjectId id, int graphPosition) {
+		super(id, graphPosition);
 		forkingOffLanes = NO_LANES;
 		passingLanes = NO_LANES;
 		mergingLanes = NO_LANES;
