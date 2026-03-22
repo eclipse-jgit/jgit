@@ -236,6 +236,8 @@ public class ReceivePack {
 	private PushCertificate pushCert;
 
 	private ReceivedPackStatistics stats;
+	private long timeReceiving;
+	private long timeCheckingConnectivity;
 
 	/**
 	 * Connectivity checker to use.
@@ -1202,11 +1204,16 @@ public class ReceivePack {
 	 */
 	protected void receivePackAndCheckConnectivity() throws IOException,
 			LargeObjectException, SubmoduleValidationException {
+		long startReceiving = System.currentTimeMillis();
 		receivePack();
+		timeReceiving = System.currentTimeMillis() - startReceiving;
+
+		long startChecking = System.currentTimeMillis();
 		if (needCheckConnectivity()) {
 			checkSubmodules();
 			checkConnectivity();
 		}
+		timeCheckingConnectivity = System.currentTimeMillis() - startChecking;
 		parser = null;
 	}
 
@@ -2226,6 +2233,7 @@ public class ReceivePack {
 	}
 
 	private void service() throws IOException {
+		long startNegotiating = System.currentTimeMillis();
 		if (isBiDirectionalPipe()) {
 			sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
 			pckOut.flush();
@@ -2235,6 +2243,7 @@ public class ReceivePack {
 			return;
 
 		recvCommands();
+		long timeNegotiating = System.currentTimeMillis() - startNegotiating;
 
 		if (hasCommands()) {
 			try (PostReceiveExecutor e = new PostReceiveExecutor()) {
@@ -2249,6 +2258,7 @@ public class ReceivePack {
 					}
 				}
 
+				long startProcessing = System.currentTimeMillis();
 				try {
 					setAtomic(isCapabilityEnabled(CAPABILITY_ATOMIC));
 
@@ -2266,6 +2276,17 @@ public class ReceivePack {
 				} finally {
 					unlockPack();
 				}
+				long timeProcessingCommands = System.currentTimeMillis()
+						- startProcessing;
+
+				ReceivedPackStatistics.Builder statsBuilder = stats != null
+						? new ReceivedPackStatistics.Builder(stats)
+						: new ReceivedPackStatistics.Builder();
+				stats = statsBuilder.setTimeNegotiating(timeNegotiating)
+						.setTimeReceiving(timeReceiving)
+						.setTimeCheckingConnectivity(timeCheckingConnectivity)
+						.setTimeProcessingCommands(timeProcessingCommands)
+						.build();
 
 				sendStatusReport(null);
 			}
