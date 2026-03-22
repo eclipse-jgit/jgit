@@ -34,6 +34,11 @@ public class ReceivedPackStatistics {
 	private long numDeltaBlob;
 	private long numDeltaTag;
 
+	private long timeNegotiating;
+	private long timeReceiving;
+	private long timeCheckingConnectivity;
+	private long timeProcessingCommands;
+
 	/**
 	 * Get number of bytes read from the input stream
 	 *
@@ -155,6 +160,49 @@ public class ReceivedPackStatistics {
 		return numDeltaTag;
 	}
 
+	/**
+	 * Get time in milliseconds spent in the negotiation phase
+	 *
+	 * @return time in milliseconds spent in the negotiation phase
+	 * @since 7.7
+	 */
+	public long getTimeNegotiating() {
+		return timeNegotiating;
+	}
+
+	/**
+	 * Get time in milliseconds spent receiving the pack
+	 *
+	 * @return time in milliseconds spent receiving the pack
+	 * @since 7.7
+	 */
+	public long getTimeReceiving() {
+		return timeReceiving;
+	}
+
+	/**
+	 * Get time in milliseconds spent checking the connectivity of the received
+	 * pack
+	 *
+	 * @return time in milliseconds spent checking the connectivity of the
+	 *         received pack
+	 * @since 7.7
+	 */
+	public long getTimeCheckingConnectivity() {
+		return timeCheckingConnectivity;
+	}
+
+	/**
+	 * Get time in milliseconds spent processing commands (validation, hooks,
+	 * and ref updates)
+	 *
+	 * @return time in milliseconds spent processing commands
+	 * @since 7.7
+	 */
+	public long getTimeProcessingCommands() {
+		return timeProcessingCommands;
+	}
+
 	/** A builder for {@link ReceivedPackStatistics}. */
 	public static class Builder {
 		private long numBytesRead;
@@ -172,6 +220,42 @@ public class ReceivedPackStatistics {
 		private long numDeltaTree;
 		private long numDeltaBlob;
 		private long numDeltaTag;
+
+		private long timeNegotiating;
+		private long timeReceiving;
+		private long timeCheckingConnectivity;
+		private long timeProcessingCommands;
+
+		/**
+		 * Default constructor
+		 */
+		public Builder() {
+		}
+
+		/**
+		 * Initialize from an existing ReceivedPackStatistics.
+		 *
+		 * @param s
+		 *            existing ReceivedPackStatistics object
+		 * @since 7.7
+		 */
+		public Builder(ReceivedPackStatistics s) {
+			this.numBytesRead = s.getNumBytesRead();
+			this.numWholeCommit = s.getNumWholeCommit();
+			this.numWholeTree = s.getNumWholeTree();
+			this.numWholeBlob = s.getNumWholeBlob();
+			this.numWholeTag = s.getNumWholeTag();
+			this.numOfsDelta = s.getNumOfsDelta();
+			this.numRefDelta = s.getNumRefDelta();
+			this.numDeltaCommit = s.getNumDeltaCommit();
+			this.numDeltaTree = s.getNumDeltaTree();
+			this.numDeltaBlob = s.getNumDeltaBlob();
+			this.numDeltaTag = s.getNumDeltaTag();
+			this.timeNegotiating = s.getTimeNegotiating();
+			this.timeReceiving = s.getTimeReceiving();
+			this.timeCheckingConnectivity = s.getTimeCheckingConnectivity();
+			this.timeProcessingCommands = s.getTimeProcessingCommands();
+		}
 
 		/**
 		 * Set number of bytes read from the input stream
@@ -222,6 +306,52 @@ public class ReceivedPackStatistics {
 					throw new IllegalArgumentException(
 							type + " cannot be a whole object"); //$NON-NLS-1$
 			}
+			return this;
+		}
+
+		/**
+		 * @param timeNegotiating
+		 *            time in milliseconds spent in the negotiation phase
+		 * @return this
+		 * @since 7.7
+		 */
+		public Builder setTimeNegotiating(long timeNegotiating) {
+			this.timeNegotiating = timeNegotiating;
+			return this;
+		}
+
+		/**
+		 * @param timeReceiving
+		 *            time in milliseconds spent receiving the pack
+		 * @return this
+		 * @since 7.7
+		 */
+		public Builder setTimeReceiving(long timeReceiving) {
+			this.timeReceiving = timeReceiving;
+			return this;
+		}
+
+		/**
+		 * @param timeCheckingConnectivity
+		 *            time in milliseconds spent checking the connectivity of
+		 *            the received pack
+		 * @return this
+		 * @since 7.7
+		 */
+		public Builder setTimeCheckingConnectivity(
+				long timeCheckingConnectivity) {
+			this.timeCheckingConnectivity = timeCheckingConnectivity;
+			return this;
+		}
+
+		/**
+		 * @param timeProcessingCommands
+		 *            time in milliseconds spent processing commands
+		 * @return this
+		 * @since 7.7
+		 */
+		public Builder setTimeProcessingCommands(long timeProcessingCommands) {
+			this.timeProcessingCommands = timeProcessingCommands;
 			return this;
 		}
 
@@ -299,6 +429,10 @@ public class ReceivedPackStatistics {
 			s.numDeltaBlob = numDeltaBlob;
 			s.numDeltaTag = numDeltaTag;
 			s.numObjectsDuplicated = numObjectsDuplicated;
+			s.timeNegotiating = timeNegotiating;
+			s.timeReceiving = timeReceiving;
+			s.timeCheckingConnectivity = timeCheckingConnectivity;
+			s.timeProcessingCommands = timeProcessingCommands;
 			return s;
 		}
 	}
