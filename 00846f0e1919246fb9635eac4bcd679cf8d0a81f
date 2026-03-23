@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "306a8f9b_50561a49",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1211,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-23T00:25:23Z",
+      "side": 1,
+      "message": "I think we need to call `currentTmeMillis()` only once\n\n```suggestion\n\t\tlong startChecking \u003d System.currentTimeMillis();\n\t\ttimeReceiving \u003d startChecking - startReceiving;\n```",
+      "range": {
+        "startLine": 1209,
+        "startChar": 0,
+        "endLine": 1211,
+        "endChar": 50
+      },
+      "revId": "00846f0e1919246fb9635eac4bcd679cf8d0a81f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "157b6bc8_179a6776",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1216,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-23T00:25:23Z",
+      "side": 1,
+      "message": "If this method returns this timestamp we can save another call to `currentTimeMillis()` in line 2261. Alternatively the fields could store timestamps in millis and the getter methods could compute the delta to the respective previous timestamp.",
+      "range": {
+        "startLine": 1216,
+        "startChar": 29,
+        "endLine": 1216,
+        "endChar": 55
+      },
+      "revId": "00846f0e1919246fb9635eac4bcd679cf8d0a81f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
