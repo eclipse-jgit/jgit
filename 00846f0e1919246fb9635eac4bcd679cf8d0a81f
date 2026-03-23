@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f75670a_3d40cf97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1207,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-03-23T15:22:25Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9f2dda99_b1efb0db",
+      "revId": "00846f0e1919246fb9635eac4bcd679cf8d0a81f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "306a8f9b_50561a49",
@@ -48,6 +66,30 @@
       "writtenOn": "2026-03-23T00:25:23Z",
       "side": 1,
       "message": "I think we need to call `currentTmeMillis()` only once\n\n```suggestion\n\t\tlong startChecking \u003d System.currentTimeMillis();\n\t\ttimeReceiving \u003d startChecking - startReceiving;\n```",
+      "range": {
+        "startLine": 1209,
+        "startChar": 0,
+        "endLine": 1211,
+        "endChar": 50
+      },
+      "revId": "00846f0e1919246fb9635eac4bcd679cf8d0a81f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01969a31_d2fa4d7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1211,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-03-23T15:22:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "306a8f9b_50561a49",
       "range": {
         "startLine": 1209,
         "startChar": 0,
@@ -81,6 +123,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70c79e95_1caed798",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1216,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-03-23T15:22:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "157b6bc8_179a6776",
+      "range": {
+        "startLine": 1216,
+        "startChar": 29,
+        "endLine": 1216,
+        "endChar": 55
+      },
+      "revId": "00846f0e1919246fb9635eac4bcd679cf8d0a81f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7fae798_b19bb997",
@@ -94,6 +160,24 @@
       "writtenOn": "2026-03-23T08:08:15Z",
       "side": 1,
       "message": "This is only recorded when hasCommands() is true. Is that intentional? I don\u0027t know when \"hasCommands\" would be false in a regular request, but just in case.",
+      "revId": "00846f0e1919246fb9635eac4bcd679cf8d0a81f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87682899_165b71c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2281,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-03-23T15:22:25Z",
+      "side": 1,
+      "message": "LOCK_FAILURE due to failure on the atomic compare-and-update of the branch tip would make the command invalid. That is one way that the command set could be empty. It is ok not to log the info-refs and negotiation time for failed pushes, the overall wall clock time for the command is a reasonable proxy.",
+      "parentUuid": "b7fae798_b19bb997",
       "revId": "00846f0e1919246fb9635eac4bcd679cf8d0a81f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -115,6 +199,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30e6ea60_5d2a3689",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2285,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-03-23T15:22:25Z",
+      "side": 1,
+      "message": "Thanks. I looked back at how UploadPack is recording timing statistics. It is using Instant/Duration but storing longs, so I updated this code to match that. Should have looked at that first.",
+      "parentUuid": "d5714e9c_320ee724",
+      "revId": "00846f0e1919246fb9635eac4bcd679cf8d0a81f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfbaeeea_10499a86",
@@ -128,6 +230,24 @@
       "writtenOn": "2026-03-23T08:08:15Z",
       "side": 1,
       "message": "Optional: I think the usual idiom is a \"toBuilder()\" method in the ReceivedPackStatitics. toBuilder invokes this constructor (that becomes private).",
+      "revId": "00846f0e1919246fb9635eac4bcd679cf8d0a81f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82d2737d_2badff06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-03-23T15:22:25Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "dfbaeeea_10499a86",
       "revId": "00846f0e1919246fb9635eac4bcd679cf8d0a81f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
