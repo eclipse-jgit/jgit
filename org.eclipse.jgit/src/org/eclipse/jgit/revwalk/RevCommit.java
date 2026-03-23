@@ -23,6 +23,7 @@ import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
@@ -660,13 +661,37 @@ public class RevCommit extends RevObject {
 	}
 
 	/**
+	 * Get the distance of the commit from the root, as defined in
+	 * {@link CommitGraph}
+	 * <p>
+	 * This method differs from {@link #getGeneration()} in that it will never
+	 * return {@link Constants#COMMIT_GENERATION_NOT_COMPUTED}. If the
+	 * Generation number was not calculated for this commit, then
+	 * {@link Constants#COMMIT_GENERATION_UNKNOWN} will be returned instead.
+	 *
+	 * @return the generation number, never
+	 *         {@link Constants#COMMIT_GENERATION_NOT_COMPUTED}
+	 * @since 7.7
+	 */
+	final int getEffectiveGeneration() {
+		int generation = getGeneration();
+
+		if (generation == Constants.COMMIT_GENERATION_NOT_COMPUTED) {
+			return Constants.COMMIT_GENERATION_UNKNOWN;
+		}
+
+		return generation;
+	}
+
+	/**
 	 * Get the changed path filter of the commit.
 	 * <p>
 	 * This is null when there is no commit graph file, the commit is not in the
 	 * commit graph file, or the commit graph file was generated without changed
 	 * path filters.
 	 *
-	 * @param rw A revwalk to load the commit graph (if available)
+	 * @param rw
+	 *            A revwalk to load the commit graph (if available)
 	 * @return the changed path filter
 	 * @since 6.7
 	 */
