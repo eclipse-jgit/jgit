@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33e1e6fa_27b04ee2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-23T08:08:15Z",
+      "side": 1,
+      "message": "LGTM, a nit and few optionals.",
+      "revId": "00846f0e1919246fb9635eac4bcd679cf8d0a81f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f2dda99_b1efb0db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1207,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-23T08:08:15Z",
+      "side": 1,
+      "message": "SystemReader.now() is the jgit-wrapped version of this call. It returns an Instant (better resolution, more modern class...) and then you can get the difference with Duration.between(before, after).toMillis().",
+      "revId": "00846f0e1919246fb9635eac4bcd679cf8d0a81f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "306a8f9b_50561a49",
@@ -43,6 +77,57 @@
         "endLine": 1216,
         "endChar": 55
       },
+      "revId": "00846f0e1919246fb9635eac4bcd679cf8d0a81f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7fae798_b19bb997",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2281,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-23T08:08:15Z",
+      "side": 1,
+      "message": "This is only recorded when hasCommands() is true. Is that intentional? I don\u0027t know when \"hasCommands\" would be false in a regular request, but just in case.",
+      "revId": "00846f0e1919246fb9635eac4bcd679cf8d0a81f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5714e9c_320ee724",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2285,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-23T08:08:15Z",
+      "side": 1,
+      "message": "Optional: store the duration in the stats (instead of the long). Duration is nicer class to use, but we store long everywhere in JGit. Again, optional.",
+      "revId": "00846f0e1919246fb9635eac4bcd679cf8d0a81f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfbaeeea_10499a86",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivedPackStatistics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-23T08:08:15Z",
+      "side": 1,
+      "message": "Optional: I think the usual idiom is a \"toBuilder()\" method in the ReceivedPackStatitics. toBuilder invokes this constructor (that becomes private).",
       "revId": "00846f0e1919246fb9635eac4bcd679cf8d0a81f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
