@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6179e42d_855768b6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/MidxWriter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-03-24T17:53:48Z",
+      "side": 1,
+      "message": "Can this be named repo instead? The name made me think it was DfsObjDatabase which is confusing",
+      "range": {
+        "startLine": 62,
+        "startChar": 61,
+        "endLine": 62,
+        "endChar": 63
+      },
+      "revId": "c3f0679a87360ce03b980d711ae513d108a24947",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
