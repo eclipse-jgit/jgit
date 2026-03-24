@@ -23,9 +23,9 @@ git_repository(
 
 BOUNCYCASTLE_VERSION = "1.83"
 
-BYTE_BUDDY_VERSION = "1.18.5"
+BYTE_BUDDY_VERSION = "1.18.7"
 
-JETTY_VERSION = "12.1.6"
+JETTY_VERSION = "12.1.7"
 
 JMH_VERSION = "1.37"
 
@@ -47,7 +47,7 @@ maven.install(
         "com.jcraft:jzlib:1.1.3",
         "commons-codec:commons-codec:1.21.0",
         "commons-io:commons-io:2.21.0",
-        "commons-logging:commons-logging:1.3.5",
+        "commons-logging:commons-logging:1.3.6",
         "jakarta.servlet:jakarta.servlet-api:6.1.0",
         "junit:junit:4.13.2",
         "net.bytebuddy:byte-buddy-agent:" + BYTE_BUDDY_VERSION,
@@ -76,14 +76,14 @@ maven.install(
         "org.eclipse.jetty:jetty-util:" + JETTY_VERSION,
         "org.eclipse.jetty.ee10:jetty-ee10-servlet:" + JETTY_VERSION,
         "org.hamcrest:hamcrest:3.0",
-        "org.mockito:mockito-core:5.21.0",
+        "org.mockito:mockito-core:5.23.0",
         "org.objenesis:objenesis:3.4",
         "org.openjdk.jmh:jmh-core:" + JMH_VERSION,
         "org.openjdk.jmh:jmh-generator-annprocess:" + JMH_VERSION,
         "org.slf4j:slf4j-api:" + SLF4J_VERSION,
         "org.slf4j:jcl-over-slf4j:" + SLF4J_VERSION,
         "org.slf4j:slf4j-simple:" + SLF4J_VERSION,
-        "org.tukaani:xz:1.11",
+        "org.tukaani:xz:1.12",
     ],
     duplicate_version_warning = "warn",
     fail_on_missing_checksum = True,
