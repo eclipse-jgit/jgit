@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12ef5b40_e77720df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-03-24T02:54:39Z",
+      "side": 1,
+      "message": "I understand this is not intended for check-in but felt the need to register my thoughts anyway ;-)",
+      "revId": "bc13a85b03643372eeaf8175105803caa73e9258",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "654a713b_f9759fd1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-03-24T02:54:39Z",
+      "side": 1,
+      "message": "The danger here is when a client sends you an incomplete pack. The connectivity check will show you that there is some dangling reference that you don\u0027t have and that the client didn\u0027t send. Without the check, you will apply the update and have a wedged repository.\n\nI\u0027m looking at saving time by not sending out refs/changes/* refs in the receive-pack refs-info phase. You can\u0027t push on top of an existing patchset branch, or directly to the refs/changes/*/*/meta branches, so advertising them is a waste of bandwidth for repos with a lot of code review history.",
+      "range": {
+        "startLine": 91,
+        "startChar": 30,
+        "endLine": 91,
+        "endChar": 51
+      },
+      "revId": "bc13a85b03643372eeaf8175105803caa73e9258",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
