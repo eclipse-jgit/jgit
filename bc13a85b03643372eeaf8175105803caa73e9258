@@ -39,6 +39,30 @@
       },
       "revId": "bc13a85b03643372eeaf8175105803caa73e9258",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5310b307_ac312717",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-03-25T17:25:35Z",
+      "side": 1,
+      "message": "As I got deeper into it I found `java/com/google/gerrit/server/git/receive/ReceiveRefFilter.java`, so we are indeed already filtering out refs/changes in the push ref advertisement. I\u0027ll keep looking for other optimizations.",
+      "parentUuid": "654a713b_f9759fd1",
+      "range": {
+        "startLine": 91,
+        "startChar": 30,
+        "endLine": 91,
+        "endChar": 51
+      },
+      "revId": "bc13a85b03643372eeaf8175105803caa73e9258",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
