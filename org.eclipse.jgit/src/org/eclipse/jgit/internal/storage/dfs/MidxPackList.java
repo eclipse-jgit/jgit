@@ -41,14 +41,14 @@ public final class MidxPackList {
 	 *            list of packs (regular or tip midxs)
 	 * @return a MidxPackList instance
 	 */
-	public static MidxPackList create(DfsPackFile[] packs) {
-		return new MidxPackList(packs);
+	public static MidxPackList create(DfsPackFile... packs) {
+		return new MidxPackList(Arrays.asList(packs));
 	}
 
 	private final List<DfsPackFile> packs;
 
-	private MidxPackList(DfsPackFile[] packs) {
-		this.packs = Arrays.asList(packs);
+	private MidxPackList(List<DfsPackFile> packs) {
+		this.packs = packs;
 	}
 
 	/**
@@ -104,8 +104,8 @@ public final class MidxPackList {
 	 *            a single pack
 	 * @return all the midxs that include (directly or indirectly) the pack
 	 */
-	Set<DfsPackFileMidx> findAllCoveringMidxs(DfsPackFile pack) {
-		return findAllCoveringMidxs(List.of(pack));
+	Set<DfsPackFileMidx> findAllCoveringMidxs(DfsPackFile... pack) {
+		return findAllCoveringMidxs(Arrays.asList(pack));
 	}
 
 	/**
