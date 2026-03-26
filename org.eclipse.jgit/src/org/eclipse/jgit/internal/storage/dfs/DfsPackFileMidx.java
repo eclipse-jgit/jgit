@@ -90,9 +90,10 @@ public abstract sealed class DfsPackFileMidx extends DfsPackFile
 	public abstract DfsPackFileMidx getMultipackIndexBase();
 
 	/**
-	 * Packs indexed by this multipack index (base NOT included)
+	 * Packs indexed by this multipack index (base NOT included) in midx order.
 	 *
-	 * @return packs indexed by this multipack index
+	 * @return packs indexed by this multipack index in the order used inside
+	 *         the midx.
 	 */
 	public abstract List<DfsPackFile> getCoveredPacks();
 
