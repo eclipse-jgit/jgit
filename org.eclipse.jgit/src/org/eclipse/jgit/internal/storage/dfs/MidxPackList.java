@@ -53,7 +53,12 @@ public final class MidxPackList {
 
 	/**
 	 * Get all plain packs in the list, either top-level or inside midxs
-	 *
+	 * <p>
+	 * Inside midx, the packs are in reverse lookup order. This code restores
+	 * their original order. i.e. the list with packs [INSERT, midx(COMPACT-2,
+	 * COMPACT-3), midx(GC, COMPACT-1)] becomes [INSERT, COMPACT-3, COMPACT-2,
+	 * COMPACT-1, GC].
+	 * 
 	 * @return a list of all "real" packs in this pack list, either top level or
 	 *         inside midxs.
 	 **/
@@ -63,7 +68,11 @@ public final class MidxPackList {
 		while (!pending.isEmpty()) {
 			DfsPackFile pack = pending.poll();
 			if (pack instanceof DfsPackFileMidx midxPack) {
-				plainPacks.addAll(midxPack.getCoveredPacks());
+				// Midx order is the reverse of object lookup order
+				ArrayList<DfsPackFile> coveredPacks = new ArrayList<>(
+						midxPack.getCoveredPacks());
+				Collections.reverse(coveredPacks);
+				plainPacks.addAll(coveredPacks);
 				if (midxPack.getMultipackIndexBase() != null) {
 					pending.add(midxPack.getMultipackIndexBase());
 				}
