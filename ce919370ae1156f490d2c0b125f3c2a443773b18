@@ -1,0 +1,198 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eda20ba0_f9b08b2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-27T23:27:50Z",
+      "side": 1,
+      "message": "```suggestion\nPackDirectory: Integrate Multi-Pack Index (MIDX) support\n\nEnable PackDirectory to discover and utilize the MIDX file in file-based\nrepositories. Similar to the DFS implementation, the MIDX is integrated\nas a virtual pack (PackMidx) that intercepts object lookups.\n\nWhen the MIDX configuration is enabled, PackDirectory will:\n- Locate the MIDX file in the well-known \u0027pack\u0027 directory.\n- Replace relevant packs in the pack list with the PackMidx instance.\n- Delegate lookups (hasObject, getOffset) to the MIDX while falling\n  back to standard packs for other operations.\n\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09647984_7b415173",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-27T23:27:50Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be a ChangeId footer ?\n```suggestion\nChangeId: I4f63be6c4022a8c46361a9f4a9b1bdf26a6a6964\n```",
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aca24b03_0533972b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackDirectoryTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-27T23:27:50Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bfe0993_f202e011",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackDirectoryTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-27T23:27:50Z",
+      "side": 1,
+      "message": "remove commented out code",
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9c1b27e_4b85e533",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackDirectoryTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-27T23:27:50Z",
+      "side": 1,
+      "message": "remove commented out code",
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b81015b0_a54bedd3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackDirectoryTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-27T23:27:50Z",
+      "side": 1,
+      "message": "remove commented out code",
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17b1c23e_3ea85375",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-27T23:27:50Z",
+      "side": 1,
+      "message": "make this a constant ?",
+      "range": {
+        "startLine": 516,
+        "startChar": 34,
+        "endLine": 516,
+        "endChar": 52
+      },
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "157691f0_4c828074",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-27T23:27:50Z",
+      "side": 1,
+      "message": "externalize message ?",
+      "range": {
+        "startLine": 530,
+        "startChar": 14,
+        "endLine": 530,
+        "endChar": 40
+      },
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6543891a_2e6668a5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-27T23:27:50Z",
+      "side": 1,
+      "message": "remove this debug trace or use the logger  to write it if log level is debug",
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c1a0205_34b61c14",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-27T23:27:50Z",
+      "side": 1,
+      "message": "implement this method in Pack returning a singleton list and override it in midx then we don\u0027t need the type check",
+      "range": {
+        "startLine": 587,
+        "startChar": 22,
+        "endLine": 587,
+        "endChar": 37
+      },
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
