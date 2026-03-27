@@ -77,6 +77,13 @@ public class DfsMidxWriter {
 		PackIndexMerger.Builder dataBuilder = PackIndexMerger.builder();
 		try (DfsReader ctx = objdb.newReader()) {
 			for (DfsPackFile pack : packs) {
+				if (pack instanceof DfsPackFileMidx) {
+					// asObjectsToPack assumes one packid per pack while
+					// calculating midx offsets. We need to fix that before
+					// accepting midx to build new midx.
+					throw new IOException(
+							"MIDX not supported to build new midx"); //$NON-NLS-1$
+				}
 				dataBuilder.addPack(pack.getPackDescription().getPackName(),
 						pack.getPackIndex(ctx));
 			}
