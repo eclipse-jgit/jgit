@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b8aa73b_edf51e2a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/MidxWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-27T23:45:04Z",
+      "side": 1,
+      "message": "add another reader which only reads the checksum at the end of the midx ?",
+      "revId": "3a931d70e2afedbed01c5c4ed001218c90f75d50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "852417ab_d4160ccb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/MidxWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-27T23:45:04Z",
+      "side": 1,
+      "message": "use `FileUtils.rename(src, dest, StandardCopyOption.ATOMIC_MOVE)`?",
+      "revId": "3a931d70e2afedbed01c5c4ed001218c90f75d50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
