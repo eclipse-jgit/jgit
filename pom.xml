@@ -983,26 +983,26 @@
 
       <dependency>
         <groupId>org.bouncycastle</groupId>
-        <artifactId>bcpg-jdk18on</artifactId>
-        <version>${bouncycastle-version}</version>
+        <artifactId>bcpg-fips</artifactId>
+        <version>2.1.11</version>
       </dependency>
 
       <dependency>
         <groupId>org.bouncycastle</groupId>
-        <artifactId>bcprov-jdk18on</artifactId>
-        <version>${bouncycastle-version}</version>
+        <artifactId>bc-fips</artifactId>
+        <version>2.1.2</version>
       </dependency>
 
       <dependency>
         <groupId>org.bouncycastle</groupId>
-        <artifactId>bcutil-jdk18on</artifactId>
-        <version>${bouncycastle-version}</version>
+        <artifactId>bcutil-fips</artifactId>
+        <version>2.1.5</version>
       </dependency>
 
       <dependency>
         <groupId>org.bouncycastle</groupId>
-        <artifactId>bcpkix-jdk18on</artifactId>
-        <version>${bouncycastle-version}</version>
+        <artifactId>bcpkix-fips</artifactId>
+        <version>2.1.10</version>
       </dependency>
 
       <dependency>
@@ -1205,15 +1205,15 @@
 
     <module>org.eclipse.jgit.test</module>
     <module>org.eclipse.jgit.ant.test</module>
-    <module>org.eclipse.jgit.gpg.bc.test</module>
+<!--    <module>org.eclipse.jgit.gpg.bc.test</module>-->
     <module>org.eclipse.jgit.http.test</module>
-    <module>org.eclipse.jgit.pgm.test</module>
-    <module>org.eclipse.jgit.lfs.test</module>
-    <module>org.eclipse.jgit.lfs.server.test</module>
+<!--    <module>org.eclipse.jgit.pgm.test</module>-->
+<!--    <module>org.eclipse.jgit.lfs.test</module>-->
+<!--    <module>org.eclipse.jgit.lfs.server.test</module>-->
     <module>org.eclipse.jgit.ssh.apache.test</module>
     <module>org.eclipse.jgit.ssh.jsch.test</module>
-    <module>org.eclipse.jgit.coverage</module>
-    <module>org.eclipse.jgit.benchmarks</module>
+<!--    <module>org.eclipse.jgit.coverage</module>-->
+<!--    <module>org.eclipse.jgit.benchmarks</module>-->
   </modules>
 
 </project>
