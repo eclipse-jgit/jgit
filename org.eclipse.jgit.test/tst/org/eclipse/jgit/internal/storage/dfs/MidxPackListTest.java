@@ -44,7 +44,7 @@ public class MidxPackListTest {
 		DfsPackFileMidx midx = packPool.midx("midx", null, "a", "b", "c");
 
 		MidxPackList packList = MidxPackList.create(midx);
-		assertEquals(List.of(a, b, c), packList.getAllPlainPacks());
+		assertEquals(List.of(c, b, a), packList.getAllPlainPacks());
 	}
 
 	@Test
@@ -56,7 +56,7 @@ public class MidxPackListTest {
 		DfsPackFile d = packPool.pack("d");
 
 		MidxPackList packList = MidxPackList.create(d, midx);
-		assertEquals(List.of(d, a, b, c), packList.getAllPlainPacks());
+		assertEquals(List.of(d, c, b, a), packList.getAllPlainPacks());
 	}
 
 	@Test
@@ -74,7 +74,7 @@ public class MidxPackListTest {
 				"f");
 
 		MidxPackList packList = MidxPackList.create(midxTip);
-		assertEquals(List.of(e, f, c, d, a, b), packList.getAllPlainPacks());
+		assertEquals(List.of(f, e, d, c, b, a), packList.getAllPlainPacks());
 	}
 
 	@Test
@@ -304,9 +304,9 @@ public class MidxPackListTest {
 				"f");
 
 		MidxPackList packList = MidxPackList.create(midxTip);
-		assertEquals(List.of(e, f, c, d),
+		assertEquals(List.of(f, e, d, c),
 				packList.getPlainPacksNotCoveredBy(midxBase));
-		assertEquals(List.of(e, f),
+		assertEquals(List.of(f, e),
 				packList.getPlainPacksNotCoveredBy(midxMiddle));
 		assertEquals(List.of(), packList.getPlainPacksNotCoveredBy(midxTip));
 	}
