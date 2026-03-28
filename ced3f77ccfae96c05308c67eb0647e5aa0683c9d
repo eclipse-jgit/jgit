@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85f895f1_09bc7f27",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/signing/GpgBinarySignatureVerifier.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-03-28T20:51:20Z",
+      "side": 1,
+      "message": "Not needed; it\u0027s not API since the whole class is package-visible only.",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 14
+      },
+      "revId": "ced3f77ccfae96c05308c67eb0647e5aa0683c9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b7f0df6_6098afa5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/signing/GpgBinarySignatureVerifier.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-03-28T20:51:20Z",
+      "side": 1,
+      "message": "Not needed; it\u0027s not API since the whole class is package-visible only.",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 14
+      },
+      "revId": "ced3f77ccfae96c05308c67eb0647e5aa0683c9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "471a898c_b2b0885c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/signing/GpgBinarySignatureVerifier.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-03-28T20:51:20Z",
+      "side": 1,
+      "message": "But wait. How would I set this configuration from EGit? There only the GpgSignatureVerifierFactory (and GpgSignerFactory) is accessible. So the info whether it\u0027s used in a GUI program or not has to come in through these factories, and then applies to all signers or verifiers created by that factory. Which would be OK I think, and fine since the factory will have to be registered explicitly anyway.",
+      "revId": "ced3f77ccfae96c05308c67eb0647e5aa0683c9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9abd81f6_88b539dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/signing/GpgBinarySignatureVerifier.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-03-28T20:51:20Z",
+      "side": 1,
+      "message": "IIRC GPG always writes UTF-8 on stderr?",
+      "revId": "ced3f77ccfae96c05308c67eb0647e5aa0683c9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "559b313c_c368572f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/signing/GpgBinarySignatureVerifier.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-03-28T20:51:20Z",
+      "side": 1,
+      "message": "This includes the colon in the verifier name for smimesign. EGit just looks for \": \".",
+      "revId": "ced3f77ccfae96c05308c67eb0647e5aa0683c9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0760ffb_8f36e830",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/signing/GpgBinarySignatureVerifier.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-03-28T20:51:20Z",
+      "side": 1,
+      "message": "Why fully qualified here?",
+      "range": {
+        "startLine": 179,
+        "startChar": 4,
+        "endLine": 179,
+        "endChar": 26
+      },
+      "revId": "ced3f77ccfae96c05308c67eb0647e5aa0683c9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b49de02f_4cf357cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/signing/GpgBinarySigner.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-03-28T20:51:20Z",
+      "side": 1,
+      "message": "Please avoid this code duplication. Add an abstract super class for it. But see comments in GpgProcessConfiguration first. And if the info has to come in via the factory (see comment in the signature verifier), it\u0027ll be a constructor parameter anyway, and if only a single boolean, then it\u0027s perhaps not worth factoring it out.",
+      "revId": "ced3f77ccfae96c05308c67eb0647e5aa0683c9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5e23138_a2e5fd5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/signing/GpgProcessConfiguration.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-03-28T20:51:20Z",
+      "side": 1,
+      "message": "This strikes me as overkill. First, it could be a record. But in effect only (false, false) or (true, true) make sense. So why not simply pass a single boolean instead of this configuration object?\n\nAlso, the process runner parses both stdout and stderr to implement rejectTerminalPrompt. Why not tell it which stream to parse?\n\nWith that you end up with three boolean flags in the GpgProcessRunner constructor (calledFromGui, failOnNonZero, gpgStatusOnStderr), which is a bit ugly. Maybe use an enum and a Set\u003cenum\u003e?\n```\nenum GpgProcessExecutionSetting {\n  FORBID_TERMINAL_PROMPT, FAIL_ON_NON_ZERO, GPG_STATUS_ON_STDERR\n}\n\n// Constructor\nGpgProcessRunner(..., Set\u003cGpgProcessExecutionSetting\u003e settings) { ... }\n```\nAs it\u0027s all internal, not public API, even using three int constants (1, 2, 4) and simply or-ing them would be OK I think.",
+      "revId": "ced3f77ccfae96c05308c67eb0647e5aa0683c9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
