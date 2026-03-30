@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9202db9_68ba2348",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/MidxWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T13:09:05Z",
+      "side": 1,
+      "message": "I immplemented that in https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1234490/1 and put it as first change in the stack, so we can use it in e.g. PackMidx.",
+      "parentUuid": "3b8aa73b_edf51e2a",
+      "revId": "3a931d70e2afedbed01c5c4ed001218c90f75d50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "852417ab_d4160ccb",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-03-27T23:45:04Z",
       "side": 1,
       "message": "use `FileUtils.rename(src, dest, StandardCopyOption.ATOMIC_MOVE)`?",
+      "revId": "3a931d70e2afedbed01c5c4ed001218c90f75d50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dcbb245_8b81f696",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/MidxWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T13:09:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "852417ab_d4160ccb",
       "revId": "3a931d70e2afedbed01c5c4ed001218c90f75d50",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
