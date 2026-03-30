@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76ad3380_96c1fb5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T07:40:43Z",
+      "side": 1,
+      "message": "Yes, sorry. I was using jujutsu (jj-vcs) and \n\n\"The jj gerrit upload command automatically adds a Link: footer instead of a traditional Change-Id: footer when the gerrit.review-url option is set. This is a feature of Jujutsu designed to work with Gerrit\u0027s support for this alternative footer style. \"\n\nI am back to use ChangeId. I submitted before some changes with Link: footers. I hope that is not a problem.",
+      "parentUuid": "2eefebf9_d4f7b0c9",
+      "revId": "5053c90334d333267fb89b34b7ceec3ba2e21cbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9aece122_6ecb7a69",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-03-27T21:48:37Z",
       "side": 1,
       "message": "```suggestion\n\t * Set the checksum of this pack\n```",
+      "revId": "5053c90334d333267fb89b34b7ceec3ba2e21cbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a74c12c_4bbcd3af",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T07:40:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aece122_6ecb7a69",
       "revId": "5053c90334d333267fb89b34b7ceec3ba2e21cbb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -58,6 +94,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e697002_7c40233e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T07:40:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c70a71d7_743d939f",
+      "range": {
+        "startLine": 442,
+        "startChar": 0,
+        "endLine": 444,
+        "endChar": 72
+      },
+      "revId": "5053c90334d333267fb89b34b7ceec3ba2e21cbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7681c9aa_bab03a2b",
@@ -71,6 +131,30 @@
       "writtenOn": "2026-03-27T21:48:37Z",
       "side": 1,
       "message": "```suggestion\n\t\t\tPackBitmapIndex idx \u003d PackBitmapIndex.open(bitmapIdxFile,\n\t\t\t\t\tgetIndex(), getReverseIdx());\n```",
+      "range": {
+        "startLine": 1334,
+        "startChar": 0,
+        "endLine": 1336,
+        "endChar": 22
+      },
+      "revId": "5053c90334d333267fb89b34b7ceec3ba2e21cbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58aba3a4_ada60254",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1336,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T07:40:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7681c9aa_bab03a2b",
       "range": {
         "startLine": 1334,
         "startChar": 0,
