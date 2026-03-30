@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b48ec977_008911ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexRemapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-03-30T17:24:04Z",
+      "side": 1,
+      "message": "The loop can break now, there\u0027s no new info to be gained.",
+      "revId": "06d66eb9521758452254401a00b8427e55bb8175",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17ca1ff0_fd6db6fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexRemapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-03-30T17:24:04Z",
+      "side": 1,
+      "message": "Why is this not the first branch?",
+      "revId": "06d66eb9521758452254401a00b8427e55bb8175",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
