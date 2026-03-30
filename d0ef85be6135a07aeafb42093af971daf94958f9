@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f37bd0a4_8031c734",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-30T09:13:40Z",
+      "side": 1,
+      "message": "nit: remove trailing whitespace",
+      "revId": "d0ef85be6135a07aeafb42093af971daf94958f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "556d664a_64a0e316",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-30T09:13:40Z",
+      "side": 1,
+      "message": "add missing @since tag for new API\n\n```suggestion\n\t/**\n\tName of the .git/objects/packs/multi-pack-index file\n\n\t@since 7.7\n\t*/\n\tpublic static final String MIDX_FILE \u003d \"multi-pack-index\";\n```",
+      "range": {
+        "startLine": 842,
+        "startChar": 0,
+        "endLine": 843,
+        "endChar": 59
+      },
+      "revId": "d0ef85be6135a07aeafb42093af971daf94958f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
