@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62943668_fd898fcd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackMidxTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-30T09:23:29Z",
+      "side": 1,
+      "message": "```suggestion\n\tprivate final static ObjectId UNKNOWN_OBJ \u003d ObjectId\n\t\t\t.fromString(\"678668bdd3a609c6e1d7fea516e9fc1ed4f50ad2\");\n```",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 60
+      },
+      "revId": "03ee6282599c9da83b3d5be70b16f08e6f89659e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

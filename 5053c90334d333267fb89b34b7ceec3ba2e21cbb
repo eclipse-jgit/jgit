@@ -72,6 +72,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d441abe7_17775888",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-30T09:23:29Z",
+      "side": 1,
+      "message": "ok, thanks, blaming this code reveals that this was implemented already in 2020\nhttps://gerrit-review.googlesource.com/c/gerrit/+/278956\nand the `Link:` footer is documented here\nhttps://gerrit-review.googlesource.com/Documentation/concept-changes.html#_the_link_footer\nthis means using the `Link:` footer as done by jj-vcs is supported by Gerrit.\nThis change proves that since Gerrit put patchset 11 which switched from `Link:` to `ChangeId:` footer into the same change 1234145.",
+      "parentUuid": "92bd8714_ee81edf1",
+      "revId": "5053c90334d333267fb89b34b7ceec3ba2e21cbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9aece122_6ecb7a69",
