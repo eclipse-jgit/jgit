@@ -22,8 +22,8 @@ import java.util.Objects;
 import java.util.Set;
 
 import org.eclipse.jgit.internal.revwalk.RefAdvancerWalk;
+import org.eclipse.jgit.internal.storage.midx.MidxMetadataReader;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex;
-import org.eclipse.jgit.internal.storage.midx.MultiPackIndexLoader;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndexWriter;
 import org.eclipse.jgit.internal.storage.midx.PackIndexMerger;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
@@ -85,11 +85,11 @@ public class MidxWriter {
 
 		File oldMidxBitmaps = null;
 		if (midxOut.exists()) {
-			// TODO(ifrade): This loads the old midx just to read the checksum.
-			// Do something more clever.
-			MultiPackIndex oldMidx = MultiPackIndexLoader.open(midxOut);
+			MidxMetadataReader.MidxMetadata midxMetadata = MidxMetadataReader
+					.read(midxOut);
+			byte[] checksum = Base64.decode(midxMetadata.checksumB64());
 			String midxBitmapsPath = midxOut.getAbsoluteFile() + "-"
-					+ ObjectId.fromRaw(oldMidx.getChecksum()).name()
+					+ ObjectId.fromRaw(checksum).name()
 					+ ".bitmap";
 			File previousBitmaps = new File(midxBitmapsPath);
 			if (previousBitmaps.exists()) {
