@@ -39,6 +39,30 @@
       },
       "revId": "d0ef85be6135a07aeafb42093af971daf94958f9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dc15cae_5e16c5f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T12:09:45Z",
+      "side": 1,
+      "message": "I create this constant in the parent change. I added the @since there.",
+      "parentUuid": "556d664a_64a0e316",
+      "range": {
+        "startLine": 842,
+        "startChar": 0,
+        "endLine": 843,
+        "endChar": 59
+      },
+      "revId": "d0ef85be6135a07aeafb42093af971daf94958f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

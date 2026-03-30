@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "552a6411_50e74e39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T12:09:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eda20ba0_f9b08b2d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09647984_7b415173",
@@ -83,6 +107,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5aabdd2c_476392cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T12:09:45Z",
+      "side": 1,
+      "message": "Done. This was a side-effect of using jj with a bad conf.",
+      "parentUuid": "09647984_7b415173",
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aca24b03_0533972b",
@@ -111,6 +153,24 @@
         "id": 1000671
       },
       "writtenOn": "2026-03-30T09:13:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aca24b03_0533972b",
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd7eaa6f_bc26c4a4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackDirectoryTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T12:09:45Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "aca24b03_0533972b",
@@ -153,6 +213,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b97f78f_ed89bfd2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackDirectoryTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T12:09:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bfe0993_f202e011",
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9c1b27e_4b85e533",
@@ -181,6 +259,24 @@
         "id": 1000671
       },
       "writtenOn": "2026-03-30T09:13:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9c1b27e_4b85e533",
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d4f045c_7b82f5f4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackDirectoryTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T12:09:45Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "a9c1b27e_4b85e533",
@@ -223,6 +319,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a441049e_b557bb73",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackDirectoryTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T12:09:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b81015b0_a54bedd3",
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17b1c23e_3ea85375",
@@ -257,6 +371,30 @@
         "id": 1000671
       },
       "writtenOn": "2026-03-30T09:13:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17b1c23e_3ea85375",
+      "range": {
+        "startLine": 516,
+        "startChar": 34,
+        "endLine": 516,
+        "endChar": 52
+      },
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5d327a3_b11e619e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T12:09:45Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "17b1c23e_3ea85375",
@@ -317,6 +455,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e52491a_4205c186",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T12:09:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "157691f0_4c828074",
+      "range": {
+        "startLine": 530,
+        "startChar": 14,
+        "endLine": 530,
+        "endChar": 40
+      },
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6543891a_2e6668a5",
@@ -345,6 +507,24 @@
         "id": 1000671
       },
       "writtenOn": "2026-03-30T09:13:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6543891a_2e6668a5",
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61e5aaef_74e24266",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T12:09:45Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "6543891a_2e6668a5",
@@ -386,6 +566,30 @@
         "id": 1000671
       },
       "writtenOn": "2026-03-30T09:13:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c1a0205_34b61c14",
+      "range": {
+        "startLine": 587,
+        "startChar": 22,
+        "endLine": 587,
+        "endChar": 37
+      },
+      "revId": "ce919370ae1156f490d2c0b125f3c2a443773b18",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc2cee61_6d7445b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T12:09:45Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "7c1a0205_34b61c14",
