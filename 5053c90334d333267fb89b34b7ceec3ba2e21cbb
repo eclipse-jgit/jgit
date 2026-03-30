@@ -54,6 +54,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92bd8714_ee81edf1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T09:01:21Z",
+      "side": 1,
+      "message": "Gerrit didn\u0027t complain while uploading.\n\nAt least the LINK footer has been in the code for a while\nhttps://gerrit.googlesource.com/gerrit/+/v3.4.8/java/com/google/gerrit/server/ChangeUtil.java#162",
+      "parentUuid": "1b0594b0_700da931",
+      "revId": "5053c90334d333267fb89b34b7ceec3ba2e21cbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9aece122_6ecb7a69",
