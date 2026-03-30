@@ -44,7 +44,7 @@ class ReflogReaderImpl implements ReflogReader {
 		logName = new File(logBaseDir, Constants.L_LOGS + refname);
 	}
 
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see org.eclipse.jgit.internal.storage.file.ReflogReaader#getLastEntry()
 	 */
 	@Override
@@ -52,7 +52,7 @@ class ReflogReaderImpl implements ReflogReader {
 		return getReverseEntry(0);
 	}
 
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see org.eclipse.jgit.internal.storage.file.ReflogReaader#getReverseEntries()
 	 */
 	@Override
@@ -60,7 +60,7 @@ class ReflogReaderImpl implements ReflogReader {
 		return getReverseEntries(Integer.MAX_VALUE);
 	}
 
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see org.eclipse.jgit.internal.storage.file.ReflogReaader#getReverseEntry(int)
 	 */
 	@Override
@@ -89,7 +89,7 @@ class ReflogReaderImpl implements ReflogReader {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see org.eclipse.jgit.internal.storage.file.ReflogReaader#getReverseEntries(int)
 	 */
 	@Override

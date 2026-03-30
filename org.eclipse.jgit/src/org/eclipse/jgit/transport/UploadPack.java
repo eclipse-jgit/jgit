@@ -189,7 +189,7 @@ public class UploadPack implements Closeable {
 				throws PackProtocolException, IOException;
 	}
 
-	/*
+	/**
 	 * {@link java.util.function.Consumer} doesn't allow throwing checked
 	 * exceptions. Define our own to propagate IOExceptions.
 	 */

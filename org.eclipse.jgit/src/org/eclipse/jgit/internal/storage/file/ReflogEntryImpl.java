@@ -57,7 +57,7 @@ public class ReflogEntryImpl implements Serializable, ReflogEntry {
 		}
 	}
 
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see org.eclipse.jgit.internal.storage.file.ReflogEntry#getOldId()
 	 */
 	@Override
@@ -65,7 +65,7 @@ public class ReflogEntryImpl implements Serializable, ReflogEntry {
 		return oldId;
 	}
 
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see org.eclipse.jgit.internal.storage.file.ReflogEntry#getNewId()
 	 */
 	@Override
@@ -73,7 +73,7 @@ public class ReflogEntryImpl implements Serializable, ReflogEntry {
 		return newId;
 	}
 
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see org.eclipse.jgit.internal.storage.file.ReflogEntry#getWho()
 	 */
 	@Override
@@ -81,7 +81,7 @@ public class ReflogEntryImpl implements Serializable, ReflogEntry {
 		return who;
 	}
 
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see org.eclipse.jgit.internal.storage.file.ReflogEntry#getComment()
 	 */
 	@Override
@@ -96,7 +96,7 @@ public class ReflogEntryImpl implements Serializable, ReflogEntry {
 				+ ", " + getComment() + "]";
 	}
 
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see org.eclipse.jgit.internal.storage.file.ReflogEntry#parseCheckout()
 	 */
 	@Override
