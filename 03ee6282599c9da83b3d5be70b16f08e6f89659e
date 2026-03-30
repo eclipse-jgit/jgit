@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c27fcec_ab600d6d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackMidxTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T12:10:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62943668_fd898fcd",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 60
+      },
+      "revId": "03ee6282599c9da83b3d5be70b16f08e6f89659e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7559ca28_69256123",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-03-30T09:37:05Z",
       "side": 1,
       "message": "use the constant you define in the next commit\nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1234206/7/org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java ?",
+      "range": {
+        "startLine": 337,
+        "startChar": 5,
+        "endLine": 337,
+        "endChar": 21
+      },
+      "revId": "03ee6282599c9da83b3d5be70b16f08e6f89659e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90c0f84f_9f2cfa10",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackMidxTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-30T12:10:09Z",
+      "side": 1,
+      "message": "Moved the constant to this commits.",
+      "parentUuid": "7559ca28_69256123",
       "range": {
         "startLine": 337,
         "startChar": 5,
