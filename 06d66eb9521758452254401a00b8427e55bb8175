@@ -69,6 +69,24 @@
       "parentUuid": "17ca1ff0_fd6db6fc",
       "revId": "06d66eb9521758452254401a00b8427e55bb8175",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4442d28c_3712b852",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackBitmapIndexRemapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-31T10:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b51e7ba9_cea128e7",
+      "revId": "06d66eb9521758452254401a00b8427e55bb8175",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
