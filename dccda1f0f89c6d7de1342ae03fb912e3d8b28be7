@@ -16,6 +16,114 @@
       "message": "trigger build",
       "revId": "dccda1f0f89c6d7de1342ae03fb912e3d8b28be7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cf2d633_8e512f41",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/midx/MidxMetadataReaderTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-31T08:20:54Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tassertArrayEquals(expected, meta.checksum());\n```",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 39
+      },
+      "revId": "dccda1f0f89c6d7de1342ae03fb912e3d8b28be7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf133c3c_95e12bc3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MidxMetadataReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-31T08:20:54Z",
+      "side": 1,
+      "message": "```suggestion\n * to check they exist\u003c/li\u003e\n```",
+      "revId": "dccda1f0f89c6d7de1342ae03fb912e3d8b28be7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2e686d3_f74edc86",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MidxMetadataReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-31T08:20:54Z",
+      "side": 1,
+      "message": "nit: remove trailing whitespace",
+      "revId": "dccda1f0f89c6d7de1342ae03fb912e3d8b28be7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b2bbf07_0db81fbc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MidxMetadataReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-31T08:20:54Z",
+      "side": 1,
+      "message": "should we already add this to MidxMetadata but set it to 0 for now ?",
+      "revId": "dccda1f0f89c6d7de1342ae03fb912e3d8b28be7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ac4aafd_cd704737",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MidxMetadataReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-31T08:20:54Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "dccda1f0f89c6d7de1342ae03fb912e3d8b28be7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a497501_8e2f325a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MidxMetadataReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-31T08:20:54Z",
+      "side": 1,
+      "message": "```suggestion\n\t * Thrown if a MultiPackIndex doesn\u0027t have the expected file format\n```",
+      "revId": "dccda1f0f89c6d7de1342ae03fb912e3d8b28be7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
