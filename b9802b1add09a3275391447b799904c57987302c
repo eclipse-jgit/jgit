@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72857011_ed406a96",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-31T10:23:35Z",
+      "side": 1,
+      "message": "Correct. This TODO belongs to Pack.close (it is already there). Pack.close needs to learn how to handle midx.",
+      "parentUuid": "f3740e73_c1c092ab",
+      "revId": "b9802b1add09a3275391447b799904c57987302c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "447695e3_7aa454af",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-03-31T09:27:06Z",
       "side": 1,
       "message": "```suggestion\n\t\t\t\t\t\"Mangling packlist: midx replaces %d packs (list went from %d to %d packs)\", //$NON-NLS-1$\n```",
+      "revId": "b9802b1add09a3275391447b799904c57987302c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52698f8e_f899e8fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-31T10:23:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "447695e3_7aa454af",
       "revId": "b9802b1add09a3275391447b799904c57987302c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
