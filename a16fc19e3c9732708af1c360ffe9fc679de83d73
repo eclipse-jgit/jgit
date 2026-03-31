@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30554cd6_b52a42aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-31T10:32:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a11c5418_95e46c66",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 63
+      },
+      "revId": "a16fc19e3c9732708af1c360ffe9fc679de83d73",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd29377d_22b26c3c",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-03-31T09:51:35Z",
       "side": 1,
       "message": "extract this to a method and reuse it in line 108 ?\n\n```suggestion\n\t\t\tString midxBitmapsPath \u003d midxOut.getAbsoluteFile() + \"-\" //$NON-NLS-1$\n\t\t\t\t\t+ ObjectId.fromRaw(checksum).name() + \".\" + PackExt.BITMAP_INDEX.getExtension(); //$NON-NLS-1$\n```",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 53
+      },
+      "revId": "a16fc19e3c9732708af1c360ffe9fc679de83d73",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f58a751_e8c7111f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/MidxWriter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-31T10:32:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd29377d_22b26c3c",
       "range": {
         "startLine": 92,
         "startChar": 0,
