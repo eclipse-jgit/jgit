@@ -41,6 +41,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ebf92b4_9db8e8b3",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/midx/MidxMetadataReaderTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-31T10:00:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cf2d633_8e512f41",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 39
+      },
+      "revId": "dccda1f0f89c6d7de1342ae03fb912e3d8b28be7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf133c3c_95e12bc3",
@@ -54,6 +78,24 @@
       "writtenOn": "2026-03-31T08:20:54Z",
       "side": 1,
       "message": "```suggestion\n * to check they exist\u003c/li\u003e\n```",
+      "revId": "dccda1f0f89c6d7de1342ae03fb912e3d8b28be7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "666ca4d4_8dfbb9fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MidxMetadataReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-31T10:00:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf133c3c_95e12bc3",
       "revId": "dccda1f0f89c6d7de1342ae03fb912e3d8b28be7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -75,6 +117,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01715162_07da41f5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MidxMetadataReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-31T10:00:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e686d3_f74edc86",
+      "revId": "dccda1f0f89c6d7de1342ae03fb912e3d8b28be7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b2bbf07_0db81fbc",
@@ -88,6 +148,24 @@
       "writtenOn": "2026-03-31T08:20:54Z",
       "side": 1,
       "message": "should we already add this to MidxMetadata but set it to 0 for now ?",
+      "revId": "dccda1f0f89c6d7de1342ae03fb912e3d8b28be7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98affe00_bfe06f0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MidxMetadataReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-31T10:00:32Z",
+      "side": 1,
+      "message": "I don\u0027t even know if cgit is using this field. I would keep it off at the moment.",
+      "parentUuid": "6b2bbf07_0db81fbc",
       "revId": "dccda1f0f89c6d7de1342ae03fb912e3d8b28be7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -109,6 +187,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd1eb066_00cc434f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MidxMetadataReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-31T10:00:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac4aafd_cd704737",
+      "revId": "dccda1f0f89c6d7de1342ae03fb912e3d8b28be7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a497501_8e2f325a",
@@ -122,6 +218,24 @@
       "writtenOn": "2026-03-31T08:20:54Z",
       "side": 1,
       "message": "```suggestion\n\t * Thrown if a MultiPackIndex doesn\u0027t have the expected file format\n```",
+      "revId": "dccda1f0f89c6d7de1342ae03fb912e3d8b28be7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "116ead39_dd5eedb2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MidxMetadataReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-03-31T10:00:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a497501_8e2f325a",
       "revId": "dccda1f0f89c6d7de1342ae03fb912e3d8b28be7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
