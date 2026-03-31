@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ed0c098_e4aa8500",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-03-31T21:21:58Z",
+      "side": 1,
+      "message": "We should wait merging it, until Gerrit series is merged as well: [1].\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit/+/567681",
+      "revId": "78636426134e9ccd86b864cd742e0ccd32240678",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
