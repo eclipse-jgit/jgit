@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92d1a46b_bbf73554",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-31T09:07:59Z",
+      "side": 1,
+      "message": "nit: remove trailing whitespace",
+      "revId": "48e0b21d70935240203abe25b6c148c0e6705bc8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "201724cc_03e8e05b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-31T09:07:59Z",
+      "side": 1,
+      "message": "```suggestion\n\t * Clear the indexes referenced in this pack.\n```",
+      "revId": "48e0b21d70935240203abe25b6c148c0e6705bc8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5796926a_efd72903",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackMidx.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-31T09:07:59Z",
+      "side": 1,
+      "message": "did you mean this ?\n\n```suggestion\n\t * Construct a reader for existing, pre-indexed packfiles.\n```",
+      "revId": "48e0b21d70935240203abe25b6c148c0e6705bc8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bb76748_332fbb04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackMidx.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-31T09:07:59Z",
+      "side": 1,
+      "message": "should we cache the MidxPackIndex object to avoid that multiple are created if this method is called repeatedly ?",
+      "revId": "48e0b21d70935240203abe25b6c148c0e6705bc8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77902d81_c1c3de7a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackMidx.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-03-31T09:07:59Z",
+      "side": 1,
+      "message": "should we cache the MidxPackReverseIndex object ?",
+      "revId": "48e0b21d70935240203abe25b6c148c0e6705bc8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
