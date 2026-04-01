@@ -185,9 +185,18 @@ public class PackBitmapIndexRemapper
 		}
 
 		inflated.clear();
-		for (IntIterator i = oldBitmap.getBitmapWithoutCaching()
-				.intIterator(); i.hasNext();)
+		EWAHCompressedBitmap oldEWAHBitmap = oldBitmap
+				.getBitmapWithoutCaching();
+		for (IntIterator i = oldEWAHBitmap.intIterator(); i.hasNext();) {
+			int p = i.next();
+			if (p >= oldPackIndex.getObjectCount()) {
+				throw new IllegalStateException(String.format(
+						"Bitmap has %d bits but its bitmap-index object count is %d",
+						oldEWAHBitmap.sizeInBits(),
+						oldPackIndex.getObjectCount()));
+			}
 			inflated.set(prevToNewMapping[i.next()]);
+		}
 		bitmap = inflated.toEWAHCompressedBitmap();
 		bitmap.trim();
 		return bitmap;
