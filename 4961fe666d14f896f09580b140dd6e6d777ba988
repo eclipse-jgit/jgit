@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3e65f5f_55598cdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-04-01T06:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16c1a966_86944eab",
+      "range": {
+        "startLine": 16,
+        "startChar": 61,
+        "endLine": 17,
+        "endChar": 59
+      },
+      "revId": "4961fe666d14f896f09580b140dd6e6d777ba988",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f2e6d9c_2751da29",
@@ -61,6 +85,30 @@
       "writtenOn": "2026-02-06T07:17:42Z",
       "side": 1,
       "message": "Could you move this to a new line for readability?",
+      "range": {
+        "startLine": 21,
+        "startChar": 62,
+        "endLine": 21,
+        "endChar": 65
+      },
+      "revId": "4961fe666d14f896f09580b140dd6e6d777ba988",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1807d22_c48d59db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-04-01T06:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f2e6d9c_2751da29",
       "range": {
         "startLine": 21,
         "startChar": 62,
@@ -180,6 +228,30 @@
       "side": 1,
       "message": "I tried updating to 8.16.1. When trying to update the lock file I get this error\n\n```\n$ bazelisk mod deps --lockfile_mode\u003dupdate\nDEBUG: /Users/xxx/.cache/bazel/60705e27b74c370310311cbb011c59a0/external/gazelle~/internal/bzlmod/go_deps.bzl:571:40:\n\nMismatch between versions requested for module github.com/bazelbuild/rules_go\nBazel dependency version requested in MODULE.bazel: 0.51.0-rc2\nGo module version requested in go.mod: 0.50.1\nPlease resolve this mismatch to prevent discrepancies between native Go and Bazel builds\n\n\u003croot\u003e (jgit@_)\n```\nnot sure how to fix this",
       "parentUuid": "dac76528_bef03525",
+      "range": {
+        "startLine": 6,
+        "startChar": 43,
+        "endLine": 6,
+        "endChar": 53
+      },
+      "revId": "4961fe666d14f896f09580b140dd6e6d777ba988",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b535737a_85c9e851",
+        "filename": "MODULE.bazel",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-04-01T06:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93764005_ef2b0140",
       "range": {
         "startLine": 6,
         "startChar": 43,
