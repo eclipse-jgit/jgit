@@ -18,6 +18,8 @@ import java.io.Writer;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.HashMap;
+import java.util.Set;
 
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
@@ -96,6 +98,23 @@ public abstract class BaseConnection implements Connection {
 	 */
 	protected void available(Map<String, Ref> all) {
 		advertisedRefs = Collections.unmodifiableMap(all);
+	}
+
+	public void filterAdvertisedChangeRefs(Set<String> remoteRefNamesBeingPushed) {
+		if (advertisedRefs.isEmpty()) {
+			return;
+		}
+		Map<String, Ref> filtered = new HashMap<>();
+		for (Map.Entry<String, Ref> e : advertisedRefs.entrySet()) {
+			String name = e.getKey();
+			if (name.startsWith("refs/changes/") && !remoteRefNamesBeingPushed.contains(name)) {
+				continue;
+			}
+			filtered.put(name, e.getValue());
+		}
+		if (filtered.size() != advertisedRefs.size()) {
+			advertisedRefs = Collections.unmodifiableMap(filtered);
+		}
 	}
 
 	/**

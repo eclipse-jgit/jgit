@@ -148,6 +148,11 @@ class PushProcess {
 				toPush.clear();
 				toPush.putAll(expanded);
 
+				if (connection instanceof BaseConnection) {
+					((BaseConnection) connection).filterAdvertisedChangeRefs(toPush.keySet());
+					res.setAdvertisedRefs(transport.getURI(), connection.getRefsMap());
+				}
+
 				res.setRemoteUpdates(toPush);
 				final Map<String, RemoteRefUpdate> preprocessed = prepareRemoteUpdates();
 				List<RemoteRefUpdate> willBeAttempted = preprocessed.values()
