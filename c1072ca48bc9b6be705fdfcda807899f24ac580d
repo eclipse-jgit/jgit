@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "911426f5_10f598cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-01T09:34:10Z",
+      "side": 1,
+      "message": "Was this pushed accidentally with a new changeid as a duplicate of\nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1234206 ?",
+      "revId": "c1072ca48bc9b6be705fdfcda807899f24ac580d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
