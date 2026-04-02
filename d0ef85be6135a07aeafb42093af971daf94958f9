@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "217531cf_a9b5c8bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-04-02T09:50:55Z",
+      "side": 1,
+      "message": "In one of the splits, I messed up the change-ids. \n\nLatest version is in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1234486 and has the updates to the comments in this one.",
+      "revId": "d0ef85be6135a07aeafb42093af971daf94958f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f37bd0a4_8031c734",
