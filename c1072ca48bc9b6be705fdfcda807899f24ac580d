@@ -16,6 +16,24 @@
       "message": "Was this pushed accidentally with a new changeid as a duplicate of\nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1234206 ?",
       "revId": "c1072ca48bc9b6be705fdfcda807899f24ac580d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0c08ec0_df2fbd8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-04-02T08:31:28Z",
+      "side": 1,
+      "message": "Yes, I think with the split of the change I messed up the changed-Ids. I am cleaning the duplicates. Sorry for the noise.",
+      "parentUuid": "911426f5_10f598cd",
+      "revId": "c1072ca48bc9b6be705fdfcda807899f24ac580d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
