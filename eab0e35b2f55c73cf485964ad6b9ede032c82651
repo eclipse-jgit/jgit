@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3190a89_4950e55b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackMidx.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-04-02T06:12:05Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "b7ba4be9_0289c9b3",
+      "revId": "eab0e35b2f55c73cf485964ad6b9ede032c82651",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "438e6b02_2b76e3ba",
@@ -48,6 +66,24 @@
       "writtenOn": "2026-04-01T10:21:59Z",
       "side": 1,
       "message": "```suggestion\n\tprivate volatile PackReverseIndex ridx;\n```",
+      "revId": "eab0e35b2f55c73cf485964ad6b9ede032c82651",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b14f7b44_4ce684fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackMidx.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-04-02T06:12:05Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "438e6b02_2b76e3ba",
       "revId": "eab0e35b2f55c73cf485964ad6b9ede032c82651",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -75,6 +111,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a9aa017_32369b26",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackMidx.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-04-02T06:12:05Z",
+      "side": 1,
+      "message": "Done.\n\nThanks! Originally getMidx() was invoked in the constructor and this was just a wrapper over to initialized instances. I changed it to read only the metadata and load midx when needed to keep the pack listing light and fast (in line with what we do with all the other data/indexes).",
+      "parentUuid": "e83fc59c_26f797a3",
+      "range": {
+        "startLine": 136,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 13
+      },
+      "revId": "eab0e35b2f55c73cf485964ad6b9ede032c82651",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ea5535d_096dedd9",
@@ -88,6 +148,30 @@
       "writtenOn": "2026-04-01T10:21:59Z",
       "side": 1,
       "message": "ensure `MidxPackReverseIndex` ist created in a thread-safe way\nand use `UncheckedIOException` instead of `RuntimeException`\n```suggestion\n\t\tif (ridx \u003d\u003d null) {\n\t\t\tsynchronized(this) {\n\t\t\t\tif (ridx \u003d\u003d null) {\n\t\t\t\t\ttry {\n\t\t\t\t\t\treturn new MidxPackReverseIndex(getMidx(), offsetCalculator);\n\t\t\t\t\t} catch (IOException e) {\n\t\t\t\t\t\tthrow new UncheckedIOException(e);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\treturn ridx;\n```\n\nCan we alternatively initialize `ridx` in the constructor to avoid this overhead ?",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 14
+      },
+      "revId": "eab0e35b2f55c73cf485964ad6b9ede032c82651",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d781ca01_0da4ef11",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackMidx.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-04-02T06:12:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ea5535d_096dedd9",
       "range": {
         "startLine": 148,
         "startChar": 0,
