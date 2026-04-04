@@ -488,6 +488,31 @@ public class FastIgnoreRuleTest {
 		assertMatched("dir/*a*", "dir/\ra\r");
 	}
 
+	/**
+	 * The macOS community gitignore (https://github.com/github/gitignore) uses
+	 * the pattern {@code Icon[\r]} (with a literal carriage return inside the
+	 * bracket expression) to match the special macOS "Icon\r" file. A bracket
+	 * expression containing a literal CR character must be handled correctly by
+	 * {@code Strings.convertGlob()}: {@code Icon[\r]} must match {@code Icon\r}
+	 * and must NOT match plain {@code Icon}.
+	 *
+	 * <p>Note: when reading from a gitignore file via
+	 * {@link IgnoreNode#parse(java.io.InputStream)}, {@link
+	 * java.io.BufferedReader#readLine()} treats a bare CR as a line terminator,
+	 * which truncates the pattern to {@code Icon[} and causes an {@link
+	 * org.eclipse.jgit.errors.InvalidPatternException} ("Not closed bracket?").
+	 * The fix for that code path is covered by
+	 * {@code IgnoreNodeTest#testBracketExpressionWithCarriageReturnInStream}.
+	 */
+	@Test
+	public void testBracketExpressionWithCarriageReturn() {
+		// "Icon[\r]" with a literal CR inside the brackets should match
+		// a file whose name ends with a CR character.
+		assertMatched("Icon[\r]", "Icon\r");
+		// It must NOT match a file without the trailing CR.
+		assertNotMatched("Icon[\r]", "Icon");
+	}
+
 	private void assertMatched(String pattern, String path) {
 		boolean match = match(pattern, path);
 		String result = path + " is " + (match ? "ignored" : "not ignored")
