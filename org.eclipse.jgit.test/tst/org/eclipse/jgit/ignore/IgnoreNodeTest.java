@@ -533,6 +533,39 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 		assertEquals(2, node.getRules().size());
 	}
 
+	/**
+	 * Verifies that a bracket expression containing a literal CR character is
+	 * preserved when the gitignore stream is parsed. The macOS community
+	 * gitignore uses the pattern {@code Icon[\r]} (where {@code \r} is ASCII
+	 * 13) to match the special macOS "Icon\r" file. Because
+	 * {@link java.io.BufferedReader#readLine()} treats a bare CR as a line
+	 * terminator, the pattern gets truncated to {@code Icon[}, which causes
+	 * {@code Strings.convertGlob()} to throw
+	 * {@link org.eclipse.jgit.errors.InvalidPatternException} ("Not closed
+	 * bracket?") and produces noisy log warnings for every project that uses
+	 * the macOS global gitignore together with a jgit-based build tool such as
+	 * Gradle.
+	 */
+	@Test
+	public void testBracketExpressionWithCarriageReturnInStream()
+			throws IOException {
+		// Build the raw gitignore bytes: "Icon[" + CR + "]" + LF
+		byte[] gitignoreBytes = "Icon[\r]\n".getBytes(UTF_8);
+		IgnoreNode node = new IgnoreNode();
+		node.parse(new ByteArrayInputStream(gitignoreBytes));
+
+		// The rule must have been loaded without throwing an exception.
+		assertEquals(1, node.getRules().size());
+
+		// The pattern "Icon[\r]" must match a file named "Icon\r".
+		assertEquals(IgnoreNode.MatchResult.IGNORED,
+				node.isIgnored("Icon\r", false));
+
+		// The pattern "Icon[\r]" must NOT match a file named "Icon" (no CR).
+		assertEquals(IgnoreNode.MatchResult.CHECK_PARENT,
+				node.isIgnored("Icon", false));
+	}
+
 	@Test
 	public void testSlashOnlyMatchesDirectory() throws IOException {
 		writeIgnoreFile(".gitignore", "out/");
