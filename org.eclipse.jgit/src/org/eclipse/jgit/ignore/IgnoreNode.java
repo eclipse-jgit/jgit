@@ -101,10 +101,16 @@ public class IgnoreNode {
 	 * @since 5.11
 	 */
 	public void parse(String sourceName, InputStream in) throws IOException {
+		// Use a custom line reader that treats only '\n' and '\r\n' as line
+		// terminators, matching git's own behaviour. BufferedReader.readLine()
+		// also treats a bare '\r' as a line terminator, which would split a
+		// gitignore pattern like "Icon[\r]" (used by the macOS community
+		// gitignore to match the macOS "Icon\r" file) into two lines "Icon["
+		// and "]", causing an InvalidPatternException ("Not closed bracket?").
 		BufferedReader br = asReader(in);
 		String txt;
 		int lineNumber = 1;
-		while ((txt = br.readLine()) != null) {
+		while ((txt = readLinePreservingCR(br)) != null) {
 			if (txt.length() > 0 && !txt.startsWith("#") && !txt.equals("/")) { //$NON-NLS-1$ //$NON-NLS-2$
 				FastIgnoreRule rule = new FastIgnoreRule();
 				try {
@@ -127,6 +133,53 @@ public class IgnoreNode {
 			}
 			lineNumber++;
 		}
+	}
+
+	/**
+	 * Read the next line from a {@link BufferedReader}, treating only {@code \n}
+	 * and {@code \r\n} as line terminators. Unlike
+	 * {@link BufferedReader#readLine()}, a bare {@code \r} that is not followed
+	 * by {@code \n} is preserved as part of the line content. This matches
+	 * git's own line-reading behaviour for gitignore files.
+	 *
+	 * @param br
+	 *            the reader to read from
+	 * @return the next line (without the line terminator), or {@code null} at
+	 *         end-of-stream
+	 * @throws IOException
+	 *             if an I/O error occurs
+	 */
+	private static String readLinePreservingCR(BufferedReader br)
+			throws IOException {
+		StringBuilder line = null;
+		int ch;
+		while ((ch = br.read()) != -1) {
+			if (line == null) {
+				line = new StringBuilder();
+			}
+			if (ch == '\n') {
+				// LF: end of line (strip the '\n' itself)
+				break;
+			}
+			if (ch == '\r') {
+				// Peek at the next character: if it is '\n', consume it and
+				// end the line (CRLF ending). If it is not '\n', the '\r' is
+				// part of the line content (e.g. inside "Icon[\r]").
+				br.mark(1);
+				int next = br.read();
+				if (next == '\n') {
+					// CRLF: end of line
+					break;
+				}
+				if (next != -1) {
+					br.reset();
+				}
+				line.append((char) ch);
+				continue;
+			}
+			line.append((char) ch);
+		}
+		return line == null ? null : line.toString();
 	}
 
 	private static BufferedReader asReader(InputStream in) {
