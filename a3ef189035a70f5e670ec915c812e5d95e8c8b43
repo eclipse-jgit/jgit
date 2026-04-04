@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21287e29_32839380",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/MidxWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-04T20:22:37Z",
+      "side": 1,
+      "message": "this returns \".bitmap_tmp\" hence no need to prefix with \".\" here",
+      "range": {
+        "startLine": 104,
+        "startChar": 19,
+        "endLine": 104,
+        "endChar": 34
+      },
+      "revId": "a3ef189035a70f5e670ec915c812e5d95e8c8b43",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
