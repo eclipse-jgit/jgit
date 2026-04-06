@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee7513c7_005e1469",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-06T10:37:04Z",
+      "side": 1,
+      "message": "added missing braces",
+      "revId": "f339c3d898d9b176967422daf4d4d57b7f230082",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
