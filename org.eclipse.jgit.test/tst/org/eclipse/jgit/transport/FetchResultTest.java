@@ -12,6 +12,8 @@ package org.eclipse.jgit.transport;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Collections;
+
 import org.junit.Test;
 
 public class FetchResultTest {
@@ -30,7 +32,7 @@ public class FetchResultTest {
 	public void toStringWithUri() throws Exception {
 		FetchResult result = new FetchResult();
 		result.setAdvertisedRefs(new URIish("https://example.com/repo.git"),
-				java.util.Collections.emptyMap());
+				Collections.emptyMap());
 		String s = result.toString();
 		assertTrue(s.contains("example.com"));
 	}
