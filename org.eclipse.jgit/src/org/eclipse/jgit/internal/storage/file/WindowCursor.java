@@ -12,6 +12,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -26,6 +27,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
@@ -35,7 +37,6 @@ import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
-import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.InflaterCache;
@@ -115,13 +116,15 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	@Override
 	public Collection<CachedPack> getCachedPacksAndUpdate(
 			BitmapBuilder needBitmap) throws IOException {
+		List<CachedPack> toUseAsIs = new ArrayList<>();
 		for (Pack pack : db.getPacks()) {
-			PackBitmapIndex index = pack.getBitmapIndex();
-			if (needBitmap.removeAllOrNone(index))
-				return Collections.<CachedPack> singletonList(
-						new LocalCachedPack(Collections.singletonList(pack)));
+			List<Pack> packs = pack.fullyIncludedIn(needBitmap);
+			if (packs.isEmpty()) {
+				continue;
+			}
+			toUseAsIs.add(new LocalCachedPack(packs));
 		}
-		return Collections.emptyList();
+		return toUseAsIs;
 	}
 
 	@Override

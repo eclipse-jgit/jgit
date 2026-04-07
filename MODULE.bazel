@@ -1,6 +1,8 @@
 module(name = "jgit")
 
-bazel_dep(name = "rules_java", version = "8.11.0")
+bazel_dep(name = "rules_go", version = "0.51.0-rc2")
+bazel_dep(name = "bazel_features", version = "1.39.0")
+bazel_dep(name = "rules_java", version = "8.16.1")
 bazel_dep(name = "rules_jvm_external", version = "6.10")
 bazel_dep(name = "rbe_autoconfig")
 git_override(
@@ -23,9 +25,9 @@ git_repository(
 
 BOUNCYCASTLE_VERSION = "1.83"
 
-BYTE_BUDDY_VERSION = "1.18.7"
+BYTE_BUDDY_VERSION = "1.18.8"
 
-JETTY_VERSION = "12.1.7"
+JETTY_VERSION = "12.1.8"
 
 JMH_VERSION = "1.37"
 

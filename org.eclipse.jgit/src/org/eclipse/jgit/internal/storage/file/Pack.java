@@ -14,10 +14,10 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACKED_INDEX_GIT_USE_STRONGREFS;
-import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 
 import java.io.EOFException;
 import java.io.File;
@@ -36,6 +36,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -61,6 +62,7 @@ import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.util.Optionally;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -1340,6 +1342,26 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	void setBitmapIndexFile(PackFile bitmapIndexFile) {
 		this.bitmapIdxFile = bitmapIndexFile;
+	}
+
+	/**
+	 * Return the pack if all its objects are included in the need bitmaps.
+	 *
+	 * @param needBitmaps
+	 *            bitmap with needed objects. Modified in this method: If a pack
+	 *            is fully included in the bitmap, the pack objects are removed
+	 *            from the bitmap.
+	 * @return list of packs fully included in the bitmap
+	 * @throws IOException
+	 *             an error reading the bitmap index of this pack
+	 */
+	protected List<Pack> fullyIncludedIn(BitmapIndex.BitmapBuilder needBitmaps)
+			throws IOException {
+		PackBitmapIndex bitmapIndex = getBitmapIndex();
+		if (needBitmaps.removeAllOrNone(bitmapIndex)) {
+			return Collections.singletonList(this);
+		}
+		return Collections.emptyList();
 	}
 
 	private PackReverseIndex getReverseIdx() throws IOException {
