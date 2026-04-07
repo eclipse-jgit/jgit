@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d482ac5_77bb5ec2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-07T18:33:49Z",
+      "side": 1,
+      "message": "Improve to mention \"..for all refs/tags data\"?",
+      "revId": "9bc9e18c7be6dfbcec6a56ffdcf60b29a9ae323f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c56c269a_38050d2a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-07T18:33:49Z",
+      "side": 1,
+      "message": "Mention \"...(all refs)\"?",
+      "revId": "9bc9e18c7be6dfbcec6a56ffdcf60b29a9ae323f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b04645b_323ea304",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1195,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-07T18:33:49Z",
+      "side": 1,
+      "message": "This doesn\u0027t feel right, it should come from the newPackedList instead?",
+      "revId": "9bc9e18c7be6dfbcec6a56ffdcf60b29a9ae323f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf934cf8_2fde1e4c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1570,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-07T18:33:49Z",
+      "side": 1,
+      "message": "Should we consider using an \"ENUM boolean\" here? https://www.teamten.com/lawrence/programming/prefer-enums-over-booleans.html It sure would make lines like 1195 make more sense to a reader.",
+      "revId": "9bc9e18c7be6dfbcec6a56ffdcf60b29a9ae323f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfa0a876_993f9657",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-07T18:33:49Z",
+      "side": 1,
+      "message": "This doesn\u0027t feel right at this level. This is the writing level, it shouldn\u0027t care what the previous read did?",
+      "revId": "9bc9e18c7be6dfbcec6a56ffdcf60b29a9ae323f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3812783_e84f32d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-07T18:33:49Z",
+      "side": 1,
+      "message": "This change still doesn\u0027t feel like it is covered by the commit message?",
+      "revId": "9bc9e18c7be6dfbcec6a56ffdcf60b29a9ae323f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
