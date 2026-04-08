@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "082b7bc4_cdb759a7",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-08T21:44:23Z",
+      "side": 1,
+      "message": "Seems suspcious?",
+      "revId": "ab4d4a3255297738b77ceb9e6135b08467ee4a31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "783e6dd5_ac5541fc",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/RebuildCommitGraph.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-08T21:44:23Z",
+      "side": 1,
+      "message": "Doesn\u0027t look peeled, so adding Trait.ALL seems suspicious?",
+      "revId": "ab4d4a3255297738b77ceb9e6135b08467ee4a31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
