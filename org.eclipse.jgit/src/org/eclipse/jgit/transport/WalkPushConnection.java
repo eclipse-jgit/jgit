@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,6 +35,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
+import org.eclipse.jgit.lib.PackedRefsTrait;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
@@ -154,7 +156,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		if (!updates.isEmpty() && isNewRepository())
 			createNewRepository(updates);
 
-		RefWriter refWriter = new RefWriter(newRefs.values()) {
+		RefWriter refWriter = new RefWriter(newRefs.values(), EnumSet.noneOf(PackedRefsTrait.class)) {
 			@Override
 			protected void writeFile(String file, byte[] content)
 					throws IOException {

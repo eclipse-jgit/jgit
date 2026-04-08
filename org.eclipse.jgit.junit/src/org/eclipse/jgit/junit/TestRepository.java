@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -58,6 +59,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PackedRefsTrait;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -837,7 +839,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 	public void updateServerInfo() throws Exception {
 		if (db instanceof FileRepository) {
 			final FileRepository fr = (FileRepository) db;
-			RefWriter rw = new RefWriter(fr.getRefDatabase().getRefs()) {
+			RefWriter rw = new RefWriter(fr.getRefDatabase().getRefs(), EnumSet.noneOf(PackedRefsTrait.class)) {
 				@Override
 				protected void writeFile(String name, byte[] bin)
 						throws IOException {

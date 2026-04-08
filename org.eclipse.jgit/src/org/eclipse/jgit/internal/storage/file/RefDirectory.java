@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +72,7 @@ import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.CoreConfig.TrustStat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
+import org.eclipse.jgit.lib.PackedRefsTrait;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
@@ -117,12 +119,6 @@ public class RefDirectory extends RefDatabase {
 
 	/** Magic string denoting the header of a packed-refs file. */
 	public static final String PACKED_REFS_HEADER = "# pack-refs with:"; //$NON-NLS-1$
-
-	/** If in the header, denotes the file has peeled data for (refs/tags/...). */
-	public static final String PACKED_REFS_PEELED = " peeled"; //$NON-NLS-1$
-
-	/** If in the header, denotes the file has sorted data. */
-	public static final String PACKED_REFS_SORTED = " sorted"; //$NON-NLS-1$
 
 	@SuppressWarnings("boxing")
 	private static final List<Integer> RETRY_SLEEP_MS =
@@ -726,7 +722,7 @@ public class RefDirectory extends RefDatabase {
 					packed = getLockedPackedRefs(lck);
 					int idx = packed.find(name);
 					if (0 <= idx) {
-						commitPackedRefs(lck, packed.remove(idx), packed, true);
+						commitPackedRefs(lck, packed.remove(idx), packed, true, packed.traits);
 					}
 				}
 
@@ -827,7 +823,16 @@ public class RefDirectory extends RefDatabase {
 				}
 
 				// The new content for packed-refs is collected. Persist it.
-				commitPackedRefs(lck, newPacked, oldPacked,false);
+				commitPackedRefs(
+						lck,
+						newPacked,
+						oldPacked,
+						false,
+						// If all packed-refs content is new, start with all traits.
+						oldPacked.isEmpty() ?
+								EnumSet.of(PackedRefsTrait.SORTED, PackedRefsTrait.PEELED) :
+								oldPacked.traits
+				);
 
 				// Now delete the loose refs which are now packed
 				for (String refName : refs) {
@@ -1066,9 +1071,7 @@ public class RefDirectory extends RefDatabase {
 										new DigestInputStream(
 												new FileInputStream(f), digest),
 										UTF_8))) {
-							return new NonEmptyPackedRefList(parsePackedRefs(br),
-									snapshot,
-									ObjectId.fromRaw(digest.digest()));
+							return parsePackedRefs(br, snapshot, digest);
 						}
 					});
 			return result != null ? result : NO_PACKED_REFS;
@@ -1087,8 +1090,11 @@ public class RefDirectory extends RefDatabase {
 		}
 	}
 
-	private RefList<Ref> parsePackedRefs(BufferedReader br)
-			throws IOException {
+	private NonEmptyPackedRefList parsePackedRefs(
+			BufferedReader br,
+			FileSnapshot snapshot,
+			MessageDigest digest
+	) throws IOException {
 		RefList.Builder<Ref> all = new RefList.Builder<>();
 		Ref last = null;
 		boolean peeled = false;
@@ -1100,8 +1106,8 @@ public class RefDirectory extends RefDatabase {
 			if (p.charAt(0) == '#') {
 				if (p.startsWith(PACKED_REFS_HEADER)) {
 					p = p.substring(PACKED_REFS_HEADER.length());
-					peeled = p.contains(PACKED_REFS_PEELED);
-					isSorted = p.contains(PACKED_REFS_SORTED);
+					peeled = p.contains(PackedRefsTrait.PEELED.value());
+					isSorted = p.contains(PackedRefsTrait.SORTED.value());
 				}
 				continue;
 			}
@@ -1138,7 +1144,18 @@ public class RefDirectory extends RefDatabase {
 
 		if (needSort)
 			all.sort();
-		return all.toRefList();
+
+		EnumSet<PackedRefsTrait> traits = EnumSet.noneOf(PackedRefsTrait.class);
+		traits.add(PackedRefsTrait.SORTED);
+		if (peeled) {
+			traits.add(PackedRefsTrait.PEELED);
+		}
+		return new NonEmptyPackedRefList(
+				all.toRefList(),
+				snapshot,
+				ObjectId.fromRaw(digest.digest()),
+				traits
+		);
 	}
 
 	private static String copy(String src, int off, int end) {
@@ -1148,9 +1165,9 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	void commitPackedRefs(final LockFile lck, final RefList<Ref> refs,
-			final PackedRefList oldPackedList, boolean changed)
+			final PackedRefList oldPackedList, boolean changed, EnumSet<PackedRefsTrait> newTraits)
 			throws IOException {
-		new RefWriter(refs) {
+		new RefWriter(refs, newTraits) {
 			@Override
 			protected void writeFile(String name, byte[] content)
 					throws IOException {
@@ -1175,7 +1192,7 @@ public class RefDirectory extends RefDatabase {
 
 				byte[] digest = Constants.newMessageDigest().digest(content);
 				PackedRefList newPackedList = new NonEmptyPackedRefList(
-						refs, lck.getCommitSnapshot(), ObjectId.fromRaw(digest));
+						refs, lck.getCommitSnapshot(), ObjectId.fromRaw(digest), newTraits);
 				packedRefs.compareAndSet(oldPackedList, newPackedList);
 				if (changed) {
 					modCnt.incrementAndGet();
@@ -1529,18 +1546,24 @@ public class RefDirectory extends RefDatabase {
 
 	static class PackedRefList extends RefList<Ref> {
 		private final ObjectId id;
+		private final EnumSet<PackedRefsTrait> traits;
 
 		PackedRefList() {
-			this(RefList.emptyList(), ObjectId.zeroId());
+			this(RefList.emptyList(), ObjectId.zeroId(), EnumSet.noneOf(PackedRefsTrait.class));
 		}
 
-		protected PackedRefList(RefList<Ref> src, ObjectId id) {
+		protected PackedRefList(RefList<Ref> src, ObjectId id, EnumSet<PackedRefsTrait> traits) {
 			super(src);
 			this.id = id;
+			this.traits = traits.clone();
 		}
 
 		public boolean shouldRefresh() throws IOException {
 			return true;
+		}
+
+		public EnumSet<PackedRefsTrait> traits() {
+			return traits.clone();
 		}
 	}
 
@@ -1549,8 +1572,9 @@ public class RefDirectory extends RefDatabase {
 	private class NonEmptyPackedRefList extends PackedRefList {
 		private final FileSnapshot snapshot;
 
-		private NonEmptyPackedRefList(RefList<Ref> src, FileSnapshot s, ObjectId id) {
-			super(src, id);
+		private NonEmptyPackedRefList(
+				RefList<Ref> src, FileSnapshot s, ObjectId id, EnumSet<PackedRefsTrait> traits) {
+			super(src, id, traits);
 			snapshot = s;
 		}
 
