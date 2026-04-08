@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.TreeMap;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackFile;
+import org.eclipse.jgit.internal.storage.file.RefDirectory.Trait;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -163,7 +165,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		};
 		if (!packedRefUpdates.isEmpty()) {
 			try {
-				refWriter.writePackedRefs();
+				refWriter.writePackedRefs(EnumSet.allOf(Trait.class));
 				for (RemoteRefUpdate u : packedRefUpdates)
 					u.setStatus(Status.OK);
 			} catch (IOException err) {
