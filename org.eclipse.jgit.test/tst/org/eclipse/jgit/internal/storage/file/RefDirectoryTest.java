@@ -997,16 +997,16 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		final Ref tag = all.get("refs/tags/v1.0");
 
 		assertEquals(A, master.getObjectId());
-		assertTrue(master.isPeeled());
+		assertFalse(master.isPeeled());
 		assertNull(master.getPeeledObjectId());
 
 		assertEquals(B, other.getObjectId());
-		assertTrue(other.isPeeled());
+		assertFalse(other.isPeeled());
 		assertNull(other.getPeeledObjectId());
 
 		assertSame(master, head.getTarget());
 		assertEquals(A, head.getObjectId());
-		assertTrue(head.isPeeled());
+		assertFalse(head.isPeeled());
 		assertNull(head.getPeeledObjectId());
 
 		assertEquals(v1_0, tag.getObjectId());
