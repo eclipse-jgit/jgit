@@ -28,6 +28,7 @@ import java.util.TreeMap;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackFile;
+import org.eclipse.jgit.internal.storage.file.RefDirectory.Trait;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -163,7 +164,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		};
 		if (!packedRefUpdates.isEmpty()) {
 			try {
-				refWriter.writePackedRefs();
+				refWriter.writePackedRefs(Trait.ALL);
 				for (RemoteRefUpdate u : packedRefUpdates)
 					u.setStatus(Status.OK);
 			} catch (IOException err) {
