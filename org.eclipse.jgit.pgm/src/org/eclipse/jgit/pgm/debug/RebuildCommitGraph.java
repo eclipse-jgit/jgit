@@ -28,6 +28,7 @@ import java.util.Map;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.ObjectWritingException;
 import org.eclipse.jgit.internal.storage.file.LockFile;
+import org.eclipse.jgit.internal.storage.file.RefDirectory.Trait;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -242,7 +243,7 @@ class RebuildCommitGraph extends TextBuiltin {
 				if (!lck.commit())
 					throw new ObjectWritingException(MessageFormat.format(CLIText.get().cantWrite, file));
 			}
-		}.writePackedRefs();
+		}.writePackedRefs(Trait.ALL);
 	}
 
 	private Map<String, Ref> computeNewRefs() throws IOException {
