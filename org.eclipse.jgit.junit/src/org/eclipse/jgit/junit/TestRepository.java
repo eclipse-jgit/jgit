@@ -845,7 +845,7 @@ public class TestRepository<R extends Repository> implements AutoCloseable {
 					TestRepository.this.writeFile(path, bin);
 				}
 			};
-			rw.writePackedRefs();
+			rw.writePackedRefs(true);
 			rw.writeInfoRefs();
 
 			final StringBuilder w = new StringBuilder();
