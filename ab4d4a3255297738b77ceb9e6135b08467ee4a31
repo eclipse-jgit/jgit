@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "216bea93_2eab77ad",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-08T22:40:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcf7c1fa_3aa804b3",
+      "revId": "ab4d4a3255297738b77ceb9e6135b08467ee4a31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "783e6dd5_ac5541fc",

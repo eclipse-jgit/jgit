@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a650096b_8bb5b5b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-08T22:40:35Z",
+      "side": 1,
+      "message": "s/is/was/ but that isn\u0027t quite true, I think it was more of an \"ANY\" peeled ref would make it mark things peeled?",
+      "revId": "80fba6c038f9344f35072137f98a5906bf8dec10",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffc5cf21_9855405e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-08T22:40:35Z",
+      "side": 1,
+      "message": "Maybe also add test that even if a ref was peeled but the trait was not there, that it does not add the peeled trait (that would break before this change right)?",
+      "revId": "80fba6c038f9344f35072137f98a5906bf8dec10",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
