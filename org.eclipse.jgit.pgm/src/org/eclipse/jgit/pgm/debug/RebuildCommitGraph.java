@@ -20,6 +20,7 @@ import java.io.InputStreamReader;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -33,6 +34,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PackedRefsTrait;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -224,7 +226,7 @@ class RebuildCommitGraph extends TextBuiltin {
 
 	private void recreateRefs() throws Exception {
 		final Map<String, Ref> refs = computeNewRefs();
-		new RefWriter(refs.values()) {
+		new RefWriter(refs.values(), EnumSet.noneOf(PackedRefsTrait.class)) {
 			@Override
 			protected void writeFile(String name, byte[] content)
 					throws IOException {
