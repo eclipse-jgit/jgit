@@ -16,6 +16,7 @@ package org.eclipse.jgit.lib;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.jgit.internal.storage.file.RefDirectory;
@@ -32,6 +33,30 @@ import org.eclipse.jgit.util.RefMap;
 public abstract class RefWriter {
 
 	private final Collection<Ref> refs;
+	private final EnumSet<PackedRefsTrait> traits;
+
+	/**
+	 * <p>Constructor for RefWriter.</p>
+	 *
+	 * @param refs
+	 *            the complete set of references. This should have been computed
+	 *            by applying updates to the advertised refs already discovered.
+	 * @param traits
+	 *            traits that are applicable to the refs. If SORTED trait is
+	 *            absent, sorting is performed and trait is added.
+	 *
+	 * @since 7.7
+	 */
+	public RefWriter(Collection<Ref> refs, EnumSet<PackedRefsTrait> traits) {
+		this.traits = traits.clone();
+
+		if (!traits.contains(PackedRefsTrait.SORTED)) {
+			this.refs = RefComparator.sort(refs);
+			this.traits.add(PackedRefsTrait.SORTED);
+		} else {
+			this.refs = refs;
+		}
+	}
 
 	/**
 	 * <p>Constructor for RefWriter.</p>
@@ -40,8 +65,12 @@ public abstract class RefWriter {
 	 *            the complete set of references. This should have been computed
 	 *            by applying updates to the advertised refs already discovered.
 	 */
+	@Deprecated(since = "7.7")
 	public RefWriter(Collection<Ref> refs) {
-		this.refs = RefComparator.sort(refs);
+		this(refs, EnumSet.noneOf(PackedRefsTrait.class));
+		if (containsAnyPeeledRef(refs)) {
+			traits.add(PackedRefsTrait.PEELED);
+		}
 	}
 
 	/**
@@ -50,12 +79,24 @@ public abstract class RefWriter {
 	 * @param refs
 	 *            the complete set of references. This should have been computed
 	 *            by applying updates to the advertised refs already discovered.
+	 * @param traits
+	 *            traits that are applicable to the refs. If SORTED trait is
+   *            absent, sorting is performed and trait is added.
+	 *
+	 * @since 7.7
 	 */
-	public RefWriter(Map<String, Ref> refs) {
-		if (refs instanceof RefMap)
+	public RefWriter(Map<String, Ref> refs, EnumSet<PackedRefsTrait> traits) {
+		this.traits = traits.clone();
+
+		if (refs instanceof RefMap) {
 			this.refs = refs.values();
-		else
+			this.traits.add(PackedRefsTrait.SORTED);
+		} else if (!traits.contains(PackedRefsTrait.SORTED)) {
 			this.refs = RefComparator.sort(refs.values());
+			this.traits.add(PackedRefsTrait.SORTED);
+		} else {
+			this.refs = refs.values();
+		}
 	}
 
 	/**
@@ -65,8 +106,45 @@ public abstract class RefWriter {
 	 *            the complete set of references. This should have been computed
 	 *            by applying updates to the advertised refs already discovered.
 	 */
-	public RefWriter(RefList<Ref> refs) {
+	@Deprecated(since = "7.7")
+	public RefWriter(Map<String, Ref> refs) {
+		this(refs, EnumSet.noneOf(PackedRefsTrait.class));
+		if (containsAnyPeeledRef(this.refs)) {
+			traits.add(PackedRefsTrait.PEELED);
+		}
+	}
+
+
+	/**
+	 * <p>Constructor for RefWriter.</p>
+	 *
+	 * @param refs
+	 *            the complete set of references. This should have been computed
+	 *            by applying updates to the advertised refs already discovered.
+	 * @param traits
+	 *            traits that are applicable to the refs.
+	 *
+	 * @since 7.7
+	 */
+	public RefWriter(RefList<Ref> refs, EnumSet<PackedRefsTrait> traits) {
 		this.refs = refs.asList();
+		this.traits = traits.clone();
+		this.traits.add(PackedRefsTrait.SORTED);
+	}
+
+	/**
+	 * <p>Constructor for RefWriter.</p>
+	 *
+	 * @param refs
+	 *            the complete set of references. This should have been computed
+	 *            by applying updates to the advertised refs already discovered.
+	 */
+	@Deprecated(since = "7.7")
+	public RefWriter(RefList<Ref> refs) {
+		this(refs, EnumSet.noneOf(PackedRefsTrait.class));
+		if (containsAnyPeeledRef(this.refs)) {
+			traits.add(PackedRefsTrait.PEELED);
+		}
 	}
 
 	/**
@@ -127,19 +205,10 @@ public abstract class RefWriter {
 	 *             failed, possibly due to permissions or remote disk full, etc.
 	 */
 	public void writePackedRefs() throws IOException {
-		boolean peeled = false;
-		for (Ref r : refs) {
-			if (r.getStorage().isPacked() && r.isPeeled()) {
-				peeled = true;
-				break;
-			}
-		}
-
 		final StringWriter w = new StringWriter();
 		w.write(RefDirectory.PACKED_REFS_HEADER);
-		w.write(RefDirectory.PACKED_REFS_SORTED);
-		if (peeled) {
-			w.write(RefDirectory.PACKED_REFS_PEELED);
+		for (PackedRefsTrait t : traits) {
+			w.write(t.value());
 		}
 		w.write('\n');
 
@@ -167,6 +236,15 @@ public abstract class RefWriter {
 			}
 		}
 		writeFile(Constants.PACKED_REFS, Constants.encode(w.toString()));
+	}
+
+	private boolean containsAnyPeeledRef(Collection<Ref> refs) {
+		for (Ref r : refs) {
+			if (r.getStorage().isPacked() && r.isPeeled()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
