@@ -16,6 +16,24 @@
       "message": "This should be followed up with a check to see if the \"fully-peeled\" trait is defined?",
       "revId": "6b8cdcd515d7fb0fbd6ae161aad57d5385965beb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c1302c2_01dda800",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-08T19:56:48Z",
+      "side": 1,
+      "message": "yes, fully-peeled is not defined in code yet. I\u0027ll make follow-ups.",
+      "parentUuid": "09f01f67_1212f829",
+      "revId": "6b8cdcd515d7fb0fbd6ae161aad57d5385965beb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
