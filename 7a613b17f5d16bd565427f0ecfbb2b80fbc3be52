@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73f206b6_8f501c85",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-08T22:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26885004_8a3cc5aa",
+      "revId": "7a613b17f5d16bd565427f0ecfbb2b80fbc3be52",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d85c4a5_daf29529",
@@ -35,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "859220cc_838e8bb5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1579,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-08T22:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d85c4a5_daf29529",
+      "revId": "7a613b17f5d16bd565427f0ecfbb2b80fbc3be52",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74c23cee_fa2c4a30",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-04-08T21:44:23Z",
       "side": 1,
       "message": "s/for(/for (/",
+      "revId": "7a613b17f5d16bd565427f0ecfbb2b80fbc3be52",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6970b48_472fbde2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-08T22:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74c23cee_fa2c4a30",
       "revId": "7a613b17f5d16bd565427f0ecfbb2b80fbc3be52",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bcf7c1fa_3aa804b3",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-08T22:26:37Z",
+      "side": 1,
+      "message": "I was not sure about this but tests look okay either way.",
+      "parentUuid": "082b7bc4_cdb759a7",
+      "revId": "ab4d4a3255297738b77ceb9e6135b08467ee4a31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "783e6dd5_ac5541fc",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/RebuildCommitGraph.java",
         "patchSetId": 5
@@ -31,6 +49,24 @@
       "writtenOn": "2026-04-08T21:44:23Z",
       "side": 1,
       "message": "Doesn\u0027t look peeled, so adding Trait.ALL seems suspicious?",
+      "revId": "ab4d4a3255297738b77ceb9e6135b08467ee4a31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d95e329_abbd722f",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/RebuildCommitGraph.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-08T22:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "783e6dd5_ac5541fc",
       "revId": "ab4d4a3255297738b77ceb9e6135b08467ee4a31",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
