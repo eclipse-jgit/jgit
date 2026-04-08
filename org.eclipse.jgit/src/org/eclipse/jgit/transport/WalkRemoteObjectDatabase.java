@@ -30,6 +30,7 @@ import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
+import org.eclipse.jgit.lib.PackedRefsTrait;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.util.IO;
@@ -403,7 +404,7 @@ abstract class WalkRemoteObjectDatabase {
 			if (line.charAt(0) == '#') {
 				if (line.startsWith(RefDirectory.PACKED_REFS_HEADER)) {
 					line = line.substring(RefDirectory.PACKED_REFS_HEADER.length());
-					peeled = line.contains(RefDirectory.PACKED_REFS_PEELED);
+					peeled = line.contains(PackedRefsTrait.PEELED.value());
 				}
 				continue;
 			}
