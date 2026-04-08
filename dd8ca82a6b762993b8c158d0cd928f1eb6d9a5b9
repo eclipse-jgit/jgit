@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e0c5ba6_7f182168",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-08T23:58:44Z",
+      "side": 1,
+      "message": "You probably want an unpeeled one also to prove that it is broken?",
+      "revId": "dd8ca82a6b762993b8c158d0cd928f1eb6d9a5b9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
