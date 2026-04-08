@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.eclipse.jgit.internal.storage.file.RefDirectory;
+import org.eclipse.jgit.internal.storage.file.RefDirectory.Trait;
 import org.eclipse.jgit.util.RefList;
 import org.eclipse.jgit.util.RefMap;
 
@@ -122,24 +123,17 @@ public abstract class RefWriter {
 	 * passed list of references, including only those refs that have a storage
 	 * type of {@link org.eclipse.jgit.lib.Ref.Storage#PACKED}.
 	 *
+	 * @param traits
+	 *            traits that should be included in the header.
 	 * @throws java.io.IOException
 	 *             writing is not supported, or attempting to write the file
 	 *             failed, possibly due to permissions or remote disk full, etc.
 	 */
-	public void writePackedRefs() throws IOException {
-		boolean peeled = false;
-		for (Ref r : refs) {
-			if (r.getStorage().isPacked() && r.isPeeled()) {
-				peeled = true;
-				break;
-			}
-		}
-
+	public void writePackedRefs(Collection<Trait> traits) throws IOException {
 		final StringWriter w = new StringWriter();
 		w.write(RefDirectory.PACKED_REFS_HEADER);
-		w.write(RefDirectory.PACKED_REFS_SORTED);
-		if (peeled) {
-			w.write(RefDirectory.PACKED_REFS_PEELED);
+		for (Trait t: traits) {
+			w.write(t.value());
 		}
 		w.write('\n');
 
