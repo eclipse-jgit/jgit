@@ -46,6 +46,7 @@ import org.eclipse.jgit.junit.Repeat;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.PackedRefsTrait;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -71,6 +72,8 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 
 	private RevTag v1_0;
 
+	private RevTag v2_0;
+
 	@Override
 	@Before
 	public void setUp() throws Exception {
@@ -85,7 +88,8 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		repo = new TestRepository<>(diskRepo);
 		A = repo.commit().create();
 		B = repo.commit(repo.getRevWalk().parseCommit(A));
-		v1_0 = repo.tag("v1_0", B);
+		v1_0 = repo.tag("v1_0", A);
+		v2_0 = repo.tag("v2_0", B);
 		repo.getRevWalk().parseBody(v1_0);
 	}
 
@@ -1061,6 +1065,72 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		assertEquals(Storage.PACKED, all.get("refs/tags/v1.0").getStorage());
 		assertEquals(Storage.PACKED, all.get("refs/tags/v0.1").getStorage());
 		assertEquals(v0_1.getId(), all.get("refs/tags/v0.1").getObjectId());
+	}
+
+	@Test
+	public void testNewPackFileHasAllTraits()throws Exception {
+		writeLooseRef("refs/heads/master", B);
+
+		PackRefsCommand packRefsCommand = new PackRefsCommand(diskRepo);
+		packRefsCommand.setAll(true);
+		packRefsCommand.call();
+
+		File packedRefsFile = new File(diskRepo.getCommonDirectory(), Constants.PACKED_REFS);
+
+		String content = read(packedRefsFile);
+		String firstLine = content.split("\n")[0];
+		assertTrue("packed-refs should have header with sorted",
+				firstLine.contains(" sorted"));
+		assertTrue("packed-refs should have header with peeled",
+				firstLine.contains(" peeled"));
+	}
+
+	@Test
+	public void autoPeelAnyUnpeeledTags() throws Exception {
+		writePackedRefs("# pack-refs with: sorted \n" +
+				v1_0.name() + " refs/tags/peeled\n" +
+				"^" + v1_0.getObject().name() + "\n" +
+				v2_0.name() + " refs/tags/unpeeled"
+		);
+
+		writeLooseRef("refs/tags/other", B);
+
+		PackRefsCommand packRefsCommand = new PackRefsCommand(diskRepo);
+		packRefsCommand.setAll(true);
+		packRefsCommand.call();
+
+		File packedRefsFile = new File(diskRepo.getCommonDirectory(), Constants.PACKED_REFS);
+		String content = read(packedRefsFile);
+		String firstLine = content.split("\n")[0];
+		assertTrue("packed-refs should have peeled trait", firstLine.contains(" peeled"));
+
+		assertTrue(refdir.getPackedRefs().traits().contains(PackedRefsTrait.PEELED));
+		assertTrue(refdir.getPackedRefs().get("refs/tags/peeled").isPeeled());
+		assertTrue(refdir.getPackedRefs().get("refs/tags/unpeeled").isPeeled());
+	}
+
+	@Test
+	public void preservePeeledTraitIfPreviouslyPeeled() throws Exception {
+		writePackedRefs("# pack-refs with: sorted peeled\n" +
+				v1_0.name() + " refs/tags/peeled\n" +
+				"^" + v1_0.getObject().name() + "\n"
+		);
+
+		writeLooseRef("refs/tags/unpeeled-loose", v2_0);
+
+		PackRefsCommand packRefsCommand = new PackRefsCommand(diskRepo);
+		packRefsCommand.setAll(true);
+		packRefsCommand.call();
+
+		File packedRefsFile = new File(diskRepo.getCommonDirectory(), Constants.PACKED_REFS);
+		String content = read(packedRefsFile);
+		String firstLine = content.split("\n")[0];
+		assertTrue("packed-refs should have peeled trait", firstLine.contains(" peeled"));
+
+		assertTrue(refdir.getPackedRefs().traits().contains(PackedRefsTrait.PEELED));
+		assertTrue(refdir.getPackedRefs().get("refs/tags/peeled").isPeeled());
+		// new loose ref/tags/.. ares peeled
+		assertTrue(refdir.getPackedRefs().get("refs/tags/unpeeled-loose").isPeeled());
 	}
 
 	@Test

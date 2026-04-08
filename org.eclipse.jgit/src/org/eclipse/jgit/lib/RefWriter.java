@@ -13,12 +13,10 @@
 
 package org.eclipse.jgit.lib;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Map;
 
-import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.util.RefList;
 import org.eclipse.jgit.util.RefMap;
 
@@ -28,158 +26,71 @@ import org.eclipse.jgit.util.RefMap;
  *
  * This class is abstract as the writing of the files must be handled by the
  * caller. This is because it is used by transport classes as well.
+ *
+ * @deprecated since 7.7, use {@link PackedRefsWriter} to instead.
  */
-public abstract class RefWriter {
-
-	private final Collection<Ref> refs;
+@Deprecated(since = "7.7")
+public abstract class RefWriter extends PackedRefsWriter {
 
 	/**
-	 * <p>Constructor for RefWriter.</p>
+	 * <p>
+	 * Constructor for RefWriter.
+	 * </p>
 	 *
 	 * @param refs
 	 *            the complete set of references. This should have been computed
 	 *            by applying updates to the advertised refs already discovered.
 	 */
+	@Deprecated(since = "7.7")
 	public RefWriter(Collection<Ref> refs) {
-		this.refs = RefComparator.sort(refs);
-	}
-
-	/**
-	 * <p>Constructor for RefWriter.</p>
-	 *
-	 * @param refs
-	 *            the complete set of references. This should have been computed
-	 *            by applying updates to the advertised refs already discovered.
-	 */
-	public RefWriter(Map<String, Ref> refs) {
-		if (refs instanceof RefMap)
-			this.refs = refs.values();
-		else
-			this.refs = RefComparator.sort(refs.values());
-	}
-
-	/**
-	 * <p>Constructor for RefWriter.</p>
-	 *
-	 * @param refs
-	 *            the complete set of references. This should have been computed
-	 *            by applying updates to the advertised refs already discovered.
-	 */
-	public RefWriter(RefList<Ref> refs) {
-		this.refs = refs.asList();
-	}
-
-	/**
-	 * Rebuild the {@link org.eclipse.jgit.lib.Constants#INFO_REFS}.
-	 * <p>
-	 * This method rebuilds the contents of the
-	 * {@link org.eclipse.jgit.lib.Constants#INFO_REFS} file to match the passed
-	 * list of references.
-	 *
-	 * @throws java.io.IOException
-	 *             writing is not supported, or attempting to write the file
-	 *             failed, possibly due to permissions or remote disk full, etc.
-	 */
-	public void writeInfoRefs() throws IOException {
-		final StringWriter w = new StringWriter();
-		final char[] tmp = new char[Constants.OBJECT_ID_STRING_LENGTH];
-		for (Ref r : refs) {
-			if (Constants.HEAD.equals(r.getName())) {
-				// Historically HEAD has never been published through
-				// the INFO_REFS file. This is a mistake, but its the
-				// way things are.
-				//
-				continue;
-			}
-
-			ObjectId objectId = r.getObjectId();
-			if (objectId == null) {
-				// Symrefs to unborn branches aren't advertised in the info/refs
-				// file.
-				continue;
-			}
-			objectId.copyTo(tmp, w);
-			w.write('\t');
-			w.write(r.getName());
-			w.write('\n');
-
-			ObjectId peeledObjectId = r.getPeeledObjectId();
-			if (peeledObjectId != null) {
-				peeledObjectId.copyTo(tmp, w);
-				w.write('\t');
-				w.write(r.getName());
-				w.write("^{}\n"); //$NON-NLS-1$
-			}
+		super(RefComparator.sort(refs), EnumSet.of(PackedRefsTrait.SORTED));
+		if (containsAnyPeeledRef(this.refs)) {
+			this.traits.add(PackedRefsTrait.PEELED);
 		}
-		writeFile(Constants.INFO_REFS, Constants.encode(w.toString()));
 	}
 
 	/**
-	 * Rebuild the {@link org.eclipse.jgit.lib.Constants#PACKED_REFS} file.
 	 * <p>
-	 * This method rebuilds the contents of the
-	 * {@link org.eclipse.jgit.lib.Constants#PACKED_REFS} file to match the
-	 * passed list of references, including only those refs that have a storage
-	 * type of {@link org.eclipse.jgit.lib.Ref.Storage#PACKED}.
+	 * Constructor for RefWriter.
+	 * </p>
 	 *
-	 * @throws java.io.IOException
-	 *             writing is not supported, or attempting to write the file
-	 *             failed, possibly due to permissions or remote disk full, etc.
+	 * @param refs
+	 *            the complete set of references. This should have been computed
+	 *            by applying updates to the advertised refs already discovered.
 	 */
-	public void writePackedRefs() throws IOException {
-		boolean peeled = false;
+	@Deprecated(since = "7.7")
+	public RefWriter(Map<String, Ref> refs) {
+		super(refs instanceof RefMap ? refs.values()
+				: RefComparator.sort(refs.values()),
+				EnumSet.of(PackedRefsTrait.SORTED));
+		if (containsAnyPeeledRef(this.refs)) {
+			this.traits.add(PackedRefsTrait.PEELED);
+		}
+	}
+
+	/**
+	 * <p>
+	 * Constructor for RefWriter.
+	 * </p>
+	 *
+	 * @param refs
+	 *            the complete set of references. This should have been computed
+	 *            by applying updates to the advertised refs already discovered.
+	 */
+	@Deprecated(since = "7.7")
+	public RefWriter(RefList<Ref> refs) {
+		super(refs.asList(), EnumSet.of(PackedRefsTrait.SORTED));
+		if (containsAnyPeeledRef(this.refs)) {
+			this.traits.add(PackedRefsTrait.PEELED);
+		}
+	}
+
+	private boolean containsAnyPeeledRef(Collection<Ref> refs) {
 		for (Ref r : refs) {
 			if (r.getStorage().isPacked() && r.isPeeled()) {
-				peeled = true;
-				break;
+				return true;
 			}
 		}
-
-		final StringWriter w = new StringWriter();
-		w.write(RefDirectory.PACKED_REFS_HEADER);
-		w.write(RefDirectory.PACKED_REFS_SORTED);
-		if (peeled) {
-			w.write(RefDirectory.PACKED_REFS_PEELED);
-		}
-		w.write('\n');
-
-		final char[] tmp = new char[Constants.OBJECT_ID_STRING_LENGTH];
-		for (Ref r : refs) {
-			if (r.getStorage() != Ref.Storage.PACKED)
-				continue;
-
-			ObjectId objectId = r.getObjectId();
-			if (objectId == null) {
-				// A packed ref cannot be a symref, let alone a symref
-				// to an unborn branch.
-				throw new NullPointerException();
-			}
-			objectId.copyTo(tmp, w);
-			w.write(' ');
-			w.write(r.getName());
-			w.write('\n');
-
-			ObjectId peeledObjectId = r.getPeeledObjectId();
-			if (peeledObjectId != null) {
-				w.write('^');
-				peeledObjectId.copyTo(tmp, w);
-				w.write('\n');
-			}
-		}
-		writeFile(Constants.PACKED_REFS, Constants.encode(w.toString()));
+		return false;
 	}
-
-	/**
-	 * Handles actual writing of ref files to the git repository, which may
-	 * differ slightly depending on the destination and transport.
-	 *
-	 * @param file
-	 *            path to ref file.
-	 * @param content
-	 *            byte content of file to be written.
-	 * @throws java.io.IOException
-	 *             if an IO error occurred
-	 */
-	protected abstract void writeFile(String file, byte[] content)
-			throws IOException;
 }

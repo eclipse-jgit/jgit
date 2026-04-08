@@ -178,7 +178,7 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 				return;
 			}
 			refdb.commitPackedRefs(packedRefsLock, newRefs, oldPackedList,
-					true);
+					true, oldPackedList.traits());
 		} catch (LockFailedException e) {
 			lockFailure(pending.get(0), pending);
 			return;
