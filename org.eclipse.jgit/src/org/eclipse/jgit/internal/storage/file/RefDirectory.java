@@ -1093,6 +1093,7 @@ public class RefDirectory extends RefDatabase {
 		Ref last = null;
 		boolean peeled = false;
 		boolean needSort = false;
+		boolean isSorted = false;
 
 		String p;
 		while ((p = br.readLine()) != null) {
@@ -1100,6 +1101,7 @@ public class RefDirectory extends RefDatabase {
 				if (p.startsWith(PACKED_REFS_HEADER)) {
 					p = p.substring(PACKED_REFS_HEADER.length());
 					peeled = p.contains(PACKED_REFS_PEELED);
+					isSorted = p.contains(PACKED_REFS_SORTED);
 				}
 				continue;
 			}
@@ -1128,7 +1130,7 @@ public class RefDirectory extends RefDatabase {
 				cur = new ObjectIdRef.PeeledNonTag(PACKED, name, id);
 			else
 				cur = new ObjectIdRef.Unpeeled(PACKED, name, id);
-			if (last != null && RefComparator.compareTo(last, cur) > 0)
+			if (!isSorted && last != null && RefComparator.compareTo(last, cur) > 0)
 				needSort = true;
 			all.add(cur);
 			last = cur;
