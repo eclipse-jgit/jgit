@@ -118,7 +118,7 @@ public class RefDirectory extends RefDatabase {
 	/** Magic string denoting the header of a packed-refs file. */
 	public static final String PACKED_REFS_HEADER = "# pack-refs with:"; //$NON-NLS-1$
 
-	/** If in the header, denotes the file has peeled data. */
+	/** If in the header, denotes the file has peeled data for (refs/tags/...). */
 	public static final String PACKED_REFS_PEELED = " peeled"; //$NON-NLS-1$
 
 	/** If in the header, denotes the file has sorted data. */
@@ -1126,7 +1126,7 @@ public class RefDirectory extends RefDatabase {
 			ObjectId id = ObjectId.fromString(p.substring(0, sp));
 			String name = copy(p, sp + 1, p.length());
 			ObjectIdRef cur;
-			if (peeled)
+			if (peeled && name.startsWith(R_TAGS))
 				cur = new ObjectIdRef.PeeledNonTag(PACKED, name, id);
 			else
 				cur = new ObjectIdRef.Unpeeled(PACKED, name, id);
