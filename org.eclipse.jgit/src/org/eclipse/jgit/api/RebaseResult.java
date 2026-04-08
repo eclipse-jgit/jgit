@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.api;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -301,6 +302,36 @@ public class RebaseResult {
 	 */
 	public List<String> getUncommittedChanges() {
 		return uncommittedChanges;
+	}
+
+	@SuppressWarnings("nls")
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder("RebaseResult[");
+		sb.append(status);
+		switch (status) {
+			case CONFLICTS:
+				sb.append(" Conflicts: ");
+				sb.append(conflicts.size());
+				break;
+			case STOPPED:
+				sb.append(" At commit : ");
+				sb.append(currentCommit);
+				break;
+			case FAILED:
+				sb.append(" Failed Paths : ");
+				sb.append(failingPaths.size());
+				sb.append(", reasons ");
+				sb.append(new HashSet<>(failingPaths.values()));
+				break;
+			case UNCOMMITTED_CHANGES:
+				sb.append(" Uncommitted Changes :");
+				sb.append(uncommittedChanges.size());
+				break;
+			default:
+		}
+		sb.append("]");
+		return sb.toString();
 	}
 
 }

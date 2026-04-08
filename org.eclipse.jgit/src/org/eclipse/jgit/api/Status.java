@@ -195,4 +195,36 @@ public class Status {
 		uncommittedChanges.addAll(diff.getConflicting());
 		return uncommittedChanges;
 	}
+
+	@SuppressWarnings("nls")
+	@Override
+	public String toString() {
+		if (isClean()) {
+			return "Working tree is clean";
+                }
+
+		StringBuilder sb = new StringBuilder("Git Status [\n");
+
+		appendSection(sb, "Added", diff.getAdded());
+		appendSection(sb, "Modified", diff.getModified());
+		appendSection(sb, "Removed", diff.getRemoved());
+		appendSection(sb, "Changed", diff.getChanged());
+		appendSection(sb, "Missing", diff.getMissing());
+		appendSection(sb, "Conflicting", diff.getConflicting());
+		appendSection(sb, "Untracked", diff.getUntracked());
+		sb.append("]");
+		return sb.toString().trim();
+	}
+
+	@SuppressWarnings("nls")
+	private void appendSection(StringBuilder sb, String sectionName,
+			Set<String> sectionCollection) {
+		if (!sectionCollection.isEmpty()) {
+			sb.append(sectionName);
+			sb.append(" : ");
+			sb.append(sectionCollection.size());
+			sb.append("\n");
+		}
+	}
+
 }
