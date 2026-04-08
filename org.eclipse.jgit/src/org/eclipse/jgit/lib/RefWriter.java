@@ -16,9 +16,11 @@ package org.eclipse.jgit.lib;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.jgit.internal.storage.file.RefDirectory;
+import org.eclipse.jgit.internal.storage.file.RefDirectory.Trait;
 import org.eclipse.jgit.util.RefList;
 import org.eclipse.jgit.util.RefMap;
 
@@ -115,6 +117,10 @@ public abstract class RefWriter {
 	}
 
 	/**
+	 * {@link RefWriter#writePackedRefs(EnumSet)} should be preferred instead of this method.
+	 * Using this method could mark packed-refs with peeled trait even when all the refs/tags/..
+	 * are not peeled.
+	 * <p>
 	 * Rebuild the {@link org.eclipse.jgit.lib.Constants#PACKED_REFS} file.
 	 * <p>
 	 * This method rebuilds the contents of the
@@ -126,6 +132,7 @@ public abstract class RefWriter {
 	 *             writing is not supported, or attempting to write the file
 	 *             failed, possibly due to permissions or remote disk full, etc.
 	 */
+	@Deprecated(since = "7.7")
 	public void writePackedRefs() throws IOException {
 		boolean peeled = false;
 		for (Ref r : refs) {
@@ -135,11 +142,32 @@ public abstract class RefWriter {
 			}
 		}
 
+		EnumSet<Trait> traits = EnumSet.of(Trait.SORTED);
+		if (peeled) {
+			traits.add(Trait.PEELED);
+		}
+		writePackedRefs(traits);
+	}
+
+	/**
+	 * Rebuild the {@link org.eclipse.jgit.lib.Constants#PACKED_REFS} file.
+	 * <p>
+	 * This method rebuilds the contents of the
+	 * {@link org.eclipse.jgit.lib.Constants#PACKED_REFS} file to match the
+	 * passed list of references, including only those refs that have a storage
+	 * type of {@link org.eclipse.jgit.lib.Ref.Storage#PACKED}.
+	 *
+	 * @param traits
+	 *            traits that should be included in the header.
+	 * @throws java.io.IOException
+	 *             writing is not supported, or attempting to write the file
+	 *             failed, possibly due to permissions or remote disk full, etc.
+	 */
+	public void writePackedRefs(EnumSet<Trait> traits) throws IOException {
 		final StringWriter w = new StringWriter();
 		w.write(RefDirectory.PACKED_REFS_HEADER);
-		w.write(RefDirectory.PACKED_REFS_SORTED);
-		if (peeled) {
-			w.write(RefDirectory.PACKED_REFS_PEELED);
+		for (Trait t : traits) {
+			w.write(t.value());
 		}
 		w.write('\n');
 
