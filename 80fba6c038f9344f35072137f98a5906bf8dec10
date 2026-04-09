@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5e96a769_2008d0fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-09T00:03:15Z",
+      "side": 1,
+      "message": "This code?\n\n```\nfor (Ref r : refs) {\n  if (r.getStorage().isPacked() \u0026\u0026 r.isPeeled()) {\n    peeled \u003d true;\n    break;\n  }\n}\n```\n\nThat break is in the if clause, if it doesn\u0027t trigger on the first ref, it will keep looking, won\u0027t it?",
+      "parentUuid": "63665f08_627cbfb3",
+      "revId": "80fba6c038f9344f35072137f98a5906bf8dec10",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ffc5cf21_9855405e",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
         "patchSetId": 7
