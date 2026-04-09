@@ -16,6 +16,24 @@
       "message": "You probably want an unpeeled one also to prove that it is broken?",
       "revId": "dd8ca82a6b762993b8c158d0cd928f1eb6d9a5b9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23af3470_5ea4b34c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-09T14:50:32Z",
+      "side": 1,
+      "message": "Line 1087 does that ?",
+      "parentUuid": "5e0c5ba6_7f182168",
+      "revId": "dd8ca82a6b762993b8c158d0cd928f1eb6d9a5b9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
