@@ -34,6 +34,24 @@
       "parentUuid": "5e0c5ba6_7f182168",
       "revId": "dd8ca82a6b762993b8c158d0cd928f1eb6d9a5b9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9db88cd4_1f17cde8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-09T18:16:59Z",
+      "side": 1,
+      "message": "The intent is to focus on what would break the contract, not just specific behavior. If the trait were added here, it would break the test case, but it wouldn\u0027t break the contract. If an unpeeled refs/tags shows up in the file with the peeled trait, that is a clear violation of the contract. I don\u0027t believe that the test case above is attempting to show that sort of violation? It might even make sense to rename and refocus these new tests with that in mind. The current naming is focused on explicit behavior as opposed to ensuring no contracts are violated.",
+      "parentUuid": "23af3470_5ea4b34c",
+      "revId": "dd8ca82a6b762993b8c158d0cd928f1eb6d9a5b9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
