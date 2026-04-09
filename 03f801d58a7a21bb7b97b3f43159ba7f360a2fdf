@@ -16,6 +16,24 @@
       "message": "I really don\u0027t like the named intent of this test. As is, the name is codifying undesirable behavior. i.e. The intent is not to always have the named behavior, but rather to ensure that if the peeled trait is never added to a pack file which has unpeeled refs/tags in it.",
       "revId": "03f801d58a7a21bb7b97b3f43159ba7f360a2fdf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "714595ca_8d6f33fa",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-09T21:37:05Z",
+      "side": 1,
+      "message": "i.e. if we improve jgit to always peel tags, then this test will break. That\u0027s OK, but then we likely will need to write a new test, and from the current name of this test, I wouldn\u0027t be able to deduce what might be a good replacement test for it, or whether it should be just deleted. Ideally a well named test would help answer that future question.",
+      "parentUuid": "da54f58c_7851bc0c",
+      "revId": "03f801d58a7a21bb7b97b3f43159ba7f360a2fdf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
