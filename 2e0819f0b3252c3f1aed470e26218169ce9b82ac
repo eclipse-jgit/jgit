@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "534315aa_8507a8b9",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/RebuildCommitGraph.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-09T23:45:42Z",
+      "side": 1,
+      "message": "EnumSet.of()? Should we cause this to not compile by forcing writePackRefs() to take an EnumSet?",
+      "revId": "2e0819f0b3252c3f1aed470e26218169ce9b82ac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb241ee3_72f28b62",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1588,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-09T23:45:42Z",
+      "side": 1,
+      "message": "For safety, you should clone() them here also.",
+      "revId": "2e0819f0b3252c3f1aed470e26218169ce9b82ac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
