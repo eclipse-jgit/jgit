@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faea2bd3_ab8ebf76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-09T22:34:02Z",
+      "side": 1,
+      "message": "add a blank line after the subject line and use a Bug footer (must be in the last paragraph of the commit message) to reference the issue since that\u0027s linkified by Gerrit\n\n```suggestion\nAdd toString to results and status.\n\nBug: jgit-256\nChange-Id: I35ff4918d59938490f429238948c43c5726947a1\n```\n\nThe commit message is too short and generic. It should be self-contained and describe what was changed why. The linked issue can provide additional context but the commit message should be understandable without reading the issue. See https://github.com/eclipse-egit/egit/wiki/Contributor-Guide#commit-message-guidelines",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "d45a32a29097e106fcf04437563922b1f2641629",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "053aefe1_7969a1c2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Status.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-09T22:34:02Z",
+      "side": 1,
+      "message": "this seems unrelated to Bug: jgit-256",
+      "revId": "d45a32a29097e106fcf04437563922b1f2641629",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c837014_50aef0ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Status.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-09T22:34:02Z",
+      "side": 1,
+      "message": "nit: missing braces around single line block",
+      "revId": "d45a32a29097e106fcf04437563922b1f2641629",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "795cc84a_44d0e419",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-09T22:34:02Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tString messages \u003d getMessages();\n\t\tif (!messages.isEmpty()) {\n\t\t\tsb.append(\",\");\n\t\t\tsb.append(\"messages: \");\n\t\t\tsb.append(\n\t\t\t\t\tmessages.substring(0, Math.min(100, messages.length()) - 1));\n```",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 64
+      },
+      "revId": "d45a32a29097e106fcf04437563922b1f2641629",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
