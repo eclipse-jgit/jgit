@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da54f58c_7851bc0c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-09T21:34:30Z",
+      "side": 1,
+      "message": "I really don\u0027t like the named intent of this test. As is, the name is codifying undesirable behavior. i.e. The intent is not to always have the named behavior, but rather to ensure that if the peeled trait is never added to a pack file which has unpeeled refs/tags in it.",
+      "revId": "03f801d58a7a21bb7b97b3f43159ba7f360a2fdf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
