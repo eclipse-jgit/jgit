@@ -52,6 +52,24 @@
       "parentUuid": "23af3470_5ea4b34c",
       "revId": "dd8ca82a6b762993b8c158d0cd928f1eb6d9a5b9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62737efa_0b738440",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-09T21:30:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9db88cd4_1f17cde8",
+      "revId": "dd8ca82a6b762993b8c158d0cd928f1eb6d9a5b9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
