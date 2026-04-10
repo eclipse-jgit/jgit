@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6a6c99af_f5e25498",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-10T17:31:43Z",
+      "side": 1,
+      "message": "or we could leave the old behaviour for the old method signature and mark it deprecated that would cause no behaviour change to the user ?",
+      "parentUuid": "a74ea81a_693dd0f1",
+      "revId": "f190c4aab73521ebf799aff2d3cc08dcce562f71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "249fed0f_02e705d0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
         "patchSetId": 14
