@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a74ea81a_693dd0f1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-10T15:19:35Z",
+      "side": 1,
+      "message": "Only default trait we could add is `sorted`. If we want to maintain the fix (add peeled whenever necessary), we might need to check if all the refs/tags/.. are peeled in the default method (but this is not the correct place to do it ?). If we don\u0027t add peeled there would be no performance regression for jgit because parsing always checks if there is a peeled ref and uses it. I am not sure about the behaviour of cgit though.",
+      "parentUuid": "bdc34d63_c1ce26b1",
+      "revId": "f190c4aab73521ebf799aff2d3cc08dcce562f71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "249fed0f_02e705d0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
         "patchSetId": 14
