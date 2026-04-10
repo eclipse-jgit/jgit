@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "75228f39_540271ea",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-10T17:47:52Z",
+      "side": 1,
+      "message": "Sounds like some options are:\n\n1) Make the non-parameterized version of this method continue with the buggy behavior, deprecate it and remove it eventually. No jgit code would use this method, so only external users of this method would remain broken.\n\n2) Make the non-parameterized version of this method fix the buggy behavior and only add the \"sorted\" trait. This would mean external users of this method would no longer see the \"peeled\" trait added and thus associated performance penalties might be hit after this method was used. The penalties would be that readers after that action can no longer be assume that all refs/tags are peeled and thus may incur a hit checking if they are peeled in the future.\n\n3) Make the non-parameterized version of this method fix the buggy behavior, by itself ensuring that all refs/tags are peeled, and thus any non jigt callers of this method would incur this new performance penalty (potentially encouraging them to upgrade to the better version?). We could (should?) still deprecate the method with this option if we wanted to?\n\nSince #1 means not changing anything for users depending on it, and it provides an upgrade path and fixes all jgit uses at least, it feels very low risk and something that I can easily support. I suggest we go with #1 and if there is later agreement that we should do #2 or #3, those can be follow on changes.\n\nI suggest adding most of this content to the commit message, and auditing the rest of the public methods in this change similarly.",
+      "parentUuid": "a74ea81a_693dd0f1",
+      "revId": "f190c4aab73521ebf799aff2d3cc08dcce562f71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "249fed0f_02e705d0",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
         "patchSetId": 14
