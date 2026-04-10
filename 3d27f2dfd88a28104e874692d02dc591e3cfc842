@@ -16,6 +16,24 @@
       "message": "Why is this not mapped?",
       "revId": "3d27f2dfd88a28104e874692d02dc591e3cfc842",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bbff5ac_18706f82",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Show.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-10T08:41:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b77cb726_7ce5d4a4",
+      "revId": "3d27f2dfd88a28104e874692d02dc591e3cfc842",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
