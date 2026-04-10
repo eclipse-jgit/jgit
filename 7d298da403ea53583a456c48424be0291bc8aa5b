@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50d6195c_6b25ab46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-10T18:19:49Z",
+      "side": 1,
+      "message": "You may want to outline a lot more of the alternatives considered here and how they could still be pursued if desired, and why they might not have been chosen.",
+      "revId": "7d298da403ea53583a456c48424be0291bc8aa5b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "575d89dc_3f891634",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-10T18:19:49Z",
+      "side": 1,
+      "message": "No need to duplicate anything below here, call the new method instead?",
+      "revId": "7d298da403ea53583a456c48424be0291bc8aa5b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
