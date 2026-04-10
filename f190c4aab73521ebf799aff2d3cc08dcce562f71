@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdc34d63_c1ce26b1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-10T15:09:48Z",
+      "side": 1,
+      "message": "Hmm, this is a public interface on a public class, so I believe that adding a parameter here without providing a non-parameterized version of this method can break outside callers? If we added a non-parameterized version of this method which set default values, would we still be able to maintain the \"fix\" that this change provides for users of that unparameterized method? And if so, would those callers see a behavioral change that would result in a performance regression for them?",
+      "revId": "f190c4aab73521ebf799aff2d3cc08dcce562f71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "249fed0f_02e705d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-10T15:09:48Z",
+      "side": 1,
+      "message": "nit: s/t:/t :/",
+      "revId": "f190c4aab73521ebf799aff2d3cc08dcce562f71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
