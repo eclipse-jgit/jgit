@@ -110,10 +110,13 @@ abstract class BasePackConnection extends BaseConnection {
 
 	private TransferConfig.ProtocolVersion protocol = TransferConfig.ProtocolVersion.V0;
 
+	private final TransferConfig transferConfig;
+
 	BasePackConnection(PackTransport packTransport) {
 		transport = (Transport) packTransport;
 		local = transport.local;
 		uri = transport.uri;
+		transferConfig = local == null ? null : new TransferConfig(local);
 	}
 
 	TransferConfig.ProtocolVersion getProtocolVersion() {
@@ -202,6 +205,7 @@ abstract class BasePackConnection extends BaseConnection {
 	private boolean readAdvertisedRefsImpl() throws IOException {
 		final Map<String, Ref> avail = new LinkedHashMap<>();
 		final Map<String, String> symRefs = new LinkedHashMap<>();
+		RefFilter refFilter = getRefFilter();
 		for (boolean first = true;; first = false) {
 			String line;
 
@@ -271,6 +275,10 @@ abstract class BasePackConnection extends BaseConnection {
 				continue;
 			}
 
+			if (!refFilter.isMatched(name)) {
+				continue;
+			}
+
 			final ObjectId id = toId(line, line.substring(0, 40));
 			if (name.equals(".have")) { //$NON-NLS-1$
 				additionalHaves.add(id);
@@ -282,6 +290,9 @@ abstract class BasePackConnection extends BaseConnection {
 		available(avail);
 		return true;
 	}
+
+	protected abstract String getTransferDirection();
+
 
 	/**
 	 * Issue a protocol V2 ls-refs command and read its response.
@@ -701,5 +712,10 @@ abstract class BasePackConnection extends BaseConnection {
 				}
 			}
 		}
+	}
+
+	// Visible for testing
+	RefFilter getRefFilter() {
+		return transferConfig == null ? RefFilter.DEFAULT : transferConfig.getRefFilter(getTransferDirection());
 	}
 }

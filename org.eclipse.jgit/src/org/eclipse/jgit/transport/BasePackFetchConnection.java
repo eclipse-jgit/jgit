@@ -1177,4 +1177,9 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			}
 		}
 	}
+
+	@Override
+	protected String getTransferDirection() {
+		return TransferConfig.KEY_UPLOAD_REFS_DIRECTION;
+	}
 }
