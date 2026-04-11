@@ -14,6 +14,8 @@ import static org.eclipse.jgit.util.StringUtils.equalsIgnoreCase;
 import static org.eclipse.jgit.util.StringUtils.toLowerCase;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +41,21 @@ public class TransferConfig {
 	/** Key for {@link Config#get(SectionParser)}. */
 	public static final Config.SectionParser<TransferConfig> KEY =
 			TransferConfig::new;
+
+	/**
+	 * Key for git-upload-pack transfer direction.
+	 */
+	public static final String KEY_UPLOAD_REFS_DIRECTION = "uploadpack";
+
+	/**
+	 * Key for either git-upload-pack or git-receive-pack directions.
+	 */
+	public static final String KEY_TRANSFER_REFS_DIRECTION = "transfer";
+
+	/**
+	 * Key for git-receive-pack transfer direction.
+	 */
+	public static final String KEY_RECEIVE_REFS_DIRECTION = "receive";
 
 	/**
 	 * A git configuration value for how to handle a fsck failure of a particular kind.
@@ -128,7 +145,7 @@ public class TransferConfig {
 	private final boolean allowReceiveClientSID;
 
 	final @Nullable ProtocolVersion protocolVersion;
-	final String[] hideRefs;
+	final Map<String, String[]> hideRefs;
 
 	/**
 	 * Create a configuration honoring the repository's settings.
@@ -207,7 +224,11 @@ public class TransferConfig {
 		protocolVersion = ProtocolVersion.parse(rc
 				.getString(ConfigConstants.CONFIG_PROTOCOL_SECTION, null,
 						ConfigConstants.CONFIG_KEY_VERSION));
-		hideRefs = rc.getStringList("uploadpack", null, "hiderefs");
+		hideRefs = new HashMap<>();
+		hideRefs.put(KEY_UPLOAD_REFS_DIRECTION, rc.getStringList(KEY_UPLOAD_REFS_DIRECTION, null, "hiderefs"));
+		hideRefs.put(KEY_TRANSFER_REFS_DIRECTION, rc.getStringList(KEY_TRANSFER_REFS_DIRECTION, null, "hiderefs"));
+		hideRefs.put(KEY_RECEIVE_REFS_DIRECTION, rc.getStringList(KEY_RECEIVE_REFS_DIRECTION, null, "hiderefs"));
+
 		allowSidebandAll = rc.getBoolean(
 				"uploadpack", "allowsidebandall", false);
 		advertiseSidebandAll = rc.getBoolean("uploadpack",
@@ -345,29 +366,68 @@ public class TransferConfig {
 	 * hidden refs.
 	 *
 	 * @return {@link org.eclipse.jgit.transport.RefFilter} respecting
-	 *         configured hidden refs.
+	 *         configured hidden refs for upload-pack transfer direction.
 	 * @since 3.1
 	 */
 	public RefFilter getRefFilter() {
-		if (hideRefs.length == 0)
+		return getRefFilter(KEY_UPLOAD_REFS_DIRECTION);
+	}
+
+	/**
+	 * Get {@link org.eclipse.jgit.transport.RefFilter} respecting configured
+	 * hidden refs for a trasnfer direction.
+	 *
+	 * @param
+	 *         direction transfer direction
+	 * @return {@link org.eclipse.jgit.transport.RefFilter} respecting
+	 *         configured hidden refs.
+	 */
+	public RefFilter getRefFilter(String direction) {
+		String[] hideRefsPatterns =
+			hideRefs.get(direction).length == 0 ? hideRefs.get(KEY_TRANSFER_REFS_DIRECTION) : hideRefs.get(direction);
+
+		if (hideRefsPatterns == null || hideRefsPatterns.length == 0) {
 			return RefFilter.DEFAULT;
+		}
+
+		Arrays.sort(hideRefsPatterns,
+			new Comparator<>() {
+				@Override
+				public int compare(String o1, String o2) {
+					return dropPrefix(o2).compareTo(dropPrefix(o1));
+				}
+
+				private String dropPrefix(String refName) {
+					if (!refName.isEmpty() && refName.charAt(0) == '!') {
+						return refName.substring(1);
+					}
+					return refName;
+				}
+			});
 
 		return new RefFilter() {
 			@Override
 			public Map<String, Ref> filter(Map<String, Ref> refs) {
 				Map<String, Ref> result = new HashMap<>();
 				for (Map.Entry<String, Ref> e : refs.entrySet()) {
-					boolean add = true;
-					for (String hide : hideRefs) {
-						if (e.getKey().equals(hide) || prefixMatch(hide, e.getKey())) {
-							add = false;
-							break;
-						}
-					}
-					if (add)
+					if (isMatched(e.getKey())) {
 						result.put(e.getKey(), e.getValue());
+					}
 				}
 				return result;
+			}
+
+			@Override
+			public boolean isMatched(String refName) {
+				for (String hide : hideRefsPatterns) {
+					boolean isNegativePattern = !hide.isEmpty() && hide.charAt(0) == '!';
+					String hideMatch = isNegativePattern ? hide.substring(1) : hide;
+
+					if (refName.equals(hideMatch) || prefixMatch(hideMatch, refName)) {
+						return isNegativePattern;
+					}
+				}
+				return true;
 			}
 
 			private boolean prefixMatch(String p, String s) {
@@ -383,7 +443,8 @@ public class TransferConfig {
 	 *         are no configured hidden refs.
 	 */
 	boolean hasDefaultRefFilter() {
-		return hideRefs.length == 0;
+		return hideRefs.get(KEY_UPLOAD_REFS_DIRECTION).length == 0 &&
+			hideRefs.get(KEY_TRANSFER_REFS_DIRECTION).length == 0;
 	}
 
 	static class FsckKeyNameHolder {

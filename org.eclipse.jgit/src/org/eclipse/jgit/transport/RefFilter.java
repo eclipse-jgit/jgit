@@ -28,7 +28,17 @@ public interface RefFilter {
 	/**
 	 * The default filter, allows all refs to be shown.
 	 */
-	RefFilter DEFAULT = (Map<String, Ref> refs) -> refs;
+	RefFilter DEFAULT = new RefFilter() {
+		@Override
+		public Map<String, Ref> filter(Map<String, Ref> refs) {
+			return refs;
+		}
+
+		@Override
+		public boolean isMatched(String refName) {
+			return true;
+		}
+	};
 
 	/**
 	 * Filters a {@code Map} of refs before it is advertised to the client.
@@ -39,4 +49,15 @@ public interface RefFilter {
 	 *            the filtered map of refs.
 	 */
 	Map<String, Ref> filter(Map<String, Ref> refs);
+
+	/**
+	 * Return true if the refName is matched by the filter.
+	 *
+	 * @param refName
+	 *           the ref name to be matched
+	 * @return
+	 *           true if refName is matched, false otherwise
+	 *
+	 */
+	boolean isMatched(String refName);
 }

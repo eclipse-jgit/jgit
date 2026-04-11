@@ -2505,6 +2505,13 @@ public class UploadPackTest {
 		public Map<String, Ref> filter(Map<String, Ref> refs) {
 			return new HashMap<>();
 		}
+
+		@Override
+		public boolean isMatched(String refName) {
+			return false;
+		}
+
+
 	}
 
 	@Test

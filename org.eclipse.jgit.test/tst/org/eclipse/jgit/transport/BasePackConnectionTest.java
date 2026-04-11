@@ -16,18 +16,27 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.io.ByteArrayInputStream;
 import java.io.EOFException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
+import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.lib.SymbolicRef;
 import org.junit.Test;
 
@@ -259,11 +268,77 @@ public class BasePackConnectionTest {
 		assertEquals(oidName, mainRef.getObjectId().name());
 	}
 
+	@Test
+	public void testHideRefsWithSinglePrefixMatching() throws ConfigInvalidException {
+		try(BasePackConnection hideRefsConnection = new BaseReceivePackConnectionWithLocalRepositoryConfig(getLocalConfig("[receive]\nhideRefs = refs/tohide/"))) {
+			RefFilter refFilter = hideRefsConnection.getRefFilter();
+			assertFalse(refFilter.isMatched("refs/tohide/foo"));
+			assertTrue(refFilter.isMatched("refs/not-to-hide/bar"));
+		}
+	}
+
+	@Test
+	public void testHideRefsWithNegativeSinglePrefixMatching() throws ConfigInvalidException {
+		try(BasePackConnection hideRefsConnection = new BaseReceivePackConnectionWithLocalRepositoryConfig(getLocalConfig("[receive]\nhideRefs = refs/heads/\nhideRefs = !refs/heads/not-to-hide/"))) {
+			RefFilter refFilter = hideRefsConnection.getRefFilter();
+			assertFalse(refFilter.isMatched("refs/heads/foo"));
+			assertTrue(refFilter.isMatched("refs/heads/not-to-hide/bar"));
+		};
+	}
+
+	private static Config getLocalConfig(String configText) throws ConfigInvalidException {
+		Config localConfig = new Config();
+		localConfig.fromText(configText);
+		return localConfig;
+	}
+
 	private static class FailingBasePackConnection extends BasePackConnection {
 		FailingBasePackConnection() {
 			super(new TransportLocal(new URIish(),
 					new java.io.File("")));
 			pckIn = new PacketLineIn(new ByteArrayInputStream(new byte[0]));
+		}
+
+		@Override
+		protected String getTransferDirection() {
+			return TransferConfig.KEY_UPLOAD_REFS_DIRECTION;
+		}
+	}
+
+	private static class BaseReceivePackConnectionWithLocalRepositoryConfig extends BasePackConnection {
+		BaseReceivePackConnectionWithLocalRepositoryConfig(Config config) {
+			super(new TransportLocalWithConfig(config));
+			pckIn = new PacketLineIn(new ByteArrayInputStream(new byte[0]));
+		}
+
+		@Override
+		protected String getTransferDirection() {
+			return TransferConfig.KEY_RECEIVE_REFS_DIRECTION;
+		}
+	}
+
+	private static class TransportLocalWithConfig extends TransportLocal {
+
+		TransportLocalWithConfig(Config config) {
+			super(localRepositoryWithConfig(config), new URIish(), new java.io.File(""));
+		}
+
+		private static Repository localRepositoryWithConfig(Config config) {
+			return new InMemoryRepository(new DfsRepositoryDescription()) {
+				@Override
+				public StoredConfig getConfig() {
+					return new StoredConfig(config) {
+
+						@Override
+						public void load() throws IOException, ConfigInvalidException {
+						}
+
+						@Override
+						public void save() throws IOException {
+						}
+					};
+				}
+			};
 		}
 	}
 }

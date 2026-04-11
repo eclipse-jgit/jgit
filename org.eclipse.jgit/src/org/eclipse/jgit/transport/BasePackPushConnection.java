@@ -476,4 +476,9 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 			return e1;
 		}
 	}
+
+	@Override
+	protected String getTransferDirection() {
+		return TransferConfig.KEY_TRANSFER_REFS_DIRECTION;
+	}
 }
