@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "882068b2_bba3ee33",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PushProcess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-04-12T21:24:38Z",
+      "side": 1,
+      "message": "In my tests, this is actually the bottleneck of the push operation: because the remote will advertise *all its refs*, when this line finishes, we\u0027ll have consumed and processed potentially millions of refs.\n\nSee my proposed change at [1] where we hide some of these refs received from the server, and we won\u0027t waste CPU and memory processing it.\n\nI like your idea at L152 where we automatically exclude the ones we are about to push, cool stuff indeed.\n\n[1] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1235381",
+      "range": {
+        "startLine": 140,
+        "startChar": 3,
+        "endLine": 140,
+        "endChar": 37
+      },
+      "revId": "f56ea6d918df320f7b60ded370d6f0748f7661a7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
