@@ -2262,6 +2262,7 @@ public class ReceivePack {
 				}
 
 				Instant startProcessing = Instant.now();
+				long timePreReceiveHooks = 0;
 				try {
 					setAtomic(isCapabilityEnabled(CAPABILITY_ATOMIC));
 
@@ -2270,8 +2271,10 @@ public class ReceivePack {
 						failPendingCommands();
 					}
 
+					Instant startPreReceive = Instant.now();
 					preReceive.onPreReceive(
 							this, filterCommands(Result.NOT_ATTEMPTED));
+					timePreReceiveHooks = Duration.between(startPreReceive, Instant.now()).toMillis();
 					if (atomic && anyRejects()) {
 						failPendingCommands();
 					}
@@ -2280,7 +2283,7 @@ public class ReceivePack {
 					unlockPack();
 				}
 				long timeProcessingCommands = Duration
-						.between(startProcessing, Instant.now()).toMillis();
+						.between(startProcessing, Instant.now()).toMillis() - timePreReceiveHooks;
 
 				ReceivedPackStatistics.Builder statsBuilder = stats != null
 						? ReceivedPackStatistics.Builder.toBuilder(stats)
@@ -2288,6 +2291,7 @@ public class ReceivePack {
 				stats = statsBuilder.setTimeNegotiating(timeNegotiating)
 						.setTimeReceiving(timeReceiving)
 						.setTimeCheckingConnectivity(timeCheckingConnectivity)
+						.setTimePreReceiveHooks(timePreReceiveHooks)
 						.setTimeProcessingCommands(timeProcessingCommands)
 						.build();
 

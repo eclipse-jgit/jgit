@@ -37,6 +37,7 @@ public class ReceivedPackStatistics {
 	private long timeNegotiating;
 	private long timeReceiving;
 	private long timeCheckingConnectivity;
+	private long timePreReceiveHooks;
 	private long timeProcessingCommands;
 
 	/**
@@ -193,7 +194,17 @@ public class ReceivedPackStatistics {
 	}
 
 	/**
-	 * Get time in milliseconds spent processing commands (validation, hooks,
+	 * Get time in milliseconds spent in pre-receive hooks
+	 *
+	 * @return time in milliseconds spent in pre-receive hooks
+	 * @since 7.7
+	 */
+	public long getTimePreReceiveHooks() {
+		return timePreReceiveHooks;
+	}
+
+	/**
+	 * Get time in milliseconds spent processing commands (validation
 	 * and ref updates)
 	 *
 	 * @return time in milliseconds spent processing commands
@@ -224,6 +235,7 @@ public class ReceivedPackStatistics {
 		private long timeNegotiating;
 		private long timeReceiving;
 		private long timeCheckingConnectivity;
+		private long timePreReceiveHooks;
 		private long timeProcessingCommands;
 
 		/**
@@ -250,6 +262,7 @@ public class ReceivedPackStatistics {
 			b.timeNegotiating = s.getTimeNegotiating();
 			b.timeReceiving = s.getTimeReceiving();
 			b.timeCheckingConnectivity = s.getTimeCheckingConnectivity();
+			b.timePreReceiveHooks = s.getTimePreReceiveHooks();
 			b.timeProcessingCommands = s.getTimeProcessingCommands();
 			return b;
 		}
@@ -342,6 +355,17 @@ public class ReceivedPackStatistics {
 		}
 
 		/**
+		 * @param timePreReceiveHooks
+		 *                            time in milliseconds spent in pre-receive hooks
+		 * @return this
+		 * @since 7.7
+		 */
+		public Builder setTimePreReceiveHooks(long timePreReceiveHooks) {
+			this.timePreReceiveHooks = timePreReceiveHooks;
+			return this;
+		}
+
+		/**
 		 * @param timeProcessingCommands
 		 *            time in milliseconds spent processing commands
 		 * @return this
@@ -429,6 +453,7 @@ public class ReceivedPackStatistics {
 			s.timeNegotiating = timeNegotiating;
 			s.timeReceiving = timeReceiving;
 			s.timeCheckingConnectivity = timeCheckingConnectivity;
+			s.timePreReceiveHooks = timePreReceiveHooks;
 			s.timeProcessingCommands = timeProcessingCommands;
 			return s;
 		}
