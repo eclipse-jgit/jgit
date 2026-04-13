@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad91c1cf_0b578111",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-04-13T18:04:46Z",
+      "side": 1,
+      "message": "LGTM, just some details.",
+      "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2fb89e8_f550e973",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityCheckerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-04-13T18:04:46Z",
+      "side": 1,
+      "message": "LLC",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 34
+      },
+      "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5f3654e_c6528be3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-04-13T18:04:46Z",
+      "side": 1,
+      "message": "License header is missing",
+      "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6983b67f_05c65f71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-04-13T18:04:46Z",
+      "side": 1,
+      "message": "I think this constructor is not needed, as the class is public and doesn\u0027t need parameters for construction.",
+      "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b6a259a_a04300c5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-04-13T18:04:46Z",
+      "side": 1,
+      "message": "\"... and not in the advertised set (haves)\"",
+      "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f92d37c2_f79a1d60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-04-13T18:04:46Z",
+      "side": 1,
+      "message": "Optional: \"list of all new commits in the pack, regardless if advertised or not\"",
+      "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ea4e993_c006d3b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-04-13T18:04:46Z",
+      "side": 1,
+      "message": "nit: should this be ow? I think this all go to the same revwalk pool, but just in case.",
+      "range": {
+        "startLine": 247,
+        "startChar": 34,
+        "endLine": 247,
+        "endChar": 36
+      },
+      "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b238e8e7_dbe60509",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-04-13T18:04:46Z",
+      "side": 1,
+      "message": "Optional: This is quite deep indentation. Maybe we could move the body of the for loop to its own method (\"verifyCommitTreeConnectivity\"?) to get at least one level less?",
+      "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
