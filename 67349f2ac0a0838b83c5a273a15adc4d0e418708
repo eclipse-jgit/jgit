@@ -33,6 +33,24 @@
       "message": "this produces the extension `.bitmap..bitmap_tmp` which looks weird",
       "revId": "67349f2ac0a0838b83c5a273a15adc4d0e418708",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82ecf797_85bcc5d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/MidxWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-04-13T21:20:34Z",
+      "side": 1,
+      "message": "Done. Using now multi-pack-index-\u003cSHA1\u003e.bitmaps_tmp",
+      "parentUuid": "e712b3d8_8e612fc2",
+      "revId": "67349f2ac0a0838b83c5a273a15adc4d0e418708",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

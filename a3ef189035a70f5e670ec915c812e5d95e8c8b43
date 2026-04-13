@@ -22,6 +22,30 @@
       },
       "revId": "a3ef189035a70f5e670ec915c812e5d95e8c8b43",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d76dc94f_8bf22024",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/MidxWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-04-13T21:20:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21287e29_32839380",
+      "range": {
+        "startLine": 104,
+        "startChar": 19,
+        "endLine": 104,
+        "endChar": 34
+      },
+      "revId": "a3ef189035a70f5e670ec915c812e5d95e8c8b43",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
