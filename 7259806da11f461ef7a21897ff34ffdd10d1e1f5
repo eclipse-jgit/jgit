@@ -3,6 +3,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fe75207e_3108e5da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2066,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-13T17:41:31Z",
+      "side": 1,
+      "message": "So I can load the mailmap only once, and if it changes later, there\u0027s no way to pick up those changes? Doesn\u0027t look very useful to me.\n\nCan we do away with caching the parsed mailmap here, and instead make sure we load it only once in the commands that need it? (Currently BlameResult will call getMailmap() once for each commit produced by the generator, so it relies on this caching here.)\n\nDoes this even belong into the Repository class? Perhaps having a factory method Mailmap.get(Repository repo) would be better?",
+      "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ea34e72_7bf553cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2105,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-13T17:41:31Z",
+      "side": 1,
+      "message": "[1] says\n\n\u003e The default mailmap, located in the root of the repository, is loaded first, then the mailmap file pointed to by this variable.\n\nApparently that means that entries from mailmap.file override the default mailmap if the \"old\" part is identical or more specific.\n\nIf I have multiple matching lines: if later lines have identical or more specific old parts, those later lines override an earlier line. If the earlier line\u0027s old part is more specific, the earlier line wins.\n\n\n[1] https://git-scm.com/docs/git-config#Documentation/git-config.txt-mailmapfile",
+      "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01fdd243_5e8a6fa3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/Mailmap.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-13T17:41:31Z",
+      "side": 1,
+      "message": "This always uses the first match. In my tests with C git later lines win if their old part is identical or more specific (name + e-mail vs. e-mail only).",
+      "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "75cfe8f4_48a1e53e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/Mailmap.java",
         "patchSetId": 3
@@ -14,6 +65,57 @@
       "writtenOn": "2026-04-13T16:27:12Z",
       "side": 1,
       "message": "Is this list-based algorithm the right choice for performance? Example of e.g. https://github.com/git/git/blob/master/.mailmap shows 300+ entries, which feels that turning this in something map-based might be better.",
+      "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b68ad19_c58773b5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/MailmapEntry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-13T17:41:31Z",
+      "side": 1,
+      "message": "I presume at least one of name or email _must_ be set, for both old and new. Enforce that here. (And if throwing in the constructor is problematic use a factory method.)\n\nCould this become a record?",
+      "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14c30c47_a413892a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/MailmapParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-13T17:41:31Z",
+      "side": 1,
+      "message": "Does this follow symlinks? (It should not, see [1].)\n\n[1] https://git-scm.com/docs/gitmailmap#_notes",
+      "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e39582d_e4d225ef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/MailmapParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-13T17:41:31Z",
+      "side": 1,
+      "message": "Can become a record.",
       "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
