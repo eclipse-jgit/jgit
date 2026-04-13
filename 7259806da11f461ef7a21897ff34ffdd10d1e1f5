@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75cfe8f4_48a1e53e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/Mailmap.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1039346
+      },
+      "writtenOn": "2026-04-13T16:27:12Z",
+      "side": 1,
+      "message": "Is this list-based algorithm the right choice for performance? Example of e.g. https://github.com/git/git/blob/master/.mailmap shows 300+ entries, which feels that turning this in something map-based might be better.",
+      "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
