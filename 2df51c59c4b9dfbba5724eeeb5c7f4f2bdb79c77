@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "094122c5_01b9d9c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-13T23:22:33Z",
+      "side": 1,
+      "message": "nit\n```suggestion\n2. Fix the non-parameterized version of writePackedRefs so it\n```",
+      "range": {
+        "startLine": 24,
+        "startChar": 40,
+        "endLine": 24,
+        "endChar": 56
+      },
+      "revId": "2df51c59c4b9dfbba5724eeeb5c7f4f2bdb79c77",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e2ad2b6a_d2303d6b",
@@ -20,6 +43,63 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "41a94ecb_5bc4bab4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-13T23:22:33Z",
+      "side": 1,
+      "message": "I assume these still need the \"doesn\u0027t need translation\" comments?\n\n```suggestion\n\t\tSORTED(\" sorted\"), //$NON-NLS-1$\n\t\t/** If in the header, denotes the file has peeled data for (refs/tags/...). */\n\t\tPEELED(\" peeled\"); //$NON-NLS-1$\n```",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 20
+      },
+      "revId": "2df51c59c4b9dfbba5724eeeb5c7f4f2bdb79c77",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02d00415_1b408a78",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-13T23:22:33Z",
+      "side": 1,
+      "message": "This is a misleading comment. We always have a new packed-refs file. I think you mean: \"If there\u0027s no existing packed-refs file\"? Or maybe focus on the content: \"If all packed-refs content is new\"?\n\n```suggestion\n\t\t\t\t\t\t// If all packed-refs content is new, start with all traits.\n```",
+      "revId": "2df51c59c4b9dfbba5724eeeb5c7f4f2bdb79c77",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23637b34_c6dcfca3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-13T23:22:33Z",
+      "side": 1,
+      "message": "Using `allOf` feels risky for future changes to `Trait`. I think you should be listing each trait explicitly.",
+      "revId": "2df51c59c4b9dfbba5724eeeb5c7f4f2bdb79c77",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fe32ff6f_9cb10302",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
         "patchSetId": 16
@@ -31,6 +111,40 @@
       "writtenOn": "2026-04-10T19:19:50Z",
       "side": 1,
       "message": "This might need a \"since\" tag?",
+      "revId": "2df51c59c4b9dfbba5724eeeb5c7f4f2bdb79c77",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d0c48d3_504c0b47",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-13T23:22:33Z",
+      "side": 1,
+      "message": "`RefDirectory.Trait` is internal, so I don\u0027t think we should use it in a public API signature. Probably easiest to fix by moving it out of internal, but... is it ever valid to not pass `SORTED` as a trait? The constructors for this class ensure the refs are always sorted. It\u0027s actually confusing for a caller like `org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/RebuildCommitGraph.java` to specify `SORTED` because there\u0027s nothing obvious in the caller doing the sorting.\n\nYou could rename this as `additionalTraits`, but then callers have to know or look up which traits are already included. You could also make it specific to `PEELED`, but that feels short-sighted (presumably we\u0027ll have `fully-peeled` too eventually?). Maybe someone else has an idea.\n\nIt\u0027s also strange that we\u0027re giving this information separately from the refs. Why not add it to the constructors or create a dedicated setter (`addTraits()`) for it? If you don\u0027t want to break the API, you could add duplicates of the constructors and deprecate the existing ones.",
+      "revId": "2df51c59c4b9dfbba5724eeeb5c7f4f2bdb79c77",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8317ff6c_9c069909",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkPushConnection.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-13T23:22:33Z",
+      "side": 1,
+      "message": "How do you know these refs are sorted and peeled? Glancing at the first case I found, `org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportSftp.java` seems to [add unpeeled refs](https://github.com/eclipse-jgit/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportSftp.java#L414).\n\n(I guess sorted is always done by RefWriter, so just consider this for peeled)",
       "revId": "2df51c59c4b9dfbba5724eeeb5c7f4f2bdb79c77",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
