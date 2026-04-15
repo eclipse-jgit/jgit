@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34e630bd_efdca4a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-15T19:24:40Z",
+      "side": 1,
+      "message": "needs to wait for approval by Eclipse IP team:\n- https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/27144\n- https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/27142",
+      "revId": "08ed181c134ec18c9f04521277510b51d1b85784",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
