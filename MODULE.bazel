@@ -23,7 +23,7 @@ git_repository(
     remote = "https://gerrit.googlesource.com/bazlets",
 )
 
-BOUNCYCASTLE_VERSION = "1.83"
+BOUNCYCASTLE_VERSION = "1.84"
 
 BYTE_BUDDY_VERSION = "1.18.8"
 
