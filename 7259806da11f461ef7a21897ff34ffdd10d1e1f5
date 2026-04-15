@@ -71,6 +71,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4a60770b_4f6625c4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/Mailmap.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1039346
+      },
+      "writtenOn": "2026-04-15T09:09:40Z",
+      "side": 1,
+      "message": "Could also address the point made here https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/154369/comment/01fdd243_5e8a6fa3/\nin that there is a hierarchy of matching - more specific (email+name) wins over less specific (email only)",
+      "parentUuid": "75cfe8f4_48a1e53e",
+      "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0b68ad19_c58773b5",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/MailmapEntry.java",
         "patchSetId": 3
