@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4de1b51c_17011e9f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityCheckerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-16T22:59:54Z",
+      "side": 1,
+      "message": "fixed order of imports",
+      "revId": "3770397396cccfade928dae12e3217e8e51c7d69",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4f9d1c4_e14d77fd",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityCheckerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-16T22:59:54Z",
+      "side": 1,
+      "message": "suppress boxing warnings",
+      "revId": "3770397396cccfade928dae12e3217e8e51c7d69",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29f551b9_1d58a231",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-16T22:59:54Z",
+      "side": 1,
+      "message": "fixed order of imports",
+      "revId": "3770397396cccfade928dae12e3217e8e51c7d69",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
