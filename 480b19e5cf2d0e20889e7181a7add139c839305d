@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "20e01a58_5a0a2556",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-04-16T05:47:02Z",
+      "side": 1,
+      "message": "This checker will only run successfully if PackParser.needNewObjectIds is true. I\u0027ll update this change when change 1235763 lands, which makes that method public.\n\nWhat is the best exception to throw if this precondition isn\u0027t met? IllegalStateException?",
+      "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a2fb89e8_f550e973",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityCheckerTest.java",
         "patchSetId": 2
@@ -31,6 +48,30 @@
       "writtenOn": "2026-04-13T18:04:46Z",
       "side": 1,
       "message": "LLC",
+      "range": {
+        "startLine": 2,
+        "startChar": 30,
+        "endLine": 2,
+        "endChar": 34
+      },
+      "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a807a71b_dd33f3c8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityCheckerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-04-16T05:47:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2fb89e8_f550e973",
       "range": {
         "startLine": 2,
         "startChar": 30,
@@ -64,6 +105,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c813c63c_4c8de9c9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityCheckerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-04-16T05:47:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa0e572a_f39625a3",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 48
+      },
+      "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5f3654e_c6528be3",
@@ -77,6 +142,24 @@
       "writtenOn": "2026-04-13T18:04:46Z",
       "side": 1,
       "message": "License header is missing",
+      "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f59d5d1_07fcc456",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-04-16T05:47:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5f3654e_c6528be3",
       "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -98,6 +181,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d7e9338_2a117371",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-04-16T05:47:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6983b67f_05c65f71",
+      "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b6a259a_a04300c5",
@@ -115,6 +216,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "999a66e4_8760b3e3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-04-16T05:47:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b6a259a_a04300c5",
+      "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f92d37c2_f79a1d60",
@@ -128,6 +247,24 @@
       "writtenOn": "2026-04-13T18:04:46Z",
       "side": 1,
       "message": "Optional: \"list of all new commits in the pack, regardless if advertised or not\"",
+      "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e59e5a4_3547803b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-04-16T05:47:02Z",
+      "side": 1,
+      "message": "Advertised refs will typically not be in the pack, unless there is a client error. Changed to \"list of new commits in the pack that require verification\"",
+      "parentUuid": "f92d37c2_f79a1d60",
       "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -155,6 +292,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2382005a_4150040f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-04-16T05:47:02Z",
+      "side": 1,
+      "message": "Yes, thanks for catching that! Fixed.",
+      "parentUuid": "4ea4e993_c006d3b8",
+      "range": {
+        "startLine": 247,
+        "startChar": 34,
+        "endLine": 247,
+        "endChar": 36
+      },
+      "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b238e8e7_dbe60509",
@@ -168,6 +329,24 @@
       "writtenOn": "2026-04-13T18:04:46Z",
       "side": 1,
       "message": "Optional: This is quite deep indentation. Maybe we could move the body of the for loop to its own method (\"verifyCommitTreeConnectivity\"?) to get at least one level less?",
+      "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba0d9097_2d1b45da",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/transport/connectivity/TreeWalkConnectivityChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-04-16T05:47:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b238e8e7_dbe60509",
       "revId": "480b19e5cf2d0e20889e7181a7add139c839305d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
