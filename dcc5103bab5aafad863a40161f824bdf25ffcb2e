@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60dc81bf_85f316f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-16T23:28:49Z",
+      "side": 1,
+      "message": "Instead of using a time based approach, I think it would be valuable to batch all requests while the packedrefs.lock cannot be obtained (i.e. while a write is underway). Then, as soon as the lock can be obtained, go ahead with the write of all the currently batched updates. This should still allow for just as good a batch throughput as a time based approach, but it would reduce the latency when there is no contention.",
+      "revId": "dcc5103bab5aafad863a40161f824bdf25ffcb2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
