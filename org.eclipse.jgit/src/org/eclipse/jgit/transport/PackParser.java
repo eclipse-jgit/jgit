@@ -254,7 +254,13 @@ public abstract class PackParser {
 			newObjectIds = null;
 	}
 
-	private boolean needNewObjectIds() {
+	/**
+	 * Whether the parser is configured to keep track of new objects.
+	 *
+	 * @return {@code true} if new objects are tracked, {@code false} otherwise.
+	 * @since 7.7
+	 */
+	public boolean needNewObjectIds() {
 		return newObjectIds != null;
 	}
 
