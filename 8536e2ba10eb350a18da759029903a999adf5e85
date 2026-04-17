@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ff4cf75_aece3b80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-17T17:35:32Z",
+      "side": 1,
+      "message": "I don\u0027t think this is really the intent \"traits to be included on the packed-refs file.\" of this arg (it is not being used that way). It should probably say something like \"traits applicable to refs\"?",
+      "revId": "8536e2ba10eb350a18da759029903a999adf5e85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73671df4_6e33a254",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-17T17:35:32Z",
+      "side": 1,
+      "message": "Pass through to a newer constructor? Try to layer constructors as much as possible to that fewest constructors (ideally only a single one) sets any individual field. This makes the code less fragile for maintenance.",
+      "revId": "8536e2ba10eb350a18da759029903a999adf5e85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac901f55_d336b8bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-17T17:35:32Z",
+      "side": 1,
+      "message": "\"Deprecated\" and \"since\" not needed if private. Can we name this so it is not potentially a lie, containsAnyPeeledRef()?",
+      "revId": "8536e2ba10eb350a18da759029903a999adf5e85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
