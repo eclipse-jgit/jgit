@@ -127,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "19c016cb_dc228bcb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackedRefsTrait.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-17T23:34:15Z",
+      "side": 1,
+      "message": "\u003e What I meant was that you have not defined all the possible known traits here, so currently no one can specify FULLY_PEELED if they have done that.\n\n+1",
+      "parentUuid": "94426454_2f275fbf",
+      "revId": "8536e2ba10eb350a18da759029903a999adf5e85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ff4cf75_aece3b80",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
         "patchSetId": 17
