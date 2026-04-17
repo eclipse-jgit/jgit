@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d9e47ddc_f49f507b",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/RebuildCommitGraph.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-17T17:52:16Z",
+      "side": 1,
+      "message": "I believe this will change the behavior of this command (similar for many other things)? If that is desirable, then we should mention this in the commit message. I wonder if it would make sense to split behavior changes for different commands/operations into separate changes so that the more obvious and desirable changes could get approved separately?",
+      "revId": "8536e2ba10eb350a18da759029903a999adf5e85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10580205_3e749f21",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackedRefsTrait.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-17T17:52:16Z",
+      "side": 1,
+      "message": "If we allow users to now specify traits, they probably should be able to specify all known traits?",
+      "revId": "8536e2ba10eb350a18da759029903a999adf5e85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ff4cf75_aece3b80",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
         "patchSetId": 17
