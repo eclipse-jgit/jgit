@@ -16,6 +16,24 @@
       "message": "RevCommitCG no longer exists?",
       "revId": "8dcbcf6c1171acf564751d61ba313ad35ba1f104",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7678c66e_3b0a38be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-04-18T10:50:28Z",
+      "side": 1,
+      "message": "Updated the comment",
+      "parentUuid": "3045b3b7_64ac4ad2",
+      "revId": "8dcbcf6c1171acf564751d61ba313ad35ba1f104",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
