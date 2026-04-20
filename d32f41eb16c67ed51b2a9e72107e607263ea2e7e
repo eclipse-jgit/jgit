@@ -269,6 +269,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5509d9d6_9e9ed38a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-20T22:24:12Z",
+      "side": 1,
+      "message": "Ah ok, I did read that, but I thought it meant something different based on how your paragraph ended 🙂\n\nWhile I agree with your high-level goal, this is an abstract class and I\u0027m not sure we can assume all reader/writer implementations have the same performance tradeoffs (though they all seem to be some kind of packed-refs file, so they probably do?).\n\nI\u0027d rather let callers opt-in to that behavior with helper methods. You could do that a few different ways, like adding per-trait helpers (e.g. `.sort()` that sorts the refs and adds `SORTED`) or an overall (static) helper that does some kind of \"apply all missing traits\" logic (e.g. `static createAndApplyMissingTraits(refs, existingTraits)` or `.applyMissingTraits()`).\n\nThat said... if you feel confident that either the writer has to do this work once or readers have to do it N\u003e\u003d1 times and that\u0027s true for any writers/readers, then I would be inclined to make writing an optimized file as \"default\" as possible. If we want to keep the flexibility for some implementation with special behavior, then maybe we add a reverse switch `.doNotApplyMissingTraits()` and we defer any optimizations until we\u0027re in `writePackedRefs()`?",
+      "parentUuid": "de4ba644_034d45bc",
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4f42a51e_236fb480",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
         "patchSetId": 19
