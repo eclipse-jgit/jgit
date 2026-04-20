@@ -16,6 +16,24 @@
       "message": "needs to wait for approval by Eclipse IP team:\n- https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/27144\n- https://gitlab.eclipse.org/eclipsefdn/emo-team/iplab/-/issues/27142",
       "revId": "08ed181c134ec18c9f04521277510b51d1b85784",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ffeea0a_e389e09a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-20T08:31:32Z",
+      "side": 1,
+      "message": "these library versions were approved by the IP team",
+      "parentUuid": "34e630bd_efdca4a5",
+      "revId": "08ed181c134ec18c9f04521277510b51d1b85784",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
