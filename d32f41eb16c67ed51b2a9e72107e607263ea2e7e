@@ -215,6 +215,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ebff1eb9_3615d975",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-20T21:46:07Z",
+      "side": 1,
+      "message": "I believe that our objective should be to write as many traits as jgit supports to ensure good performance. i.e. I see no reason to support not sorting currently, and soon in follow on changes, not peeling (or maybe that should even come in this change). In other words, the new APIs should do the right thing. The only reason to not do those in the old APIs is to avoid regressions from users of those APIs. In my opinion, specifying traits in the new constructors should not be a mechanism to add traits to the file, but rather a mechanism to tell this class what traits the refs already have so that this class can add them without computing them.",
+      "parentUuid": "a9b3f838_f181cb54",
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4f42a51e_236fb480",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
         "patchSetId": 19
