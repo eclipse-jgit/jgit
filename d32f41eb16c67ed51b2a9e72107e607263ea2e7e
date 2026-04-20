@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6da0ae81_a445eb95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-20T04:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d880b84b_1c80a754",
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5330b7fe_bc795b80",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-04-17T23:21:14Z",
       "side": 1,
       "message": "Is the `new` prefix solving an ambiguity problem? To me, in the context of this method, `traits` is clear enough (just like `refs` isn\u0027t `newRefs`).\n```suggestion\n\t\t\tfinal PackedRefList oldPackedList, boolean changed, EnumSet\u003cPackedRefsTrait\u003e traits)\n```",
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e16938f7_cd8f488e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 1168,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-20T04:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5330b7fe_bc795b80",
       "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -52,6 +88,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff99f980_1a31c8d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackedRefsTrait.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-20T04:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c3a5ed4_9d973436",
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9cf1e13_76c65c85",
@@ -65,6 +119,24 @@
       "writtenOn": "2026-04-17T23:21:14Z",
       "side": 1,
       "message": "Document that if SORTED isn\u0027t given, the refs will be sorted and the trait added. Unless you should be removing that extra magic too (probably by throwing an exception if SORTED isn\u0027t in the traits)? It makes for a simpler constructor and I\u0027m guessing this class just cares that `this.refs` is always sorted.",
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f9339ba_f891a283",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-20T04:09:00Z",
+      "side": 1,
+      "message": "Don\u0027t want to introduce regressions, since sorting was previously done preserving it in new constructor too. Modified doc.",
+      "parentUuid": "f9cf1e13_76c65c85",
       "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -92,6 +164,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "166ca647_3cdea3e2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-20T04:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f42a51e_236fb480",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 46
+      },
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fcd4584_5b0aafb7",
@@ -105,6 +201,24 @@
       "writtenOn": "2026-04-17T23:21:14Z",
       "side": 1,
       "message": "Interesting moving this check into the constructors. Overall I like it, but it does change the behavior for any caller that creates a RefWriter and for some reason doesn\u0027t call `writePackedRefs()`, as they\u0027ll now do this work up front. Do you know of any callers like that?",
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e88f4d6_5b153af9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-20T04:09:00Z",
+      "side": 1,
+      "message": "I haven\u0027t found any such caller. They need to implement the abstract `writeFile` method to have an instance of this class (kinda implies that they always write refs...).",
+      "parentUuid": "4fcd4584_5b0aafb7",
       "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -126,6 +240,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30b78187_2b9a0097",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-20T04:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d8e9dc8_3a8fa23d",
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aad05edb_3fef5289",
@@ -139,6 +271,30 @@
       "writtenOn": "2026-04-17T23:21:14Z",
       "side": 1,
       "message": "Automatically add the sorted trait if `refs` is a `RefMap` instance? Or are you dropping that behavior on purpose?\n```suggestion\n\t\tthis.traits \u003d traits.clone();\n\n\t\tif (refs instanceof RefMap) {\n\t\t\tthis.refs \u003d refs.values();\n\t\t\tthis.traits.add(PackedRefsTrait.SORTED);\n\t\t} else if (!traits.contains(PackedRefsTrait.SORTED)) {\n\t\t\tthis.refs \u003d RefComparator.sort(refs.values());\n\t\t\tthis.traits.add(PackedRefsTrait.SORTED);\n\t\t} else {\n\t\t\tthis.refs \u003d refs.values();\n\t\t}\n```",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 3
+      },
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60b5979f_c20754ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-20T04:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aad05edb_3fef5289",
       "range": {
         "startLine": 88,
         "startChar": 0,
@@ -172,6 +328,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "121a08a3_175c83e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-20T04:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "249fd8a6_1cfe946e",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 3
+      },
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94276c6e_b14af266",
@@ -185,6 +365,30 @@
       "writtenOn": "2026-04-17T23:21:14Z",
       "side": 1,
       "message": "You can at least layer with the new RefList constructor like this:\n```suggestion\n\t\tthis(refs, EnumSet.noneOf(PackedRefsTrait.class);\n```",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 51
+      },
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9f0b854_fe64f0c1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-20T04:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94276c6e_b14af266",
       "range": {
         "startLine": 141,
         "startChar": 0,

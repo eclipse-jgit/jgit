@@ -143,6 +143,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a6030f7_e29dd729",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackedRefsTrait.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-20T04:09:00Z",
+      "side": 1,
+      "message": "Done, but I don\u0027t think it should be scope of this change.",
+      "parentUuid": "19c016cb_dc228bcb",
+      "revId": "8536e2ba10eb350a18da759029903a999adf5e85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ff4cf75_aece3b80",
@@ -227,6 +245,24 @@
       "side": 1,
       "message": "You can do it (for all the Deprecated constructors I think), see above and below. I agree that because of Java rules you can\u0027t get down to a single constructor (if we really want that level of sharing, we should switch to static `create()` methods).",
       "parentUuid": "bf956f55_983ac8d4",
+      "revId": "8536e2ba10eb350a18da759029903a999adf5e85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b9b31be_a884b05e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-20T04:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5026c1db_e822a6c4",
       "revId": "8536e2ba10eb350a18da759029903a999adf5e85",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
