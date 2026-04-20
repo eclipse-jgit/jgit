@@ -305,6 +305,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "74f84be7_73f80608",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-20T23:05:09Z",
+      "side": 1,
+      "message": "\u003e Hmm, interesting point about the RefWriter being abstract. Although the name does not imply it, the comments for the class do imply that this is a packed-refs file format. That implication tells us that this trait behavior is appropriate for all subclasses? i.e. subclasses just write to the network potentially instead of a file, but subclasses will not be reftables implementations?\n\nYes. As also discussed in Discord [1], let\u0027s create a new `PackedRefsWriter` class that makes it clear what format is being written. We can put these opinionated optimizations there and deprecate this existing `RefWriter` class.\n\n[1] https://discord.com/channels/775374026587373568/1495903396077768784",
+      "parentUuid": "2d1fbe17_e2c05f9d",
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4f42a51e_236fb480",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
         "patchSetId": 19
