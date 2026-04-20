@@ -143,6 +143,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2a50debf_ea802a55",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-20T19:49:14Z",
+      "side": 1,
+      "message": "Thanks for updating the docs.\n\n\u003e Don\u0027t want to introduce regressions, since sorting was previously done preserving it in new constructor too.\n\nI\u0027m still not 100% sold on that. It\u0027s a new constructor that intentionally has different behavior for traits. Why keep `SORTED` special? If you want a helper so that callers don\u0027t have to do the sorting themselves, you could add that as a static method `createFromUnsorted(Collection\u003cRef\u003e refs, EnumSet\u003cPackedRefsTrait\u003e traits)`, but calling that instead of doing `new RefWriter(RefComparator.sort(myRefs), EnumSet.of(PackedRefsTrait.SORTED))` seems a little silly. I think we\u0027re more likely to sort twice by accident if we always try to sort in the constructor (and that\u0027s at least O(n) runtime cost + extra memory used for the list copy).",
+      "parentUuid": "4f9339ba_f891a283",
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4f42a51e_236fb480",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
         "patchSetId": 19
@@ -219,6 +237,24 @@
       "side": 1,
       "message": "I haven\u0027t found any such caller. They need to implement the abstract `writeFile` method to have an instance of this class (kinda implies that they always write refs...).",
       "parentUuid": "4fcd4584_5b0aafb7",
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1da8b39_fd340eb2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-20T19:49:14Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "5e88f4d6_5b153af9",
       "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },

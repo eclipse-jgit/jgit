@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd4df414_a4c2a411",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-20T19:49:14Z",
+      "side": 1,
+      "message": "I realized you can simplify all of these checks for SORTED:\n```suggestion\n\t\tif (this.traits.add(PackedRefsTrait.SORTED)) {\n\t\t\tthis.refs \u003d RefComparator.sort(refs);\n```",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 43
+      },
+      "revId": "21c34e7d75458053a52344265bbc7cbff7706185",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3b898ad_e51d0eb2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-20T19:49:14Z",
+      "side": 1,
+      "message": "Formatting looks wrong on this line?\n```suggestion\n\t *            absent, sorting is performed and trait is added.\n```",
+      "revId": "21c34e7d75458053a52344265bbc7cbff7706185",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87d09c51_b4887207",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-20T19:49:14Z",
+      "side": 1,
+      "message": "Same as above\n```suggestion\n\t\t} else if (this.traits.add(PackedRefsTrait.SORTED)) {\n\t\t\tthis.refs \u003d RefComparator.sort(refs.values());\n```",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 43
+      },
+      "revId": "21c34e7d75458053a52344265bbc7cbff7706185",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f748a1b_189835b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-20T19:49:14Z",
+      "side": 1,
+      "message": "```suggestion\n\t *            traits that are applicable to the refs. If SORTED trait is\n\t *            absent, the trait is added as RefList is always sorted.\n```",
+      "revId": "21c34e7d75458053a52344265bbc7cbff7706185",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
