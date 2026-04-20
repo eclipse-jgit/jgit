@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.zip.DataFormatException;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.internal.storage.midx.MidxMetadataReader;
@@ -182,6 +183,7 @@ public class PackMidx extends Pack {
 	}
 
 	@Override
+	@Nullable
 	ObjectLoader get(WindowCursor curs, AnyObjectId id) throws IOException {
 		MultiPackIndex.PackOffset packOffset = getMidx().find(id);
 		if (packOffset == null) {
@@ -336,6 +338,7 @@ public class PackMidx extends Pack {
 	}
 
 	@Override
+	@Nullable
 	LocalObjectRepresentation representation(WindowCursor curs,
 			AnyObjectId objectId) throws IOException {
 		MultiPackIndex.PackOffset po = getMidx().find(objectId);
@@ -400,6 +403,7 @@ public class PackMidx extends Pack {
 			return accSizes[packId] + offset;
 		}
 
+		@Nullable
 		MultiPackIndex.PackOffset decode(long totalOffset) {
 			if (totalOffset < 0) {
 				return null;
