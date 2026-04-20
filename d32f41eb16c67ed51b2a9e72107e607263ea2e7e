@@ -161,6 +161,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "326bbf26_e70b344f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-20T20:36:13Z",
+      "side": 1,
+      "message": "I was talking about the performance of the reads that would happen after `RefWriter` committing the packed-refs (previously all writes were sorted).",
+      "parentUuid": "2a50debf_ea802a55",
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4f42a51e_236fb480",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
         "patchSetId": 19
