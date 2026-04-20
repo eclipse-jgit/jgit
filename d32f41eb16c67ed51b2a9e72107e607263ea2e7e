@@ -251,6 +251,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "de4ba644_034d45bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-20T21:53:32Z",
+      "side": 1,
+      "message": "Well that part is true, but that missed my point about \"our objective should be to write as many traits as jgit supports to ensure good performance\". Since we jgit currently knows how to sort, it ensure that refs are always sorted. That means sorting refs when the trait is not passed in so that it can safely add it. In a follow on change (or perhaps in this one if we don\u0027t want to change future behavior of the new methods), the new methods should also add peeled and fully-peeled whether they are passe in or not (computing them if not passed in).",
+      "parentUuid": "6cb6ffde_c508fbab",
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4f42a51e_236fb480",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
         "patchSetId": 19
