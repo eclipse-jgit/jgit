@@ -233,6 +233,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6cb6ffde_c508fbab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-20T21:49:41Z",
+      "side": 1,
+      "message": "\u003e rather a mechanism to tell this class what traits the refs already have so that this class can add them without computing them.\n\nThat\u0027s exactly how it works in the latest patchset (including not peeling). The question was if we think it\u0027s \"wrong\" to not sort and use RefWriter. Sounds like you think no (i.e. allow it and don\u0027t log anything).",
+      "parentUuid": "ebff1eb9_3615d975",
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4f42a51e_236fb480",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
         "patchSetId": 19
