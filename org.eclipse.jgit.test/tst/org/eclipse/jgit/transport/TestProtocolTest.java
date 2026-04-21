@@ -27,6 +27,7 @@ import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.pack.PackStatistics;
@@ -109,6 +110,44 @@ public class TestProtocolTest {
 					.call();
 			assertEquals(master,
 					local.getRepository().exactRef("refs/heads/master").getObjectId());
+		}
+	}
+
+	@Test
+	public void fetchReportsLockFailureWhenDestinationRefChanges()
+			throws Exception {
+		RevCommit oldLocal = local.branch("localfoo").commit()
+				.add("local.txt", "old").create();
+		RevCommit newLocal = local.commit().parent(oldLocal)
+				.add("local.txt", "new").create();
+		ObjectId remoteFoo = remote.branch("remotefoo").commit()
+				.add("remote.txt", "remote").create();
+
+		TestProtocol<User> proto = registerProto((User req, Repository db) -> {
+			try {
+				local.update("localfoo", newLocal);
+			} catch (Exception e) {
+				throw new AssertionError("Cannot update local ref", e);
+			}
+			return new UploadPack(db);
+		}, new DefaultReceive());
+		URIish uri = proto.register(new User("user"), remote.getRepository());
+
+		try (Git git = new Git(local.getRepository())) {
+			FetchResult result = git.fetch().setRemote(uri.toString())
+					.setRefSpecs(new RefSpec(
+							"+refs/heads/remotefoo:refs/heads/localfoo"))
+					.call();
+
+			TrackingRefUpdate update = result
+					.getTrackingRefUpdate("refs/heads/localfoo");
+			assertEquals(RefUpdate.Result.LOCK_FAILURE, update.getResult());
+			// Ref hasn't been clobbered...
+			assertEquals(newLocal, local.getRepository()
+					.exactRef("refs/heads/localfoo").getObjectId());
+			// ...however the object has been downloaded
+			assertTrue(
+					local.getRepository().getObjectDatabase().has(remoteFoo));
 		}
 	}
 
