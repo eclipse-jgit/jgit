@@ -1108,7 +1108,7 @@ public class ReceivePack {
 	 *         that define the client's shallow boundary. Empty set if the
 	 *         client is earlier than Git 1.9, or is a full clone.
 	 */
-	private Set<ObjectId> getClientShallowCommits() {
+	protected Set<ObjectId> getClientShallowCommits() {
 		return clientShallowCommits;
 	}
 
