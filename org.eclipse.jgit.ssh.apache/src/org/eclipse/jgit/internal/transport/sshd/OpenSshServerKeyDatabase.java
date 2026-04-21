@@ -210,10 +210,26 @@ public class OpenSshServerKeyDatabase
 			@NonNull Configuration config, CredentialsProvider provider) {
 		List<HostKeyFile> filesToUse = getFilesToUse(config);
 		AskUser ask = new AskUser(config, provider);
-		HostEntryPair[] modified = { null };
-		Path path = null;
 		Collection<SshdSocketAddress> candidates = getCandidates(connectAddress,
 				remoteAddress);
+		if (acceptKey(remoteAddress, candidates, serverKey, filesToUse, config,
+				ask)) {
+			if (serverKey instanceof OpenSshCertificate certificate) {
+				if (isRevoked(remoteAddress, candidates, filesToUse,
+						certificate.getCertPubKey(), ask)) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+	private boolean acceptKey(InetSocketAddress remoteAddress,
+			Collection<SshdSocketAddress> candidates, PublicKey serverKey,
+			List<HostKeyFile> filesToUse, Configuration config, AskUser ask) {
+		HostEntryPair[] modified = { null };
+		Path path = null;
 		for (HostKeyFile file : filesToUse) {
 			HostEntryPair lastModified = modified[0];
 			try {
@@ -285,7 +301,26 @@ public class OpenSshServerKeyDatabase
 		return MARKER_CA.equals(entry.getMarker());
 	}
 
-	private boolean find(Collection<SshdSocketAddress> candidates,
+	private static boolean isRevoked(InetSocketAddress remoteAddress,
+			Collection<SshdSocketAddress> candidates,
+			List<HostKeyFile> filesToUse, PublicKey serverKey, AskUser ask) {
+		HostEntryPair[] dummy = { null };
+		for (HostKeyFile file : filesToUse) {
+			try {
+				if (find(candidates, serverKey, file.get(), dummy)) {
+					// It's definitely not revoked.
+					return false;
+				}
+			} catch (RevokedKeyException e) {
+				ask.revokedKey(remoteAddress, serverKey, file.getPath());
+				return true;
+			}
+		}
+		// Not found, so it is not revoked
+		return false;
+	}
+
+	private static boolean find(Collection<SshdSocketAddress> candidates,
 			PublicKey serverKey, List<HostEntryPair> entries,
 			HostEntryPair[] modified) throws RevokedKeyException {
 		PublicKey keyToCheck = serverKey;
