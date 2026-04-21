@@ -139,6 +139,11 @@ class FetchProcess {
 		final TagOpt tagopt = transport.getTagOpt();
 		String getTags = (tagopt == TagOpt.NO_TAGS) ? null : Constants.R_TAGS;
 		String getHead = null;
+		// Snapshot local refs before opening the fetch connection. Tracking
+		// updates use this as their expected-old-id baseline, so concurrent
+		// local ref changes are reported as lock failures instead of being
+		// overwritten.
+		localRefs();
 		try {
 			// If we don't have a HEAD yet, we're cloning and need to get the
 			// upstream HEAD, too.
