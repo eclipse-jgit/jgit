@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "768884de_0c8650d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-04-21T22:57:00Z",
+      "side": 1,
+      "message": "I wonder if I should just let the hook modify the pack list... Glad to hear opinions.",
+      "revId": "ebf860ed6e100c360e98ce7fbc7dda6e8051f88b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
