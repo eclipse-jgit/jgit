@@ -677,7 +677,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 *            pack description
 	 * @return the dfs packfile
 	 */
-	protected DfsPackFile createDfsPackFile(DfsBlockCache cache,
+	public DfsPackFile createDfsPackFile(DfsBlockCache cache,
 			DfsPackDescription dsc) {
 		return new DfsPackFile(cache, dsc);
 	}
