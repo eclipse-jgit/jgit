@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.Nullable;
 
@@ -207,6 +208,151 @@ public final class MidxPackList {
 		// because this midx could be the middle in a chain.
 		return getAllPlainPacks().stream().filter(p -> !covered.contains(p))
 				.toList();
+	}
+
+	/**
+	 * Get a builder to add/remove packs from the list
+	 *
+	 * @return the builder
+	 */
+	public Builder edit() {
+		return new Builder(packs);
+	}
+
+	/**
+	 * Builder to mutate the list of packs.
+	 *
+	 * It removes midxs from the list as packs are removed, to offer a valid
+	 * view of the packlist
+	 */
+	public static class Builder {
+
+		private final List<DfsPackFile> packList;
+
+		private Builder(List<DfsPackFile> packs) {
+			this.packList = new ArrayList<>(packs);
+		}
+
+		/**
+		 * Add pack to the packlist
+		 *
+		 * @param toAdd
+		 *            pack to add
+		 * @return this builder
+		 */
+		public Builder add(DfsPackFile toAdd) {
+			packList.add(toAdd);
+			return this;
+		}
+
+		/**
+		 * Delete the pack from the pack list
+		 *
+		 * Including any midx covering it directly or indirectly
+		 *
+		 * @param toDelete
+		 *            a pack to remove from the list
+		 * @return this builder
+		 */
+		public Builder delete(DfsPackFile toDelete) {
+			// Check first top-level packs. In compact these are the most
+			// common packages being replaced.
+			DfsPackDescription toDeleteDesc = toDelete.getPackDescription();
+			for (int i = 0; i < packList.size(); i++) {
+				if (packList.get(i).getPackDescription().equals(toDeleteDesc)) {
+					packList.remove(i);
+					return this;
+				}
+			}
+
+			// The pack if not "top-level", maybe it is covered by midx.
+			// We need to remove the pack, its covering midxs, and let the other
+			// covered packs in their place.
+			// e.g. in the chain midx3(E, F) -> midx2 (C, D), -> midx(A, B),
+			// deleting C from midx3 produces: [F, E, D, midx(A, B)]
+			for (int i = packList.size() - 1; i >= 0; i--) {
+				if (!packList.get(i).getPackDescription()
+						.hasFileExt(MULTI_PACK_INDEX)) {
+					continue;
+				}
+
+				DfsPackFileMidx midx = (DfsPackFileMidx) packList.get(i);
+				if (!containsAny(midx.getAllCoveredPacks(),
+						List.of(toDelete))) {
+					continue;
+				}
+
+				List<DfsPackFile> unraveled = unravelMidxWithout(midx,
+						toDelete);
+				if (unraveled != null) {
+					packList.remove(i);
+					if (!unraveled.isEmpty()) {
+						packList.addAll(i, unraveled);
+					}
+				}
+			}
+
+			return this;
+		}
+
+		/**
+		 * Return the list of packs that replace a midx if we remove a pack
+		 *
+		 * When the pack is removed, any midx covering it (and above in the
+		 * chain) is invalid. Each invalid midx is replaced with its covered
+		 * packs (excluding the deleted pack)
+		 * 
+		 * @param midx
+		 *            the midx
+		 * @param toDelete
+		 *            the pack to remove
+		 * @return the resulting list of packs after removing the pack. It can
+		 *         be null (nothing to change), empty (replace with nothing,
+		 *         i.e. delete the midx) pr a list of packs
+		 */
+		@Nullable
+		private List<DfsPackFile> unravelMidxWithout(DfsPackFileMidx midx,
+				DfsPackFile toDelete) {
+			List<DfsPackFile> result = new ArrayList<>();
+			DfsPackFileMidx current = midx;
+			while (current != null) {
+				if (containsAny(current.getCoveredPacks(), List.of(toDelete))) {
+					List<DfsPackFile> otherCovered = current.getCoveredPacks()
+							.stream()
+							.filter(coveredPack -> !coveredPack
+									.getPackDescription()
+									.equals(toDelete.getPackDescription()))
+							.collect(Collectors.toCollection(ArrayList::new));
+					Collections.reverse(otherCovered);
+					result.addAll(otherCovered);
+					if (current.getMultipackIndexBase() != null) {
+						result.add(current.getMultipackIndexBase());
+					}
+					return result;
+				}
+
+				// The deleted pack must be in the base of this midx. It will
+				// invalidate this one,
+				// so add already all its covered packs.
+				List<DfsPackFile> tmp = new ArrayList<>(
+						current.getCoveredPacks());
+				Collections.reverse(tmp);
+				result.addAll(tmp);
+				current = current.getMultipackIndexBase();
+			}
+
+			// We didn't find the pack to delete in this midx chain
+			return null;
+		}
+
+		/**
+		 * Create a new pack list with the modifications
+		 *
+		 * @return a new packlist with the changes applied
+		 */
+		public MidxPackList build() {
+			return new MidxPackList(packList);
+		}
 	}
 
 	private static boolean containsAny(List<DfsPackFile> inMidx,
