@@ -311,6 +311,156 @@ public class MidxPackListTest {
 		assertEquals(List.of(), packList.getPlainPacksNotCoveredBy(midxTip));
 	}
 
+	@Test
+	public void builder_delete_onlyPlain() {
+		DfsPackFile a = packPool.pack("a");
+		DfsPackFile b = packPool.pack("b");
+		DfsPackFile c = packPool.pack("c");
+
+		MidxPackList packList = MidxPackList.create(a, b, c).edit().delete(b)
+				.build();
+		assertEquals(List.of(a, c), packList.getAllPlainPacks());
+	}
+
+	@Test
+	public void builder_delete_oneMidxCovering() {
+		DfsPackFile a = packPool.pack("a");
+		DfsPackFile b = packPool.pack("b");
+		DfsPackFile c = packPool.pack("c");
+		DfsPackFileMidx midx = packPool.midx("midx", null, "a", "b", "c");
+
+		MidxPackList packList = MidxPackList.create(midx).edit().delete(b)
+				.build();
+		assertEquals(List.of(c, a), packList.getAllPlainPacks());
+		assertEquals(0, packList.getAllMidxPacks().size());
+	}
+
+	@Test
+	public void builder_delete_singlePackMidx() {
+		DfsPackFile a = packPool.pack("a");
+		DfsPackFileMidx midx = packPool.midx("midx", null, "a");
+
+		MidxPackList packList = MidxPackList.create(midx).edit().delete(a)
+				.build();
+		assertEquals(List.of(), packList.getAllPlainPacks());
+		assertEquals(0, packList.getAllMidxPacks().size());
+	}
+
+	@Test
+	public void builder_delete_midxPlusOne_deleteUncovered() {
+		DfsPackFile a = packPool.pack("a");
+		DfsPackFile b = packPool.pack("b");
+		DfsPackFile c = packPool.pack("c");
+		DfsPackFileMidx midx = packPool.midx("midx", null, "a", "b", "c");
+		DfsPackFile d = packPool.pack("d");
+
+		MidxPackList deleteD = MidxPackList.create(d, midx).edit().delete(d)
+				.build();
+		assertEquals(List.of(c, b, a), deleteD.getAllPlainPacks());
+		assertEquals(midx, deleteD.getTopMidxPack());
+	}
+
+	@Test
+	public void builder_delete_midxPlusOne_deleteCovered() {
+		DfsPackFile a = packPool.pack("a");
+		DfsPackFile b = packPool.pack("b");
+		DfsPackFile c = packPool.pack("c");
+		DfsPackFileMidx midx = packPool.midx("midx", null, "a", "b", "c");
+		DfsPackFile d = packPool.pack("d");
+
+		MidxPackList deleteB = MidxPackList.create(d, midx).edit().delete(b)
+				.build();
+		assertEquals(List.of(d, c, a), deleteB.getAllPlainPacks());
+		assertEquals(0, deleteB.getAllMidxPacks().size());
+	}
+
+	@Test
+	public void builder_delete_nestedMidx() {
+		DfsPackFile a = packPool.pack("a");
+		DfsPackFile b = packPool.pack("b");
+		DfsPackFileMidx midxBase = packPool.midx("midxBase", null, "a", "b");
+		DfsPackFile c = packPool.pack("c");
+		DfsPackFile d = packPool.pack("d");
+		DfsPackFileMidx midxMiddle = packPool.midx("midxMiddle", midxBase, "c",
+				"d");
+		DfsPackFile e = packPool.pack("e");
+		DfsPackFile f = packPool.pack("f");
+		DfsPackFileMidx midxTip = packPool.midx("midxTip", midxMiddle, "e",
+				"f");
+
+		MidxPackList withoutF = MidxPackList.create(midxTip).edit().delete(f)
+				.build();
+		assertEquals(List.of(e, d, c, b, a), withoutF.getAllPlainPacks());
+		assertEquals(List.of(midxMiddle, midxBase), withoutF.getAllMidxPacks());
+		assertEquals(midxMiddle, withoutF.getTopMidxPack());
+
+		MidxPackList withoutE = MidxPackList.create(midxTip).edit().delete(e)
+				.build();
+		assertEquals(List.of(f, d, c, b, a), withoutE.getAllPlainPacks());
+		assertEquals(List.of(midxMiddle, midxBase), withoutE.getAllMidxPacks());
+		assertEquals(midxMiddle, withoutE.getTopMidxPack());
+		assertEquals(Set.of(), withoutE.findAllCoveringMidxs(f));
+		assertEquals(Set.of(midxMiddle, midxBase),
+				withoutE.findAllCoveringMidxs(a));
+
+		MidxPackList withoutD = MidxPackList.create(midxTip).edit().delete(d)
+				.build();
+		assertEquals(List.of(f, e, c, b, a), withoutD.getAllPlainPacks());
+		assertEquals(List.of(midxBase), withoutD.getAllMidxPacks());
+		assertEquals(midxBase, withoutD.getTopMidxPack());
+
+		MidxPackList withoutC = MidxPackList.create(midxTip).edit().delete(c)
+				.build();
+		assertEquals(List.of(f, e, d, b, a), withoutC.getAllPlainPacks());
+		assertEquals(List.of(midxBase), withoutC.getAllMidxPacks());
+		assertEquals(midxBase, withoutC.getTopMidxPack());
+		assertEquals(Set.of(), withoutC.findAllCoveringMidxs(f, e, d, c));
+		assertEquals(Set.of(midxBase), withoutC.findAllCoveringMidxs(a));
+
+		MidxPackList withoutB = MidxPackList.create(midxTip).edit().delete(b)
+				.build();
+		assertEquals(List.of(f, e, d, c, a), withoutB.getAllPlainPacks());
+		assertEquals(List.of(), withoutB.getAllMidxPacks());
+		assertEquals(null, withoutB.getTopMidxPack());
+
+		MidxPackList withoutA = MidxPackList.create(midxTip).edit().delete(a)
+				.build();
+		assertEquals(List.of(f, e, d, c, b), withoutA.getAllPlainPacks());
+		assertEquals(List.of(), withoutA.getAllMidxPacks());
+		assertEquals(null, withoutA.getTopMidxPack());
+		assertEquals(Set.of(), withoutA.findAllCoveringMidxs(f, e, d, c, b));
+	}
+
+	@Test
+	public void builder_delete_nestedMidx_multipleDeletes() throws Exception {
+		DfsPackFile a = packPool.pack("a");
+		DfsPackFile b = packPool.pack("b");
+		DfsPackFileMidx midxBase = packPool.midx("midxBase", null, "a", "b");
+		DfsPackFile c = packPool.pack("c");
+		DfsPackFile d = packPool.pack("d");
+		DfsPackFileMidx midxMiddle = packPool.midx("midxMiddle", midxBase, "c",
+				"d");
+		DfsPackFile e = packPool.pack("e");
+		DfsPackFile f = packPool.pack("f");
+		DfsPackFileMidx midxTip = packPool.midx("midxTip", midxMiddle, "e",
+				"f");
+
+		MidxPackList deleteFromTopAndMiddle = MidxPackList.create(midxTip)
+				.edit().delete(e).delete(d).build();
+		assertEquals(List.of(f, c, b, a),
+				deleteFromTopAndMiddle.getAllPlainPacks());
+		assertEquals(List.of(midxBase),
+				deleteFromTopAndMiddle.getAllMidxPacks());
+		assertEquals(midxBase, deleteFromTopAndMiddle.getTopMidxPack());
+
+		MidxPackList deleteFromMiddleAndTop = MidxPackList.create(midxTip)
+				.edit().delete(d).delete(e).build();
+		assertEquals(List.of(f, c, b, a),
+				deleteFromMiddleAndTop.getAllPlainPacks());
+		assertEquals(List.of(midxBase),
+				deleteFromMiddleAndTop.getAllMidxPacks());
+		assertEquals(midxBase, deleteFromMiddleAndTop.getTopMidxPack());
+	}
 
 	private static final class PackPool {
 		private static final DfsRepositoryDescription repoDesc = new DfsRepositoryDescription(
