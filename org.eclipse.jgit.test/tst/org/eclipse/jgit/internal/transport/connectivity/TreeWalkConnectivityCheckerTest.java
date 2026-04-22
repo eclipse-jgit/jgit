@@ -40,6 +40,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.TreeFormatter;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ConnectivityChecker.ConnectivityCheckInfo;
 import org.eclipse.jgit.transport.PackParser;
@@ -517,7 +518,71 @@ public class TreeWalkConnectivityCheckerTest {
 		info.setCommands(Collections.singletonList(new ReceiveCommand(
 				ObjectId.zeroId(), newCommit.getId(), "refs/heads/master")));
 		mockNewPackObjects(newCommit, newCommit.getTree());
+
 		runCheckAndAssertCount(5);
+	}
+
+	@Test
+	public void testCheckReachabilityWithBlobInHaves() throws Exception {
+		RevCommit base = tr.commit().create();
+		haves.add(base.getId());
+
+		RevBlob blob = tr.blob("blob content");
+		haves.add(blob.getId());
+
+		RevCommit newCommit = tr.commit().parent(base).create();
+
+		setupSingleReceiveCommand(ObjectId.zeroId(), newCommit.getId());
+		mockNewPackObjects(newCommit, newCommit.getTree());
+
+		runCheckAndAssertCount(4);
+	}
+
+	@Test
+	public void testCheckReachabilityWithAnnotatedTagInHaves()
+			throws Exception {
+		RevCommit base = tr.commit().create();
+
+		RevTag tag = tr.tag("my-tag", base);
+		haves.add(tag.getId());
+
+		RevCommit newCommit = tr.commit().parent(base).create();
+
+		setupSingleReceiveCommand(ObjectId.zeroId(), newCommit.getId());
+		mockNewPackObjects(newCommit, newCommit.getTree());
+
+		runCheckAndAssertCount(5);
+	}
+
+	@Test
+	public void testCheckReachabilityWithBlobInRefs() throws Exception {
+		RevCommit base = tr.commit().create();
+		haves.add(base.getId());
+
+		RevBlob blob = tr.blob("blob content");
+		tr.update("refs/tags/my-blob", blob);
+
+		RevCommit newCommit = tr.commit().parent(base).create();
+
+		setupSingleReceiveCommand(ObjectId.zeroId(), newCommit.getId());
+		mockNewPackObjects(newCommit, newCommit.getTree());
+
+		runCheckAndAssertCount(4);
+	}
+
+	@Test
+	public void testCheckReachabilityWithAnnotatedTagInRefs() throws Exception {
+		RevCommit base = tr.commit().create();
+
+		RevTag tag = tr.tag("my-tag", base);
+		tr.update("refs/tags/my-tag", tag);
+
+		RevCommit newCommit = tr.commit().parent(base).create();
+
+		setupSingleReceiveCommand(ObjectId.zeroId(), newCommit.getId());
+		mockNewPackObjects(newCommit, newCommit.getTree());
+
+		runCheckAndAssertCount(4);
 	}
 
 	@Test
@@ -583,6 +648,98 @@ public class TreeWalkConnectivityCheckerTest {
 
 		RevBlob baseBlob = tr.blob("base blob content");
 		haves.add(baseBlob.getId());
+
+		RevCommit newCommit = tr.commit().parent(base).create();
+
+		setupSingleReceiveCommand(base.getId(), newCommit.getId());
+		mockNewPackObjects(newCommit, newCommit.getTree());
+
+		ObjectIdSubclassMap<ObjectId> baseObjectIds = new ObjectIdSubclassMap<>();
+		baseObjectIds.add(baseBlob.getId());
+		when(parser.getBaseObjectIds()).thenReturn(baseObjectIds);
+		info.setCheckObjects(true);
+
+		runCheckAndAssertCount(4);
+	}
+
+	@Test
+	public void testThinPackWithBlobInHaves() throws Exception {
+		RevCommit base = tr.commit().create();
+		haves.add(base.getId());
+
+		RevBlob baseBlob = tr.blob("base blob content");
+
+		RevBlob unrelatedBlob = tr.blob("unrelated blob content");
+		haves.add(unrelatedBlob.getId());
+
+		RevCommit newCommit = tr.commit().parent(base).create();
+
+		setupSingleReceiveCommand(base.getId(), newCommit.getId());
+		mockNewPackObjects(newCommit, newCommit.getTree());
+
+		ObjectIdSubclassMap<ObjectId> baseObjectIds = new ObjectIdSubclassMap<>();
+		baseObjectIds.add(baseBlob.getId());
+		when(parser.getBaseObjectIds()).thenReturn(baseObjectIds);
+		info.setCheckObjects(true);
+
+		runCheckAndAssertCount(4);
+	}
+
+	@Test
+	public void testThinPackWithSignedTagInHaves() throws Exception {
+		RevCommit base = tr.commit().create();
+		haves.add(base.getId());
+
+		RevBlob baseBlob = tr.blob("base blob content");
+
+		RevTag tag = tr.tag("my-tag", base);
+		haves.add(tag.getId());
+
+		RevCommit newCommit = tr.commit().parent(base).create();
+
+		setupSingleReceiveCommand(base.getId(), newCommit.getId());
+		mockNewPackObjects(newCommit, newCommit.getTree());
+
+		ObjectIdSubclassMap<ObjectId> baseObjectIds = new ObjectIdSubclassMap<>();
+		baseObjectIds.add(baseBlob.getId());
+		when(parser.getBaseObjectIds()).thenReturn(baseObjectIds);
+		info.setCheckObjects(true);
+
+		runCheckAndAssertCount(4);
+	}
+
+	@Test
+	public void testThinPackWithBlobInRefs() throws Exception {
+		RevCommit base = tr.commit().create();
+		haves.add(base.getId());
+
+		RevBlob baseBlob = tr.blob("base blob content");
+
+		RevBlob unrelatedBlob = tr.blob("unrelated blob content");
+		tr.update("refs/tags/my-blob", unrelatedBlob);
+
+		RevCommit newCommit = tr.commit().parent(base).create();
+
+		setupSingleReceiveCommand(base.getId(), newCommit.getId());
+		mockNewPackObjects(newCommit, newCommit.getTree());
+
+		ObjectIdSubclassMap<ObjectId> baseObjectIds = new ObjectIdSubclassMap<>();
+		baseObjectIds.add(baseBlob.getId());
+		when(parser.getBaseObjectIds()).thenReturn(baseObjectIds);
+		info.setCheckObjects(true);
+
+		runCheckAndAssertCount(4);
+	}
+
+	@Test
+	public void testThinPackWithAnnotatedTagInRefs() throws Exception {
+		RevCommit base = tr.commit().create();
+		haves.add(base.getId());
+
+		RevBlob baseBlob = tr.blob("base blob content");
+
+		RevTag tag = tr.tag("my-tag", base);
+		tr.update("refs/tags/my-tag", tag);
 
 		RevCommit newCommit = tr.commit().parent(base).create();
 
