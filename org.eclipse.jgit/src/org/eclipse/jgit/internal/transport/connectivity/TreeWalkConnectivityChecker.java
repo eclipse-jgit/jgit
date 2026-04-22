@@ -11,19 +11,17 @@ package org.eclipse.jgit.internal.transport.connectivity;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.util.Set;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import org.eclipse.jgit.revwalk.ReachabilityChecker;
-import org.eclipse.jgit.revwalk.ObjectReachabilityChecker;
-import org.eclipse.jgit.revwalk.ObjectWalk;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -31,6 +29,9 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.ObjectReachabilityChecker;
+import org.eclipse.jgit.revwalk.ObjectWalk;
+import org.eclipse.jgit.revwalk.ReachabilityChecker;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -215,7 +216,8 @@ public class TreeWalkConnectivityChecker implements ConnectivityChecker {
 			ReachabilityChecker checker = rw.getObjectReader()
 					.createReachabilityChecker(rw);
 			Stream<RevCommit> starterCommits = advertisedHaves.stream()
-					.map(id -> rw.lookupCommit(id));
+					.map(id -> parseCommitOrNull(rw, id))
+					.filter(Objects::nonNull);
 
 			Optional<RevCommit> unreachable = checker.areAllReachable(
 					nonAdvertisedParentCommitsOutsidePack, starterCommits);
@@ -224,7 +226,8 @@ public class TreeWalkConnectivityChecker implements ConnectivityChecker {
 				// Fallback to check against full ref database
 				Stream<RevCommit> allRefCommits = repo.getRefDatabase()
 						.getRefs().stream()
-						.map(ref -> rw.lookupCommit(ref.getObjectId()));
+						.map(ref -> parseCommitOrNull(rw, ref.getObjectId()))
+						.filter(Objects::nonNull);
 				unreachable = checker.areAllReachable(
 						nonAdvertisedParentCommitsOutsidePack, allRefCommits);
 				if (unreachable.isPresent()) {
@@ -276,7 +279,8 @@ public class TreeWalkConnectivityChecker implements ConnectivityChecker {
 				// Fallback to check against full ref database
 				Stream<RevObject> allRefCommits = connectivityCheckInfo
 						.getRepository().getRefDatabase().getRefs().stream()
-						.map(ref -> rw.lookupCommit(ref.getObjectId()));
+						.map(ref -> parseAnyUnchecked(ow, ref.getObjectId()))
+						.filter(Objects::nonNull);
 				unreachable = checker.areAllReachable(targetObjs,
 						allRefCommits);
 				if (unreachable.isPresent()) {
@@ -395,6 +399,27 @@ public class TreeWalkConnectivityChecker implements ConnectivityChecker {
 	private static RevObject parseAnyUnchecked(RevWalk rw, ObjectId id) {
 		try {
 			return rw.parseAny(id);
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+
+	/**
+	 * Parses an object as a commit, peeling tags if necessary. Returns null if
+	 * the object is not a commit or cannot be peeled to a commit. Throws
+	 * UncheckedIOException on other I/O failures. For use with streams.
+	 *
+	 * @param rw
+	 *            the RevWalk to use
+	 * @param id
+	 *            the object ID
+	 * @return the parsed commit, or null
+	 */
+	private static RevCommit parseCommitOrNull(RevWalk rw, ObjectId id) {
+		try {
+			return rw.parseCommit(id);
+		} catch (IncorrectObjectTypeException e) {
+			return null;
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
 		}
