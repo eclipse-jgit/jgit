@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8ec8f70_cdcbb804",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T18:51:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c95990fc_72d1fd0b",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31e17132_6117ed34",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-04-23T17:58:30Z",
       "side": 1,
       "message": "We likely need this description to be more future proof. So, maybe something like \"Proxy git protocol\"",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "152b6f5b_517ed0e8",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T18:51:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31e17132_6117ed34",
       "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -52,6 +88,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b7ee0a3_0f39390c",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T18:51:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98a4b601_1fd38891",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b942c3e_8e6defa9",
@@ -65,6 +119,24 @@
       "writtenOn": "2026-04-23T17:58:30Z",
       "side": 1,
       "message": "I think jgit is supposed to use tabs for indenting. Can you find out if there is a formatter we can use?",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "720684b0_55f7bc38",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T18:51:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b942c3e_8e6defa9",
       "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -86,6 +158,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad7d633b_6d037332",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T18:51:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b097561_a41072b8",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3af9815a_b22aa567",
@@ -99,6 +189,24 @@
       "writtenOn": "2026-04-23T17:58:30Z",
       "side": 1,
       "message": "Add host, port?",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b50dc74_af3c9a4b",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T18:51:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3af9815a_b22aa567",
       "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -120,6 +228,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67443b09_d6be2abf",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T18:51:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bce356ec_da94b53d",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d4462d9_1e316ae2",
@@ -133,6 +259,24 @@
       "writtenOn": "2026-04-23T17:58:30Z",
       "side": 1,
       "message": "Add host:port?",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f1113ba_a24a5305",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T18:51:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d4462d9_1e316ae2",
       "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -154,6 +298,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19914091_2502be89",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T18:51:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "587cdb15_c3ec4885",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f7eb079_8760aeb5",
@@ -167,6 +329,24 @@
       "writtenOn": "2026-04-23T17:58:30Z",
       "side": 1,
       "message": "I don\u0027t see a ton of value in exposing this as a public class (which requires supporting long term)?",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "193b3d92_1df1c03f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/FixedRouteListener.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T18:51:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f7eb079_8760aeb5",
       "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -188,6 +368,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eeacb6f4_d850ecf1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/FixedRouteListener.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T18:51:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8ae19e9_31f8696c",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d05ddc18_0f7c471f",
@@ -201,6 +399,24 @@
       "writtenOn": "2026-04-23T17:58:30Z",
       "side": 1,
       "message": "nit: fix indent, also line below.",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9342e933_7355cfe7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T18:51:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d05ddc18_0f7c471f",
       "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -222,6 +438,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e543dd5_1233de7e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T18:51:35Z",
+      "side": 1,
+      "message": "Modified the comment. Basically I\u0027m trying to avoid duplicate logging of the exception.\n\nWhen one side of pipe is closed we record exception, count down the latch and then parent method interrupts the the other side in the finally block. We avoid duplicate recording of exception by making sure to record only if the latch is not counted down.",
+      "parentUuid": "aaf54e4f_fa876263",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bad40d84_87c32eb6",
@@ -235,6 +469,24 @@
       "writtenOn": "2026-04-23T17:58:30Z",
       "side": 1,
       "message": "Does this need to be public (better to avoid)?",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b0ebf38_f76187ce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RecordingInputStream.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T18:51:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bad40d84_87c32eb6",
       "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
