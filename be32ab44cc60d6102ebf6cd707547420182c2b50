@@ -16,6 +16,24 @@
       "message": "I believe the objective of this new class is to get rid of the RefWriter class since it is not named as well, thus I don\u0027t think this class should depend on what we are deprecating. To avoid code duplication, I suggest doing the opposite, and making the deprecated class extend this new one?",
       "revId": "be32ab44cc60d6102ebf6cd707547420182c2b50",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc2f86c9_5a10f8dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackedRefsWriter.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T17:44:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c248c2b_6895ce92",
+      "revId": "be32ab44cc60d6102ebf6cd707547420182c2b50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
