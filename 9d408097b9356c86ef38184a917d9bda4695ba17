@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af17a758_1d2f67fe",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T17:02:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b93bf47_50b31985",
+      "revId": "9d408097b9356c86ef38184a917d9bda4695ba17",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "388ecc54_d89ba113",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-04-23T06:41:31Z",
       "side": 1,
       "message": "missing @since 7.7 tag and missing javadoc for public API class",
+      "revId": "9d408097b9356c86ef38184a917d9bda4695ba17",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64cbe893_14bb3426",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Forwarder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T17:02:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "388ecc54_d89ba113",
       "revId": "9d408097b9356c86ef38184a917d9bda4695ba17",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -52,6 +88,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a067d2_82af0ab8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/FixedRouteListener.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T17:02:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98d4e702_e942afcb",
+      "revId": "9d408097b9356c86ef38184a917d9bda4695ba17",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f84c83ec_68c1981c",
@@ -69,6 +123,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcb022d0_286d3723",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RouteRequest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T17:02:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f84c83ec_68c1981c",
+      "revId": "9d408097b9356c86ef38184a917d9bda4695ba17",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "984192fb_37e2c1a7",
@@ -82,6 +154,24 @@
       "writtenOn": "2026-04-23T06:41:31Z",
       "side": 1,
       "message": "missing javadoc",
+      "revId": "9d408097b9356c86ef38184a917d9bda4695ba17",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74d1dbe7_a8c69d60",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RouteRequest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-23T17:02:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "984192fb_37e2c1a7",
       "revId": "9d408097b9356c86ef38184a917d9bda4695ba17",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
