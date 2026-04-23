@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11b4160b_8f24a00b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-04-23T17:48:16Z",
+      "side": 1,
+      "message": "nit: extra line.\n\n\n\n```suggestion\nBug: jgit-252\nChange-Id: Ib46363251862a7018c60bd4c36f003d267f354d5\n```",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 52
+      },
+      "revId": "599a78cd3a897df5b80d48ca88fd6cd554a778ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
