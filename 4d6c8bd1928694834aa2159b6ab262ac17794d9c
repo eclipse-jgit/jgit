@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "267a4f04_17d5f4d8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-23T09:28:46Z",
+      "side": 1,
+      "message": "should this class be marked final ?",
+      "revId": "4d6c8bd1928694834aa2159b6ab262ac17794d9c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae3dd896_6e94214c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-23T09:28:46Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\t// If the pack is not \"top-level\", it maybe is covered\n\t\t\t// by midx.\n```",
+      "revId": "4d6c8bd1928694834aa2159b6ab262ac17794d9c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dd9154e_d115767c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-23T09:28:46Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\t// We need to remove the pack, its covering midxs, and keep the other\n```",
+      "revId": "4d6c8bd1928694834aa2159b6ab262ac17794d9c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33654fb9_97cc7eaa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-23T09:28:46Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t *\n```",
+      "revId": "4d6c8bd1928694834aa2159b6ab262ac17794d9c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3be5fa1c_de5febc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-23T09:28:46Z",
+      "side": 1,
+      "message": "I think this method name is hard to understand, how about `getPacksToReplaceMidx` ?",
+      "range": {
+        "startLine": 314,
+        "startChar": 28,
+        "endLine": 314,
+        "endChar": 46
+      },
+      "revId": "4d6c8bd1928694834aa2159b6ab262ac17794d9c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaa25d79_ad8711c8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/MidxPackList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-23T09:28:46Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\t\t// The deleted pack must be in the base of this midx. It will\n\t\t\t\t// invalidate this one, hence add all packs it covers.\n```",
+      "range": {
+        "startLine": 334,
+        "startChar": 0,
+        "endLine": 336,
+        "endChar": 44
+      },
+      "revId": "4d6c8bd1928694834aa2159b6ab262ac17794d9c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
