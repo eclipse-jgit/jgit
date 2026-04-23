@@ -1107,6 +1107,7 @@ public class ReceivePack {
 	 * @return if the client is a shallow repository, the list of edge commits
 	 *         that define the client's shallow boundary. Empty set if the
 	 *         client is earlier than Git 1.9, or is a full clone.
+	 * @since 7.7
 	 */
 	protected Set<ObjectId> getClientShallowCommits() {
 		return clientShallowCommits;
