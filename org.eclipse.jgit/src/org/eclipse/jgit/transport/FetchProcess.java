@@ -139,6 +139,18 @@ class FetchProcess {
 		final TagOpt tagopt = transport.getTagOpt();
 		String getTags = (tagopt == TagOpt.NO_TAGS) ? null : Constants.R_TAGS;
 		String getHead = null;
+		// Snapshot local refs before opening the fetch connection when the
+		// fetch has positive refspecs or may run AUTO_FOLLOW. Those are the
+		// paths that can later create TrackingRefUpdates from this fetch and
+		// need a stable expected-old-id baseline to turn concurrent local ref
+		// changes into LOCK_FAILURE.
+		//
+		// Skip the snapshot for the remaining cases to avoid an unnecessary
+		// local ref scan when this fetch cannot reach those update paths.
+		if (!toFetch.isEmpty() || tagopt == TagOpt.AUTO_FOLLOW) {
+			localRefs();
+		}
+
 		try {
 			// If we don't have a HEAD yet, we're cloning and need to get the
 			// upstream HEAD, too.
