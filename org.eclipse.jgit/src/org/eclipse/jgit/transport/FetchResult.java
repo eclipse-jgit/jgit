@@ -63,4 +63,17 @@ public class FetchResult extends OperationResult {
 	public Map<String, FetchResult> submoduleResults() {
 		return Collections.unmodifiableMap(submodules);
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("FetchResult["); //$NON-NLS-1$
+		sb.append("advertisedRefs=").append(getAdvertisedRefs()); //$NON-NLS-1$
+		sb.append(", trackingRefUpdates=").append(getTrackingRefUpdates()); //$NON-NLS-1$
+		if (!submodules.isEmpty()) {
+			sb.append(", submodules=").append(submodules); //$NON-NLS-1$
+		}
+		sb.append("]"); //$NON-NLS-1$
+		return sb.toString();
+	}
 }
