@@ -16,6 +16,24 @@
       "message": "If we call this method here unconditionally there\u0027s no point to call it again from all the other methods calling `localRefs()` which are all called from this method depending on the conditions checked in all the if statements below.\n\nIs snapshotting the refs unnecessary for any of the conditions checked in this `executeImpl` method below ?",
       "revId": "e426d9bf564ef443d11d2b43896080077b0251cf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bb9ac67_e925e5f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-23T15:43:18Z",
+      "side": 1,
+      "message": "Added the conditional snapshotting. Check if it looks better.",
+      "parentUuid": "ae2d33c9_7008592b",
+      "revId": "e426d9bf564ef443d11d2b43896080077b0251cf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
