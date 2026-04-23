@@ -32,6 +32,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.transport.BasePackFetchConnection.FetchConfig;
@@ -113,6 +114,106 @@ public class TestProtocolTest {
 					.call();
 			assertEquals(master,
 					local.getRepository().exactRef("refs/heads/master").getObjectId());
+		}
+	}
+
+	@Test
+	public void fetchReportsLockFailureWhenAutoFollowTagIsCreated()
+			throws Exception {
+		String TAG_NAME = "foo";
+		String TAG_REF = "refs/tags/" + TAG_NAME;
+		String REMOTE_BRANCH_NAME = "remotefoo";
+		String FORCED_REMOTE_REF = "+refs/heads/" + REMOTE_BRANCH_NAME;
+
+		RevCommit localCommit = local.commit().add("local.txt", "new").create();
+		RevCommit remoteCommit = remote.branch(REMOTE_BRANCH_NAME).commit()
+				.add("remote.txt", "remote").create();
+		RevTag remoteTag = remote.tag("foo", remoteCommit);
+		remote.update(TAG_REF, remoteTag);
+
+		URIish uri = newRepositoryTestConnectionUpdatingRef((repo) -> repo.lightweightTag(TAG_NAME, localCommit));
+
+
+		try (Git git = new Git(local.getRepository())) {
+			FetchResult result = git.fetch().setRemote(uri.toString())
+					.setRefSpecs(new RefSpec(FORCED_REMOTE_REF
+							+ ":refs/remotes/origin/" + REMOTE_BRANCH_NAME))
+					.setTagOpt(TagOpt.AUTO_FOLLOW).call();
+
+			TrackingRefUpdate update = result.getTrackingRefUpdate(TAG_REF);
+			assertEquals(RefUpdate.Result.LOCK_FAILURE, update.getResult());
+			// Tag hasn't been clobbered...
+			assertEquals(localCommit,
+					local.getRepository().exactRef(TAG_REF).getObjectId());
+			// ...however the object has been downloaded
+			assertTrue(local.getRepository().getObjectDatabase()
+					.has(remoteCommit));
+		}
+	}
+
+	@Test
+	public void fetchReportsLockFailureWhenDestinationRefChanges()
+			throws Exception {
+		String LOCAL_BRANCH_NAME = "localfoo";
+		String LOCAL_REF = "refs/heads/" + LOCAL_BRANCH_NAME;
+		String REMOTE_BRANCH_NAME = "remotefoo";
+		String FORCED_REMOTE_REF = "+refs/heads/" + REMOTE_BRANCH_NAME;
+
+		RevCommit oldLocalCommit = local.branch(LOCAL_BRANCH_NAME).commit()
+				.add("local.txt", "old").create();
+		RevCommit newLocalCommit = local.commit().parent(oldLocalCommit)
+				.add("local.txt", "new").create();
+		RevCommit remoteCommit = remote.branch(REMOTE_BRANCH_NAME).commit()
+				.add("remote.txt", "remote").create();
+
+		URIish uri = newRepositoryTestConnectionUpdatingRef((repo) -> repo.update(LOCAL_BRANCH_NAME, newLocalCommit));
+
+		try (Git git = new Git(local.getRepository())) {
+			FetchResult result = git.fetch().setRemote(uri.toString())
+					.setRefSpecs(
+							new RefSpec(FORCED_REMOTE_REF + ":" + LOCAL_REF))
+					.call();
+
+			TrackingRefUpdate update = result.getTrackingRefUpdate(LOCAL_REF);
+			assertEquals(RefUpdate.Result.LOCK_FAILURE, update.getResult());
+			// Ref hasn't been clobbered...
+			assertEquals(newLocalCommit,
+					local.getRepository().exactRef(LOCAL_REF).getObjectId());
+			// ...however the object has been downloaded
+			assertTrue(local.getRepository().getObjectDatabase()
+					.has(remoteCommit));
+		}
+	}
+
+	@Test
+	public void fetchReportsLockFailureWhenDestinationRefIsCreated()
+			throws Exception {
+		String LOCAL_BRANCH_NAME = "localfoo";
+		String LOCAL_REF = "refs/heads/" + LOCAL_BRANCH_NAME;
+		String REMOTE_BRANCH_NAME = "remotefoo";
+		String FORCED_REMOTE_REF = "+refs/heads/" + REMOTE_BRANCH_NAME;
+
+		RevCommit newLocalCommit = local.commit().add("local.txt", "new")
+				.create();
+		RevCommit remoteCommit = remote.branch(REMOTE_BRANCH_NAME).commit()
+				.add("remote.txt", "remote").create();
+
+		URIish uri = newRepositoryTestConnectionUpdatingRef((repo) -> repo.update(LOCAL_BRANCH_NAME, newLocalCommit));
+
+		try (Git git = new Git(local.getRepository())) {
+			FetchResult result = git.fetch().setRemote(uri.toString())
+					.setRefSpecs(
+							new RefSpec(FORCED_REMOTE_REF + ":" + LOCAL_REF))
+					.call();
+
+			TrackingRefUpdate update = result.getTrackingRefUpdate(LOCAL_REF);
+			assertEquals(RefUpdate.Result.LOCK_FAILURE, update.getResult());
+			// Ref hasn't been clobbered...
+			assertEquals(newLocalCommit,
+					local.getRepository().exactRef(LOCAL_REF).getObjectId());
+			// ...however the object has been downloaded
+			assertTrue(local.getRepository().getObjectDatabase()
+					.has(remoteCommit));
 		}
 	}
 
@@ -288,7 +389,11 @@ public class TestProtocolTest {
 				.add("remote.txt", "remote").create();
 			remote.update(remoteBranchName, remoteCommit);
 
+<<<<<<< PATCH SET (c00a0d6c4de2c5bf337d0ccae09cc3e09ed0e593 FetchProcess: Report lock failure when destination ref chang)
+			URIish uri = newRepositoryTestConnectionUpdatingRef((repo) -> repo.update(LOCAL_REF, updatedLocalCommit));
+=======
 			URIish uri = newRepositoryTestConnectionUpdatingRef(localRef, updatedLocalCommit);
+>>>>>>> BASE      (b3230e180c111a97baeda76413f338693b2fcb03 Add regression test on non-forced fetch and local updates)
 
 			FetchResult result = git.fetch().setRemote(uri.toString())
 				.setRefSpecs(nonForcedFetchRefSpec).call();
@@ -318,10 +423,15 @@ public class TestProtocolTest {
 		return proto;
 	}
 
-	private <T extends AnyObjectId> URIish newRepositoryTestConnectionUpdatingRef(String refName, T objectId) {
+	@FunctionalInterface
+	interface TestRepositoryUpdateFunc {
+		void call(TestRepository<InMemoryRepository> repository) throws Exception;
+	}
+
+	private <T extends AnyObjectId> URIish newRepositoryTestConnectionUpdatingRef(TestRepositoryUpdateFunc repositoryUpdateFunc) {
 		TestProtocol<User> proto = registerProto((User req, Repository db) -> {
 			try {
-				local.update(refName, objectId);
+				repositoryUpdateFunc.call(local);
 			} catch (Exception e) {
 				throw new AssertionError("Cannot update local ref " + refName,
 						e);
