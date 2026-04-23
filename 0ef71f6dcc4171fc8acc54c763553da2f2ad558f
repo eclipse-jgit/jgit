@@ -400,6 +400,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "972274b4_5b2f2962",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-23T17:58:30Z",
+      "side": 1,
+      "message": "No logging if this will be regular, but then add that explanation here.",
+      "parentUuid": "647b6ac5_43338c1a",
+      "revId": "0ef71f6dcc4171fc8acc54c763553da2f2ad558f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "855e506a_fb1385da",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
         "patchSetId": 6

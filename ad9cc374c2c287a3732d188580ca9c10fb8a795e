@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c95990fc_72d1fd0b",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-23T17:58:30Z",
+      "side": 1,
+      "message": "Maybe: \"The --config-file option must be specified.\"",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31e17132_6117ed34",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-23T17:58:30Z",
+      "side": 1,
+      "message": "We likely need this description to be more future proof. So, maybe something like \"Proxy git protocol\"",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98a4b601_1fd38891",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-23T17:58:30Z",
+      "side": 1,
+      "message": "Don\u0027t make public so we can change the contract easily, for example by allowing multiple listeners, or remotes potentially?",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b942c3e_8e6defa9",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-23T17:58:30Z",
+      "side": 1,
+      "message": "I think jgit is supposed to use tabs for indenting. Can you find out if there is a formatter we can use?",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b097561_a41072b8",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-23T17:58:30Z",
+      "side": 1,
+      "message": "Not in this change: \"maxStart and optional [project \"regex\"] maxStart\"?",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3af9815a_b22aa567",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-23T17:58:30Z",
+      "side": 1,
+      "message": "Add host, port?",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bce356ec_da94b53d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-23T17:58:30Z",
+      "side": 1,
+      "message": "Add some data details?",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d4462d9_1e316ae2",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-23T17:58:30Z",
+      "side": 1,
+      "message": "Add host:port?",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "587cdb15_c3ec4885",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-23T17:58:30Z",
+      "side": 1,
+      "message": "This sounds abstract and likely won\u0027t mean anything to readers.",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f7eb079_8760aeb5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/FixedRouteListener.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-23T17:58:30Z",
+      "side": 1,
+      "message": "I don\u0027t see a ton of value in exposing this as a public class (which requires supporting long term)?",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8ae19e9_31f8696c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/FixedRouteListener.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-23T17:58:30Z",
+      "side": 1,
+      "message": "tabs needed",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d05ddc18_0f7c471f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-23T17:58:30Z",
+      "side": 1,
+      "message": "nit: fix indent, also line below.",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaf54e4f_fa876263",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-23T17:58:30Z",
+      "side": 1,
+      "message": "It\u0027s not quite clear from this comment if the \"This\" refers to the Exception or the \"latch.getCount() \u003e 0\". It is hard to see how the latchCount can be greater than zero though? How can the parent cancel the connection without the other direction having already countDowned its latch in the finally below? Is it because a failure occurs in the parent (not in the other forwarder) before even entering the other \"forward\" method?",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bad40d84_87c32eb6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RecordingInputStream.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-23T17:58:30Z",
+      "side": 1,
+      "message": "Does this need to be public (better to avoid)?",
+      "revId": "ad9cc374c2c287a3732d188580ca9c10fb8a795e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
