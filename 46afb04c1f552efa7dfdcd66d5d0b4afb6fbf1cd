@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dc0ff33_af16e4e6",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 13
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-23T20:19:03Z",
+      "side": 1,
+      "message": "host/port?",
+      "revId": "46afb04c1f552efa7dfdcd66d5d0b4afb6fbf1cd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e31d724_daecb9ac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-23T20:19:03Z",
+      "side": 1,
+      "message": "s/exceetion s/exception should have been/",
+      "revId": "46afb04c1f552efa7dfdcd66d5d0b4afb6fbf1cd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baa3c0a8_d75fbdeb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RecordingInputStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-23T20:19:03Z",
+      "side": 1,
+      "message": "I suspect we don\u0027t need any @since on any of the methods which are not public.",
+      "revId": "46afb04c1f552efa7dfdcd66d5d0b4afb6fbf1cd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
