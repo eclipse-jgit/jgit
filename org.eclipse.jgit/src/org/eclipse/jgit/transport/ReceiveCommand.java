@@ -789,7 +789,14 @@ public class ReceiveCommand {
 		ref = r;
 	}
 
-	void setType(Type t) {
+	/**
+	 * Set the type of this command.
+	 *
+	 * @param t
+	 *            the type
+	 * @since 7.7
+	 */
+	protected void setType(Type t) {
 		type = t;
 	}
 
