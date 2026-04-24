@@ -77,8 +77,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Represents a Git repository.
  * <p>
- * A repository holds all objects and refs used for managing source code (could
- * be any type of file, but source code is what SCM's are typically used for).
+ * A repository holds all Git objects and references required to manage a
+ * project’s version history. While it can store any type of file, it is
+ * commonly used for source code.
  * <p>
  * The thread-safety of a {@link org.eclipse.jgit.lib.Repository} very much
  * depends on the concrete implementation. Applications working with a generic
