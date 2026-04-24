@@ -34,6 +34,24 @@
       "parentUuid": "7179f507_c6e07729",
       "revId": "e0f79dfd8a3b54df9ca1fa3ba0e7255790c52f81",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d6b10f0_4dca9b4e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-24T15:22:02Z",
+      "side": 1,
+      "message": "The idea being that in the future when applyMissingTraits() gains the ability to apply \"fullyPeeled\", we would want this class to not do so as that is now new costly behavior? If that is the case, maybe we need to document that in this class?",
+      "parentUuid": "890f7ed1_1c0022aa",
+      "revId": "e0f79dfd8a3b54df9ca1fa3ba0e7255790c52f81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
