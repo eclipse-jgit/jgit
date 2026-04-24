@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1f791e3_ce5a89f0",
+        "filename": "org.eclipse.jgit.pgm/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-24T10:42:33Z",
+      "side": 1,
+      "message": "New forwarder package needs to be exported in MANIFEST.MF.",
+      "revId": "ab29b8e1af51a098e91d7b897f566e4b3a4fe06c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43f09b88_66c5721d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-24T10:42:33Z",
+      "side": 1,
+      "message": "Formatting does not adhere to JGit standard format.",
+      "revId": "ab29b8e1af51a098e91d7b897f566e4b3a4fe06c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c939e54_9322b0e7",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-24T10:42:33Z",
+      "side": 1,
+      "message": "Indent should be a single space.",
+      "revId": "ab29b8e1af51a098e91d7b897f566e4b3a4fe06c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20a50bb4_8bf7014a",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-24T10:42:33Z",
+      "side": 1,
+      "message": "Indent should be two spaces.",
+      "revId": "ab29b8e1af51a098e91d7b897f566e4b3a4fe06c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfbce95e_170b9f63",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/CommandInfo.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-24T10:42:33Z",
+      "side": 1,
+      "message": "Formatting is different from the rest of JGit.",
+      "revId": "ab29b8e1af51a098e91d7b897f566e4b3a4fe06c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f3de9c5_acab34dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/CommandInfo.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-24T10:42:33Z",
+      "side": 1,
+      "message": "Line too long. JGit uses a maximum line length of 80 characters.",
+      "revId": "ab29b8e1af51a098e91d7b897f566e4b3a4fe06c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a794eb3_ead6b23c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-24T10:42:33Z",
+      "side": 1,
+      "message": "Formatting different than the general JGit format used elsewhere.",
+      "revId": "ab29b8e1af51a098e91d7b897f566e4b3a4fe06c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c488ff24_e2213d09",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-24T10:42:33Z",
+      "side": 1,
+      "message": "Lines are too long. JGit uses a maximum line length of 80 characters.",
+      "revId": "ab29b8e1af51a098e91d7b897f566e4b3a4fe06c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16a84c32_ae8c1f31",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-24T10:42:33Z",
+      "side": 1,
+      "message": "Use tabs to indent, not spaces.",
+      "revId": "ab29b8e1af51a098e91d7b897f566e4b3a4fe06c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1667fab4_71df5684",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RecordingInputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-24T10:42:33Z",
+      "side": 1,
+      "message": "Line too long.",
+      "revId": "ab29b8e1af51a098e91d7b897f566e4b3a4fe06c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73f9796a_699e1113",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RecordingInputStream.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-24T10:42:33Z",
+      "side": 1,
+      "message": "Why is this package-visible? I see no references in other classes. Should be `private final`?",
+      "revId": "ab29b8e1af51a098e91d7b897f566e4b3a4fe06c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd58d565_131ea596",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RouteRequest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-24T10:42:33Z",
+      "side": 1,
+      "message": "Import order is inconsistent.",
+      "revId": "ab29b8e1af51a098e91d7b897f566e4b3a4fe06c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "226b99a2_5712b1d2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RouteRequest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-24T10:42:33Z",
+      "side": 1,
+      "message": "Formatting different than in the rest of JGit.",
+      "revId": "ab29b8e1af51a098e91d7b897f566e4b3a4fe06c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d5f2f9f_96ddc73d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RouteRequest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-04-24T10:42:33Z",
+      "side": 1,
+      "message": "Line too long.",
+      "revId": "ab29b8e1af51a098e91d7b897f566e4b3a4fe06c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
