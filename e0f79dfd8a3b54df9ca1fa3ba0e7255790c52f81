@@ -16,6 +16,24 @@
       "message": "Sorting in this class should no longer be needed now since PackedRefWriter.applyMissingTraits() will do this for us?",
       "revId": "e0f79dfd8a3b54df9ca1fa3ba0e7255790c52f81",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "890f7ed1_1c0022aa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-24T02:14:04Z",
+      "side": 1,
+      "message": "This is old class (wired to constructor which doesn\u0027t perform any application of missing traits -- protected scoped) which sorts by default. Preserving the same behaviour",
+      "parentUuid": "7179f507_c6e07729",
+      "revId": "e0f79dfd8a3b54df9ca1fa3ba0e7255790c52f81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
