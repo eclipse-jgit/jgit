@@ -339,6 +339,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57961afc_c66a36dd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-24T00:26:13Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b548d96e_ad9dac35",
+      "revId": "d32f41eb16c67ed51b2a9e72107e607263ea2e7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f42a51e_236fb480",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7179f507_c6e07729",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-24T00:26:13Z",
+      "side": 1,
+      "message": "Sorting in this class should no longer be needed now since PackedRefWriter.applyMissingTraits() will do this for us?",
+      "revId": "e0f79dfd8a3b54df9ca1fa3ba0e7255790c52f81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
