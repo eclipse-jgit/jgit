@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bfe65f0d_0b87847e",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-24T14:56:54Z",
+      "side": 1,
+      "message": "Is there a auto formatter that I could configure ?",
+      "parentUuid": "43f09b88_66c5721d",
+      "revId": "ab29b8e1af51a098e91d7b897f566e4b3a4fe06c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0c939e54_9322b0e7",
         "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
         "patchSetId": 14
