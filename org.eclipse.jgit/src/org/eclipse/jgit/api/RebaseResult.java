@@ -303,4 +303,25 @@ public class RebaseResult {
 		return uncommittedChanges;
 	}
 
+	@SuppressWarnings("nls")
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("RebaseResult[status=").append(status);
+		if (currentCommit != null) {
+			sb.append(", currentCommit=")
+					.append(currentCommit.abbreviate(7).name());
+		}
+		if (conflicts != null && !conflicts.isEmpty()) {
+			sb.append(", conflicts=").append(conflicts);
+		}
+		if (failingPaths != null && !failingPaths.isEmpty()) {
+			sb.append(", failingPaths=").append(failingPaths.keySet());
+		}
+		if (uncommittedChanges != null && !uncommittedChanges.isEmpty()) {
+			sb.append(", uncommittedChanges=").append(uncommittedChanges);
+		}
+		sb.append("]");
+		return sb.toString();
+	}
 }
