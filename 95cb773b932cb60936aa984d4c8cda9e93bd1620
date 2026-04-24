@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f42668c_3832a7cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-24T13:56:51Z",
+      "side": 1,
+      "message": "Thanks for spotting it. Fixed with the following PS.",
+      "parentUuid": "a1a8f167_b277ffd7",
+      "revId": "95cb773b932cb60936aa984d4c8cda9e93bd1620",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b8cd0a6_cd019f28",
@@ -41,6 +59,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e97aaf4e_7ed120d1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-24T13:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b8cd0a6_cd019f28",
+      "range": {
+        "startLine": 120,
+        "startChar": 12,
+        "endLine": 120,
+        "endChar": 20
+      },
+      "revId": "95cb773b932cb60936aa984d4c8cda9e93bd1620",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "118d7be6_b1c4590e",
@@ -54,6 +96,30 @@
       "writtenOn": "2026-04-23T20:31:54Z",
       "side": 1,
       "message": "```suggestion\n\t\tRevCommit remoteCommit \u003d remote.branch(\"remotefoo\").commit()\n```",
+      "range": {
+        "startLine": 121,
+        "startChar": 12,
+        "endLine": 121,
+        "endChar": 21
+      },
+      "revId": "95cb773b932cb60936aa984d4c8cda9e93bd1620",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d72f618_ff157652",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-24T13:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "118d7be6_b1c4590e",
       "range": {
         "startLine": 121,
         "startChar": 12,
@@ -89,6 +155,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f88c49a9_bf169fc5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-24T13:56:51Z",
+      "side": 1,
+      "message": "\u003e Can we also add a test that ensures the non-regression for non-forced fetches?\n(it should return REJECTED and not LOCK_FAILURE)\n\nAdded in the following PS",
+      "parentUuid": "1dc2dbed_bb7d83c8",
+      "range": {
+        "startLine": 139,
+        "startChar": 8,
+        "endLine": 139,
+        "endChar": 9
+      },
+      "revId": "95cb773b932cb60936aa984d4c8cda9e93bd1620",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "56ddbeb5_ca58bb03",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
         "patchSetId": 10
@@ -100,6 +190,30 @@
       "writtenOn": "2026-04-23T20:31:54Z",
       "side": 1,
       "message": "```suggestion\n\t\tRevCommit localCommit \u003d local.branch(\"localfoo\").commit()\n```",
+      "range": {
+        "startLine": 157,
+        "startChar": 12,
+        "endLine": 157,
+        "endChar": 20
+      },
+      "revId": "95cb773b932cb60936aa984d4c8cda9e93bd1620",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39e1d710_483eb3af",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-24T13:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56ddbeb5_ca58bb03",
       "range": {
         "startLine": 157,
         "startChar": 12,
@@ -133,6 +247,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9f4f2c2_b8d2cb82",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-24T13:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca0bd73e_0f136c49",
+      "range": {
+        "startLine": 159,
+        "startChar": 12,
+        "endLine": 159,
+        "endChar": 20
+      },
+      "revId": "95cb773b932cb60936aa984d4c8cda9e93bd1620",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6df18316_83b40f1b",
@@ -146,6 +284,30 @@
       "writtenOn": "2026-04-23T20:31:54Z",
       "side": 1,
       "message": "```suggestion\n\t\tObjectId remoteCommit \u003d remote.branch(\"remotefoo\").commit()\n```",
+      "range": {
+        "startLine": 161,
+        "startChar": 11,
+        "endLine": 161,
+        "endChar": 20
+      },
+      "revId": "95cb773b932cb60936aa984d4c8cda9e93bd1620",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2594105_1d2ace7c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-24T13:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6df18316_83b40f1b",
       "range": {
         "startLine": 161,
         "startChar": 11,
@@ -179,6 +341,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce9adb16_674124b4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-24T13:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7be0469_6e3923e1",
+      "range": {
+        "startLine": 195,
+        "startChar": 12,
+        "endLine": 195,
+        "endChar": 20
+      },
+      "revId": "95cb773b932cb60936aa984d4c8cda9e93bd1620",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e884c7a7_e06d294a",
@@ -202,6 +388,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "124b98fd_2ba689b8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-24T13:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e884c7a7_e06d294a",
+      "range": {
+        "startLine": 196,
+        "startChar": 11,
+        "endLine": 196,
+        "endChar": 20
+      },
+      "revId": "95cb773b932cb60936aa984d4c8cda9e93bd1620",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a2e671b_a3b02f30",
@@ -215,6 +425,24 @@
       "writtenOn": "2026-04-23T20:31:54Z",
       "side": 1,
       "message": "We should also check whether the fetch is forced.\n\nFor non-forced fetches, there is no need of an early local refs locking, because the update will fail anyway with `REJECTED` if the local ref isn\u0027t a fast-forward of the updated one, which I believe is what @mfick@nvidia.com was referring to in his [comment](https://github.com/eclipse-jgit/jgit/issues/252#issuecomment-4048246533) to the issue.",
+      "revId": "95cb773b932cb60936aa984d4c8cda9e93bd1620",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb5867ff_9d2b757a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-24T13:56:51Z",
+      "side": 1,
+      "message": "I don\u0027t think I can do this check beforehand, since I might have a mix of forced and non-forced fetched. I will have to check afterwards.",
+      "parentUuid": "0a2e671b_a3b02f30",
       "revId": "95cb773b932cb60936aa984d4c8cda9e93bd1620",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

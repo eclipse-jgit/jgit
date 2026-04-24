@@ -71,6 +71,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99e1be15_ecd02077",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-24T13:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5e66508_2e542fbf",
+      "range": {
+        "startLine": 124,
+        "startChar": 27,
+        "endLine": 124,
+        "endChar": 30
+      },
+      "revId": "599a78cd3a897df5b80d48ca88fd6cd554a778ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "130ed282_0d9c3836",
@@ -88,6 +112,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29a039f0_8351c624",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-24T13:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "130ed282_0d9c3836",
+      "revId": "599a78cd3a897df5b80d48ca88fd6cd554a778ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17542994_7a4ab73f",
@@ -101,6 +143,30 @@
       "writtenOn": "2026-04-23T20:31:54Z",
       "side": 1,
       "message": "These `remotefoo` magic values should be DRYed out with a self-explanatory name.",
+      "range": {
+        "startLine": 139,
+        "startChar": 20,
+        "endLine": 139,
+        "endChar": 29
+      },
+      "revId": "599a78cd3a897df5b80d48ca88fd6cd554a778ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f1fde0c_b6acb1ff",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-04-24T13:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17542994_7a4ab73f",
       "range": {
         "startLine": 139,
         "startChar": 20,
