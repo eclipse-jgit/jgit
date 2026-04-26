@@ -52,6 +52,24 @@
       "parentUuid": "890f7ed1_1c0022aa",
       "revId": "e0f79dfd8a3b54df9ca1fa3ba0e7255790c52f81",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40b02f5c_22b2a373",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-26T18:12:22Z",
+      "side": 1,
+      "message": "RefWriter would not fullypeel refs when we introduce fully peeling in applyMissingTraits in future.",
+      "parentUuid": "6d6b10f0_4dca9b4e",
+      "revId": "e0f79dfd8a3b54df9ca1fa3ba0e7255790c52f81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
