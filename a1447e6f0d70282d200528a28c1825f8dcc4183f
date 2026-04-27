@@ -22,6 +22,30 @@
       },
       "revId": "a1447e6f0d70282d200528a28c1825f8dcc4183f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3895f322_1da8f8eb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-27T23:10:16Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "4ee60fd9_b9d4aa99",
+      "range": {
+        "startLine": 1129,
+        "startChar": 0,
+        "endLine": 1134,
+        "endChar": 20
+      },
+      "revId": "a1447e6f0d70282d200528a28c1825f8dcc4183f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
