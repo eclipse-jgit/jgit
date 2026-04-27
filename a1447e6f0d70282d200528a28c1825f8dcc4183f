@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ee60fd9_b9d4aa99",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-27T22:44:55Z",
+      "side": 1,
+      "message": "since we are modifying this already let\u0027s add the missing curly braces\n\n```suggestion\n\t\t\tif (peeled \u0026\u0026 name.startsWith(R_TAGS)) {\n\t\t\t\tcur \u003d new ObjectIdRef.PeeledNonTag(PACKED, name, id);\n\t\t\t} else {\n\t\t\t\tcur \u003d new ObjectIdRef.Unpeeled(PACKED, name, id);\n\t\t\t}\n\t\t\tif (!isSorted \u0026\u0026 last !\u003d null \u0026\u0026 RefComparator.compareTo(last, cur) \u003e 0) {\n\t\t\t\tneedSort \u003d true;\n\t\t\t}\n```",
+      "range": {
+        "startLine": 1129,
+        "startChar": 0,
+        "endLine": 1134,
+        "endChar": 20
+      },
+      "revId": "a1447e6f0d70282d200528a28c1825f8dcc4183f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
