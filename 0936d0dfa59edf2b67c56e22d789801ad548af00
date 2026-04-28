@@ -34,6 +34,24 @@
       "parentUuid": "aa538a3b_47429879",
       "revId": "0936d0dfa59edf2b67c56e22d789801ad548af00",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a38e6fd8_921cb350",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackedRefsWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-28T15:40:17Z",
+      "side": 1,
+      "message": "I see that, however the point of passing in traits to the constructor is to tell this class to trust certain facts about the refs, and you aren\u0027t doing that. In this case, a caller could pass in the PEELED trait, and if the ref is not actually peeled, this code will go ahead and peel it anyway.",
+      "parentUuid": "d4b51c35_f6e0537c",
+      "revId": "0936d0dfa59edf2b67c56e22d789801ad548af00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
