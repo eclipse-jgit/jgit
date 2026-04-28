@@ -70,6 +70,24 @@
       "parentUuid": "a38e6fd8_921cb350",
       "revId": "0936d0dfa59edf2b67c56e22d789801ad548af00",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0363c63_2610fcad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackedRefsWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-28T16:03:29Z",
+      "side": 1,
+      "message": "\u003e If fullypeeled is provided and some of the refs aren\u0027t peeled, do you want to trust the caller and write whatever is provided?\n\nAccording to the definition of the traits, if fullypeeled is provided, it implies peeled, does it not? So, if you are skipping altogether when both are supplied, then you should also skip if only fullypeeled is supplied?\n\nHowever, my thoughts are that if only peeled is supplied, then we should not trust refs outside of the refs/tags namespace to be peeled, but we should trust the refs in the refs/tags namespace to be peeled.\n\nThese suggestions seem consistent with the way we are treating the SORTED trait?",
+      "parentUuid": "1da61234_e5347e07",
+      "revId": "0936d0dfa59edf2b67c56e22d789801ad548af00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
