@@ -52,6 +52,24 @@
       "parentUuid": "d4b51c35_f6e0537c",
       "revId": "0936d0dfa59edf2b67c56e22d789801ad548af00",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1da61234_e5347e07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackedRefsWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-28T15:49:04Z",
+      "side": 1,
+      "message": "- If both are supplied we skipping the peeling altogether.\n- If only peeled trait is supplied, we anyway want to peel to apply the fully-peeled trait.\n\nIf fullypeeled is provided and some of the refs aren\u0027t peeled, do you want to trust the caller and write whatever is provided ?",
+      "parentUuid": "a38e6fd8_921cb350",
+      "revId": "0936d0dfa59edf2b67c56e22d789801ad548af00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
