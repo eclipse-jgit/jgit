@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa538a3b_47429879",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackedRefsWriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-04-28T15:23:22Z",
+      "side": 1,
+      "message": "I don\u0027t think we should be re-peeling the refs/tags/ if FULLY_PEELED is missing, but PEELED is not?",
+      "revId": "0936d0dfa59edf2b67c56e22d789801ad548af00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
