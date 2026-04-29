@@ -11,6 +11,7 @@
 package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.util.Arrays;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -180,6 +181,9 @@ public final class BitmapWalker {
 		final BitmapBuilder bitmapResult = bitmapIndex.newBitmapBuilder();
 
 		for (ObjectId obj : start) {
+			if (Thread.currentThread().isInterrupted()) {
+				throw new InterruptedIOException();
+			}
 			Bitmap bitmap = bitmapIndex.getBitmap(obj);
 			if (bitmap != null) {
 				bitmapResult.or(bitmap);
@@ -213,6 +217,9 @@ public final class BitmapWalker {
 			walker.setObjectFilter(new BitmapObjectFilter(bitmapResult));
 
 			while (walker.next() != null) {
+				if (Thread.currentThread().isInterrupted()) {
+					throw new InterruptedIOException();
+				}
 				// Iterate through all of the commits. The BitmapRevFilter does
 				// the work.
 				//
@@ -228,6 +235,9 @@ public final class BitmapWalker {
 
 			RevObject ro;
 			while ((ro = walker.nextObject()) != null) {
+				if (Thread.currentThread().isInterrupted()) {
+					throw new InterruptedIOException();
+				}
 				bitmapResult.addObject(ro, ro.getType());
 				pm.update(1);
 			}
