@@ -1320,6 +1320,7 @@ public class RefDirectory extends RefDatabase {
 	 *            path of a loose ref relative to the repository root
 	 */
 	void refreshPathToLooseRef(Path refPath) {
+		boolean failed = false;
 		for (int i = 1; i < refPath.getNameCount(); i++) {
 			File dir = fileFor(refPath.subpath(0, i).toString());
 			// Use Files.newInputStream(Path) as it is consistent with other
@@ -1328,7 +1329,16 @@ public class RefDirectory extends RefDatabase {
 			try (InputStream stream = Files.newInputStream(dir.toPath())) {
 				// open the dir to refresh attributes (on some NFS clients)
 			} catch (IOException e) {
-				break; // loose ref may not exist
+				failed = true;
+				break; // directory may not exist
+			}
+		}
+		if (!failed) {
+			try (InputStream stream = Files.newInputStream(refPath)) {
+				// open the loose ref to refresh attributes (on some NFS
+				// clients)
+			} catch (IOException e) {
+				// loose ref may not exist
 			}
 		}
 	}

@@ -174,6 +174,18 @@ public class MultiPackIndexWriterTest {
 		assertEquals(5, chunkIds.indexOf(MIDX_CHUNKID_PACKNAMES));
 	}
 
+	@Test
+	public void jgit_noPacks() throws IOException {
+		PackIndexMerger packs = PackIndexMerger.builder().build();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		MultiPackIndexWriter.Result result = writer
+				.write(NullProgressMonitor.INSTANCE, out, packs);
+		assertEquals(0, result.packNames().size());
+		MidxHeader header = readHeader(out);
+		assertEquals(0, header.packCount());
+	}
+
 	private List<Integer> readChunkIds(ByteArrayOutputStream out) {
 		List<Integer> chunkIds = new ArrayList<>();
 		byte[] raw = out.toByteArray();
@@ -192,5 +204,15 @@ public class MultiPackIndexWriterTest {
 
 	private static IndexObject object(String name, long offset) {
 		return new IndexObject(name, offset);
+	}
+
+	private record MidxHeader(int packCount) {
+	}
+
+	private MidxHeader readHeader(ByteArrayOutputStream out) {
+		byte[] midx = out.toByteArray();
+
+		int packCount = NB.decodeInt32(midx, 8);
+		return new MidxHeader(packCount);
 	}
 }

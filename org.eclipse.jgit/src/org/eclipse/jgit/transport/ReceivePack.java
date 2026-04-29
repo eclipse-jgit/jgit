@@ -1107,8 +1107,9 @@ public class ReceivePack {
 	 * @return if the client is a shallow repository, the list of edge commits
 	 *         that define the client's shallow boundary. Empty set if the
 	 *         client is earlier than Git 1.9, or is a full clone.
+	 * @since 7.7
 	 */
-	private Set<ObjectId> getClientShallowCommits() {
+	protected Set<ObjectId> getClientShallowCommits() {
 		return clientShallowCommits;
 	}
 
@@ -2262,6 +2263,7 @@ public class ReceivePack {
 				}
 
 				Instant startProcessing = Instant.now();
+				long timePreReceiveHooks = 0;
 				try {
 					setAtomic(isCapabilityEnabled(CAPABILITY_ATOMIC));
 
@@ -2270,8 +2272,10 @@ public class ReceivePack {
 						failPendingCommands();
 					}
 
+					Instant startPreReceive = Instant.now();
 					preReceive.onPreReceive(
 							this, filterCommands(Result.NOT_ATTEMPTED));
+					timePreReceiveHooks = Duration.between(startPreReceive, Instant.now()).toMillis();
 					if (atomic && anyRejects()) {
 						failPendingCommands();
 					}
@@ -2280,7 +2284,7 @@ public class ReceivePack {
 					unlockPack();
 				}
 				long timeProcessingCommands = Duration
-						.between(startProcessing, Instant.now()).toMillis();
+						.between(startProcessing, Instant.now()).toMillis() - timePreReceiveHooks;
 
 				ReceivedPackStatistics.Builder statsBuilder = stats != null
 						? ReceivedPackStatistics.Builder.toBuilder(stats)
@@ -2288,6 +2292,7 @@ public class ReceivePack {
 				stats = statsBuilder.setTimeNegotiating(timeNegotiating)
 						.setTimeReceiving(timeReceiving)
 						.setTimeCheckingConnectivity(timeCheckingConnectivity)
+						.setTimePreReceiveHooks(timePreReceiveHooks)
 						.setTimeProcessingCommands(timeProcessingCommands)
 						.build();
 
