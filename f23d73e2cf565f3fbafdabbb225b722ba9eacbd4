@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "526f1d22_4905a24a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-29T04:40:49Z",
+      "side": 1,
+      "message": "Can we backport to stable-6.10 too?",
+      "revId": "f23d73e2cf565f3fbafdabbb225b722ba9eacbd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
