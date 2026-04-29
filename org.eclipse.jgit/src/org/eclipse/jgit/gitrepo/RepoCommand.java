@@ -58,7 +58,7 @@ import org.eclipse.jgit.util.FileUtils;
  * work in git submodule, so we'll skip all the sub projects
  * (&quot;foo/bar&quot; in the example) while converting.
  *
- * @see <a href="https://code.google.com/p/git-repo/">git-repo project page</a>
+ * @see <a href="https://gerrit.googlesource.com/git-repo/">git-repo project page</a>
  * @since 3.4
  */
 public class RepoCommand extends GitCommand<RevCommit> {
