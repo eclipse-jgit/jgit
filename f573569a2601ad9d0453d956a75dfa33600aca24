@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b1d3228_fb82b35f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackedRefsWriter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-30T20:49:53Z",
+      "side": 1,
+      "message": "unused now?",
+      "revId": "f573569a2601ad9d0453d956a75dfa33600aca24",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
