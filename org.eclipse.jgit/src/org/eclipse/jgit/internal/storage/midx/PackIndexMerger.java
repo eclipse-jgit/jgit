@@ -53,7 +53,8 @@ public class PackIndexMerger {
 	/**
 	 * Builder collecting the inputs for the merger.
 	 * <p>
-	 * Order matters. Packs will appear in the midx in the order they are added.
+	 * Order matters. In case of duplicates, the merger chooses the object in
+	 * the first pack it appears.
 	 */
 	public static class Builder {
 

@@ -36,6 +36,8 @@ public class PackBitmapIndexRemapper
 	private final BitSet inflated;
 	private final int[] prevToNewMapping;
 
+	private final boolean reuseOldBitmapAsIs;
+
 	/**
 	 * A PackBitmapIndex that maps the positions in the prevBitmapIndex to the
 	 * ones in the newIndex.
@@ -65,6 +67,7 @@ public class PackBitmapIndexRemapper
 		this.newPackIndex = newPackIndex;
 		this.inflated = null;
 		this.prevToNewMapping = null;
+		this.reuseOldBitmapAsIs = false;
 	}
 
 	private PackBitmapIndexRemapper(
@@ -73,10 +76,18 @@ public class PackBitmapIndexRemapper
 		this.newPackIndex = newPackIndex;
 		inflated = new BitSet(newPackIndex.getObjectCount());
 
-		prevToNewMapping = new int[oldPackIndex.getObjectCount()];
-		for (int pos = 0; pos < prevToNewMapping.length; pos++)
-			prevToNewMapping[pos] = newPackIndex.findPosition(
-					oldPackIndex.getObject(pos));
+		int[] prevToNewMappingTmp = new int[oldPackIndex.getObjectCount()];
+		boolean allPositionsMatch = true;
+		for (int pos = 0; pos < prevToNewMappingTmp.length; pos++) {
+			prevToNewMappingTmp[pos] = newPackIndex
+					.findPosition(oldPackIndex.getObject(pos));
+			if (prevToNewMappingTmp[pos] != pos) {
+				allPositionsMatch = false;
+			}
+		}
+		this.reuseOldBitmapAsIs = allPositionsMatch;
+		// We do not need it!
+		this.prevToNewMapping = allPositionsMatch ? null : prevToNewMappingTmp;
 	}
 
 	@Override
@@ -169,10 +180,24 @@ public class PackBitmapIndexRemapper
 		if (newPackIndex.findPosition(objectId) == -1)
 			return null;
 
+		if (reuseOldBitmapAsIs) {
+			return oldBitmap.getBitmap();
+		}
+
 		inflated.clear();
-		for (IntIterator i = oldBitmap.getBitmapWithoutCaching()
-				.intIterator(); i.hasNext();)
+		EWAHCompressedBitmap oldEWAHBitmap = oldBitmap
+				.getBitmapWithoutCaching();
+		if (oldEWAHBitmap.sizeInBits() > oldPackIndex.getObjectCount()) {
+			throw new IllegalStateException(String.format(
+					"Bitmap from old index has %d bits but index has only %d objects (new index has %d objects)",
+					oldEWAHBitmap.sizeInBits(), oldPackIndex.getObjectCount(),
+					newPackIndex.getObjectCount()));
+		}
+
+		for (IntIterator i = oldEWAHBitmap.intIterator(); i.hasNext();) {
 			inflated.set(prevToNewMapping[i.next()]);
+		}
+
 		bitmap = inflated.toEWAHCompressedBitmap();
 		bitmap.trim();
 		return bitmap;

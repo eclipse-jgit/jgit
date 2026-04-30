@@ -15,11 +15,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Pattern;
 
 import org.eclipse.jgit.internal.storage.file.MidxWriter;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndexPrettyPrinter;
 import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -31,6 +33,9 @@ class MultiPackIndex extends TextBuiltin {
 
 	@Option(name = "--midx")
 	private String midxPath;
+
+	@Option(name = "--bitmaps")
+	private boolean writeBitmaps;
 
 	/** {@inheritDoc} */
 	@Override
@@ -68,6 +73,11 @@ class MultiPackIndex extends TextBuiltin {
 			throw die("This repository object db doesn't have packs");
 		}
 
+		ObjectDirectory odb = (ObjectDirectory) db.getObjectDatabase();
+		if (hasLooseObjects(odb)) {
+			throw die("Cannot write multi-pack-index with loose objects");
+		}
+
 		File midx;
 		if (midxPath == null || midxPath.isEmpty()) {
 			midx = new File(((ObjectDirectory) db.getObjectDatabase())
@@ -77,9 +87,53 @@ class MultiPackIndex extends TextBuiltin {
 		}
 
 		errw.println("Writing " + midx.getAbsolutePath());
+		PackConfig packConfig = null;
+		if (writeBitmaps) {
+			packConfig = new PackConfig();
+			packConfig.setBitmapRecentCommitSpan(1);
+			packConfig.setBitmapRecentCommitSpan(100);
+		}
 
-		ObjectDirectory odb = (ObjectDirectory) db.getObjectDatabase();
-		MidxWriter.writeMidx(new TextProgressMonitor(errw), odb.getPacks(),
-				midx);
+		MidxWriter.writeMidx(new TextProgressMonitor(errw), db, odb.getPacks(),
+				midx, packConfig);
+	}
+
+	private static final Pattern FANOUT_DIR_PATTERN = Pattern
+			.compile("^[0-9a-f]{2}$");
+
+	/**
+	 * Checks if the repository's object directory contains any loose objects.
+	 *
+	 * @param objDir
+	 *            the ObjectDirectory to check.
+	 * @return {@code true} if any loose objects are found, {@code false}
+	 *         otherwise.
+	 */
+	private static boolean hasLooseObjects(ObjectDirectory objDir) {
+		File objectsDir = objDir.getDirectory();
+		if (objectsDir == null || !objectsDir.isDirectory()) {
+			return false;
+		}
+
+		String[] fanoutDirNames = objectsDir.list();
+		if (fanoutDirNames == null) {
+			return false;
+		}
+
+		for (String dirName : fanoutDirNames) {
+			if (FANOUT_DIR_PATTERN.matcher(dirName).matches()) {
+				File fanoutDir = new File(objectsDir, dirName);
+				if (fanoutDir.isDirectory()) {
+					String[] objects = fanoutDir.list();
+					// If the fan-out directory is not empty, we have loose
+					// objects.
+					if (objects != null && objects.length > 0) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 }

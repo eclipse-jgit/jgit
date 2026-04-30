@@ -14,7 +14,6 @@ package org.eclipse.jgit.transport;
 import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_ATOMIC;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -173,9 +172,11 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 	 *             if any exception occurs.
 	 * @since 3.0
 	 */
+	@SuppressWarnings("Finally")
 	protected void doPush(final ProgressMonitor monitor,
 			final Map<String, RemoteRefUpdate> refUpdates,
 			OutputStream outputStream) throws TransportException {
+		Throwable suppressedThrowable = null;
 		try {
 			writeCommands(refUpdates.values(), monitor, outputStream);
 
@@ -183,28 +184,45 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 				transmitOptions();
 			if (writePack)
 				writePack(refUpdates, monitor);
-			if (sentCommand) {
-				if (capableReport)
-					readStatusReport(refUpdates);
-				if (capableSideBand) {
-					// Ensure the data channel is at EOF, so we know we have
-					// read all side-band data from all channels and have a
-					// complete copy of the messages (if any) buffered from
-					// the other data channels.
-					//
-					int b = in.read();
-					if (0 <= b) {
-						throw new TransportException(uri, MessageFormat.format(
-								JGitText.get().expectedEOFReceived,
-								Character.valueOf((char) b)));
-					}
-				}
-			}
 		} catch (TransportException e) {
+			suppressedThrowable = e;
 			throw e;
 		} catch (Exception e) {
-			throw new TransportException(uri, e.getMessage(), e);
+			TransportException transportException = new TransportException(uri, e.getMessage(), e);
+			suppressedThrowable = transportException;
+			throw transportException;
 		} finally {
+			try {
+				if (sentCommand) {
+					if (capableReport) {
+						readStatusReport(refUpdates);
+					}
+					if (capableSideBand) {
+						// Ensure the data channel is at EOF, so we know we have
+						// read all side-band data from all channels and have a
+						// complete copy of the messages (if any) buffered from
+						// the other data channels.
+						//
+						int b = in.read();
+						if (0 <= b) {
+							throw new TransportException(uri, MessageFormat.format(
+									JGitText.get().expectedEOFReceived,
+									Character.valueOf((char) b)));
+						}
+					}
+				}
+			} catch (TransportException e) {
+				if (suppressedThrowable != null) {
+					e.addSuppressed(suppressedThrowable);
+				}
+				throw e;
+			} catch (Exception e) {
+				TransportException transportException = new TransportException(uri, e.getMessage(), e);
+				if (suppressedThrowable != null) {
+					transportException.addSuppressed(suppressedThrowable);
+				}
+				throw transportException;
+			}
 			if (in instanceof SideBandInputStream) {
 				((SideBandInputStream) in).drainMessages();
 			}
@@ -324,12 +342,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 			writer.setReuseValidatingObjects(false);
 			writer.setDeltaBaseAsOffset(capableOfsDelta);
 			writer.preparePack(monitor, newObjects, remoteObjects);
-
-			OutputStream packOut = out;
-			if (capableSideBand) {
-				packOut = new CheckingSideBandOutputStream(in, out);
-			}
-			writer.writePack(monitor, monitor, packOut);
+			writer.writePack(monitor, monitor, out);
 
 			packTransferTime = writer.getStatistics().getTimeWriting();
 		}
@@ -428,49 +441,5 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 	 */
 	public boolean isUseBitmaps() {
 		return useBitmaps;
-	}
-
-	private static class CheckingSideBandOutputStream extends OutputStream {
-		private final InputStream in;
-		private final OutputStream out;
-
-		CheckingSideBandOutputStream(InputStream in, OutputStream out) {
-			this.in = in;
-			this.out = out;
-		}
-
-		@Override
-		public void write(int b) throws IOException {
-			write(new byte[] { (byte) b });
-		}
-
-		@Override
-		public void write(byte[] buf, int ptr, int cnt) throws IOException {
-			try {
-				out.write(buf, ptr, cnt);
-			} catch (IOException e) {
-				throw checkError(e);
-			}
-		}
-
-		@Override
-		public void flush() throws IOException {
-			try {
-				out.flush();
-			} catch (IOException e) {
-				throw checkError(e);
-			}
-		}
-
-		private IOException checkError(IOException e1) {
-			try {
-				in.read();
-			} catch (TransportException e2) {
-				return e2;
-			} catch (IOException e2) {
-				return e1;
-			}
-			return e1;
-		}
 	}
 }

@@ -44,7 +44,7 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * Repo XML manifest parser.
  *
- * @see <a href="https://code.google.com/p/git-repo/">git-repo project page</a>
+ * @see <a href="https://gerrit.googlesource.com/git-repo/">git-repo project page</a>
  * @since 4.0
  */
 public class ManifestParser extends DefaultHandler {

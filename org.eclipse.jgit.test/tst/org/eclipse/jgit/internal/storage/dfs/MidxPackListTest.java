@@ -9,341 +9,333 @@
  */
 package org.eclipse.jgit.internal.storage.dfs;
 
-import static java.util.Arrays.asList;
-import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.zip.Deflater;
+import java.util.Map;
+import java.util.Set;
 
-import org.eclipse.jgit.junit.JGitTestUtil;
-import org.eclipse.jgit.junit.TestRng;
-import org.eclipse.jgit.lib.NullProgressMonitor;
-import org.eclipse.jgit.lib.ObjectId;
-import org.junit.Before;
 import org.junit.Test;
 
 public class MidxPackListTest {
 
-	InMemoryRepository db;
+	PackPool packPool = new PackPool();
 
-	@Before
-	public void setUp() {
-		db = new InMemoryRepository(new DfsRepositoryDescription("test"));
-		db.getObjectDatabase().setUseMultipackIndex(true);
+	@Test
+	public void getAllPlainPacks_onlyPlain() {
+		DfsPackFile a = packPool.pack("a");
+		DfsPackFile b = packPool.pack("b");
+		DfsPackFile c = packPool.pack("c");
+
+		MidxPackList packList = MidxPackList.create(a, b, c);
+		assertEquals(List.of(a, b, c), packList.getAllPlainPacks());
 	}
 
 	@Test
-	public void getAllPlainPacks_onlyPlain() throws IOException {
-		setupThreePacks();
-		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
-		MidxPackList packList = MidxPackList.create(packs);
-		assertEquals(3, packList.getAllPlainPacks().size());
+	public void getAllPlainPacks_onlyMidx() {
+		DfsPackFile a = packPool.pack("a");
+		DfsPackFile b = packPool.pack("b");
+		DfsPackFile c = packPool.pack("c");
+		DfsPackFileMidx midx = packPool.midx("midx", null, "a", "b", "c");
+
+		MidxPackList packList = MidxPackList.create(midx);
+		assertEquals(List.of(c, b, a), packList.getAllPlainPacks());
 	}
 
 	@Test
-	public void getAllPlainPacks_onlyMidx() throws IOException {
-		setupThreePacksAndMidx();
+	public void getAllPlainPacks_midxPlusOne() {
+		DfsPackFile a = packPool.pack("a");
+		DfsPackFile b = packPool.pack("b");
+		DfsPackFile c = packPool.pack("c");
+		DfsPackFileMidx midx = packPool.midx("midx", null, "a", "b", "c");
+		DfsPackFile d = packPool.pack("d");
 
-		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
-		assertEquals(1, packs.length);
-		MidxPackList packList = MidxPackList.create(packs);
-		assertEquals(3, packList.getAllPlainPacks().size());
+		MidxPackList packList = MidxPackList.create(d, midx);
+		assertEquals(List.of(d, c, b, a), packList.getAllPlainPacks());
 	}
 
 	@Test
-	public void getAllPlainPacks_midxPlusOne() throws IOException {
-		setupThreePacksAndMidx();
-		writePackWithRandomBlob(60);
+	public void getAllPlainPacks_nestedMidx() {
+		DfsPackFile a = packPool.pack("a");
+		DfsPackFile b = packPool.pack("b");
+		DfsPackFileMidx midxBase = packPool.midx("midxBase", null, "a", "b");
+		DfsPackFile c = packPool.pack("c");
+		DfsPackFile d = packPool.pack("d");
+		DfsPackFileMidx midxMiddle = packPool.midx("midxMiddle", midxBase, "c",
+				"d");
+		DfsPackFile e = packPool.pack("e");
+		DfsPackFile f = packPool.pack("f");
+		DfsPackFileMidx midxTip = packPool.midx("midxTip", midxMiddle, "e",
+				"f");
 
-		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
-		assertEquals(2, packs.length);
-		MidxPackList packList = MidxPackList.create(packs);
-		assertEquals(4, packList.getAllPlainPacks().size());
+		MidxPackList packList = MidxPackList.create(midxTip);
+		assertEquals(List.of(f, e, d, c, b, a), packList.getAllPlainPacks());
 	}
 
 	@Test
-	public void getAllPlainPacks_nestedMidx() throws IOException {
-		setupSixPacksThreeMidx();
+	public void getAllMidxPacks_onlyPlain() {
+		DfsPackFile a = packPool.pack("a");
+		DfsPackFile b = packPool.pack("b");
+		DfsPackFile c = packPool.pack("c");
 
-		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
-		assertEquals(1, packs.length);
-		MidxPackList packList = MidxPackList.create(packs);
-		assertEquals(6, packList.getAllPlainPacks().size());
-	}
-
-	@Test
-	public void getAllMidxPacks_onlyPlain() throws IOException {
-		setupThreePacks();
-
-		MidxPackList packList = MidxPackList
-				.create(db.getObjectDatabase().getPacks());
+		MidxPackList packList = MidxPackList.create(a, b, c);
 		assertEquals(0, packList.getAllMidxPacks().size());
 	}
 
 	@Test
-	public void getAllMidxPacks_onlyMidx() throws IOException {
-		setupThreePacksAndMidx();
+	public void getAllMidxPacks_onlyMidx() {
+		packPool.pack("a");
+		packPool.pack("b");
+		packPool.pack("c");
+		DfsPackFileMidx midx = packPool.midx("midx", null, "a", "b", "c");
 
-		MidxPackList packList = MidxPackList
-				.create(db.getObjectDatabase().getPacks());
-		assertEquals(1, packList.getAllMidxPacks().size());
+		MidxPackList packList = MidxPackList.create(midx);
+		assertEquals(List.of(midx), packList.getAllMidxPacks());
 	}
 
 	@Test
-	public void getAllMidxPacks_midxPlusOne() throws IOException {
-		setupThreePacksAndMidx();
-		writePackWithRandomBlob(60);
+	public void getAllMidxPacks_midxPlusOne() {
+		packPool.pack("a");
+		packPool.pack("b");
+		packPool.pack("c");
+		DfsPackFileMidx midx = packPool.midx("midx", null, "a", "b", "c");
+		DfsPackFile d = packPool.pack("d");
 
-		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
-		assertEquals(2, packs.length);
-		MidxPackList packList = MidxPackList.create(packs);
-		assertEquals(1, packList.getAllMidxPacks().size());
+		MidxPackList packList = MidxPackList.create(d, midx);
+		assertEquals(List.of(midx), packList.getAllMidxPacks());
 	}
 
 	@Test
-	public void getAllMidxPacks_nestedMidx() throws IOException {
-		setupSixPacksThreeMidx();
+	public void getAllMidxPacks_nestedMidx() {
+		packPool.pack("a");
+		packPool.pack("b");
+		DfsPackFileMidx midxBase = packPool.midx("midxBase", null, "a", "b");
+		packPool.pack("c");
+		packPool.pack("d");
+		DfsPackFileMidx midxMiddle = packPool.midx("midxMiddle", midxBase, "c",
+				"d");
+		packPool.pack("e");
+		packPool.pack("f");
+		DfsPackFileMidx midxTip = packPool.midx("midxTip", midxMiddle, "e",
+				"f");
 
-		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
-		assertEquals(1, packs.length);
-		MidxPackList packList = MidxPackList.create(packs);
-		assertEquals(3, packList.getAllMidxPacks().size());
+		MidxPackList packList = MidxPackList.create(midxTip);
+		assertEquals(List.of(midxTip, midxMiddle, midxBase),
+				packList.getAllMidxPacks());
 	}
 
 	@Test
-	public void findAllImpactedMidx_onlyPacks() throws IOException {
-		setupThreePacks();
+	public void findAllImpactedMidx_onlyPacks() {
+		DfsPackFile a = packPool.pack("a");
+		DfsPackFile b = packPool.pack("b");
+		DfsPackFile c = packPool.pack("c");
 
-		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
-		MidxPackList packList = MidxPackList
-				.create(db.getObjectDatabase().getPacks());
-		assertEquals(0, packList.findAllCoveringMidxs(asList(packs)).size());
+		MidxPackList packList = MidxPackList.create(a, b, c);
+		assertEquals(Set.of(), packList.findAllCoveringMidxs(a));
+		assertEquals(Set.of(), packList.findAllCoveringMidxs(b));
+		assertEquals(Set.of(), packList.findAllCoveringMidxs(c));
+		assertEquals(Set.of(), packList.findAllCoveringMidxs(a, b));
 	}
 
 	@Test
-	public void findAllImpactedMidx_onlyMidx() throws IOException {
-		setupThreePacksAndMidx();
+	public void findAllImpactedMidx_onlyMidx() {
+		DfsPackFile a = packPool.pack("a");
+		DfsPackFile b = packPool.pack("b");
+		DfsPackFile c = packPool.pack("c");
+		DfsPackFileMidx midx = packPool.midx("midx", null, "a", "b", "c");
 
-		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
-		MidxPackList packList = MidxPackList.create(packs);
-		List<DfsPackFile> covered = ((DfsPackFileMidx) packs[0])
-				.getAllCoveredPacks();
-		assertEquals(1, packList.findAllCoveringMidxs(covered.get(0)).size());
-		assertEquals(1, packList.findAllCoveringMidxs(covered.get(1)).size());
-		assertEquals(1, packList.findAllCoveringMidxs(covered.get(2)).size());
-
-		assertEquals("multiple packs covered", 1,
-				packList.findAllCoveringMidxs(covered.subList(0, 2)).size());
+		MidxPackList packList = MidxPackList.create(midx);
+		assertEquals(Set.of(midx), packList.findAllCoveringMidxs(a));
+		assertEquals(Set.of(midx), packList.findAllCoveringMidxs(b));
+		assertEquals(Set.of(midx), packList.findAllCoveringMidxs(c));
+		assertEquals(Set.of(midx), packList.findAllCoveringMidxs(a, b));
 	}
 
 	@Test
-	public void findAllImpactedMidx_midxPlusOne() throws IOException {
-		setupThreePacksAndMidx();
-		writePackWithRandomBlob(60);
+	public void findAllImpactedMidx_midxPlusOne() {
+		packPool.pack("a");
+		DfsPackFile b = packPool.pack("b");
+		DfsPackFile c = packPool.pack("c");
+		DfsPackFileMidx midx = packPool.midx("midx", null, "a", "b", "c");
+		DfsPackFile d = packPool.pack("d");
 
-		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
-		assertEquals(2, packs.length);
-
-		DfsPackFile uncoveredPack = packs[0];
-		List<DfsPackFile> coveredPacks = ((DfsPackFileMidx) packs[1])
-				.getAllCoveredPacks();
-		assertEquals(3, coveredPacks.size());
-
-		MidxPackList packList = MidxPackList.create(packs);
-		assertEquals("one non covered", 0,
-				packList.findAllCoveringMidxs(uncoveredPack).size());
-		assertEquals("one and covered", 1,
-				packList.findAllCoveringMidxs(coveredPacks.get(1)).size());
+		MidxPackList packList = MidxPackList.create(d, midx);
+		assertEquals("one non covered", Set.of(),
+				packList.findAllCoveringMidxs(d));
+		assertEquals("one covered", Set.of(midx),
+				packList.findAllCoveringMidxs(b));
 		assertEquals(
-				"two, only one covered", 1, packList
-						.findAllCoveringMidxs(
-								List.of(uncoveredPack, coveredPacks.get(2)))
-						.size());
+				"two, only one covered", Set.of(midx),
+				packList.findAllCoveringMidxs(c, d));
 	}
 
 	@Test
-	public void findAllImpactedMidxs_nestedMidx() throws IOException {
-		setupSixPacksThreeMidx();
+	public void findAllImpactedMidxs_nestedMidx() {
+		DfsPackFile a = packPool.pack("a");
+		DfsPackFile b = packPool.pack("b");
+		DfsPackFileMidx midxBase = packPool.midx("midxBase", null, "a", "b");
+		DfsPackFile c = packPool.pack("c");
+		DfsPackFile d = packPool.pack("d");
+		DfsPackFileMidx midxMiddle = packPool.midx("midxMiddle", midxBase, "c",
+				"d");
+		DfsPackFile e = packPool.pack("e");
+		DfsPackFile f = packPool.pack("f");
+		DfsPackFileMidx midxTip = packPool.midx("midxTip", midxMiddle, "e",
+				"f");
 
-		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
-		assertEquals(1, packs.length);
-		MidxPackList packList = MidxPackList.create(packs);
-		List<DfsPackFile> coveredPacks = ((DfsPackFileMidx) packs[0])
-				.getAllCoveredPacks();
-		assertEquals(6, coveredPacks.size());
+		MidxPackList packList = MidxPackList.create(midxTip);
+		// Only tip
+		assertEquals(Set.of(midxTip), packList.findAllCoveringMidxs(e));
+		assertEquals(Set.of(midxTip), packList.findAllCoveringMidxs(f));
+		assertEquals(Set.of(midxTip), packList.findAllCoveringMidxs(e, f));
 
-		assertEquals("one covered tip midx", 1,
-				packList.findAllCoveringMidxs(coveredPacks.get(0)).size());
-		assertEquals("one covered middle midx", 2,
-				packList.findAllCoveringMidxs(coveredPacks.get(2)).size());
-		assertEquals("one covered base midx", 3,
-				packList.findAllCoveringMidxs(coveredPacks.get(4)).size());
-		assertEquals(
-				"multiple covered in chain", 3, packList
-						.findAllCoveringMidxs(List.of(coveredPacks.get(1),
-								coveredPacks.get(2), coveredPacks.get(5)))
-						.size());
+		// Tip and middle
+		assertEquals(Set.of(midxTip, midxMiddle),
+				packList.findAllCoveringMidxs(c));
+		assertEquals(Set.of(midxTip, midxMiddle),
+				packList.findAllCoveringMidxs(d));
+		assertEquals(Set.of(midxTip, midxMiddle),
+				packList.findAllCoveringMidxs(c, d));
+		assertEquals(Set.of(midxTip, midxMiddle),
+				packList.findAllCoveringMidxs(e, d));
+
+		// All three
+		assertEquals(Set.of(midxTip, midxMiddle, midxBase),
+				packList.findAllCoveringMidxs(a));
+		assertEquals(Set.of(midxTip, midxMiddle, midxBase),
+				packList.findAllCoveringMidxs(b));
+		assertEquals(Set.of(midxTip, midxMiddle, midxBase),
+				packList.findAllCoveringMidxs(a, b));
+		assertEquals(Set.of(midxTip, midxMiddle, midxBase),
+				packList.findAllCoveringMidxs(c, a));
+		assertEquals(Set.of(midxTip, midxMiddle, midxBase),
+				packList.findAllCoveringMidxs(f, c, b));
 	}
 
 	@Test
-	public void getTopMidxPack_noMidx_null() throws IOException {
-		setupThreePacks();
-		MidxPackList packList = MidxPackList
-				.create(db.getObjectDatabase().getPacks());
+	public void getTopMidxPack_noMidx_null() {
+		DfsPackFile a = packPool.pack("a");
+		DfsPackFile b = packPool.pack("b");
+		DfsPackFile c = packPool.pack("c");
+		MidxPackList packList = MidxPackList.create(a, b, c);
 		assertNull(packList.getTopMidxPack());
 	}
 
 	@Test
-	public void getTopMidxPack_oneMidx_returned() throws IOException {
-		DfsPackFileMidx midx = setupThreePacksAndMidx();
-		MidxPackList packList = MidxPackList
-				.create(db.getObjectDatabase().getPacks());
-		assertEquals(midx.getPackDescription(),
-				packList.getTopMidxPack().getPackDescription());
+	public void getTopMidxPack_oneMidx_returned() {
+		packPool.pack("a");
+		packPool.pack("b");
+		packPool.pack("c");
+		DfsPackFileMidx midx = packPool.midx("midx", null, "a", "b", "c");
+
+		MidxPackList packList = MidxPackList.create(midx);
+		assertEquals(midx, packList.getTopMidxPack());
 	}
 
 	@Test
-	public void getTopMidxPack_multipleMidx_mostRecent() throws IOException {
-		writePackWithRandomBlob(100);
-		writePackWithRandomBlob(300);
-		writePackWithRandomBlob(50);
-		writePackWithRandomBlob(400);
-		writePackWithRandomBlob(130);
-		writePackWithRandomBlob(500);
-		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
-		assertEquals(6, packs.length);
+	public void getTopMidxPack_multipleMidx_mostRecent() {
+		packPool.pack("a");
+		packPool.pack("b");
+		DfsPackFileMidx midxBase = packPool.midx("midxBase", null, "a", "b");
+		packPool.pack("c");
+		packPool.pack("d");
+		DfsPackFileMidx midxMiddle = packPool.midx("midxMiddle", midxBase, "c",
+				"d");
+		packPool.pack("e");
+		packPool.pack("f");
+		DfsPackFileMidx midxTip = packPool.midx("midxTip", midxMiddle, "e",
+				"f");
 
-		// midx covers first two packs
-		writeMultipackIndex(Arrays.copyOfRange(packs, 4, 6), null);
-
-		// chain of midxs covering all
-		DfsPackFileMidx midxBase = writeMultipackIndex(
-				Arrays.copyOfRange(packs, 4, 6), null);
-		DfsPackFileMidx midxMid = writeMultipackIndex(
-				Arrays.copyOfRange(packs, 2, 4), midxBase);
-		DfsPackFileMidx chainTwo = writeMultipackIndex(
-				Arrays.copyOfRange(packs, 0, 2), midxMid);
-
-		MidxPackList packList = MidxPackList
-				.create(db.getObjectDatabase().getPacks());
-		assertEquals(chainTwo.getPackDescription(),
-				packList.getTopMidxPack().getPackDescription());
+		MidxPackList packList = MidxPackList.create(midxTip);
+		assertEquals(midxTip, packList.getTopMidxPack());
 	}
 
 	@Test
-	public void getPlainPacksNotCoveredBy_null_all() throws IOException {
-		setupThreePacks();
-		MidxPackList packList = MidxPackList
-				.create(db.getObjectDatabase().getPacks());
-		assertEquals(3, packList.getPlainPacksNotCoveredBy(null).size());
+	public void getPlainPacksNotCoveredBy_null_all() {
+		DfsPackFile a = packPool.pack("a");
+		DfsPackFile b = packPool.pack("b");
+		DfsPackFile c = packPool.pack("c");
+		MidxPackList packList = MidxPackList.create(a, b, c);
+		assertEquals(List.of(a, b, c),
+				packList.getPlainPacksNotCoveredBy(null));
 	}
 
 	@Test
 	public void getPlainPacksNotCoveredBy_midxCoversAll_nothing()
-			throws IOException {
-		DfsPackFileMidx midx = setupThreePacksAndMidx();
-		MidxPackList packList = MidxPackList
-				.create(db.getObjectDatabase().getPacks());
-		assertEquals(0, packList.getPlainPacksNotCoveredBy(midx).size());
+	{
+		packPool.pack("a");
+		packPool.pack("b");
+		packPool.pack("c");
+		DfsPackFileMidx midx = packPool.midx("midx", null, "a", "b", "c");
+
+		MidxPackList packList = MidxPackList.create(midx);
+		assertEquals(List.of(), packList.getPlainPacksNotCoveredBy(midx));
 	}
 
 	@Test
 	public void getPlainPacksNotCoveredBy_midxMissesOne_one()
-			throws IOException {
-		DfsPackFileMidx midx = setupThreePacksAndMidx();
-		writePackWithBlob("getPlainPacksNotCovered_missingone"
-				.getBytes(StandardCharsets.UTF_8));
-		MidxPackList packList = MidxPackList
-				.create(db.getObjectDatabase().getPacks());
-		assertEquals(1, packList.getPlainPacksNotCoveredBy(midx).size());
+	{
+		packPool.pack("a");
+		packPool.pack("b");
+		packPool.pack("c");
+		DfsPackFileMidx midx = packPool.midx("midx", null, "a", "b", "c");
+		DfsPackFile d = packPool.pack("d");
+		MidxPackList packList = MidxPackList.create(d, midx);
+		assertEquals(List.of(d), packList.getPlainPacksNotCoveredBy(midx));
 	}
 
 	@Test
-	public void getPlainPacksNotCoveredBy_midxChain() throws IOException {
-		writePackWithRandomBlob(100);
-		writePackWithRandomBlob(300);
-		writePackWithRandomBlob(50);
-		writePackWithRandomBlob(400);
-		writePackWithRandomBlob(130);
-		writePackWithRandomBlob(500);
-		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
-		assertEquals(6, packs.length);
-		DfsPackFileMidx midxBase = writeMultipackIndex(
-				Arrays.copyOfRange(packs, 4, 6), null);
-		DfsPackFileMidx midxMid = writeMultipackIndex(
-				Arrays.copyOfRange(packs, 2, 4), midxBase);
-		DfsPackFileMidx midxTip = writeMultipackIndex(
-				Arrays.copyOfRange(packs, 0, 2), midxMid);
+	public void getPlainPacksNotCoveredBy_midxChain() {
+		packPool.pack("a");
+		packPool.pack("b");
+		DfsPackFileMidx midxBase = packPool.midx("midxBase", null, "a", "b");
+		DfsPackFile c = packPool.pack("c");
+		DfsPackFile d = packPool.pack("d");
+		DfsPackFileMidx midxMiddle = packPool.midx("midxMiddle", midxBase, "c",
+				"d");
+		DfsPackFile e = packPool.pack("e");
+		DfsPackFile f = packPool.pack("f");
+		DfsPackFileMidx midxTip = packPool.midx("midxTip", midxMiddle, "e",
+				"f");
 
-		MidxPackList packList = MidxPackList
-				.create(db.getObjectDatabase().getPacks());
-		assertEquals(4, packList.getPlainPacksNotCoveredBy(midxBase).size());
-		assertEquals(2, packList.getPlainPacksNotCoveredBy(midxMid).size());
-		assertEquals(0, packList.getPlainPacksNotCoveredBy(midxTip).size());
+		MidxPackList packList = MidxPackList.create(midxTip);
+		assertEquals(List.of(f, e, d, c),
+				packList.getPlainPacksNotCoveredBy(midxBase));
+		assertEquals(List.of(f, e),
+				packList.getPlainPacksNotCoveredBy(midxMiddle));
+		assertEquals(List.of(), packList.getPlainPacksNotCoveredBy(midxTip));
 	}
 
-	private void setupThreePacks() throws IOException {
-		writePackWithRandomBlob(100);
-		writePackWithRandomBlob(300);
-		writePackWithRandomBlob(50);
-	}
 
-	private DfsPackFileMidx setupThreePacksAndMidx() throws IOException {
-		writePackWithRandomBlob(100);
-		writePackWithRandomBlob(300);
-		writePackWithRandomBlob(50);
-		return writeMultipackIndex();
-	}
+	private static final class PackPool {
+		private static final DfsRepositoryDescription repoDesc = new DfsRepositoryDescription(
+				"midxpacklisttest");
 
-	private void setupSixPacksThreeMidx() throws IOException {
-		writePackWithRandomBlob(100);
-		writePackWithRandomBlob(300);
-		writePackWithRandomBlob(50);
-		writePackWithRandomBlob(400);
-		writePackWithRandomBlob(130);
-		writePackWithRandomBlob(500);
-		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
-		assertEquals(6, packs.length);
-		DfsPackFileMidx midxBase = writeMultipackIndex(
-				Arrays.copyOfRange(packs, 4, 6), null);
-		DfsPackFileMidx midxMid = writeMultipackIndex(
-				Arrays.copyOfRange(packs, 2, 4), midxBase);
-		writeMultipackIndex(Arrays.copyOfRange(packs, 0, 2), midxMid);
-		assertEquals("only top midx", 1,
-				db.getObjectDatabase().getPacks().length);
-	}
+		private final Map<String, DfsPackFile> knownPacks = new HashMap<>();
 
-	private DfsPackFileMidx writeMultipackIndex() throws IOException {
-		return writeMultipackIndex(db.getObjectDatabase().getPacks(), null);
-	}
+		DfsPackFile pack(String name) {
+			DfsPackDescription dsc = new DfsPackDescription(repoDesc, name, GC);
+			DfsPackFile p = new DfsPackFile(DfsBlockCache.getInstance(), dsc);
+			knownPacks.put(name, p);
+			return p;
+		}
 
-	private DfsPackFileMidx writeMultipackIndex(DfsPackFile[] packs,
-			DfsPackFileMidx base) throws IOException {
-		List<DfsPackFile> packfiles = asList(packs);
-		DfsPackDescription desc = DfsMidxWriter.writeMidx(
-				NullProgressMonitor.INSTANCE, db.getObjectDatabase(), packfiles,
-				base != null ? base.getPackDescription() : null, null);
-		db.getObjectDatabase().commitPack(List.of(desc), null);
-		return DfsPackFileMidx.create(DfsBlockCache.getInstance(), desc,
-				packfiles, base);
-	}
-
-	private ObjectId writePackWithBlob(byte[] data) throws IOException {
-		DfsInserter ins = (DfsInserter) db.newObjectInserter();
-		ins.setCompressionLevel(Deflater.NO_COMPRESSION);
-		ObjectId blobId = ins.insert(OBJ_BLOB, data);
-		ins.flush();
-		return blobId;
-	}
-
-	// Do not use the size twice into the same test (it gives the same blob!)
-	private ObjectId writePackWithRandomBlob(int size) throws IOException {
-		byte[] data = new TestRng(JGitTestUtil.getName()).nextBytes(size);
-		return writePackWithBlob(data);
+		DfsPackFileMidx midx(String name, DfsPackFileMidx base,
+				String... coveredPacks) {
+			DfsPackDescription dsc = new DfsPackDescription(repoDesc, name, GC);
+			dsc.addFileExt(MULTI_PACK_INDEX);
+			dsc.setCoveredPacks(Arrays.stream(coveredPacks).map(knownPacks::get)
+					.map(DfsPackFile::getPackDescription).toList());
+			if (base != null) {
+				dsc.setMultiPackIndexBase(base.getPackDescription());
+			}
+			return DfsPackFileMidx.create(DfsBlockCache.getInstance(), dsc,
+					knownPacks.values().stream().toList(), base);
+		}
 	}
 }

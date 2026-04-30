@@ -14,10 +14,10 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACKED_INDEX_GIT_USE_STRONGREFS;
-import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 
 import java.io.EOFException;
 import java.io.File;
@@ -36,6 +36,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -61,6 +62,7 @@ import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.util.Optionally;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -169,6 +171,28 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		length = Long.MAX_VALUE;
 	}
 
+	/**
+	 * Set the checksum of this pack
+	 *
+	 * @param checksum
+	 *            the checksum
+	 */
+	protected void setPackChecksum(byte[] checksum) {
+		this.packChecksum = checksum;
+	}
+
+	/**
+	 * Packs covered by this pack
+	 * <p>
+	 * For regular packs, this list is empty. For midx packs, this list has the
+	 * names of packs indexed by the midx.
+	 *
+	 * @return list of packs covered by this pack.
+	 */
+	protected List<Pack> getCoveredPacks() {
+		return Collections.emptyList();
+	}
+
 	private PackIndex idx() throws IOException {
 		Optional<PackIndex> optional = loadedIdx.getOptional();
 		if (optional.isPresent()) {
@@ -198,10 +222,9 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 						Long.valueOf(System.currentTimeMillis()
 								- start)));
 			}
-				if (packChecksum == null) {
+			if (packChecksum == null) {
 				packChecksum = idx.getChecksum();
-				fileSnapshot.setChecksum(
-						ObjectId.fromRaw(packChecksum));
+				fileSnapshot.setChecksum(ObjectId.fromRaw(packChecksum));
 			} else if (!Arrays.equals(packChecksum,
 					idx.getChecksum())) {
 				throw new PackMismatchException(MessageFormat
@@ -416,6 +439,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 *            packs to close
 	 */
 	public static void close(Set<Pack> packs) {
+		// TODO(ifrade): purge also nested packs in midx
 		WindowCache.purge(packs);
 		packs.forEach(p -> p.closeIndices());
 	}
@@ -428,7 +452,12 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		closeIndices();
 	}
 
-	private synchronized void closeIndices() {
+	/**
+	 * Clear the indexes referenced in this pack.
+	 * <p>
+	 * Subclasses override this method to clear references to any index they add
+	 */
+	protected synchronized void closeIndices() {
 		loadedIdx = Optionally.empty();
 		reverseIdx = Optionally.empty();
 		bitmapIdx = Optionally.empty();
@@ -1316,8 +1345,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 			return optional.get();
 		}
 		try {
-			PackBitmapIndex idx = PackBitmapIndex.open(bitmapIdxFile, idx(),
-					getReverseIdx());
+			PackBitmapIndex idx = PackBitmapIndex.open(bitmapIdxFile,
+					getIndex(), getReverseIdx());
 			// At this point, idx() will have set packChecksum.
 			if (Arrays.equals(packChecksum, idx.getPackChecksum())) {
 				bitmapIdx = optionally(idx);
@@ -1342,7 +1371,34 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		this.bitmapIdxFile = bitmapIndexFile;
 	}
 
-	private PackReverseIndex getReverseIdx() throws IOException {
+	/**
+	 * Return the pack if all its objects are included in the need bitmaps.
+	 *
+	 * @param needBitmaps
+	 *            bitmap with needed objects. Modified in this method: If a pack
+	 *            is fully included in the bitmap, the pack objects are removed
+	 *            from the bitmap.
+	 * @return list of packs fully included in the bitmap
+	 * @throws IOException
+	 *             an error reading the bitmap index of this pack
+	 */
+	protected List<Pack> fullyIncludedIn(BitmapIndex.BitmapBuilder needBitmaps)
+			throws IOException {
+		PackBitmapIndex bitmapIndex = getBitmapIndex();
+		if (needBitmaps.removeAllOrNone(bitmapIndex)) {
+			return Collections.singletonList(this);
+		}
+		return Collections.emptyList();
+	}
+
+	/**
+	 * Get the reverse index of this pack
+	 *
+	 * @return a reverse index
+	 * @throws IOException
+	 *             an error loading or calculating the reverse index.
+	 */
+	protected PackReverseIndex getReverseIdx() throws IOException {
 		Optional<PackReverseIndex> optional = reverseIdx.getOptional();
 		if (optional.isPresent()) {
 			return optional.get();
@@ -1399,7 +1455,16 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 				+ ObjectId.fromRaw(packChecksum).name() + "]";
 	}
 
-	private <T> Optionally<T> optionally(T element) {
+	/**
+	 * Wrap the reference in an Optionally
+	 *
+	 * @param element
+	 *            reference
+	 * @return Optionally with the reference inside
+	 * @param <T>
+	 *            the type
+	 */
+	protected <T> Optionally<T> optionally(T element) {
 		return useStrongRefs ? new Optionally.Hard<>(element) : new Optionally.Soft<>(element);
 	}
 }
