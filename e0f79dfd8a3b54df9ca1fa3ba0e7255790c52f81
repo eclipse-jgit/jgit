@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "697be0e5_8f06217d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackedRefsWriter.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-30T05:16:57Z",
+      "side": 1,
+      "message": "Not sure, but I think since you moved a lot of the code, you probably want to copy the copyright lines too.\n```suggestion\n * Copyright (C) 2008, Charles O\u0027Farrell \u003ccharleso@charleso.org\u003e\n * Copyright (C) 2009-2010, Google Inc.\n * Copyright (C) 2009, Robin Rosenberg \u003crobin.rosenberg@dewire.com\u003e\n * Copyright (C) 2008, Shawn O. Pearce \u003cspearce@spearce.org\u003e and others\n * Copyright (C) 2026, Nvidia\n```",
+      "revId": "e0f79dfd8a3b54df9ca1fa3ba0e7255790c52f81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7179f507_c6e07729",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefWriter.java",
         "patchSetId": 25
