@@ -34,6 +34,24 @@
       "parentUuid": "5b1d3228_fb82b35f",
       "revId": "f573569a2601ad9d0453d956a75dfa33600aca24",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5040a3c4_15b953f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackedRefsWriter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-30T21:14:17Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "364f3c27_6dddc4df",
+      "revId": "f573569a2601ad9d0453d956a75dfa33600aca24",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
