@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a4049b9_8733e924",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackedRefsWriter.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-30T05:28:05Z",
+      "side": 1,
+      "message": "I don\u0027t think you can have an internal class (`RefDirectory`) as a parameter to a non-internal public constructor. But the `peel()` method [is declared](https://github.com/eclipse-jgit/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java#L595) on `RefDatabase`, so I think you can use that.",
+      "revId": "c74081ea005c9a9f64196baa21650fec164653f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffc99aa1_a150397f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackedRefsWriter.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-30T05:28:05Z",
+      "side": 1,
+      "message": "unnecessary `this.`?\n```suggestion\n\t\t\trefs \u003d RefComparator.sort(refs);\n```",
+      "revId": "c74081ea005c9a9f64196baa21650fec164653f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11a5dd13_522c4cdd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackedRefsWriter.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-04-30T05:28:05Z",
+      "side": 1,
+      "message": "unnecessary `this.`\n```suggestion\n\t\t\trefs \u003d peeledRefs;\n\t\t\ttraits.add(PackedRefsTrait.PEELED);\n```",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 43
+      },
+      "revId": "c74081ea005c9a9f64196baa21650fec164653f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
