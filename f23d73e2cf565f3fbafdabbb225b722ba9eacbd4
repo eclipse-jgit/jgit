@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e772974e_df6c6fe0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-30T07:57:18Z",
+      "side": 1,
+      "message": "no",
+      "parentUuid": "2c9da914_cb29acd4",
+      "revId": "f23d73e2cf565f3fbafdabbb225b722ba9eacbd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "526f1d22_4905a24a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2026-04-29T04:40:49Z",
       "side": 1,
       "message": "Can we backport to stable-6.10 too?",
+      "revId": "f23d73e2cf565f3fbafdabbb225b722ba9eacbd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a12ab442_9ee0f4e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-30T07:57:18Z",
+      "side": 1,
+      "message": "sure, I will cherry-pick this to 6.10",
+      "parentUuid": "526f1d22_4905a24a",
       "revId": "f23d73e2cf565f3fbafdabbb225b722ba9eacbd4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
