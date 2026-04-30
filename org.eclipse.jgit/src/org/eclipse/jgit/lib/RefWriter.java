@@ -136,12 +136,12 @@ public abstract class RefWriter {
 		}
 
 		final StringWriter w = new StringWriter();
+		w.write(RefDirectory.PACKED_REFS_HEADER);
+		w.write(RefDirectory.PACKED_REFS_SORTED);
 		if (peeled) {
-			w.write(RefDirectory.PACKED_REFS_HEADER);
 			w.write(RefDirectory.PACKED_REFS_PEELED);
-			w.write(RefDirectory.PACKED_REFS_SORTED);
-			w.write('\n');
 		}
+		w.write('\n');
 
 		final char[] tmp = new char[Constants.OBJECT_ID_STRING_LENGTH];
 		for (Ref r : refs) {

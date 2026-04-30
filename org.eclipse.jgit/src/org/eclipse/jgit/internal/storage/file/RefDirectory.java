@@ -118,7 +118,7 @@ public class RefDirectory extends RefDatabase {
 	/** Magic string denoting the header of a packed-refs file. */
 	public static final String PACKED_REFS_HEADER = "# pack-refs with:"; //$NON-NLS-1$
 
-	/** If in the header, denotes the file has peeled data. */
+	/** If in the header, denotes the file has peeled data for (refs/tags/...). */
 	public static final String PACKED_REFS_PEELED = " peeled"; //$NON-NLS-1$
 
 	/** If in the header, denotes the file has sorted data. */
@@ -1093,6 +1093,7 @@ public class RefDirectory extends RefDatabase {
 		Ref last = null;
 		boolean peeled = false;
 		boolean needSort = false;
+		boolean isSorted = false;
 
 		String p;
 		while ((p = br.readLine()) != null) {
@@ -1100,6 +1101,7 @@ public class RefDirectory extends RefDatabase {
 				if (p.startsWith(PACKED_REFS_HEADER)) {
 					p = p.substring(PACKED_REFS_HEADER.length());
 					peeled = p.contains(PACKED_REFS_PEELED);
+					isSorted = p.contains(PACKED_REFS_SORTED);
 				}
 				continue;
 			}
@@ -1124,12 +1126,14 @@ public class RefDirectory extends RefDatabase {
 			ObjectId id = ObjectId.fromString(p.substring(0, sp));
 			String name = copy(p, sp + 1, p.length());
 			ObjectIdRef cur;
-			if (peeled)
+			if (peeled && name.startsWith(R_TAGS)) {
 				cur = new ObjectIdRef.PeeledNonTag(PACKED, name, id);
-			else
+			} else {
 				cur = new ObjectIdRef.Unpeeled(PACKED, name, id);
-			if (last != null && RefComparator.compareTo(last, cur) > 0)
+			}
+			if (!isSorted && last != null && RefComparator.compareTo(last, cur) > 0) {
 				needSort = true;
+			}
 			all.add(cur);
 			last = cur;
 		}
