@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a88f9240_7d37ea2a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackedRefsWriter.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-30T20:07:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a4049b9_8733e924",
+      "revId": "c74081ea005c9a9f64196baa21650fec164653f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ffc99aa1_a150397f",
@@ -35,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c63ae840_5d9307fe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackedRefsWriter.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-30T20:07:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffc99aa1_a150397f",
+      "revId": "c74081ea005c9a9f64196baa21650fec164653f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11a5dd13_522c4cdd",
@@ -48,6 +84,30 @@
       "writtenOn": "2026-04-30T05:28:05Z",
       "side": 1,
       "message": "unnecessary `this.`\n```suggestion\n\t\t\trefs \u003d peeledRefs;\n\t\t\ttraits.add(PackedRefsTrait.PEELED);\n```",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 43
+      },
+      "revId": "c74081ea005c9a9f64196baa21650fec164653f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfaddde1_7f9728bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackedRefsWriter.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-04-30T20:07:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11a5dd13_522c4cdd",
       "range": {
         "startLine": 216,
         "startChar": 0,
