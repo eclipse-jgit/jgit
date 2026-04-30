@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5f7ec60_76d972d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-04-30T14:55:30Z",
+      "side": 1,
+      "message": "gerrit needs to update\n- bouncycastle to 1.84\n- bytebuddy to 1.18.8\n- mockito to 5.23.0\n- tukaani-xz to 1.12\nI verified locally that with these updates the Gerrit build succeeds",
+      "revId": "067521170e2a7308c6a1292a99900eadcee0b790",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
