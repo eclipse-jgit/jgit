@@ -1083,6 +1083,8 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 				firstLine.contains(" sorted"));
 		assertTrue("packed-refs should have header with peeled",
 				firstLine.contains(" peeled"));
+		assertTrue("packed-refs should have header with fully-peeled",
+				firstLine.contains(" fully-peeled"));
 	}
 
 	@Test
@@ -1103,6 +1105,8 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		String content = read(packedRefsFile);
 		String firstLine = content.split("\n")[0];
 		assertTrue("packed-refs should have peeled trait", firstLine.contains(" peeled"));
+		assertTrue("packed-refs should have fully-peeled trait",
+				firstLine.contains(" fully-peeled"));
 
 		assertTrue(refdir.getPackedRefs().traits().contains(PackedRefsTrait.PEELED));
 		assertTrue(refdir.getPackedRefs().get("refs/tags/peeled").isPeeled());
@@ -1185,6 +1189,46 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 						masterIndex < otherIndex &&
 						otherIndex < tagIndex
 		);
+	}
+
+	@Test
+	public void preserveFullyPeeledTraitIfPreviouslyFullyPeeled() throws Exception {
+		writePackedRefs("# pack-refs with: sorted fully-peeled\n" +
+				v1_0.name() + " refs/other/peeled\n" +
+				"^" + v1_0.getObject().name() + "\n"
+		);
+
+		writeLooseRef("refs/other/unpeeled-loose", v2_0);
+
+		PackRefsCommand packRefsCommand = new PackRefsCommand(diskRepo);
+		packRefsCommand.setAll(true);
+		packRefsCommand.call();
+
+		File packedRefsFile = new File(diskRepo.getCommonDirectory(), Constants.PACKED_REFS);
+		String content = read(packedRefsFile);
+		String firstLine = content.split("\n")[0];
+		assertTrue("packed-refs should have fully-peeled trait",
+				firstLine.contains(" fully-peeled"));
+
+		assertTrue(refdir.getPackedRefs().traits().contains(PackedRefsTrait.PEELED));
+		assertTrue(refdir.getPackedRefs().get("refs/other/peeled").isPeeled());
+		// new loose refs ares peeled
+		assertTrue(refdir.getPackedRefs().get("refs/other/unpeeled-loose").isPeeled());
+	}
+
+	@Test
+	public void testPackRefsPeelsTagOutsideTagsNamespace() throws Exception {
+		writeLooseRef("refs/other/tag-v1.0", v1_0);
+
+		PackRefsCommand packRefsCommand = new PackRefsCommand(diskRepo);
+		packRefsCommand.setAll(true);
+		packRefsCommand.call();
+
+		Ref tag = refdir.getPackedRefs().get("refs/other/tag-v1.0");
+
+		assertNotNull("tag ref should be packed", tag);
+		assertTrue("tag should be peeled", tag.isPeeled());
+		assertEquals(v1_0.getObject(), tag.getPeeledObjectId());
 	}
 
 	@Test

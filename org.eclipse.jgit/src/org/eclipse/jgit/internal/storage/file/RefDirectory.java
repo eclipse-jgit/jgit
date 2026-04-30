@@ -829,7 +829,8 @@ public class RefDirectory extends RefDatabase {
 						// traits.
 						oldPacked.isEmpty()
 								? EnumSet.of(PackedRefsTrait.SORTED,
-										PackedRefsTrait.PEELED)
+										PackedRefsTrait.PEELED,
+										PackedRefsTrait.FULLY_PEELED)
 								: oldPacked.traits);
 
 				// Now delete the loose refs which are now packed
@@ -1093,6 +1094,7 @@ public class RefDirectory extends RefDatabase {
 		RefList.Builder<Ref> all = new RefList.Builder<>();
 		Ref last = null;
 		boolean peeled = false;
+		boolean fullyPeeled = false;
 		boolean needSort = false;
 		boolean isSorted = false;
 
@@ -1103,6 +1105,7 @@ public class RefDirectory extends RefDatabase {
 					p = p.substring(PACKED_REFS_HEADER.length());
 					peeled = p.contains(PackedRefsTrait.PEELED.value());
 					isSorted = p.contains(PackedRefsTrait.SORTED.value());
+					fullyPeeled = p.contains(PackedRefsTrait.FULLY_PEELED.value());
 				}
 				continue;
 			}
@@ -1127,7 +1130,7 @@ public class RefDirectory extends RefDatabase {
 			ObjectId id = ObjectId.fromString(p.substring(0, sp));
 			String name = copy(p, sp + 1, p.length());
 			ObjectIdRef cur;
-			if (peeled && name.startsWith(R_TAGS)) {
+			if (fullyPeeled || (peeled && name.startsWith(R_TAGS))) {
 				cur = new ObjectIdRef.PeeledNonTag(PACKED, name, id);
 			} else {
 				cur = new ObjectIdRef.Unpeeled(PACKED, name, id);
@@ -1144,9 +1147,13 @@ public class RefDirectory extends RefDatabase {
 
 		EnumSet<PackedRefsTrait> traits = EnumSet.noneOf(PackedRefsTrait.class);
 		traits.add(PackedRefsTrait.SORTED);
-		if (peeled) {
+		if (fullyPeeled || peeled) {
 			traits.add(PackedRefsTrait.PEELED);
 		}
+		if (fullyPeeled) {
+			traits.add(PackedRefsTrait.FULLY_PEELED);
+		}
+
 		return new NonEmptyPackedRefList(all.toRefList(), snapshot,
 				ObjectId.fromRaw(digest.digest()), traits);
 	}
