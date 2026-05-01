@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "499a2fe3_e7566725",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-01T18:36:19Z",
+      "side": 1,
+      "message": "It might be helpful to reference Bug: jgit-252 for context, since this change prepares for the upcoming fix, e.g.:\n\n```\nThis change is part of the preparation for fixing jgit-252.\n```",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "316d51c59c57e51a2b9732636b4a5cdd30c0dc3e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
