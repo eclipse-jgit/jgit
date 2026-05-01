@@ -9,25 +9,34 @@
  */
 package org.eclipse.jgit.mailmap;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.PersonIdent;
 
 /**
  * Supports mapping to canonical identities according to a set of mailmap
- * entries.
+ * entries. Entries win if their old part is identical or more specific (name +
+ * e-mail vs. e-mail only).
  *
  * @since 7.7
  */
 public class Mailmap {
-	private final List<MailmapEntry> entries;
+
+	/**
+	 * Map of old-email/old-name key to {@link MailmapEntry} to facilitate
+	 * performance.
+	 */
+	private final Map<String, MailmapEntry> entriesMap;
+
 
 	/**
 	 * Create an entry mailmap.
 	 */
 	public Mailmap() {
-		this.entries = new ArrayList<>();
+		this.entriesMap = new HashMap<>();
 	}
 
 	/**
@@ -37,7 +46,9 @@ public class Mailmap {
 	 *            the canonical mappings defining the mailmap
 	 */
 	public Mailmap(List<MailmapEntry> entries) {
-		this.entries = new ArrayList<>(entries);
+		this.entriesMap = new HashMap<>(entries.size());
+		entries.stream()
+				.forEach(me -> entriesMap.put(me.getMapKeyForLookup(), me));
 	}
 
 	/**
@@ -53,23 +64,24 @@ public class Mailmap {
 		if (ident == null) {
 			return null;
 		}
-
-		for (MailmapEntry entry : entries) {
-			if (entry.matches(ident)) {
-				return entry.map(ident);
-			}
+		MailmapEntry matchingEntry = entriesMap
+				.get(ident.getEmailAddress() + " " + ident.getName()); //$NON-NLS-1$
+		if (matchingEntry == null) {
+			matchingEntry = entriesMap.get(ident.getEmailAddress());
 		}
-		return ident;
+		return matchingEntry == null ? ident : matchingEntry.map(ident);
 	}
 
 	/**
-	 * Append the provided mailmap entries to the end of the current mailmap.
-	 * The current mailmap's entries take precedence over those appended.
+	 * Append the provided mailmap entries to the end of the current mailmap. If
+	 * new lines have identical or more specific old parts, those newer lines
+	 * override an earlier line. If the earlier line's old part is more
+	 * specific, the earlier line wins.
 	 *
 	 * @param mailmap
 	 *            the mailmap whose entries will be added to the current mailmap
 	 */
 	public void append(Mailmap mailmap) {
-		entries.addAll(mailmap.entries);
+		entriesMap.putAll(mailmap.entriesMap);
 	}
 }

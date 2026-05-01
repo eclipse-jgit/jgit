@@ -15,6 +15,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.annotations.Nullable;
@@ -79,28 +81,22 @@ public class MailmapParser {
 	 *
 	 * @param file
 	 *            the file to parse
-	 * @return a mailmap from the entries in the file
+	 * @return a mailmap from the entries in the file.
 	 * @throws IOException
-	 *             if the file cannot be read
+	 *             if the file cannot be read which can include if the file
+	 *             referenced via a symbolic link.
 	 */
 	public static Mailmap parse(File file) throws IOException {
+		if (!Files.isRegularFile(file.toPath(), LinkOption.NOFOLLOW_LINKS)) {
+			throw new IOException(String
+					.format("File not found or uses symbolic link [%s]", file)); //$NON-NLS-1$
+		}
 		try (FileInputStream fis = new FileInputStream(file)) {
 			return parse(fis);
 		}
 	}
 
-	private static class MailmapResult {
-		final String name;
-
-		final String email;
-
-		final String restOfLine;
-
-		private MailmapResult(String name, String email, String restOfLine) {
-			this.name = name;
-			this.email = email;
-			this.restOfLine = restOfLine;
-		}
+	private record MailmapResult(String name, String email, String restOfLine) {
 	}
 
 	@Nullable

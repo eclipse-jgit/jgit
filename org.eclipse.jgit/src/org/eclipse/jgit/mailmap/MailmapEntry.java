@@ -23,8 +23,11 @@ import org.eclipse.jgit.lib.PersonIdent;
 public class MailmapEntry {
 
 	private final String oldName;
+
 	private final String oldEmail;
+
 	private final String newName;
+
 	private final String newEmail;
 
 	MailmapEntry(String oldName, String oldEmail, String newName,
@@ -44,7 +47,7 @@ public class MailmapEntry {
 	 */
 	public boolean matches(PersonIdent ident) {
 		return oldEmail.equals(ident.getEmailAddress())
-				&& (oldName == null || oldName.equals(ident.getName()));
+				&& oldName == null || oldName.equals(ident.getName());
 	}
 
 	/**
@@ -57,9 +60,22 @@ public class MailmapEntry {
 	 * @return a new identity updated to match this mailmap entry
 	 */
 	public PersonIdent map(PersonIdent original) {
+		if (!matches(original)) {
+			throw new IllegalStateException(
+					String.format("Entry [%s] does not match this Person [%s]", //$NON-NLS-1$
+							this, original));
+		}
 		String name = newName == null ? original.getName() : newName;
 		String email = newEmail == null ? original.getEmailAddress() : newEmail;
-		return new PersonIdent(name, email, original.getWhen(),
-				original.getTimeZone());
+		return new PersonIdent(name, email, original.getWhenAsInstant(),
+				original.getZoneId());
+	}
+
+	/**
+	 * @return a key which the oldEmail and the oldName (if present)
+	 *         concatenated.
+	 */
+	public String getMapKeyForLookup() {
+		return oldName == null ? oldEmail : oldEmail + " " + oldName; //$NON-NLS-1$
 	}
 }

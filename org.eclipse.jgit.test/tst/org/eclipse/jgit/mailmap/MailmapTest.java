@@ -13,7 +13,8 @@ import static junit.framework.TestCase.assertNull;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;
 
@@ -34,15 +35,34 @@ public class MailmapTest {
 	}
 
 	@Test
-	public void previousEntriesTakePrecedence() {
-		Mailmap mailmap = new Mailmap(Collections
-				.singletonList(new MailmapEntry(null, "commit@email.cx", "Proper Name", null)));
-		Mailmap appendMailmap = new Mailmap(Collections
-				.singletonList(new MailmapEntry(null, "commit@email.cx", "Later Name", null)));
+	public void moreSpecificEntriesTakePrecedence() {
+		Mailmap mailmap = new Mailmap(List.of(
+				new MailmapEntry(null, "commit@email.cx", "Non-specific Name",
+						null),
+				new MailmapEntry("Old Name1", "commit@email.cx", "Later Name1",
+						null),
+				new MailmapEntry("Old Name2", "commit@email.cx", "Later Name2",
+						null)));
+
+		PersonIdent person1 = new PersonIdent("Old Name1", "commit@email.cx");
+		PersonIdent mapped1 = mailmap.map(person1);
+		assertThat(mapped1.getName(), is("Later Name1"));
+
+		PersonIdent person2 = new PersonIdent("Old Name", "commit@email.cx");
+		PersonIdent mapped2 = mailmap.map(person2);
+		assertThat(mapped2.getName(), is("Non-specific Name"));
+	}
+
+	@Test
+	public void newerEntriesTakePrecedenceWhenSameSpecificity() {
+		Mailmap mailmap = new Mailmap(List.of(new MailmapEntry(null,
+				"commit@email.cx", "Proper Name", null)));
+		Mailmap appendMailmap = new Mailmap(List.of(
+				new MailmapEntry(null, "commit@email.cx", "Later Name", null)));
 		mailmap.append(appendMailmap);
 
 		PersonIdent person = new PersonIdent("Old Name", "commit@email.cx");
 		PersonIdent mapped = mailmap.map(person);
-		assertThat(mapped.getName(), is("Proper Name"));
+		assertThat(mapped.getName(), is("Later Name"));
 	}
 }
