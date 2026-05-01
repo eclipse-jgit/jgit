@@ -26,9 +26,13 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.transport.BasePackFetchConnection.FetchConfig;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
@@ -258,6 +262,50 @@ public class TestProtocolTest {
 		}
 	}
 
+	@Test
+	public void nonForcedFetchRejectedWithConcurrentLocalRefUpdate()
+		throws Exception {
+		String localRef = Constants.R_HEADS + "localfoo";
+		String remoteBranchName = "remotefoo";
+		String nonForcedRemoteRef = Constants.R_HEADS + remoteBranchName;
+
+		try (Repository repository = local.getRepository();
+			Git git = new Git(repository);
+			RevWalk revWalk = local.getRevWalk()) {
+			RefSpec nonForcedFetchRefSpec = new RefSpec(
+				nonForcedRemoteRef + ":" + localRef);
+			RevCommit oldLocalCommit = remote.branch(remoteBranchName)
+				.commit().add("base.txt", "base").create();
+
+			git.fetch().setRemote(newRepositoryTestConnection().toString()).setRefSpecs(nonForcedFetchRefSpec)
+				.call();
+			assertEquals(oldLocalCommit, repository.exactRef(localRef).getObjectId());
+
+			RevCommit updatedLocalCommit = local.commit()
+				.parent(revWalk.parseCommit(oldLocalCommit))
+				.add("local.txt", "new").create();
+			RevCommit remoteCommit = remote.commit().parent(oldLocalCommit)
+				.add("remote.txt", "remote").create();
+			remote.update(remoteBranchName, remoteCommit);
+
+			URIish uri = newRepositoryTestConnectionUpdatingRef(localRef, updatedLocalCommit);
+
+			FetchResult result = git.fetch().setRemote(uri.toString())
+				.setRefSpecs(nonForcedFetchRefSpec).call();
+
+			// Fetch has been rejected (non-ff)
+			TrackingRefUpdate update = result.getTrackingRefUpdate(localRef);
+			assertEquals(RefUpdate.Result.REJECTED, update.getResult());
+
+			// Fetched object has been downloaded
+			assertTrue(repository.getObjectDatabase()
+				.has(remoteCommit));
+			// ... but the local ref has not been altered
+			assertEquals(updatedLocalCommit,
+				repository.exactRef(localRef).getObjectId());
+		}
+	}
+
 	private TestProtocol<User> registerDefault() {
 		return registerProto(new DefaultUpload(), new DefaultReceive());
 	}
@@ -268,5 +316,23 @@ public class TestProtocolTest {
 		protos.add(proto);
 		Transport.register(proto);
 		return proto;
+	}
+
+	private <T extends AnyObjectId> URIish newRepositoryTestConnectionUpdatingRef(String refName, T objectId) {
+		TestProtocol<User> proto = registerProto((User req, Repository db) -> {
+			try {
+				local.update(refName, objectId);
+			} catch (Exception e) {
+				throw new AssertionError("Cannot update local ref " + refName,
+						e);
+			}
+			return new UploadPack(db);
+		}, new DefaultReceive());
+		return proto.register(new User("user"), remote.getRepository());
+	}
+
+	private URIish newRepositoryTestConnection() {
+		TestProtocol<User> setupProto = registerDefault();
+		return setupProto.register(new User("user"), remote.getRepository());
 	}
 }
