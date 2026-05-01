@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08b8788b_cbb4fa21",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-01T14:29:45Z",
+      "side": 1,
+      "message": "This block is duplicated 3 times in the test. It would be best to DRY out and make it a readable method call.\n\n\n\n```suggestion\n\t\tURIish uri \u003d newUploadPackFactoryUpdatingLocalRef(new User(\"user\"), remote.getRepository());\n```",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 72
+      },
+      "revId": "168068694b42cf96fceb2ffb51b36a112c475779",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a936593_9fd984c0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-01T14:29:45Z",
+      "side": 1,
+      "message": "This is a very useful non-regression test. It is best to decouple it from this change and add it standalone, showing that it is green before this change and remains green afterwards.",
+      "revId": "168068694b42cf96fceb2ffb51b36a112c475779",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b73c2d03_feb074ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-01T14:29:45Z",
+      "side": 1,
+      "message": "If I disable this block, all the tests are still passing. That tells me that the description is trying to explain what the code actually doesn\u0027t do.",
+      "range": {
+        "startLine": 258,
+        "startChar": 0,
+        "endLine": 269,
+        "endChar": 5
+      },
+      "revId": "168068694b42cf96fceb2ffb51b36a112c475779",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b02b4316_c0807e29",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-01T14:29:45Z",
+      "side": 1,
+      "message": "What is the condition where the `exactRef()` returns an object with a null `ObjectId`?",
+      "range": {
+        "startLine": 614,
+        "startChar": 25,
+        "endLine": 614,
+        "endChar": 55
+      },
+      "revId": "168068694b42cf96fceb2ffb51b36a112c475779",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
