@@ -108,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "454d293e_de5494b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-01T22:28:53Z",
+      "side": 1,
+      "message": "If I ignore the comment and I read the code, I see the following:\n\n_\"If the current local ref hasn\u0027t changed from the initial one, *OR* the current one is equal to the destination ref, *OR* the local ref has been removed, then accept the fetch\"_\n\nThe above condition seems unrelated with the comment and also unrelated to the purpose of this change, for the following reasons:\n\n1. If the current local ref hasn\u0027t changed from the initial one, I still need to check if the new ref would be a fast-forward or not. I cannot simply accept it as-is.\n\n2. If the current local ref is the destination ref, then the update type won\u0027t be a `UPDATE_NONFASTFORWARD` anyway, so the code at L275 won\u0027t be triggered.\n\n3. If the current local ref has disappeared, I believe it should be rejected as it isn\u0027t a fast-forward.\n\nI\u0027d suggest just removing this block.\n\n\n\n```suggestion\n\n\t\t\t\tObjectId currentId \u003d currentObjectId(cmd.getRefName());\n```",
+      "parentUuid": "b73c2d03_feb074ba",
+      "range": {
+        "startLine": 258,
+        "startChar": 0,
+        "endLine": 269,
+        "endChar": 5
+      },
+      "revId": "168068694b42cf96fceb2ffb51b36a112c475779",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b02b4316_c0807e29",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
         "patchSetId": 12

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04a63e73_48a49d58",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-01T22:28:53Z",
+      "side": 1,
+      "message": "Not sure if this is correct: we end up here because we know that the fetch is not a forced update.\n\nBecause the local ref could be different, we must ensure that the check is done against the *current* ref, not the original one. The check is done at L273-L275, this one isn\u0027t needed.\n\nBy removing these three lines, all the tests are passing as expected.",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 5
+      },
+      "revId": "c00a0d6c4de2c5bf337d0ccae09cc3e09ed0e593",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
