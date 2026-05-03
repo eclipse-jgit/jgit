@@ -47,6 +47,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f2bd3f6_77ef582d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-03T16:31:20Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "34f1d342_cf5b7f09",
+      "range": {
+        "startLine": 268,
+        "startChar": 21,
+        "endLine": 268,
+        "endChar": 34
+      },
+      "revId": "1b18035fe6e4def43592bfece661d149937ea69b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "799f19bc_897a77f2",
@@ -60,6 +84,30 @@
       "writtenOn": "2026-05-03T09:15:27Z",
       "side": 1,
       "message": "```suggestion\n\t\tString NON_FORCED_REMOTE_REF \u003d Constants.R_HEADS + REMOTE_BRANCH_NAME;\n```",
+      "range": {
+        "startLine": 270,
+        "startChar": 33,
+        "endLine": 270,
+        "endChar": 46
+      },
+      "revId": "1b18035fe6e4def43592bfece661d149937ea69b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20d81884_ae586fdc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-03T16:31:20Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "799f19bc_897a77f2",
       "range": {
         "startLine": 270,
         "startChar": 33,
@@ -110,6 +158,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a06a3a08_4c6cab51",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-03T16:31:20Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "a003a2c0_d00b681f",
+      "range": {
+        "startLine": 325,
+        "startChar": 10,
+        "endLine": 325,
+        "endChar": 58
+      },
+      "revId": "1b18035fe6e4def43592bfece661d149937ea69b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3367c28a_99ea8293",
@@ -123,6 +195,30 @@
       "writtenOn": "2026-05-03T09:15:27Z",
       "side": 1,
       "message": "Formatting seems to be messed up here:\n\n```suggestion\n\t\tTestProtocol\u003cUser\u003e setupProto \u003d registerDefault();\n\t\treturn setupProto.register(new User(\"user\"), remote.getRepository());\n```",
+      "range": {
+        "startLine": 333,
+        "startChar": 1,
+        "endLine": 335,
+        "endChar": 26
+      },
+      "revId": "1b18035fe6e4def43592bfece661d149937ea69b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "818dbf76_523d65cf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-03T16:31:20Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "3367c28a_99ea8293",
       "range": {
         "startLine": 333,
         "startChar": 1,
