@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afd51f6e_524213ee",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-03T09:15:27Z",
+      "side": 1,
+      "message": "`LOCAL_BRANCH_NAME`, `LOCAL_REF`, `REMOTE_BRANCH_NAME` and `NON_FORCED_REMOTE_REF` are local variables, not class constants, use camelCase: `localBranchName`. here and below.",
+      "range": {
+        "startLine": 267,
+        "startChar": 9,
+        "endLine": 267,
+        "endChar": 26
+      },
+      "revId": "1b18035fe6e4def43592bfece661d149937ea69b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34f1d342_cf5b7f09",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-03T09:15:27Z",
+      "side": 1,
+      "message": "`Constants.R_HEADS` constant can be used, and import should be added:\n\n```suggestion\n\t\tString LOCAL_REF \u003d Constants.R_HEADS + LOCAL_BRANCH_NAME;\n```",
+      "range": {
+        "startLine": 268,
+        "startChar": 21,
+        "endLine": 268,
+        "endChar": 34
+      },
+      "revId": "1b18035fe6e4def43592bfece661d149937ea69b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "799f19bc_897a77f2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-03T09:15:27Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tString NON_FORCED_REMOTE_REF \u003d Constants.R_HEADS + REMOTE_BRANCH_NAME;\n```",
+      "range": {
+        "startLine": 270,
+        "startChar": 33,
+        "endLine": 270,
+        "endChar": 46
+      },
+      "revId": "1b18035fe6e4def43592bfece661d149937ea69b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7bde4eb_678c9897",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-03T09:15:27Z",
+      "side": 1,
+      "message": "The test relies on the first fetch creating/updating `LOCAL_REF` to `oldLocalCommit`, but does not assert it. Tepeat line 303 but for `oldLocalCommit`, instead of `updatedLocalCommit`:\n\n```\nassertEquals(oldLocalCommit, repository.exactRef(LOCAL_REF).getObjectId());\n```",
+      "revId": "1b18035fe6e4def43592bfece661d149937ea69b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a003a2c0_d00b681f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-03T09:15:27Z",
+      "side": 1,
+      "message": "The test updates a branch ref, not a tag, `refName` could also be used in the exception message:\n\n```suggestion\n\t\t\t\tthrow new AssertionError(\"Cannot update local ref \" + refName,\n\t\t\t\t\t\te);\n\n```",
+      "range": {
+        "startLine": 325,
+        "startChar": 10,
+        "endLine": 325,
+        "endChar": 58
+      },
+      "revId": "1b18035fe6e4def43592bfece661d149937ea69b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3367c28a_99ea8293",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-03T09:15:27Z",
+      "side": 1,
+      "message": "Formatting seems to be messed up here:\n\n```suggestion\n\t\tTestProtocol\u003cUser\u003e setupProto \u003d registerDefault();\n\t\treturn setupProto.register(new User(\"user\"), remote.getRepository());\n```",
+      "range": {
+        "startLine": 333,
+        "startChar": 1,
+        "endLine": 335,
+        "endChar": 26
+      },
+      "revId": "1b18035fe6e4def43592bfece661d149937ea69b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
