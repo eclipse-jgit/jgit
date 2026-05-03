@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c95ea0e_54cda715",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-03T16:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afd51f6e_524213ee",
+      "range": {
+        "startLine": 267,
+        "startChar": 9,
+        "endLine": 267,
+        "endChar": 26
+      },
+      "revId": "1b18035fe6e4def43592bfece661d149937ea69b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34f1d342_cf5b7f09",
@@ -131,6 +155,24 @@
       "writtenOn": "2026-05-03T09:15:27Z",
       "side": 1,
       "message": "The test relies on the first fetch creating/updating `LOCAL_REF` to `oldLocalCommit`, but does not assert it. Tepeat line 303 but for `oldLocalCommit`, instead of `updatedLocalCommit`:\n\n```\nassertEquals(oldLocalCommit, repository.exactRef(LOCAL_REF).getObjectId());\n```",
+      "revId": "1b18035fe6e4def43592bfece661d149937ea69b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edb653b1_62b99deb",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-03T16:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7bde4eb_678c9897",
       "revId": "1b18035fe6e4def43592bfece661d149937ea69b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
