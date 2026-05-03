@@ -38,6 +38,7 @@ import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.LockFile;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
 import org.eclipse.jgit.lib.Constants;
@@ -251,27 +252,15 @@ class FetchProcess {
 						|| ((TrackingRefUpdate.Command) cmd).canForceUpdate()) {
 					continue;
 				}
-				if (cmd.getType() == UPDATE_NONFASTFORWARD) {
-					cmd.setResult(REJECTED_NONFASTFORWARD);
-					continue;
-				}
 
-				// The initial type check used the ref value snapshotted when
-				// the fetch started. If the local ref moved since then,
-				// re-check the non-fast-forward against the current ref before
-				// executing the batch so non-forced rejects remain REJECTED
-				// instead of surfacing as LOCK_FAILURE.
-				ObjectId currentId = currentObjectId(cmd.getRefName());
-				if (currentId.equals(cmd.getOldId())
-						|| currentId.equals(ObjectId.zeroId())
-						|| currentId.equals(cmd.getNewId())) {
-					continue;
-				}
-
-				ReceiveCommand refreshedCmd = new ReceiveCommand(currentId,
-						cmd.getNewId(), cmd.getRefName());
-				refreshedCmd.updateType(walk);
-				if (refreshedCmd.getType() == UPDATE_NONFASTFORWARD) {
+				// The command was built against the ref value snapshotted
+				// when the fetch started. Re-check non-forced updates against
+				// the current ref value so non-fast-forward updates are
+				// reported as REJECTED, while concurrent ref changes that are
+				// otherwise fast-forward updates still fail atomically as
+				// LOCK_FAILURE when the batch is executed.
+				if (isUpdateNonFastForward(walk, cmd,
+						currentObjectId(cmd.getRefName()))) {
 					cmd.setResult(REJECTED_NONFASTFORWARD);
 				}
 			}
@@ -299,6 +288,14 @@ class FetchProcess {
 						JGitText.get().failureUpdatingFETCH_HEAD, err.getMessage()), err);
 			}
 		}
+	}
+
+	private boolean isUpdateNonFastForward(RevWalk walk, ReceiveCommand cmd,
+			ObjectId oldId) throws IOException {
+		ReceiveCommand refreshedCmd = new ReceiveCommand(oldId, cmd.getNewId(),
+				cmd.getRefName());
+		refreshedCmd.updateType(walk);
+		return refreshedCmd.getType() == UPDATE_NONFASTFORWARD;
 	}
 
 	private void addUpdateBatchCommands(FetchResult result,
@@ -611,7 +608,7 @@ class FetchProcess {
 
 	private ObjectId currentObjectId(String refName) throws IOException {
 		Ref current = transport.local.exactRef(refName);
-		if (current == null || current.getObjectId() == null) {
+		if (current == null) {
 			return ObjectId.zeroId();
 		}
 		return current.getObjectId();
