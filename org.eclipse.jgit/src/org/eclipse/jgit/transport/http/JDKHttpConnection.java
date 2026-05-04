@@ -139,6 +139,11 @@ public class JDKHttpConnection implements HttpConnection {
 	}
 
 	@Override
+	public InputStream getErrorStream() {
+		return wrappedUrlConnection.getErrorStream();
+	}
+
+	@Override
 	public String getHeaderField(@NonNull String name) {
 		return wrappedUrlConnection.getHeaderField(name);
 	}

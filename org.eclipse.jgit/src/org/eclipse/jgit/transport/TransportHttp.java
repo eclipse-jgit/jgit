@@ -698,10 +698,19 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					authAttempts++;
 					continue;
 
-				case HttpConnection.HTTP_FORBIDDEN:
-					throw new TransportException(uri, MessageFormat.format(
-							JGitText.get().serviceNotPermitted, baseUrl,
-							service));
+					case HttpConnection.HTTP_FORBIDDEN: {
+						String body = "";
+						try (InputStream es = conn.getErrorStream()) {
+							if (es != null) {
+								body = new String(es.readAllBytes(), UTF_8);
+							}
+						} catch (IOException ignored) {
+							// ignore
+						}
+						throw new TransportException(uri, MessageFormat.format(
+								JGitText.get().serviceNotPermitted, baseUrl, service)
+								+ (body.isEmpty() ? "" : "\n" + body)); //$NON-NLS-1$
+					}
 
 				case HttpConnection.HTTP_MOVED_PERM:
 				case HttpConnection.HTTP_MOVED_TEMP:
@@ -1699,11 +1708,19 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 						throw createNotFoundException(uri, conn.getURL(),
 								conn.getResponseMessage());
 
-					case HttpConnection.HTTP_FORBIDDEN:
-						throw new TransportException(uri,
-								MessageFormat.format(
-										JGitText.get().serviceNotPermitted,
-										baseUrl, serviceName));
+						case HttpConnection.HTTP_FORBIDDEN: {
+							String body = "";
+							try (InputStream es = conn.getErrorStream()) {
+								if (es != null) {
+									body = new String(es.readAllBytes(), UTF_8);
+								}
+							} catch (IOException ignored) {
+								// ignore
+							}
+							throw new TransportException(uri, MessageFormat.format(
+									JGitText.get().serviceNotPermitted, baseUrl, serviceName)
+									+ (body.isEmpty() ? "" : "\n" + body)); //$NON-NLS-1$
+						}
 
 					case HttpConnection.HTTP_MOVED_PERM:
 					case HttpConnection.HTTP_MOVED_TEMP:
