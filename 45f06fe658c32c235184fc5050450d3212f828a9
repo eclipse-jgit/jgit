@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23bdeaa9_73f4fc8b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-05-04T22:21:57Z",
+      "side": 1,
+      "message": "In this mode, what happens if someone tries to compact only packs, but because they passed in some Compact packs they are also hitting reftables? Is it safe to compact an unknown set of reftables?",
+      "revId": "45f06fe658c32c235184fc5050450d3212f828a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
