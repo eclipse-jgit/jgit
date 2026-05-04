@@ -20,11 +20,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -64,8 +64,11 @@ import org.eclipse.jgit.util.io.CountingOutputStream;
  */
 public class DfsPackCompactor {
 	private final DfsRepository repo;
-	private final List<DfsPackFile> srcPacks;
-	private final List<DfsReftable> srcReftables;
+
+	private final List<DfsPackDescription> inputDescsPacks;
+
+	private final List<DfsPackDescription> inputDescsReftables;
+
 	private final List<ObjectIdSet> exclude;
 
 	private final List<DfsPackDescription> prune;
@@ -143,8 +146,8 @@ public class DfsPackCompactor {
 	 */
 	public DfsPackCompactor(DfsRepository repository) {
 		repo = repository;
-		srcPacks = new ArrayList<>();
-		srcReftables = new ArrayList<>();
+		inputDescsPacks = new ArrayList<>();
+		inputDescsReftables = new ArrayList<>();
 		exclude = new ArrayList<>(4);
 		prune = new ArrayList<>();
 	}
@@ -175,8 +178,7 @@ public class DfsPackCompactor {
 	 * @return {@code this}
 	 */
 	public DfsPackCompactor add(DfsPackFile pack) {
-		srcPacks.add(pack);
-		return this;
+		return addPack(pack.getPackDescription());
 	}
 
 	/**
@@ -187,7 +189,54 @@ public class DfsPackCompactor {
 	 * @return {@code this}
 	 */
 	public DfsPackCompactor add(DfsReftable table) {
-		srcReftables.add(table);
+		return addReftable(table.getPackDescription());
+	}
+
+	/**
+	 * Add a pack to be compacted
+	 * <p>
+	 * This adds the objects in the pack to the compaction. If the description
+	 * has reftables, they are ignored. Caller must explicitely call
+	 * {@link #addReftable(DfsPackDescription)} with the same description to
+	 * include them.
+	 * <p>
+	 * This method creates DfsPackFile instances when needed and can close them
+	 * as soon as is done with them. This reduces the peak memory while
+	 * processing many files.
+	 *
+	 * @param desc
+	 *            a pack description to combine.
+	 * @return {@code this}
+	 * @since 7.7
+	 */
+	public DfsPackCompactor addPack(DfsPackDescription desc) {
+		if (!desc.hasFileExt(PACK)) {
+			throw new IllegalArgumentException(
+					"Adding for pack compaction a pack without data");
+		}
+		inputDescsPacks.add(desc);
+		return this;
+	}
+
+	/**
+	 * Add a reftable to be compacted.
+	 * <p>
+	 * This adds the reftables in the pack to the compaction. If the description
+	 * has pack data (objects), they are ignored. Caller must explicitely call
+	 * {@link #addPack(DfsPackDescription)} with the same description to include
+	 * them.
+	 *
+	 * @param desc
+	 *            a pack description to combine.
+	 * @return {@code this}
+	 * @since 7.7
+	 */
+	public DfsPackCompactor addReftable(DfsPackDescription desc) {
+		if (!desc.hasFileExt(REFTABLE)) {
+			throw new IllegalArgumentException(
+					"Adding for reftable compaction a pack without reftables");
+		}
+		inputDescsReftables.add(desc);
 		return this;
 	}
 
@@ -248,7 +297,7 @@ public class DfsPackCompactor {
 
 		DfsObjDatabase objdb = repo.getObjectDatabase();
 		try (DfsReader ctx = objdb.newReader()) {
-			if (reftableConfig != null && !srcReftables.isEmpty()) {
+			if (reftableConfig != null && !inputDescsReftables.isEmpty()) {
 				compactReftables(ctx);
 			}
 			compactPacks(ctx, pm);
@@ -313,18 +362,23 @@ public class DfsPackCompactor {
 		// Include the final pack file header and trailer size here and ignore
 		// the same from individual pack files.
 		long size = 32;
-		for (DfsPackFile pack : srcPacks) {
-			size += pack.getPackDescription().getFileSize(PACK) - 32;
+		for (DfsPackDescription desc : inputDescsPacks) {
+			if (desc.hasFileExt(PACK)) {
+				size += desc.getFileSize(PACK) - 32;
+			}
 		}
 		return size;
 	}
 
 	private void compactReftables(DfsReader ctx) throws IOException {
 		DfsObjDatabase objdb = repo.getObjectDatabase();
-		Collections.sort(srcReftables, objdb.reftableComparator());
+		List<DfsReftable> tables = inputDescsReftables.stream()
+				.map(desc -> new DfsReftable(DfsBlockCache.getInstance(), desc))
+				.sorted(objdb.reftableComparator())
+				.collect(Collectors.toList());
 
 		initOutDesc(objdb);
-		try (DfsReftableStack stack = DfsReftableStack.open(ctx, srcReftables);
+		try (DfsReftableStack stack = DfsReftableStack.open(ctx, tables);
 		     DfsOutputStream out = objdb.writeFile(outDesc, REFTABLE)) {
 			ReftableCompactor compact = new ReftableCompactor(out);
 			compact.addAll(stack.readers());
@@ -344,18 +398,18 @@ public class DfsPackCompactor {
 
 	/**
 	 * Get all of the source packs that fed into this compaction.
+	 * <p>
+	 * From this list it is not possible to know if the pack was added for
+	 * reftables, data or both.
 	 *
 	 * @return all of the source packs that fed into this compaction.
 	 */
 	public Collection<DfsPackDescription> getSourcePacks() {
-		Set<DfsPackDescription> src = new HashSet<>();
-		for (DfsPackFile pack : srcPacks) {
-			src.add(pack.getPackDescription());
-		}
-		for (DfsReftable table : srcReftables) {
-			src.add(table.getPackDescription());
-		}
-		return src;
+		HashSet<DfsPackDescription> all = new HashSet<>(
+				inputDescsPacks.size() + inputDescsReftables.size());
+		all.addAll(inputDescsPacks);
+		all.addAll(inputDescsReftables);
+		return all;
 	}
 
 	/**
@@ -383,15 +437,8 @@ public class DfsPackCompactor {
 	}
 
 	private Set<DfsPackDescription> toPrune() {
-		Set<DfsPackDescription> packs = new HashSet<>();
-		for (DfsPackFile pack : srcPacks) {
-			packs.add(pack.getPackDescription());
-		}
-
-		Set<DfsPackDescription> reftables = new HashSet<>();
-		for (DfsReftable table : srcReftables) {
-			reftables.add(table.getPackDescription());
-		}
+		Set<DfsPackDescription> packs = new HashSet<>(inputDescsPacks);
+		Set<DfsPackDescription> reftables = new HashSet<>(inputDescsReftables);
 
 		for (Iterator<DfsPackDescription> i = packs.iterator(); i.hasNext();) {
 			DfsPackDescription d = i.next();
@@ -418,49 +465,20 @@ public class DfsPackCompactor {
 	private void addObjectsToPack(PackWriter pw, DfsReader ctx,
 			ProgressMonitor pm) throws IOException,
 			IncorrectObjectTypeException {
-		// Sort packs by description ordering, this places newer packs before
-		// older packs, allowing the PackWriter to be handed newer objects
-		// first and older objects last.
-		Collections.sort(
-				srcPacks,
-				Comparator.comparing(
-						DfsPackFile::getPackDescription,
-						DfsPackDescription.objectLookupComparator()));
-
 		rw = new RevWalk(ctx);
 		added = rw.newFlag("ADDED"); //$NON-NLS-1$
 		isBase = rw.newFlag("IS_BASE"); //$NON-NLS-1$
 		List<RevObject> baseObjects = new BlockList<>();
 
 		pm.beginTask(JGitText.get().countingObjects, ProgressMonitor.UNKNOWN);
-		for (DfsPackFile src : srcPacks) {
-			List<ObjectIdWithOffset> want = toInclude(src, ctx);
-			if (want.isEmpty())
-				continue;
 
-			PackReverseIndex rev = src.getReverseIdx(ctx);
-			DfsObjectRepresentation rep = new DfsObjectRepresentation(src);
-			for (ObjectIdWithOffset id : want) {
-				int type = src.getObjectType(ctx, id.offset);
-				RevObject obj = rw.lookupAny(id, type);
-				if (obj.has(added))
-					continue;
-
-				pm.update(1);
-				pw.addObject(obj);
-				obj.add(added);
-
-				src.fillRepresentation(rep, id.offset, ctx, rev);
-				if (rep.getFormat() != PACK_DELTA)
-					continue;
-
-				RevObject base = rw.lookupAny(rep.getDeltaBase(), type);
-				if (!base.has(added) && !base.has(isBase)) {
-					baseObjects.add(base);
-					base.add(isBase);
-				}
-			}
+		inputDescsPacks.sort(DfsPackDescription.objectLookupComparator());
+		for (DfsPackDescription desc : inputDescsPacks) {
+			DfsPackFile src = repo.getObjectDatabase()
+					.createDfsPackFile(DfsBlockCache.getInstance(), desc);
+			addObjectFromPack(pw, ctx, pm, src, baseObjects);
 		}
+
 		for (RevObject obj : baseObjects) {
 			if (!obj.has(added)) {
 				pm.update(1);
@@ -469,6 +487,37 @@ public class DfsPackCompactor {
 			}
 		}
 		pm.endTask();
+	}
+
+	private void addObjectFromPack(PackWriter pw, DfsReader ctx,
+			ProgressMonitor pm, DfsPackFile src, List<RevObject> baseObjects)
+			throws IOException {
+		List<ObjectIdWithOffset> want = toInclude(src, ctx);
+		if (want.isEmpty())
+			return;
+
+		PackReverseIndex rev = src.getReverseIdx(ctx);
+		DfsObjectRepresentation rep = new DfsObjectRepresentation(src);
+		for (ObjectIdWithOffset id : want) {
+			int type = src.getObjectType(ctx, id.offset);
+			RevObject obj = rw.lookupAny(id, type);
+			if (obj.has(added))
+				continue;
+
+			pm.update(1);
+			pw.addObject(obj);
+			obj.add(added);
+
+			src.fillRepresentation(rep, id.offset, ctx, rev);
+			if (rep.getFormat() != PACK_DELTA)
+				continue;
+
+			RevObject base = rw.lookupAny(rep.getDeltaBase(), type);
+			if (!base.has(added) && !base.has(isBase)) {
+				baseObjects.add(base);
+				base.add(isBase);
+			}
+		}
 	}
 
 	private List<ObjectIdWithOffset> toInclude(DfsPackFile src, DfsReader ctx)
