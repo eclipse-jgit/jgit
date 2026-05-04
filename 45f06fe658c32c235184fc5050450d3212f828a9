@@ -52,6 +52,24 @@
       "parentUuid": "a34bfb4a_aab20bbe",
       "revId": "45f06fe658c32c235184fc5050450d3212f828a9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cb2e552_1b2fcc7c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-05-04T23:49:15Z",
+      "side": 1,
+      "message": "Ok. A new version using two different methods:\n\ncompactor.addPack(DfsPackDescription);\ncompactor.addReftable(DfsPackDescription);\n\nIt verifies the description has the expected field. Here the risk is that the caller add the pack to one but not the other, even when he wants both.\n\nIn a follow up change I try with (I think) a safer API:\nenum AddFlag { OBJECTS_AND_REFTABLES, ONLY_REFTABLES, ONLY_OBJECTS)\ncompactor.add(desc, ONLY_REFTABLES);\n\nrequiring the packs to have the requested segments.",
+      "parentUuid": "1b3f4ff3_035d4b48",
+      "revId": "45f06fe658c32c235184fc5050450d3212f828a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
