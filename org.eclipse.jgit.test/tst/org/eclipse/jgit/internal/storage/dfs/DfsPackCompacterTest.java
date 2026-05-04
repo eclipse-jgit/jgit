@@ -164,6 +164,40 @@ public class DfsPackCompacterTest {
 		assertTrue(odb.has(o2));
 	}
 
+	@Test
+	public void testCompactWithPackDescription() throws Exception {
+		RevCommit commit0 = commit().message("0").create();
+		RevCommit commit1 = commit().message("1").parent(commit0).create();
+		git.update("master", commit1);
+
+		assertEquals(2, odb.getPacks().length);
+
+		DfsPackCompactor compactor = new DfsPackCompactor(repo);
+		for (DfsPackFile pack : odb.getPacks()) {
+			compactor.addPack(pack.getPackDescription());
+		}
+
+		compactor.compact(null);
+		odb.clearCache();
+
+		assertEquals(1, odb.getPacks().length);
+		DfsPackFile pack = odb.getPacks()[0];
+		assertEquals(COMPACT, pack.getPackDescription().getPackSource());
+	}
+
+	@Test(expected = IllegalStateException.class)
+	public void testMixAddAndAddPackDesc() throws Exception {
+		RevCommit commit0 = commit().message("0").create();
+		git.update("master", commit0);
+
+		assertEquals(1, odb.getPacks().length);
+		DfsPackFile pack = odb.getPacks()[0];
+
+		DfsPackCompactor compactor = new DfsPackCompactor(repo);
+		compactor.add(pack);
+		compactor.addPack(pack.getPackDescription());
+	}
+
 	private TestRepository<InMemoryRepository>.CommitBuilder commit() {
 		return git.commit();
 	}
