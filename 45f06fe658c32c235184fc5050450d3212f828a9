@@ -16,6 +16,24 @@
       "message": "In this mode, what happens if someone tries to compact only packs, but because they passed in some Compact packs they are also hitting reftables? Is it safe to compact an unknown set of reftables?",
       "revId": "45f06fe658c32c235184fc5050450d3212f828a9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a34bfb4a_aab20bbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-05-04T22:32:56Z",
+      "side": 1,
+      "message": "In useDescriptionMode, the input is used for both packs and reftable compact. There is no way to compact \"only packs\" or \"only reftables\". \n\nPrevious code allowed that, but I don\u0027t think we use it. Do we need that functionality? At the moment I add a javadoc warning about this.",
+      "parentUuid": "23bdeaa9_73f4fc8b",
+      "revId": "45f06fe658c32c235184fc5050450d3212f828a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
