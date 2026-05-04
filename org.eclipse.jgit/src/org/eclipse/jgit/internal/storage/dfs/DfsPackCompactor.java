@@ -18,7 +18,6 @@ import static org.eclipse.jgit.internal.storage.pack.StoredObjectRepresentation.
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -398,16 +397,55 @@ public class DfsPackCompactor {
 	}
 
 	/**
-	 * Get all of the source packs that fed into this compaction.
+	 * Packs used as source for the compaction
 	 *
-	 * @return all of the source packs that fed into this compaction.
+	 * @param fullyIncluded
+	 *            packs with all its streams included in compaction
+	 * @param partiallyIncluded
+	 *            packs with one stream NOT included in compaction
 	 */
-	public Collection<DfsPackDescription> getSourcePacks() {
-		HashSet<DfsPackDescription> all = new HashSet<>(
-				inputDescsPacks.size() + inputDescsReftables.size());
-		all.addAll(inputDescsPacks);
-		all.addAll(inputDescsReftables);
-		return all;
+	public record SourcePacks(Set<DfsPackDescription> fullyIncluded,
+			Set<DfsPackDescription> partiallyIncluded) {
+	}
+
+	/**
+	 * Get all the source packs that fed into this compaction.
+	 *
+	 * @return all the source packs that fed into this compaction.
+	 */
+	public SourcePacks getSourcePacks() {
+		Set<DfsPackDescription> fullyIncluded = new HashSet<>();
+		Set<DfsPackDescription> partiallyIncluded = new HashSet<>();
+
+		Set<DfsPackDescription> inputReftables = new HashSet<>(
+				inputDescsReftables);
+
+		for (DfsPackDescription pack : inputDescsPacks) {
+			if (!pack.hasFileExt(REFTABLE)) {
+				fullyIncluded.add(pack);
+				continue;
+			}
+
+			if (inputReftables.contains(pack)) {
+				fullyIncluded.add(pack);
+			} else {
+				partiallyIncluded.add(pack);
+			}
+		}
+
+		for (DfsPackDescription reftable : inputDescsReftables) {
+			if (!reftable.hasFileExt(PACK)) {
+				fullyIncluded.add(reftable);
+				continue;
+			}
+
+			// If it has PACK, we should have found it before
+			if (!fullyIncluded.contains(reftable)) {
+				partiallyIncluded.add(reftable);
+			}
+		}
+
+		return new SourcePacks(fullyIncluded, partiallyIncluded);
 	}
 
 	/**
