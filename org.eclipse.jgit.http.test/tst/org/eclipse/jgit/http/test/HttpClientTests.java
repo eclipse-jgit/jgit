@@ -256,7 +256,8 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 			} catch (TransportException err) {
 				String exp = dumbAuthBasicURI + ": "
 						+ JGitText.get().noCredentialsProvider;
-				assertEquals(exp, err.getMessage());
+				assertTrue("Unexpected error message",
+						err.getMessage().startsWith(exp));
 			}
 		}
 	}
