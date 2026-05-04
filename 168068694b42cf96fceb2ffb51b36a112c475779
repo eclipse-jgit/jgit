@@ -130,6 +130,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c825f45_28c1111b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-05-04T13:16:09Z",
+      "side": 1,
+      "message": "\u003e That tells me that the description is trying to explain what the code actually doesn\u0027t do.\n\nProbably not the best place for the comment. I will move it before the command refresh.\n\nRegarding your comments about the checks on `currentId`, I agree with you; it makes sense to remove all the checks.",
+      "parentUuid": "454d293e_de5494b2",
+      "range": {
+        "startLine": 258,
+        "startChar": 0,
+        "endLine": 269,
+        "endChar": 5
+      },
+      "revId": "168068694b42cf96fceb2ffb51b36a112c475779",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b02b4316_c0807e29",
@@ -143,6 +167,30 @@
       "writtenOn": "2026-05-01T14:29:45Z",
       "side": 1,
       "message": "What is the condition where the `exactRef()` returns an object with a null `ObjectId`?",
+      "range": {
+        "startLine": 614,
+        "startChar": 25,
+        "endLine": 614,
+        "endChar": 55
+      },
+      "revId": "168068694b42cf96fceb2ffb51b36a112c475779",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05679cc0_d165979f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-05-04T13:16:09Z",
+      "side": 1,
+      "message": "I had in mind the case of a symbolic ref whose target does not resolve, but I tried it, and it is already handled before getting here.",
+      "parentUuid": "b02b4316_c0807e29",
       "range": {
         "startLine": 614,
         "startChar": 25,
