@@ -1023,10 +1023,10 @@ public class DfsPackFileMidxSingleTest {
 			byte[] checksum = midx.getChecksum(ctx);
 			assertNotNull(checksum);
 			assertEquals(20, checksum.length);
-			assertNotEquals('M', checksum[0]);
-			assertNotEquals('I', checksum[1]);
-			assertNotEquals('D', checksum[2]);
-			assertNotEquals('X', checksum[3]);
+
+			byte[] mdixHeader = { 'M', 'I', 'D', 'X' };
+			assertNotEquals(0,
+					Arrays.compare(mdixHeader, 0, 4, checksum, 0, 4));
 		}
 	}
 
