@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3a1a2d7_25b9f15a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-05-04T12:06:12Z",
+      "side": 1,
+      "message": "What about `registerDefaultProto`?",
+      "range": {
+        "startLine": 280,
+        "startChar": 25,
+        "endLine": 280,
+        "endChar": 52
+      },
+      "revId": "b3230e180c111a97baeda76413f338693b2fcb03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09d38076_a610a2ef",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-05-04T12:06:12Z",
+      "side": 1,
+      "message": "What about `registerProtoWithConcurrentUpdate`?",
+      "range": {
+        "startLine": 291,
+        "startChar": 16,
+        "endLine": 291,
+        "endChar": 54
+      },
+      "revId": "b3230e180c111a97baeda76413f338693b2fcb03",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
