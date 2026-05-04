@@ -396,20 +396,47 @@ public class DfsPackCompactor {
 		}
 	}
 
+	public record SourcePacks(Set<DfsPackDescription> fullyIncluded,
+			Set<DfsPackDescription> partiallyIncluded) {
+	}
 	/**
 	 * Get all of the source packs that fed into this compaction.
 	 *
 	 * @return all of the source packs that fed into this compaction.
 	 */
-	public Collection<DfsPackDescription> getSourcePacks() {
-		Set<DfsPackDescription> src = new HashSet<>();
-		for (DfsPackFile pack : srcPacks) {
-			src.add(pack.getPackDescription());
+	public SourcePacks getSourcePacks() {
+		Set<DfsPackDescription> fullyIncluded = new HashSet<>();
+		Set<DfsPackDescription> partiallyIncluded = new HashSet<>();
+
+		Set<DfsPackDescription> inputReftables = new HashSet<>(
+				inputDescsReftables);
+
+		for (DfsPackDescription pack : inputDescsPacks) {
+			if (!pack.hasFileExt(REFTABLE)) {
+				fullyIncluded.add(pack);
+				continue;
+			}
+
+			if (inputReftables.contains(pack)) {
+				fullyIncluded.add(pack);
+			} else {
+				partiallyIncluded.add(pack);
+			}
 		}
-		for (DfsReftable table : srcReftables) {
-			src.add(table.getPackDescription());
+
+		for (DfsPackDescription reftable : inputDescsReftables) {
+			if (!reftable.hasFileExt(PACK)) {
+				fullyIncluded.add(reftable);
+				continue;
+			}
+
+			// If it has PACK, we should have found it before
+			if (!fullyIncluded.contains(reftable)) {
+				partiallyIncluded.add(reftable);
+			}
 		}
-		return src;
+
+		return new SourcePacks(fullyIncluded, partiallyIncluded);
 	}
 
 	/**
