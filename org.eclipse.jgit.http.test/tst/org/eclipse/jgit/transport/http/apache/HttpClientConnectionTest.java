@@ -11,6 +11,8 @@ package org.eclipse.jgit.transport.http.apache;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 
 import java.net.MalformedURLException;
 import java.util.List;
@@ -21,6 +23,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.StatusLine;
 import org.apache.http.message.AbstractHttpMessage;
+import org.apache.http.entity.ByteArrayEntity;
 import org.junit.Test;
 
 public class HttpClientConnectionTest {
@@ -43,13 +46,57 @@ public class HttpClientConnectionTest {
 		assertTrue(headerValues.contains("NTLM"));
 	}
 
+	@Test
+	public void testGetErrorStreamReturnsNullWhenNoResponse()
+			throws Exception {
+		HttpClientConnection connection = new HttpClientConnection(
+				"http://0.0.0.0/");
+		// resp is null by default
+		assertEquals(null, connection.getErrorStream());
+	}
+
+	@Test
+	public void testGetErrorStreamReturnsNullForSuccessResponse()
+			throws Exception {
+		HttpClientConnection connection = new HttpClientConnection(
+				"http://0.0.0.0/");
+		connection.resp = new HttpResponseMock(200, null);
+		assertEquals(null, connection.getErrorStream());
+	}
+
+	@Test
+	public void testGetErrorStreamReturnBodyForErrorResponse()
+			throws Exception {
+		byte[] body = "Access denied".getBytes(UTF_8);
+		HttpClientConnection connection = new HttpClientConnection(
+				"http://0.0.0.0/");
+		connection.resp = new HttpResponseMock(403, body);
+		try (java.io.InputStream es = connection.getErrorStream()) {
+			byte[] actual = es.readAllBytes();
+			assertEquals("Access denied", new String(actual, UTF_8));
+		}
+	}
+
 	private static class HttpResponseMock extends AbstractHttpMessage
 			implements HttpResponse {
-		@Override
-		public StatusLine getStatusLine() {
-			throw new UnsupportedOperationException();
+
+		private final int statusCode;
+		private final byte[] body;
+
+		HttpResponseMock() {
+			this(0, null);
 		}
 
+		HttpResponseMock(int statusCode, byte[] body) {
+			this.statusCode = statusCode;
+			this.body = body;
+		}
+
+		@Override
+		public StatusLine getStatusLine() {
+			return new org.apache.http.message.BasicStatusLine(
+					new ProtocolVersion("HTTP", 1, 1), statusCode, "");
+		}
 		@Override
 		public void setStatusLine(StatusLine statusLine) {
 			throw new UnsupportedOperationException();
@@ -78,9 +125,11 @@ public class HttpClientConnectionTest {
 
 		@Override
 		public HttpEntity getEntity() {
-			throw new UnsupportedOperationException();
+			if (body == null) {
+				return null;
+			}
+			return new ByteArrayEntity(body);
 		}
-
 		@Override
 		public void setEntity(HttpEntity httpEntity) {
 			throw new UnsupportedOperationException();

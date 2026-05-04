@@ -598,6 +598,66 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		return Collections.unmodifiableMap(headers);
 	}
 
+	private String readErrorBody(HttpConnection conn) {
+		try {
+			InputStream es = conn.getErrorStream();
+			if (es == null) {
+				try {
+					es = conn.getInputStream();
+				} catch (IOException e) {
+					return "";
+				}
+			}
+			if (es == null) {
+				return "";
+			}
+			try (InputStream stream = es) {
+				String contentType = conn.getHeaderField(HDR_CONTENT_TYPE);
+				if (contentType != null
+						&& contentType.contains("application/x-git")) {
+					try {
+						PacketLineIn pckIn = new PacketLineIn(stream);
+						StringBuilder sb = new StringBuilder();
+						String line;
+						while (!PacketLineIn.isEnd(line = pckIn.readString())) {
+							if (!line.isEmpty() && !line.startsWith("# ")) {
+								sb.append(line).append('\n');
+							}
+						}
+						return sb.toString().strip();
+					} catch (IOException e) {
+						return "";
+					}
+				} else {
+					try {
+						byte[] bytes = stream.readAllBytes();
+						try {
+							PacketLineIn pckIn = new PacketLineIn(
+									new java.io.ByteArrayInputStream(bytes));
+							StringBuilder sb = new StringBuilder();
+							String line;
+							while (!PacketLineIn.isEnd(line = pckIn.readString())) {
+								if (!line.isEmpty() && !line.startsWith("# ")) {
+									sb.append(line).append('\n');
+								}
+							}
+							String parsed = sb.toString().strip();
+							if (!parsed.isEmpty()) {
+								return parsed;
+							}
+						} catch (IOException ignored) {
+						}
+						return new String(bytes, UTF_8).strip();
+					} catch (IOException e) {
+						return "";
+					}
+				}
+			}
+		} catch (IOException ignored) {
+		}
+		return "";
+	}
+
 	private NoRemoteRepositoryException createNotFoundException(URIish u,
 			URL url, String msg) {
 		String text;
@@ -698,10 +758,12 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					authAttempts++;
 					continue;
 
-				case HttpConnection.HTTP_FORBIDDEN:
+				case HttpConnection.HTTP_FORBIDDEN: {
+					String body = readErrorBody(conn);
 					throw new TransportException(uri, MessageFormat.format(
 							JGitText.get().serviceNotPermitted, baseUrl,
-							service));
+							service) + (body.isEmpty() ? "" : "\n" + body));
+				}
 
 				case HttpConnection.HTTP_MOVED_PERM:
 				case HttpConnection.HTTP_MOVED_TEMP:
@@ -764,7 +826,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	void processResponseCookies(HttpConnection conn) {
 		if (cookieFile != null && http.getSaveCookies()) {
 			List<HttpCookie> foundCookies = new ArrayList<>();
-
 			List<String> cookieHeaderValues = conn
 					.getHeaderFields(HDR_SET_COOKIE);
 			if (!cookieHeaderValues.isEmpty()) {
@@ -1699,11 +1760,12 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 						throw createNotFoundException(uri, conn.getURL(),
 								conn.getResponseMessage());
 
-					case HttpConnection.HTTP_FORBIDDEN:
-						throw new TransportException(uri,
-								MessageFormat.format(
-										JGitText.get().serviceNotPermitted,
-										baseUrl, serviceName));
+					case HttpConnection.HTTP_FORBIDDEN: {
+						String body = readErrorBody(conn);
+						throw new TransportException(uri, MessageFormat.format(
+								JGitText.get().serviceNotPermitted, baseUrl,
+								serviceName) + (body.isEmpty() ? "" : "\n" + body));
+					}
 
 					case HttpConnection.HTTP_MOVED_PERM:
 					case HttpConnection.HTTP_MOVED_TEMP:
