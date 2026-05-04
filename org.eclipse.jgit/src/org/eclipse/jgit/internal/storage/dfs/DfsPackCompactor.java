@@ -20,10 +20,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -64,8 +65,14 @@ import org.eclipse.jgit.util.io.CountingOutputStream;
  */
 public class DfsPackCompactor {
 	private final DfsRepository repo;
-	private final List<DfsPackFile> srcPacks;
-	private final List<DfsReftable> srcReftables;
+
+	private final List<DfsPackDescription> inputDescs;
+
+	private final Map<DfsPackDescription, DfsPackFile> packMap;
+
+	private final Map<DfsPackDescription, DfsReftable> reftableMap;
+
+	private boolean useDescriptionMode;
 	private final List<ObjectIdSet> exclude;
 
 	private final List<DfsPackDescription> prune;
@@ -143,8 +150,9 @@ public class DfsPackCompactor {
 	 */
 	public DfsPackCompactor(DfsRepository repository) {
 		repo = repository;
-		srcPacks = new ArrayList<>();
-		srcReftables = new ArrayList<>();
+		inputDescs = new ArrayList<>();
+		packMap = new HashMap<>();
+		reftableMap = new HashMap<>();
 		exclude = new ArrayList<>(4);
 		prune = new ArrayList<>();
 	}
@@ -175,7 +183,12 @@ public class DfsPackCompactor {
 	 * @return {@code this}
 	 */
 	public DfsPackCompactor add(DfsPackFile pack) {
-		srcPacks.add(pack);
+		if (useDescriptionMode) {
+			throw new IllegalStateException(
+					"Cannot mix DfsPackFile and DfsPackDescription inputs");
+		}
+		inputDescs.add(pack.getPackDescription());
+		packMap.put(pack.getPackDescription(), pack);
 		return this;
 	}
 
@@ -187,7 +200,34 @@ public class DfsPackCompactor {
 	 * @return {@code this}
 	 */
 	public DfsPackCompactor add(DfsReftable table) {
-		srcReftables.add(table);
+		if (useDescriptionMode) {
+			throw new IllegalStateException(
+					"Cannot mix DfsReftable and DfsPackDescription inputs");
+		}
+		inputDescs.add(table.getPackDescription());
+		reftableMap.put(table.getPackDescription(), table);
+		return this;
+	}
+
+	/**
+	 * Add a pack description to be compacted.
+	 * <p>
+	 * This method is used when the caller wants to avoid loading all pack files
+	 * into memory. The compactor will create the necessary DfsPackFile or
+	 * DfsReftable instances internally when needed.
+	 *
+	 * @param pack
+	 *            a pack description to combine.
+	 * @return {@code this}
+	 * @since 7.7
+	 */
+	public DfsPackCompactor addPack(DfsPackDescription pack) {
+		if (!packMap.isEmpty() || !reftableMap.isEmpty()) {
+			throw new IllegalStateException(
+					"Cannot mix DfsPackDescription and DfsPackFile/DfsReftable inputs");
+		}
+		useDescriptionMode = true;
+		inputDescs.add(pack);
 		return this;
 	}
 
@@ -248,7 +288,9 @@ public class DfsPackCompactor {
 
 		DfsObjDatabase objdb = repo.getObjectDatabase();
 		try (DfsReader ctx = objdb.newReader()) {
-			if (reftableConfig != null && !srcReftables.isEmpty()) {
+			boolean hasReftables = inputDescs.stream()
+					.anyMatch(d -> d.hasFileExt(REFTABLE));
+			if (reftableConfig != null && hasReftables) {
 				compactReftables(ctx);
 			}
 			compactPacks(ctx, pm);
@@ -313,18 +355,30 @@ public class DfsPackCompactor {
 		// Include the final pack file header and trailer size here and ignore
 		// the same from individual pack files.
 		long size = 32;
-		for (DfsPackFile pack : srcPacks) {
-			size += pack.getPackDescription().getFileSize(PACK) - 32;
+		for (DfsPackDescription desc : inputDescs) {
+			if (desc.hasFileExt(PACK)) {
+				size += desc.getFileSize(PACK) - 32;
+			}
 		}
 		return size;
 	}
 
 	private void compactReftables(DfsReader ctx) throws IOException {
 		DfsObjDatabase objdb = repo.getObjectDatabase();
-		Collections.sort(srcReftables, objdb.reftableComparator());
+		List<DfsReftable> tables = new ArrayList<>();
+		for (DfsPackDescription desc : inputDescs) {
+			if (desc.hasFileExt(REFTABLE)) {
+				DfsReftable t = reftableMap.get(desc);
+				if (t == null) {
+					t = new DfsReftable(DfsBlockCache.getInstance(), desc);
+				}
+				tables.add(t);
+			}
+		}
+		tables.sort(objdb.reftableComparator());
 
 		initOutDesc(objdb);
-		try (DfsReftableStack stack = DfsReftableStack.open(ctx, srcReftables);
+		try (DfsReftableStack stack = DfsReftableStack.open(ctx, tables);
 		     DfsOutputStream out = objdb.writeFile(outDesc, REFTABLE)) {
 			ReftableCompactor compact = new ReftableCompactor(out);
 			compact.addAll(stack.readers());
@@ -348,14 +402,7 @@ public class DfsPackCompactor {
 	 * @return all of the source packs that fed into this compaction.
 	 */
 	public Collection<DfsPackDescription> getSourcePacks() {
-		Set<DfsPackDescription> src = new HashSet<>();
-		for (DfsPackFile pack : srcPacks) {
-			src.add(pack.getPackDescription());
-		}
-		for (DfsReftable table : srcReftables) {
-			src.add(table.getPackDescription());
-		}
-		return src;
+		return new HashSet<>(inputDescs);
 	}
 
 	/**
@@ -383,15 +430,17 @@ public class DfsPackCompactor {
 	}
 
 	private Set<DfsPackDescription> toPrune() {
-		Set<DfsPackDescription> packs = new HashSet<>();
-		for (DfsPackFile pack : srcPacks) {
-			packs.add(pack.getPackDescription());
+		if (useDescriptionMode) {
+			// The description was used for both, data and reftable
+			// No need to recheck.
+			Set<DfsPackDescription> toPrune = new HashSet<>();
+			toPrune.addAll(inputDescs);
+			toPrune.addAll(prune);
+			return toPrune;
 		}
 
-		Set<DfsPackDescription> reftables = new HashSet<>();
-		for (DfsReftable table : srcReftables) {
-			reftables.add(table.getPackDescription());
-		}
+		Set<DfsPackDescription> packs = new HashSet<>(packMap.keySet());
+		Set<DfsPackDescription> reftables = new HashSet<>(reftableMap.keySet());
 
 		for (Iterator<DfsPackDescription> i = packs.iterator(); i.hasNext();) {
 			DfsPackDescription d = i.next();
@@ -418,49 +467,26 @@ public class DfsPackCompactor {
 	private void addObjectsToPack(PackWriter pw, DfsReader ctx,
 			ProgressMonitor pm) throws IOException,
 			IncorrectObjectTypeException {
-		// Sort packs by description ordering, this places newer packs before
-		// older packs, allowing the PackWriter to be handed newer objects
-		// first and older objects last.
-		Collections.sort(
-				srcPacks,
-				Comparator.comparing(
-						DfsPackFile::getPackDescription,
-						DfsPackDescription.objectLookupComparator()));
-
 		rw = new RevWalk(ctx);
 		added = rw.newFlag("ADDED"); //$NON-NLS-1$
 		isBase = rw.newFlag("IS_BASE"); //$NON-NLS-1$
 		List<RevObject> baseObjects = new BlockList<>();
 
 		pm.beginTask(JGitText.get().countingObjects, ProgressMonitor.UNKNOWN);
-		for (DfsPackFile src : srcPacks) {
-			List<ObjectIdWithOffset> want = toInclude(src, ctx);
-			if (want.isEmpty())
+
+		inputDescs.sort(DfsPackDescription.objectLookupComparator());
+		for (DfsPackDescription desc : inputDescs) {
+			if (!desc.hasFileExt(PACK)) {
 				continue;
-
-			PackReverseIndex rev = src.getReverseIdx(ctx);
-			DfsObjectRepresentation rep = new DfsObjectRepresentation(src);
-			for (ObjectIdWithOffset id : want) {
-				int type = src.getObjectType(ctx, id.offset);
-				RevObject obj = rw.lookupAny(id, type);
-				if (obj.has(added))
-					continue;
-
-				pm.update(1);
-				pw.addObject(obj);
-				obj.add(added);
-
-				src.fillRepresentation(rep, id.offset, ctx, rev);
-				if (rep.getFormat() != PACK_DELTA)
-					continue;
-
-				RevObject base = rw.lookupAny(rep.getDeltaBase(), type);
-				if (!base.has(added) && !base.has(isBase)) {
-					baseObjects.add(base);
-					base.add(isBase);
-				}
 			}
+			DfsPackFile src = packMap.get(desc);
+			if (src == null) {
+				src = repo.getObjectDatabase()
+						.createDfsPackFile(DfsBlockCache.getInstance(), desc);
+			}
+			addObjectFromPack(pw, ctx, pm, src, baseObjects);
 		}
+
 		for (RevObject obj : baseObjects) {
 			if (!obj.has(added)) {
 				pm.update(1);
@@ -469,6 +495,37 @@ public class DfsPackCompactor {
 			}
 		}
 		pm.endTask();
+	}
+
+	private void addObjectFromPack(PackWriter pw, DfsReader ctx,
+			ProgressMonitor pm, DfsPackFile src, List<RevObject> baseObjects)
+			throws IOException {
+		List<ObjectIdWithOffset> want = toInclude(src, ctx);
+		if (want.isEmpty())
+			return;
+
+		PackReverseIndex rev = src.getReverseIdx(ctx);
+		DfsObjectRepresentation rep = new DfsObjectRepresentation(src);
+		for (ObjectIdWithOffset id : want) {
+			int type = src.getObjectType(ctx, id.offset);
+			RevObject obj = rw.lookupAny(id, type);
+			if (obj.has(added))
+				continue;
+
+			pm.update(1);
+			pw.addObject(obj);
+			obj.add(added);
+
+			src.fillRepresentation(rep, id.offset, ctx, rev);
+			if (rep.getFormat() != PACK_DELTA)
+				continue;
+
+			RevObject base = rw.lookupAny(rep.getDeltaBase(), type);
+			if (!base.has(added) && !base.has(isBase)) {
+				baseObjects.add(base);
+				base.add(isBase);
+			}
+		}
 	}
 
 	private List<ObjectIdWithOffset> toInclude(DfsPackFile src, DfsReader ctx)
