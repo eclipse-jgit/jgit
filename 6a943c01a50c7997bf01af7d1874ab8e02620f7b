@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fda03f91_d75ccf04",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-04T20:34:44Z",
+      "side": 1,
+      "message": "build fails with the error:\n\nThe method getErrorStream() is undefined for the type org.eclipse.jgit.transport.http.HttpConnection",
+      "range": {
+        "startLine": 703,
+        "startChar": 33,
+        "endLine": 703,
+        "endChar": 47
+      },
+      "revId": "6a943c01a50c7997bf01af7d1874ab8e02620f7b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "530411d2_e04a6509",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 1
