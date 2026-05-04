@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.api;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
@@ -303,23 +304,33 @@ public class RebaseResult {
 		return uncommittedChanges;
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("RebaseResult[status=").append(status); //$NON-NLS-1$
-		if (currentCommit != null) {
-			sb.append(", currentCommit=").append(currentCommit); //$NON-NLS-1$
+		StringBuilder sb = new StringBuilder("RebaseResult[");
+		sb.append(status);
+		switch (status) {
+		case CONFLICTS:
+			sb.append(" Conflicts: ");
+			sb.append(conflicts.size());
+			break;
+		case STOPPED:
+			sb.append(" At commit : ");
+			sb.append(currentCommit);
+			break;
+		case FAILED:
+			sb.append(" Failed Paths : ");
+			sb.append(failingPaths.size());
+			sb.append(", reasons ");
+			sb.append(EnumSet.copyOf(failingPaths.values()));
+			break;
+		case UNCOMMITTED_CHANGES:
+			sb.append(" Uncommitted Changes :");
+			sb.append(uncommittedChanges.size());
+			break;
+		default:
 		}
-		if (failingPaths != null) {
-			sb.append(", failingPaths=").append(failingPaths); //$NON-NLS-1$
-		}
-		if (conflicts != null) {
-			sb.append(", conflicts=").append(conflicts); //$NON-NLS-1$
-		}
-		if (uncommittedChanges != null) {
-			sb.append(", uncommittedChanges=").append(uncommittedChanges); //$NON-NLS-1$
-		}
-		sb.append("]"); //$NON-NLS-1$
+		sb.append("]");
 		return sb.toString();
 	}
 }

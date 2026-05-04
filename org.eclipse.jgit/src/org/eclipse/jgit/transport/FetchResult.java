@@ -64,16 +64,25 @@ public class FetchResult extends OperationResult {
 		return Collections.unmodifiableMap(submodules);
 	}
 
+	@SuppressWarnings("nls")
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("FetchResult["); //$NON-NLS-1$
-		sb.append("advertisedRefs=").append(getAdvertisedRefs()); //$NON-NLS-1$
-		sb.append(", trackingRefUpdates=").append(getTrackingRefUpdates()); //$NON-NLS-1$
+		StringBuilder sb = new StringBuilder("FetchResult[");
+		sb.append("ref updates: ");
+		sb.append(forMerge.size());
 		if (!submodules.isEmpty()) {
-			sb.append(", submodules=").append(submodules); //$NON-NLS-1$
+			sb.append(",");
+			sb.append("submodules: ");
+			sb.append(submodules.size());
 		}
-		sb.append("]"); //$NON-NLS-1$
+		String messages = getMessages();
+		if (!messages.isEmpty()) {
+			sb.append(",");
+			sb.append("messages: ");
+			sb.append(messages.substring(0,
+					Math.min(100, messages.length()) - 1));
+		}
+		sb.append("]");
 		return sb.toString();
 	}
 }
