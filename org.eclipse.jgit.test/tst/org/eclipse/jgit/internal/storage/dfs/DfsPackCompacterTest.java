@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.Set;
 import java.util.zip.Deflater;
 
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
@@ -42,7 +43,9 @@ public class DfsPackCompacterTest {
 	private static final int AUTO_ADD_SIZE = 5 * 1024 * 1024; // 5 MiB
 
 	private TestRepository<InMemoryRepository> git;
+
 	private InMemoryRepository repo;
+
 	private DfsObjDatabase odb;
 
 	@Before
@@ -129,7 +132,8 @@ public class DfsPackCompacterTest {
 						.getPackSource() == COMPACT)
 				.findFirst();
 		assertTrue(compactPack.isPresent());
-		assertTrue(compactPack.get().getPackDescription().hasFileExt(OBJECT_SIZE_INDEX));
+		assertTrue(compactPack.get().getPackDescription()
+				.hasFileExt(OBJECT_SIZE_INDEX));
 	}
 
 	@Test
@@ -146,7 +150,55 @@ public class DfsPackCompacterTest {
 						.getPackSource() == COMPACT)
 				.findFirst();
 		assertTrue(compactPack.isPresent());
-		assertFalse(compactPack.get().getPackDescription().hasFileExt(OBJECT_SIZE_INDEX));
+		assertFalse(compactPack.get().getPackDescription()
+				.hasFileExt(OBJECT_SIZE_INDEX));
+	}
+
+	@Test
+	public void testGetSourcePacks() throws IOException {
+		String MAIN = "refs/heads/main";
+		String DEV = "refs/heads/dev";
+		ObjectId o1 = writePackWithRandomBlob(200);
+		writeRef(MAIN, ObjectId.zeroId(), o1);
+		compact(); // Creates one pack with objects and reftables
+		assertEquals(1, odb.listPacks().size());
+		DfsPackDescription combinedPack = odb.listPacks().get(0);
+
+		ObjectId o2 = writePackWithRandomBlob(100);
+		writePackWithRandomBlob(140);
+		writeRef(DEV, ObjectId.zeroId(), o2);
+
+		{
+			DfsPackCompactor compactor = new DfsPackCompactor(repo);
+			compactor.setReftableConfig(new ReftableConfig());
+			// Add combinedPack for objects but not for refs
+			Arrays.stream(repo.getObjectDatabase().getReftables())
+					.filter(p -> !p.getPackDescription().equals(combinedPack))
+					.forEach(compactor::add);
+			Arrays.stream(repo.getObjectDatabase().getPacks())
+					.forEach(compactor::add);
+
+			DfsPackCompactor.SourcePacks sourcePacks = compactor
+					.getSourcePacks();
+			assertEquals(Set.of(combinedPack), sourcePacks.partiallyIncluded());
+			assertEquals(3, sourcePacks.fullyIncluded().size());
+		}
+
+		{
+			DfsPackCompactor compactor = new DfsPackCompactor(repo);
+			compactor.setReftableConfig(new ReftableConfig());
+			// Add combinedPack for objects but not for refs
+			Arrays.stream(repo.getObjectDatabase().getReftables())
+					.forEach(compactor::add);
+			Arrays.stream(repo.getObjectDatabase().getPacks())
+					.filter(p -> !p.getPackDescription().equals(combinedPack))
+					.forEach(compactor::add);
+
+			DfsPackCompactor.SourcePacks sourcePacks = compactor
+					.getSourcePacks();
+			assertEquals(Set.of(combinedPack), sourcePacks.partiallyIncluded());
+			assertEquals(3, sourcePacks.fullyIncluded().size());
+		}
 	}
 
 	@Test
@@ -254,7 +306,8 @@ public class DfsPackCompacterTest {
 		odb.clearCache();
 	}
 
-	private static void writeObjectSizeIndex(DfsRepository repo, boolean should) {
+	private static void writeObjectSizeIndex(DfsRepository repo,
+			boolean should) {
 		repo.getConfig().setInt(ConfigConstants.CONFIG_PACK_SECTION, null,
 				ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX,
 				should ? 0 : -1);
