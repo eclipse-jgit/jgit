@@ -34,6 +34,24 @@
       "parentUuid": "23bdeaa9_73f4fc8b",
       "revId": "45f06fe658c32c235184fc5050450d3212f828a9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b3f4ff3_035d4b48",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-05-04T22:51:15Z",
+      "side": 1,
+      "message": "Well, what happens if we add a random subset of reftables (because they are attached haphazardly to different packs)? Does it break any assumption of reftable?\n\nI know that\u0027s not really how our data is currently structured, but given recent events I don\u0027t really want to add an API that deletes packs and behaves in unpredictable ways. Imagine this pseudo code:\n\nfor (var r : objdb.listReftables()) {\n  compactor.addPack(r);\n}\ncompactor.compact();\n\nThat code will delete Compact and GC packfiles, and there\u0027s basically no hint it will do so. The javadoc doesn\u0027t help either, because if you don\u0027t know that packs and reftables can be in the same DfsPackDescription then you don\u0027t know that both are being added. Yes, this version will replace them with a new Compact file, but it just feels surprising to me.",
+      "parentUuid": "a34bfb4a_aab20bbe",
+      "revId": "45f06fe658c32c235184fc5050450d3212f828a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
