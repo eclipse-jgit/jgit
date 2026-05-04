@@ -237,6 +237,18 @@ public interface HttpConnection {
 	 */
 	InputStream getInputStream() throws IOException;
 
+
+	/**
+	 * Get error stream
+	 *
+	 * @see HttpURLConnection#getErrorStream()
+	 * @return an input stream that reads from this error stream, or
+	 *         {@code null} if the connection is not connected, or the server
+	 *         did not have a useful error stream.
+	 */
+	InputStream getErrorStream();
+
+
 	/**
 	 * Get header field. According to
 	 * <a href="https://tools.ietf.org/html/rfc2616#section-4.2">RFC 2616</a>

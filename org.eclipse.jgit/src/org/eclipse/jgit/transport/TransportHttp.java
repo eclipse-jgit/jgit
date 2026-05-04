@@ -609,6 +609,16 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 		return new NoRemoteRepositoryException(u, text);
 	}
+	private String readErrorBody(HttpConnection conn) {
+		try (InputStream es = conn.getErrorStream()) {
+			if (es != null) {
+				return new String(es.readNBytes(4096), UTF_8);
+			}
+		} catch (IOException ignored) {
+			// ignore
+		}
+		return "";
+	}
 
 	private HttpAuthMethod authFromUri(URIish u) {
 		String user = u.getUser();
@@ -698,10 +708,12 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					authAttempts++;
 					continue;
 
-				case HttpConnection.HTTP_FORBIDDEN:
+				case HttpConnection.HTTP_FORBIDDEN: {
+					String body = readErrorBody(conn);
 					throw new TransportException(uri, MessageFormat.format(
-							JGitText.get().serviceNotPermitted, baseUrl,
-							service));
+							JGitText.get().serviceNotPermitted, baseUrl, service)
+							+ (body.isEmpty() ? "" : "\n" + body)); //$NON-NLS-1$
+				}
 
 				case HttpConnection.HTTP_MOVED_PERM:
 				case HttpConnection.HTTP_MOVED_TEMP:
@@ -1699,11 +1711,12 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 						throw createNotFoundException(uri, conn.getURL(),
 								conn.getResponseMessage());
 
-					case HttpConnection.HTTP_FORBIDDEN:
-						throw new TransportException(uri,
-								MessageFormat.format(
-										JGitText.get().serviceNotPermitted,
-										baseUrl, serviceName));
+					case HttpConnection.HTTP_FORBIDDEN: {
+						String body = readErrorBody(conn);
+						throw new TransportException(uri, MessageFormat.format(
+								JGitText.get().serviceNotPermitted, baseUrl, serviceName)
+								+ (body.isEmpty() ? "" : "\n" + body)); //$NON-NLS-1$
+					}
 
 					case HttpConnection.HTTP_MOVED_PERM:
 					case HttpConnection.HTTP_MOVED_TEMP:
