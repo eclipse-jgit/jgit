@@ -32,6 +32,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.file.PackReverseIndex;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.internal.storage.reftable.ReftableCompactor;
 import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
@@ -212,13 +213,13 @@ public class DfsPackCompactor {
 		return this;
 	}
 
+	/** What to include from the pack in the compaction */
+	public enum AddFlag {
+		OBJECTS_AND_REFTABLES, ONLY_OBJECTS, ONLY_REFTABLES,
+	}
+
 	/**
 	 * Add a pack to be compacted
-	 * <p>
-	 * This adds the objects in the pack to the compaction. If the description
-	 * has reftables, they are ignored. Caller must explicitely call
-	 * {@link #addReftable(DfsPackDescription)} with the same description to
-	 * include them.
 	 * <p>
 	 * This method creates DfsPackFile instances when needed and can close them
 	 * as soon as is done with them. This reduces the peak memory while
@@ -226,47 +227,35 @@ public class DfsPackCompactor {
 	 *
 	 * @param desc
 	 *            a pack description to combine.
+	 * @param extsToCompact
+	 *            what extensions of the pack to include in the compaction
+	 *            (reftables, objects or both). The pack MUST have the requested
+	 *            extensions.
 	 * @return {@code this}
 	 * @since 7.7
 	 */
-	public DfsPackCompactor addPack(DfsPackDescription desc) {
+	public DfsPackCompactor addPack(DfsPackDescription desc,
+			PackExt... extsToCompact) {
 		if (!packMap.isEmpty() || !reftableMap.isEmpty()) {
 			throw new IllegalStateException(
 					"Cannot mix DfsPackDescription and DfsPackFile/DfsReftable inputs");
 		}
-		if (!desc.hasFileExt(PACK)) {
-			throw new IllegalArgumentException(
-					"Adding for pack compaction a pack without data");
-		}
-		useDescriptionMode = true;
-		inputDescsPacks.add(desc);
-		return this;
-	}
 
-	/**
-	 * Add a reftable to be compacted.
-	 * <p>
-	 * This adds the reftables in the pack to the compaction. If the description
-	 * has pack data (objects), they are ignored. Caller must explicitely call
-	 * {@link #addPack(DfsPackDescription)} with the same description to include
-	 * them.
-	 * 
-	 * @param desc
-	 *            a pack description to combine.
-	 * @return {@code this}
-	 * @since 7.7
-	 */
-	public DfsPackCompactor addReftable(DfsPackDescription desc) {
-		if (!packMap.isEmpty() || !reftableMap.isEmpty()) {
-			throw new IllegalStateException(
-					"Cannot mix DfsPackDescription and DfsPackFile/DfsReftable inputs");
-		}
-		if (!desc.hasFileExt(REFTABLE)) {
-			throw new IllegalArgumentException(
-					"Adding for pack compaction a pack without data");
-		}
 		useDescriptionMode = true;
-		inputDescsReftables.add(desc);
+		for (PackExt ext : extsToCompact) {
+			if (!desc.hasFileExt(ext)) {
+				throw new IllegalArgumentException(
+						"Requeste to compact of extention that pack doesn't have: "
+								+ ext);
+			}
+
+			switch (ext) {
+			case PACK -> inputDescsPacks.add(desc);
+			case REFTABLE -> inputDescsReftables.add(desc);
+			default ->
+				new IllegalArgumentException("Cannot compact extension " + ext);
+			}
+		}
 		return this;
 	}
 

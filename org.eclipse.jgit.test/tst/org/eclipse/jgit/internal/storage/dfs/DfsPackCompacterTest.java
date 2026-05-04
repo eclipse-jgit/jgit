@@ -174,7 +174,7 @@ public class DfsPackCompacterTest {
 
 		DfsPackCompactor compactor = new DfsPackCompactor(repo);
 		for (DfsPackFile pack : odb.getPacks()) {
-			compactor.addPack(pack.getPackDescription());
+			compactor.addPack(pack.getPackDescription(), PACK);
 		}
 
 		compactor.compact(null);
@@ -195,7 +195,7 @@ public class DfsPackCompacterTest {
 
 		DfsPackCompactor compactor = new DfsPackCompactor(repo);
 		compactor.add(pack);
-		compactor.addPack(pack.getPackDescription());
+		compactor.addPack(pack.getPackDescription(), PACK);
 	}
 
 	private TestRepository<InMemoryRepository>.CommitBuilder commit() {
