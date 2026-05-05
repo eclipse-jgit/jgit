@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0c62944_cc07c705",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-05T17:19:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "965d740c_d822ffd9",
+      "range": {
+        "startLine": 422,
+        "startChar": 15,
+        "endLine": 422,
+        "endChar": 53
+      },
+      "revId": "47ec82dbc9a7808bb78e8df8f34b8fc97b165e28",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0351145d_1c8c7b53",
@@ -47,6 +71,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "632fd71d_76d2fbd9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-05T17:19:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0351145d_1c8c7b53",
+      "range": {
+        "startLine": 459,
+        "startChar": 25,
+        "endLine": 459,
+        "endChar": 52
+      },
+      "revId": "47ec82dbc9a7808bb78e8df8f34b8fc97b165e28",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ecc2a30_96e05f0f",
@@ -60,6 +108,30 @@
       "writtenOn": "2026-05-05T15:09:13Z",
       "side": 1,
       "message": "there is no method with this name",
+      "range": {
+        "startLine": 465,
+        "startChar": 16,
+        "endLine": 465,
+        "endChar": 54
+      },
+      "revId": "47ec82dbc9a7808bb78e8df8f34b8fc97b165e28",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1580856_985ef3c2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TestProtocolTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-05T17:19:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ecc2a30_96e05f0f",
       "range": {
         "startLine": 465,
         "startChar": 16,
