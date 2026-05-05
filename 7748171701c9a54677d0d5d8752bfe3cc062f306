@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f76231ad_115b5cdb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039446
+      },
+      "writtenOn": "2026-05-05T16:48:39Z",
+      "side": 1,
+      "message": "I don\u0027t have access to the CI log. could you share what the build failure is?",
+      "revId": "7748171701c9a54677d0d5d8752bfe3cc062f306",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

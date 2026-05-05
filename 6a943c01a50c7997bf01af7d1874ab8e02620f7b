@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13f58b3a_ac9f122e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039446
+      },
+      "writtenOn": "2026-05-05T16:48:39Z",
+      "side": 1,
+      "message": "Thank you for the feedback. I will add a test.",
+      "parentUuid": "4399bbf5_93d3dd63",
+      "revId": "6a943c01a50c7997bf01af7d1874ab8e02620f7b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fda03f91_d75ccf04",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-05-04T20:34:44Z",
       "side": 1,
       "message": "build fails with the error:\n\nThe method getErrorStream() is undefined for the type org.eclipse.jgit.transport.http.HttpConnection",
+      "range": {
+        "startLine": 703,
+        "startChar": 33,
+        "endLine": 703,
+        "endChar": 47
+      },
+      "revId": "6a943c01a50c7997bf01af7d1874ab8e02620f7b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51d76237_474c955e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 1039446
+      },
+      "writtenOn": "2026-05-05T16:48:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fda03f91_d75ccf04",
       "range": {
         "startLine": 703,
         "startChar": 33,
@@ -64,6 +106,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdd8b231_13c0e31a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 1039446
+      },
+      "writtenOn": "2026-05-05T16:48:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "530411d2_e04a6509",
+      "range": {
+        "startLine": 702,
+        "startChar": 0,
+        "endLine": 712,
+        "endChar": 61
+      },
+      "revId": "6a943c01a50c7997bf01af7d1874ab8e02620f7b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee52bbad_256a5c81",
@@ -81,6 +147,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dadc8675_e2932577",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1711,
+      "author": {
+        "id": 1039446
+      },
+      "writtenOn": "2026-05-05T16:48:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee52bbad_256a5c81",
+      "revId": "6a943c01a50c7997bf01af7d1874ab8e02620f7b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69227694_67b72089",
@@ -94,6 +178,24 @@
       "writtenOn": "2026-05-05T14:28:42Z",
       "side": 1,
       "message": "`readAllBytes()` is probably not a good idea here. Could this lead to OOM? Could a misbehaving server send a huge body?\n\nI suggest to cap this at some reasonable upper bound, say 4kB at most.",
+      "revId": "6a943c01a50c7997bf01af7d1874ab8e02620f7b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afd3c1c4_4075e594",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1715,
+      "author": {
+        "id": 1039446
+      },
+      "writtenOn": "2026-05-05T16:48:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69227694_67b72089",
       "revId": "6a943c01a50c7997bf01af7d1874ab8e02620f7b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
