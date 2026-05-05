@@ -869,6 +869,7 @@ public class RefDirectory extends RefDatabase {
 							} while (!looseRefs.compareAndSet(curLoose, newLoose));
 							int levels = levelsIn(refName) - 2;
 							deleteAndUnlock(refFile, levels, rLck);
+							LOG.warn("Deleted loose ref {} during pack-refs", refFile.getName());
 						}
 					} finally {
 						if (shouldUnlock) {
@@ -1455,6 +1456,7 @@ public class RefDirectory extends RefDatabase {
 		for (int i = 0; i < depth; ++i) {
 			try {
 				Files.deleteIfExists(dir.toPath());
+				LOG.warn("Deleted loose ref empty directory {} during pack-refs", dir.getName());
 			} catch (DirectoryNotEmptyException e) {
 				// Don't log; normal case when there are other refs with the
 				// same prefix
