@@ -14,6 +14,7 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.CO
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.INSERT;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -24,12 +25,17 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.zip.Deflater;
 
+import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRng;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -164,12 +170,50 @@ public class DfsPackCompacterTest {
 		assertTrue(odb.has(o2));
 	}
 
+	@Test
+	public void testPrunePack_packIncludedOnlyForRefs() throws Exception {
+		// If a pack is used for refs but not for data (or the other way
+		// around) it should NOT be deleted at the end.
+
+		// Create pack with both, reftables and data
+		ObjectId o1 = writePackWithRandomBlob(200);
+		writeRef("refs/heads/main", ObjectId.zeroId(), o1);
+		compact();
+		DfsPackDescription combinedPack = odb.listPacks().get(0);
+		assertTrue(combinedPack.hasFileExt(PACK));
+		assertTrue(combinedPack.hasFileExt(REFTABLE));
+
+		ObjectId o2 = writePackWithRandomBlob(100);
+		writeRef("refs/heads/main", o1, o2);
+		ObjectId o3 = writePackWithRandomBlob(140);
+		// 1 INSERT with reftable, 2 INSERT with data and the combined
+		assertEquals(4, odb.listPacks().size());
+
+		DfsPackCompactor compactor = new DfsPackCompactor(repo);
+		compactor.setReftableConfig(new ReftableConfig());
+		// Add combinedPack for refs but not for data
+		Arrays.stream(repo.getObjectDatabase().getReftables())
+				.forEach(compactor::add);
+		Arrays.stream(repo.getObjectDatabase().getPacks())
+				.filter(p -> !p.getPackDescription().equals(combinedPack))
+				.forEach(compactor::add);
+		compactor.compact(NullProgressMonitor.INSTANCE);
+
+		// The new compact + combinedPack because it wasn't deleted
+		assertEquals(2, repo.getObjectDatabase().listPacks().size());
+		assertTrue(repo.getObjectDatabase().listPacks().contains(combinedPack));
+		assertTrue(odb.has(o3));
+		assertTrue(odb.has(o1));
+		assertTrue(odb.has(o2));
+	}
+
 	private TestRepository<InMemoryRepository>.CommitBuilder commit() {
 		return git.commit();
 	}
 
 	private void compact() throws IOException {
 		DfsPackCompactor compactor = new DfsPackCompactor(repo);
+		compactor.setReftableConfig(new ReftableConfig());
 		DfsObjDatabase objdb = repo.getObjectDatabase();
 		for (DfsPackFile pack : objdb.getPacks()) {
 			DfsPackDescription d = pack.getPackDescription();
@@ -179,6 +223,9 @@ public class DfsPackCompacterTest {
 				compactor.exclude(pack);
 			}
 		}
+
+		Arrays.stream(repo.getObjectDatabase().getReftables())
+				.forEach(compactor::add);
 		compactor.compact(null);
 		odb.clearCache();
 	}
@@ -201,5 +248,20 @@ public class DfsPackCompacterTest {
 	private ObjectId writePackWithRandomBlob(int size) throws IOException {
 		byte[] data = new TestRng(JGitTestUtil.getName()).nextBytes(size);
 		return writePackWithBlob(data);
+	}
+
+	// RefDb do "compactDuringCommit". This only creates a new pack at the
+	// beginning or after compact.
+	private void writeRef(String name, ObjectId oldValue, ObjectId newValue)
+			throws IOException {
+		BatchRefUpdate batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
+		// We move the ref between blobs, it is always non fast-forward
+		batchRefUpdate.setAllowNonFastForwards(true);
+		batchRefUpdate.addCommand(new ReceiveCommand(oldValue, newValue, name));
+		try (RevWalk rw = new RevWalk(repo)) {
+			batchRefUpdate.execute(rw, NullProgressMonitor.INSTANCE);
+			assertEquals(ReceiveCommand.Result.OK,
+					batchRefUpdate.getCommands().get(0).getResult());
+		}
 	}
 }
