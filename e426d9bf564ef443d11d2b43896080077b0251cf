@@ -34,6 +34,24 @@
       "parentUuid": "ae2d33c9_7008592b",
       "revId": "e426d9bf564ef443d11d2b43896080077b0251cf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a36f2ce7_e9a6535c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-05-05T11:55:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bb9ac67_e925e5f8",
+      "revId": "e426d9bf564ef443d11d2b43896080077b0251cf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
