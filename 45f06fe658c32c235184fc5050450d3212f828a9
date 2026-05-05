@@ -70,6 +70,24 @@
       "parentUuid": "1b3f4ff3_035d4b48",
       "revId": "45f06fe658c32c235184fc5050450d3212f828a9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36c61cbe_9233a913",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-05-05T17:55:37Z",
+      "side": 1,
+      "message": "I like more this compactor.addPack/addReftable(DfsPackDescription)\n\nhttps://review.gerrithub.io/c/eclipse-jgit/jgit/+/1236659/2\n\nIf agree, we can squash both changes.",
+      "parentUuid": "1cb2e552_1b2fcc7c",
+      "revId": "45f06fe658c32c235184fc5050450d3212f828a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
