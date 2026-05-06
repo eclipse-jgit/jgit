@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5d79dbe_ce469b87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-05-06T09:01:54Z",
+      "side": 1,
+      "message": "The commit message should have a body. Please see [1] for some guidance. The body should explain \"what \u0026 why\", not \"how\". The \"how\" can be seen in the code itself.\n\n[1] https://github.com/eclipse-egit/egit/wiki/Contributor-Guide#commit-message-guidelines",
+      "revId": "7748171701c9a54677d0d5d8752bfe3cc062f306",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6031b836_0ac01732",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-05-06T09:01:54Z",
+      "side": 1,
+      "message": "Add a footer to reference the Github issue:\n```\nBug: jgit-262\nChange-Id: Ib34d5c28b084be70d2d1d70307d9a06ea0f2255f\n```",
+      "revId": "7748171701c9a54677d0d5d8752bfe3cc062f306",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f76231ad_115b5cdb",
@@ -14,6 +48,24 @@
       "writtenOn": "2026-05-05T16:48:39Z",
       "side": 1,
       "message": "I don\u0027t have access to the CI log. could you share what the build failure is?",
+      "revId": "7748171701c9a54677d0d5d8752bfe3cc062f306",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebe4211e_8dfc4df0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-05-06T09:01:54Z",
+      "side": 1,
+      "message": "It\u0027s a compilation error:\n\n```\n18:35:58  [ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.1:compile (default-compile) on project org.eclipse.jgit.http.apache: Compilation failure\n18:35:58  [ERROR] /home/jenkins/agent/workspace/stable/jgit-stable.gerrit/repo/org.eclipse.jgit.http.apache/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java:[79,14] The type org.eclipse.jgit.transport.http.apache.HttpClientConnection must implement the inherited abstract method org.eclipse.jgit.transport.http.HttpConnection.getErrorStream()\n```\n\nRun `mvn clean verify` locally before pushing.\n\nClass `org.eclipse.jgit.transport.http.apache.HttpClientConnection` in bundle `org.eclipse.jgit.http.apache` needs an implementation of `getErrorStream()`; probably something like\n```\n@Override\npublic InputStream getErrorStream() {\n  if (resp \u003d\u003d null) {\n    return null;\n  }\n  if (resp.getStatusLine().getStatusCode() \u003c HttpStatus.SC_BAD_REQUEST) {\n    // Not an error, so even if there is a message body, it\u0027s not an \"error\" entity.\n    return null;\n  }\n  HttpEntity entity \u003d resp.getEntity();\n  return entity !\u003d null ? entity.getInputStream() : null;\n}\n```\n(This is off the top of my head and completely untested.) Note that you may need to change the interface to specify that `getErrorStream()` may throw an `IOException`.\n\nSuch an implementation for the Apache HTTP client will need to be tested, too.",
+      "parentUuid": "f76231ad_115b5cdb",
       "revId": "7748171701c9a54677d0d5d8752bfe3cc062f306",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
