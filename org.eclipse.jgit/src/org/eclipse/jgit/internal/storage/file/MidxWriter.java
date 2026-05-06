@@ -38,6 +38,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.pack.PackConfig;
@@ -74,7 +75,7 @@ public class MidxWriter {
 			Collection<Pack> packs, File midxOut, PackConfig packConfig)
 			throws IOException {
 
-		Collection<Pack> packList = flattenMidxPackList(packs).stream()
+		List<Pack> packList = flattenMidxPackList(packs).stream()
 				.sorted(Comparator.comparing(Pack::getPackName)).toList();
 		if (packList.size() < MIN_PACKS_FOR_MIDX) {
 			return;
@@ -154,7 +155,7 @@ public class MidxWriter {
 		// bitmapping
 		List<ObjectId> allHeads = repo.getRefDatabase()
 				.getRefsByPrefix(Constants.R_HEADS).stream()
-				.map(r -> r.getObjectId()).filter(Objects::nonNull).toList();
+				.map(Ref::getObjectId).filter(Objects::nonNull).toList();
 		if (allHeads.isEmpty()) {
 			return;
 		}
@@ -164,7 +165,7 @@ public class MidxWriter {
 				(WindowCursor) repo.newObjectReader(), data,
 				new ArrayList<>(packs), byId);
 
-		RefAdvancerWalk adv = new RefAdvancerWalk(repo, c -> byId.contains(c));
+		RefAdvancerWalk adv = new RefAdvancerWalk(repo, byId::contains);
 		Set<RevCommit> inPack = adv.advance(allHeads);
 
 		PackBitmapIndexBuilder writeBitmaps = new PackBitmapIndexBuilder(otps);
