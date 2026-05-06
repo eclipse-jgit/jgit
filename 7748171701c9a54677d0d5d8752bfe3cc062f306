@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9daeea6_3f622888",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-06T23:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5d79dbe_ce469b87",
+      "revId": "7748171701c9a54677d0d5d8752bfe3cc062f306",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6031b836_0ac01732",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-05-06T09:01:54Z",
       "side": 1,
       "message": "Add a footer to reference the Github issue:\n```\nBug: jgit-262\nChange-Id: Ib34d5c28b084be70d2d1d70307d9a06ea0f2255f\n```",
+      "revId": "7748171701c9a54677d0d5d8752bfe3cc062f306",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4e29ac1_062d51c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-06T23:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6031b836_0ac01732",
       "revId": "7748171701c9a54677d0d5d8752bfe3cc062f306",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },

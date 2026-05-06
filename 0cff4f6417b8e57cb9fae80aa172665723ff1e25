@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad1c15dc_8594965d",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/transport/http/apache/HttpClientConnectionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-06T23:40:41Z",
+      "side": 1,
+      "message": "add a static import ?",
+      "range": {
+        "startLine": 67,
+        "startChar": 41,
+        "endLine": 67,
+        "endChar": 80
+      },
+      "revId": "0cff4f6417b8e57cb9fae80aa172665723ff1e25",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "951ea0d7_5abcc4b3",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/transport/http/apache/HttpClientConnectionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-06T23:40:41Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\tif (body \u003d\u003d null) {\n\t\t\t\treturn null;\n\t\t\t}\n```",
+      "revId": "0cff4f6417b8e57cb9fae80aa172665723ff1e25",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c331d03_770a2080",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/transport/http/apache/HttpClientConnectionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-06T23:40:41Z",
+      "side": 1,
+      "message": "- add an import for this class ?\n- add package `org.apache.http.entity` to imported packages in `MANIFEST.MF`",
+      "range": {
+        "startLine": 126,
+        "startChar": 14,
+        "endLine": 126,
+        "endChar": 52
+      },
+      "revId": "0cff4f6417b8e57cb9fae80aa172665723ff1e25",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe48f698_3471eb32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-06T23:40:41Z",
+      "side": 1,
+      "message": "this breaks the test `HttpClientTests.testListRemote_Smart_UploadPackDisabled()`\nI guess since git over http protocol transmits error messages via sideband channel 2 and this code doesn\u0027t do packet line parsing but just reads the next 4kB, see https://git-scm.com/docs/protocol-v2/2.21.0",
+      "revId": "0cff4f6417b8e57cb9fae80aa172665723ff1e25",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be8df188_f5620f16",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-06T23:40:41Z",
+      "side": 1,
+      "message": "missing @since tag for new API method\n```suggestion\n\t *             if an I/O error occurs\n\t * @since 7.7\n```",
+      "range": {
+        "startLine": 246,
+        "startChar": 0,
+        "endLine": 246,
+        "endChar": 38
+      },
+      "revId": "0cff4f6417b8e57cb9fae80aa172665723ff1e25",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
