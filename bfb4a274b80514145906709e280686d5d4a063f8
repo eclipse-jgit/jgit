@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0522358_ceeb2ce6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-05-06T21:20:04Z",
+      "side": 1,
+      "message": "As noted by @mthai, previous code left srcReftables sorted, this code doesnt.",
+      "revId": "bfb4a274b80514145906709e280686d5d4a063f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
