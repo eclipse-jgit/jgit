@@ -166,33 +166,6 @@ public class DfsPackCompactor {
 	}
 
 	/**
-	 * Add a pack to be compacted.
-	 * <p>
-	 * All of the objects in this pack will be copied into the resulting pack.
-	 * The resulting pack will order objects according to the source pack's own
-	 * description ordering (which is based on creation date), and then by the
-	 * order the objects appear in the source pack.
-	 *
-	 * @param pack
-	 *            a pack to combine into the resulting pack.
-	 * @return {@code this}
-	 */
-	public DfsPackCompactor add(DfsPackFile pack) {
-		return addPack(pack.getPackDescription());
-	}
-
-	/**
-	 * Add a reftable to be compacted.
-	 *
-	 * @param table
-	 *            a reftable to combine.
-	 * @return {@code this}
-	 */
-	public DfsPackCompactor add(DfsReftable table) {
-		return addReftable(table.getPackDescription());
-	}
-
-	/**
 	 * Add a pack to be compacted
 	 * <p>
 	 * This adds the objects in the pack to the compaction. If the description

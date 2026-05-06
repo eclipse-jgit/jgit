@@ -157,8 +157,8 @@ public class DfsPackCompacterTest {
 		DfsPackFile[] packsToCompact = odb.getPacks();
 
 		DfsPackCompactor compactor = new DfsPackCompactor(repo);
-		compactor.add(packsToCompact[1]);
-		compactor.add(packsToCompact[2]);
+		compactor.addPack(packsToCompact[1].getPackDescription());
+		compactor.addPack(packsToCompact[2].getPackDescription());
 		compactor.prune(packsToCompact[0]);
 
 		compactor.compact(null);
@@ -187,10 +187,12 @@ public class DfsPackCompacterTest {
 		compactor.setReftableConfig(new ReftableConfig());
 		// Add combinedPack for refs but not for data
 		Arrays.stream(repo.getObjectDatabase().getReftables())
-				.forEach(compactor::add);
+				.map(DfsReftable::getPackDescription)
+				.forEach(compactor::addReftable);
 		Arrays.stream(repo.getObjectDatabase().getPacks())
-				.filter(p -> !p.getPackDescription().equals(combinedPack))
-				.forEach(compactor::add);
+				.map(DfsPackFile::getPackDescription)
+				.filter(d -> !d.equals(combinedPack))
+				.forEach(compactor::addPack);
 		compactor.compact(NullProgressMonitor.INSTANCE);
 
 		assertTrue(odb.has(o1));
@@ -218,10 +220,12 @@ public class DfsPackCompacterTest {
 		compactor.setReftableConfig(new ReftableConfig());
 		// Add combinedPack for objects but not for refs
 		Arrays.stream(repo.getObjectDatabase().getReftables())
-				.filter(p -> !p.getPackDescription().equals(combinedPack))
-				.forEach(compactor::add);
+				.map(DfsReftable::getPackDescription)
+				.filter(d -> !d.equals(combinedPack))
+				.forEach(compactor::addReftable);
 		Arrays.stream(repo.getObjectDatabase().getPacks())
-				.forEach(compactor::add);
+				.map(DfsPackFile::getPackDescription)
+				.forEach(compactor::addPack);
 		compactor.compact(NullProgressMonitor.INSTANCE);
 
 		assertTrue(odb.has(o1));
@@ -242,14 +246,15 @@ public class DfsPackCompacterTest {
 		for (DfsPackFile pack : objdb.getPacks()) {
 			DfsPackDescription d = pack.getPackDescription();
 			if (d.getFileSize(PACK) < AUTO_ADD_SIZE) {
-				compactor.add(pack);
+				compactor.addPack(d);
 			} else {
 				compactor.exclude(pack);
 			}
 		}
 
 		Arrays.stream(repo.getObjectDatabase().getReftables())
-				.forEach(compactor::add);
+				.map(DfsReftable::getPackDescription)
+				.forEach(compactor::addReftable);
 		compactor.compact(null);
 		odb.clearCache();
 	}
