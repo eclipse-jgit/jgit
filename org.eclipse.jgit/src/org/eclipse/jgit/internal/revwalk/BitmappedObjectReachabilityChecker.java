@@ -10,6 +10,7 @@
 package org.eclipse.jgit.internal.revwalk;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -34,6 +35,7 @@ public class BitmappedObjectReachabilityChecker
 		implements ObjectReachabilityChecker {
 
 	private final ObjectWalk walk;
+	private final int batchSize;
 
 	/**
 	 * New instance of the reachability checker using a existing walk.
@@ -42,7 +44,20 @@ public class BitmappedObjectReachabilityChecker
 	 *            ObjectWalk instance to reuse. Caller retains ownership.
 	 */
 	public BitmappedObjectReachabilityChecker(ObjectWalk walk) {
+		this(walk, 1);
+	}
+
+	/**
+	 * New instance of the reachability checker using a existing walk.
+	 *
+	 * @param walk
+	 *            ObjectWalk instance to reuse. Caller retains ownership.
+	 * @param batchSize
+	 *            Number of starters to process in each areAllReachable call.
+	 */
+	public BitmappedObjectReachabilityChecker(ObjectWalk walk, int batchSize) {
 		this.walk = walk;
+		this.batchSize = batchSize;
 	}
 
 	/**
@@ -68,8 +83,11 @@ public class BitmappedObjectReachabilityChecker
 			Iterator<RevObject> starterIt = starters.iterator();
 			BitmapBuilder seen = null;
 			while (starterIt.hasNext()) {
-				List<RevObject> asList = Arrays.asList(starterIt.next());
-				BitmapBuilder visited = bitmapWalker.findObjects(asList, seen,
+				List<RevObject> batch = new ArrayList<>(batchSize);
+				for (int i = 0; i < batchSize && starterIt.hasNext(); i++) {
+					batch.add(starterIt.next());
+				}
+				BitmapBuilder visited = bitmapWalker.findObjects(batch, seen,
 						true);
 				seen = seen == null ? visited : seen.or(visited);
 

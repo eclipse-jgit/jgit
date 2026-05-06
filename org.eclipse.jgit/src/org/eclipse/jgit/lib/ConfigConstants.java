@@ -830,6 +830,16 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_BITMAP_RECENT_COMMIT_COUNT = "bitmaprecentcommitspan";
 
 	/**
+	 * The "uploadpack.objectReachabilityBatchSize" key.
+	 * <p>
+	 * Controls how many starters are processed per call in
+	 * {@code ObjectReachabilityChecker}. Default is 1.
+	 *
+	 * @since 7.7
+	 */
+	public static final String CONFIG_KEY_OBJECT_REACHABILITY_BATCH_SIZE = "objectReachabilityBatchSize";
+
+	/**
 	 * The "pack.writeReverseIndex" key
 	 *
 	 * @since 6.6

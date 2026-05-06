@@ -494,13 +494,36 @@ public abstract class ObjectReader implements AutoCloseable {
 	 * @throws IOException
 	 *             if it cannot open any of the underlying indices.
 	 *
-	 * @since 5.11
+	 * @since 7.7
 	 */
 	@NonNull
 	public ObjectReachabilityChecker createObjectReachabilityChecker(
 			ObjectWalk ow) throws IOException {
+		return createObjectReachabilityChecker(ow, 1);
+	}
+
+	/**
+	 * Create an object reachability checker that will use bitmaps if possible.
+	 *
+	 * This reachability checker accepts any object as target. For checks
+	 * exclusively between commits, use
+	 * {@link #createReachabilityChecker(RevWalk)}.
+	 *
+	 * @param ow
+	 *            objectwalk for use by the reachability checker
+	 * @return the most efficient object reachability checker for this
+	 *         repository.
+	 *
+	 * @throws IOException
+	 *             if it cannot open any of the underlying indices.
+	 *
+	 * @since 5.11
+	 */
+	@NonNull
+	public ObjectReachabilityChecker createObjectReachabilityChecker(
+			ObjectWalk ow, int batchSize) throws IOException {
 		if (getBitmapIndex() != null) {
-			return new BitmappedObjectReachabilityChecker(ow);
+			return new BitmappedObjectReachabilityChecker(ow, batchSize);
 		}
 
 		return new PedestrianObjectReachabilityChecker(ow);

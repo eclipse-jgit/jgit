@@ -128,6 +128,8 @@ public class TransferConfig {
 
 	private final boolean allowReceiveClientSID;
 
+	private final int objectReachabilityBatchSize;
+
 	final @Nullable ProtocolVersion protocolVersion;
 	final String[] hideRefs;
 
@@ -221,6 +223,9 @@ public class TransferConfig {
 				"advertiseobjectinfo", false);
 		allowReceiveClientSID = rc.getBoolean("transfer", "advertisesid",
 				false);
+		objectReachabilityBatchSize = rc.getInt("uploadpack", //$NON-NLS-1$
+				ConfigConstants.CONFIG_KEY_OBJECT_REACHABILITY_BATCH_SIZE,
+				1);
 	}
 
 	/**
@@ -365,6 +370,16 @@ public class TransferConfig {
 	 */
 	public boolean isAllowReceiveClientSID() {
 		return allowReceiveClientSID;
+	}
+
+	/**
+	 * Get the number of starters to process call during object reachability checks.
+	 *
+	 * @return value of {@code uploadpack.objectReachabilityBatchSize}
+	 * @since 7.2
+	 */
+	public int getObjectReachabilityBatchSize() {
+		return objectReachabilityBatchSize;
 	}
 
 	/**

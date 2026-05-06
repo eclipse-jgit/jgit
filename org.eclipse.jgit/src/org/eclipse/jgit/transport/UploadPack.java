@@ -2070,7 +2070,7 @@ public class UploadPack implements Closeable {
 							.filter(Objects::nonNull); // Ignore missing tips
 
 					ObjectReachabilityChecker reachabilityChecker = reader
-							.createObjectReachabilityChecker(objWalk);
+							.createObjectReachabilityChecker(objWalk, up.transferConfig.getObjectReachabilityBatchSize());
 					Optional<RevObject> unreachable = reachabilityChecker
 							.areAllReachable(wantsAsObjs, startersAsObjs);
 					if (unreachable.isPresent()) {
