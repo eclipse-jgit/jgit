@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d6837d6_400756ad",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-05-07T14:42:59Z",
+      "side": 1,
+      "message": "I am tempted to remove this to avoid spamming the logs.",
+      "revId": "ea7bf38551334e29ba4d07be5910dfbfe02c1268",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2f22028_43428a2a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1386,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-05-07T14:42:59Z",
+      "side": 1,
+      "message": "I am tempted to remove this to avoid spamming the logs.",
+      "revId": "ea7bf38551334e29ba4d07be5910dfbfe02c1268",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
