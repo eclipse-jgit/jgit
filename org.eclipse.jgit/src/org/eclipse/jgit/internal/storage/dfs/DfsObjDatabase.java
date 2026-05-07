@@ -537,6 +537,10 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	protected abstract DfsOutputStream writeFile(
 			DfsPackDescription desc, PackExt ext) throws IOException;
 
+	protected void addPack(DfsPackDescription newPack) throws IOException {
+		addPack(createDfsPackFile(DfsBlockCache.getInstance(), newPack));
+	}
+
 	void addPack(DfsPackFile newPack) throws IOException {
 		PackList o, n;
 		do {
