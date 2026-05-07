@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "daa07aec_daf55791",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-07T09:15:00Z",
+      "side": 1,
+      "message": "restored commit author",
+      "revId": "ef807c1369415fefa0c43b6292ef75cb1b02ffae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
