@@ -364,6 +364,23 @@ public class HttpClientConnection implements HttpConnection {
 		return resp.getEntity().getContent();
 	}
 
+	@Override
+	public InputStream getErrorStream() {
+		if (resp == null) {
+			return null;
+		}
+		int status = resp.getStatusLine().getStatusCode();
+		if (status < 400) {
+			return null;
+		}
+		HttpEntity ent = resp.getEntity();
+		try {
+			return ent != null ? ent.getContent() : null;
+		} catch (IOException e) {
+			return null;
+		}
+	}
+
 	// will return only the first field
 	@Override
 	public String getHeaderField(@NonNull String name) {
