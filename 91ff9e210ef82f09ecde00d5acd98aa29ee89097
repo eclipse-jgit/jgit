@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fead7090_75309808",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-07T09:10:54Z",
+      "side": 1,
+      "message": "fixed the remaining comments\n\nplease mark comments as \"done\" when you push a new patchset addressing the comment, this helps tracking which comments are addressed and which are still open",
+      "revId": "91ff9e210ef82f09ecde00d5acd98aa29ee89097",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

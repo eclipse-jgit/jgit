@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "015e64c2_c5a37da1",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/transport/http/apache/HttpClientConnectionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-07T09:10:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad1c15dc_8594965d",
+      "range": {
+        "startLine": 67,
+        "startChar": 41,
+        "endLine": 67,
+        "endChar": 80
+      },
+      "revId": "0cff4f6417b8e57cb9fae80aa172665723ff1e25",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "951ea0d7_5abcc4b3",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-05-06T23:40:41Z",
       "side": 1,
       "message": "```suggestion\n\t\t\tif (body \u003d\u003d null) {\n\t\t\t\treturn null;\n\t\t\t}\n```",
+      "revId": "0cff4f6417b8e57cb9fae80aa172665723ff1e25",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6895eab_e3182995",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/transport/http/apache/HttpClientConnectionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-07T09:10:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "951ea0d7_5abcc4b3",
       "revId": "0cff4f6417b8e57cb9fae80aa172665723ff1e25",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -64,6 +106,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96b2e865_e143265e",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/transport/http/apache/HttpClientConnectionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-07T09:10:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c331d03_770a2080",
+      "range": {
+        "startLine": 126,
+        "startChar": 14,
+        "endLine": 126,
+        "endChar": 52
+      },
+      "revId": "0cff4f6417b8e57cb9fae80aa172665723ff1e25",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe48f698_3471eb32",
@@ -81,6 +147,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95ee8341_22cf3e83",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-07T09:10:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe48f698_3471eb32",
+      "revId": "0cff4f6417b8e57cb9fae80aa172665723ff1e25",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be8df188_f5620f16",
@@ -94,6 +178,30 @@
       "writtenOn": "2026-05-06T23:40:41Z",
       "side": 1,
       "message": "missing @since tag for new API method\n```suggestion\n\t *             if an I/O error occurs\n\t * @since 7.7\n```",
+      "range": {
+        "startLine": 246,
+        "startChar": 0,
+        "endLine": 246,
+        "endChar": 38
+      },
+      "revId": "0cff4f6417b8e57cb9fae80aa172665723ff1e25",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47b6d663_57c4c30d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/http/HttpConnection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-07T09:10:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be8df188_f5620f16",
       "range": {
         "startLine": 246,
         "startChar": 0,

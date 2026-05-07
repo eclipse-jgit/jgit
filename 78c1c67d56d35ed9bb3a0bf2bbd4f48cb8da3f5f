@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2904dc08_5270fce4",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-07T09:10:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16511c1d_41b10fa1",
+      "range": {
+        "startLine": 259,
+        "startChar": 0,
+        "endLine": 260,
+        "endChar": 40
+      },
+      "revId": "78c1c67d56d35ed9bb3a0bf2bbd4f48cb8da3f5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ee15a11_a17a4142",
@@ -47,6 +71,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fd78fee_60b34588",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-07T09:10:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ee15a11_a17a4142",
+      "range": {
+        "startLine": 320,
+        "startChar": 22,
+        "endLine": 320,
+        "endChar": 38
+      },
+      "revId": "78c1c67d56d35ed9bb3a0bf2bbd4f48cb8da3f5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ae43c19_b19d04a9",
@@ -60,6 +108,30 @@
       "writtenOn": "2026-05-07T08:51:57Z",
       "side": 1,
       "message": "this should only read error packets starting with \"ERR \"\n\n\n```suggestion\n\t\t\t\t\tif (!line.isEmpty() \u0026\u0026 line\n\t\t\t\t\t\t\t.startsWith(GitProtocolConstants.PACKET_ERR)) {\n\t\t\t\t\t\tsb.append(line.substring(4)).append(\u0027\\n\u0027);\n\t\t\t\t\t}\n```",
+      "range": {
+        "startLine": 611,
+        "startChar": 0,
+        "endLine": 613,
+        "endChar": 6
+      },
+      "revId": "78c1c67d56d35ed9bb3a0bf2bbd4f48cb8da3f5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66ebccc0_54977501",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-07T09:10:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ae43c19_b19d04a9",
       "range": {
         "startLine": 611,
         "startChar": 0,
