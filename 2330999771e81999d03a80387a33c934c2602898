@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e39c3e46_eeae74e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-05-07T10:03:01Z",
+      "side": 1,
+      "message": "I would slightly modify the commit message since not all the tests are covering a concurrency case. For example `nonForcedFetchRejectedWhenCurrentRefUnchangedButNonFastForward` doesn\u0027t have any concurrency going on.",
+      "range": {
+        "startLine": 7,
+        "startChar": 41,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "2330999771e81999d03a80387a33c934c2602898",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f47e6a2_7d388248",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-05-07T10:03:01Z",
+      "side": 1,
+      "message": "Same comment as before.",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "2330999771e81999d03a80387a33c934c2602898",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
