@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3aa6d3f7_0cf4648e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2026-05-07T15:31:19Z",
+      "side": 1,
+      "message": "should this condition be checked and exception be thrown if detected here?",
+      "range": {
+        "startLine": 402,
+        "startChar": 2,
+        "endLine": 404,
+        "endChar": 27
+      },
+      "revId": "ef08449238bf3d4763ce642ed0b66a4a6e6ce4fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
