@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7825862f_6e289412",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-07T14:49:50Z",
+      "side": 1,
+      "message": "I believe we should lower this logging to the filesystem layer.\nAlso, it should be logged as a trace so that by default it doesn\u0027t do anything.\n\nThen, if needed, it can be configured in the LOG4J settings.",
+      "revId": "f64e7943074da6e80b79bcff3bcf6e756c4f3f9f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
