@@ -47,6 +47,54 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "174ee445_92ecea0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-08T09:34:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e39c3e46_eeae74e4",
+      "range": {
+        "startLine": 7,
+        "startChar": 41,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "2330999771e81999d03a80387a33c934c2602898",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ba4a63f_b6a941b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-08T09:34:22Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "96f3951f_5c09ebf9",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "2330999771e81999d03a80387a33c934c2602898",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f47e6a2_7d388248",
@@ -83,6 +131,54 @@
       "writtenOn": "2026-05-08T08:45:00Z",
       "side": 1,
       "message": "```suggestion\nAdd regression tests covering additional fetch update scenarios,\nincluding concurrent destination ref updates and non-fast-forward\nrejections.\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "2330999771e81999d03a80387a33c934c2602898",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edcdca40_acb2ac63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-08T09:34:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f47e6a2_7d388248",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "2330999771e81999d03a80387a33c934c2602898",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5836b098_6942afd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-08T09:34:22Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "c770571d_2d91f4c5",
       "range": {
         "startLine": 9,
         "startChar": 0,
