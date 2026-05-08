@@ -22,6 +22,30 @@
       },
       "revId": "ef08449238bf3d4763ce642ed0b66a4a6e6ce4fa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5541c64_e65f9d5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackCompactor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-05-08T20:03:43Z",
+      "side": 1,
+      "message": "getSourcePacks is only for logging purposes. The compactor supports compacting only parts of a pack, we shouldn\u0027t throw a surprising error here.\n\nMaybe this method could report partiallyIncluded packs. As this is orthogonal to using descriptions, lets discuss it in a different change: https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1236940",
+      "parentUuid": "3aa6d3f7_0cf4648e",
+      "range": {
+        "startLine": 402,
+        "startChar": 2,
+        "endLine": 404,
+        "endChar": 27
+      },
+      "revId": "ef08449238bf3d4763ce642ed0b66a4a6e6ce4fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
