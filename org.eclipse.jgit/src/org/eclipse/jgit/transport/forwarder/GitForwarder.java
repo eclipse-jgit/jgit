@@ -16,7 +16,9 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketOption;
 import java.text.MessageFormat;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -49,6 +51,8 @@ public class GitForwarder implements AutoCloseable {
 
 	private final ExecutorService workerPool = Executors.newCachedThreadPool();
 
+	private final Map<SocketOption<?>, Object> socketOptions;
+
 	private final ServerSocket serverSocket = new ServerSocket();
 
 	/**
@@ -65,6 +69,8 @@ public class GitForwarder implements AutoCloseable {
 		this.listenOn = Objects.requireNonNull(config.listenOn(), "listenOn"); //$NON-NLS-1$
 		this.routingListener = Objects.requireNonNull(config.routingListener(),
 				"routingListener"); //$NON-NLS-1$
+		this.socketOptions = Objects.requireNonNull(config.socketOptions(),
+				"socketOptions"); //$NON-NLS-1$
 
 		try {
 			serverSocket.bind(listenOn);
@@ -83,6 +89,7 @@ public class GitForwarder implements AutoCloseable {
 		while (!serverSocket.isClosed()) {
 			try {
 				Socket clientSocket = serverSocket.accept();
+				applySocketOptions(clientSocket);
 				workerPool.execute(() -> {
 					try {
 						handleConnection(clientSocket,
@@ -119,6 +126,7 @@ public class GitForwarder implements AutoCloseable {
 		Socket upstreamSocket = new Socket();
 		try {
 			upstreamSocket.connect(response.destination(), SOCKET_TIMEOUT_MS);
+			applySocketOptions(upstreamSocket);
 		} catch (IOException e) {
 			LOG.error(MessageFormat.format(
 					JGitText.get().forwarderFailedConnection,
@@ -211,6 +219,13 @@ public class GitForwarder implements AutoCloseable {
 			workerPool.awaitTermination(timeout, unit);
 		} catch (InterruptedException e) {
 			workerPool.shutdownNow();
+		}
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void applySocketOptions(Socket socket) throws IOException {
+		for (Map.Entry<SocketOption<?>, Object> e : socketOptions.entrySet()) {
+			socket.setOption((SocketOption) e.getKey(), e.getValue());
 		}
 	}
 

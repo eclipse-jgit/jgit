@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.pgm.forwarder;
 
+import java.util.Map;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.pgm.Die;
@@ -18,6 +19,8 @@ import org.eclipse.jgit.transport.forwarder.GitForwarderConfig;
 import org.eclipse.jgit.transport.forwarder.RoutingListener;
 
 import java.net.InetSocketAddress;
+import java.net.SocketOption;
+import java.net.StandardSocketOptions;
 
 /**
  * Parses forwarder configuration.
@@ -31,6 +34,10 @@ import java.net.InetSocketAddress;
  *
  *  # Required. Same parsing rules as listen.
  *  remote = 127.0.0.1:9419
+
+ *  # Optional. Enable TCP keep-alives on client and upstream sockets.
+ *  # Defaults to false.
+ *  keepAlive = true
  * </pre>
  */
 class ForwarderConfig implements GitForwarderConfig {
@@ -40,11 +47,15 @@ class ForwarderConfig implements GitForwarderConfig {
 
 	private static final String REMOTE = "remote"; //$NON-NLS-1$
 
+	private static final String KEEP_ALIVE = "keepAlive"; //$NON-NLS-1$
+
 	private final InetSocketAddress listen;
 
 	private final InetSocketAddress remote;
 
 	private final RoutingListener routingListener;
+
+	private final boolean keepAlive;
 
 	/**
 	 * Build forwarder config from a config file.
@@ -68,6 +79,7 @@ class ForwarderConfig implements GitForwarderConfig {
 		this.listen = parseAddress(listenValue);
 		this.remote = parseAddress(remoteValue);
 		this.routingListener = new FixedRouteListener(this.remote);
+		this.keepAlive = cfg.getBoolean(GLOBAL, null, KEEP_ALIVE, false);
 	}
 
 	@Override
@@ -80,6 +92,15 @@ class ForwarderConfig implements GitForwarderConfig {
 	@NonNull
 	public RoutingListener routingListener() {
 		return routingListener;
+	}
+
+	@Override
+	@NonNull
+	public Map<SocketOption<?>, Object> socketOptions() {
+		if (!keepAlive) {
+			return Map.of();
+		}
+		return Map.of(StandardSocketOptions.SO_KEEPALIVE, Boolean.TRUE);
 	}
 
 	/**
