@@ -42,6 +42,8 @@ public class GitForwarder implements AutoCloseable {
 
 	private static final int SOCKET_TIMEOUT_MS = 30_000;
 
+	private boolean keepAlive;
+
 	private final InetSocketAddress listenOn;
 
 	private final RoutingListener routingListener;
@@ -81,6 +83,17 @@ public class GitForwarder implements AutoCloseable {
 	}
 
 	/**
+	 * Enables or disables TCP keep-alive on client and upstream sockets.
+	 * Must be called before {@link #start()}.
+	 *
+	 * @param keepAlive
+	 *            true to enable SO_KEEPALIVE on every proxied socket pair
+	 */
+	public void setKeepAlive(boolean keepAlive) {
+		this.keepAlive = keepAlive;
+	}
+
+	/**
 	 * Runs the accept loop on the calling thread, blocking until the server
 	 * socket is closed.
 	 */
@@ -88,6 +101,7 @@ public class GitForwarder implements AutoCloseable {
 		while (!serverSocket.isClosed()) {
 			try {
 				Socket clientSocket = serverSocket.accept();
+				clientSocket.setKeepAlive(keepAlive);
 				workerPool.execute(() -> {
 					try {
 						handleConnection(new RouteRequest(clientSocket,
@@ -123,6 +137,7 @@ public class GitForwarder implements AutoCloseable {
 		Socket upstreamSocket = new Socket();
 		try {
 			upstreamSocket.connect(response.destination(), SOCKET_TIMEOUT_MS);
+			upstreamSocket.setKeepAlive(keepAlive);
 		} catch (IOException e) {
 			LOG.error(MessageFormat.format(
 					JGitText.get().forwarderFailedConnection,
