@@ -62,6 +62,7 @@ public class Forwarder extends TextBuiltin {
 		try (GitForwarder forwarder = new GitForwarder(fc.getListen(),
 				new FixedRouteListener(fc.getRemote()),
 				Executors.newCachedThreadPool())) {
+			forwarder.setKeepAlive(fc.isKeepAlive());
 			errw.println(MessageFormat.format(CLIText.get().listeningOn,
 					fc.getListen()));
 			errw.println(MessageFormat.format(CLIText.get().forwardingTo,

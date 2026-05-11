@@ -29,6 +29,10 @@ import java.net.InetSocketAddress;
  *
  *  # Required. Same parsing rules as listen.
  *  remote = 127.0.0.1:9419
+ *
+ *  # Optional. Enable TCP keep-alives on client and upstream sockets.
+ *  # Defaults to false.
+ *  keepAlive = true
  * </pre>
  */
 class ForwarderConfig {
@@ -38,9 +42,13 @@ class ForwarderConfig {
 
 	private static final String REMOTE = "remote";
 
+	private static final String KEEP_ALIVE = "keepAlive";
+
 	private final InetSocketAddress listen;
 
 	private final InetSocketAddress remote;
+
+	private final boolean keepAlive;
 
 	/**
 	 * Build forwarder config from a JGit config.
@@ -64,6 +72,7 @@ class ForwarderConfig {
 
 		this.listen = parseAddress(listenValue);
 		this.remote = parseAddress(remoteValue);
+		this.keepAlive = cfg.getBoolean(GLOBAL, null, KEEP_ALIVE, false);
 	}
 
 	/**
@@ -82,6 +91,15 @@ class ForwarderConfig {
 	 */
 	public InetSocketAddress getRemote() {
 		return remote;
+	}
+
+	/**
+	 * Whether TCP keep-alives should be enabled on sockets.
+	 *
+	 * @return true if keep-alives are enabled
+	 */
+	public boolean isKeepAlive() {
+		return keepAlive;
 	}
 
 	private InetSocketAddress parseAddress(String in) {
