@@ -195,4 +195,27 @@ public final class RevWalkUtils {
 		return result;
 	}
 
+	/**
+	 * If not already parsed, parses the headers of the given commit using the
+	 * given Rev Walker
+	 *
+	 * @param commit
+	 *            The commit to parse
+	 * @param walker
+	 *            The RevWalk to be used
+	 * @throws MissingObjectException
+	 *             if the object is missing
+	 * @throws IncorrectObjectTypeException
+	 *             if the object has an unexpected type
+	 * @throws IOException
+	 *             if an IO error occurred
+	 */
+	static void ensureHeadersParsed(RevCommit commit, RevWalk walker)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		if ((commit.flags & RevWalk.PARSED) == 0) {
+			commit.parseHeaders(walker);
+		}
+	}
+
 }
