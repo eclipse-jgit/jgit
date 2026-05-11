@@ -11,6 +11,9 @@
 package org.eclipse.jgit.transport.forwarder;
 
 import java.net.InetSocketAddress;
+import java.net.SocketOption;
+import java.util.Collections;
+import java.util.Map;
 
 import org.eclipse.jgit.annotations.NonNull;
 
@@ -37,4 +40,14 @@ public interface GitForwarderConfig {
 	 */
 	@NonNull
 	RoutingListener routingListener();
+
+	/**
+	 * Socket options applied to every proxied socket. Defaults to empty.
+	 *
+	 * @return socket options to apply to every proxied socket
+	 */
+	@NonNull
+	default Map<SocketOption<?>, Object> socketOptions() {
+		return Collections.emptyMap();
+	}
 }
