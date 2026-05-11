@@ -33,6 +33,24 @@
       "message": "Now I\u0027m confused. Why use PacketLineIn? When I call Github on a repository that I cannot access, I get the following:\n```\n$ curl -v -H \u0027Accept: application/x-git-upload-pack-advertisement\u0027 https://github.com/some/privaterepo.git/info/refs?service\u003dgit-upload-pack\n* Host github.com:443 was resolved.\n* IPv6: (none)\n* IPv4: 140.82.121.3\n*   Trying 140.82.121.3:443...\n* schannel: disabled automatic use of client certificate\n* ALPN: curl offers http/1.1\n* ALPN: server accepted http/1.1\n* Connected to github.com (140.82.121.3) port 443\n* using HTTP/1.x\n\u003e GET /some/privaterepo.git/info/refs?service\u003dgit-upload-pack HTTP/1.1\n\u003e Host: github.com\n\u003e User-Agent: curl/8.14.1\n\u003e Accept: application/x-git-upload-pack-advertisement\n\u003e\n* Request completely sent off\n* schannel: remote party requests renegotiation\n* schannel: renegotiating SSL/TLS connection\n* schannel: SSL/TLS connection renegotiated\n* schannel: remote party requests renegotiation\n* schannel: renegotiating SSL/TLS connection\n* schannel: SSL/TLS connection renegotiated\n\u003c HTTP/1.1 401 Unauthorized\n\u003c Server: GitHub-Babel/3.0\n\u003c Content-Security-Policy: default-src \u0027none\u0027; sandbox\n\u003c Content-Type: text/plain; charset\u003dUTF-8\n\u003c www-authenticate: Basic realm\u003d\"GitHub\"\n\u003c Content-Length: 21\n\u003c Date: Mon, 11 May 2026 11:50:42 GMT\n\u003c X-Frame-Options: DENY\n\u003c Strict-Transport-Security: max-age\u003d31536000; includeSubDomains; preload\n\u003c X-GitHub-Request-Id: ...\n\u003c\nRepository not found.* Connection #0 to host github.com left intact\n$\n```\nSo I get an HTTP 401 with a text/plain body \"Repository not found.\" (no line feed at the end). Note that I get text/plain even though I specified I\u0027d accept only application/x-git-upload-pack-advertisement.\n\nParsing \"Repository not found\" with PacketLineIn is not going to work.\n\nTrying a dumb request:\n```\n$ curl -v -H \u0027Accept: */*\u0027 https://github.com/some/privaterepo.git/info/refs\n* Host github.com:443 was resolved.\n* IPv6: (none)\n* IPv4: 140.82.121.3\n*   Trying 140.82.121.3:443...\n* schannel: disabled automatic use of client certificate\n* ALPN: curl offers http/1.1\n* ALPN: server accepted http/1.1\n* Connected to github.com (140.82.121.3) port 443\n* using HTTP/1.x\n\u003e GET /some/privaterepo.git/info/refs HTTP/1.1\n\u003e Host: github.com\n\u003e User-Agent: curl/8.14.1\n\u003e Accept: */*\n\u003e\n* Request completely sent off\n* schannel: remote party requests renegotiation\n* schannel: renegotiating SSL/TLS connection\n* schannel: SSL/TLS connection renegotiated\n* schannel: remote party requests renegotiation\n* schannel: renegotiating SSL/TLS connection\n* schannel: SSL/TLS connection renegotiated\n* schannel: server close notification received (close_notify)\n\u003c HTTP/1.1 403 Forbidden\n\u003c Cache-Control: no-cache\n\u003c Content-Type: text/plain\n\u003c Strict-Transport-Security: max-age\u003d31536000; includeSubDomains; preload\n\u003c connection: close\n\u003c\nPlease upgrade your git client.\nGitHub.com no longer supports git over dumb-http: https://github.com/blog/809-git-dumb-http-transport-to-be-turned-off-in-90-days\n* schannel: server indicated shutdown in a prior call\n* shutting down connection #0\n```\n(Replace \"some/privaterepo.git\" with some really existing repo you don\u0027t have public access to).",
       "revId": "ef807c1369415fefa0c43b6292ef75cb1b02ffae",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b31aabf3_4c43d039",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-11T14:24:03Z",
+      "side": 1,
+      "message": "You are right, looks like we need different exception handling for cases like your examples where the server doesn\u0027t report the exception via git protocol and other cases where it does, e.g. like the test `HttpClientTests.testListRemote_Smart_UploadPackDisabled()` which assumes git protocol and was broken in PS 5.",
+      "parentUuid": "9cd0f691_88662281",
+      "revId": "ef807c1369415fefa0c43b6292ef75cb1b02ffae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
