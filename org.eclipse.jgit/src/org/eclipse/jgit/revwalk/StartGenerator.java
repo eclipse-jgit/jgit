@@ -110,18 +110,33 @@ class StartGenerator extends Generator {
 
 		walker.queue = q;
 
+		if (walker.hasRevSort(RevSort.TOPO)
+				&& walker.hasRevSort(RevSort.TOPO_KEEP_BRANCH_TOGETHER)) {
+			throw new IllegalStateException(JGitText
+					.get().cannotCombineTopoSortWithTopoKeepBranchTogetherSort);
+		}
+
 		if (walker instanceof DepthWalk) {
 			DepthWalk dw = (DepthWalk) walker;
 			g = new DepthGenerator(dw, pending);
-		} else {
-			g = new PendingGenerator(w, pending, rf, pendingOutputType);
 
-			if (walker.hasRevSort(RevSort.BOUNDARY)) {
-				// Because the boundary generator may produce uninteresting
-				// commits we cannot allow the pending generator to dispose
-				// of them early.
-				//
-				((PendingGenerator) g).canDispose = false;
+			if (walker.hasRevSort(RevSort.TOPO)) {
+				g = new TopoSortGenerator(g);
+			}
+		} else {
+			// Because the boundary generator may produce uninteresting
+			// commits we cannot allow the pending generator to dispose
+			// of them early.
+			//
+			boolean canDispose = !walker.hasRevSort(RevSort.BOUNDARY);
+
+			if (walker.hasRevSort(RevSort.TOPO)) {
+				// Doesn't need rewrite
+				g = new TopoSortPendingGenerator(w, pending, rf,
+						pendingOutputType, canDispose);
+			} else {
+				g = new PendingGenerator(w, pending, rf, pendingOutputType,
+						canDispose);
 			}
 		}
 
@@ -129,16 +144,7 @@ class StartGenerator extends Generator {
 			g = new RewriteGenerator(g);
 		}
 
-		if (walker.hasRevSort(RevSort.TOPO)
-				&& walker.hasRevSort(RevSort.TOPO_KEEP_BRANCH_TOGETHER)) {
-			throw new IllegalStateException(JGitText
-					.get().cannotCombineTopoSortWithTopoKeepBranchTogetherSort);
-		}
-
-		if (walker.hasRevSort(RevSort.TOPO)
-				&& (g.outputType() & SORT_TOPO) == 0) {
-			g = new TopoSortGenerator(g);
-		} else if (walker.hasRevSort(RevSort.TOPO_KEEP_BRANCH_TOGETHER)
+		if (walker.hasRevSort(RevSort.TOPO_KEEP_BRANCH_TOGETHER)
 				&& (g.outputType() & SORT_TOPO) == 0) {
 			g = new TopoNonIntermixSortGenerator(g);
 		}
