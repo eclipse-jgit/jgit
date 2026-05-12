@@ -139,6 +139,18 @@ class FetchProcess {
 		final TagOpt tagopt = transport.getTagOpt();
 		String getTags = (tagopt == TagOpt.NO_TAGS) ? null : Constants.R_TAGS;
 		String getHead = null;
+		// Snapshot local refs before opening the fetch connection when the
+		// fetch has positive refspecs or may run AUTO_FOLLOW. Those are the
+		// paths that can later create TrackingRefUpdates from this fetch and
+		// need a stable expected-old-id baseline to turn concurrent local ref
+		// changes into LOCK_FAILURE.
+		//
+		// Skip the snapshot for the remaining cases to avoid an unnecessary
+		// local ref scan when this fetch cannot reach those update paths.
+		if (!toFetch.isEmpty() || tagopt == TagOpt.AUTO_FOLLOW) {
+			localRefs();
+		}
+
 		try {
 			// If we don't have a HEAD yet, we're cloning and need to get the
 			// upstream HEAD, too.
@@ -235,10 +247,23 @@ class FetchProcess {
 			addUpdateBatchCommands(result, batch);
 			for (ReceiveCommand cmd : batch.getCommands()) {
 				cmd.updateType(walk);
-				if (cmd.getType() == UPDATE_NONFASTFORWARD
-						&& cmd instanceof TrackingRefUpdate.Command
-						&& !((TrackingRefUpdate.Command) cmd).canForceUpdate())
+				if (!(cmd instanceof TrackingRefUpdate.Command)
+						|| ((TrackingRefUpdate.Command) cmd).canForceUpdate()) {
+					continue;
+				}
+
+				ObjectId currentId = currentObjectId(cmd.getRefName());
+				// The initial type check used the ref value snapshotted when
+				// the fetch started. If the local ref moved since then,
+				// re-check the non-fast-forward against the current ref before
+				// executing the batch so non-forced rejects remain REJECTED
+				// instead of surfacing as LOCK_FAILURE.
+				ReceiveCommand refreshedCmd = new ReceiveCommand(currentId,
+						cmd.getNewId(), cmd.getRefName());
+				refreshedCmd.updateType(walk);
+				if (refreshedCmd.getType() == UPDATE_NONFASTFORWARD) {
 					cmd.setResult(REJECTED_NONFASTFORWARD);
+				}
 			}
 			if (transport.isDryRun()) {
 				for (ReceiveCommand cmd : batch.getCommands()) {
@@ -572,6 +597,14 @@ class FetchProcess {
 			}
 		}
 		return localRefs;
+	}
+
+	private ObjectId currentObjectId(String refName) throws IOException {
+		Ref current = transport.local.exactRef(refName);
+		if (current == null) {
+			return ObjectId.zeroId();
+		}
+		return current.getObjectId();
 	}
 
 	private void deleteStaleTrackingRefs(FetchResult result,
