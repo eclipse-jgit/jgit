@@ -599,22 +599,59 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	}
 
 	private String readErrorBody(HttpConnection conn) {
-		try (InputStream es = conn.getErrorStream()) {
+		try {
+			InputStream es = conn.getErrorStream();
+			if (es == null) {
+				try {
+					es = conn.getInputStream();
+				} catch (IOException e) {
+					return "";
+				}
+			}
 			if (es == null) {
 				return "";
 			}
-			try {
-				PacketLineIn pckIn = new PacketLineIn(es);
-				StringBuilder sb = new StringBuilder();
-				String line;
-				while (!PacketLineIn.isEnd(line = pckIn.readString())) {
-					if (!line.isEmpty()) {
-						sb.append(line).append('\n');
+			try (InputStream stream = es) {
+				String contentType = conn.getHeaderField(HDR_CONTENT_TYPE);
+				if (contentType != null
+						&& contentType.contains("application/x-git")) {
+					try {
+						PacketLineIn pckIn = new PacketLineIn(stream);
+						StringBuilder sb = new StringBuilder();
+						String line;
+						while (!PacketLineIn.isEnd(line = pckIn.readString())) {
+							if (!line.isEmpty() && !line.startsWith("# ")) {
+								sb.append(line).append('\n');
+							}
+						}
+						return sb.toString().strip();
+					} catch (IOException e) {
+						return "";
+					}
+				} else {
+					try {
+						byte[] bytes = stream.readAllBytes();
+						try {
+							PacketLineIn pckIn = new PacketLineIn(
+									new java.io.ByteArrayInputStream(bytes));
+							StringBuilder sb = new StringBuilder();
+							String line;
+							while (!PacketLineIn.isEnd(line = pckIn.readString())) {
+								if (!line.isEmpty() && !line.startsWith("# ")) {
+									sb.append(line).append('\n');
+								}
+							}
+							String parsed = sb.toString().strip();
+							if (!parsed.isEmpty()) {
+								return parsed;
+							}
+						} catch (IOException ignored) {
+						}
+						return new String(bytes, UTF_8).strip();
+					} catch (IOException e) {
+						return "";
 					}
 				}
-				return sb.toString().strip();
-			} catch (IOException e) {
-				return "";
 			}
 		} catch (IOException ignored) {
 		}

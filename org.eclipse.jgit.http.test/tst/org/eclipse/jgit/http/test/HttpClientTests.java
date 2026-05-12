@@ -72,6 +72,8 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 
 	private URIish smartAuthBasicURI;
 
+	private URIish plainTextForbiddenURI;
+
 	public HttpClientTests(HttpConnectionFactory cf) {
 		super(cf);
 	}
@@ -89,12 +91,14 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 
 		ServletContextHandler sNone = smart("/snone");
 		ServletContextHandler sBasic = server.authBasic(smart("/sbasic"));
+		ServletContextHandler sPlainForbidden = plainTextForbidden("/sforbidden");
 
 		server.setUp();
 
 		final String srcName = nameOf(remoteRepository.getRepository());
 		dumbAuthNoneURI = toURIish(dNone, srcName);
 		dumbAuthBasicURI = toURIish(dBasic, srcName);
+		plainTextForbiddenURI = toURIish(sPlainForbidden, srcName);
 
 		smartAuthNoneURI = toURIish(sNone, srcName);
 		smartAuthBasicURI = toURIish(sBasic, srcName);
@@ -125,6 +129,21 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 
 		ServletContextHandler ctx = server.addContext(path);
 		ctx.addServlet(new ServletHolder(gs), "/*");
+		return ctx;
+	}
+
+	private ServletContextHandler plainTextForbidden(String path) {
+		ServletContextHandler ctx = server.addContext(path);
+		ctx.addServlet(new ServletHolder(new jakarta.servlet.http.HttpServlet() {
+			@Override
+			protected void doGet(jakarta.servlet.http.HttpServletRequest req,
+								 jakarta.servlet.http.HttpServletResponse resp)
+					throws java.io.IOException {
+				resp.setStatus(403);
+				resp.setContentType("text/plain; charset=UTF-8");
+				resp.getWriter().write("Repository not found.");
+			}
+		}), "/*");
 		return ctx;
 	}
 
@@ -318,6 +337,19 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 								smartAuthNoneURI.toString() + "/",
 								"git-upload-pack");
 				assertEquals(exp, err.getMessage());
+			}
+		}
+	}
+
+	@Test
+	public void testListRemote_Smart_ForbiddenWithPlainTextBody() throws Exception {
+		Repository dst = createBareRepository();
+		try (Transport t = Transport.open(dst, plainTextForbiddenURI)) {
+			try {
+				t.openFetch();
+				fail("connection opened even though server returned 403");
+			} catch (TransportException err) {
+				assertTrue(err.getMessage().contains("Repository not found."));
 			}
 		}
 	}
