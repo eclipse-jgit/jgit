@@ -16,6 +16,24 @@
       "message": "This API doesn\u0027t feel right, since it does not actually set the value on a running server. A setter like this is more appropriate for a builder.",
       "revId": "e0e9a1fa0bac76ac2ac9a21b2241bd5b0ff7417d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1339a9de_63b98355",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-05-12T15:14:46Z",
+      "side": 1,
+      "message": "Should we remove the constructor and just have builder pattern ? Or just grow the constructors and chain them...\n\nNot sure if it would be any easier with builder pattern with jgit public method guidelines.",
+      "parentUuid": "299a8818_a263f643",
+      "revId": "e0e9a1fa0bac76ac2ac9a21b2241bd5b0ff7417d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
