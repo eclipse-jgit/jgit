@@ -34,6 +34,24 @@
       "parentUuid": "299a8818_a263f643",
       "revId": "e0e9a1fa0bac76ac2ac9a21b2241bd5b0ff7417d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9acba1e_4d02b78e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-05-12T15:20:20Z",
+      "side": 1,
+      "message": "Tricky. Maybe pass in a config object to the constructor instead?",
+      "parentUuid": "1339a9de_63b98355",
+      "revId": "e0e9a1fa0bac76ac2ac9a21b2241bd5b0ff7417d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
