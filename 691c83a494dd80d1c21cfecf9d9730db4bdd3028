@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7399c8e7_3f8d8fbe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-05-12T15:06:15Z",
+      "side": 1,
+      "message": "run()?",
+      "revId": "691c83a494dd80d1c21cfecf9d9730db4bdd3028",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
