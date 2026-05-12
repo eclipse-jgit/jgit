@@ -23,14 +23,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.zip.DataFormatException;
 
-import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.LargeObjectException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackInvalidException;
-import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.internal.storage.midx.MidxMetadataReader;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndexLoader;
@@ -47,7 +44,7 @@ import org.eclipse.jgit.lib.ObjectLoader;
 
 /**
  * A pack that uses internally a midx
- *
+ * <p>
  * This pack answers what it can directly from the midx (e.g. hasObject) and
  * sends to the right pack other calls (e.g. reading the actual object).
  */
@@ -92,7 +89,7 @@ public class PackMidx extends Pack {
 						Function.identity()));
 		packsInIdOrder = Arrays.stream(packNames).map(knownPacksByName::get)
 				.filter(Objects::nonNull)
-				.collect(Collectors.toUnmodifiableList());
+				.toList();
 		if (packsInIdOrder.size() != packNames.length) {
 			throw new IOException("Midx refers to packs not in the pack list"); //$NON-NLS-1$
 		}
@@ -115,11 +112,6 @@ public class PackMidx extends Pack {
 	@Override
 	public List<Pack> getCoveredPacks() {
 		return packsInIdOrder;
-	}
-
-	@Override
-	public PackFile getPackFile() {
-		return super.getPackFile();
 	}
 
 	@Override
@@ -171,7 +163,7 @@ public class PackMidx extends Pack {
 	}
 
 	@Override
-	public long getObjectSizeIndexCount() throws IOException {
+	public long getObjectSizeIndexCount() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -191,6 +183,7 @@ public class PackMidx extends Pack {
 	}
 
 	@Override
+	@Nullable
 	ObjectLoader get(WindowCursor curs, AnyObjectId id) throws IOException {
 		MultiPackIndex.PackOffset packOffset = getMidx().find(id);
 		if (packOffset == null) {
@@ -245,7 +238,7 @@ public class PackMidx extends Pack {
 		try {
 			return ObjectId.fromRaw(getMidx().getChecksum());
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -278,12 +271,18 @@ public class PackMidx extends Pack {
 	@Override
 	ByteArrayWindow read(long pos, int size) throws IOException {
 		MultiPackIndex.PackOffset po = offsetCalculator.decode(pos);
+		if (po == null) {
+			throw new IllegalArgumentException("Invalid offset " + pos);
+		}
 		return packsInIdOrder.get(po.getPackId()).read(po.getOffset(), size);
 	}
 
 	@Override
 	ByteWindow mmap(long pos, int size) throws IOException {
 		MultiPackIndex.PackOffset po = offsetCalculator.decode(pos);
+		if (po == null) {
+			throw new IllegalArgumentException("Invalid offset " + pos);
+		}
 		return packsInIdOrder.get(po.getPackId()).mmap(po.getOffset(), size);
 	}
 
@@ -291,6 +290,9 @@ public class PackMidx extends Pack {
 	ObjectLoader load(WindowCursor curs, long pos)
 			throws IOException, LargeObjectException {
 		MultiPackIndex.PackOffset po = offsetCalculator.decode(pos);
+		if (po == null) {
+			throw new IllegalArgumentException("Invalid offset " + pos);
+		}
 		return packsInIdOrder.get(po.getPackId()).load(curs, po.getOffset());
 	}
 
@@ -298,6 +300,9 @@ public class PackMidx extends Pack {
 	byte[] getDeltaHeader(WindowCursor wc, long pos)
 			throws IOException, DataFormatException {
 		MultiPackIndex.PackOffset po = offsetCalculator.decode(pos);
+		if (po == null) {
+			throw new IllegalArgumentException("Invalid offset " + pos);
+		}
 		return packsInIdOrder.get(po.getPackId()).getDeltaHeader(wc,
 				po.getOffset());
 	}
@@ -305,6 +310,9 @@ public class PackMidx extends Pack {
 	@Override
 	int getObjectType(WindowCursor curs, long pos) throws IOException {
 		MultiPackIndex.PackOffset po = offsetCalculator.decode(pos);
+		if (po == null) {
+			throw new IllegalArgumentException("Invalid offset " + pos);
+		}
 		return packsInIdOrder.get(po.getPackId()).getObjectType(curs,
 				po.getOffset());
 	}
@@ -322,11 +330,15 @@ public class PackMidx extends Pack {
 	@Override
 	long getObjectSize(WindowCursor curs, long pos) throws IOException {
 		MultiPackIndex.PackOffset po = offsetCalculator.decode(pos);
+		if (po == null) {
+			throw new IllegalArgumentException("Invalid offset " + pos);
+		}
 		return packsInIdOrder.get(po.getPackId()).getObjectSize(curs,
 				po.getOffset());
 	}
 
 	@Override
+	@Nullable
 	LocalObjectRepresentation representation(WindowCursor curs,
 			AnyObjectId objectId) throws IOException {
 		MultiPackIndex.PackOffset po = getMidx().find(objectId);
@@ -391,6 +403,7 @@ public class PackMidx extends Pack {
 			return accSizes[packId] + offset;
 		}
 
+		@Nullable
 		MultiPackIndex.PackOffset decode(long totalOffset) {
 			if (totalOffset < 0) {
 				return null;
@@ -419,7 +432,7 @@ public class PackMidx extends Pack {
 		@Override
 		public Iterator<MutableEntry> iterator() {
 			MultiPackIndex.MidxIterator it = midx.iterator();
-			return new Iterator<MutableEntry>() {
+			return new Iterator<>() {
 
 				private final MutableEntry me = new MutableEntry();
 
@@ -477,7 +490,7 @@ public class PackMidx extends Pack {
 
 		@Override
 		public long findCRC32(AnyObjectId objId)
-				throws MissingObjectException, UnsupportedOperationException {
+				throws UnsupportedOperationException {
 			throw new UnsupportedOperationException();
 		}
 
@@ -488,7 +501,7 @@ public class PackMidx extends Pack {
 
 		@Override
 		public void resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
-				int matchLimit) throws IOException {
+				int matchLimit) {
 			midx.resolve(matches, id, matchLimit);
 		}
 
@@ -512,9 +525,7 @@ public class PackMidx extends Pack {
 		}
 
 		@Override
-		public void verifyPackChecksum(String packFilePath)
-				throws PackMismatchException {
-
+		public void verifyPackChecksum(String packFilePath) {
 		}
 
 		@Override
@@ -525,8 +536,7 @@ public class PackMidx extends Pack {
 		}
 
 		@Override
-		public long findNextOffset(long offset, long maxOffset)
-				throws CorruptObjectException {
+		public long findNextOffset(long offset, long maxOffset) {
 			throw new UnsupportedOperationException();
 		}
 
