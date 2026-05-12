@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.api;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
@@ -303,4 +304,33 @@ public class RebaseResult {
 		return uncommittedChanges;
 	}
 
+	@SuppressWarnings("nls")
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder("RebaseResult[");
+		sb.append(status);
+		switch (status) {
+		case CONFLICTS:
+			sb.append(" Conflicts: ");
+			sb.append(conflicts.size());
+			break;
+		case STOPPED:
+			sb.append(" At commit : ");
+			sb.append(currentCommit);
+			break;
+		case FAILED:
+			sb.append(" Failed Paths : ");
+			sb.append(failingPaths.size());
+			sb.append(", reasons ");
+			sb.append(EnumSet.copyOf(failingPaths.values()));
+			break;
+		case UNCOMMITTED_CHANGES:
+			sb.append(" Uncommitted Changes :");
+			sb.append(uncommittedChanges.size());
+			break;
+		default:
+		}
+		sb.append("]");
+		return sb.toString();
+	}
 }
