@@ -7,6 +7,7 @@ name = "pypi"
 requests = "*"
 argparse = "*"
 pyyaml = "*"
+urllib3 = ">=2.7.0"
 
 [dev-packages]
 flake8 = "*"
