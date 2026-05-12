@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "299a8818_a263f643",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-05-12T15:08:23Z",
+      "side": 1,
+      "message": "This API doesn\u0027t feel right, since it does not actually set the value on a running server. A setter like this is more appropriate for a builder.",
+      "revId": "e0e9a1fa0bac76ac2ac9a21b2241bd5b0ff7417d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
