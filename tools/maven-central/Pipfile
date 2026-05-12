@@ -7,11 +7,11 @@ name = "pypi"
 requests = "*"
 argparse = "*"
 pyyaml = "*"
+urllib3 = ">=2.7.0"
 
 [dev-packages]
 flake8 = "*"
 black = "*"
 
 [requires]
-python_version = "3.12"
-python_full_version = "3.12.9"
+python_version = "3.14"
