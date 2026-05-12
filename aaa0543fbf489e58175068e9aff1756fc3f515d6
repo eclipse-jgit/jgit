@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed9dd15c_797129e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039446
+      },
+      "writtenOn": "2026-05-12T10:33:05Z",
+      "side": 1,
+      "message": "Addressed the feedback. readErrorBody() now checks the Content-Type header to decide how to parse the error body. If the response is application/x-git, it parses as pkt-line. Otherwise, it first attempts pkt-line parsing (to handle servers that return git protocol errors without the correct Content-Type), and falls back to reading the raw body as plain text. Added a test for the case where the server returns a 403 with a text/plain body.",
+      "revId": "aaa0543fbf489e58175068e9aff1756fc3f515d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
