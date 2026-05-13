@@ -862,8 +862,6 @@ public class ResolveMerger extends ThreeWayMerger {
 		return new String[]{"BASE", "OURS", "THEIRS"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
-	private static final Attributes NO_ATTRIBUTES = new Attributes();
-
 	/**
 	 * Constructor for ResolveMerger.
 	 *
@@ -1021,20 +1019,23 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @param entry
 	 *            to add
 	 * @param attributes
-	 *            the {@link Attributes} of the trees
+	 *            the {@link Attributes} of the trees. Must not be retained
+	 *            outside of the scope of the method invocation
 	 * @throws IOException
 	 *             if the {@link CheckoutMetadata} cannot be determined
-	 * @since 6.1
+	 * @since 7.7
 	 */
 	protected void addToCheckout(String path, DirCacheEntry entry,
-			Attributes[] attributes)
-			throws IOException {
-		EolStreamType cleanupStreamType = workTreeUpdater.detectCheckoutStreamType(attributes[T_OURS]);
-		String cleanupSmudgeCommand = tw.getSmudgeCommand(attributes[T_OURS]);
-		EolStreamType checkoutStreamType = workTreeUpdater.detectCheckoutStreamType(attributes[T_THEIRS]);
-		String checkoutSmudgeCommand = tw.getSmudgeCommand(attributes[T_THEIRS]);
-		workTreeUpdater.addToCheckout(path, entry, cleanupStreamType, cleanupSmudgeCommand,
-				checkoutStreamType, checkoutSmudgeCommand);
+			MergeAttributes attributes) throws IOException {
+		EolStreamType cleanupStreamType = workTreeUpdater
+				.detectCheckoutStreamType(attributes.ours());
+		String cleanupSmudgeCommand = tw.getSmudgeCommand(attributes.ours());
+		EolStreamType checkoutStreamType = workTreeUpdater
+				.detectCheckoutStreamType(attributes.theirs());
+		String checkoutSmudgeCommand = tw.getSmudgeCommand(attributes.theirs());
+		workTreeUpdater.addToCheckout(path, entry, cleanupStreamType,
+				cleanupSmudgeCommand, checkoutStreamType,
+				checkoutSmudgeCommand);
 	}
 
 	/**
@@ -1099,18 +1100,19 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *            see
 	 *            {@link org.eclipse.jgit.merge.ResolveMerger#mergeTrees(AbstractTreeIterator, RevTree, RevTree, boolean)}
 	 * @param attributes
-	 *            the {@link Attributes} for the three trees
+	 *            the {@link Attributes} for the three trees. Must not be
+	 *            retained outside of the scope of the method invocation
 	 * @return <code>false</code> if the merge will fail because the index entry
 	 *         didn't match ours or the working-dir file was dirty and a
 	 *         conflict occurred
 	 * @throws java.io.IOException
 	 *             if an IO error occurred
-	 * @since 6.1
+	 * @since 7.7
 	 */
 	protected boolean processEntry(CanonicalTreeParser base,
 			CanonicalTreeParser ours, CanonicalTreeParser theirs,
 			DirCacheBuildIterator index, WorkingTreeIterator work,
-			boolean ignoreConflicts, Attributes[] attributes)
+			boolean ignoreConflicts, MergeAttributes attributes)
 			throws IOException {
 		enterSubtree = true;
 		final int modeO = tw.getRawMode(T_OURS);
@@ -1228,7 +1230,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				// Base, ours, and theirs all contain a folder: don't delete
 				return true;
 			}
-			addDeletion(tw.getPathString(), nonTree(modeO), attributes[T_OURS]);
+			addDeletion(tw.getPathString(), nonTree(modeO), attributes.ours());
 			return true;
 		}
 
@@ -1275,7 +1277,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		if (nonTree(modeO) && nonTree(modeT)) {
 			// Check worktree before modifying files
 			boolean worktreeDirty = isWorktreeDirty(work, ourDce);
-			if (!attributes[T_OURS].canBeContentMerged() && worktreeDirty) {
+			if (!attributes.ours().canBeContentMerged() && worktreeDirty) {
 				return false;
 			}
 
@@ -1292,7 +1294,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				mergeResults.put(tw.getPathString(), result);
 				unmergedPaths.add(tw.getPathString());
 				return true;
-			} else if (!attributes[T_OURS].canBeContentMerged()) {
+			} else if (!attributes.ours().canBeContentMerged()) {
 				// File marked as binary
 				switch (getContentMergeStrategy()) {
 					case OURS:
@@ -1346,7 +1348,7 @@ public class ResolveMerger extends ThreeWayMerger {
 					} else if (ignoreConflicts) {
 						result.setContainsConflicts(false);
 					}
-					updateIndex(base, ours, theirs, result, attributes[T_OURS]);
+					updateIndex(base, ours, theirs, result, attributes.ours());
 					workTreeUpdater.markAsModified(currentPath);
 					// Entry is null - only add the metadata
 					addToCheckout(currentPath, null, attributes);
@@ -1461,7 +1463,7 @@ public class ResolveMerger extends ThreeWayMerger {
 							// conflict markers). But also stage 0 of the index
 							// is filled with that content.
 							updateIndex(base, ours, theirs, result,
-									attributes[T_OURS]);
+									attributes.ours());
 						}
 					} else {
 						DirCacheEntry e = addConflict(base, ours, theirs);
@@ -1513,7 +1515,8 @@ public class ResolveMerger extends ThreeWayMerger {
 	 * @param theirs
 	 *            used to parse theirs tree
 	 * @param attributes
-	 *            attributes for the different stages
+	 *            attributes for the different stages. Must not be retained
+	 *            outside of the scope of the method invocation
 	 * @param strategy
 	 *            merge strategy
 	 *
@@ -1525,19 +1528,18 @@ public class ResolveMerger extends ThreeWayMerger {
 	 */
 	private MergeResult<RawText> contentMerge(CanonicalTreeParser base,
 			CanonicalTreeParser ours, CanonicalTreeParser theirs,
-			Attributes[] attributes, ContentMergeStrategy strategy)
+			MergeAttributes attributes, ContentMergeStrategy strategy)
 			throws BinaryBlobException, IOException {
 		// TW: The attributes here are used to determine the LFS smudge filter.
 		// Is doing a content merge on LFS items really a good idea??
 		RawText baseText = base == null ? RawText.EMPTY_TEXT
-				: getRawText(base.getEntryObjectId(), attributes[T_BASE]);
+				: getRawText(base.getEntryObjectId(), attributes.base());
 		RawText ourText = ours == null ? RawText.EMPTY_TEXT
-				: getRawText(ours.getEntryObjectId(), attributes[T_OURS]);
+				: getRawText(ours.getEntryObjectId(), attributes.ours());
 		RawText theirsText = theirs == null ? RawText.EMPTY_TEXT
-				: getRawText(theirs.getEntryObjectId(), attributes[T_THEIRS]);
+				: getRawText(theirs.getEntryObjectId(), attributes.theirs());
 		mergeAlgorithm.setContentMergeStrategy(
-				getAttributesContentMergeStrategy(attributes[T_OURS],
-						strategy));
+				getAttributesContentMergeStrategy(attributes.ours(), strategy));
 		return mergeAlgorithm.merge(RawTextComparator.DEFAULT, baseText,
 				ourText, theirsText);
 	}
@@ -2008,14 +2010,11 @@ public class ResolveMerger extends ThreeWayMerger {
 		boolean hasWorkingTreeIterator = tw.getTreeCount() > T_FILE;
 		boolean hasAttributeNodeProvider = treeWalk
 				.getAttributesNodeProvider() != null;
+		MergeAttributes attributes = hasAttributeNodeProvider
+				? new CurrentTreeWalkEntryMergeAttributes(treeWalk)
+				: MergeAttributes.NO_ATTRIBUTES;
+
 		while (treeWalk.next()) {
-			Attributes[] attributes = {NO_ATTRIBUTES, NO_ATTRIBUTES,
-					NO_ATTRIBUTES};
-			if (hasAttributeNodeProvider) {
-				attributes[T_BASE] = treeWalk.getAttributes(T_BASE);
-				attributes[T_OURS] = treeWalk.getAttributes(T_OURS);
-				attributes[T_THEIRS] = treeWalk.getAttributes(T_THEIRS);
-			}
 			if (!processEntry(
 					treeWalk.getTree(T_BASE, CanonicalTreeParser.class),
 					treeWalk.getTree(T_OURS, CanonicalTreeParser.class),
@@ -2032,5 +2031,34 @@ public class ResolveMerger extends ThreeWayMerger {
 			}
 		}
 		return true;
+	}
+
+	// Uses the caching mechanism in TreeWalk.getAttributes() to retrieve the
+	// Attributes of the current path only when requested. When the TreeWalk
+	// advances to the next entry, the mapping of tree index -> cached
+	// attributes is also cleared
+	private static final class CurrentTreeWalkEntryMergeAttributes implements MergeAttributes {
+
+		private final TreeWalk walk;
+
+		public CurrentTreeWalkEntryMergeAttributes(TreeWalk treeWalk) {
+			walk = treeWalk;
+		}
+
+		@Override
+		public Attributes base() {
+			return walk.getAttributes(T_BASE);
+		}
+
+		@Override
+		public Attributes ours() {
+			return walk.getAttributes(T_OURS);
+		}
+
+		@Override
+		public Attributes theirs() {
+			return walk.getAttributes(T_THEIRS);
+		}
+
 	}
 }
