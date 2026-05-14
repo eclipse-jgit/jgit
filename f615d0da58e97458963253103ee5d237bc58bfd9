@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcd6e98e_b420ebdf",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-14T13:19:05Z",
+      "side": 1,
+      "message": "```suggestion\n| `core.logAllRefUpdates` | `true` in a repository with working tree, `false` in bare repository, `always` for enabling it on both bare and non-bare for all refs | \u0026#x2705; | Enable the reflog. `true` will enable the logging only for `refs/heads/**`, `refs/remotes/**`, `refs/notes/**`, and `HEAD` |\n```",
+      "revId": "f615d0da58e97458963253103ee5d237bc58bfd9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
