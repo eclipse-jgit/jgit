@@ -256,17 +256,17 @@ maven slf4j
 	dependency {
 		groupId = "org.slf4j"
 		artifactId = "slf4j-api"
-		version = "2.0.17"
+		version = "2.0.18"
 	}
 	dependency {
 		groupId = "org.slf4j"
 		artifactId = "slf4j-simple"
-		version = "2.0.17"
+		version = "2.0.18"
 	}
 	dependency {
 		groupId = "org.slf4j"
 		artifactId = "jcl-over-slf4j"
-		version = "2.0.17"
+		version = "2.0.18"
 	}
 }
 
