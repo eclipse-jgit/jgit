@@ -41,7 +41,7 @@ For details on native git options see also the official [git config documentatio
 | `core.fileMode` | Auto detects if file modes are supported | &#x2705; | Tells Git if the executable bit of files in the working tree is to be honored. |
 | `core.hideDotFiles` | `dotGitOnly` | &#x2705; | Windows only. If `true`, mark newly-created directories and files whose name starts with a dot as hidden. If `dotGitOnly`, only the `.git/` directory is hidden, but no other files starting with a dot. |
 | `core.hooksPath` | `$GIT_DIR/hooks` | &#x2705; | Path to look for hooks. |
-| `core.logAllRefUpdates` | `true` in a repository with working tree, `false` in bare repository | &#x2705; | Enable the reflog. |
+| `core.logAllRefUpdates` | `true` in a repository with working tree, `false` in bare repository | &#x2705; | Enable the reflog. If you want to log updates only for `refs/heads/**`, `refs/remotes/**`, `refs/notes/**`, and `HEAD`, setting it to `true` will suffice, if you want to log for all refs, including `refs/tags`, etc... you will need to set it to `always`.    |
 | `core.packedGitLimit` | `10 MiB` | &#x2705; | Maximum number of bytes to cache in memory from pack files. |
 | `core.packedGitMmap` | `false` | &#x2705; | Whether to use Java NIO virtual memory mapping for JGit buffer cache. When set to `true` enables use of Java NIO virtual memory mapping for cache windows, `false` reads entire window into a `byte[]` with standard read calls. `true` is experimental and may cause instabilities and crashes since Java doesn't support explicit unmapping of file regions mapped to virtual memory. |
 | `core.packedGitOpenFiles` | `128` | &#x20DE; | Maximum number of streams to open at a time. Open packs count against the process limits. |
