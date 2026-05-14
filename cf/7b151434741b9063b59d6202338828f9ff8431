@@ -1,0 +1,10 @@
+Verified+1: eclipse-jgit-bot <jgit-bot@eclipse.org>
+Code-Review+1: GerritForge Ltd <info@gerritforge.com>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+1: Antonio Barone <syntonyze@gmail.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Thu, 14 May 2026 18:38:36 +0000
+Reviewed-on: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1237065
+Comments-Total: 1
+Project: eclipse-jgit/jgit
+Branch: refs/heads/servlet-4
