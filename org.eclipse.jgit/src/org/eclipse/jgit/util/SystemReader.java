@@ -68,6 +68,8 @@ public abstract class SystemReader {
 
 	private static volatile Boolean isLinux;
 
+	private static volatile Boolean isAndroid;
+
 	private static final String GIT_TRACE_PERFORMANCE = "GIT_TRACE_PERFORMANCE"; //$NON-NLS-1$
 
 	private static final boolean performanceTrace = initPerformanceTrace();
@@ -759,6 +761,20 @@ public abstract class SystemReader {
 			isLinux = Boolean.valueOf(osname.toLowerCase().startsWith("linux")); //$NON-NLS-1$
 		}
 		return isLinux.booleanValue();
+	}
+
+	/**
+	 * Whether we are running on Android.
+	 *
+	 * @return true if we are running on Android.
+	 * @since 7.8
+	 */
+	public boolean isAndroid() {
+		if (isAndroid == null) {
+			String vendor = getProperty("java.vendor"); //$NON-NLS-1$
+			isAndroid = Boolean.valueOf(vendor.toLowerCase().contains("android")); //$NON-NLS-1$
+		}
+		return isAndroid.booleanValue();
 	}
 
 	/**

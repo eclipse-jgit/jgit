@@ -1964,10 +1964,10 @@ public class GC {
 		}
 
 		private long getPID() {
-			try {
-				return ProcessHandle.current().pid();
-			} catch (NoClassDefFoundError e) {
+			if (SystemReader.getInstance().isAndroid()) {
 				return 0;
+			} else {
+				return ProcessHandle.current().pid();
 			}
 		}
 
