@@ -313,8 +313,8 @@ public class GC {
 					|| (gcConfig.getPackRefs() == PackRefsMode.NOTBARE
 							&& !repo.isBare());
 			if (packRefs) {
-				new PackRefsCommand(repo).setProgressMonitor(pm).setAll(true)
-						.call();
+			new PackRefsCommand(repo).setProgressMonitor(pm).setAll(true)
+					.call();
 			}
 			// TODO: implement reflog_expire(pm, repo);
 			Collection<Pack> newPacks = repack();
@@ -1995,6 +1995,9 @@ public class GC {
 		}
 
 		private long getPID() {
+			if (SystemReader.getInstance().isAndroid()) {
+				return 0;
+			}
 			return ProcessHandle.current().pid();
 		}
 
