@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6dced157_c405cbb3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-05-18T18:27:54Z",
+      "side": 1,
+      "message": "I wonder if we should use \"anyOf\" https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html#anyOf-java.util.concurrent.CompletableFuture...-  instead of a latch here. It seems that if we did that, we could potentially use a single thread to wait for all the ongoing connections. Give that the java17+ JVM does not handle high thread counts very well, this could provide a significant scalability boost by only using 2 threads instead of 3 per connection.",
+      "revId": "00a6511e7d6d0ed1556dea3f0176049760761260",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "43176736_01ca54b4",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarderConfig.java",
         "patchSetId": 20
@@ -14,6 +31,24 @@
       "writtenOn": "2026-05-18T18:05:59Z",
       "side": 1,
       "message": "This description doesn\u0027t seem accurate, it is my understanding that this is also the pool on which the connection forwarders will be forwarded on. This approach requires 3 threads per connection which may be hard to manage properly. Imagine a limited pool being supplied here. Even if it has a limit which is a multiple of 3, it can potentially accept new connections so fast that it does not leave enough threads for the forward() calls.",
+      "revId": "00a6511e7d6d0ed1556dea3f0176049760761260",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c75e024d_c57baf5a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarderConfig.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-05-18T18:27:54Z",
+      "side": 1,
+      "message": "I suspect that if we had an isolated thread pool for the forward() connections, and ensured the maxlimit was even numbered, it would at least avoid issues with that pool? That still feel optimistic, counting on the forward() threads to always start and complete in pairs. It would be better if we could somehow have a threadpool that always provided pairs of threads.",
+      "parentUuid": "43176736_01ca54b4",
       "revId": "00a6511e7d6d0ed1556dea3f0176049760761260",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
