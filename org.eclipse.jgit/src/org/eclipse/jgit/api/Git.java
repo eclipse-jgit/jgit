@@ -812,6 +812,27 @@ public class Git implements AutoCloseable {
 	}
 
 	/**
+	 * Return a command object to execute a {@code worktree list} command
+	 *
+	 * @return a {@link WorktreeListCommand}
+	 * @since 7.5
+	 */
+	public WorktreeListCommand worktreeList() {
+		return new WorktreeListCommand(repo);
+	}
+
+	/**
+	 * Return a command object to execute a {@code worktree add} command
+	 *
+	 * @return a {@link WorktreeAddCommand}
+	 * @since 7.5
+	 */
+	public WorktreeAddCommand worktreeAdd() {
+		return new WorktreeAddCommand(repo);
+	}
+
+
+	/**
 	 * Get repository
 	 *
 	 * @return the git repository this class is interacting with; see
