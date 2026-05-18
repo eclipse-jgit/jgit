@@ -45,6 +45,9 @@ import java.util.Map;
  *   # Optional. Enable TCP keep-alives on client and upstream sockets.
  *   # Defaults to false.
  *   keepAlive = true
+ *
+ *   # Optional. If &gt; 0, limits total concurrent forward connections.
+ *   maxConnections = 100
  * </pre>
  */
 class ForwarderConfig implements GitForwarderConfig {
@@ -57,6 +60,8 @@ class ForwarderConfig implements GitForwarderConfig {
 	private static final String WILDCARD = "*"; //$NON-NLS-1$
 
 	private static final String KEEP_ALIVE = "keepAlive"; //$NON-NLS-1$
+
+	private static final String MAX_CONNECTIONS = "maxConnections"; //$NON-NLS-1$
 
 	private final InetSocketAddress listen;
 
@@ -105,7 +110,8 @@ class ForwarderConfig implements GitForwarderConfig {
 
 		this.listen = parseAddress(listenValue);
 		this.remote = parseAddress(remoteValue);
-		this.routingListener = new FixedRouteListener(this.remote);
+		this.routingListener = new FixedRouteListener(this.remote,
+				cfg.getInt(NODE, resolvedNode, MAX_CONNECTIONS, -1));
 		this.keepAlive = cfg.getBoolean(NODE, resolvedNode, KEEP_ALIVE, false);
 	}
 
