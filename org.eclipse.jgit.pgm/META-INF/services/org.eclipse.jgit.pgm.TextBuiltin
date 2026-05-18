@@ -44,6 +44,7 @@ org.eclipse.jgit.pgm.Status
 org.eclipse.jgit.pgm.Tag
 org.eclipse.jgit.pgm.UploadPack
 org.eclipse.jgit.pgm.Version
+org.eclipse.jgit.pgm.Worktree
 
 org.eclipse.jgit.pgm.debug.BenchmarkReftable
 org.eclipse.jgit.pgm.debug.DiffAlgorithms
