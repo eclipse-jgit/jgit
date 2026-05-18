@@ -871,6 +871,15 @@ public class Git implements AutoCloseable {
 		return new WorktreeUnlockCommand(repo);
 	}
 
+	/**
+	 * Return a command object to execute a {@code worktree prune} command
+	 *
+	 * @return a {@link WorktreePruneCommand}
+	 * @since 7.7
+	 */
+	public WorktreePruneCommand worktreePrune() {
+		return new WorktreePruneCommand(repo);
+	}
 
 	/**
 	 * Return a command object to execute a {@code worktree repair} command
