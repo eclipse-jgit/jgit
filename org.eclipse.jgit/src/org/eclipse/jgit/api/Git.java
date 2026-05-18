@@ -831,6 +831,25 @@ public class Git implements AutoCloseable {
 		return new WorktreeAddCommand(repo);
 	}
 
+	/**
+	 * Return a command object to execute a {@code worktree remove} command
+	 *
+	 * @return a {@link WorktreeRemoveCommand}
+	 * @since 7.5
+	 */
+	public WorktreeRemoveCommand worktreeRemove() {
+		return new WorktreeRemoveCommand(repo);
+	}
+
+	/**
+	 * Return a command object to execute a {@code worktree move} command
+	 *
+	 * @return a {@link WorktreeMoveCommand}
+	 * @since 7.5
+	 */
+	public WorktreeMoveCommand worktreeMove() {
+		return new WorktreeMoveCommand(repo);
+	}
 
 	/**
 	 * Return a command object to execute a {@code worktree lock} command
@@ -852,6 +871,16 @@ public class Git implements AutoCloseable {
 		return new WorktreeUnlockCommand(repo);
 	}
 
+
+	/**
+	 * Return a command object to execute a {@code worktree repair} command
+	 *
+	 * @return a {@link WorktreeRepairCommand}
+	 * @since 7.7
+	 */
+	public WorktreeRepairCommand worktreeRepair() {
+		return new WorktreeRepairCommand(repo);
+	}
 
 	/**
 	 * Get repository
