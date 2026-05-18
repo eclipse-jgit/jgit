@@ -52,6 +52,24 @@
       "parentUuid": "1339a9de_63b98355",
       "revId": "e0e9a1fa0bac76ac2ac9a21b2241bd5b0ff7417d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f478ac66_59ef8645",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-05-18T17:21:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9acba1e_4d02b78e",
+      "revId": "e0e9a1fa0bac76ac2ac9a21b2241bd5b0ff7417d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
