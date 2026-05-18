@@ -34,6 +34,24 @@
       "parentUuid": "dcd6e98e_b420ebdf",
       "revId": "f615d0da58e97458963253103ee5d237bc58bfd9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c2b5e1e_74361787",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-18T12:41:10Z",
+      "side": 1,
+      "message": "```suggestion\n| `core.logAllRefUpdates` | `true` in a repository with working tree, `false` in bare repository | \u0026#x2705; | Enable the reflog. `true` to log updates only for `refs/heads/**`, `refs/remotes/**`, `refs/notes/**`, and `HEAD`, `always` to log for all refs, `false` to disable reflog updates |\n```",
+      "parentUuid": "f6c4d8bd_69dae8d2",
+      "revId": "f615d0da58e97458963253103ee5d237bc58bfd9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
