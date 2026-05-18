@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43176736_01ca54b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarderConfig.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-05-18T18:05:59Z",
+      "side": 1,
+      "message": "This description doesn\u0027t seem accurate, it is my understanding that this is also the pool on which the connection forwarders will be forwarded on. This approach requires 3 threads per connection which may be hard to manage properly. Imagine a limited pool being supplied here. Even if it has a limit which is a multiple of 3, it can potentially accept new connections so fast that it does not leave enough threads for the forward() calls.",
+      "revId": "00a6511e7d6d0ed1556dea3f0176049760761260",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
