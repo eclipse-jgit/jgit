@@ -16,6 +16,24 @@
       "message": "run()?",
       "revId": "691c83a494dd80d1c21cfecf9d9730db4bdd3028",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3110c47e_8f07ca00",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-05-18T17:21:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7399c8e7_3f8d8fbe",
+      "revId": "691c83a494dd80d1c21cfecf9d9730db4bdd3028",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
