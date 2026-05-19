@@ -171,6 +171,24 @@
       "parentUuid": "8f6a8ca6_b47e7858",
       "revId": "542ba5a8413a7c39015684705724a41d638c1667",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cf7dc72_7121e80a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RouteResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-19T23:11:42Z",
+      "side": 1,
+      "message": "yes, classes in internal packages are considered internal API and internal APIs can break between minor releases. That\u0027s a common convention in projects contributing to Eclipse IDE. That\u0027s why we export such packages in `MANIFEST.MF` as `x-internal:\u003dtrue` which ensures that OSGi bundles trying to import such a package get a warning stating that consuming internal API is discouraged.\n\nIf you think we should mark such API as experimental we could choose a package name containing a segment `experimental` e.g. `org.eclipse.transport.experimental.forwarder` and also mark it `x-internal` in `MANIFEST.MF`.",
+      "parentUuid": "f51eb96f_0cc11e68",
+      "revId": "542ba5a8413a7c39015684705724a41d638c1667",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
