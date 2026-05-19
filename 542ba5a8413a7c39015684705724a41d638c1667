@@ -71,6 +71,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e90e4e5b_f4a24ba1",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-05-19T19:05:01Z",
+      "side": 1,
+      "message": "I wonder if \"global\" here might be better as \"local\", so that \"global\" gets used in the shared cluster file eventually?",
+      "revId": "542ba5a8413a7c39015684705724a41d638c1667",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "402d71e4_7367cf96",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/internal/CLIText.java",
         "patchSetId": 1
