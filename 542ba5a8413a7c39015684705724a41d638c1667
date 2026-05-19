@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2259a9e_6f365783",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-05-19T19:03:49Z",
+      "side": 1,
+      "message": "The approach looks good, just nits, and API concerns.",
+      "revId": "542ba5a8413a7c39015684705724a41d638c1667",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10ef0cf1_2331dcd4",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-05-19T19:03:49Z",
+      "side": 1,
+      "message": "Connection?",
+      "revId": "542ba5a8413a7c39015684705724a41d638c1667",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49205401_3ad6a361",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/FixedRouteListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-05-19T19:03:49Z",
+      "side": 1,
+      "message": "maxConnections?",
+      "revId": "542ba5a8413a7c39015684705724a41d638c1667",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47f38a49_864f15f3",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/FixedRouteListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-05-19T19:03:49Z",
+      "side": 1,
+      "message": "numConnections?",
+      "revId": "542ba5a8413a7c39015684705724a41d638c1667",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "402d71e4_7367cf96",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/internal/CLIText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-05-19T19:03:49Z",
+      "side": 1,
+      "message": "s/Start/Connections/",
+      "revId": "542ba5a8413a7c39015684705724a41d638c1667",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d45fb5d_bff84da2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RouteRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-05-19T19:03:49Z",
+      "side": 1,
+      "message": "We probably can\u0027t change this interface in this release unless we have some sort of experimental status.",
+      "revId": "542ba5a8413a7c39015684705724a41d638c1667",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29cfff78_ce54611a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RouteResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-05-19T19:03:49Z",
+      "side": 1,
+      "message": "Public API change.",
+      "revId": "542ba5a8413a7c39015684705724a41d638c1667",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
