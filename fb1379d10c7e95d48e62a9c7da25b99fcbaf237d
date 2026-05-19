@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8c15899_20eb9ac1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-05-19T19:09:40Z",
+      "side": 1,
+      "message": "The config file likely needs to be documented somewhere, and these added to it?",
+      "revId": "fb1379d10c7e95d48e62a9c7da25b99fcbaf237d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
