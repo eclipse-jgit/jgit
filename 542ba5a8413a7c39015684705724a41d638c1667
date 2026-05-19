@@ -153,6 +153,24 @@
       "parentUuid": "29cfff78_ce54611a",
       "revId": "542ba5a8413a7c39015684705724a41d638c1667",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f51eb96f_0cc11e68",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RouteResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-05-19T22:55:00Z",
+      "side": 1,
+      "message": "Thanks Matthias. Hopefully we don\u0027t need to evolve this quicker than what this allows, but I am worried that it might still. Would it make sense for us to move some classes where they are not part of the public API during the early phases, and to promote those later to the public API? If so, would that mean putting the classes in the \"internal\" packages?",
+      "parentUuid": "8f6a8ca6_b47e7858",
+      "revId": "542ba5a8413a7c39015684705724a41d638c1667",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
