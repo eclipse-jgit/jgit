@@ -135,6 +135,24 @@
       "message": "Public API change.",
       "revId": "542ba5a8413a7c39015684705724a41d638c1667",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f6a8ca6_b47e7858",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RouteResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-19T22:34:38Z",
+      "side": 1,
+      "message": "I think that\u0027s not a problem since there is no release yet which includes `RouteResponse` which was introduced after the last release 7.6.0. The [next JGit release is 7.7.0](https://projects.eclipse.org/projects/technology.jgit/governance) which is planned to be released on June 10 following the [release schedule of Eclipse IDE](https://github.com/eclipse-simrel/.github/blob/main/wiki/Simultaneous_Release.md).\n\nI think applications using a JGit version newer than the latest release (like Gerrit) have to accept the risk that new API introduced after the last release may be unstable and still change (or even be removed) until it\u0027s shipped in the next release.\n\n**Service releases** should only fix bugs.\n\n**Minor releases** can add new API or change existing API if the changes don\u0027t break API published in earlier releases.\n\n**Major releases** can break API published in earlier releases, the next one is 8.0.0. Breaking changes can be prepared on the `next` branch while we still prepease the next minor release on the `master` branch. We will merge the `next` branch into the `master` branch if we decide that the next release will bump the major version.",
+      "parentUuid": "29cfff78_ce54611a",
+      "revId": "542ba5a8413a7c39015684705724a41d638c1667",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
