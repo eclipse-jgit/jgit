@@ -222,6 +222,8 @@ public class ReceivePack {
 
 	private boolean checkReferencedAreReachable;
 
+	private boolean retainParsedObjectIDs;
+
 	/** Git object size limit */
 	private long maxObjectSizeLimit;
 
@@ -498,6 +500,27 @@ public class ReceivePack {
 	 */
 	public void setCheckReferencedObjectsAreReachable(boolean b) {
 		this.checkReferencedAreReachable = b;
+	}
+
+	/**
+	 * Whether the {@code PackParser} should retain object IDs.
+	 *
+	 * @return {@code true} if the parsed object IDs should be retained.
+	 * @since 7.7
+	 */
+	public boolean isRetainParsedObjectIDs() {
+		return retainParsedObjectIDs;
+	}
+
+	/**
+	 * Set whether the {@code PackParser} should retain object IDs.
+	 *
+	 * @param retain
+	 *            {@code true} to retain the parsed object IDs.
+	 * @since 7.7
+	 */
+	public void setRetainParsedObjectIDs(boolean retain) {
+		this.retainParsedObjectIDs = retain;
 	}
 
 	/**
@@ -1547,7 +1570,7 @@ public class ReceivePack {
 
 			parser = ins.newPackParser(packInputStream());
 			parser.setAllowThin(true);
-			parser.setNeedNewObjectIds(checkReferencedAreReachable);
+			parser.setNeedNewObjectIds(checkReferencedAreReachable || retainParsedObjectIDs);
 			parser.setNeedBaseObjectIds(checkReferencedAreReachable);
 			parser.setCheckEofAfterPackFooter(!biDirectionalPipe
 					&& !isExpectDataAfterPackFooter());
