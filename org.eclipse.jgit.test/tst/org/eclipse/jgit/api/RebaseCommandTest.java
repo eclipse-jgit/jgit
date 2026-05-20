@@ -26,11 +26,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jgit.api.MergeCommand.ConflictStyle;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
@@ -53,6 +56,7 @@ import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.CommitConfig.CleanupMode;
+import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -63,6 +67,7 @@ import org.eclipse.jgit.lib.RebaseTodoLine.Action;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogEntry;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.merge.MergeStrategy;
@@ -3784,6 +3789,78 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		Iterator<RevCommit> logIterator = git.log().all().call().iterator();
 		String actualCommitMsg = logIterator.next().getFullMessage();
 		assertEquals("commit2\n#commit3\n;commit5", actualCommitMsg);
+	}
+
+	@Test
+	public void testRebaseOfLargeFilesWithCrlfLineEndingsDoesNotLeaveEmptyModifications()
+			throws Exception {
+		final int nrOfFiles = 5;
+		final int nrOfLines = 10000;
+
+		final String lineToChangeInMaster = "Line to change in master";
+		final String lineToChangeInTopic = "Line to change in topic";
+		final String lineChangedInMaster = "Line changed in master";
+		final String lineChangedInTopic = "Line changed in topic";
+
+		// enable autocrlf
+		Repository repository = git.getRepository();
+		StoredConfig config = repository.getConfig();
+		config.setEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_AUTOCRLF, AutoCRLF.TRUE);
+		config.save();
+
+		// create initial content
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < (nrOfLines / 4); i++) {
+			// add empty lines to avoid merge conflicts
+			builder.append(lineToChangeInMaster + "\n");
+			builder.append("\n");
+			builder.append(lineToChangeInTopic + "\n");
+			builder.append("\n");
+		}
+		String originalContent = builder.toString();
+
+		// original commit in master
+		List<File> files = new ArrayList<>();
+		for (int i = 0; i < nrOfFiles; i++) {
+			String name = "File" + (i + 1) + ".txt";
+			File file = writeTrashFile(name, originalContent);
+			files.add(file);
+			git.add().addFilepattern(name).call();
+		}
+		RevCommit initial = git.commit().setMessage("Original commit").call();
+
+		// create topic branch
+		createBranch(initial, "refs/heads/topic");
+
+		// changes in master
+		String contentInMaster = originalContent
+				.replaceAll(lineToChangeInMaster, lineChangedInMaster);
+		for (File file : files) {
+			Files.write(file.toPath(), contentInMaster.getBytes("UTF-8"));
+			git.add().addFilepattern(file.getName()).call();
+		}
+		git.commit().setMessage("Changes in master").call();
+
+		// checkout topic
+		checkoutBranch("refs/heads/topic");
+
+		// changes in topic
+		String contentInTopic = originalContent.replaceAll(lineToChangeInTopic,
+				lineChangedInTopic);
+		for (File file : files) {
+			Files.write(file.toPath(), contentInTopic.getBytes("UTF-8"));
+			git.add().addFilepattern(file.getName()).call();
+		}
+		git.commit().setMessage("Changes in topic").call();
+
+		// rebase topic onto master
+		git.rebase().setUpstream("refs/heads/master").call();
+
+		// all files should merge cleanly,
+		// no unstaged modifications should remain
+		Set<String> modified = git.status().call().getModified();
+		assertTrue(modified.isEmpty());
 	}
 
 	private File getTodoFile() {

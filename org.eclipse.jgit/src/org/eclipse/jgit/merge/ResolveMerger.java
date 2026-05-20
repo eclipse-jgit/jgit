@@ -26,6 +26,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import java.io.Closeable;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -1652,11 +1653,21 @@ public class ResolveMerger extends ThreeWayMerger {
 					tw.getRawMode(2));
 			FileMode mode = newMode == FileMode.MISSING.getBits()
 					? FileMode.REGULAR_FILE : FileMode.fromBits(newMode);
-			workTreeUpdater.insertToIndex(rawMerged.openInputStream(),
-					tw.getPathString().getBytes(UTF_8), mode,
-					DirCacheEntry.STAGE_0, lastModified,
-					(int) rawMerged.length(),
-					attributes.get(Constants.ATTR_MERGE));
+			if (mergedFile != null) {
+				try (FileInputStream is = new FileInputStream(mergedFile)) {
+					workTreeUpdater.insertToIndex(is,
+							tw.getPathString().getBytes(UTF_8), mode,
+							DirCacheEntry.STAGE_0, lastModified,
+							(int) mergedFile.length(),
+							attributes.get(Constants.ATTR_MERGE));
+				}
+			} else {
+				workTreeUpdater.insertToIndex(rawMerged.openInputStream(),
+						tw.getPathString().getBytes(UTF_8), mode,
+						DirCacheEntry.STAGE_0, lastModified,
+						(int) rawMerged.length(),
+						attributes.get(Constants.ATTR_MERGE));
+			}
 		} finally {
 			if (rawMerged != null) {
 				rawMerged.destroy();
