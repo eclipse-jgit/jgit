@@ -15,10 +15,12 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -556,9 +558,10 @@ public abstract class TemporaryBuffer extends OutputStream {
 
 		@Override
 		public InputStream openInputStream() throws IOException {
-			if (onDiskFile == null)
+			if (onDiskFile == null) {
 				return super.openInputStream();
-			return new FileInputStream(onDiskFile);
+			}
+			return Files.newInputStream(onDiskFile.toPath());
 		}
 
 		@Override
@@ -566,7 +569,8 @@ public abstract class TemporaryBuffer extends OutputStream {
 			if (onDiskFile == null) {
 				return super.openInputStreamWithAutoDestroy();
 			}
-			return new FileInputStream(onDiskFile) {
+			return new FilterInputStream(
+					Files.newInputStream(onDiskFile.toPath())) {
 				@Override
 				public void close() throws IOException {
 					super.close();

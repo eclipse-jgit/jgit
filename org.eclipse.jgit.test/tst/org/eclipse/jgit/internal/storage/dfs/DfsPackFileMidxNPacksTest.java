@@ -20,7 +20,6 @@ import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
@@ -1054,10 +1053,9 @@ public class DfsPackFileMidxNPacksTest {
 			byte[] checksum = midx.getChecksum(ctx);
 			assertNotNull(checksum);
 			assertEquals(20, checksum.length);
-			assertNotEquals('M', checksum[0]);
-			assertNotEquals('I', checksum[1]);
-			assertNotEquals('D', checksum[2]);
-			assertNotEquals('X', checksum[3]);
+
+			byte[] mdixHeader = { 'M', 'I', 'D', 'X' };
+			assertFalse(Arrays.equals(mdixHeader, 0, 4, checksum, 0, 4));
 		}
 	}
 
