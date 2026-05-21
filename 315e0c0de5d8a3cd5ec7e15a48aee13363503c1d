@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53f0d83a_bad5e3a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039243
+      },
+      "writtenOn": "2026-05-21T07:22:34Z",
+      "side": 1,
+      "message": "I suppose this should have been follow-up patchsets on https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1230612/1 - I created a new change by mistake. Should I close this one, and push it there instead?",
+      "revId": "315e0c0de5d8a3cd5ec7e15a48aee13363503c1d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
