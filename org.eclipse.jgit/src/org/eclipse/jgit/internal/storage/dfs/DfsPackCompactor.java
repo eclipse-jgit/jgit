@@ -11,7 +11,6 @@
 package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.COMPACT;
-import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
@@ -27,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
@@ -68,15 +68,72 @@ public class DfsPackCompactor {
 	private final List<DfsReftable> srcReftables;
 	private final List<ObjectIdSet> exclude;
 
+	private final List<DfsPackDescription> prune;
+
 	private PackStatistics newStats;
 	private DfsPackDescription outDesc;
 
-	private int autoAddSize;
 	private ReftableConfig reftableConfig;
 
 	private RevWalk rw;
 	private RevFlag added;
 	private RevFlag isBase;
+
+	/**
+	 * Hook invoked after the compact calculation is done, but before committing
+	 * the resulting packs.
+	 * <p>
+	 * The hook implementations must not modify the incoming collections.
+	 * Instead, they should return any extra packs to commit or remove in a
+	 * {@link Packs} record, which the caller will combine with the calculated
+	 * results.
+	 */
+	public interface PreCommitHook {
+		/**
+		 * Extra packs to commit and remove as result of the hook execution.
+		 *
+		 * @param toCommit
+		 *            packs that this hook wants to add to the compactor
+		 *            transaction
+		 * @param toRemove
+		 *            packs that this hook wants to remove in the compactor
+		 *            transaction
+		 */
+		record Packs(List<DfsPackDescription> toCommit,
+				List<DfsPackDescription> toRemove) {
+		}
+
+		/**
+		 * Apply the hook.
+		 *
+		 * @param newPacks
+		 *            new packs created by this compaction. Read only.
+		 * @param removedPacks
+		 *            packs that are being replaced by this compaction. Read
+		 *            only.
+		 * @return Packs containing extra packs to commit and remove, or null if
+		 *         none.
+		 * @throws IOException
+		 *             an error occurred in the hook.
+		 */
+		@Nullable
+		Packs apply(List<DfsPackDescription> newPacks,
+				Set<DfsPackDescription> removedPacks) throws IOException;
+	}
+
+	private PreCommitHook preCommitHook;
+
+	/**
+	 * Set the pre-commit hook.
+	 *
+	 * @param hook
+	 *            pre-commit hook.
+	 * @return {@code this}
+	 */
+	public DfsPackCompactor setPreCommitHook(PreCommitHook hook) {
+		this.preCommitHook = hook;
+		return this;
+	}
 
 	/**
 	 * Initialize a pack compactor.
@@ -86,10 +143,10 @@ public class DfsPackCompactor {
 	 */
 	public DfsPackCompactor(DfsRepository repository) {
 		repo = repository;
-		autoAddSize = 5 * 1024 * 1024; // 5 MiB
 		srcPacks = new ArrayList<>();
 		srcReftables = new ArrayList<>();
 		exclude = new ArrayList<>(4);
+		prune = new ArrayList<>();
 	}
 
 	/**
@@ -135,38 +192,6 @@ public class DfsPackCompactor {
 	}
 
 	/**
-	 * Automatically select pack and reftables to be included, and add them.
-	 * <p>
-	 * Packs are selected based on size, smaller packs get included while bigger
-	 * ones are omitted.
-	 *
-	 * @return {@code this}
-	 * @throws java.io.IOException
-	 *             existing packs cannot be read.
-	 */
-	public DfsPackCompactor autoAdd() throws IOException {
-		DfsObjDatabase objdb = repo.getObjectDatabase();
-		for (DfsPackFile pack : objdb.getPacks()) {
-			DfsPackDescription d = pack.getPackDescription();
-			if (d.getFileSize(PACK) < autoAddSize)
-				add(pack);
-			else
-				exclude(pack);
-		}
-
-		if (reftableConfig != null) {
-			for (DfsReftable table : objdb.getReftables()) {
-				DfsPackDescription d = table.getPackDescription();
-				if (d.getPackSource() != GC
-						&& d.getFileSize(REFTABLE) < autoAddSize) {
-					add(table);
-				}
-			}
-		}
-		return this;
-	}
-
-	/**
 	 * Exclude objects from the compacted pack.
 	 *
 	 * @param set
@@ -188,11 +213,23 @@ public class DfsPackCompactor {
 	 *             pack index cannot be loaded.
 	 */
 	public DfsPackCompactor exclude(DfsPackFile pack) throws IOException {
-		final PackIndex idx;
+		final ObjectIdSet objectIdSet;
 		try (DfsReader ctx = (DfsReader) repo.newObjectReader()) {
-			idx = pack.getPackIndex(ctx);
+			objectIdSet = pack.asObjectIdSet(ctx);
 		}
-		return exclude(idx);
+		return exclude(objectIdSet);
+	}
+
+	/**
+	 * Delete also this pack when writing to the db the compacted packs
+	 *
+	 * @param pack
+	 *            a pack to delete
+	 * @return {@code this}
+	 */
+	public DfsPackCompactor prune(DfsPackFile pack) {
+		prune.add(pack.getPackDescription());
+		return this;
 	}
 
 	/**
@@ -216,8 +253,15 @@ public class DfsPackCompactor {
 			}
 			compactPacks(ctx, pm);
 
-			List<DfsPackDescription> commit = getNewPacks();
-			Collection<DfsPackDescription> remove = toPrune();
+			List<DfsPackDescription> commit = new ArrayList<>(getNewPacks());
+			Set<DfsPackDescription> remove = toPrune();
+			if (preCommitHook != null) {
+				PreCommitHook.Packs extra = preCommitHook.apply(commit, remove);
+				if (extra != null) {
+					commit.addAll(extra.toCommit());
+					remove.addAll(extra.toRemove());
+				}
+			}
 			if (!commit.isEmpty() || !remove.isEmpty()) {
 				objdb.commitPack(commit, remove);
 			}
@@ -338,7 +382,7 @@ public class DfsPackCompactor {
 				: Collections.emptyList();
 	}
 
-	private Collection<DfsPackDescription> toPrune() {
+	private Set<DfsPackDescription> toPrune() {
 		Set<DfsPackDescription> packs = new HashSet<>();
 		for (DfsPackFile pack : srcPacks) {
 			packs.add(pack.getPackDescription());
@@ -367,6 +411,7 @@ public class DfsPackCompactor {
 		Set<DfsPackDescription> toPrune = new HashSet<>();
 		toPrune.addAll(packs);
 		toPrune.addAll(reftables);
+		toPrune.addAll(prune);
 		return toPrune;
 	}
 
@@ -405,7 +450,7 @@ public class DfsPackCompactor {
 				pw.addObject(obj);
 				obj.add(added);
 
-				src.representation(rep, id.offset, ctx, rev);
+				src.fillRepresentation(rep, id.offset, ctx, rev);
 				if (rep.getFormat() != PACK_DELTA)
 					continue;
 

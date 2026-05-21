@@ -14,6 +14,7 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.COMMIT_GRAPH;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
 
@@ -81,6 +82,8 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.GcConfig;
+import org.eclipse.jgit.lib.GcConfig.PackRefsMode;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSet;
@@ -104,6 +107,7 @@ import org.eclipse.jgit.util.FS.LockToken;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.GitTimeParser;
 import org.eclipse.jgit.util.StringUtils;
+import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -130,7 +134,7 @@ public class GC {
 	private static final Set<PackExt> PARENT_EXTS = Set.of(PACK, KEEP);
 
 	private static final Set<PackExt> CHILD_EXTS = Set.of(BITMAP_INDEX, INDEX,
-			REVERSE_INDEX);
+            REVERSE_INDEX, OBJECT_SIZE_INDEX);
 
 	private static final int DEFAULT_AUTOPACKLIMIT = 50;
 
@@ -169,6 +173,8 @@ public class GC {
 
 	private PackConfig pconfig;
 
+	private GcConfig gcConfig;
+
 	/**
 	 * the refs which existed during the last call to {@link #repack()}. This is
 	 * needed during {@link #prune(Set)} where we can optimize by looking at the
@@ -182,7 +188,7 @@ public class GC {
 	 * prune() to inspect only those reflog entries which have been added since
 	 * last repack().
 	 */
-	private long lastRepackTime;
+	private Instant lastRepackTime = Instant.EPOCH;
 
 	/**
 	 * Whether gc should do automatic housekeeping
@@ -205,6 +211,7 @@ public class GC {
 		this.repo = repo;
 		this.pconfig = new PackConfig(repo);
 		this.pm = NullProgressMonitor.INSTANCE;
+		this.gcConfig = repo.getConfig().get(GcConfig.KEY);
 	}
 
 	/**
@@ -280,6 +287,18 @@ public class GC {
 		return (executor != null) ? executor : WorkQueue.getExecutor();
 	}
 
+	/**
+	 * Set the gc configuration.
+	 *
+	 * @param gcConfig
+	 *            the gc configuration
+	 * @return this instance
+	 */
+	public GC setGcConfig(GcConfig gcConfig) {
+		this.gcConfig = gcConfig;
+		return this;
+	}
+
 	private Collection<Pack> doGc()
 			throws IOException, ParseException, GitAPIException {
 		if (automatic && !needGc()) {
@@ -290,8 +309,13 @@ public class GC {
 				return Collections.emptyList();
 			}
 			pm.start(6 /* tasks */);
-			new PackRefsCommand(repo).setProgressMonitor(pm).setAll(true)
-					.call();
+			boolean packRefs = gcConfig.getPackRefs() == PackRefsMode.TRUE
+					|| (gcConfig.getPackRefs() == PackRefsMode.NOTBARE
+							&& !repo.isBare());
+			if (packRefs) {
+				new PackRefsCommand(repo).setProgressMonitor(pm).setAll(true)
+						.call();
+			}
 			// TODO: implement reflog_expire(pm, repo);
 			Collection<Pack> newPacks = repack();
 			prune(Collections.emptySet());
@@ -411,6 +435,10 @@ public class GC {
 	 */
 	private void removeOldPack(PackFile packFile, int deleteOptions)
 			throws IOException {
+		if (!packFile.exists()) {
+			return;
+		}
+
 		if (pconfig.isPreserveOldPacks()) {
 			File oldPackDir = repo.getObjectDatabase().getPreservedDirectory();
 			FileUtils.mkdir(oldPackDir, true);
@@ -741,6 +769,15 @@ public class GC {
 	}
 
 	/**
+	 * Get the gc configuration.
+	 *
+	 * @return the gc configuration.
+	 */
+	public GcConfig getGcConfig() {
+		return gcConfig;
+	}
+
+	/**
 	 * Remove all entries from a map which key is the id of an object referenced
 	 * by the given ObjectWalk
 	 *
@@ -805,7 +842,7 @@ public class GC {
 	public Collection<Pack> repack() throws IOException {
 		Collection<Pack> toBeDeleted = repo.getObjectDatabase().getPacks();
 
-		long time = System.currentTimeMillis();
+		Instant time = SystemReader.getInstance().now();
 		Collection<Ref> refsBefore = getAllRefs();
 
 		Set<ObjectId> allHeadsAndTags = new HashSet<>();
@@ -821,7 +858,7 @@ public class GC {
 
 		for (Ref ref : refsBefore) {
 			checkCancelled();
-			nonHeads.addAll(listRefLogObjects(ref, 0));
+			nonHeads.addAll(listRefLogObjects(ref, Instant.EPOCH));
 			if (ref.isSymbolic() || ref.getObjectId() == null) {
 				continue;
 			}
@@ -943,13 +980,9 @@ public class GC {
 			tmpFile = File.createTempFile("commit_", //$NON-NLS-1$
 					COMMIT_GRAPH.getTmpExtension(),
 					repo.getObjectDatabase().getInfoDirectory());
-			// write the commit-graph file
-			try (FileOutputStream fos = new FileOutputStream(tmpFile);
-					FileChannel channel = fos.getChannel();
-					OutputStream channelStream = Channels
-							.newOutputStream(channel)) {
-				writer.write(pm, channelStream);
-				channel.force(true);
+			// write the commit-graph to temporary file
+			try (FileOutputStream fos = new FileOutputStream(tmpFile)) {
+				writer.write(pm, fos);
 			}
 
 			// rename the temporary file to real file
@@ -1151,12 +1184,13 @@ public class GC {
 	 * @param ref
 	 *            the ref which log should be inspected
 	 * @param minTime
-	 *            only reflog entries not older then this time are processed
+	 *            only reflog entries equal or younger than this time are
+	 *            processed
 	 * @return the {@link ObjectId}s contained in the reflog
 	 * @throws IOException
 	 *             if an IO error occurred
 	 */
-	private Set<ObjectId> listRefLogObjects(Ref ref, long minTime) throws IOException {
+	private Set<ObjectId> listRefLogObjects(Ref ref, Instant minTime) throws IOException {
 		ReflogReader reflogReader = repo.getRefDatabase().getReflogReader(ref);
 		List<ReflogEntry> rlEntries = reflogReader
 				.getReverseEntries();
@@ -1164,8 +1198,9 @@ public class GC {
 			return Collections.emptySet();
 		Set<ObjectId> ret = new HashSet<>();
 		for (ReflogEntry e : rlEntries) {
-			if (e.getWho().getWhen().getTime() < minTime)
+			if (e.getWho().getWhenAsInstant().isBefore(minTime)) {
 				break;
+			}
 			ObjectId newId = e.getNewId();
 			if (newId != null && !ObjectId.zeroId().equals(newId))
 				ret.add(newId);
@@ -1337,6 +1372,7 @@ public class GC {
 				idxChannel.force(true);
 			}
 
+
 			if (pw.isReverseIndexEnabled()) {
 				File tmpReverseIndexFile = new File(packdir,
 						tmpBase + REVERSE_INDEX.getTmpExtension());
@@ -1353,6 +1389,19 @@ public class GC {
 								.newOutputStream(channel)) {
 					pw.writeReverseIndex(stream);
 					channel.force(true);
+                                }
+                        }
+
+			// write the object size
+			if (pconfig.isWriteObjSizeIndex()) {
+				File tmpSizeIdx = new File(packdir, tmpBase + ".objsize_tmp"); //$NON-NLS-1$
+				tmpExts.put(OBJECT_SIZE_INDEX, tmpSizeIdx);
+				try (FileOutputStream fos = new FileOutputStream(tmpSizeIdx);
+						FileChannel idxChannel = fos.getChannel();
+						OutputStream idxStream = Channels
+								.newOutputStream(idxChannel)) {
+					pw.writeObjectSizeIndex(idxStream);
+					idxChannel.force(true);
 				}
 			}
 
@@ -1522,6 +1571,11 @@ public class GC {
 		 */
 		public long numberOfBitmaps;
 
+		/**
+		 * The number of objects in the size-index of the packs
+		 */
+		public long numberOfSizeIndexedObjects;
+
 		@Override
 		public String toString() {
 			final StringBuilder b = new StringBuilder();
@@ -1537,6 +1591,8 @@ public class GC {
 			b.append(", sizeOfLooseObjects=").append(sizeOfLooseObjects); //$NON-NLS-1$
 			b.append(", sizeOfPackedObjects=").append(sizeOfPackedObjects); //$NON-NLS-1$
 			b.append(", numberOfBitmaps=").append(numberOfBitmaps); //$NON-NLS-1$
+			b.append(", numberOfSizeIndexedObjects=") //$NON-NLS-1$
+					.append(numberOfSizeIndexedObjects);
 			return b.toString();
 		}
 	}
@@ -1545,7 +1601,7 @@ public class GC {
 	 * Returns information about objects and pack files for a FileRepository.
 	 *
 	 * @return information about objects and pack files for a FileRepository
-	 * @throws java.io.IOException
+         * @throws java.io.IOException
 	 *             if an IO error occurred
 	 */
 	public RepoStatistics getStatistics() throws IOException {
@@ -1557,16 +1613,16 @@ public class GC {
 			ret.numberOfPackedObjects += packedObjects;
 			ret.numberOfPackFiles++;
 			ret.sizeOfPackedObjects += p.getPackFile().length();
+			ret.numberOfSizeIndexedObjects += p.getObjectSizeIndexCount();
 			if (p.getBitmapIndex() != null) {
 				ret.numberOfBitmaps += p.getBitmapIndex().getBitmapCount();
 				if (latestBitmapTime == 0L) {
 					latestBitmapTime = p.getFileSnapshot().lastModifiedInstant().toEpochMilli();
 				}
-			}
-			else if (latestBitmapTime == 0L) {
-				ret.numberOfPackFilesSinceBitmap++;
-				ret.numberOfObjectsSinceBitmap += packedObjects;
-			}
+			} else if (latestBitmapTime == 0L) {
+                          ret.numberOfPackFilesSinceBitmap++;
+                          ret.numberOfObjectsSinceBitmap += packedObjects;
+                        }
 		}
 		File objDir = repo.getObjectsDirectory();
 		String[] fanout = objDir.list();

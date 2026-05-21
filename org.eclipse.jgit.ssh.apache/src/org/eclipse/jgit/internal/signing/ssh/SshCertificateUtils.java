@@ -17,8 +17,6 @@ import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.config.keys.OpenSshCertificate;
 import org.apache.sshd.common.signature.BuiltinSignatures;
 import org.apache.sshd.common.signature.Signature;
-import org.apache.sshd.common.util.buffer.Buffer;
-import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.internal.transport.sshd.SshdText;
 import org.slf4j.Logger;
@@ -106,7 +104,7 @@ final class SshCertificateUtils {
 		Signature signer = factory.create();
 		try {
 			signer.initVerifier(null, caKey);
-			signer.update(null, getBlob(certificate));
+			signer.update(null, certificate.getMessage());
 			if (signer.verify(null, certificate.getRawSignature())) {
 				return null;
 			}
@@ -116,37 +114,6 @@ final class SshCertificateUtils {
 		}
 		return MessageFormat.format(SshdText.get().signCertificateInvalid,
 				KeyUtils.getFingerPrint(certificate.getCaPubKey()));
-	}
-
-	private static byte[] getBlob(OpenSshCertificate certificate) {
-		// Theoretically, this should be just certificate.getMessage(). But
-		// Apache MINA sshd has a bug and may return additional bytes if the
-		// certificate is not the first thing in the buffer it was read from.
-		// As a work-around, re-create the signed blob from scratch.
-		//
-		// This may be replaced by return certificate.getMessage() once the
-		// upstream bug is fixed.
-		//
-		// See https://github.com/apache/mina-sshd/issues/618
-		Buffer tmp = new ByteArrayBuffer();
-		tmp.putString(certificate.getKeyType());
-		tmp.putBytes(certificate.getNonce());
-		tmp.putRawPublicKeyBytes(certificate.getCertPubKey());
-		tmp.putLong(certificate.getSerial());
-		tmp.putInt(certificate.getType().getCode());
-		tmp.putString(certificate.getId());
-		Buffer list = new ByteArrayBuffer();
-		list.putStringList(certificate.getPrincipals(), false);
-		tmp.putBytes(list.getCompactData());
-		tmp.putLong(certificate.getValidAfter());
-		tmp.putLong(certificate.getValidBefore());
-		tmp.putCertificateOptions(certificate.getCriticalOptions());
-		tmp.putCertificateOptions(certificate.getExtensions());
-		tmp.putString(certificate.getReserved());
-		Buffer inner = new ByteArrayBuffer();
-		inner.putRawPublicKey(certificate.getCaPubKey());
-		tmp.putBytes(inner.getCompactData());
-		return tmp.getCompactData();
 	}
 
 	/**

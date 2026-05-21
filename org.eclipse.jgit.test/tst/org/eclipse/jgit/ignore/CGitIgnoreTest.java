@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2017, 2025 Thomas Wolf <twolf@apache.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -15,14 +15,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
@@ -72,7 +72,7 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 	private String[] cgitIgnored() throws Exception {
 		FS fs = db.getFS();
 		ProcessBuilder builder = fs.runInShell("git", new String[] { "ls-files",
-				"--ignored", "--exclude-standard", "-o" });
+				"--ignored", "--exclude-standard", "-o", "-z" });
 		builder.directory(db.getWorkTree());
 		builder.environment().put("HOME", fs.userHome().getAbsolutePath());
 		ExecutionResult result = fs.execute(builder,
@@ -80,17 +80,13 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 		String errorOut = toString(result.getStderr());
 		assertEquals("External git failed", "exit 0\n",
 				"exit " + result.getRc() + '\n' + errorOut);
-		try (BufferedReader r = new BufferedReader(new InputStreamReader(
-				new BufferedInputStream(result.getStdout().openInputStream()),
-				UTF_8))) {
-			return r.lines().toArray(String[]::new);
-		}
+		return readLines(result.getStdout());
 	}
 
 	private String[] cgitUntracked() throws Exception {
 		FS fs = db.getFS();
 		ProcessBuilder builder = fs.runInShell("git",
-				new String[] { "ls-files", "--exclude-standard", "-o" });
+				new String[] { "ls-files", "--exclude-standard", "-o", "-z" });
 		builder.directory(db.getWorkTree());
 		builder.environment().put("HOME", fs.userHome().getAbsolutePath());
 		ExecutionResult result = fs.execute(builder,
@@ -98,10 +94,26 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 		String errorOut = toString(result.getStderr());
 		assertEquals("External git failed", "exit 0\n",
 				"exit " + result.getRc() + '\n' + errorOut);
-		try (BufferedReader r = new BufferedReader(new InputStreamReader(
-				new BufferedInputStream(result.getStdout().openInputStream()),
-				UTF_8))) {
-			return r.lines().toArray(String[]::new);
+		return readLines(result.getStdout());
+	}
+
+	private String[] readLines(TemporaryBuffer buf) throws IOException {
+		try (InputStream in = buf.openInputStreamWithAutoDestroy()) {
+			byte[] data = in.readAllBytes();
+			int from = 0;
+			int to = 0;
+			List<String> items = new ArrayList<>();
+			while (to < data.length) {
+				if (data[to++] == 0) {
+					items.add(new String(data, from, to - from - 1, UTF_8));
+					from = to;
+				}
+			}
+			if (from < data.length) {
+				// Last item not terminated by NUL
+				items.add(new String(data, from, to - from, UTF_8));
+			}
+			return items.toArray(new String[0]);
 		}
 	}
 
@@ -119,7 +131,7 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 					ignored.add(walk.getPathString());
 				} else {
 					// tests of this class won't add any files to the index,
-					// hence everything what is not ignored is untracked
+					// hence everything not ignored is untracked
 					untracked.add(walk.getPathString());
 				}
 			}
@@ -299,6 +311,48 @@ public class CGitIgnoreTest extends RepositoryTestCase {
 		createFiles("x1", "a/x2", "x3/y");
 		writeTrashFile(".gitignore", "*\n!x*");
 		assertSameAsCGit();
+	}
+
+	@Test
+	public void testSingleBackslash() throws Exception {
+		createFiles("foo\\", "foo/foo\\", "bar");
+		writeTrashFile(".gitignore", "foo\\");
+		assertSameAsCGit("foo\\", "foo/foo\\", "bar");
+	}
+
+	@Test
+	public void testDoubleBackslash() throws Exception {
+		createFiles("foo\\", "foo/foo\\", "bar");
+		writeTrashFile(".gitignore", "foo\\\\");
+		assertSameAsCGit("bar");
+	}
+
+	@Test
+	public void testSingleBackslashRegexp() throws Exception {
+		createFiles("foobar\\", "foo/foobar\\", "bar");
+		writeTrashFile(".gitignore", "fo*r\\");
+		assertSameAsCGit("foobar\\", "foo/foobar\\", "bar");
+	}
+
+	@Test
+	public void testDoubleBackslashRegexp() throws Exception {
+		createFiles("foobar\\", "foo/foobar\\", "bar");
+		writeTrashFile(".gitignore", "fo*r\\\\");
+		assertSameAsCGit("bar");
+	}
+
+	@Test
+	public void testSingleBackslashRegexpInside() throws Exception {
+		createFiles("fo\\obar", "foo/fo\\obar", "bar", "foobar");
+		writeTrashFile(".gitignore", "fo\\o*r");
+		assertSameAsCGit("fo\\obar", "foo/fo\\obar", "bar");
+	}
+
+	@Test
+	public void testDoubleBackslashRegexpInside() throws Exception {
+		createFiles("fo\\obar", "foo/fo\\obar", "bar", "foobar");
+		writeTrashFile(".gitignore", "fo\\\\o*r");
+		assertSameAsCGit("bar", "foobar");
 	}
 
 	@Test

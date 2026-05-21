@@ -345,6 +345,15 @@ public final class Constants {
 	public static final String XDG_CONFIG_HOME = "XDG_CONFIG_HOME";
 
 	/**
+	 * The key of the XDG_CACHE_HOME directory defined in the
+	 * <a href="https://wiki.archlinux.org/index.php/XDG_Base_Directory">
+	 * XDG Base Directory specification</a>.
+	 *
+	 * @since 7.3
+	 */
+	public static final String XDG_CACHE_HOME = "XDG_CACHE_HOME";
+
+	/**
 	 * The environment variable that limits how close to the root of the file
 	 * systems JGit will traverse when looking for a repository root.
 	 */
@@ -829,6 +838,13 @@ public final class Constants {
 	 * @since 6.5
 	 */
 	public static final int COMMIT_GENERATION_NOT_COMPUTED = 0;
+
+	/**
+	 * Name of the .git/objects/packs/multi-pack-index file.
+	 *
+	 * @since 7.7
+	 */
+	public static final String MIDX_FILE = "multi-pack-index";
 
 	private Constants() {
 		// Hide the default constructor

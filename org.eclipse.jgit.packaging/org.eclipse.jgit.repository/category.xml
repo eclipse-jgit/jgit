@@ -216,6 +216,12 @@
    <bundle id="slf4j.simple.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
+   <bundle id="jcl.over.slf4j">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="jcl.over.slf4j.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
    <bundle id="org.tukaani.xz">
       <category name="JGit-dependency-bundles"/>
    </bundle>
@@ -232,6 +238,24 @@
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <bundle id="org.osgi.service.cm.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.objectweb.asm">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.objectweb.asm.commons">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.objectweb.asm.util">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.objectweb.asm.tree">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.objectweb.asm.tree.analysis">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.apache.aries.spifly.dynamic.bundle">
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <category-def name="JGit" label="Java implementation of Git">

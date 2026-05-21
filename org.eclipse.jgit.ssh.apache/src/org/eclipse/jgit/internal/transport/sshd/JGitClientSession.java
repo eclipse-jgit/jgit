@@ -569,19 +569,19 @@ public class JGitClientSession extends ClientSessionImpl {
 				start = i + 1;
 				if (log.isDebugEnabled()) {
 					log.debug(format("doReadIdentification({0}) line: ", this) + //$NON-NLS-1$
-							escapeControls(line));
+							StringUtils.escapeControls(line));
 				}
 				ident.add(line);
 				if (line.startsWith("SSH-")) { //$NON-NLS-1$
 					if (hasNul) {
 						throw new StreamCorruptedException(
 								format(SshdText.get().serverIdWithNul,
-										escapeControls(line)));
+										StringUtils.escapeControls(line)));
 					}
 					if (line.length() + eol > 255) {
 						throw new StreamCorruptedException(
 								format(SshdText.get().serverIdTooLong,
-										escapeControls(line)));
+										StringUtils.escapeControls(line)));
 					}
 					buffer.rpos(start);
 					return ident;
@@ -606,21 +606,6 @@ public class JGitClientSession extends ClientSessionImpl {
 		}
 		// Need more data
 		return null;
-	}
-
-	private static String escapeControls(String s) {
-		StringBuilder b = new StringBuilder();
-		int l = s.length();
-		for (int i = 0; i < l; i++) {
-			char ch = s.charAt(i);
-			if (Character.isISOControl(ch)) {
-				b.append(ch <= 0xF ? "\\u000" : "\\u00") //$NON-NLS-1$ //$NON-NLS-2$
-						.append(Integer.toHexString(ch));
-			} else {
-				b.append(ch);
-			}
-		}
-		return b.toString();
 	}
 
 	@Override

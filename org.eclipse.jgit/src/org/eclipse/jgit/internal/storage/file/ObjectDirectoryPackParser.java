@@ -72,6 +72,12 @@ public class ObjectDirectoryPackParser extends PackParser {
 	 */
 	private File tmpIdx;
 
+	/**
+	 * Path of the object-size index created for the pack, to filter quickly
+	 * objects by size in partial clones
+	 */
+	private File tmpObjectSizeIndex;
+
 	/** Read/write handle to {@link #tmpPack} while it is being parsed. */
 	private RandomAccessFile out;
 
@@ -163,6 +169,7 @@ public class ObjectDirectoryPackParser extends PackParser {
 			throws IOException {
 		tmpPack = File.createTempFile("incoming_", ".pack", db.getDirectory()); //$NON-NLS-1$ //$NON-NLS-2$
 		tmpIdx = new File(db.getDirectory(), baseName(tmpPack) + ".idx"); //$NON-NLS-1$
+
 		try {
 			out = new RandomAccessFile(tmpPack, "rw"); //$NON-NLS-1$
 
@@ -177,6 +184,14 @@ public class ObjectDirectoryPackParser extends PackParser {
 
 			tmpPack.setReadOnly();
 			tmpIdx.setReadOnly();
+
+			if (pconfig.isWriteObjSizeIndex()) {
+				tmpObjectSizeIndex = new File(db.getDirectory(),
+						baseName(tmpPack)
+						+ PackExt.OBJECT_SIZE_INDEX.getExtension());
+				writeObjectSizeIndex(pconfig.getMinBytesForObjSizeIndex());
+				tmpObjectSizeIndex.setReadOnly();
+			}
 
 			return renameAndOpenPack(getLockMessage());
 		} finally {
@@ -295,6 +310,9 @@ public class ObjectDirectoryPackParser extends PackParser {
 			tmpIdx.deleteOnExit();
 		if (tmpPack != null && !tmpPack.delete() && tmpPack.exists())
 			tmpPack.deleteOnExit();
+		if (tmpObjectSizeIndex != null && !tmpObjectSizeIndex.delete()
+				&& tmpObjectSizeIndex.exists())
+			tmpPack.deleteOnExit();
 	}
 
 	@Override
@@ -395,6 +413,15 @@ public class ObjectDirectoryPackParser extends PackParser {
 		}
 	}
 
+	private void writeObjectSizeIndex(int minSize) throws IOException {
+		try (FileOutputStream os = new FileOutputStream(tmpObjectSizeIndex)) {
+			PackObjectSizeIndexWriter iw = PackObjectSizeIndexWriter
+					.createWriter(os, minSize);
+			iw.write(getSortedObjectList(null));
+			os.getChannel().force(true);
+		}
+	}
+
 	private PackLock renameAndOpenPack(String lockMessage)
 			throws IOException {
 		if (!keepEmpty && getObjectCount() == 0) {
@@ -467,6 +494,27 @@ public class ObjectDirectoryPackParser extends PackParser {
 				finalPack.deleteOnExit();
 			throw new IOException(MessageFormat.format(
 					JGitText.get().cannotMoveIndexTo, finalIdx), e);
+		}
+
+		if (pconfig.isWriteObjSizeIndex() && tmpObjectSizeIndex != null) {
+			PackFile finalObjectSizeIndex = finalPack
+					.create(PackExt.OBJECT_SIZE_INDEX);
+			try {
+				FileUtils.rename(tmpObjectSizeIndex, finalObjectSizeIndex,
+						StandardCopyOption.ATOMIC_MOVE);
+			} catch (IOException e) {
+				cleanupTemporaryFiles();
+				keep.unlock();
+				if (!finalPack.delete())
+					finalPack.deleteOnExit();
+				if (!finalIdx.delete()) {
+					finalIdx.deleteOnExit();
+				}
+				throw new IOException(MessageFormat
+						.format(JGitText.get().cannotMoveIndexTo,
+								finalObjectSizeIndex),
+						e);
+			}
 		}
 
 		boolean interrupted = false;

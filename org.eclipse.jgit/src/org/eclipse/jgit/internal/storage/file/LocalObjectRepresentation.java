@@ -22,6 +22,11 @@ class LocalObjectRepresentation extends StoredObjectRepresentation {
 			public int getFormat() {
 				return PACK_WHOLE;
 			}
+
+			@Override
+			public boolean wasDeltaAttempted() {
+				return true;
+			}
 		};
 		r.pack = pack;
 		r.offset = offset;
@@ -80,6 +85,11 @@ class LocalObjectRepresentation extends StoredObjectRepresentation {
 		@Override
 		public int getFormat() {
 			return PACK_DELTA;
+		}
+
+		@Override
+		public boolean wasDeltaAttempted() {
+			return true;
 		}
 	}
 }

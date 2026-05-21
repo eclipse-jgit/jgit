@@ -264,6 +264,8 @@ public interface TypedConfigGetter {
 	 *            indication of the units.
 	 * @return the value, or {@code defaultValue} if not set, expressed in
 	 *         {@code units}.
+	 * @throws IllegalArgumentException
+	 *             if the value cannot be parsed.
 	 * @deprecated use
 	 *             {@link #getTimeUnit(Config, String, String, String, Long, TimeUnit)}
 	 *             instead
@@ -292,6 +294,8 @@ public interface TypedConfigGetter {
 	 *            indication of the units.
 	 * @return the value, or {@code defaultValue} if not set, expressed in
 	 *         {@code units}.
+	 * @throws IllegalArgumentException
+	 *             if the value cannot be parsed.
 	 * @since 7.2
 	 */
 	@Nullable

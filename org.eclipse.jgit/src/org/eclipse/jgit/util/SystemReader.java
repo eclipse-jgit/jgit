@@ -492,6 +492,36 @@ public abstract class SystemReader {
 	}
 
 	/**
+	 * Gets the directory denoted by environment variable XDG_CACHE_HOME. If
+	 * the variable is not set or empty, return a path for
+	 * {@code $HOME/.cache}.
+	 *
+	 * @param fileSystem
+	 *            {@link FS} to get the user's home directory
+	 * @return a {@link Path} denoting the directory, which may exist or not, or
+	 *         {@code null} if the environment variable is not set and there is
+	 *         no home directory, or the path is invalid.
+	 * @since 7.3
+	 */
+	public Path getXdgCacheDirectory(FS fileSystem) {
+		String cacheHomePath = getenv(Constants.XDG_CACHE_HOME);
+		if (StringUtils.isEmptyOrNull(cacheHomePath)) {
+			File home = fileSystem.userHome();
+			if (home == null) {
+				return null;
+			}
+			cacheHomePath = new File(home, ".cache").getAbsolutePath(); //$NON-NLS-1$
+		}
+		try {
+			return Paths.get(cacheHomePath);
+		} catch (InvalidPathException e) {
+			LOG.error(JGitText.get().logXDGCacheHomeInvalid, cacheHomePath,
+					e);
+		}
+		return null;
+	}
+
+	/**
 	 * Update config and its parents if they seem modified
 	 *
 	 * @param config

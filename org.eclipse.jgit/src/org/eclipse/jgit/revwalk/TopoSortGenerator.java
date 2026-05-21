@@ -51,7 +51,9 @@ class TopoSortGenerator extends Generator {
 				break;
 			}
 			for (RevCommit p : c.getParents()) {
-				p.inDegree++;
+				if (!p.has(RevFlag.UNSHALLOW)) {
+					p.inDegree++;
+				}
 				if (firstParent) {
 					break;
 				}

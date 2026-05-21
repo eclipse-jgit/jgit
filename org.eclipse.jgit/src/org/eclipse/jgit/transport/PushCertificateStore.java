@@ -504,7 +504,7 @@ public class PushCertificateStore implements AutoCloseable {
 		} else {
 			sb.append(MessageFormat.format(
 					JGitText.get().storePushCertMultipleRefs,
-					cert.getCommands().size()));
+					Integer.valueOf(cert.getCommands().size())));
 		}
 		return sb.append('\n').toString();
 	}

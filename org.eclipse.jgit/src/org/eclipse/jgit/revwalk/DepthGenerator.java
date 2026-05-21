@@ -17,6 +17,8 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 
+import static org.eclipse.jgit.revwalk.RevFlag.UNSHALLOW;
+
 /**
  * Only produce commits which are below a specified depth.
  *
@@ -30,14 +32,6 @@ class DepthGenerator extends Generator {
 	private final int deepenSince;
 
 	private final RevWalk walk;
-
-	/**
-	 * Commits which used to be shallow in the client, but which are
-	 * being extended as part of this fetch.  These commits should be
-	 * returned to the caller as UNINTERESTING so that their blobs/trees
-	 * can be marked appropriately in the pack writer.
-	 */
-	private final RevFlag UNSHALLOW;
 
 	/**
 	 * Commits which the normal framework has marked as UNINTERESTING,
@@ -73,7 +67,6 @@ class DepthGenerator extends Generator {
 
 		this.depth = w.getDepth();
 		this.deepenSince = w.getDeepenSince();
-		this.UNSHALLOW = w.getUnshallowFlag();
 		this.REINTERESTING = w.getReinterestingFlag();
 		this.DEEPEN_NOT = w.getDeepenNotFlag();
 

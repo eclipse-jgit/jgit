@@ -30,8 +30,21 @@ public final class BitmapCommit extends ObjectId {
 		this.addToIndex = false;
 	}
 
-	BitmapCommit(AnyObjectId objectId, boolean reuseWalker, int flags,
-				 boolean addToIndex) {
+	// Visible for testing
+	/**
+	 * Commit that should get a bitmap
+	 *
+	 * @param objectId
+	 *            objectId of the commit
+	 * @param reuseWalker
+	 *            if the bitmap walker can be reused
+	 * @param flags
+	 *            flags
+	 * @param addToIndex
+	 *            if the bitmap should be added to the index
+	 */
+	public BitmapCommit(AnyObjectId objectId, boolean reuseWalker, int flags,
+			boolean addToIndex) {
 		super(objectId);
 		this.reuseWalker = reuseWalker;
 		this.flags = flags;

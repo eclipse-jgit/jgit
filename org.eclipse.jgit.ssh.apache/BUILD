@@ -12,6 +12,10 @@ java_library(
     resource_strip_prefix = "org.eclipse.jgit.ssh.apache/resources",
     resources = RESOURCES,
     deps = [
+        "//lib:bcpg",
+        "//lib:bcpkix",
+        "//lib:bcprov",
+        "//lib:bcutil",
         "//lib:slf4j-api",
         "//lib:sshd-osgi",
         "//lib:sshd-sftp",

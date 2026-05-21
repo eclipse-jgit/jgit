@@ -7,7 +7,7 @@ java_library(
     testonly = 1,
     srcs = glob(["src/**/*.java"]),
     resource_strip_prefix = "org.eclipse.jgit.junit/resources",
-    resources = glob(["resources/**"]),
+    resources = glob(["resources/**"], allow_empty=True),
     deps = [
         "//lib:junit",
         # We want these deps to be provided_deps

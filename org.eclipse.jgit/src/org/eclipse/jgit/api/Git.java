@@ -201,7 +201,24 @@ public class Git implements AutoCloseable {
 		this(repo, false);
 	}
 
-	Git(Repository repo, boolean closeRepo) {
+	/**
+	 * Construct a new {@link org.eclipse.jgit.api.Git} object which can
+	 * interact with the specified git repository.
+	 * <p>
+	 * All command classes returned by methods of this class will always
+	 * interact with this git repository.
+	 * <p>
+	 * If {@code closeRepo = false} the caller is responsible for closing the
+	 * repository.
+	 *
+	 * @param repo
+	 *            the git repository this class is interacting with;
+	 *            {@code null} is not allowed.
+	 * @param closeRepo
+	 *            whether to close the repository when this instance is closed
+	 * @since 7.4
+	 */
+	public Git(Repository repo, boolean closeRepo) {
 		this.repo = requireNonNull(repo);
 		this.closeRepo = closeRepo;
 	}

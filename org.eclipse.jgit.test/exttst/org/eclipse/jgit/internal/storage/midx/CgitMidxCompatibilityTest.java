@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025, Google Inc.
+ * Copyright (C) 2025, Google LLC
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -18,19 +18,17 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.jgit.internal.storage.file.Pack;
 import org.eclipse.jgit.internal.storage.file.PackFile;
-import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
@@ -81,16 +79,26 @@ public class CgitMidxCompatibilityTest extends SampleDataRepositoryTestCase {
 
 	}
 
+	@Test
+	public void jgit_loadsCgitMidx()
+			throws IOException, InterruptedException {
+		assertEquals("cgit exit code", 0, run_cgit_multipackindex_write());
+		byte[] cgitMidxBytes = readCgitMidx();
+		MultiPackIndex midx = MultiPackIndexLoader
+				.read(new ByteArrayInputStream(cgitMidxBytes));
+		assertEquals(7, midx.getPackNames().length);
+	}
+
 	private byte[] generateJGitMidx() throws IOException {
-		Map<String, PackIndex> indexes = new HashMap<>();
+		PackIndexMerger.Builder builder = PackIndexMerger.builder();
 		for (Pack pack : db.getObjectDatabase().getPacks()) {
 			PackFile packFile = pack.getPackFile().create(PackExt.INDEX);
-			indexes.put(packFile.getName(), pack.getIndex());
+			builder.addPack(packFile.getName(), pack.getIndex());
 		}
 
 		MultiPackIndexWriter writer = new MultiPackIndexWriter();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		writer.write(NullProgressMonitor.INSTANCE, out, indexes);
+		writer.write(NullProgressMonitor.INSTANCE, out, builder.build());
 		return out.toByteArray();
 	}
 

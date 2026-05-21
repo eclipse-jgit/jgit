@@ -10,6 +10,7 @@ jmh_java_benchmarks(
     testonly = 1,
     deps = [
         "//lib:javaewah",
+        "//lib:junit",
         "//lib:slf4j-api",
         "//org.eclipse.jgit:jgit",
         "//org.eclipse.jgit.junit:junit",

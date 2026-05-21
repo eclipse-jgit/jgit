@@ -1,0 +1,8 @@
+target "jgit-4.37" with source configurePhase
+
+include "orbit/orbit-4.37.tpd"
+include "maven/dependencies.tpd"
+
+location "https://download.eclipse.org/staging/2025-09/" {
+	org.eclipse.osgi lazy
+}

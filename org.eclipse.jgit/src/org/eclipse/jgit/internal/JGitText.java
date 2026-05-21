@@ -98,6 +98,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String bitmapsMustBePrepared;
 	/***/ public String bitmapUseNoopNoListener;
 	/***/ public String blameNotCommittedYet;
+	/***/ public String blameRegionCoverAllLines;
 	/***/ public String blockLimitNotMultipleOfBlockSize;
 	/***/ public String blockLimitNotPositive;
 	/***/ public String blockSizeNotPowerOf2;
@@ -146,6 +147,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotMoveIndexTo;
 	/***/ public String cannotMovePackTo;
 	/***/ public String cannotOpenService;
+    /***/ public String cannotOpenMidx;
 	/***/ public String cannotParseDate;
 	/***/ public String cannotParseGitURIish;
 	/***/ public String cannotPullOnARepoWithState;
@@ -526,6 +528,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String logLargerFiletimeDiff;
 	/***/ public String logSmallerFiletime;
 	/***/ public String logXDGConfigHomeInvalid;
+
+	/***/ public String logXDGCacheHomeInvalid;
 	/***/ public String looseObjectHandleIsStale;
 	/***/ public String maxCountMustBeNonNegative;
 	/***/ public String mergeConflictOnNonNoteEntries;
@@ -538,6 +542,10 @@ public class JGitText extends TranslationBundle {
 	/***/ public String mergeToolNotGivenError;
 	/***/ public String mergeToolNullError;
 	/***/ public String messageAndTaggerNotAllowedInUnannotatedTags;
+	/***/ public String midxChunkNeeded;
+	/***/ public String midxChunkRepeated;
+    /***/ public String midxChunkTooBig;
+	/***/ public String midxChunkUnknown;
 	/***/ public String minutesAgo;
 	/***/ public String mismatchOffset;
 	/***/ public String mismatchCRC;
@@ -558,6 +566,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String month;
 	/***/ public String months;
 	/***/ public String monthsAgo;
+	/***/ public String multiPackIndexFileIsTooLargeForJgit;
+	/***/ public String multiPackIndexPackCountMismatch;
 	/***/ public String multiPackIndexUnexpectedSize;
 	/***/ public String multiPackIndexWritingCancelled;
 	/***/ public String multipleMergeBasesFor;
@@ -586,6 +596,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String notACommitGraph;
 	/***/ public String notADIRCFile;
 	/***/ public String notAGitDirectory;
+	/***/ public String notAMIDX;
 	/***/ public String notAPACKFile;
 	/***/ public String notARef;
 	/***/ public String notASCIIString;
@@ -661,6 +672,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String pushCertificateInvalidFieldValue;
 	/***/ public String pushCertificateInvalidHeader;
 	/***/ public String pushCertificateInvalidSignature;
+	/***/ public String pushCertificateInconsistentPushOptions;
 	/***/ public String pushDefaultNothing;
 	/***/ public String pushDefaultNoUpstream;
 	/***/ public String pushDefaultSimple;
@@ -808,6 +820,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String tagAlreadyExists;
 	/***/ public String tagNameInvalid;
 	/***/ public String tagOnRepoWithoutHEADCurrentlyNotSupported;
+	/***/ public String temporaryBufferIsDestroyed;
 	/***/ public String timeoutMeasureFsTimestampResolution;
 	/***/ public String transactionAborted;
 	/***/ public String theFactoryMustNotBeNull;
@@ -881,6 +894,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unmergedPaths;
 	/***/ public String unpackException;
 	/***/ public String unreadableCommitGraph;
+	/***/ public String unreadableMIDX;
 	/***/ public String unreadableObjectSizeIndex;
 	/***/ public String unreadablePackIndex;
 	/***/ public String unrecognizedPackExtension;
@@ -894,6 +908,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unsupportedEncryptionVersion;
 	/***/ public String unsupportedGC;
 	/***/ public String unsupportedMark;
+	/***/ public String unsupportedMIDXVersion;
 	/***/ public String unsupportedObjectIdVersion;
 	/***/ public String unsupportedObjectSizeIndexVersion;
 	/***/ public String unsupportedOperationNotAddAtEnd;

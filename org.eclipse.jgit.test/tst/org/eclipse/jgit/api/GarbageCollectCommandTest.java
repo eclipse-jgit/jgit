@@ -9,12 +9,16 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.Properties;
 
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.GcConfig;
+import org.eclipse.jgit.lib.GcConfig.PackRefsMode;
 import org.eclipse.jgit.util.GitTimeParser;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +35,22 @@ public class GarbageCollectCommandTest extends RepositoryTestCase {
 		writeTrashFile(path, "content");
 		git.add().addFilepattern(path).call();
 		git.commit().setMessage("commit").call();
+	}
+
+	@Test
+	public void testPackRefs() throws Exception {
+		assertTrue(hasLooseRef(git));
+
+		// by default, refs should be packed
+		git.gc().call();
+		assertFalse(hasLooseRef(git));
+
+		// now create a loose ref again
+		git.branchCreate().setName("foo").call();
+		assertTrue(hasLooseRef(git));
+
+		git.gc().setGcConfig(new GcConfig(PackRefsMode.FALSE)).call();
+		assertTrue(hasLooseRef(git));
 	}
 
 	@Test
@@ -53,5 +73,11 @@ public class GarbageCollectCommandTest extends RepositoryTestCase {
 		Instant expireNow = GitTimeParser.parseInstant("now");
 		Properties res = git.gc().setExpire(expireNow).call();
 		assertTrue(res.size() == 8);
+	}
+
+	private static boolean hasLooseRef(Git git) throws IOException {
+		return git.getRepository().getRefDatabase().getRefs().stream()
+				.filter(r -> !r.isSymbolic())
+				.anyMatch(r -> r.getStorage().isLoose());
 	}
 }

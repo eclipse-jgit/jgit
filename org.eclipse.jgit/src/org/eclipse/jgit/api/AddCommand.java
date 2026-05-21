@@ -20,7 +20,9 @@ import java.io.InputStream;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import org.eclipse.jgit.api.errors.FilterFailedException;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -110,6 +112,36 @@ public class AddCommand extends GitCommand<DirCache> {
 	public AddCommand addFilepattern(String filepattern) {
 		checkCallable();
 		filepatterns.add(filepattern);
+		return this;
+	}
+
+	/**
+	 * Add paths to a file/directory whose content should be added.
+	 *
+	 * @param patterns
+	 *            repository-relative paths of file/directory to add (with
+	 *            <code>/</code> as separator)
+	 * @return {@code this}
+	 * @since 7.6
+	 */
+	public AddCommand addFilepatterns(String... patterns) {
+		List.of(Objects.requireNonNull(patterns)).forEach(this::addFilepattern);
+		return this;
+	}
+
+	/**
+	 * Add paths to a file/directory whose content should be added.
+	 *
+	 * @param patterns
+	 *            repository-relative paths of file/directory to add (with
+	 *            <code>/</code> as separator)
+	 * @return {@code this}
+	 * @since 7.6
+	 */
+	public AddCommand addFilepatterns(Collection<String> patterns) {
+		if (patterns != null) {
+			patterns.forEach(this::addFilepattern);
+		}
 		return this;
 	}
 

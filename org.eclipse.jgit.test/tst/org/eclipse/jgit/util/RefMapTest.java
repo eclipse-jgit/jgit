@@ -423,7 +423,7 @@ public class RefMapTest {
 		Map.Entry<String, Ref> ent_b = itr.next();
 
 		assertEquals(ent_a.hashCode(), "A".hashCode());
-		assertEquals(ent_a, ent_a);
+		assertTrue(ent_a.equals(ent_a));
 		assertFalse(ent_a.equals(ent_b));
 
 		assertEquals(a.toString(), ent_a.toString());

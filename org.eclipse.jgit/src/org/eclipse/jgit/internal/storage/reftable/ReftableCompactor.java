@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.reftable;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.Instant;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,20 +29,26 @@ import org.eclipse.jgit.lib.ReflogEntry;
  * to shadow any lower reftable that may have the reference present.
  * <p>
  * By default all log entries within the range defined by
- * {@link #setReflogExpireMinUpdateIndex(long)} and {@link #setReflogExpireMaxUpdateIndex(long)} are
- * copied, even if no references in the output file match the log records.
- * Callers may truncate the log to a more recent time horizon with
- * {@link #setReflogExpireOldestReflogTimeMillis(long)}, or disable the log altogether with
- * {@code setOldestReflogTimeMillis(Long.MAX_VALUE)}.
+ * {@link #setReflogExpireMinUpdateIndex(long)} and
+ * {@link #setReflogExpireMaxUpdateIndex(long)} are copied, even if no
+ * references in the output file match the log records. Callers may truncate the
+ * log to a more recent time horizon with
+ * {@link #setReflogExpireOlderThan(Instant)}, or disable the log
+ * altogether with {@code setReflogExpireOldestReflogTime(Instant.MAX)}.
  */
 public class ReftableCompactor {
 	private final ReftableWriter writer;
+
 	private final ArrayDeque<ReftableReader> tables = new ArrayDeque<>();
 
 	private boolean includeDeletes;
+
 	private long reflogExpireMinUpdateIndex = 0;
+
 	private long reflogExpireMaxUpdateIndex = Long.MAX_VALUE;
-	private long reflogExpireOldestReflogTimeMillis;
+
+	private Instant reflogExpireOldestReflogTime = Instant.EPOCH;
+
 	private Stats stats;
 
 	/**
@@ -122,9 +129,29 @@ public class ReftableCompactor {
 	 *            entries that predate {@code timeMillis} will be discarded.
 	 *            Specified in Java standard milliseconds since the epoch.
 	 * @return {@code this}
+	 *
+	 * @deprecated Use {@link #setReflogExpireOlderThan(Instant)} instead
 	 */
-	public ReftableCompactor setReflogExpireOldestReflogTimeMillis(long timeMillis) {
-		reflogExpireOldestReflogTimeMillis = timeMillis;
+	@Deprecated(since="7.3")
+	public ReftableCompactor setReflogExpireOldestReflogTimeMillis(
+			long timeMillis) {
+		return setReflogExpireOlderThan(timeMillis == Long.MAX_VALUE
+				? Instant.MAX
+				: Instant.ofEpochMilli(timeMillis));
+	}
+
+	/**
+	 * Set oldest reflog time to preserve.
+	 *
+	 * @param cutTime
+	 *            oldest log time to preserve. Entries whose timestamps are
+	 *            {@code >= cutTime} will be copied into the output file. Log
+	 *            entries that predate {@code cutTime} will be discarded.
+	 * @return {@code this}
+	 */
+	public ReftableCompactor setReflogExpireOlderThan(
+			Instant cutTime) {
+		reflogExpireOldestReflogTime = cutTime;
 		return this;
 	}
 
@@ -182,14 +209,15 @@ public class ReftableCompactor {
 	}
 
 	private void mergeLogs(MergedReftable mr) throws IOException {
-		if (reflogExpireOldestReflogTimeMillis == Long.MAX_VALUE) {
+		if (reflogExpireOldestReflogTime == Instant.MAX) {
 			return;
 		}
 
 		try (LogCursor lc = mr.allLogs()) {
 			while (lc.next()) {
 				long updateIndex = lc.getUpdateIndex();
-				if (updateIndex > reflogExpireMaxUpdateIndex || updateIndex < reflogExpireMinUpdateIndex) {
+				if (updateIndex > reflogExpireMaxUpdateIndex
+						|| updateIndex < reflogExpireMinUpdateIndex) {
 					continue;
 				}
 
@@ -203,14 +231,9 @@ public class ReftableCompactor {
 				}
 
 				PersonIdent who = log.getWho();
-				if (who.getWhen().getTime() >= reflogExpireOldestReflogTimeMillis) {
-					writer.writeLog(
-							refName,
-							updateIndex,
-							who,
-							log.getOldId(),
-							log.getNewId(),
-							log.getComment());
+				if (who.getWhenAsInstant().compareTo(reflogExpireOldestReflogTime) >= 0) {
+					writer.writeLog(refName, updateIndex, who, log.getOldId(),
+							log.getNewId(), log.getComment());
 				}
 			}
 		}

@@ -13,13 +13,14 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static java.util.stream.Collectors.joining;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,13 +28,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.internal.storage.file.BasePackIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
-import org.eclipse.jgit.internal.storage.pack.PackIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackBitmapIndexWriter;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.internal.storage.pack.PackIndexWriter;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -51,16 +54,6 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		@Override
 		boolean dirty() {
 			return true;
-		}
-
-		@Override
-		void clearDirty() {
-			// Always dirty.
-		}
-
-		@Override
-		public void markDirty() {
-			// Always dirty.
 		}
 	};
 
@@ -208,6 +201,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 
 	private Comparator<DfsPackDescription> packComparator;
 
+	private boolean useMultipackIndex;
+
 	/**
 	 * Initialize an object database for our repository.
 	 *
@@ -222,6 +217,9 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		this.packList = new AtomicReference<>(NO_PACKS);
 		this.readerOptions = options;
 		this.packComparator = DfsPackDescription.objectLookupComparator();
+		this.useMultipackIndex = repository.getConfig().getBoolean(
+				ConfigConstants.CONFIG_CORE_SECTION,
+				ConfigConstants.CONFIG_KEY_MULTIPACKINDEX, false);
 	}
 
 	/**
@@ -256,6 +254,28 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	@Override
 	public ObjectInserter newInserter() {
 		return new DfsInserter(this);
+	}
+
+	/**
+	 * Whether to use multipack indexes in the list of packs
+	 * <p>
+	 * This overrides the value in the core.multiPackIndex config key read at
+	 * construction time.
+	 *
+	 * @param value
+	 *            value to set in the flag
+	 */
+	public void setUseMultipackIndex(boolean value) {
+		this.useMultipackIndex = value;
+	}
+
+	/**
+	 * Should this object db return multipack indexes
+	 *
+	 * @return current value of the flag
+	 */
+	protected boolean useMultipackIndex() {
+		return this.useMultipackIndex;
 	}
 
 	/**
@@ -430,6 +450,9 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 
 	/**
 	 * Implementation of pack commit.
+	 * <p>
+	 * Implementations must take care to clean up midxs that become invalid when
+	 * any of their covered packs is replaced.
 	 *
 	 * @see #commitPack(Collection, Collection)
 	 * @param desc
@@ -465,6 +488,11 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 * The returned list must support random access and must be mutable by the
 	 * caller. It is sorted in place using the natural sorting of the returned
 	 * DfsPackDescription objects.
+	 * <p>
+	 * With multipack index enabled, this method returns the descriptions of the
+	 * multipack index(es) (which include descriptions of covered packs) and of
+	 * packs not covered by the midxs. With multipack index disabled, it returns
+	 * only regular packs (the midx is just ignored).
 	 *
 	 * @return available packs. May be empty if there are no packs.
 	 * @throws java.io.IOException
@@ -534,7 +562,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			DfsPackFile[] packs = new DfsPackFile[1 + o.packs.length];
 			packs[0] = newPack;
 			System.arraycopy(o.packs, 0, packs, 1, o.packs.length);
-			n = new PackListImpl(packs, o.reftables);
+			n = new PackList(packs, o.reftables);
 		} while (!packList.compareAndSet(o, n));
 	}
 
@@ -559,7 +587,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 				}
 			}
 			tables.add(new DfsReftable(add));
-			n = new PackListImpl(o.packs, tables.toArray(new DfsReftable[0]));
+			n = new PackList(o.packs, tables.toArray(new DfsReftable[0]));
 		} while (!packList.compareAndSet(o, n));
 	}
 
@@ -588,11 +616,13 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		Map<DfsPackDescription, DfsPackFile> packs = packMap(old);
 		Map<DfsPackDescription, DfsReftable> reftables = reftableMap(old);
 
-		List<DfsPackDescription> scanned = listPacks();
-		Collections.sort(scanned, packComparator);
+		List<DfsPackDescription> scanned = useMultipackIndex()
+				? MidxPackFilter.useMidx(listPacks())
+				: MidxPackFilter.skipMidxs(listPacks());
+		scanned.sort(packComparator);
 
 		List<DfsPackFile> newPacks = new ArrayList<>(scanned.size());
-		List<DfsReftable> newReftables = new ArrayList<>(scanned.size());
+		List<DfsPackDescription> packsWithReftables = new ArrayList<>();
 		boolean foundNew = false;
 		for (DfsPackDescription dsc : scanned) {
 			DfsPackFile oldPack = packs.remove(dsc);
@@ -601,8 +631,20 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			} else if (dsc.hasFileExt(PackExt.PACK)) {
 				newPacks.add(createDfsPackFile(cache, dsc));
 				foundNew = true;
+			} else if (dsc.hasFileExt(MULTI_PACK_INDEX)) {
+				newPacks.add(
+						createDfsPackFileMidx(cache, dsc, packsWithReftables));
+				foundNew = true;
 			}
 
+			if (dsc.hasFileExt(REFTABLE)) {
+				packsWithReftables.add(dsc);
+			}
+		}
+
+		List<DfsReftable> newReftables = new ArrayList<>(
+				packsWithReftables.size());
+		for (DfsPackDescription dsc : packsWithReftables) {
 			DfsReftable oldReftable = reftables.remove(dsc);
 			if (oldReftable != null) {
 				newReftables.add(oldReftable);
@@ -613,20 +655,19 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		}
 
 		if (newPacks.isEmpty() && newReftables.isEmpty())
-			return new PackListImpl(NO_PACKS.packs, NO_PACKS.reftables);
+			return new PackList(NO_PACKS.packs, NO_PACKS.reftables);
 		if (!foundNew) {
-			old.clearDirty();
 			return old;
 		}
-		Collections.sort(newReftables, reftableComparator());
-		return new PackListImpl(
+		newReftables.sort(reftableComparator());
+		return new PackList(
 				newPacks.toArray(new DfsPackFile[0]),
 				newReftables.toArray(new DfsReftable[0]));
 	}
 
 	/**
 	 * Create instances of DfsPackFile
-	 *
+	 * <p>
 	 * Implementors can decide to construct or wrap DfsPackFile in different
 	 * ways.
 	 *
@@ -636,9 +677,41 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 *            pack description
 	 * @return the dfs packfile
 	 */
-	protected DfsPackFile createDfsPackFile(DfsBlockCache cache,
+	public DfsPackFile createDfsPackFile(DfsBlockCache cache,
 			DfsPackDescription dsc) {
 		return new DfsPackFile(cache, dsc);
+	}
+
+	/**
+	 * Create instances of DfsPackFileMidx
+	 *
+	 * @param cache
+	 *            block cache
+	 * @param dsc
+	 *            pack description
+	 * @param containsReftables
+	 *            used to return packs inside this midx that also have reftables
+	 *
+	 * @return the dfs packfile
+	 */
+	protected DfsPackFileMidx createDfsPackFileMidx(DfsBlockCache cache,
+			DfsPackDescription dsc,
+			List<DfsPackDescription> containsReftables) {
+		DfsPackFileMidx base = null;
+		if (dsc.getMultiPackIndexBase() != null) {
+			// The base is always a multipack index
+			base = createDfsPackFileMidx(cache, dsc.getMultiPackIndexBase(),
+					containsReftables);
+		}
+		// A pack shouldn't be in the pack list and inside a multipack index
+		// at the same time. In that case, we will have it under two
+		// different DfsPackFile instances.
+		List<DfsPackFile> coveredPacks = dsc.getCoveredPacks().stream()
+				.map(desc -> createDfsPackFile(cache, desc))
+				.collect(Collectors.toUnmodifiableList());
+		dsc.getCoveredPacks().stream().filter(d -> d.hasFileExt(REFTABLE))
+				.forEach(containsReftables::add);
+		return DfsPackFileMidx.create(cache, dsc, coveredPacks, base);
 	}
 
 	private static Map<DfsPackDescription, DfsPackFile> packMap(PackList old) {
@@ -685,7 +758,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	}
 
 	/** Snapshot of packs scanned in a single pass. */
-	public abstract static class PackList {
+	public static class PackList {
 		/** All known packs, sorted. */
 		public final DfsPackFile[] packs;
 
@@ -715,39 +788,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			return lastModified;
 		}
 
-		abstract boolean dirty();
-		abstract void clearDirty();
-
-		/**
-		 * Mark pack list as dirty.
-		 * <p>
-		 * Used when the caller knows that new data might have been written to the
-		 * repository that could invalidate open readers depending on this pack list,
-		 * for example if refs are newly scanned.
-		 */
-		public abstract void markDirty();
-	}
-
-	private static final class PackListImpl extends PackList {
-		private volatile boolean dirty;
-
-		PackListImpl(DfsPackFile[] packs, DfsReftable[] reftables) {
-			super(packs, reftables);
-		}
-
-		@Override
 		boolean dirty() {
-			return dirty;
-		}
-
-		@Override
-		void clearDirty() {
-			dirty = false;
-		}
-
-		@Override
-		public void markDirty() {
-			dirty = true;
+			return false;
 		}
 	}
 

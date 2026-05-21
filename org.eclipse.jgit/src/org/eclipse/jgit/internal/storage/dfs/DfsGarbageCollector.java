@@ -25,6 +25,7 @@ import static org.eclipse.jgit.internal.storage.pack.PackWriter.NONE;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -33,6 +34,7 @@ import java.util.EnumSet;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -431,9 +433,10 @@ public class DfsGarbageCollector {
 	}
 
 	private void readPacksBefore() throws IOException {
-		DfsPackFile[] packs = objdb.getPacks();
-		packsBefore = new ArrayList<>(packs.length);
-		expiredGarbagePacks = new ArrayList<>(packs.length);
+		DfsPackFile[] rawPacks = objdb.getPacks();
+		List<DfsPackFile> packs = getPlainPacks(rawPacks);
+		packsBefore = new ArrayList<>(packs.size());
+		expiredGarbagePacks = new ArrayList<>(packs.size());
 
 		long now = SystemReader.getInstance().now().toEpochMilli();
 		for (DfsPackFile p : packs) {
@@ -446,6 +449,24 @@ public class DfsGarbageCollector {
 				packsBefore.add(p);
 			}
 		}
+	}
+
+	private static List<DfsPackFile> getPlainPacks(DfsPackFile[] packs) {
+		List<DfsPackFile> plainPacks = new ArrayList<>();
+		Queue<DfsPackFile> pending = new ArrayDeque<>(
+				Arrays.stream(packs).toList());
+		while (!pending.isEmpty()) {
+			DfsPackFile pack = pending.poll();
+			if (pack instanceof DfsPackFileMidx midxPack) {
+				plainPacks.addAll(midxPack.getCoveredPacks());
+				if (midxPack.getMultipackIndexBase() != null) {
+					pending.add(midxPack.getMultipackIndexBase());
+				}
+			} else {
+				plainPacks.add(pack);
+			}
+		}
+		return plainPacks;
 	}
 
 	private void readReftablesBefore() throws IOException {
@@ -568,6 +589,7 @@ public class DfsGarbageCollector {
 		for (DfsPackFile pack : expiredGarbagePacks) {
 			toPrune.add(pack.getPackDescription());
 		}
+
 		return toPrune;
 	}
 

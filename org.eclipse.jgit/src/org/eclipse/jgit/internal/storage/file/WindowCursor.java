@@ -12,6 +12,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -26,6 +27,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
@@ -35,7 +37,7 @@ import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BitmapIndex;
 import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
-import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.ObjectId;
@@ -49,11 +51,15 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	/** Temporary buffer large enough for at least one raw object id. */
 	final byte[] tempId = new byte[Constants.OBJECT_ID_LENGTH];
 
+	private final boolean useObjectSizeIndex;
+
 	private Inflater inf;
 
 	private ByteWindow window;
 
 	private DeltaBaseCache baseCache;
+
+	private Pack lastPack;
 
 	@Nullable
 	private final ObjectInserter createdFromInserter;
@@ -64,6 +70,10 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		this.db = db;
 		this.createdFromInserter = null;
 		this.streamFileThreshold = WindowCache.getStreamFileThreshold();
+		this.useObjectSizeIndex = db == null ? false
+				: db.getConfig().getBoolean(
+				ConfigConstants.CONFIG_PACK_SECTION,
+				ConfigConstants.CONFIG_KEY_USE_OBJECT_SIZE_INDEX, false);
 	}
 
 	WindowCursor(FileObjectDatabase db,
@@ -71,6 +81,10 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		this.db = db;
 		this.createdFromInserter = createdFromInserter;
 		this.streamFileThreshold = WindowCache.getStreamFileThreshold();
+		this.useObjectSizeIndex = db == null ? false
+				: db.getConfig().getBoolean(
+				ConfigConstants.CONFIG_PACK_SECTION,
+				ConfigConstants.CONFIG_KEY_USE_OBJECT_SIZE_INDEX, false);
 	}
 
 	DeltaBaseCache getDeltaBaseCache() {
@@ -102,13 +116,15 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	@Override
 	public Collection<CachedPack> getCachedPacksAndUpdate(
 			BitmapBuilder needBitmap) throws IOException {
+		List<CachedPack> toUseAsIs = new ArrayList<>();
 		for (Pack pack : db.getPacks()) {
-			PackBitmapIndex index = pack.getBitmapIndex();
-			if (needBitmap.removeAllOrNone(index))
-				return Collections.<CachedPack> singletonList(
-						new LocalCachedPack(Collections.singletonList(pack)));
+			List<Pack> packs = pack.fullyIncludedIn(needBitmap);
+			if (packs.isEmpty()) {
+				continue;
+			}
+			toUseAsIs.add(new LocalCachedPack(packs));
 		}
-		return Collections.emptyList();
+		return toUseAsIs;
 	}
 
 	@Override
@@ -147,8 +163,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		return db.getShallowCommits();
 	}
 
-	@Override
-	public long getObjectSize(AnyObjectId objectId, int typeHint)
+	private long getObjectSizeStorage(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		long sz = db.getObjectSize(this, objectId);
@@ -159,6 +174,63 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 			throw new MissingObjectException(objectId.copy(), typeHint);
 		}
 		return sz;
+	}
+
+	@Override
+	public long getObjectSize(AnyObjectId objectId, int typeHint)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		// Async queue uses hint OBJ_ANY
+		if (typeHint != Constants.OBJ_BLOB) {
+			return getObjectSizeStorage(objectId, typeHint);
+		}
+
+		Pack pack = findPack(objectId);
+		if (pack == null) {
+			// Non-packed object (e.g. loose or in alternates)
+			return getObjectSizeStorage(objectId, typeHint);
+		}
+
+		if (useObjectSizeIndex && pack.hasObjectSizeIndex()) {
+			long sz = pack.getIndexedObjectSize(objectId);
+			if (sz >= 0) {
+				return sz;
+			}
+		}
+		return getObjectSizeStorage(objectId, typeHint);
+	}
+
+	@Override
+	public boolean isNotLargerThan(AnyObjectId objectId, int typeHint,
+			long size)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		if (typeHint != Constants.OBJ_BLOB) {
+			return getObjectSizeStorage(objectId, typeHint) <= size;
+		}
+
+		Pack pack = findPack(objectId);
+		if (pack == null || !pack.hasObjectSizeIndex()) {
+			// Non-packed object (e.g. loose or in alternates)
+			return getObjectSizeStorage(objectId, typeHint) <= size;
+		}
+
+		return pack.getIndexedObjectSize(objectId) <= size;
+	}
+
+	private Pack findPack(AnyObjectId objectId) throws IOException {
+		if (lastPack != null && lastPack.hasObject(objectId)) {
+			return lastPack;
+		}
+
+		for (Pack p : db.getPacks()) {
+			if (p.hasObject(objectId)) {
+				lastPack = p;
+				return p;
+			}
+		}
+
+		return null;
 	}
 
 	@Override

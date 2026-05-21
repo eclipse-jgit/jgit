@@ -27,7 +27,7 @@ import org.eclipse.jgit.lib.Repository;
 /**
  * The representation of a repo sub project.
  *
- * @see <a href="https://code.google.com/p/git-repo/">git-repo project page</a>
+ * @see <a href="https://gerrit.googlesource.com/git-repo/">git-repo project page</a>
  * @since 4.0
  */
 public class RepoProject implements Comparable<RepoProject> {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014, 2021 Andrey Loskutov <loskutov@gmx.de> and others
+ * Copyright (C) 2014, 2025 Andrey Loskutov <loskutov@gmx.de> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -12,7 +12,6 @@ package org.eclipse.jgit.ignore;
 import static org.eclipse.jgit.ignore.IMatcher.NO_MATCH;
 import static org.eclipse.jgit.ignore.internal.Strings.isDirectoryPattern;
 import static org.eclipse.jgit.ignore.internal.Strings.stripTrailing;
-import static org.eclipse.jgit.ignore.internal.Strings.stripTrailingWhitespace;
 
 import java.text.MessageFormat;
 
@@ -72,7 +71,7 @@ public class FastIgnoreRule {
 		if (pattern == null) {
 			throw new IllegalArgumentException("Pattern must not be null!"); //$NON-NLS-1$
 		}
-		if (pattern.length() == 0) {
+		if (pattern.isEmpty() || pattern.charAt(0) == '#') {
 			dirOnly = false;
 			inverse = false;
 			this.matcher = NO_MATCH;
@@ -81,29 +80,19 @@ public class FastIgnoreRule {
 		inverse = pattern.charAt(0) == '!';
 		if (inverse) {
 			pattern = pattern.substring(1);
-			if (pattern.length() == 0) {
+			if (pattern.isEmpty()
+					|| (pattern.length() == 1 && pattern.charAt(0) == '\\')) {
 				dirOnly = false;
 				this.matcher = NO_MATCH;
 				return;
 			}
 		}
-		if (pattern.charAt(0) == '#') {
-			this.matcher = NO_MATCH;
-			dirOnly = false;
-			return;
-		}
-		if (pattern.charAt(0) == '\\' && pattern.length() > 1) {
-			char next = pattern.charAt(1);
-			if (next == '!' || next == '#') {
-				// remove backslash escaping first special characters
-				pattern = pattern.substring(1);
-			}
-		}
 		dirOnly = isDirectoryPattern(pattern);
 		if (dirOnly) {
-			pattern = stripTrailingWhitespace(pattern);
+			pattern = pattern.stripTrailing();
 			pattern = stripTrailing(pattern, PATH_SEPARATOR);
-			if (pattern.length() == 0) {
+			if (pattern.isEmpty()
+					|| (pattern.length() == 1 && pattern.charAt(0) == '\\')) {
 				this.matcher = NO_MATCH;
 				return;
 			}

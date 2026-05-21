@@ -21,7 +21,7 @@ import java.util.zip.Inflater;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 
 /** A cached slice of a {@link BlockBasedFile}. */
-final class DfsBlock {
+sealed class DfsBlock permits DfsBlockMidx {
 	final DfsStreamKey stream;
 	final long start;
 	final long end;
@@ -32,6 +32,14 @@ final class DfsBlock {
 		start = pos;
 		end = pos + buf.length;
 		block = buf;
+	}
+
+	protected DfsBlock(DfsBlock other) {
+		stream = other.stream;
+		start = other.start;
+		end = other.end;
+		// Subclass overrides methods using block
+		block = null;
 	}
 
 	int size() {
@@ -53,7 +61,7 @@ final class DfsBlock {
 		return copy(ptr, dstbuf, dstoff, cnt);
 	}
 
-	int copy(int p, byte[] b, int o, int n) {
+	private int copy(int p, byte[] b, int o, int n) {
 		n = Math.min(block.length - p, n);
 		System.arraycopy(block, p, b, o, n);
 		return n;

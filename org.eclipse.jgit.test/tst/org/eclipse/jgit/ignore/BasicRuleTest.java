@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014, Andrey Loskutov <loskutov@gmx.de> and others
+ * Copyright (C) 2014, 2025 Andrey Loskutov <loskutov@gmx.de> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -31,7 +31,7 @@ public class BasicRuleTest {
 		assertFalse(rule1.getNegation());
 		assertTrue(rule3.getNegation());
 		assertNotEquals(rule1, null);
-		assertEquals(rule1, rule1);
+		assertTrue(rule1.equals(rule1));
 		assertEquals(rule1, rule2);
 		assertNotEquals(rule1, rule3);
 		assertNotEquals(rule1, rule4);
@@ -57,15 +57,5 @@ public class BasicRuleTest {
 		assertEquals("a", Strings.stripTrailing("a/", '/'));
 		assertEquals("a", Strings.stripTrailing("a///", '/'));
 		assertEquals("a/ ", Strings.stripTrailing("a/ ", '/'));
-	}
-
-	@Test
-	public void testStripTrailingWhitespace() {
-		assertEquals("", Strings.stripTrailingWhitespace(""));
-		assertEquals("", Strings.stripTrailingWhitespace("   "));
-		assertEquals("a", Strings.stripTrailingWhitespace("a"));
-		assertEquals("a", Strings.stripTrailingWhitespace("a "));
-		assertEquals("a", Strings.stripTrailingWhitespace("a  "));
-		assertEquals("a", Strings.stripTrailingWhitespace("a \t"));
 	}
 }

@@ -16,7 +16,7 @@
 
   <groupId>org.eclipse.jgit</groupId>
   <artifactId>jgit.tycho.parent</artifactId>
-  <version>7.3.0-SNAPSHOT</version>
+  <version>7.7.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>JGit Tycho Parent</name>
@@ -30,8 +30,8 @@
 
   <properties>
     <java.version>17</java.version>
-    <tycho-version>4.0.11</tycho-version>
-    <target-platform>jgit-4.32</target-platform>
+    <tycho-version>4.0.13</tycho-version>
+    <target-platform>jgit-4.34</target-platform>
     <project.build.outputTimestamp>${git.commit.time}</project.build.outputTimestamp>
   </properties>
 
@@ -189,6 +189,19 @@
               </rules>
             </configuration>
           </execution>
+          <execution>
+            <id>enforce-java</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireJavaVersion>
+                  <version>17</version>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -233,7 +246,7 @@
       <plugin>
         <groupId>io.github.git-commit-id</groupId>
         <artifactId>git-commit-id-maven-plugin</artifactId>
-        <version>9.0.1</version>
+        <version>9.0.2</version>
         <executions>
           <execution>
             <id>get-the-git-infos</id>
@@ -395,12 +408,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.3</version>
+          <version>3.1.4</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.3</version>
+          <version>3.1.4</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

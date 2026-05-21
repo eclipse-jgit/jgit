@@ -81,8 +81,7 @@ public class FileReftableStackTest {
 	}
 
 	public void testCompaction(int N) throws Exception {
-		try (FileReftableStack stack = new FileReftableStack(
-				new File(reftableDir, "refs"), reftableDir, null,
+		try (FileReftableStack stack = new FileReftableStack(reftableDir, null,
 				() -> new Config())) {
 			writeBranches(stack, "refs/heads/branch%d", 0, N);
 			MergedReftable table = stack.getMergedReftable();
@@ -124,8 +123,7 @@ public class FileReftableStackTest {
 		// Can't delete in-use files on Windows.
 		assumeFalse(SystemReader.getInstance().isWindows());
 
-		try (FileReftableStack stack = new FileReftableStack(
-				new File(reftableDir, "refs"), reftableDir, null,
+		try (FileReftableStack stack = new FileReftableStack(reftableDir, null,
 				() -> new Config())) {
 			outer: for (int i = 0; i < 10; i++) {
 				final long next = stack.getMergedReftable().maxUpdateIndex()
@@ -152,8 +150,8 @@ public class FileReftableStackTest {
 			}
 		}
 		assertThrows(FileNotFoundException.class,
-				() -> new FileReftableStack(new File(reftableDir, "refs"),
-						reftableDir, null, () -> new Config()));
+				() -> new FileReftableStack(reftableDir, null,
+						() -> new Config()));
 	}
 
 	@Test

@@ -188,7 +188,7 @@ public class FakeIndexFactory {
 
 		@Override
 		public ObjectId findObject(long offset) {
-			IndexObject indexObject = ridx.get(offset);
+			IndexObject indexObject = ridx.get(Long.valueOf(offset));
 			if (indexObject == null) {
 				return null;
 			}
@@ -198,7 +198,7 @@ public class FakeIndexFactory {
 		@Override
 		public long findNextOffset(long offset, long maxOffset)
 				throws CorruptObjectException {
-			IndexObject o = ridx.get(offset);
+			IndexObject o = ridx.get(Long.valueOf(offset));
 			if (o == null) {
 				throw new CorruptObjectException("Invalid offset"); //$NON-NLS-1$
 			}
@@ -211,7 +211,7 @@ public class FakeIndexFactory {
 
 		@Override
 		public int findPosition(long offset) {
-			IndexObject indexObject = ridx.get(offset);
+			IndexObject indexObject = ridx.get(Long.valueOf(offset));
 			return byOffset.indexOf(indexObject);
 		}
 

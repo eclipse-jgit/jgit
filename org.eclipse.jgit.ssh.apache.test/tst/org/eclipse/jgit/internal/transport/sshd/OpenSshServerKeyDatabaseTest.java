@@ -28,6 +28,7 @@ import org.apache.sshd.certificate.OpenSshCertificateBuilder;
 import org.apache.sshd.common.SshConstants;
 import org.apache.sshd.common.cipher.ECCurves;
 import org.apache.sshd.common.config.keys.KeyUtils;
+import org.apache.sshd.common.config.keys.OpenSshCertificate;
 import org.apache.sshd.common.config.keys.PublicKeyEntry;
 import org.apache.sshd.common.util.security.SecurityUtils;
 import org.eclipse.jgit.annotations.NonNull;
@@ -58,7 +59,8 @@ public class OpenSshServerKeyDatabaseTest {
 	private static PublicKey ec256;
 	private static PublicKey ec384;
 	private static PublicKey caKey;
-	private static PublicKey certificate;
+
+	private static OpenSshCertificate certificate;
 
 	@BeforeClass
 	public static void initKeys() throws Exception {
@@ -179,7 +181,7 @@ public class OpenSshServerKeyDatabaseTest {
 	}
 
 	@Test
-	public void testkeyPlainAndCa() throws Exception {
+	public void testKeyPlainAndCa() throws Exception {
 		Files.write(knownHosts, List.of(
 				"localhost,127.0.0.1 " + PublicKeyEntry.toString(rsa1024),
 				"some.other.com " + PublicKeyEntry.toString(ec384),
@@ -192,7 +194,46 @@ public class OpenSshServerKeyDatabaseTest {
 	}
 
 	@Test
+	public void testCaIsPlain() throws Exception {
+		Files.write(knownHosts, List.of(
+				"localhost,127.0.0.1 " + PublicKeyEntry.toString(rsa1024),
+				"some.other.com " + PublicKeyEntry.toString(ec384),
+				"localhost,127.0.0.1 " + PublicKeyEntry.toString(caKey)));
+		// caKey not marked as cert-authorithy
+		assertFalse(database.accept("localhost", LOCAL, certificate,
+				new KnownHostsConfig(), null));
+	}
+
+	@Test
+	public void testRevokedCa() throws Exception {
+		Files.write(knownHosts,
+				List.of("localhost,127.0.0.1 "
+						+ PublicKeyEntry.toString(rsa1024),
+						"some.other.com " + PublicKeyEntry.toString(ec384),
+						"@revoked localhost,127.0.0.1 "
+								+ PublicKeyEntry.toString(caKey)));
+		assertFalse(database.accept("localhost", LOCAL, certificate,
+				new KnownHostsConfig(), null));
+	}
+
+	@Test
+	public void testRevokedCertifiedKey() throws Exception {
+		Files.write(knownHosts,
+				List.of("localhost,127.0.0.1 "
+						+ PublicKeyEntry.toString(rsa1024),
+						"some.other.com " + PublicKeyEntry.toString(ec384),
+						"@cert-authority localhost,127.0.0.1 "
+								+ PublicKeyEntry.toString(caKey),
+						"@revoked localhost,127.0.0.1 " + PublicKeyEntry
+								.toString(certificate.getCertPubKey())));
+		assertFalse(database.accept("localhost", LOCAL, certificate,
+				new KnownHostsConfig(), null));
+	}
+
+	@Test
 	public void testLookupCertificate() throws Exception {
+		Files.write(knownHosts, List.of("@cert-authority localhost,127.0.0.1 "
+				+ PublicKeyEntry.toString(caKey)));
 		List<PublicKey> keys = database.lookup("localhost", LOCAL,
 				new KnownHostsConfig());
 		// Certificates or CA keys are not reported via lookup.

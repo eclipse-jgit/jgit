@@ -19,6 +19,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +29,7 @@ import org.eclipse.jgit.internal.storage.io.BlockSource;
 import org.eclipse.jgit.internal.storage.reftable.ReftableWriter.Stats;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.junit.Test;
 
@@ -279,6 +282,95 @@ public class ReftableCompactorTest {
 		}
 	}
 
+	@Test
+	public void reflog_all() throws IOException {
+		byte[] inTab;
+		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
+			ReftableWriter writer = new ReftableWriter(inBuf)
+					.setMinUpdateIndex(0).setMaxUpdateIndex(2).begin();
+			writer.writeLog(MASTER, 2, person(Instant.ofEpochSecond(500)),
+					id(3), id(4), null);
+			writer.writeLog(MASTER, 1, person(Instant.ofEpochSecond(300)),
+					id(2), id(3), null);
+			writer.writeLog(MASTER, 0, person(Instant.ofEpochSecond(100)),
+					id(1), id(2), null);
+			writer.finish();
+			inTab = inBuf.toByteArray();
+		}
+
+		ReftableCompactor compactor;
+		try (ByteArrayOutputStream outBuf = new ByteArrayOutputStream()) {
+			compactor = new ReftableCompactor(outBuf);
+			// No setReflogExpire time is set
+			List<ReftableReader> readers = new ArrayList<>();
+			readers.add(read(inTab));
+			compactor.addAll(readers);
+			compactor.compact();
+		}
+		Stats stats = compactor.getStats();
+		assertEquals(3, stats.logCount());
+	}
+
+	@Test
+	public void reflog_setExpireOlderThan() throws IOException {
+		byte[] inTab;
+		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
+			ReftableWriter writer = new ReftableWriter(inBuf)
+					.setMinUpdateIndex(0).setMaxUpdateIndex(2).begin();
+			writer.writeLog(MASTER, 2, person(Instant.ofEpochSecond(500)),
+					id(3), id(4), null);
+			writer.writeLog(MASTER, 1, person(Instant.ofEpochSecond(300)),
+					id(2), id(3), null);
+			writer.writeLog(MASTER, 0, person(Instant.ofEpochSecond(100)),
+					id(1), id(2), null);
+			writer.finish();
+			inTab = inBuf.toByteArray();
+		}
+
+		ReftableCompactor compactor;
+		try (ByteArrayOutputStream outBuf = new ByteArrayOutputStream()) {
+			compactor = new ReftableCompactor(outBuf);
+			compactor.setReflogExpireOlderThan(Instant.ofEpochSecond(300));
+			List<ReftableReader> readers = new ArrayList<>();
+			readers.add(read(inTab));
+			compactor.addAll(readers);
+			compactor.compact();
+		}
+
+		Stats stats = compactor.getStats();
+		assertEquals(2, stats.logCount());
+	}
+
+	@Test
+	public void reflog_disable() throws IOException {
+		byte[] inTab;
+		try (ByteArrayOutputStream inBuf = new ByteArrayOutputStream()) {
+			ReftableWriter writer = new ReftableWriter(inBuf)
+					.setMinUpdateIndex(0).setMaxUpdateIndex(2).begin();
+			writer.writeLog(MASTER, 2, person(Instant.ofEpochSecond(500)),
+					id(3), id(4), null);
+			writer.writeLog(MASTER, 1, person(Instant.ofEpochSecond(300)),
+					id(2), id(3), null);
+			writer.writeLog(MASTER, 0, person(Instant.ofEpochSecond(100)),
+					id(1), id(2), null);
+			writer.finish();
+			inTab = inBuf.toByteArray();
+		}
+
+		ReftableCompactor compactor;
+		try (ByteArrayOutputStream outBuf = new ByteArrayOutputStream()) {
+			compactor = new ReftableCompactor(outBuf);
+			compactor.setReflogExpireOlderThan(Instant.MAX);
+			List<ReftableReader> readers = new ArrayList<>();
+			readers.add(read(inTab));
+			compactor.addAll(readers);
+			compactor.compact();
+		}
+
+		Stats stats = compactor.getStats();
+		assertEquals(0, stats.logCount());
+	}
+
 	private static Ref ref(String name, int id) {
 		return new ObjectIdRef.PeeledNonTag(PACKED, name, id(id));
 	}
@@ -294,6 +386,10 @@ public class ReftableCompactorTest {
 		buf[2] = (byte) ((i >>> 16) & 0xff);
 		buf[3] = (byte) (i >>> 24);
 		return ObjectId.fromRaw(buf);
+	}
+
+	private static PersonIdent person(Instant when) {
+		return new PersonIdent("a. u. thor", "author@jgit.com", when, ZoneId.systemDefault());
 	}
 
 	private static ReftableReader read(byte[] table) {

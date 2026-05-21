@@ -12,6 +12,7 @@ java_library(
     resources = glob(["resources/**"]),
     deps = [
         "//lib:commons-compress",
+        "//lib:commons-io",
         "//lib:commons-lang3",
         # We want these deps to be provided_deps
         "//org.eclipse.jgit:jgit",

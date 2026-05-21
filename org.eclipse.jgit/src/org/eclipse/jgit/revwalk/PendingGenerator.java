@@ -100,11 +100,13 @@ class PendingGenerator extends Generator {
 				}
 
 				final boolean produce;
-				if ((c.flags & UNINTERESTING) != 0)
+				final boolean hadBody = c.getRawBuffer() != null;
+				if ((c.flags & UNINTERESTING) != 0) {
 					produce = false;
-				else {
-					if (filter.requiresCommitBody())
+				} else {
+					if (filter.requiresCommitBody() && !hadBody) {
 						c.parseBody(walker);
+					}
 					produce = filter.include(walker, c);
 				}
 
@@ -140,15 +142,17 @@ class PendingGenerator extends Generator {
 					} else {
 						overScan = OVER_SCAN;
 					}
-					if (canDispose)
+					if (canDispose && !hadBody) {
 						c.disposeBody();
+					}
 					continue;
 				}
 
-				if (produce)
+				if (produce) {
 					return last = c;
-				else if (canDispose)
+				} else if (canDispose && !hadBody) {
 					c.disposeBody();
+				}
 			}
 		} catch (StopWalkException swe) {
 			pending.clear();

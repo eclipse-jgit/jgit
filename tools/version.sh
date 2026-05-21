@@ -170,4 +170,4 @@ perl -pi~ -e '
 	' $(git ls-files | grep pom.xml)
 
 find . -name '*~' | xargs rm -f
-git diff
+git --no-pager diff

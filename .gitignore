@@ -1,8 +1,12 @@
 /.project
 /org.eclipse.jgit.benchmarks/dependency-reduced-pom.xml
+/tools/maven-central/out/
+/tools/maven-central/staging-deploy/
+/tools/maven-central/jreleaser.yml
 target/
 infer-out
 bazel-*
+CLAUDE.md
 
 # Do not add editor- and OS-specific files like *~ (Emacs) and .DS_Store
 # (macOS). Instead, add them to $XDG_CONFIG_HOME/git/ignore

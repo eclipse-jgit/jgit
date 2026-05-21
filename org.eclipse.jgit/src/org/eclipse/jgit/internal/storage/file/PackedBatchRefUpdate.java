@@ -172,13 +172,13 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 			}
 
 			packedRefsLock = refdb.lockPackedRefsOrThrow();
-			PackedRefList oldPackedList = refdb.refreshPackedRefs();
+			PackedRefList oldPackedList = refdb.getLockedPackedRefs(packedRefsLock);
 			RefList<Ref> newRefs = applyUpdates(walk, oldPackedList, pending);
 			if (newRefs == null) {
 				return;
 			}
 			refdb.commitPackedRefs(packedRefsLock, newRefs, oldPackedList,
-					true);
+					true, oldPackedList.traits());
 		} catch (LockFailedException e) {
 			lockFailure(pending.get(0), pending);
 			return;

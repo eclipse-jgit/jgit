@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.zip.Deflater;
 
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -39,6 +41,7 @@ import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRng;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -47,6 +50,7 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.transport.PackedObjectInfo;
@@ -293,6 +297,29 @@ public class PackTest extends LocalDiskRepositoryTestCase {
 			assertTrue(in instanceof ObjectStream.Filter);
 			assertEquals(1, in.available());
 		}
+	}
+
+	@Test
+	public void testObjectSize() throws Exception {
+		byte[] data = getRng().nextBytes(300);
+		RevBlob aBlob = tr.blob(data);
+		RevCommit aCommit = tr.branch("master").commit().add("A", aBlob).create();
+		repo.getConfig().setInt(CONFIG_PACK_SECTION, null, ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX, 0);
+		tr.packAndPrune();
+
+		List<Pack> packs = repo.getObjectDatabase().getPacks().stream().collect(Collectors.toList());
+		assertEquals(1, packs.size());
+		// Indexed object
+		assertEquals(300, packs.get(0).getIndexedObjectSize(aBlob));
+		assertEquals(300, packs.get(0).getObjectSize(wc, aBlob));
+		// Non indexed object
+		assertEquals(-1, packs.get(0).getIndexedObjectSize(aCommit));
+		assertEquals(168, packs.get(0).getObjectSize(wc, aCommit));
+		// Object not in pack
+		assertEquals(-1, packs.get(0).getObjectSize(wc,
+				ObjectId.fromString("1111111111111111111111111111111111111111")));
+		assertEquals(-1, packs.get(0).getIndexedObjectSize(
+				ObjectId.fromString("1111111111111111111111111111111111111111")));
 	}
 
 	private static byte[] clone(int first, byte[] base) {

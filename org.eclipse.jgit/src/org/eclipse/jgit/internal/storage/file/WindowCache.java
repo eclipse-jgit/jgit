@@ -522,7 +522,8 @@ public class WindowCache {
 			bs = tableSize / 2;
 		}
 		removalBlockSize = bs;
-		numRemovalBlocks = tableSize / removalBlockSize;
+		numRemovalBlocks = (int) Math
+				.ceil((double) tableSize / removalBlockSize);
 		blockBeingRemoved = numRemovalBlocks - 1;
 
 		if (maxFiles < 1)

@@ -44,7 +44,7 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * Repo XML manifest parser.
  *
- * @see <a href="https://code.google.com/p/git-repo/">git-repo project page</a>
+ * @see <a href="https://gerrit.googlesource.com/git-repo/">git-repo project page</a>
  * @since 4.0
  */
 public class ManifestParser extends DefaultHandler {
@@ -142,7 +142,17 @@ public class ManifestParser extends DefaultHandler {
 		xmlInRead++;
 		final XMLReader xr;
 		try {
-			xr = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
+			SAXParserFactory spf = SAXParserFactory.newInstance();
+			spf.setFeature(
+					"http://xml.org/sax/features/external-general-entities", //$NON-NLS-1$
+					false);
+			spf.setFeature(
+					"http://xml.org/sax/features/external-parameter-entities", //$NON-NLS-1$
+					false);
+			spf.setFeature(
+					"http://apache.org/xml/features/disallow-doctype-decl", //$NON-NLS-1$
+					true);
+			xr = spf.newSAXParser().getXMLReader();
 		} catch (SAXException | ParserConfigurationException e) {
 			throw new IOException(JGitText.get().noXMLParserAvailable, e);
 		}

@@ -164,7 +164,7 @@ public class CGitVsJGitRandomIgnorePatternTest {
 		private String readProcessStream(InputStream processStream)
 				throws IOException {
 			try (BufferedReader stdOut = new BufferedReader(
-					new InputStreamReader(processStream))) {
+					new InputStreamReader(processStream, UTF_8))) {
 
 				StringBuilder out = new StringBuilder();
 				String s;

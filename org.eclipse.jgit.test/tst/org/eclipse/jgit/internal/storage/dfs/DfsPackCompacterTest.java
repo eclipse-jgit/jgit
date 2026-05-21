@@ -14,6 +14,7 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.CO
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.INSERT;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -21,14 +22,25 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.zip.Deflater;
 
+import org.eclipse.jgit.internal.storage.reftable.ReftableConfig;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.junit.TestRng;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.Before;
 import org.junit.Test;
 
 public class DfsPackCompacterTest {
+	private static final int AUTO_ADD_SIZE = 5 * 1024 * 1024; // 5 MiB
+
 	private TestRepository<InMemoryRepository> git;
 	private InMemoryRepository repo;
 	private DfsObjDatabase odb;
@@ -137,19 +149,143 @@ public class DfsPackCompacterTest {
 		assertFalse(compactPack.get().getPackDescription().hasFileExt(OBJECT_SIZE_INDEX));
 	}
 
+	@Test
+	public void testPrunePack() throws Exception {
+		ObjectId o1 = writePackWithRandomBlob(200);
+		ObjectId o2 = writePackWithRandomBlob(100);
+		ObjectId o3 = writePackWithRandomBlob(210);
+		DfsPackFile[] packsToCompact = odb.getPacks();
+
+		DfsPackCompactor compactor = new DfsPackCompactor(repo);
+		compactor.add(packsToCompact[1]);
+		compactor.add(packsToCompact[2]);
+		compactor.prune(packsToCompact[0]);
+
+		compactor.compact(null);
+
+		assertEquals(1, odb.getPacks().length);
+		assertFalse(odb.has(o3)); // pack with o3 was pruned
+		assertTrue(odb.has(o1));
+		assertTrue(odb.has(o2));
+	}
+
+	@Test
+	public void testPrunePack_packIncludedOnlyForRefs() throws Exception {
+		String MAIN = "refs/heads/main";
+		String DEV = "refs/heads/dev";
+		ObjectId o1 = writePackWithRandomBlob(200);
+		writeRef(MAIN, ObjectId.zeroId(), o1);
+		compact(); // Creates one pack with objects and reftables
+		assertEquals(1, odb.listPacks().size());
+		DfsPackDescription combinedPack = odb.listPacks().get(0);
+
+		ObjectId o2 = writePackWithRandomBlob(100);
+		ObjectId o3 = writePackWithRandomBlob(140);
+		writeRef(DEV, ObjectId.zeroId(), o2);
+
+		DfsPackCompactor compactor = new DfsPackCompactor(repo);
+		compactor.setReftableConfig(new ReftableConfig());
+		// Add combinedPack for refs but not for data
+		Arrays.stream(repo.getObjectDatabase().getReftables())
+				.forEach(compactor::add);
+		Arrays.stream(repo.getObjectDatabase().getPacks())
+				.filter(p -> !p.getPackDescription().equals(combinedPack))
+				.forEach(compactor::add);
+		compactor.compact(NullProgressMonitor.INSTANCE);
+
+		assertTrue(odb.has(o1));
+		assertTrue(odb.has(o2));
+		assertTrue(odb.has(o3));
+		assertEquals(o1, repo.getRefDatabase().findRef(MAIN).getObjectId());
+		assertEquals(o2, repo.getRefDatabase().findRef(DEV).getObjectId());
+	}
+
+	@Test
+	public void testPrunePack_packIncludedOnlyForObjects() throws Exception {
+		String MAIN = "refs/heads/main";
+		String DEV = "refs/heads/dev";
+		ObjectId o1 = writePackWithRandomBlob(200);
+		writeRef(MAIN, ObjectId.zeroId(), o1);
+		compact(); // Creates one pack with objects and reftables
+		assertEquals(1, odb.listPacks().size());
+		DfsPackDescription combinedPack = odb.listPacks().get(0);
+
+		ObjectId o2 = writePackWithRandomBlob(100);
+		ObjectId o3 = writePackWithRandomBlob(140);
+		writeRef(DEV, ObjectId.zeroId(), o2);
+
+		DfsPackCompactor compactor = new DfsPackCompactor(repo);
+		compactor.setReftableConfig(new ReftableConfig());
+		// Add combinedPack for objects but not for refs
+		Arrays.stream(repo.getObjectDatabase().getReftables())
+				.filter(p -> !p.getPackDescription().equals(combinedPack))
+				.forEach(compactor::add);
+		Arrays.stream(repo.getObjectDatabase().getPacks())
+				.forEach(compactor::add);
+		compactor.compact(NullProgressMonitor.INSTANCE);
+
+		assertTrue(odb.has(o1));
+		assertTrue(odb.has(o2));
+		assertTrue(odb.has(o3));
+		assertEquals(o1, repo.getRefDatabase().findRef(MAIN).getObjectId());
+		assertEquals(o2, repo.getRefDatabase().findRef(DEV).getObjectId());
+	}
+
 	private TestRepository<InMemoryRepository>.CommitBuilder commit() {
 		return git.commit();
 	}
 
 	private void compact() throws IOException {
 		DfsPackCompactor compactor = new DfsPackCompactor(repo);
-		compactor.autoAdd();
+		compactor.setReftableConfig(new ReftableConfig());
+		DfsObjDatabase objdb = repo.getObjectDatabase();
+		for (DfsPackFile pack : objdb.getPacks()) {
+			DfsPackDescription d = pack.getPackDescription();
+			if (d.getFileSize(PACK) < AUTO_ADD_SIZE) {
+				compactor.add(pack);
+			} else {
+				compactor.exclude(pack);
+			}
+		}
+
+		Arrays.stream(repo.getObjectDatabase().getReftables())
+				.forEach(compactor::add);
 		compactor.compact(null);
 		odb.clearCache();
 	}
 
 	private static void writeObjectSizeIndex(DfsRepository repo, boolean should) {
 		repo.getConfig().setInt(ConfigConstants.CONFIG_PACK_SECTION, null,
-				ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX, should ? 0 : -1);
+				ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX,
+				should ? 0 : -1);
+	}
+
+	private ObjectId writePackWithBlob(byte[] data) throws IOException {
+		DfsInserter ins = (DfsInserter) repo.newObjectInserter();
+		ins.setCompressionLevel(Deflater.NO_COMPRESSION);
+		ObjectId blobId = ins.insert(OBJ_BLOB, data);
+		ins.flush();
+		return blobId;
+	}
+
+	// Do not use the size twice into the same test (it gives the same blob!)
+	private ObjectId writePackWithRandomBlob(int size) throws IOException {
+		byte[] data = new TestRng(JGitTestUtil.getName()).nextBytes(size);
+		return writePackWithBlob(data);
+	}
+
+	// RefDb does "compactDuringCommit". This only creates a new pack at the
+	// beginning or after compact.
+	private void writeRef(String name, ObjectId oldValue, ObjectId newValue)
+			throws IOException {
+		BatchRefUpdate batchRefUpdate = repo.getRefDatabase().newBatchUpdate();
+		// We move the ref between blobs, it is always non fast-forward
+		batchRefUpdate.setAllowNonFastForwards(true);
+		batchRefUpdate.addCommand(new ReceiveCommand(oldValue, newValue, name));
+		try (RevWalk rw = new RevWalk(repo)) {
+			batchRefUpdate.execute(rw, NullProgressMonitor.INSTANCE);
+			assertEquals(ReceiveCommand.Result.OK,
+					batchRefUpdate.getCommands().get(0).getResult());
+		}
 	}
 }

@@ -30,11 +30,11 @@ build:remote --disk_cache=
 
 # Set several flags related to specifying the platform, toolchain and java
 # properties.
-build:remote --crosstool_top=@ubuntu2204_jdk17//cc:toolchain
-build:remote --extra_toolchains=@ubuntu2204_jdk17//config:cc-toolchain
-build:remote --extra_execution_platforms=@ubuntu2204_jdk17//config:platform
-build:remote --host_platform=@ubuntu2204_jdk17//config:platform
-build:remote --platforms=@ubuntu2204_jdk17//config:platform
+build:remote --crosstool_top=@rbe_autoconfig//cc:toolchain
+build:remote --extra_toolchains=@rbe_autoconfig//config:cc-toolchain
+build:remote --extra_execution_platforms=@rbe_autoconfig//config:platform
+build:remote --host_platform=@rbe_autoconfig//config:platform
+build:remote --platforms=@rbe_autoconfig//config:platform
 
 # Set various strategies so that all actions execute remotely. Mixing remote
 # and local execution will lead to errors unless the toolchain and remote

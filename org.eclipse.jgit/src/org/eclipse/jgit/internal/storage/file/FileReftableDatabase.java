@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
@@ -73,19 +72,14 @@ public class FileReftableDatabase extends RefDatabase {
 
 	private final FileReftableStack reftableStack;
 
-	private final AtomicBoolean autoRefresh;
+	private volatile boolean autoRefresh;
 
 	FileReftableDatabase(FileRepository repo) throws IOException {
-		this(repo, new File(new File(repo.getCommonDirectory(), Constants.REFTABLE),
-				Constants.TABLES_LIST));
-	}
-
-	FileReftableDatabase(FileRepository repo, File refstackName) throws IOException {
 		this.fileRepository = repo;
-		this.autoRefresh = new AtomicBoolean(repo.getConfig().getBoolean(
+		this.autoRefresh = repo.getConfig().getBoolean(
 				ConfigConstants.CONFIG_REFTABLE_SECTION,
-				ConfigConstants.CONFIG_KEY_AUTOREFRESH, false));
-		this.reftableStack = new FileReftableStack(refstackName,
+				ConfigConstants.CONFIG_KEY_AUTOREFRESH, false);
+		this.reftableStack = new FileReftableStack(
 				new File(fileRepository.getCommonDirectory(), Constants.REFTABLE),
 			() -> fileRepository.fireEvent(new RefsChangedEvent()),
 			() -> fileRepository.getConfig());
@@ -242,7 +236,7 @@ public class FileReftableDatabase extends RefDatabase {
 	 *            date.
 	 */
 	public void setAutoRefresh(boolean autoRefresh) {
-		this.autoRefresh.set(autoRefresh);
+		this.autoRefresh = autoRefresh;
 	}
 
 	/**
@@ -252,11 +246,11 @@ public class FileReftableDatabase extends RefDatabase {
 	 *         date.
 	 */
 	public boolean isAutoRefresh() {
-		return autoRefresh.get();
+		return autoRefresh;
 	}
 
 	private void autoRefresh() {
-		if (autoRefresh.get()) {
+		if (autoRefresh) {
 			refresh();
 		}
 	}
@@ -270,8 +264,14 @@ public class FileReftableDatabase extends RefDatabase {
 	public void refresh() {
 		try {
 			if (!reftableStack.isUpToDate()) {
-				reftableDatabase.clearCache();
-				reftableStack.reload();
+				ReentrantLock lock = getLock();
+				lock.lock();
+				try {
+					reftableDatabase.clearCache();
+					reftableStack.reload();
+				} finally {
+					lock.unlock();
+				}
 			}
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
@@ -622,9 +622,7 @@ public class FileReftableDatabase extends RefDatabase {
 		if (writeLogs) {
 			for (Ref r : refs) {
 				ReflogReader rlr = refDb.getReflogReader(r);
-				if (rlr != null) {
-					size = Math.max(rlr.getReverseEntries().size(), size);
-				}
+				size = Math.max(rlr.getReverseEntries().size(), size);
 			}
 		}
 		// We must use 1 here, nextUpdateIndex() on the empty stack is 1.
@@ -684,32 +682,20 @@ public class FileReftableDatabase extends RefDatabase {
 	 *            the repository
 	 * @param writeLogs
 	 *            whether to write reflogs
-	 * @return a reftable based RefDB from an existing repository.
 	 * @throws IOException
 	 *             on IO error
 	 */
-	public static FileReftableDatabase convertFrom(FileRepository repo,
-			boolean writeLogs) throws IOException {
-		FileReftableDatabase newDb = null;
-		File reftableList = null;
-		try {
-			File reftableDir = new File(repo.getCommonDirectory(),
-					Constants.REFTABLE);
-			reftableList = new File(reftableDir, Constants.TABLES_LIST);
-			if (!reftableDir.isDirectory()) {
-				reftableDir.mkdir();
-			}
-
-			try (FileReftableStack stack = new FileReftableStack(reftableList,
-					reftableDir, null, () -> repo.getConfig())) {
-				stack.addReftable(rw -> writeConvertTable(repo, rw, writeLogs));
-			}
-			reftableList = null;
-		} finally {
-			if (reftableList != null) {
-				reftableList.delete();
-			}
+	public static void convertFrom(FileRepository repo, boolean writeLogs)
+			throws IOException {
+		File reftableDir = new File(repo.getCommonDirectory(),
+				Constants.REFTABLE);
+		if (!reftableDir.isDirectory()) {
+			reftableDir.mkdir();
 		}
-		return newDb;
+
+		try (FileReftableStack stack = new FileReftableStack(reftableDir, null,
+				() -> repo.getConfig())) {
+			stack.addReftable(rw -> writeConvertTable(repo, rw, writeLogs));
+		}
 	}
 }

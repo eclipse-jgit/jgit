@@ -110,10 +110,10 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 		}
 		if (!filters.isEmpty()) {
 			if (filters.size() == 1) {
-				filters.add(TreeFilter.ANY_DIFF);
+				walk.setTreeFilter(filters.get(0));
+			} else {
+				walk.setTreeFilter(AndTreeFilter.create(filters));
 			}
-			walk.setTreeFilter(AndTreeFilter.create(filters));
-
 		}
 		if (skip > -1 && maxCount > -1)
 			walk.setRevFilter(AndRevFilter.create(SkipRevFilter.create(skip),

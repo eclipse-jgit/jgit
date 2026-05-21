@@ -34,12 +34,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.text.MessageFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -235,6 +238,8 @@ public class ReceivePack {
 	private PushCertificate pushCert;
 
 	private ReceivedPackStatistics stats;
+	private long timeReceiving;
+	private long timeCheckingConnectivity;
 
 	/**
 	 * Connectivity checker to use.
@@ -1102,8 +1107,9 @@ public class ReceivePack {
 	 * @return if the client is a shallow repository, the list of edge commits
 	 *         that define the client's shallow boundary. Empty set if the
 	 *         client is earlier than Git 1.9, or is a full clone.
+	 * @since 7.7
 	 */
-	private Set<ObjectId> getClientShallowCommits() {
+	protected Set<ObjectId> getClientShallowCommits() {
 		return clientShallowCommits;
 	}
 
@@ -1201,11 +1207,16 @@ public class ReceivePack {
 	 */
 	protected void receivePackAndCheckConnectivity() throws IOException,
 			LargeObjectException, SubmoduleValidationException {
+		Instant start = Instant.now();
 		receivePack();
+		timeReceiving = Duration.between(start, Instant.now()).toMillis();
+
 		if (needCheckConnectivity()) {
 			checkSubmodules();
 			checkConnectivity();
 		}
+		timeCheckingConnectivity = Duration.between(start, Instant.now())
+				.toMillis() - timeReceiving;
 		parser = null;
 	}
 
@@ -1375,6 +1386,11 @@ public class ReceivePack {
 			if (hasCommands()) {
 				readPostCommands(pck);
 			}
+			// Verify that push options in the certificate match the post-command ones.
+			if (pushCert != null) {
+				validateCertificatePushOptions(pushCert.getPushOptions(),
+						pushOptions, commands);
+			}
 		} catch (Throwable t) {
 			discardCommands();
 			throw t;
@@ -1403,6 +1419,35 @@ public class ReceivePack {
 			throw new PackProtocolException(e.getMessage(), e);
 		}
 		clientShallowCommits.add(id);
+	}
+
+	/**
+	 * Validates that push options in the certificate match the post-command
+	 * push options. If they don't match, marks all commands as rejected.
+	 * <p>
+	 * This prevents tampering with signed push certificates by ensuring the
+	 * options that were signed match exactly the options sent after the
+	 * commands.
+	 *
+	 * @param certPushOptions
+	 *            the push options from the certificate
+	 * @param postCommandPushOptions
+	 *            the push options sent after commands (may be null)
+	 * @param commands
+	 *            the list of commands to reject if validation fails
+	 */
+	static void validateCertificatePushOptions(List<String> certPushOptions,
+			List<String> postCommandPushOptions, List<ReceiveCommand> commands) {
+		List<String> postOptions = postCommandPushOptions == null
+				? Collections.emptyList()
+				: postCommandPushOptions;
+		if (!Objects.equals(certPushOptions, postOptions)) {
+			// Mark all commands as rejected like in C Git.
+			for (ReceiveCommand cmd : commands) {
+				cmd.setResult(Result.REJECTED_OTHER_REASON,
+						JGitText.get().pushCertificateInconsistentPushOptions);
+			}
+		}
 	}
 
 	/**
@@ -2191,6 +2236,7 @@ public class ReceivePack {
 	}
 
 	private void service() throws IOException {
+		Instant startNegotiating = Instant.now();
 		if (isBiDirectionalPipe()) {
 			sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
 			pckOut.flush();
@@ -2200,6 +2246,8 @@ public class ReceivePack {
 			return;
 
 		recvCommands();
+		long timeNegotiating = Duration.between(startNegotiating, Instant.now())
+				.toMillis();
 
 		if (hasCommands()) {
 			try (PostReceiveExecutor e = new PostReceiveExecutor()) {
@@ -2214,6 +2262,8 @@ public class ReceivePack {
 					}
 				}
 
+				Instant startProcessing = Instant.now();
+				long timePreReceiveHooks = 0;
 				try {
 					setAtomic(isCapabilityEnabled(CAPABILITY_ATOMIC));
 
@@ -2222,8 +2272,10 @@ public class ReceivePack {
 						failPendingCommands();
 					}
 
+					Instant startPreReceive = Instant.now();
 					preReceive.onPreReceive(
 							this, filterCommands(Result.NOT_ATTEMPTED));
+					timePreReceiveHooks = Duration.between(startPreReceive, Instant.now()).toMillis();
 					if (atomic && anyRejects()) {
 						failPendingCommands();
 					}
@@ -2231,6 +2283,18 @@ public class ReceivePack {
 				} finally {
 					unlockPack();
 				}
+				long timeProcessingCommands = Duration
+						.between(startProcessing, Instant.now()).toMillis() - timePreReceiveHooks;
+
+				ReceivedPackStatistics.Builder statsBuilder = stats != null
+						? ReceivedPackStatistics.Builder.toBuilder(stats)
+						: new ReceivedPackStatistics.Builder();
+				stats = statsBuilder.setTimeNegotiating(timeNegotiating)
+						.setTimeReceiving(timeReceiving)
+						.setTimeCheckingConnectivity(timeCheckingConnectivity)
+						.setTimePreReceiveHooks(timePreReceiveHooks)
+						.setTimeProcessingCommands(timeProcessingCommands)
+						.build();
 
 				sendStatusReport(null);
 			}

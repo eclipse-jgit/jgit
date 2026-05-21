@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014, Andrey Loskutov <loskutov@gmx.de> and others
+ * Copyright (C) 2014, 2025 Andrey Loskutov <loskutov@gmx.de> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -28,7 +28,7 @@ public class NameMatcher extends AbstractMatcher {
 		super(pattern, dirOnly);
 		slash = getPathSeparator(pathSeparator);
 		if (deleteBackslash) {
-			pattern = Strings.deleteBackslash(pattern);
+			pattern = Strings.unescape(pattern);
 		}
 		beginning = pattern.length() == 0 ? false : pattern.charAt(0) == slash;
 		if (!beginning) {

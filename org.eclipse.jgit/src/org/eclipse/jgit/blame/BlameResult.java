@@ -79,7 +79,6 @@ public class BlameResult {
 
 	BlameResult(BlameGenerator bg, String path, RawText text) {
 		generator = bg;
-		generator.setUseCache(false);
 		resultPath = path;
 		resultContents = text;
 

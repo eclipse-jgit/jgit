@@ -26,6 +26,7 @@ import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.internal.storage.file.GC.RepoStatistics;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.GcConfig;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -66,6 +67,8 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 
 	private Boolean packKeptObjects;
 
+	private GcConfig gcConfig;
+
 	/**
 	 * Constructor for GarbageCollectCommand.
 	 *
@@ -75,6 +78,7 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	protected GarbageCollectCommand(Repository repo) {
 		super(repo);
 		pconfig = new PackConfig(repo);
+		gcConfig = repo.getConfig().get(GcConfig.KEY);
 	}
 
 	/**
@@ -200,6 +204,19 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 		return this;
 	}
 
+	/**
+	 * Set the gc configuration
+	 *
+	 * @param gcConfig
+	 *            the gc configuration
+	 * @return {@code this}
+	 * @since 7.6
+	 */
+	public GarbageCollectCommand setGcConfig(GcConfig gcConfig) {
+		this.gcConfig = gcConfig;
+		return this;
+	}
+
 	@Override
 	public Properties call() throws GitAPIException {
 		checkCallable();
@@ -214,6 +231,7 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 				if (this.packKeptObjects != null) {
 					gc.setPackKeptObjects(packKeptObjects.booleanValue());
 				}
+				gc.setGcConfig(gcConfig);
 				try {
 					gc.gc().get();
 					return toProperties(gc.getStatistics());
