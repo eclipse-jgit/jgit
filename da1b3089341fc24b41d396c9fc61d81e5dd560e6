@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1698459_b810625a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-05-21T14:07:10Z",
+      "side": 1,
+      "message": "This Change introduces breaking changes in the API of ResolveMerger. I also implemented a version of lazy-loading Attributes without breaking changes in the API by changing the internals of the \"Attributes\" class. (https://github.com/vi-eclipse/jgit/tree/fschwabe/merge-load-attributes-lazily-NonBreaking)\n\nHowever, I believe the breaking changes are better. For one, this version does not make the Attributes class potentially ephemeral, it still holds a sequenced Set as its internal state. Another reason is that potential subtypes of ResolveMerger might have overridden the methods accepting the Attributes[] as a parameter and then retained these instances outside of the scope of the current TreeWalk Entry. If the version without breaking changes is used, then the values of these retained Attributes instances would silently change.\n\nBy introducing this breaking change in the API, maintainers of subtypes of ResolveMerger must simply change the method signatures and call the accessor methods (base(), ours(), theirs()) instead of accessing an Array at the specific index.\n\nThe remaining open question is how the breaking change should be handled. Should I increase the major version in another patchset?",
+      "revId": "da1b3089341fc24b41d396c9fc61d81e5dd560e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
