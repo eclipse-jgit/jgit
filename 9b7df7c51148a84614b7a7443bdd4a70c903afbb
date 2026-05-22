@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c59b93c_347c0eed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-05-22T16:10:01Z",
+      "side": 1,
+      "message": "Corresponding function in Git: https://github.com/git/git/blob/v2.54.0/read-cache.c#L354",
+      "revId": "9b7df7c51148a84614b7a7443bdd4a70c903afbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
