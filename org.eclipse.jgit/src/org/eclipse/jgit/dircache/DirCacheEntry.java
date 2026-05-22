@@ -410,12 +410,7 @@ public class DirCacheEntry {
 		// such cases the work file is too close to the index to tell if
 		// it is clean or not based on the modification time alone.
 		//
-		final int base = infoOffset + P_MTIME;
-		final int mtime = NB.decodeInt32(info, base);
-		if ((int) smudge.getEpochSecond() == mtime) {
-			return smudge.getNano() <= NB.decodeInt32(info, base + 4);
-		}
-		return false;
+		return decodeTSInstant(P_MTIME).compareTo(smudge) >= 0;
 	}
 
 	/**
