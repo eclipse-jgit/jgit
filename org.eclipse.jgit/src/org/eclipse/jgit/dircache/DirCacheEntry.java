@@ -411,9 +411,14 @@ public class DirCacheEntry {
 		// it is clean or not based on the modification time alone.
 		//
 		final int base = infoOffset + P_MTIME;
-		final int mtime = NB.decodeInt32(info, base);
-		if ((int) smudge.getEpochSecond() == mtime) {
-			return smudge.getNano() <= NB.decodeInt32(info, base + 4);
+		final int entryMtimeSec = NB.decodeInt32(info, base);
+		final int smudgeSec = (int) smudge.getEpochSecond();
+		if (smudgeSec != 0) {
+			if (smudgeSec < entryMtimeSec) {
+				return true;
+			} else if (smudgeSec == entryMtimeSec) {
+				return smudge.getNano() <= NB.decodeInt32(info, base + 4);
+			}
 		}
 		return false;
 	}
