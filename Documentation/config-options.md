@@ -61,9 +61,10 @@ For details on native git options see also the official [git config documentatio
 
 ## __fetch__ options
 
-|  option | default | git option | description |
-|---------|---------|------------|-------------|
+| option                    | default | git option | description                                                                                                                                         |
+|---------------------------|---------|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
 | `fetch.useNegotiationTip` | `false` | &#x2705; | When enabled it restricts the client negotiation on unrelated branches i.e. only send haves for the refs that the client is interested in fetching. |
+| `fetch.autogc`            | `true`  | &#x2705; | Perform an automatic garbage collection after the fetch operation has been completed.                                                               |
 
 ## __gc__ options
 
