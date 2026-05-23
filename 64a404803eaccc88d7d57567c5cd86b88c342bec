@@ -16,6 +16,24 @@
       "message": "I believe this should be gated by a config option, as we do for receive-pack. See https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/70714/7/org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java#318\n\nI see concurrency issues when using the pull-replication plugin with Gerrit when the fetch operation executed as part of a replication task triggers the repository\u0027s GC in a undesired moment, causing huge system overload and unwanted refs repacking.",
       "revId": "64a404803eaccc88d7d57567c5cd86b88c342bec",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cb51feb_a92c3c40",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1203,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-23T17:52:39Z",
+      "side": 1,
+      "message": "Fixed with https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1237528",
+      "parentUuid": "e072cd2d_f7729a6d",
+      "revId": "64a404803eaccc88d7d57567c5cd86b88c342bec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
