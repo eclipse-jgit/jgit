@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee1552b6_434372a8",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-24T11:31:19Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c36ca9bb_0cb68e15",
+      "revId": "ac6aa58e22f559a1a371fcbc23b66d079d085089",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff97bb5e_bfb00bcb",
