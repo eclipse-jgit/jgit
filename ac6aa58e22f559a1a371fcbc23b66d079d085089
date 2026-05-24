@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c36ca9bb_0cb68e15",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-24T11:22:53Z",
+      "side": 1,
+      "message": "\u003e Since this change adds the receive section, should we also document the existing JGit-specific `receive.maxCommandBytes` and `receive.maxCommandDiscardBytes` options? \n\nI believe they were part of another change. Can do this as a follow-up.\n\n\u003e They are read by `ReceivePack.ReceiveConfig`, but do not appear to be native Git config options, so they would use the JGit custom marker.\n\nI imagine there could be a lot more misses, unfortunately.\nIt would be best to add a checker during CI/CD: if you read something from configuration, that should include a change in the docs.",
+      "parentUuid": "ca1c88a1_31476d95",
+      "revId": "ac6aa58e22f559a1a371fcbc23b66d079d085089",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff97bb5e_bfb00bcb",
         "filename": "Documentation/config-options.md",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2026-05-24T09:49:02Z",
       "side": 1,
       "message": "`receive.autogc` does exist in native Git, so it should be marked with ✅\n\n```suggestion\n| `receive.autogc` | `true`  | \u0026#x2705; | Perform an automatic garbage collection after a receive-pack operation has been completed. |\n```",
+      "revId": "ac6aa58e22f559a1a371fcbc23b66d079d085089",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "676d3a18_5f1c88fe",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-24T11:22:53Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "ff97bb5e_bfb00bcb",
       "revId": "ac6aa58e22f559a1a371fcbc23b66d079d085089",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
