@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "333c7923_c2ee0791",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-24T09:25:16Z",
+      "side": 1,
+      "message": "Done with Ic47a31fd3f",
+      "parentUuid": "b09f8579_32fd32da",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 47
+      },
+      "revId": "64a404803eaccc88d7d57567c5cd86b88c342bec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e072cd2d_f7729a6d",
@@ -55,6 +79,24 @@
       "side": 1,
       "message": "Fixed with https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1237528",
       "parentUuid": "e072cd2d_f7729a6d",
+      "revId": "64a404803eaccc88d7d57567c5cd86b88c342bec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e58ca358_d45d32d7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1203,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-24T09:25:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cb51feb_a92c3c40",
       "revId": "64a404803eaccc88d7d57567c5cd86b88c342bec",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
