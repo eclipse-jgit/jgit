@@ -131,6 +131,12 @@ Proxy configuration uses the standard Java mechanisms via class `java.net.ProxyS
 | `pack.window` | `10` | &#x2705; | Number of objects to try when looking for a delta base per thread searching for deltas. |
 | `pack.windowMemory` | `0` (unlimited) | &#x2705; | Maximum number of bytes to put into the delta search window. |
 
+## __receive__ options
+
+| option           | default | git option | description                                                                                |
+|------------------|---------|------------|--------------------------------------------------------------------------------------------|
+| `receive.autogc` | `true`  | &#x2705; | Perform an automatic garbage collection after a receive-pack operation has been completed. |
+
 ## __repack__ options
 
 |  option | default | git option | description |
