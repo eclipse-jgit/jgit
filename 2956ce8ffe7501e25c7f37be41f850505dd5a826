@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74be16a2_bd45884f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-24T08:27:32Z",
+      "side": 1,
+      "message": "This sentence looks incomplete.\n\n```suggestion\nThere are concurrency issues when using the pull-replication plugin with\nGerrit, based on the execution of fetch operations on a server, when the\nfetch operation executed as part of a replication task triggers uncontrolled repository garbage collection.\n```",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 26
+      },
+      "revId": "2956ce8ffe7501e25c7f37be41f850505dd5a826",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70c631fa_ea07aa2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-24T08:27:32Z",
+      "side": 1,
+      "message": "A focused test for `fetch.autogc\u003dfalse` would be great, but I noticed the original auto-gc change I68a2a051 also did not add tests for the existing `receive.autogc` behavior.\n\nSo I wouldn’t necessarily block this change on tests alone. It may be reasonable to handle broader auto-gc config coverage in a follow-up, covering both `receive.autogc` and `fetch.autogc`.",
+      "revId": "2956ce8ffe7501e25c7f37be41f850505dd5a826",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d6bca14_5b08dbdc",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-24T08:27:32Z",
+      "side": 1,
+      "message": "Is `fetch.autogc` intended to be a JGit-specific option? Native Git does not appear to document a `fetch.autogc` config key. Native Git has fetch CLI options `--[no-]auto-maintenance` / `--[no-]auto-gc`, while `receive.autogc` is documented specifically for receive-pack.\n\nSince `fetch.autogc` appears to be JGit-specific, should this use the JGit custom marker (\u0026#x20DE;) instead of ✅? The legend defines \u0026#x20DE; as \"JGit custom option not supported by native Git.\"\n\n```suggestion\n| `fetch.autogc`            | `true`  | \u0026#x20DE; | Perform an automatic garbage collection after the fetch operation has been completed.                                                               |\n```",
+      "range": {
+        "startLine": 67,
+        "startChar": 40,
+        "endLine": 67,
+        "endChar": 48
+      },
+      "revId": "2956ce8ffe7501e25c7f37be41f850505dd5a826",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
