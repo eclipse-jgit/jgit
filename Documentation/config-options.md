@@ -136,6 +136,9 @@ Proxy configuration uses the standard Java mechanisms via class `java.net.ProxyS
 | option           | default | git option | description                                                                                |
 |------------------|---------|------------|--------------------------------------------------------------------------------------------|
 | `receive.autogc` | `true`  | &#x2705; | Perform an automatic garbage collection after a receive-pack operation has been completed. |
+| `receive.maxCommandBytes` | `3 MiB` | &#x20DE; | Maximum number of bytes to read from the receive-pack command block before the pack data. If set to `0`, there is no limit. |
+| `receive.maxCommandDiscardBytes` | `-1` | &#x20DE; | Maximum number of command-block bytes to discard after `receive.maxCommandBytes` is exceeded, so JGit can report a side-band error before disconnecting. If set to `0`, there is no limit. If set to `-1`, JGit uses the larger of `3 * receive.maxCommandBytes` and `3 MiB`. |
+
 
 ## __repack__ options
 
