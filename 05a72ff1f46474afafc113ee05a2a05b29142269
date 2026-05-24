@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd4a9fdf_832d1737",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-05-24T12:15:50Z",
+      "side": 1,
+      "message": "```suggestion\nThe introduction for receive.autogc in I68a2a051 missed the documentation\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "05a72ff1f46474afafc113ee05a2a05b29142269",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
