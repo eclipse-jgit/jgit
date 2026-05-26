@@ -222,6 +222,8 @@ public class ReceivePack {
 
 	private boolean checkReferencedAreReachable;
 
+	private boolean retainParsedObjectIDs;
+
 	/** Git object size limit */
 	private long maxObjectSizeLimit;
 
@@ -498,6 +500,27 @@ public class ReceivePack {
 	 */
 	public void setCheckReferencedObjectsAreReachable(boolean b) {
 		this.checkReferencedAreReachable = b;
+	}
+
+	/**
+	 * Whether the {@code PackParser} should retain object IDs.
+	 *
+	 * @return {@code true} if the parsed object IDs should be retained.
+	 * @since 7.7
+	 */
+	public boolean isRetainParsedObjectIDs() {
+		return retainParsedObjectIDs;
+	}
+
+	/**
+	 * Set whether the {@code PackParser} should retain object IDs.
+	 *
+	 * @param retain
+	 *            {@code true} to retain the parsed object IDs.
+	 * @since 7.7
+	 */
+	public void setRetainParsedObjectIDs(boolean retain) {
+		this.retainParsedObjectIDs = retain;
 	}
 
 	/**
@@ -1547,7 +1570,7 @@ public class ReceivePack {
 
 			parser = ins.newPackParser(packInputStream());
 			parser.setAllowThin(true);
-			parser.setNeedNewObjectIds(checkReferencedAreReachable);
+			parser.setNeedNewObjectIds(checkReferencedAreReachable || retainParsedObjectIDs);
 			parser.setNeedBaseObjectIds(checkReferencedAreReachable);
 			parser.setCheckEofAfterPackFooter(!biDirectionalPipe
 					&& !isExpectDataAfterPackFooter());
@@ -1658,6 +1681,18 @@ public class ReceivePack {
 					continue;
 				}
 
+				if (cmd.getRefName().startsWith(Constants.R_REFS)
+					&& !Repository.isValidRefName(
+						cmd.getRefName().substring(Constants.R_REFS.length())
+					)
+				) {
+					// Reject the creation of one level references such as
+					// refs/master to match cgit implementation.
+					cmd.setResult(Result.REJECTED_OTHER_REASON,
+							JGitText.get().funnyRefname);
+					continue;
+				}
+
 				if (ref != null) {
 					// A well behaved client shouldn't have sent us a
 					// create command for a ref we advertised to it.
@@ -1753,8 +1788,18 @@ public class ReceivePack {
 				}
 			}
 
-			if (!cmd.getRefName().startsWith(Constants.R_REFS)
-					|| !Repository.isValidRefName(cmd.getRefName())) {
+			if (!cmd.getRefName().startsWith(Constants.R_REFS)) {
+				cmd.setResult(Result.REJECTED_OTHER_REASON,
+						JGitText.get().funnyRefname);
+			}
+
+			if (!Repository.isValidRefName(cmd.getRefName())
+				// But accept deletion of one level refs (refs/main)
+				&& !(
+					cmd.getType() == ReceiveCommand.Type.DELETE
+					&& Repository.isValidRefName(cmd.getRefName().substring(Constants.R_REFS.length()))
+				)
+			) {
 				cmd.setResult(Result.REJECTED_OTHER_REASON,
 						JGitText.get().funnyRefname);
 			}
