@@ -290,6 +290,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String deepenSinceWithDeepen;
 	/***/ public String deleteBranchUnexpectedResult;
 	/***/ public String deleteFileFailed;
+	/***/ public String deleteLooseRefDuringDeleteRefs;
+	/***/ public String deleteLooseRefDuringPackRefs;
 	/***/ public String deletedOrphanInPackDir;
 	/***/ public String deleteRequiresZeroNewId;
 	/***/ public String deleteTagUnexpectedResult;
