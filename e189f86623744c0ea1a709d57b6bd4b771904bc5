@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae5e5029_91e7e418",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-27T20:00:56Z",
+      "side": 1,
+      "message": "Do we really need two messages? The log already gives you the source file and line number, that should be enough to differentiate the message emitted in two conditions (delete-refs vs. pack-refs).",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 67
+      },
+      "revId": "e189f86623744c0ea1a709d57b6bd4b771904bc5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "571b919c_016f2837",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-05-27T20:00:56Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\t\t\tLOG.debug(MessageFormat.format(JGitText.get().deleteLooseRefDuringDeleteRefs,\n```",
+      "range": {
+        "startLine": 744,
+        "startChar": 9,
+        "endLine": 744,
+        "endChar": 14
+      },
+      "revId": "e189f86623744c0ea1a709d57b6bd4b771904bc5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
