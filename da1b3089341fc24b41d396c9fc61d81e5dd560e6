@@ -16,6 +16,24 @@
       "message": "This Change introduces breaking changes in the API of ResolveMerger. I also implemented a version of lazy-loading Attributes without breaking changes in the API by changing the internals of the \"Attributes\" class. (https://github.com/vi-eclipse/jgit/tree/fschwabe/merge-load-attributes-lazily-NonBreaking)\n\nHowever, I believe the breaking changes are better. For one, this version does not make the Attributes class potentially ephemeral, it still holds a sequenced Set as its internal state. Another reason is that potential subtypes of ResolveMerger might have overridden the methods accepting the Attributes[] as a parameter and then retained these instances outside of the scope of the current TreeWalk Entry. If the version without breaking changes is used, then the values of these retained Attributes instances would silently change.\n\nBy introducing this breaking change in the API, maintainers of subtypes of ResolveMerger must simply change the method signatures and call the accessor methods (base(), ours(), theirs()) instead of accessing an Array at the specific index.\n\nThe remaining open question is how the breaking change should be handled. Should I increase the major version in another patchset?",
       "revId": "da1b3089341fc24b41d396c9fc61d81e5dd560e6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c58b1dd2_0fb4e155",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-05-28T23:17:22Z",
+      "side": 1,
+      "message": "We don\u0027t do breaking public API changes in minor releases.\nSo we have to decide if the next release after 7.7 (7.7.0 will be released next week) should be a major release.\n\nOtherwise you can do this on the next branch which is the place were breaking changes can be prepared while another minor release is being developed on the master branch.",
+      "parentUuid": "b1698459_b810625a",
+      "revId": "da1b3089341fc24b41d396c9fc61d81e5dd560e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
