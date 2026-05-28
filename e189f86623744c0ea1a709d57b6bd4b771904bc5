@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85102098_5d1a06b6",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-05-28T07:53:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a3ca7c1_c9bb023d",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 67
+      },
+      "revId": "e189f86623744c0ea1a709d57b6bd4b771904bc5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "571b919c_016f2837",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Also, because this should be a `debug`, it is most likely not rendered in the normal path. Best *NOT* to use MessageFormat so that we avoid doing it if the log isn\u0027t enabled.",
       "parentUuid": "571b919c_016f2837",
+      "range": {
+        "startLine": 744,
+        "startChar": 9,
+        "endLine": 744,
+        "endChar": 14
+      },
+      "revId": "e189f86623744c0ea1a709d57b6bd4b771904bc5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef0791b1_24289bcf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-05-28T07:53:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d372ae08_b39fca87",
       "range": {
         "startLine": 744,
         "startChar": 9,
