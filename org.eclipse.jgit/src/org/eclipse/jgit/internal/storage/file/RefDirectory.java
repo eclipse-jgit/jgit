@@ -741,6 +741,8 @@ public class RefDirectory extends RefDatabase {
 				delete(logFor(name), levels);
 				if (dst.getStorage().isLoose()) {
 					deleteAndUnlock(fileFor(name), levels, update);
+					LOG.debug(JGitText.get().deleteLooseRef,
+							fileFor(name).getPath(), dst.getObjectId());
 				}
 			} finally {
 				lck.unlock();
@@ -866,6 +868,7 @@ public class RefDirectory extends RefDatabase {
 							} while (!looseRefs.compareAndSet(curLoose, newLoose));
 							int levels = levelsIn(refName) - 2;
 							deleteAndUnlock(refFile, levels, rLck);
+							LOG.debug(JGitText.get().deleteLooseRef, refFile, clr_oid);
 						}
 					} finally {
 						if (shouldUnlock) {
