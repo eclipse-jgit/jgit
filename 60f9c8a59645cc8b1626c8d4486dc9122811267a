@@ -16,6 +16,24 @@
       "message": "@matthias.sohn@sap.com how do we see the error message in the CI? @florian.schwabe@vector.com and I don\u0027t have enough rights to see the Jenkins jobs.",
       "revId": "60f9c8a59645cc8b1626c8d4486dc9122811267a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4fb0037_660ce4bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-05-29T13:27:45Z",
+      "side": 1,
+      "message": "It\u0027s probably a sporadic error, since the build with patchset 2 was successful and patchset 3 only changed the author and commit emails",
+      "parentUuid": "63ad429d_1158685c",
+      "revId": "60f9c8a59645cc8b1626c8d4486dc9122811267a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
