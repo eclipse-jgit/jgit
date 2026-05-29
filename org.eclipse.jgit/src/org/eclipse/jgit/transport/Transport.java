@@ -44,6 +44,7 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.hooks.Hooks;
 import org.eclipse.jgit.hooks.PrePushHook;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
@@ -1457,7 +1458,10 @@ public abstract class Transport implements AutoCloseable {
 		final FetchResult result = new FetchResult();
 		new FetchProcess(this, toFetch).execute(monitor, result, branch);
 
-		local.autoGC(monitor);
+		if (local.getConfig().getBoolean(ConfigConstants.CONFIG_FETCH_SECTION,
+			ConfigConstants.CONFIG_KEY_AUTOGC, true)) {
+			local.autoGC(monitor);
+		}
 
 		return result;
 	}
