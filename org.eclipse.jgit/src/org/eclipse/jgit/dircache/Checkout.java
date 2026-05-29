@@ -190,6 +190,10 @@ public class Checkout {
 		if (name.length() > 200) {
 			name = name.substring(0, 200);
 		}
+        byte[] filenameBytes = name.getBytes();
+        if (filenameBytes.length > name.length() && filenameBytes.length > 200) {
+            name = name.substring(100);
+        }
 		File tmpFile = File.createTempFile("._" + name, null, parentDir); //$NON-NLS-1$
 
 		DirCacheCheckout.getContent(cache.getRepository(), path, metadata, ol,
