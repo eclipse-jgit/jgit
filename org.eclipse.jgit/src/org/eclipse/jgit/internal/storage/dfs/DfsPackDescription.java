@@ -367,6 +367,19 @@ public class DfsPackDescription {
 	}
 
 	/**
+	 * Get total size of the pack, including indexes
+	 *
+	 * @return the size of the pack and all its extensions
+	 */
+	public long getTotalFileSize() {
+		long result = 0;
+		for (long sz : sizeMap) {
+			result += sz;
+		}
+		return result;
+	}
+
+	/**
 	 * Get blockSize of the file, in bytes.
 	 *
 	 * @param ext
