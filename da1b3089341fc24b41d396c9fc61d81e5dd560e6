@@ -34,6 +34,24 @@
       "parentUuid": "b1698459_b810625a",
       "revId": "da1b3089341fc24b41d396c9fc61d81e5dd560e6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a08b73e_db6dfa80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-05-29T06:49:05Z",
+      "side": 1,
+      "message": "When we introduced Attributes[] in I0bf433e9e3eb28479b6272e17c0666e175e67d08 in 2022 we also broke API. (Before that commit, it was just Attributes: only the T_OURS attributes were considered.) We did it in 6.1.0 and we just added API filters to suppress the warnings.",
+      "parentUuid": "c58b1dd2_0fb4e155",
+      "revId": "da1b3089341fc24b41d396c9fc61d81e5dd560e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
