@@ -1996,16 +1996,18 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 				break;
 			}
 		}
-		char[] bytes = new char[maximumFileNameLength];
-		Arrays.fill(bytes, 'f');
-		String longFileName = new String(bytes);
+		String longFileName = "f".repeat(maximumFileNameLength);
+		String longFileName2 = "ф".repeat(maximumFileNameLength);
 		// 1
-		doit(mkmap(longFileName, "a"), mkmap(longFileName, "b"),
-				mkmap(longFileName, "a"));
+		doit(mkmap(longFileName, "a", longFileName2, "a"),
+				mkmap(longFileName, "b", longFileName2, "b"),
+				mkmap(longFileName, "a", longFileName2, "a"));
 		writeTrashFile(longFileName, "a");
+		writeTrashFile(longFileName2, "a");
 		checkout();
 		assertNoConflicts();
 		assertUpdated(longFileName);
+		assertUpdated(longFileName2);
 	}
 
 	@Test
