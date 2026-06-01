@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "96a073ba_e220c4b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-06-01T17:43:11Z",
+      "side": 1,
+      "message": "Please describe in the commit message what this change is fixing",
+      "revId": "bf9285e302c3086d0bb313b1c68c030e5b3f53f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0bdbd2f6_f8eb4fc7",
