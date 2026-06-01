@@ -66,9 +66,10 @@ For details on native git options see also the official [git config documentatio
 
 ## __fetch__ options
 
-|  option | default | git option | description |
-|---------|---------|------------|-------------|
+| option                    | default | git option | description                                                                                                                                         |
+|---------------------------|---------|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
 | `fetch.useNegotiationTip` | `false` | &#x2705; | When enabled it restricts the client negotiation on unrelated branches i.e. only send haves for the refs that the client is interested in fetching. |
+| `fetch.autogc`            | `true`  | &#x20DE; | Perform an automatic garbage collection after the fetch operation has been completed.                                                               |
 
 ## __gc__ options
 
@@ -136,6 +137,16 @@ Proxy configuration uses the standard Java mechanisms via class `java.net.ProxyS
 | `pack.waitPreventRacyPack` | `false` | &#x20DE; | Whether we wait before opening a newly written pack to prevent its lastModified timestamp could be racy. |
 | `pack.window` | `10` | &#x2705; | Number of objects to try when looking for a delta base per thread searching for deltas. |
 | `pack.windowMemory` | `0` (unlimited) | &#x2705; | Maximum number of bytes to put into the delta search window. |
+
+
+## __receive__ options
+
+| option           | default | git option | description                                                                                |
+|------------------|---------|------------|--------------------------------------------------------------------------------------------|
+| `receive.autogc` | `true`  | &#x2705; | Perform an automatic garbage collection after a receive-pack operation has been completed. |
+| `receive.maxCommandBytes` | `3 MiB` | &#x20DE; | Maximum number of bytes to read from the receive-pack command block before the pack data. If set to `0`, there is no limit. |
+| `receive.maxCommandDiscardBytes` | `-1` | &#x20DE; | Maximum number of command-block bytes to discard after `receive.maxCommandBytes` is exceeded, so JGit can report a side-band error before disconnecting. If set to `0`, there is no limit. If set to `-1`, JGit uses the larger of `3 * receive.maxCommandBytes` and `3 MiB`. |
+
 
 ## reftable options
 
