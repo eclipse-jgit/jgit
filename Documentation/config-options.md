@@ -41,7 +41,7 @@ For details on native git options see also the official [git config documentatio
 | `core.fileMode` | Auto detects if file modes are supported | &#x2705; | Tells Git if the executable bit of files in the working tree is to be honored. |
 | `core.hideDotFiles` | `dotGitOnly` | &#x2705; | Windows only. If `true`, mark newly-created directories and files whose name starts with a dot as hidden. If `dotGitOnly`, only the `.git/` directory is hidden, but no other files starting with a dot. |
 | `core.hooksPath` | `$GIT_DIR/hooks` | &#x2705; | Path to look for hooks. |
-| `core.logAllRefUpdates` | `true` in a repository with working tree, `false` in bare repository | &#x2705; | Enable the reflog. |
+| `core.logAllRefUpdates` | `true` in a repository with working tree, `false` in bare repository | &#x2705; | Enable the reflog. `true` to log updates only for `refs/heads/**`, `refs/remotes/**`, `refs/notes/**`, and `HEAD`, `always` to log for all refs, `false` to disable reflog updates |
 | `core.packedGitLimit` | `10 MiB` | &#x2705; | Maximum number of bytes to cache in memory from pack files. |
 | `core.packedGitMmap` | `false` | &#x2705; | Whether to use Java NIO virtual memory mapping for JGit buffer cache. When set to `true` enables use of Java NIO virtual memory mapping for cache windows, `false` reads entire window into a `byte[]` with standard read calls. `true` is experimental and may cause instabilities and crashes since Java doesn't support explicit unmapping of file regions mapped to virtual memory. |
 | `core.packedGitOpenFiles` | `128` | &#x20DE; | Maximum number of streams to open at a time. Open packs count against the process limits. |
@@ -66,9 +66,10 @@ For details on native git options see also the official [git config documentatio
 
 ## __fetch__ options
 
-|  option | default | git option | description |
-|---------|---------|------------|-------------|
+| option                    | default | git option | description                                                                                                                                         |
+|---------------------------|---------|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
 | `fetch.useNegotiationTip` | `false` | &#x2705; | When enabled it restricts the client negotiation on unrelated branches i.e. only send haves for the refs that the client is interested in fetching. |
+| `fetch.autogc`            | `true`  | &#x20DE; | Perform an automatic garbage collection after the fetch operation has been completed.                                                               |
 
 ## __gc__ options
 
@@ -136,6 +137,16 @@ Proxy configuration uses the standard Java mechanisms via class `java.net.ProxyS
 | `pack.waitPreventRacyPack` | `false` | &#x20DE; | Whether we wait before opening a newly written pack to prevent its lastModified timestamp could be racy. |
 | `pack.window` | `10` | &#x2705; | Number of objects to try when looking for a delta base per thread searching for deltas. |
 | `pack.windowMemory` | `0` (unlimited) | &#x2705; | Maximum number of bytes to put into the delta search window. |
+
+
+## __receive__ options
+
+| option           | default | git option | description                                                                                |
+|------------------|---------|------------|--------------------------------------------------------------------------------------------|
+| `receive.autogc` | `true`  | &#x2705; | Perform an automatic garbage collection after a receive-pack operation has been completed. |
+| `receive.maxCommandBytes` | `3 MiB` | &#x20DE; | Maximum number of bytes to read from the receive-pack command block before the pack data. If set to `0`, there is no limit. |
+| `receive.maxCommandDiscardBytes` | `-1` | &#x20DE; | Maximum number of command-block bytes to discard after `receive.maxCommandBytes` is exceeded, so JGit can report a side-band error before disconnecting. If set to `0`, there is no limit. If set to `-1`, JGit uses the larger of `3 * receive.maxCommandBytes` and `3 MiB`. |
+
 
 ## reftable options
 
