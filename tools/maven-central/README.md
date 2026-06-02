@@ -4,7 +4,7 @@
 
 - you need to be a Eclipse JGit committer
 - install [jreleaser CLI](https://jreleaser.org/guide/latest/install.html)
-- install [python 3.12](https://www.python.org/)
+- install [python 3.14](https://www.python.org/)
 - install [pipenv](https://pipenv.pypa.io/en/latest/installation.html) we use below to setup a python virtualenv
 - we sign release tags and Maven artifacts using GPG.
   Follow [Git Tools - Signing Your Work](https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work)
@@ -61,7 +61,7 @@
 - prepare virtualenv for `download_release.py`:
   ```
   $ cd tools/maven-central
-  $ pipenv --python 3.12
+  $ pipenv --python 3.14
   $ pipenv sync
   ```
 - download a JGit release from repo.eclipse.org and create artifact signature files (`.asc`)

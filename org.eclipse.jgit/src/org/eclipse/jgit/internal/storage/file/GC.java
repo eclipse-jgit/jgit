@@ -1995,6 +1995,9 @@ public class GC {
 		}
 
 		private long getPID() {
+			if (SystemReader.getInstance().isAndroid()) {
+				return 0;
+			}
 			return ProcessHandle.current().pid();
 		}
 

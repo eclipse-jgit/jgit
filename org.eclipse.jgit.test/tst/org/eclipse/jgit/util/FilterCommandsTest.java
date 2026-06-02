@@ -16,8 +16,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
@@ -67,6 +70,33 @@ public class FilterCommandsTest extends RepositoryTestCase {
 				}
 			};
 			return cmd;
+		}
+	}
+
+	private static class NoOpCommandFactory implements FilterCommandFactory {
+
+		@Override
+		public FilterCommand create(Repository db, InputStream in,
+				OutputStream out) throws IOException {
+			return new FilterCommand(in, out) {
+
+				private byte[] buf = new byte[32 * 1024];
+
+				@Override
+				public int run() throws IOException {
+					int n = in.read(buf);
+					if (n < 0) {
+						in.close();
+						out.close();
+						return -1;
+					}
+					if (n > 0) {
+						out.write(buf, 0, n);
+					}
+					return n;
+				}
+
+			};
 		}
 	}
 
@@ -146,6 +176,46 @@ public class FilterCommandsTest extends RepositoryTestCase {
 						+ "[Test.bin, mode:100644, content:Hello again]"
 						+ "[Test.txt, mode:100644, content:Hello again]",
 				indexState(CONTENT));
+	}
+
+	@Test
+	public void testCleanLargeFile() throws Exception {
+		String builtinCommandName = "jgit://builtin/test/clean";
+		FilterCommandRegistry.register(builtinCommandName,
+				new NoOpCommandFactory());
+		StoredConfig config = git.getRepository().getConfig();
+		config.setString("filter", "test", "clean", builtinCommandName);
+		config.save();
+
+		writeTrashFile(".gitattributes", "*.bin filter=test");
+		git.add().addFilepattern(".gitattributes").call();
+		git.commit().setMessage("add filter").call();
+
+		File f = new File(git.getRepository().getWorkTree(), "a.bin");
+		long length = 0;
+		try (OutputStream out = Files.newOutputStream(f.toPath())) {
+			byte[] buf = new byte[8 * 1024];
+			Random r = ThreadLocalRandom.current();
+			while (length < TemporaryBuffer.DEFAULT_IN_CORE_LIMIT) {
+				r.nextBytes(buf);
+				buf[0] = 0;
+				out.write(buf);
+				length += buf.length;
+			}
+			// Write a few bytes extra, just so that we don't have a
+			// multiple of 8k, and we're beyond the in-memory limit.
+			r.nextBytes(buf);
+			out.write(buf, 0, 19);
+			length += 19;
+		}
+
+		fsTick(f);
+		git.add().addFilepattern("a.bin").call();
+		assertEquals(
+				"[.gitattributes, mode:100644, length:17]"
+						+ "[Test.txt, mode:100644, length:11]"
+						+ "[a.bin, mode:100644, length:" + length + "]",
+				indexState(LENGTH));
 	}
 
 	@Test

@@ -421,6 +421,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 * @throws IOException
 	 *             the pack file or the index could not be read.
 	 */
+	@Nullable
 	ObjectLoader get(WindowCursor curs, AnyObjectId id)
 			throws IOException {
 		final long offset = idx().findOffset(id);
@@ -1272,6 +1273,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		}
 	}
 
+	@Nullable
 	LocalObjectRepresentation representation(final WindowCursor curs,
 			final AnyObjectId objectId) throws IOException {
 		final long pos = idx().findOffset(objectId);
