@@ -127,6 +127,7 @@ public class TreeWalkConnectivityCheckerTest {
 		info.setWalk(tr.getRevWalk());
 		info.setParser(parser);
 		when(parser.needNewObjectIds()).thenReturn(true);
+		when(parser.getBaseObjectIds()).thenReturn(new ObjectIdSubclassMap<>());
 		haves = new HashSet<>();
 		pm.reset();
 	}
@@ -249,6 +250,7 @@ public class TreeWalkConnectivityCheckerTest {
 
 		setupSingleReceiveCommand(ObjectId.zeroId(), newCommit.getId());
 		mockNewPackObjects(newCommit, newCommit.getTree());
+		info.setCheckObjects(true);
 
 		runCheckAndExpectMissingObject(secretCommit.getId(), 3);
 	}
@@ -269,6 +271,7 @@ public class TreeWalkConnectivityCheckerTest {
 
 		info.setCommands(Arrays.asList(cmd1, cmd2));
 		mockNewPackObjects(new1, new1.getTree(), new2, new2.getTree());
+		info.setCheckObjects(true);
 
 		runCheckAndExpectMissingObject(base2, 5);
 
@@ -289,6 +292,7 @@ public class TreeWalkConnectivityCheckerTest {
 
 		info.setCommands(Arrays.asList(cmd2, cmd1));
 		mockNewPackObjects(new1, new1.getTree(), new2, new2.getTree());
+		info.setCheckObjects(true);
 
 		runCheckAndExpectMissingObject(base1, 5);
 	}
@@ -501,6 +505,7 @@ public class TreeWalkConnectivityCheckerTest {
 
 		setupSingleReceiveCommand(ObjectId.zeroId(), newCommit.getId());
 		mockNewPackObjects(newCommit, newCommit.getTree());
+		info.setCheckObjects(true);
 
 		runCheckAndAssertCount(5);
 	}
@@ -518,6 +523,7 @@ public class TreeWalkConnectivityCheckerTest {
 		info.setCommands(Collections.singletonList(new ReceiveCommand(
 				ObjectId.zeroId(), newCommit.getId(), "refs/heads/master")));
 		mockNewPackObjects(newCommit, newCommit.getTree());
+		info.setCheckObjects(true);
 
 		runCheckAndAssertCount(5);
 	}
@@ -534,6 +540,7 @@ public class TreeWalkConnectivityCheckerTest {
 
 		setupSingleReceiveCommand(ObjectId.zeroId(), newCommit.getId());
 		mockNewPackObjects(newCommit, newCommit.getTree());
+		info.setCheckObjects(true);
 
 		runCheckAndAssertCount(4);
 	}
@@ -550,6 +557,7 @@ public class TreeWalkConnectivityCheckerTest {
 
 		setupSingleReceiveCommand(ObjectId.zeroId(), newCommit.getId());
 		mockNewPackObjects(newCommit, newCommit.getTree());
+		info.setCheckObjects(true);
 
 		runCheckAndAssertCount(5);
 	}
@@ -566,6 +574,7 @@ public class TreeWalkConnectivityCheckerTest {
 
 		setupSingleReceiveCommand(ObjectId.zeroId(), newCommit.getId());
 		mockNewPackObjects(newCommit, newCommit.getTree());
+		info.setCheckObjects(true);
 
 		runCheckAndAssertCount(4);
 	}
@@ -581,6 +590,7 @@ public class TreeWalkConnectivityCheckerTest {
 
 		setupSingleReceiveCommand(ObjectId.zeroId(), newCommit.getId());
 		mockNewPackObjects(newCommit, newCommit.getTree());
+		info.setCheckObjects(true);
 
 		runCheckAndAssertCount(4);
 	}
@@ -782,6 +792,89 @@ public class TreeWalkConnectivityCheckerTest {
 				newCommit2.getTree(), blob2);
 
 		runCheckAndAssertCount(8);
+	}
+
+	@Test
+	public void testSuccessUnreachableParentCommitWhenCheckObjectsFalse()
+			throws Exception {
+		RevCommit base = tr.commit().create();
+		haves.add(base.getId());
+
+		RevCommit unadvertisedCommit = tr.commit().create();
+		RevCommit newCommit = tr.commit().parent(unadvertisedCommit).create();
+
+		setupSingleReceiveCommand(ObjectId.zeroId(), newCommit.getId());
+		mockNewPackObjects(newCommit, newCommit.getTree());
+		info.setCheckObjects(false);
+
+		checker.checkConnectivity(info, haves, pm);
+	}
+
+	@Test
+	public void testSuccessWithMovedDirectoryAndCheckObjects()
+			throws Exception {
+		RevBlob blob = tr.blob("hello");
+		TestRepository.CommitBuilder cb = tr.commit();
+		cb.add("dir/file.txt", blob);
+		RevCommit base = cb.create();
+		haves.add(base.getId());
+
+		RevCommit newCommit = tr.commit().parent(base).rm("dir/file.txt")
+				.add("renamedDir/file.txt", blob).create();
+
+		setupSingleReceiveCommand(base.getId(), newCommit.getId());
+
+		// The client only sends the new commit and the new root tree.
+		// The subtree for "dir" (now "renamedDir") and "file.txt" are NOT in
+		// the pack
+		// because the server already has them.
+		mockNewPackObjects(newCommit, newCommit.getTree());
+
+		info.setCheckObjects(true);
+		checker.checkConnectivity(info, haves, pm);
+	}
+
+	@Test
+	public void testSuccessWithMovedBlobAndCheckObjects() throws Exception {
+		RevBlob blob = tr.blob("hello");
+		RevCommit base = tr.commit().add("file.txt", blob).create();
+		haves.add(base.getId());
+
+		RevCommit newCommit = tr.commit().parent(base).rm("file.txt")
+				.add("renamed.txt", blob).create();
+
+		setupSingleReceiveCommand(base.getId(), newCommit.getId());
+
+		// The client only sends the new commit and the new root tree.
+		// The blob "hello" is NOT in the pack, but is in the object database.
+		mockNewPackObjects(newCommit, newCommit.getTree());
+
+		info.setCheckObjects(true);
+		checker.checkConnectivity(info, haves, pm);
+	}
+
+	@Test
+	public void testThinPackWithBlobNotReachableFromHavesButCheckObjectsFalse()
+			throws Exception {
+		RevCommit base = tr.commit().create();
+		haves.add(base.getId());
+
+		RevBlob baseBlob = tr.blob("base blob content");
+		tr.commit().add("unadvertised.txt", baseBlob).create();
+
+		// Pretend this commit has a blob with baseBlob as its base
+		ObjectIdSubclassMap<ObjectId> baseObjectIds = new ObjectIdSubclassMap<>();
+		baseObjectIds.add(baseBlob);
+		when(parser.getBaseObjectIds()).thenReturn(baseObjectIds);
+		RevCommit newCommit = tr.commit().parent(base).create();
+
+		setupSingleReceiveCommand(base.getId(), newCommit.getId());
+		mockNewPackObjects(newCommit, newCommit.getTree());
+
+		// Should succeed because checkObjects is false, so thin pack bases
+		// check is skipped.
+		info.setCheckObjects(false);
+		checker.checkConnectivity(info, haves, pm);
 	}
 
 	/**
