@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5efd3d36_83725b45",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.34.target",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1019121
+      },
+      "writtenOn": "2026-06-03T06:28:12Z",
+      "side": 1,
+      "message": "question: is diff view broken or conflicts were not resolved? Also in the following files...",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 14
+      },
+      "revId": "e7be8bed5db1ab2f99a0728cb9bb2b4861c9d6b0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
