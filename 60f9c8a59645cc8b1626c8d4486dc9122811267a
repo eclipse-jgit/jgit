@@ -51,6 +51,24 @@
       "message": "trigger build",
       "revId": "60f9c8a59645cc8b1626c8d4486dc9122811267a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22ddca5b_150f74f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-06-03T07:54:52Z",
+      "side": 1,
+      "message": "The build triggered by Matthias was successful",
+      "parentUuid": "b4fb0037_660ce4bf",
+      "revId": "60f9c8a59645cc8b1626c8d4486dc9122811267a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
