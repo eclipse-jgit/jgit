@@ -22,6 +22,30 @@
       },
       "revId": "e7be8bed5db1ab2f99a0728cb9bb2b4861c9d6b0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9df7f76a_9ceae2c1",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.34.target",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-06-03T06:37:03Z",
+      "side": 1,
+      "message": "It was only partly resolved. Done.",
+      "parentUuid": "5efd3d36_83725b45",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 14
+      },
+      "revId": "e7be8bed5db1ab2f99a0728cb9bb2b4861c9d6b0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
