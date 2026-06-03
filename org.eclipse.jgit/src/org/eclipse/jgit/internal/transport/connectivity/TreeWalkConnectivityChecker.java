@@ -126,15 +126,15 @@ public class TreeWalkConnectivityChecker implements ConnectivityChecker {
 		 * Setup for these checkers involves at a minimum marking all "haves" as
 		 * starts, so we capture that in the progress monitor.
 		 */
-		if (!nonAdvertisedParentCommitsOutsidePack.isEmpty()) {
+		if (connectivityCheckInfo.isCheckObjects()
+				&& !nonAdvertisedParentCommitsOutsidePack.isEmpty()) {
 			pm.update(advertisedHaves.size());
 			checkReachability(rw, repo, nonAdvertisedParentCommitsOutsidePack);
 		}
 
 		checkThinPackBases(rw, connectivityCheckInfo);
 
-		verifyTreeConnectivity(rw, repo, newCommitsToVerify,
-				connectivityCheckInfo.isCheckObjects(), pm);
+		verifyTreeConnectivity(rw, repo, newCommitsToVerify, pm);
 	}
 
 	/**
@@ -301,19 +301,16 @@ public class TreeWalkConnectivityChecker implements ConnectivityChecker {
 	 *            the repository
 	 * @param newCommitsToVerify
 	 *            commits to verify
-	 * @param checkObjects
-	 *            whether to check objects
 	 * @param pm
 	 *            progress monitor
 	 * @throws IOException
 	 *             if an I/O error occurs
 	 */
 	private void verifyTreeConnectivity(RevWalk rw, Repository repo,
-			List<RevCommit> newCommitsToVerify, boolean checkObjects,
-			ProgressMonitor pm) throws IOException {
+			List<RevCommit> newCommitsToVerify, ProgressMonitor pm) throws IOException {
 
 		for (RevCommit c : newCommitsToVerify) {
-			verifyTreeConnectivityForCommit(c, rw, repo, checkObjects, pm);
+			verifyTreeConnectivityForCommit(c, rw, repo, pm);
 		}
 	}
 
@@ -326,15 +323,13 @@ public class TreeWalkConnectivityChecker implements ConnectivityChecker {
 	 *            the RevWalk to use
 	 * @param repo
 	 *            the repository
-	 * @param checkObjects
-	 *            whether to check objects
 	 * @param pm
 	 *            progress monitor
 	 * @throws IOException
 	 *             if an I/O error occurs
 	 */
 	private void verifyTreeConnectivityForCommit(RevCommit c, RevWalk rw,
-			Repository repo, boolean checkObjects, ProgressMonitor pm)
+			Repository repo, ProgressMonitor pm)
 			throws IOException {
 		try (TreeWalk tw = new TreeWalk(rw.getObjectReader())) {
 			tw.setRecursive(false);
@@ -365,8 +360,8 @@ public class TreeWalkConnectivityChecker implements ConnectivityChecker {
 					 * database, but the map lookup is faster than the database
 					 * search, so try the map lookup first.
 					 */
-					if (!objectsInPack.contains(newObjId) && (checkObjects
-							|| !repo.getObjectDatabase().has(newObjId))) {
+					if (!objectsInPack.contains(newObjId)
+							&& !repo.getObjectDatabase().has(newObjId)) {
 						throw new MissingObjectException(newObjId,
 								tw.getFileMode(0).getObjectType());
 					}
@@ -375,8 +370,7 @@ public class TreeWalkConnectivityChecker implements ConnectivityChecker {
 					if (objectsInPack.contains(newObjId)) {
 						tw.enterSubtree();
 						pm.update(1 + c.getParentCount());
-					} else if (checkObjects
-							|| !repo.getObjectDatabase().has(newObjId)) {
+					} else if (!repo.getObjectDatabase().has(newObjId)) {
 						throw new MissingObjectException(newObjId,
 								FileMode.TREE.getObjectType());
 					}
