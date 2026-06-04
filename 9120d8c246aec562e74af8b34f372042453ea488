@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efaab150_f495d292",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-06-04T20:39:44Z",
+      "side": 1,
+      "message": "nit: Did you intend to have this different from committer name?\n```suggestion\nAuthor:     Terry Parker \u003ctparker@google.com\u003e\n```",
+      "revId": "9120d8c246aec562e74af8b34f372042453ea488",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7036a31a_80cc6475",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-06-04T20:39:44Z",
+      "side": 1,
+      "message": "Remove this?",
+      "revId": "9120d8c246aec562e74af8b34f372042453ea488",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
