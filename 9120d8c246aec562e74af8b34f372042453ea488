@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "22f1b64e_c18a17ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-06-04T21:20:39Z",
+      "side": 1,
+      "message": "Hmm, my user.name and user.email config are correctly set up. I don\u0027t see a way to fix this either via `git commit --amend` or via the Gerrit UI. Doesn\u0027t bother me much though.",
+      "parentUuid": "efaab150_f495d292",
+      "revId": "9120d8c246aec562e74af8b34f372042453ea488",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7036a31a_80cc6475",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2026-06-04T20:39:44Z",
       "side": 1,
       "message": "Remove this?",
+      "revId": "9120d8c246aec562e74af8b34f372042453ea488",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f585944b_c49fe8ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1039183
+      },
+      "writtenOn": "2026-06-04T21:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7036a31a_80cc6475",
       "revId": "9120d8c246aec562e74af8b34f372042453ea488",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
