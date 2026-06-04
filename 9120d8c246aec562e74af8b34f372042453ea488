@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d1c82dc2_20f2a8cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-06-04T21:57:55Z",
+      "side": 1,
+      "message": "`git commit --amend --reset-author` would do it, or `git commit --amend --author\u003d\"Terry Parker \u003ctparker@google.com\u003e\"`. Up to you.",
+      "parentUuid": "22f1b64e_c18a17ee",
+      "revId": "9120d8c246aec562e74af8b34f372042453ea488",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7036a31a_80cc6475",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
