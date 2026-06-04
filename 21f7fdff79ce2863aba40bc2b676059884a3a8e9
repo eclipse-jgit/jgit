@@ -151,6 +151,24 @@
       "parentUuid": "3f6b5f6a_0250e7ac",
       "revId": "21f7fdff79ce2863aba40bc2b676059884a3a8e9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fa6c901_26438d9c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1247,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-06-04T21:24:36Z",
+      "side": 1,
+      "message": "I do think there is choice, and that is what the configs are supposed to give us? i.e. if you believe \u0027never\u0027 or other in between states are needed for correctness, then we should add those. I do believe this might depend on your NFS server, which is why I think we may need to be able to configure things. We are currently investigating the opposite issue for packed-refs. We currently may have shown that on our NFS, we may need to refresh the packed-refs dir, not the file.",
+      "parentUuid": "729d59f4_1419f0e8",
+      "revId": "21f7fdff79ce2863aba40bc2b676059884a3a8e9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
