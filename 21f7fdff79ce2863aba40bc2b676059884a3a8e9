@@ -133,6 +133,24 @@
       "parentUuid": "71ef1fb9_841dbd2c",
       "revId": "21f7fdff79ce2863aba40bc2b676059884a3a8e9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "729d59f4_1419f0e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1247,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-06-04T21:06:20Z",
+      "side": 1,
+      "message": "It should be somewhat less. `never` isn\u0027t implemented, but I think it would mean always running lines 1176-\u003e1224. Of that, the likely major performance contributor would be what happens within `Files.readWithRetries()` and `FileSnapshot.save()`. I don\u0027t know exactly how much more those do compared to `try (InputStream stream \u003d Files.newInputStream(refPath)) {}`, but I agree it would be worth measuring.\n\nThat said, if it\u0027s required for correctness, do we have a choice?",
+      "parentUuid": "3f6b5f6a_0250e7ac",
+      "revId": "21f7fdff79ce2863aba40bc2b676059884a3a8e9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
