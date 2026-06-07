@@ -37,7 +37,7 @@ JNA_VERSION = "5.19.0"
 
 SLF4J_VERSION = "2.0.18"
 
-SSHD_VERSION = "2.17.1"
+SSHD_VERSION = "2.18.0"
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(
