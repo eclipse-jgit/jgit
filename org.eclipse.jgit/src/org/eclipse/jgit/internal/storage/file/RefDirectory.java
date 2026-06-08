@@ -1031,9 +1031,8 @@ public class RefDirectory extends RefDatabase {
 		case NEVER:
 			break;
 		case AFTER_OPEN:
-			try (InputStream stream = Files
-					.newInputStream(packedRefsFile.toPath())) {
-				// open the file to refresh attributes (on some NFS clients)
+			try (InputStream stream = Files.newInputStream(gitCommonDir.toPath())) {
+				// open the dir to refresh attributes (on some NFS clients)
 			} catch (FileNotFoundException | NoSuchFileException e) {
 				// Ignore as packed-refs may not exist
 			}
