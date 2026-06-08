@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "399d5728_3c28c5c8",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/internal/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-06-08T03:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10ef0cf1_2331dcd4",
+      "revId": "542ba5a8413a7c39015684705724a41d638c1667",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49205401_3ad6a361",
@@ -48,6 +66,24 @@
       "writtenOn": "2026-05-19T19:03:49Z",
       "side": 1,
       "message": "maxConnections?",
+      "revId": "542ba5a8413a7c39015684705724a41d638c1667",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48a817d1_8b143fac",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/FixedRouteListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-06-08T03:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49205401_3ad6a361",
       "revId": "542ba5a8413a7c39015684705724a41d638c1667",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -69,6 +105,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36a2e9f5_4e9f932b",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/FixedRouteListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-06-08T03:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47f38a49_864f15f3",
+      "revId": "542ba5a8413a7c39015684705724a41d638c1667",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e90e4e5b_f4a24ba1",
@@ -82,6 +136,24 @@
       "writtenOn": "2026-05-19T19:05:01Z",
       "side": 1,
       "message": "I wonder if \"global\" here might be better as \"local\", so that \"global\" gets used in the shared cluster file eventually?",
+      "revId": "542ba5a8413a7c39015684705724a41d638c1667",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7837fe62_051c9ff3",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-06-08T03:42:02Z",
+      "side": 1,
+      "message": "renamed to use \"[node \u003chostname\u003e]\" instead.",
+      "parentUuid": "e90e4e5b_f4a24ba1",
       "revId": "542ba5a8413a7c39015684705724a41d638c1667",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -103,6 +175,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00a20209_70589395",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/internal/CLIText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-06-08T03:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "402d71e4_7367cf96",
+      "revId": "542ba5a8413a7c39015684705724a41d638c1667",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d45fb5d_bff84da2",
@@ -116,6 +206,24 @@
       "writtenOn": "2026-05-19T19:03:49Z",
       "side": 1,
       "message": "We probably can\u0027t change this interface in this release unless we have some sort of experimental status.",
+      "revId": "542ba5a8413a7c39015684705724a41d638c1667",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f63878f_f368c0bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RouteRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-06-08T03:42:02Z",
+      "side": 1,
+      "message": "Marked with `x-internal` in prev change.",
+      "parentUuid": "5d45fb5d_bff84da2",
       "revId": "542ba5a8413a7c39015684705724a41d638c1667",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -187,6 +295,24 @@
       "side": 1,
       "message": "yes, classes in internal packages are considered internal API and internal APIs can break between minor releases. That\u0027s a common convention in projects contributing to Eclipse IDE. That\u0027s why we export such packages in `MANIFEST.MF` as `x-internal:\u003dtrue` which ensures that OSGi bundles trying to import such a package get a warning stating that consuming internal API is discouraged.\n\nIf you think we should mark such API as experimental we could choose a package name containing a segment `experimental` e.g. `org.eclipse.transport.experimental.forwarder` and also mark it `x-internal` in `MANIFEST.MF`.",
       "parentUuid": "f51eb96f_0cc11e68",
+      "revId": "542ba5a8413a7c39015684705724a41d638c1667",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c6d03c5_d8f230a4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/RouteResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-06-08T03:42:02Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9cf7dc72_7121e80a",
       "revId": "542ba5a8413a7c39015684705724a41d638c1667",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
