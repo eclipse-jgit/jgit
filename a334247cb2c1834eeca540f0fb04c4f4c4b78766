@@ -89,6 +89,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75e25e23_ac19fa1d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/FixedRouteListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-06-08T19:22:22Z",
+      "side": 1,
+      "message": "Interesting, it is a cool idea to let users know they are queued, but I don\u0027t know if it\u0027s worth it for that. Most systems that I know of do not signal this. But maybe it\u0027s OK to do this. I can understand how this makes a \"blocking\" (maxStart) API possible and simple. For now, go with it, who knows if this will continue to make sense later.",
+      "parentUuid": "610835b8_78cd46e2",
+      "revId": "a334247cb2c1834eeca540f0fb04c4f4c4b78766",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccc715c6_afa51c3b",
