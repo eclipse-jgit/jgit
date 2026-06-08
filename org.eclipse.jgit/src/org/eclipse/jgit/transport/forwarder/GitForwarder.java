@@ -109,18 +109,19 @@ public class GitForwarder implements AutoCloseable {
 	}
 
 	private void handleConnection(Socket clientSocket) {
-		RouteRequest request;
+		CommandInfo commandInfo;
 		try {
-			request = new RouteRequest(generateRequestId(),
-					new CommandInfo(clientSocket),
-					clientSocket.getInetAddress().getHostAddress(), listenOn,
-					clientSocket);
+			commandInfo = new CommandInfo(clientSocket);
 		} catch (IOException e) {
 			LOG.error(MessageFormat.format(
 					JGitText.get().forwarderFailedToParseCommandInfo,
 					clientSocket.getInetAddress()), e);
 			return;
 		}
+
+		RouteRequest request = new RouteRequest(generateRequestId(), commandInfo,
+				clientSocket.getInetAddress().getHostAddress(), listenOn,
+				clientSocket);
 
 		RouteResponse response = routingListener.onConnect(request);
 		if (response == null) {

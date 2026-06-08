@@ -163,6 +163,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String forwarderHostnameUnresolvable;
 	/***/ public String forwarderMissingNodeKey;
 	/***/ public String forwarderFailedToWriteErrorToClient;
+	/***/ public String forwarderStartSlotWaitInterrupted;
 	/***/ public String fromURI;
 	/***/ public String initializedEmptyGitRepositoryIn;
 	/***/ public String invalidHttpProxyOnlyHttpSupported;

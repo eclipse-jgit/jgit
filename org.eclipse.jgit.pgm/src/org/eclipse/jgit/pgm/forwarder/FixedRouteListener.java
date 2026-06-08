@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Semaphore;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -40,10 +41,13 @@ final class FixedRouteListener implements RoutingListener {
 
 	private final Set<String> connections = ConcurrentHashMap.newKeySet();
 
+	private final Semaphore maxStart;
+
 	FixedRouteListener(@NonNull InetSocketAddress destination,
-			int maxConnections) {
+			int maxConnections, int maxStart) {
 		this.response = new RouteResponse(destination);
 		this.maxConnections = maxConnections;
+		this.maxStart = maxStart > 0 ? new Semaphore(maxStart, true) : null;
 	}
 
 	@Override
@@ -52,6 +56,19 @@ final class FixedRouteListener implements RoutingListener {
 			LOG.warn(CLIText.get().forwarderMaxConnectionsExceeded);
 			sendError(request, CLIText.get().forwarderMaxConnectionsExceeded);
 			return null;
+		}
+
+		if (maxStart != null) {
+			try {
+				maxStart.acquire();
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				connections.remove(request.requestId());
+				LOG.error(CLIText.get().forwarderStartSlotWaitInterrupted, e);
+				sendError(request,
+						CLIText.get().forwarderStartSlotWaitInterrupted);
+				return null;
+			}
 		}
 
 		return response;
@@ -99,6 +116,10 @@ final class FixedRouteListener implements RoutingListener {
 	}
 
 	private void release(RouteRequest request) {
-		connections.remove(request.requestId());
+		if (connections.remove(request.requestId())) {
+			if (maxStart != null) {
+				maxStart.release();
+			}
+		}
 	}
 }

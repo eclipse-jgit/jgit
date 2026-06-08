@@ -39,8 +39,14 @@ import java.net.StandardSocketOptions;
  *  # Defaults to false.
  *  keepAlive = true
  *
- *   # Optional. If &gt; 0, limits total concurrent forward connections.
- *   maxConnections = 100
+ *  # Optional. If &gt; 0, hard cap on total concurrent connections; excess
+ *  # is rejected immediately. It helps limit memory and socket resources.
+ *  maxConnections = 100
+ *
+ *  # Optional. If &gt; 0, queues connections beyond this limit until a slot
+ *  # is free. Unlike maxConnections, this helps limit networking bandwidth
+ *  # and CPU.
+ *  maxStart = 10
  * </pre>
  */
 class ForwarderConfig implements GitForwarderConfig {
@@ -53,6 +59,8 @@ class ForwarderConfig implements GitForwarderConfig {
 	private static final String KEEP_ALIVE = "keepAlive"; //$NON-NLS-1$
 
 	private static final String MAX_CONNECTIONS = "maxConnections"; //$NON-NLS-1$
+
+	private static final String MAX_START = "maxStart"; //$NON-NLS-1$
 
 	private final InetSocketAddress listen;
 
@@ -84,7 +92,8 @@ class ForwarderConfig implements GitForwarderConfig {
 		this.listen = parseAddress(listenValue);
 		this.remote = parseAddress(remoteValue);
 		this.routingListener = new FixedRouteListener(this.remote,
-				cfg.getInt(GLOBAL, null, MAX_CONNECTIONS, -1));
+				cfg.getInt(GLOBAL, null, MAX_CONNECTIONS, -1),
+				cfg.getInt(GLOBAL, null, MAX_START, -1));
 		this.keepAlive = cfg.getBoolean(GLOBAL, null, KEEP_ALIVE, false);
 	}
 
