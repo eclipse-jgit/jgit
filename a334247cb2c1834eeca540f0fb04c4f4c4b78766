@@ -16,6 +16,40 @@
       "message": "trigger build",
       "revId": "a334247cb2c1834eeca540f0fb04c4f4c4b78766",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09ff1de6_59819c68",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/FixedRouteListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-06-08T16:02:55Z",
+      "side": 1,
+      "message": "This is a RoutingListner, it feels like a layering violation to be touching the socket in here.",
+      "revId": "a334247cb2c1834eeca540f0fb04c4f4c4b78766",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46e18cc5_5087c6a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-06-08T16:02:55Z",
+      "side": 1,
+      "message": "Already done on line 100?",
+      "revId": "a334247cb2c1834eeca540f0fb04c4f4c4b78766",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
