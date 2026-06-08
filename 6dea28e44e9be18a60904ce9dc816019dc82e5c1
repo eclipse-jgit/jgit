@@ -16,6 +16,24 @@
       "message": "It is not clear to be what the intent is of being able to supply a hostname here?",
       "revId": "6dea28e44e9be18a60904ce9dc816019dc82e5c1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c5384c0_d33327b4",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-06-08T18:30:04Z",
+      "side": 1,
+      "message": "Mostly for future compatibility, where we make all the nodes in cluster to read config from single file.",
+      "parentUuid": "86be204a_f5f9ab03",
+      "revId": "6dea28e44e9be18a60904ce9dc816019dc82e5c1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
