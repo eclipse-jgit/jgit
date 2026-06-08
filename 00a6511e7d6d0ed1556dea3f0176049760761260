@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "231604a7_1341dee8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-06-08T03:41:11Z",
+      "side": 1,
+      "message": "It does reduce but the count but we loose the ability on which thread the the callback (closing/cleanup) runs. Since this is low traffic not much improvement. We can consider it in future as discussed.",
+      "parentUuid": "6dced157_c405cbb3",
+      "revId": "00a6511e7d6d0ed1556dea3f0176049760761260",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43176736_01ca54b4",
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "I suspect that if we had an isolated thread pool for the forward() connections, and ensured the maxlimit was even numbered, it would at least avoid issues with that pool? That still feel optimistic, counting on the forward() threads to always start and complete in pairs. It would be better if we could somehow have a threadpool that always provided pairs of threads.",
       "parentUuid": "43176736_01ca54b4",
+      "revId": "00a6511e7d6d0ed1556dea3f0176049760761260",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "923a3f9d_a8df5c12",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarderConfig.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-06-08T03:41:11Z",
+      "side": 1,
+      "message": "Since we have other ways to set limits on the Forwarder on upcoming changes, I have removed need for a worker pool here. Marking as resolved.",
+      "parentUuid": "c75e024d_c57baf5a",
       "revId": "00a6511e7d6d0ed1556dea3f0176049760761260",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
