@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "609750ab_3c8b90f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-06-08T17:12:39Z",
+      "side": 1,
+      "message": "We have identified an issue with the packed-refs refresh, I wonder if that may have been the cause of the issue you were seeing instead. The current packed-refs file refresh does what this change does, it open and closes the packed-refs file, and that is not reliable. I believe the original after_open change should have open/closed the directory of the packed-refs file instead. We have confirmed that this is more reliable, and we have a identified an exact use case where the latter refresh works, and the current one does not. We will upload more details soon.",
+      "parentUuid": "e772974e_df6c6fe0",
+      "revId": "f23d73e2cf565f3fbafdabbb225b722ba9eacbd4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "526f1d22_4905a24a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
