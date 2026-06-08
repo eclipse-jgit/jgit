@@ -14,9 +14,9 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_ERR;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.text.MessageFormat;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -42,21 +42,37 @@ final class FixedRouteListener implements RoutingListener {
 
 	private final AtomicInteger numConnections;
 
+	private final Semaphore maxStart;
+
 	private final Set<String> admitted = ConcurrentHashMap.newKeySet();
 
 	FixedRouteListener(@NonNull InetSocketAddress destination,
-			int maxConnections) {
+			int maxConnections, int maxStart) {
 		this.response = new RouteResponse(destination);
 		this.maxConnections = maxConnections;
 		this.numConnections = maxConnections > 0 ? new AtomicInteger() : null;
+		this.maxStart = maxStart > 0 ? new Semaphore(maxStart, true) : null;
 	}
 
 	@Override
 	public RouteResponse onConnect(RouteRequest request) {
-		if (!tryAcquire()) {
+		if (!tryAcquireConnection()) {
 			LOG.warn(CLIText.get().forwarderMaxConnectionsExceeded);
 			sendError(request, CLIText.get().forwarderMaxConnectionsExceeded);
 			return null;
+		}
+
+		if (maxStart != null) {
+			try {
+				maxStart.acquire();
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				releaseConnection();
+				LOG.error(CLIText.get().forwarderStartSlotWaitInterrupted, e);
+				sendError(request,
+						CLIText.get().forwarderStartSlotWaitInterrupted);
+				return null;
+			}
 		}
 
 		admitted.add(request.requestId());
@@ -90,7 +106,7 @@ final class FixedRouteListener implements RoutingListener {
 		}
 	}
 
-	private boolean tryAcquire() {
+	private boolean tryAcquireConnection() {
 		if (numConnections == null) {
 			return true;
 		}
@@ -99,9 +115,18 @@ final class FixedRouteListener implements RoutingListener {
 		return prev < maxConnections;
 	}
 
+	private void releaseConnection() {
+		if (numConnections != null) {
+			numConnections.decrementAndGet();
+		}
+	}
+
 	private void release(RouteRequest request) {
 		if (admitted.remove(request.requestId())) {
-			numConnections.decrementAndGet();
+			if (maxStart != null) {
+				maxStart.release();
+			}
+			releaseConnection();
 		}
 	}
 }
