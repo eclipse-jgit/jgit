@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86be204a_f5f9ab03",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-06-08T17:42:04Z",
+      "side": 1,
+      "message": "It is not clear to be what the intent is of being able to supply a hostname here?",
+      "revId": "6dea28e44e9be18a60904ce9dc816019dc82e5c1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
