@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "610835b8_78cd46e2",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/FixedRouteListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-06-08T19:00:17Z",
+      "side": 1,
+      "message": "I had it that way previously, but removed it because maxStart might need to say its queued without actually returning a routeresponse in the future(since its still trying to acquire semaphore in the listener). Just forget about logging that for now ?",
+      "parentUuid": "8cb9a7b5_c828db30",
+      "revId": "a334247cb2c1834eeca540f0fb04c4f4c4b78766",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ccc715c6_afa51c3b",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/FixedRouteListener.java",
         "patchSetId": 2
