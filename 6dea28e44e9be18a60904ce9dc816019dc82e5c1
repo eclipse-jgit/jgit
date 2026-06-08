@@ -34,6 +34,24 @@
       "parentUuid": "86be204a_f5f9ab03",
       "revId": "6dea28e44e9be18a60904ce9dc816019dc82e5c1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf2d3eff_faf7a59d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-06-08T19:25:14Z",
+      "side": 1,
+      "message": "Gotcha. Let\u0027s skip that for now since this is likely a source of miss-configuration currently.\n\nMy vision is that we would have this local file on each node, and that would be its entry point. For sharing config, the local file would then include a file (using some form of \"include\" directive) shared via NFS. So, all config in the local file would be specific to this node. Despite this config being specific to the local host, ideally we would not need anything which identifies local host IPs, so we could potentially have the same config across many nodes. This avoids the need to copy common config to a file on each node. But I realize this might have shortcomings that I haven\u0027t thought of, and we may need support for something like what you are suggesting, but for now, I\u0027d rather not code up things we don\u0027t plan on needing so that we can evolve the config more easily towards the things we want.",
+      "parentUuid": "3c5384c0_d33327b4",
+      "revId": "6dea28e44e9be18a60904ce9dc816019dc82e5c1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
