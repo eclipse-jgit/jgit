@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8cb9a7b5_c828db30",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/FixedRouteListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-06-08T18:56:40Z",
+      "side": 1,
+      "message": "Would it might make more sense for a RouteResponse to be able to bundle an error message?",
+      "parentUuid": "ad07a2a7_618d79b2",
+      "revId": "a334247cb2c1834eeca540f0fb04c4f4c4b78766",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ccc715c6_afa51c3b",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/FixedRouteListener.java",
         "patchSetId": 2
