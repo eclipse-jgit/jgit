@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68e28070_705fed5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-06-09T17:19:11Z",
+      "side": 1,
+      "message": "This is the same fix as in Apache MINA SSHD 3.0.0-M1. Of course details of where that remaining data is handled are different since there the proxy protocol is a filter in a proper filter chain, whereas the way it was in JGit is much less clean. The Apache MINA SSHD code is at\n\n* HTTP CONNECT: [HttpProxyConnector](https://github.com/apache/mina-sshd/blob/dev_3.0/sshd-core/src/main/java/org/apache/sshd/client/session/proxy/HttpProxyConnector.java#L148)\n* SOCKS: [Socks5ProxyConnector](https://github.com/apache/mina-sshd/blob/dev_3.0/sshd-core/src/main/java/org/apache/sshd/client/session/proxy/Socks5ProxyConnector.java#L378)\n* Handling the remaining data: [ClientProxyFilter](https://github.com/apache/mina-sshd/blob/dev_3.0/sshd-core/src/main/java/org/apache/sshd/client/session/filter/ClientProxyFilter.java#L114)",
+      "revId": "331dcf6759a462f1ff68819bb9ce64326714e4e8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
