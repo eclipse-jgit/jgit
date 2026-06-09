@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbf13112_8bb7cc56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-06-09T09:41:11Z",
+      "side": 1,
+      "message": "can you describe in the commit message why this is necessary ?",
+      "revId": "67fbe85fde53b68be9a0d2417d1971d6e6fc70c7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
