@@ -18,10 +18,12 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -632,8 +634,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 				newPacks.add(createDfsPackFile(cache, dsc));
 				foundNew = true;
 			} else if (dsc.hasFileExt(MULTI_PACK_INDEX)) {
-				newPacks.add(
-						createDfsPackFileMidx(cache, dsc, packsWithReftables));
+				newPacks.add(createDfsPackFileMidx(cache, dsc,
+						packsWithReftables, packs));
 				foundNew = true;
 			}
 
@@ -696,18 +698,22 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 */
 	protected DfsPackFileMidx createDfsPackFileMidx(DfsBlockCache cache,
 			DfsPackDescription dsc,
-			List<DfsPackDescription> containsReftables) {
+			List<DfsPackDescription> containsReftables,
+			Map<DfsPackDescription, DfsPackFile> knownPacks) {
 		DfsPackFileMidx base = null;
 		if (dsc.getMultiPackIndexBase() != null) {
 			// The base is always a multipack index
 			base = createDfsPackFileMidx(cache, dsc.getMultiPackIndexBase(),
-					containsReftables);
+					containsReftables, knownPacks);
 		}
 		// A pack shouldn't be in the pack list and inside a multipack index
 		// at the same time. In that case, we will have it under two
 		// different DfsPackFile instances.
 		List<DfsPackFile> coveredPacks = dsc.getCoveredPacks().stream()
-				.map(desc -> createDfsPackFile(cache, desc))
+				.map(desc -> {
+					DfsPackFile old = knownPacks.remove(desc);
+					return old != null ? old : createDfsPackFile(cache, desc);
+				})
 				.collect(Collectors.toUnmodifiableList());
 		dsc.getCoveredPacks().stream().filter(d -> d.hasFileExt(REFTABLE))
 				.forEach(containsReftables::add);
@@ -716,9 +722,17 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 
 	private static Map<DfsPackDescription, DfsPackFile> packMap(PackList old) {
 		Map<DfsPackDescription, DfsPackFile> forReuse = new HashMap<>();
-		for (DfsPackFile p : old.packs) {
+		Deque<DfsPackFile> pending = new ArrayDeque<>(List.of(old.packs));
+		while (!pending.isEmpty()) {
+			DfsPackFile p = pending.poll();
 			if (!p.invalid()) {
 				forReuse.put(p.desc, p);
+			}
+			if (p instanceof DfsPackFileMidx midx) {
+				pending.addAll(midx.getCoveredPacks());
+				if (midx.getMultipackIndexBase() != null) {
+					pending.add(midx.getMultipackIndexBase());
+				}
 			}
 		}
 		return forReuse;
