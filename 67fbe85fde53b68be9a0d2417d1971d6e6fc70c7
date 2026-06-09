@@ -16,6 +16,24 @@
       "message": "can you describe in the commit message why this is necessary ?",
       "revId": "67fbe85fde53b68be9a0d2417d1971d6e6fc70c7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "466916ff_04199dc5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1039559
+      },
+      "writtenOn": "2026-06-09T10:22:46Z",
+      "side": 1,
+      "message": "Done. I encountered this issue in production and initially implemented a byte-length based fix, but @twolf@apache.org suggested this simpler solution. If needed, I can provide a more detailed example demonstrating why this fix is necessary.",
+      "parentUuid": "dbf13112_8bb7cc56",
+      "revId": "67fbe85fde53b68be9a0d2417d1971d6e6fc70c7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
