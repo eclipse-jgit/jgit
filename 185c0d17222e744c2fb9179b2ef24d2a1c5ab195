@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdee2bbd_4d6eafce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-06-09T20:24:09Z",
+      "side": 1,
+      "message": "Is it possible to test this? Say, by doing reference equality on the DfsPackFile returned by scanPacks?",
+      "revId": "185c0d17222e744c2fb9179b2ef24d2a1c5ab195",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b6576f0_bf326841",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsObjDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-06-09T20:24:09Z",
+      "side": 1,
+      "message": "javadoc is out of date.\n\nIt would be helpful here to summarize the mutations that occur to knownPacks.",
+      "revId": "185c0d17222e744c2fb9179b2ef24d2a1c5ab195",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
