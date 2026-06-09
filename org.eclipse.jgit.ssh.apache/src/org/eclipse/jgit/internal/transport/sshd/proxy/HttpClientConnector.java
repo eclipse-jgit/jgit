@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018, Thomas Wolf <thomas.wolf@paranor.ch> and others
+ * Copyright (C) 2018, Thomas Wolf <twolf@apache.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -44,6 +44,12 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 
 	private static final String HTTP_HEADER_PROXY_AUTHORIZATION = "Proxy-Authorization:"; //$NON-NLS-1$
 
+	/**
+	 * Maximum allowed length of the HTTP reply (status line + headers,
+	 * including the final CRLF).
+	 */
+	private static final int MAX_REPLY_LENGTH = 32 * 1024;
+
 	private HttpAuthenticationHandler basic;
 
 	private HttpAuthenticationHandler negotiate;
@@ -55,6 +61,8 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 	private HttpAuthenticationHandler authenticator;
 
 	private boolean ongoing;
+
+	private Accumulator data;
 
 	/**
 	 * Creates a new {@link HttpClientConnector}. The connector supports
@@ -96,6 +104,9 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 		availableAuthentications.add(negotiate);
 		availableAuthentications.add(basic);
 		clientAuthentications = availableAuthentications.iterator();
+		data = new Accumulator(MAX_REPLY_LENGTH,
+				new byte[] { '\r', '\n', '\r', '\n' },
+				SshdText.get().proxyHttpHeadersTooLong);
 	}
 
 	private void close() {
@@ -132,9 +143,9 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 	}
 
 	private void send(StringBuilder msg, IoSession session) throws Exception {
-		byte[] data = eol(msg).toString().getBytes(US_ASCII);
-		Buffer buffer = new ByteArrayBuffer(data.length, false);
-		buffer.putRawBytes(data);
+		byte[] toSend = eol(msg).toString().getBytes(US_ASCII);
+		Buffer buffer = new ByteArrayBuffer(toSend.length, false);
+		buffer.putRawBytes(toSend);
 		session.writeBuffer(buffer).verify(getTimeout());
 	}
 
@@ -161,12 +172,22 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 	public void messageReceived(IoSession session, Readable buffer)
 			throws Exception {
 		try {
-			int length = buffer.available();
-			byte[] data = new byte[length];
-			buffer.getRawBytes(data, 0, length);
-			String[] reply = new String(data, US_ASCII)
-					.split("\r\n"); //$NON-NLS-1$
-			handleMessage(session, Arrays.asList(reply));
+			if (!data.accumulate(buffer)) {
+				// Need more input
+				return;
+			}
+			byte[] headers = data.getData();
+			byte[] body = data.getRest();
+			data.clear();
+			Buffer rest = null;
+			if (body.length > 0) {
+				rest = new ByteArrayBuffer(body);
+			}
+			String[] reply = new String(headers, US_ASCII).split("\r\n"); //$NON-NLS-1$
+			boolean isDone = handleMessage(session, Arrays.asList(reply));
+			if (isDone) {
+				setDone(true, rest);
+			}
 		} catch (Exception e) {
 			if (authenticator != null) {
 				authenticator.close();
@@ -174,7 +195,7 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 			}
 			ongoing = false;
 			try {
-				setDone(false);
+				setDone(false, null);
 			} catch (Exception inner) {
 				e.addSuppressed(inner);
 			}
@@ -182,7 +203,7 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 		}
 	}
 
-	private void handleMessage(IoSession session, List<String> reply)
+	private boolean handleMessage(IoSession session, List<String> reply)
 			throws Exception {
 		if (reply.isEmpty() || reply.get(0).isEmpty()) {
 			throw new IOException(
@@ -204,8 +225,7 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 				}
 				authenticator = null;
 				ongoing = false;
-				setDone(true);
-				break;
+				return true;
 			case HttpURLConnection.HTTP_PROXY_AUTH:
 				List<AuthenticationChallenge> challenges = HttpParser
 						.getAuthenticationHeaders(reply,
@@ -223,7 +243,7 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 									proxyAddress));
 				}
 				send(authenticate(connect(), token), session);
-				break;
+				return false;
 			default:
 				throw new IOException(format(SshdText.get().proxyHttpFailure,
 						proxyAddress, Integer.toString(status.getResultCode()),
