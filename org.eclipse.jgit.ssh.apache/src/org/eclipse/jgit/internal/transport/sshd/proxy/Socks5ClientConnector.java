@@ -367,7 +367,7 @@ public class Socks5ClientConnector extends AbstractClientProxyConnector {
 		switch (reply) {
 		case SOCKS_REPLY_SUCCESS:
 			state = ProtocolState.CONNECTED;
-			setDone(true);
+			setDone(true, data);
 			return;
 		case SOCKS_REPLY_FAILURE:
 			throw new IOException(format(
@@ -422,7 +422,7 @@ public class Socks5ClientConnector extends AbstractClientProxyConnector {
 				authenticator = null;
 			}
 			try {
-				setDone(false);
+				setDone(false, null);
 			} catch (Exception inner) {
 				e.addSuppressed(inner);
 			}

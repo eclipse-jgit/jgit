@@ -18,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.sshd.client.session.ClientSession;
+import org.apache.sshd.common.util.Readable;
+import org.apache.sshd.common.util.buffer.Buffer;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.internal.transport.sshd.JGitClientSession;
 
@@ -26,6 +28,11 @@ import org.eclipse.jgit.internal.transport.sshd.JGitClientSession;
  */
 public abstract class AbstractClientProxyConnector
 		implements StatefulProxyConnector {
+
+	@FunctionalInterface
+	private interface ThrowingConsumer<T> {
+		void consume(T arg) throws Exception;
+	}
 
 	private static final long DEFAULT_PROXY_TIMEOUT_NANOS = TimeUnit.SECONDS
 			.toNanos(30L);
@@ -42,6 +49,8 @@ public abstract class AbstractClientProxyConnector
 	private long remainingProxyProtocolTime = DEFAULT_PROXY_TIMEOUT_NANOS;
 
 	private long lastProxyOperationTime = 0L;
+
+	private ThrowingConsumer<Readable> trailingDataHandler;
 
 	/** The ultimate remote address to connect to. */
 	protected final InetSocketAddress remoteAddress;
@@ -94,6 +103,7 @@ public abstract class AbstractClientProxyConnector
 		if (session instanceof JGitClientSession) {
 			JGitClientSession s = (JGitClientSession) session;
 			unregister.set(() -> s.setProxyHandler(null));
+			trailingDataHandler = s::messageReceived;
 			s.setProxyHandler(this);
 		} else {
 			// Internal error, no translation
@@ -135,10 +145,14 @@ public abstract class AbstractClientProxyConnector
 	 *
 	 * @param success
 	 *            whether the connector terminated successfully.
+	 * @param lastData
+	 *            if {@code success == true}, a buffer that may contain the
+	 *            remaining data received (can be {@code null} if no further
+	 *            data was received)
 	 * @throws Exception
 	 *             if starting ssh fails
 	 */
-	protected void setDone(boolean success) throws Exception {
+	protected void setDone(boolean success, Buffer lastData) throws Exception {
 		List<Callable<Void>> buffered;
 		Runnable unset = unregister.getAndSet(null);
 		if (unset != null) {
@@ -149,9 +163,15 @@ public abstract class AbstractClientProxyConnector
 			buffered = bufferedCommands;
 			bufferedCommands = null;
 		}
-		if (success && buffered != null) {
-			for (Callable<Void> starter : buffered) {
-				starter.call();
+		if (success) {
+			if (lastData != null && lastData.available() > 0) {
+				lastData.compact();
+				trailingDataHandler.consume(lastData);
+			}
+			if (buffered != null) {
+				for (Callable<Void> starter : buffered) {
+					starter.call();
+				}
 			}
 		}
 	}

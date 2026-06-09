@@ -164,9 +164,25 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 			int length = buffer.available();
 			byte[] data = new byte[length];
 			buffer.getRawBytes(data, 0, length);
-			String[] reply = new String(data, US_ASCII)
-					.split("\r\n"); //$NON-NLS-1$
-			handleMessage(session, Arrays.asList(reply));
+			Buffer rest = null;
+			// HTTP responses end with two CRLFs. Find them.
+			String msg = new String(data, US_ASCII);
+			int end = msg.indexOf("\r\n\r\n"); //$NON-NLS-1$
+			if (end < 0) {
+				end = data.length;
+			} else {
+				end += 4;
+			}
+			if (end < data.length) {
+				msg = msg.substring(0, end);
+				data = Arrays.copyOfRange(data, end, data.length);
+				rest = new ByteArrayBuffer(data);
+			}
+			String[] reply = msg.split("\r\n"); //$NON-NLS-1$
+			boolean isDone = handleMessage(session, Arrays.asList(reply));
+			if (isDone) {
+				setDone(true, rest);
+			}
 		} catch (Exception e) {
 			if (authenticator != null) {
 				authenticator.close();
@@ -174,7 +190,7 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 			}
 			ongoing = false;
 			try {
-				setDone(false);
+				setDone(false, null);
 			} catch (Exception inner) {
 				e.addSuppressed(inner);
 			}
@@ -182,7 +198,7 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 		}
 	}
 
-	private void handleMessage(IoSession session, List<String> reply)
+	private boolean handleMessage(IoSession session, List<String> reply)
 			throws Exception {
 		if (reply.isEmpty() || reply.get(0).isEmpty()) {
 			throw new IOException(
@@ -204,8 +220,7 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 				}
 				authenticator = null;
 				ongoing = false;
-				setDone(true);
-				break;
+				return true;
 			case HttpURLConnection.HTTP_PROXY_AUTH:
 				List<AuthenticationChallenge> challenges = HttpParser
 						.getAuthenticationHeaders(reply,
@@ -223,7 +238,7 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 									proxyAddress));
 				}
 				send(authenticate(connect(), token), session);
-				break;
+				return false;
 			default:
 				throw new IOException(format(SshdText.get().proxyHttpFailure,
 						proxyAddress, Integer.toString(status.getResultCode()),
