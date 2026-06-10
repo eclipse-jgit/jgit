@@ -612,19 +612,38 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	}
 
 	private PackList scanPacksImpl(PackList old) throws IOException {
-		DfsBlockCache cache = DfsBlockCache.getInstance();
-		Map<DfsPackDescription, DfsPackFile> packs = packMap(old);
-		Map<DfsPackDescription, DfsReftable> reftables = reftableMap(old);
-
 		List<DfsPackDescription> scanned = useMultipackIndex()
 				? MidxPackFilter.useMidx(listPacks())
 				: MidxPackFilter.skipMidxs(listPacks());
 		scanned.sort(packComparator);
+		return descTreeToPackList(scanned, old);
+	}
 
-		List<DfsPackFile> newPacks = new ArrayList<>(scanned.size());
+	/**
+	 * Translate the valid list of descriptions (with midx as trees of packs)
+	 * into DfsPackFile and DfsReftable instances
+	 *
+	 * @param descTree
+	 *            a valid list of descriptions, may contain midx. Covered packs
+	 *            and nested midxs are NOT in the top level list.
+	 * @return a packlist with the new/reused DfsPackFile instances
+	 */
+	public static PackList descTreeToPackList(
+			List<DfsPackDescription> descTree) {
+		return descTreeToPackList(descTree, NO_PACKS);
+	}
+
+	private static PackList descTreeToPackList(
+			List<DfsPackDescription> descTree,
+			PackList old) {
+		Map<DfsPackDescription, DfsPackFile> packs = packMap(old);
+		Map<DfsPackDescription, DfsReftable> reftables = reftableMap(old);
+
+		DfsBlockCache cache = DfsBlockCache.getInstance();
+		List<DfsPackFile> newPacks = new ArrayList<>(descTree.size());
 		List<DfsPackDescription> packsWithReftables = new ArrayList<>();
 		boolean foundNew = false;
-		for (DfsPackDescription dsc : scanned) {
+		for (DfsPackDescription dsc : descTree) {
 			DfsPackFile oldPack = packs.remove(dsc);
 			if (oldPack != null) {
 				newPacks.add(oldPack);
