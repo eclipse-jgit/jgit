@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8cd5062d_5d9941b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-06-10T12:20:01Z",
+      "side": 1,
+      "message": "Can you raise an issue for this problem? It could be potentially very serious as the `packed-refs` updates were not seen promptly in case of file swapped.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 12
+      },
+      "revId": "15e5d6030f996c1817c158f075e95888077f83d1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c67f611f_47dec19a",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 1
