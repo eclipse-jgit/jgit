@@ -69,6 +69,24 @@
       "parentUuid": "b4fb0037_660ce4bf",
       "revId": "60f9c8a59645cc8b1626c8d4486dc9122811267a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9727b60_3f55f58f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-06-11T08:22:21Z",
+      "side": 1,
+      "message": "👌\nI am (now) able to see the latest build in Jenkins: https://ci.eclipse.org/jgit/job/stable/job/jgit-stable.gerrit/6145/ . I logged in with my Eclipse Account credentials, just like I do in other Jenkins instances (e.g. Platform-CI).",
+      "parentUuid": "22ddca5b_150f74f2",
+      "revId": "60f9c8a59645cc8b1626c8d4486dc9122811267a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
