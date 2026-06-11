@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf03c895_7da59444",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1039310
+      },
+      "writtenOn": "2026-06-11T23:49:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cd5062d_5d9941b9",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 12
+      },
+      "revId": "15e5d6030f996c1817c158f075e95888077f83d1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c67f611f_47dec19a",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-06-09T21:25:58Z",
       "side": 1,
       "message": "If you\u0027re matching the behavior from the constructor (and I think we should), then this needs to be `gitCommonDir` (see L215).\n```suggestion\n\t\t\ttry (InputStream stream \u003d Files.newInputStream(gitCommonDir.toPath())) {\n```",
+      "revId": "15e5d6030f996c1817c158f075e95888077f83d1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d00042dd_38fa2406",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1034,
+      "author": {
+        "id": 1039310
+      },
+      "writtenOn": "2026-06-11T23:49:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c67f611f_47dec19a",
       "revId": "15e5d6030f996c1817c158f075e95888077f83d1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
