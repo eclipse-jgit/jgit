@@ -34,11 +34,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
+import java.nio.channels.FileChannel;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
@@ -1035,14 +1037,19 @@ public class RefDirectory extends RefDatabase {
 		switch (coreConfig.getTrustPackedRefsStat()) {
 		case NEVER:
 			break;
-		case AFTER_OPEN:
-			try (InputStream stream = Files
-					.newInputStream(packedRefsFile.toPath())) {
-				// open the file to refresh attributes (on some NFS clients)
-			} catch (FileNotFoundException | NoSuchFileException e) {
-				// Ignore as packed-refs may not exist
-			}
-			//$FALL-THROUGH$
+			case AFTER_OPEN:
+				// On NFS, updating packed-refs replaces the file by atomically
+				// swapping in a new inode under the same name. Opening the file via
+				// FileChannel forces the NFS client to resolve the current name to
+				// the current inode, refreshing cached attributes before
+				// isModified() below compares them.
+				try (FileChannel fc = FileChannel.open(packedRefsFile.toPath(),
+						StandardOpenOption.READ)) {
+					// open the file to refresh attributes (on some NFS clients)
+				} catch (FileNotFoundException | NoSuchFileException e) {
+					// Ignore as packed-refs may not exist
+				}
+				//$FALL-THROUGH$
 		case ALWAYS:
 			if (!snapshot.isModified(packedRefsFile)) {
 				return false;
