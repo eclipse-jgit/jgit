@@ -59,17 +59,20 @@ import org.eclipse.jgit.util.RefList;
  * <p>
  * The algorithm is:
  * <ol>
- * <li>Pack loose refs involved in the transaction using the normal pack-refs
- * operation. This ensures that creating lock files in the following step
- * succeeds even if a batch contains both a delete of {@code refs/x} (loose) and
- * a create of {@code refs/x/y}.</li>
- * <li>Create locks for all loose refs involved in the transaction, even if they
- * are not currently loose.</li>
- * <li>Pack loose refs again, this time while holding all lock files (see {@link
- * RefDirectory#pack(Map)}), without deleting them afterwards. This covers a
- * potential race where new loose refs were created after the initial packing
- * step. If no new loose refs were created during this race, this step does not
- * modify any files on disk. Keep the merged state in memory.</li>
+ * <li>If not cloning and a delete is involved or looseRefs will not be locked, pack
+ * loose refs involved in the transaction using the normal pack-refs operation. This
+ * ensures that creating lock files in the* following step succeeds even if a batch
+ * contains  both a delete of {@code refs/x} (loose) and a create of {@code refs/x/y}.
+ * In the case of not locking loose refs, it ensures that loose refs will be repacked
+ * since the repack below will get skipped in those cases.</li>
+ * <li>If not cloning and refs should be locked, create locks for all loose refs
+ * involved in the transaction, even if they are not currently loose.</li>
+ * <li>If not cloning and refs should be locked, pack loose refs again, this time
+ * while holding all lock files (see {@link RefDirectory#pack(Map)}), without
+ * deleting them afterwards. This covers a potential race where new loose refs were
+ * created after the initial packing step. If no new loose refs were created during
+ * this race, this step does not modify any files on disk. Keep the merged state in
+ * memory.</li>
  * <li>Update the in-memory packed refs with the commands in the batch, possibly
  * failing the whole batch if any old ref values do not match.</li>
  * <li>If the update succeeds, lock {@code packed-refs} and commit by atomically
@@ -150,21 +153,26 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 		try {
 			Map<String, LockFile> locks = null;
 			try {
-				// Pack refs normally, so we can create lock files even in
-				// the case where refs/x is deleted and refs/x/y is created
-				// in this batch.
-				refdb.pack(pending.stream().map(ReceiveCommand::getRefName)
-						.collect(toList()));
-
-				// During clone locking isn't needed since no refs exist yet.
+				// During clone repacking isn't needed since no loose refs exist yet.
 				// This also helps to avoid problems with refs only differing
 				// in case on a case insensitive filesystem (bug 528497)
-				if (!refdb.isInClone() && shouldLockLooseRefs) {
-					locks = lockLooseRefs(pending);
-					if (locks == null) {
-						return;
+				if (!refdb.isInClone()) {
+					if (hasDelete(pending) || !shouldLockLooseRefs) {
+						// Pack refs normally, so we can create lock files in the case where
+						// refs/x might be deleted and refs/x/y created in this batch. This
+						// check could be improved to be more precise, if it becomes desirable
+						// to skip this also for deletes which don't meet the condition above.
+						refdb.pack(pending.stream().map(ReceiveCommand::getRefName)
+								.collect(toList()));
 					}
-					refdb.pack(locks);
+
+					if (shouldLockLooseRefs) {
+						locks = lockLooseRefs(pending);
+						if (locks == null) {
+							return;
+						}
+						refdb.pack(locks);
+					}
 				}
 
 				LockFile packedRefsLock = refdb.lockPackedRefsOrThrow();
@@ -517,5 +525,9 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 			}
 		}
 		ReceiveCommand.abort(commands);
+	}
+
+	private static boolean hasDelete(List<ReceiveCommand> commands) {
+		return commands.stream().anyMatch(c -> c.getType() == ReceiveCommand.Type.DELETE);
 	}
 }
