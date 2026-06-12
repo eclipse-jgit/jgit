@@ -146,14 +146,16 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 			return;
 		}
 
-		// Pack refs normally, so we can create lock files even in the case where
-		// refs/x is deleted and refs/x/y is created in this batch.
-		try {
-			refdb.pack(
-					pending.stream().map(ReceiveCommand::getRefName).collect(toList()));
-		} catch (LockFailedException e) {
-			lockFailure(pending.get(0), pending);
-			return;
+		if (hasDelete(pending) || !shouldLockLooseRefs) {
+			// Pack refs normally, so we can create lock files even in the case where
+			// refs/x is deleted and refs/x/y is created in this batch.
+			try {
+				refdb.pack(
+						pending.stream().map(ReceiveCommand::getRefName).collect(toList()));
+			} catch (LockFailedException e) {
+				lockFailure(pending.get(0), pending);
+				return;
+			}
 		}
 
 		Map<String, LockFile> locks = null;
@@ -403,6 +405,17 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 			}
 		}
 		return b.toRefList();
+	}
+
+	private boolean hasDelete(List<ReceiveCommand> commands) {
+		for (ReceiveCommand c : commands) {
+			switch (c.getType()) {
+			case DELETE:
+				return true;
+			default:
+			}
+		}
+		return false;
 	}
 
 	private void writeReflog(List<ReceiveCommand> commands) {
