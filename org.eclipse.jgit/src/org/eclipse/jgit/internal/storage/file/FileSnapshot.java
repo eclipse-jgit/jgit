@@ -271,6 +271,35 @@ public class FileSnapshot {
 	}
 
 	/**
+	 * Check whether the given fileKey differs from the one recorded in this
+	 * snapshot.
+	 * <p>
+	 * This is used by callers that have obtained a fresh {@code fileKey} by
+	 * opening the file (e.g. via {@link java.nio.channels.FileChannel}) and
+	 * reading its attributes while the file is held open. On NFS, an atomic
+	 * rename replaces the file with a new inode; comparing fileKeys while the
+	 * file is open lets the caller detect such a replacement even when the NFS
+	 * client's attribute cache still reports the old inode's metadata for the
+	 * path name.
+	 *
+	 * @param currentFileKey
+	 *            the fileKey obtained from the currently open file; must not be
+	 *            {@code null}
+	 * @return {@code true} if {@code currentFileKey} is different from this
+	 *         snapshot's recorded fileKey, meaning the file has been replaced
+	 *         by a different inode since this snapshot was taken
+	 */
+	boolean isFileKeyDifferent(@NonNull Object currentFileKey) {
+		if (fileKey == MISSING_FILEKEY) {
+			// Snapshot was taken without a usable fileKey (e.g. on a
+			// filesystem that does not provide one). We cannot compare,
+			// so report no difference and fall back to isModified().
+			return false;
+		}
+		return !currentFileKey.equals(fileKey);
+	}
+
+	/**
 	 * Check if the path may have been modified since the snapshot was saved.
 	 *
 	 * @param path

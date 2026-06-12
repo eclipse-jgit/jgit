@@ -34,11 +34,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
+import java.nio.channels.FileChannel;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
@@ -1031,11 +1035,36 @@ public class RefDirectory extends RefDatabase {
 		case NEVER:
 			break;
 		case AFTER_OPEN:
-			try (InputStream stream = Files
-					.newInputStream(packedRefsFile.toPath())) {
-				// open the file to refresh attributes (on some NFS clients)
+			// On NFS, updating packed-refs replaces the file by atomically
+			// swapping in a new inode under the same name. If the previous
+			// packed-refs inode is still held open on any host (causing an NFS
+			// silly-rename), simply opening and closing the path may not
+			// reliably invalidate the NFS client's attribute cache for that
+			// path. In that case isModified() would compare stale cached
+			// attributes and incorrectly conclude nothing changed.
+			//
+			// To detect an inode swap, we open the file via FileChannel and
+			// read its BasicFileAttributes while the channel is open. Opening
+			// the channel forces the NFS client to resolve the current name to
+			// the current inode. The fileKey in those attributes (device +
+			// inode number on Linux) identifies that inode uniquely. If it
+			// differs from the fileKey recorded in the snapshot, the file was
+			// atomically replaced and we must re-read, regardless of what
+			// isModified() would say.
+			try (FileChannel fc = FileChannel.open(packedRefsFile.toPath(),
+					StandardOpenOption.READ)) {
+				BasicFileAttributes openAttrs = Files.readAttributes(
+						packedRefsFile.toPath(), BasicFileAttributes.class,
+						LinkOption.NOFOLLOW_LINKS);
+				Object currentFileKey = openAttrs.fileKey();
+				if (currentFileKey != null
+						&& snapshot.isFileKeyDifferent(currentFileKey)) {
+					// The inode changed: packed-refs was atomically replaced.
+					// Force a refresh unconditionally.
+					return true;
+				}
 			} catch (FileNotFoundException | NoSuchFileException e) {
-				// Ignore as packed-refs may not exist
+				// Ignore: packed-refs may not exist yet
 			}
 			//$FALL-THROUGH$
 		case ALWAYS:
