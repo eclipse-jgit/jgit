@@ -59,10 +59,10 @@ import org.eclipse.jgit.util.RefList;
  * <p>
  * The algorithm is:
  * <ol>
- * <li>Pack loose refs involved in the transaction using the normal pack-refs
- * operation. This ensures that creating lock files in the following step
- * succeeds even if a batch contains both a delete of {@code refs/x} (loose) and
- * a create of {@code refs/x/y}.</li>
+ * <li>If a delete is involved, pack loose refs involved in the transaction using
+ * the normal pack-refs operation. This ensures that creating lock files in the
+ * following step succeeds even if a batch contains both a delete of
+ * {@code refs/x} (loose) and a create of {@code refs/x/y}.</li>
  * <li>Create locks for all loose refs involved in the transaction, even if they
  * are not currently loose.</li>
  * <li>Pack loose refs again, this time while holding all lock files (see {@link
@@ -146,14 +146,16 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 			return;
 		}
 
-		// Pack refs normally, so we can create lock files even in the case where
-		// refs/x is deleted and refs/x/y is created in this batch.
-		try {
-			refdb.pack(
-					pending.stream().map(ReceiveCommand::getRefName).collect(toList()));
-		} catch (LockFailedException e) {
-			lockFailure(pending.get(0), pending);
-			return;
+		if (hasDelete(pending) || !shouldLockLooseRefs) {
+			// Pack refs normally, so we can create lock files even in the case where
+			// refs/x is deleted and refs/x/y is created in this batch.
+			try {
+				refdb.pack(
+						pending.stream().map(ReceiveCommand::getRefName).collect(toList()));
+			} catch (LockFailedException e) {
+				lockFailure(pending.get(0), pending);
+				return;
+			}
 		}
 
 		Map<String, LockFile> locks = null;
@@ -519,5 +521,9 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 			}
 		}
 		ReceiveCommand.abort(commands);
+	}
+
+	private static boolean hasDelete(List<ReceiveCommand> commands) {
+		return commands.stream().anyMatch(c -> c.getType() == ReceiveCommand.Type.DELETE);
 	}
 }
