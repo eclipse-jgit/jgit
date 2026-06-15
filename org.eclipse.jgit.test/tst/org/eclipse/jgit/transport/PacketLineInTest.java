@@ -107,6 +107,15 @@ public class PacketLineInTest {
 	}
 
 	@Test
+	public void testReadString_MalformedHeaderNegativeBytes() {
+		byte[] malformed = new byte[] { 0x1f, (byte) 0x8b, 0x08, 0x00 };
+		rawIn = new ByteArrayInputStream(malformed);
+		in = new PacketLineIn(rawIn);
+		PackProtocolException e = assertThrows(PackProtocolException.class, () -> in.readString());
+		assertTrue(e.getMessage().startsWith("Invalid packet line header:"));
+	}
+
+	@Test
 	public void testReadString_Len0004() throws IOException {
 		init("0004");
 		final String act = in.readString();

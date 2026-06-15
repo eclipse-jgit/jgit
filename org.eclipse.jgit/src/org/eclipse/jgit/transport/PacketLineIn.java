@@ -335,16 +335,16 @@ public class PacketLineIn {
 		return len;
 	}
 
-	private IOException invalidHeader() {
-		return new IOException(MessageFormat.format(JGitText.get().invalidPacketLineHeader,
+	private PackProtocolException invalidHeader() {
+		return new PackProtocolException(MessageFormat.format(JGitText.get().invalidPacketLineHeader,
 				"" + (char) lineBuffer[0] + (char) lineBuffer[1] //$NON-NLS-1$
 				+ (char) lineBuffer[2] + (char) lineBuffer[3]));
 	}
 
-	private IOException invalidHeader(Throwable cause) {
-		IOException ioe = invalidHeader();
-		ioe.initCause(cause);
-		return ioe;
+	private PackProtocolException invalidHeader(Throwable cause) {
+		PackProtocolException ppe = invalidHeader();
+		ppe.initCause(cause);
+		return ppe;
 	}
 
 	/**
