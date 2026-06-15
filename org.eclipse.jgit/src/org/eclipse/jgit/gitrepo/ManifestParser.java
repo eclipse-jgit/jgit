@@ -61,6 +61,7 @@ public class ManifestParser extends DefaultHandler {
 
 	private String defaultRemote;
 	private String defaultRevision;
+	private String defaultReview;
 	private int xmlInRead;
 	private RepoProject currentProject;
 
@@ -195,7 +196,8 @@ public class ManifestParser extends DefaultHandler {
 			String alias = attributes.getValue("alias");
 			String fetch = attributes.getValue("fetch");
 			String revision = attributes.getValue("revision");
-			Remote remote = new Remote(fetch, revision);
+			String review = attributes.getValue("review");
+			Remote remote = new Remote(fetch, revision, review);
 			remotes.put(attributes.getValue("name"), remote);
 			if (alias != null) {
 				remotes.put(alias, remote);
@@ -204,6 +206,7 @@ public class ManifestParser extends DefaultHandler {
 		case "default":
 			defaultRemote = attributes.getValue("remote");
 			defaultRevision = attributes.getValue("revision");
+			defaultReview = attributes.getValue("review");
 			break;
 		case "copyfile":
 			if (currentProject == null) {
@@ -314,6 +317,12 @@ public class ManifestParser extends DefaultHandler {
 			}
 			proj.setUrl(remoteUrl.resolve(proj.getName()).toString())
 				.setDefaultRevision(revision);
+			Remote r = remotes.get(remote);
+			if (r != null && r.review != null) {
+				proj.setReview(r.review);
+			} else if (defaultReview != null) {
+				proj.setReview(defaultReview);
+			}
 		}
 
 		filteredProjects.addAll(projects);
@@ -440,10 +449,12 @@ public class ManifestParser extends DefaultHandler {
 	private static class Remote {
 		final String fetch;
 		final String revision;
+		final String review;
 
-		Remote(String fetch, String revision) {
+		Remote(String fetch, String revision, String review) {
 			this.fetch = fetch;
 			this.revision = revision;
+			this.review = review;
 		}
 	}
 }
