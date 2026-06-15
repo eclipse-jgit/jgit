@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef36a9da_0d7cc607",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039627
+      },
+      "writtenOn": "2026-06-15T11:58:41Z",
+      "side": 1,
+      "message": "Hey Ivan,\nLooking for a CL review for http://b/496997293, thank you!",
+      "revId": "bd2cc7c225f2e0ec0d74b3e5caad1c3f59b97a9c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
