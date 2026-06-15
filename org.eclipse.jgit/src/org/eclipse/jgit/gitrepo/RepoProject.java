@@ -41,6 +41,7 @@ public class RepoProject implements Comparable<RepoProject> {
 	private String upstream;
 	private String destBranch;
 	private String recommendShallow;
+	private String recommendReview;
 	private String url;
 	private String defaultRevision;
 
@@ -331,6 +332,27 @@ public class RepoProject implements Comparable<RepoProject> {
 	public void setRecommendShallow(String recommendShallow) {
 		this.recommendShallow = recommendShallow;
 	}
+
+	/**
+	 * Return the recommendation for Gerrit review.
+	 *
+	 * @return the String of "review"
+	 * @since 6.12
+	 */
+	public String getRecommendReview() {
+		return recommendReview;
+	}
+
+	/**
+	 * Sets the recommendation for Gerrit review.
+	 *
+	 * @param recommendReview recommendation for gerrit review
+	 * @since 6.12
+	 */
+	public void setRecommendReview(String recommendReview) {
+		this.recommendReview = recommendReview;
+	}
+
 
 	/**
 	 * Add a copy file configuration.
