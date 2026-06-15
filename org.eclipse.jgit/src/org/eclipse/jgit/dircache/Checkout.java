@@ -186,12 +186,7 @@ public class Checkout {
 			return;
 		}
 
-		String name = f.getName();
-		if (name.length() > 200) {
-			name = name.substring(0, 200);
-		}
-		File tmpFile = File.createTempFile("._" + name, null, parentDir); //$NON-NLS-1$
-
+		File tmpFile = createTempFile(f, parentDir);
 		DirCacheCheckout.getContent(cache.getRepository(), path, metadata, ol,
 				options,
 				new FileOutputStream(tmpFile));
@@ -242,5 +237,36 @@ public class Checkout {
 			}
 		}
 		entry.setLastModified(fs.lastModifiedInstant(f));
+	}
+
+	/**
+	 * Creates a temp file starting with the prefix "._" followed by the name of
+	 * the given file, truncated to a maximum of 50 characters if necessary. The
+	 * temp file is created in the given parent directory. If the last character
+	 * of the truncated name is a high surrogate, it is removed to avoid
+	 * creating an invalid file name. Some filesystems have a limit of 255 bytes
+	 * for file names, hence the truncation to 50 characters to allow for the
+	 * "._" prefix and potential multi-byte characters.
+	 *
+	 * @param f
+	 *            file to create a temp file for
+	 * @param parentDir
+	 *            parent directory in which to create the temp file
+	 * @return the temp file created
+	 * @throws IOException
+	 *             if an I/O error occurs while creating the temp file
+	 */
+	private File createTempFile(File f, File parentDir) throws IOException {
+		final int MAXLENGTH = 50;
+
+		String name = f.getName();
+		if (name.length() > MAXLENGTH) {
+			if (Character.isHighSurrogate(name.charAt(MAXLENGTH - 1))) {
+				name = name.substring(0, MAXLENGTH - 1);
+			} else {
+				name = name.substring(0, MAXLENGTH);
+			}
+		}
+		return File.createTempFile("._" + name, null, parentDir); //$NON-NLS-1$
 	}
 }
