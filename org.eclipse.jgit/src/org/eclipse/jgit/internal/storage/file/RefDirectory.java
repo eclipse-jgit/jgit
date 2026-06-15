@@ -740,7 +740,11 @@ public class RefDirectory extends RefDatabase {
 				int levels = levelsIn(name) - 2;
 				delete(logFor(name), levels);
 				if (dst.getStorage().isLoose()) {
-					deleteAndUnlock(fileFor(name), levels, update);
+					File refFile = fileFor(name);
+					ObjectId refObjectId = dst.getObjectId();
+					deleteAndUnlock(refFile, levels, update);
+					LOG.debug(JGitText.get().deleteLooseRef,
+							refFile, refObjectId);
 				}
 			} finally {
 				lck.unlock();
@@ -873,6 +877,7 @@ public class RefDirectory extends RefDatabase {
 							} while (!looseRefs.compareAndSet(curLoose, newLoose));
 							int levels = levelsIn(refName) - 2;
 							deleteAndUnlock(refFile, levels, rLck);
+							LOG.debug(JGitText.get().deleteLooseRef, refFile, clr_oid);
 						}
 					} finally {
 						if (shouldUnlock) {
