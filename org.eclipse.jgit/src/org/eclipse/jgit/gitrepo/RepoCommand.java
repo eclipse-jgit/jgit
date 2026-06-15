@@ -591,6 +591,7 @@ public class RepoCommand extends GitCommand<RevCommit> {
 				p.addCopyFiles(proj.getCopyFiles());
 				p.addLinkFiles(proj.getLinkFiles());
 				p.setUpstream(proj.getUpstream());
+				p.setRecommendReview(proj.getRecommendReview());
 				ret.add(p);
 			}
 		}
