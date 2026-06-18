@@ -12,6 +12,7 @@ java_library(
     ),
     # TODO(davido): we want here provided deps
     deps = [
+        "//lib:jakarta-servlet-api",
         "//lib:jetty-http",
         "//lib:jetty-io",
         "//lib:jetty-security",
@@ -20,7 +21,6 @@ java_library(
         "//lib:jetty-session",
         "//lib:jetty-util",
         "//lib:junit",
-        "//lib:servlet-api",
         "//lib:slf4j-api",
         "//org.eclipse.jgit.http.server:jgit-servlet",
         "//org.eclipse.jgit:jgit",
