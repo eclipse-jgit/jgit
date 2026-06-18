@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2df270e3_e085de6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039640
+      },
+      "writtenOn": "2026-06-18T22:38:37Z",
+      "side": 1,
+      "message": "I have reason to believe that this will speed things up a lot for upload from big repositories, but I don\u0027t have a good way of verifying it, so it\u0027s speculative.",
+      "revId": "ac3da081cab504b3b39729d7077f9746682a50da",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
