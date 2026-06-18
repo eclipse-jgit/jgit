@@ -295,7 +295,7 @@ java_library(
 )
 
 java_library(
-    name = "servlet-api",
+    name = "jakarta-servlet-api",
     visibility = [
         "//org.eclipse.jgit.http.apache:__pkg__",
         "//org.eclipse.jgit.http.server:__pkg__",

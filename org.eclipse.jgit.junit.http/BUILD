@@ -17,7 +17,7 @@ java_library(
         "//lib:jetty-session",
         "//lib:jetty-util",
         "//lib:junit",
-        "//lib:servlet-api",
+        "//lib:jakarta-servlet-api",
         "//lib:slf4j-api",
         "//org.eclipse.jgit.http.server:jgit-servlet",
         "//org.eclipse.jgit:jgit",

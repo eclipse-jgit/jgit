@@ -22,7 +22,7 @@ java_library(
         "//lib:jetty-server",
         "//lib:jetty-servlet",
         "//lib:jetty-util",
-        "//lib:servlet-api",
+        "//lib:jakarta-servlet-api",
         "//org.eclipse.jgit.archive:jgit-archive",
         "//org.eclipse.jgit.http.apache:http-apache",
         "//org.eclipse.jgit:jgit",
