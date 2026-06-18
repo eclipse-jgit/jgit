@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "618d67f4_c64a6136",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-06-18T10:07:25Z",
+      "side": 1,
+      "message": "Whilst this is true for *future* fixes, it doesn\u0027t help in providing fixes to older points of the servlet-4 branch, or am I mistaken?\n\nE.g. Even with this change, we won\u0027t be able to provide fixes for Gerrit\u0027s stable-3.12 and stable-3.13 branches.",
+      "range": {
+        "startLine": 22,
+        "startChar": 14,
+        "endLine": 23,
+        "endChar": 55
+      },
+      "revId": "705e9a0d344611865efaf66351aadaa5fc760fd2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "440d40c8_2f3bf64b",
+        "filename": "lib/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-06-18T10:07:25Z",
+      "side": 1,
+      "message": "Unrelated formatting change?",
+      "range": {
+        "startLine": 270,
+        "startChar": 0,
+        "endLine": 272,
+        "endChar": 49
+      },
+      "revId": "705e9a0d344611865efaf66351aadaa5fc760fd2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81a3e3d1_ca6c855c",
+        "filename": "lib/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-06-18T10:07:25Z",
+      "side": 1,
+      "message": "Unrelated formatting change?",
+      "revId": "705e9a0d344611865efaf66351aadaa5fc760fd2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b25512ca_f45bfce7",
+        "filename": "tools/jgit-ee8/generated_srcs_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-06-18T10:07:25Z",
+      "side": 1,
+      "message": "Why is this called `_test`?\n\nHow is this approach different than Ivan Frade\u0027s support [1] on the Gerrit side?\nHow does this address the issues that caused the revert of [1]?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/446221/5",
+      "revId": "705e9a0d344611865efaf66351aadaa5fc760fd2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
