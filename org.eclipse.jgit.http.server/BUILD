@@ -13,7 +13,7 @@ java_library(
     resource_strip_prefix = "org.eclipse.jgit.http.server/resources",
     resources = [":jgit-servlet-resources"],
     deps = [
-        "//lib:servlet-api",
+        "//lib:jakarta-servlet-api",
         # We want these deps to be provided_deps
         "//org.eclipse.jgit:jgit",
     ],
