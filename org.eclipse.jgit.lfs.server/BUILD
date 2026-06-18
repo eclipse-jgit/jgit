@@ -10,7 +10,7 @@ java_library(
     deps = [
         "//lib:gson",
         "//lib:httpcore",
-        "//lib:servlet-api",
+        "//lib:jakarta-servlet-api",
         "//lib:slf4j-api",
         "//org.eclipse.jgit.http.apache:http-apache",
         "//org.eclipse.jgit:jgit",
