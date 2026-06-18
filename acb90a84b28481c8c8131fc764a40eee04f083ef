@@ -16,6 +16,23 @@
       "message": "Trigger build",
       "revId": "acb90a84b28481c8c8131fc764a40eee04f083ef",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79be1c3f_94da0b69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-06-18T17:19:26Z",
+      "side": 1,
+      "message": "see https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1238357",
+      "revId": "acb90a84b28481c8c8131fc764a40eee04f083ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
