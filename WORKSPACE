@@ -3,7 +3,7 @@ workspace(name = "jgit")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("//tools:bazlets.bzl", "load_bazlets")
 
-load_bazlets(commit = "f9c119e45d9a241bee720b7fbd6c7fdbc952da5f")
+load_bazlets(commit = "156bae8bb0d329d8886f681c723979cbdb39d37c")
 
 load(
     "@com_googlesource_gerrit_bazlets//tools:maven_jar.bzl",
@@ -21,6 +21,20 @@ http_archive(
 load("@rules_java//java:repositories.bzl", "rules_java_dependencies", "rules_java_toolchains")
 
 rules_java_dependencies()
+
+http_archive(
+    name = "rules_shell",
+    sha256 = "e6b87c89bd0b27039e3af2c5da01147452f240f75d505f5b6880874f31036307",
+    strip_prefix = "rules_shell-0.6.1",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_shell/releases/download/v0.6.1/rules_shell-v0.6.1.tar.gz",
+        "https://github.com/bazelbuild/rules_shell/releases/download/v0.6.1/rules_shell-v0.6.1.tar.gz",
+    ],
+)
+
+load("@rules_shell//shell:repositories.bzl", "rules_shell_dependencies", "rules_shell_toolchains")
+
+rules_shell_dependencies()
 
 http_archive(
     name = "ubuntu2204_jdk17",
@@ -41,6 +55,8 @@ register_toolchains("//tools:error_prone_warnings_toolchain_java21_definition")
 # (one without custom package_config). That's why the `rules_java_toolchains()`
 # must be called after the `register_toolchain()` invocation.
 rules_java_toolchains()
+
+rules_shell_toolchains()
 
 JMH_VERS = "1.37"
 
@@ -158,6 +174,12 @@ maven_jar(
     name = "servlet-api",
     artifact = "jakarta.servlet:jakarta.servlet-api:6.1.0",
     sha1 = "1169a246913fe3823782af7943e7a103634867c5",
+)
+
+maven_jar(
+    name = "javax-servlet-api",
+    artifact = "javax.servlet:javax.servlet-api:4.0.1",
+    sha1 = "a27082684a2ff0bf397666c3943496c44541d1ca",
 )
 
 maven_jar(

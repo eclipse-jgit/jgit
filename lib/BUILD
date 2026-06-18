@@ -59,6 +59,7 @@ java_library(
     visibility = [
         "//org.eclipse.jgit.lfs:__pkg__",
         "//org.eclipse.jgit.lfs.server:__pkg__",
+        "//org.eclipse.jgit.lfs.server.ee8:__pkg__",
     ],
     exports = ["@gson//jar"],
 )
@@ -79,6 +80,7 @@ java_library(
         "//org.eclipse.jgit.http.apache:__pkg__",
         "//org.eclipse.jgit.http.test:__pkg__",
         "//org.eclipse.jgit.lfs.server:__pkg__",
+        "//org.eclipse.jgit.lfs.server.ee8:__pkg__",
         "//org.eclipse.jgit.lfs.server.test:__pkg__",
         "//org.eclipse.jgit.pgm:__pkg__",
     ],
@@ -320,6 +322,15 @@ java_library(
         "//org.eclipse.jgit.pgm:__pkg__",
     ],
     exports = ["@servlet-api//jar"],
+)
+
+java_library(
+    name = "javax-servlet-api",
+    visibility = [
+        "//org.eclipse.jgit.http.server.ee8:__pkg__",
+        "//org.eclipse.jgit.lfs.server.ee8:__pkg__",
+    ],
+    exports = ["@javax-servlet-api//jar"],
 )
 
 java_library(
