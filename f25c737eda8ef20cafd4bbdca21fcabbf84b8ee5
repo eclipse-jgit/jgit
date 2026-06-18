@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd9dd676_676a1df6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-06-18T09:49:26Z",
+      "side": 1,
+      "message": "Why not keeping the `//lib:servet-api` as the modern Jakarta?\n\nThe legacy servlet-4 can be a brand-new target.",
+      "revId": "f25c737eda8ef20cafd4bbdca21fcabbf84b8ee5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
