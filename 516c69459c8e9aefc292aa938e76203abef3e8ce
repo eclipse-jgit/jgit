@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfa5529e_83791b7b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-06-18T18:16:40Z",
+      "side": 1,
+      "message": "verified successfully against https://gerrit-review.googlesource.com/c/gerrit/+/597101",
+      "revId": "516c69459c8e9aefc292aa938e76203abef3e8ce",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
