@@ -23,7 +23,7 @@ DEPS = [
     "//lib:jetty-servlet",
     "//lib:jetty-security",
     "//lib:jetty-util",
-    "//lib:servlet-api",
+    "//lib:jakarta-servlet-api",
 ]
 
 junit_tests(
