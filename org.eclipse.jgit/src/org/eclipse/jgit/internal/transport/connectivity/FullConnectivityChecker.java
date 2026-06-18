@@ -118,6 +118,22 @@ public final class FullConnectivityChecker implements ConnectivityChecker {
 				}
 			}
 		}
+		if (!connectivityCheckInfo.isCheckObjects() && connectivityCheckInfo.getParser() != null) {
+			// If checkObjects is false, reachability verification from advertised refs
+			// (i.e. read-security checks) is not required. Only integrity needs to be
+			// verified (that referenced base objects exist in the repository). Since the
+			// pack parser has already resolved these base objects against the local
+			// database, they are guaranteed to exist. Thus, they can be safely marked
+			// as uninteresting to prevent JGit from walking past them back to the root.
+			ObjectIdSubclassMap<ObjectId> baseObjectIds = connectivityCheckInfo.getParser().getBaseObjectIds();
+			if (baseObjectIds != null) {
+				for (ObjectId id : baseObjectIds) {
+					RevObject o = ow.parseAny(id);
+					ow.markUninteresting(o);
+					pm.update(1);
+				}
+			}
+		}
 		return true;
 	}
 

@@ -1126,4 +1126,42 @@ public class TreeWalkConnectivityCheckerTest {
 			return tr.getRevWalk().parseCommit(id);
 		}
 	}
+
+	@Test
+	public void testFullConnectivityCheckerBasesUninterestingWhenCheckObjectsDisabled() throws Exception {
+		// Create a chain of 100 parent commits in the repository
+		RevCommit parent = tr.commit().create();
+		for (int i = 0; i < 100; i++) {
+			parent = tr.commit().parent(parent).create();
+		}
+
+		// Create a child commit with that parent
+		RevCommit child = createCommitWithParent(parent.getId());
+
+		// Disable checkObjects (reachability check)
+		info.setCheckObjects(false);
+
+		// Set receive command for the child commit
+		setupSingleReceiveCommand(ObjectId.zeroId(), child.getId());
+
+		// Setup base object IDs list to contain the parent commit
+		ObjectIdSubclassMap<ObjectId> bases = new ObjectIdSubclassMap<>();
+		bases.add(parent.getId());
+		when(parser.getBaseObjectIds()).thenReturn(bases);
+
+		// Setup new pack objects to contain the child commit
+		mockNewPackObjects(child);
+
+		FullConnectivityChecker fcChecker = new FullConnectivityChecker();
+
+		// Use a clean ObjectWalk to avoid sort flags (like BOUNDARY) from previous tests
+		try (org.eclipse.jgit.revwalk.ObjectWalk ow = new org.eclipse.jgit.revwalk.ObjectWalk(info.getRepository().newObjectReader())) {
+			info.setWalk(ow);
+			fcChecker.checkConnectivity(info, haves, pm);
+		}
+
+		// Verify JGit only checked the child commit, and did not walk the 100 ancestors back to the root.
+		// Count is 3: 1 for child start, 1 for parent uninteresting, and 1 for child returned in next().
+		assertEquals(3, pm.getObjectsCheckedCount());
+	}
 }
