@@ -16,6 +16,24 @@
       "message": "since 7.7.0 was released we are heading for 7.8.0",
       "revId": "cf9e35b056502f8f8a869545a790b49a726b0f8d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22ba3d5e_ff4272cd",
+        "filename": "org.eclipse.jgit.http.server/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-06-19T08:23:12Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "826617ae_a1c5ef9c",
+      "revId": "cf9e35b056502f8f8a869545a790b49a726b0f8d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
