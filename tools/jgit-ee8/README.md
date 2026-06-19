@@ -3,6 +3,29 @@
 This package contains the Bazel-only bridge for source consumers that still run
 on EE8 and `javax.servlet` while JGit master uses `jakarta.servlet`.
 
+There is also a separate Maven EE8 parent at `org.eclipse.jgit.ee8/`. It
+exists to keep Bazel and Maven aligned for source generation, build, and test.
+TODO: add Tycho/p2 publishing as a follow-up packaging step.
+
+Run Maven tests from the repo root:
+
+```sh
+mvn test
+```
+
+That is the supported path. The standalone `org.eclipse.jgit.ee8` reactor is
+only useful if the canonical JGit artifacts it depends on are already built or
+installed locally.
+
+To run only the EE8 Maven modules, use the reactor selector from the repo root:
+
+```sh
+mvn -pl org.eclipse.jgit.ee8 -am test
+```
+
+That keeps the EE8 build scoped to the EE8 reactor while still building the
+required upstream modules.
+
 JGit hosts this bridge because Gerrit is a known downstream that consumes JGit
 from source through a git submodule and still runs Jetty 12 EE8. Keeping the
 bridge in JGit lets Gerrit track JGit master and avoids maintaining a long-lived
@@ -63,7 +86,7 @@ Next steps:
 * Reuse these targets for other Bazel source consumers that need EE8 output.
 * Move the generated-test JUnit helper to bazlets only if more generated-test
   users need the same split between suite source labels and compiled sources.
-* Add Maven/Tycho/p2 generation only when a non-Bazel consumer needs published
+* TODO: add Maven/Tycho/p2 generation when a non-Bazel consumer needs published
   EE8 artifacts.
 * Keep the canonical `srcs` filegroups aligned with each servlet-facing
   `java_library` so new Java sources are transformed automatically.
