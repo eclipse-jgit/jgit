@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (C) 2026, David Ostrovsky <david@ostrovsky.org> and others
+
+  This program and the accompanying materials are made available under the
+  terms of the Eclipse Distribution License v. 1.0 which is available at
+  http://www.eclipse.org/org/documents/edl-v10.php.
+
+  SPDX-License-Identifier: BSD-3-Clause
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.eclipse.jgit</groupId>
+    <artifactId>org.eclipse.jgit.ee8-parent</artifactId>
+    <version>7.8.0-SNAPSHOT</version>
+    <relativePath>../org.eclipse.jgit.ee8/pom.xml</relativePath>
+  </parent>
+
+  <artifactId>org.eclipse.jgit.http.test.ee8</artifactId>
+  <name>JGit - HTTP Tests EE8</name>
+
+  <description>
+    EE8 build of the HTTP transport tests.
+  </description>
+
+  <properties>
+    <ee8.generated.src.dir>${project.build.directory}/generated-sources/ee8</ee8.generated.src.dir>
+    <ee8.generated.test.dir>${project.build.directory}/generated-test-sources/ee8</ee8.generated.test.dir>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.http.apache</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest</artifactId>
+      <scope>test</scope>
+      <version>${hamcrest-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.junit.http.ee8</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.junit</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.http.server.ee8</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jetty.ee8</groupId>
+      <artifactId>jetty-ee8-servlet</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jetty.ee8</groupId>
+      <artifactId>jetty-ee8-security</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <sourceDirectory>${ee8.generated.src.dir}/src</sourceDirectory>
+    <testSourceDirectory>${ee8.generated.test.dir}/tst</testSourceDirectory>
+
+    <plugins>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-ee8-sources</id>
+            <phase>generate-sources</phase>
+            <configuration>
+              <target>
+                <mkdir dir="${ee8.generated.src.dir}/src"/>
+                <copy todir="${ee8.generated.src.dir}/src" overwrite="true">
+                  <fileset dir="${project.basedir}/../org.eclipse.jgit.http.test/src"
+                      includes="**/*.java"/>
+                </copy>
+                <replaceregexp byline="true"
+                    match="org\.eclipse\.jetty\.ee10\.servlet\.security"
+                    replace="org.eclipse.jetty.ee8.security">
+                  <fileset dir="${ee8.generated.src.dir}/src" includes="**/*.java"/>
+                </replaceregexp>
+                <replaceregexp byline="true"
+                    match="org\.eclipse\.jetty\.ee10\.servlet"
+                    replace="org.eclipse.jetty.ee8.servlet">
+                  <fileset dir="${ee8.generated.src.dir}/src" includes="**/*.java"/>
+                </replaceregexp>
+                <replaceregexp byline="true"
+                    match="jakarta\.servlet"
+                    replace="javax.servlet">
+                  <fileset dir="${ee8.generated.src.dir}/src" includes="**/*.java"/>
+                </replaceregexp>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+
+          <execution>
+            <id>generate-ee8-tests</id>
+            <phase>generate-test-sources</phase>
+            <configuration>
+              <target>
+                <mkdir dir="${ee8.generated.test.dir}/tst"/>
+                <copy todir="${ee8.generated.test.dir}/tst" overwrite="true">
+                  <fileset dir="${project.basedir}/../org.eclipse.jgit.http.test/tst"
+                      includes="**/*.java"/>
+                </copy>
+                <replaceregexp byline="true"
+                    match="org\.eclipse\.jetty\.ee10\.servlet\.security"
+                    replace="org.eclipse.jetty.ee8.security">
+                  <fileset dir="${ee8.generated.test.dir}/tst" includes="**/*.java"/>
+                </replaceregexp>
+                <replaceregexp byline="true"
+                    match="org\.eclipse\.jetty\.ee10\.servlet"
+                    replace="org.eclipse.jetty.ee8.servlet">
+                  <fileset dir="${ee8.generated.test.dir}/tst" includes="**/*.java"/>
+                </replaceregexp>
+                <replaceregexp byline="true"
+                    match="jakarta\.servlet"
+                    replace="javax.servlet">
+                  <fileset dir="${ee8.generated.test.dir}/tst" includes="**/*.java"/>
+                </replaceregexp>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>@{argLine} -Djava.io.tmpdir=${project.build.directory} -Xmx512m</argLine>
+          <includes>
+            <include>**/*Test.java</include>
+            <include>**/*Tests.java</include>
+          </includes>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>add-overlay-src</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>src/</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

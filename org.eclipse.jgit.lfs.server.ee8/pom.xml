@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (C) 2026, David Ostrovsky <david@ostrovsky.org> and others
+
+  This program and the accompanying materials are made available under the
+  terms of the Eclipse Distribution License v. 1.0 which is available at
+  http://www.eclipse.org/org/documents/edl-v10.php.
+
+  SPDX-License-Identifier: BSD-3-Clause
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.eclipse.jgit</groupId>
+    <artifactId>org.eclipse.jgit.ee8-parent</artifactId>
+    <version>7.8.0-SNAPSHOT</version>
+    <relativePath>../org.eclipse.jgit.ee8/pom.xml</relativePath>
+  </parent>
+
+  <artifactId>org.eclipse.jgit.lfs.server.ee8</artifactId>
+  <name>JGit - LFS Server EE8</name>
+
+  <description>
+    EE8 build of the LFS server sources for javax.servlet consumers.
+  </description>
+
+  <properties>
+    <ee8.generated.src.dir>${project.build.directory}/generated-sources/ee8</ee8.generated.src.dir>
+    <translate-qualifier/>
+    <source-bundle-manifest>${project.build.directory}/META-INF/SOURCE-MANIFEST.MF</source-bundle-manifest>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.lfs</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.http.apache</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <sourceDirectory>${ee8.generated.src.dir}/src</sourceDirectory>
+
+    <plugins>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-ee8-resources</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/../org.eclipse.jgit.lfs.server/resources</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-ee8-sources</id>
+            <phase>generate-sources</phase>
+            <configuration>
+              <target>
+                <mkdir dir="${ee8.generated.src.dir}/src"/>
+                <copy todir="${ee8.generated.src.dir}/src" overwrite="true">
+                  <fileset dir="${project.basedir}/../org.eclipse.jgit.lfs.server/src"
+                      includes="**/*.java"/>
+                </copy>
+                <replaceregexp byline="true"
+                    match="jakarta\.servlet"
+                    replace="javax.servlet">
+                  <fileset dir="${ee8.generated.src.dir}/src" includes="**/*.java"/>
+                </replaceregexp>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>translate-source-qualifier</id>
+            <phase>generate-resources</phase>
+            <configuration>
+              <target>
+                <copy file="META-INF/SOURCE-MANIFEST.MF" tofile="${source-bundle-manifest}" overwrite="true"/>
+                <replace file="${source-bundle-manifest}">
+                  <replacefilter token=".qualifier" value=".${commit.time.version}"/>
+                </replace>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <inherited>true</inherited>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <archive>
+                <manifestFile>${source-bundle-manifest}</manifestFile>
+              </archive>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestFile>${bundle-manifest}</manifestFile>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
