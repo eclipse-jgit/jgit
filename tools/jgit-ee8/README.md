@@ -22,17 +22,18 @@ Generated targets:
 Do not put one of these generated jars and its canonical Jakarta counterpart on
 the same classpath. They contain the same JGit classes.
 
-This is intentionally limited to Bazel source consumers. It does not add Maven,
-Tycho, p2, or Maven Central publication machinery. Those should be added only if
-a non-Bazel consumer needs published EE8 artifacts.
+This is intentionally limited to source generation, build, and test. It does
+not add Tycho, p2, or Maven Central publication machinery yet.
 
 Run:
 
 ```sh
-bazelisk test //tools/jgit-ee8:generated_srcs_test
+bazelisk test \
+  //tools/jgit-ee8:generated_srcs_test \
+  //org.eclipse.jgit.junit.http.ee8:tests
 ```
 
-The test checks:
+`//tools/jgit-ee8:generated_srcs_test` checks:
 
 * generated sources are derived from the canonical source filegroups
 * generated srcjar entries use Java package paths
@@ -40,10 +41,28 @@ The test checks:
 * generated sources contain `javax.servlet`, not `jakarta.servlet`
 * generated sources do not move JGit classes to an `.ee8` package
 
+The dedicated `org.eclipse.jgit.*.ee8` targets follow the Jetty 12 EE8 testing
+model in a smaller form. Jetty generates EE8 main and test sources from the
+canonical newer-EE modules and then runs the EE8 tests in the EE8 module graph.
+JGit does the same for the servlet-facing tests: the HTTP/LFS test sources and
+shared `junit-http` helpers are transformed to `javax.servlet`, wired to Jetty
+EE8 test dependencies, and run against the generated EE8 JGit jars.
+
+`//org.eclipse.jgit.http.test.ee8:server_unit` is a fast, focused target for the
+three HTTP server utility tests. It is not part of the default EE8 suite because
+those classes already run under `//org.eclipse.jgit.http.test.ee8:http`.
+
+The test rewrite rules also map Jetty test helper imports from
+`org.eclipse.jetty.ee10.servlet` to the Jetty EE8 packages needed by the tests.
+They are intentionally test-only and separate from the production
+`jakarta.servlet` to `javax.servlet` rules.
+
 Next steps:
 
 * Keep this source-consumer bridge while Gerrit runs on Jetty 12 EE8.
 * Reuse these targets for other Bazel source consumers that need EE8 output.
+* Move the generated-test JUnit helper to bazlets only if more generated-test
+  users need the same split between suite source labels and compiled sources.
 * Add Maven/Tycho/p2 generation only when a non-Bazel consumer needs published
   EE8 artifacts.
 * Keep the canonical `srcs` filegroups aligned with each servlet-facing
