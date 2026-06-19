@@ -27,6 +27,7 @@ import org.apache.sshd.agent.SshAgentConstants;
 import org.apache.sshd.agent.SshAgentKeyConstraint;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.config.keys.KeyUtils;
+import org.apache.sshd.common.config.keys.u2f.SecurityKeyPublicKey;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.session.SessionContext;
 import org.apache.sshd.common.util.buffer.Buffer;
@@ -213,9 +214,12 @@ public class SshAgentClient implements SshAgent {
 							SshAgentConstants.getCommandMessageName(cmd)));
 		}
 		try {
-			Buffer signatureReply = new ByteArrayBuffer(reply.getBytes());
+			byte[] signatureBlob = reply.getBytes();
+			Buffer signatureReply = new ByteArrayBuffer(signatureBlob);
 			String actualAlgorithm = signatureReply.getString();
-			byte[] signature = signatureReply.getBytes();
+			byte[] signature = key instanceof SecurityKeyPublicKey<?>
+					? signatureBlob
+					: signatureReply.getBytes();
 			if (LOG.isTraceEnabled()) {
 				LOG.trace(
 						"sign({}): signature reply from SSH agent for {} key: {} signature={}", //$NON-NLS-1$
