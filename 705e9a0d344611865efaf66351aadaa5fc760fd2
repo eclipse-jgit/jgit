@@ -41,6 +41,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f69f5b60_fe21be04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-06-19T15:35:02Z",
+      "side": 1,
+      "message": "\u003e How are the -ee8 artefacts tested ?\n\nGood point. I added the tests in the follow-up changes.\n\nId3d9312f0a adds EE8 variants of the existing HTTP and LFS servlet test suites for Bazel. The tests are mostly generated from the canonical Jakarta-based sources and executed against the generated EE8 artifacts, so they stay aligned with the primary test suites.\n\nId349b4ebc4 then adds Maven build and test support for the EE8 artifacts, bringing Maven to parity with the Bazel implementation.\n\nTycho/p2 packaging and publication are intentionally left out of this series for now and can be added later if there is a concrete consumer for published EE8 artifacts.",
+      "parentUuid": "a728ca74_f8c7d85c",
+      "revId": "705e9a0d344611865efaf66351aadaa5fc760fd2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "440d40c8_2f3bf64b",
