@@ -4,9 +4,46 @@ load(
 )
 load("@rules_java//java:defs.bzl", "java_library")
 
+HTTP_HELPER_SRCS = glob(["src/**/*.java"])
+
+HTTP_TEST_SRCS = glob(["tst/**/*.java"])
+
+HTTP_SERVER_UNIT_TEST_SRCS = [
+    "tst/org/eclipse/jgit/http/server/ClientVersionUtilTest.java",
+    "tst/org/eclipse/jgit/http/server/RootLocaleTest.java",
+    "tst/org/eclipse/jgit/http/server/ServletUtilsTest.java",
+]
+
+filegroup(
+    name = "helper-srcs",
+    testonly = 1,
+    srcs = HTTP_HELPER_SRCS,
+    visibility = [
+        "//org.eclipse.jgit.http.test.ee8:__pkg__",
+        "//tools/jgit-ee8:__pkg__",
+    ],
+)
+
+filegroup(
+    name = "test-srcs",
+    testonly = 1,
+    srcs = HTTP_TEST_SRCS,
+    visibility = [
+        "//org.eclipse.jgit.http.test.ee8:__pkg__",
+        "//tools/jgit-ee8:__pkg__",
+    ],
+)
+
+filegroup(
+    name = "http-server-unit-test-srcs",
+    testonly = 1,
+    srcs = HTTP_SERVER_UNIT_TEST_SRCS,
+    visibility = ["//org.eclipse.jgit.http.test.ee8:__pkg__"],
+)
+
 junit_tests(
     name = "http",
-    srcs = glob(["tst/**/*.java"]),
+    srcs = HTTP_TEST_SRCS,
     tags = ["http"],
     deps = [
         ":helpers",
@@ -33,7 +70,7 @@ junit_tests(
 java_library(
     name = "helpers",
     testonly = 1,
-    srcs = glob(["src/**/*.java"]),
+    srcs = HTTP_HELPER_SRCS,
     deps = [
         "//lib:jakarta-servlet-api",
         "//lib:junit",
