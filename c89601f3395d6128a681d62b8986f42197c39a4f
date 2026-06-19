@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71db380c_7939b344",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2026-06-19T09:37:53Z",
+      "side": 1,
+      "message": "The merge of this change will require a bump up in some Gerrit libraries: https://gerrit-review.googlesource.com/c/gerrit/+/598421/3",
+      "revId": "c89601f3395d6128a681d62b8986f42197c39a4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
