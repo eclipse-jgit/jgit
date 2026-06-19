@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (C) 2026, David Ostrovsky <david@ostrovsky.org> and others
+
+  This program and the accompanying materials are made available under the
+  terms of the Eclipse Distribution License v. 1.0 which is available at
+  http://www.eclipse.org/org/documents/edl-v10.php.
+
+  SPDX-License-Identifier: BSD-3-Clause
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.eclipse.jgit</groupId>
+    <artifactId>org.eclipse.jgit.ee8-parent</artifactId>
+    <version>7.8.0-SNAPSHOT</version>
+    <relativePath>../org.eclipse.jgit.ee8/pom.xml</relativePath>
+  </parent>
+
+  <artifactId>org.eclipse.jgit.lfs.server.test.ee8</artifactId>
+  <name>JGit - LFS Server Tests EE8</name>
+
+  <description>
+    EE8 build of the LFS server tests.
+  </description>
+
+  <properties>
+    <ee8.generated.src.dir>${project.build.directory}/generated-sources/ee8</ee8.generated.src.dir>
+    <ee8.generated.test.dir>${project.build.directory}/generated-test-sources/ee8</ee8.generated.test.dir>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.lfs.server.ee8</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.lfs.test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.junit.http.ee8</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.junit</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jetty.ee8</groupId>
+      <artifactId>jetty-ee8-servlet</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <sourceDirectory>${ee8.generated.src.dir}/src</sourceDirectory>
+    <testSourceDirectory>${ee8.generated.test.dir}/tst</testSourceDirectory>
+
+    <plugins>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-ee8-tests</id>
+            <phase>generate-test-sources</phase>
+            <configuration>
+              <target>
+                <mkdir dir="${ee8.generated.test.dir}/tst"/>
+                <copy todir="${ee8.generated.test.dir}/tst" overwrite="true">
+                  <fileset dir="${project.basedir}/../org.eclipse.jgit.lfs.server.test/tst"
+                      includes="**/*.java"/>
+                </copy>
+                <replaceregexp byline="true"
+                    match="org\.eclipse\.jetty\.ee10\.servlet\.security"
+                    replace="org.eclipse.jetty.ee8.security">
+                  <fileset dir="${ee8.generated.test.dir}/tst" includes="**/*.java"/>
+                </replaceregexp>
+                <replaceregexp byline="true"
+                    match="org\.eclipse\.jetty\.ee10\.servlet"
+                    replace="org.eclipse.jetty.ee8.servlet">
+                  <fileset dir="${ee8.generated.test.dir}/tst" includes="**/*.java"/>
+                </replaceregexp>
+                <replaceregexp byline="true"
+                    match="jakarta\.servlet"
+                    replace="javax.servlet">
+                  <fileset dir="${ee8.generated.test.dir}/tst" includes="**/*.java"/>
+                </replaceregexp>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>@{argLine} -Djava.io.tmpdir=${project.build.directory} -Xmx512m</argLine>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
