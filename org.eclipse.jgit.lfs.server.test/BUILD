@@ -5,6 +5,34 @@ load(
 load("@rules_java//java:defs.bzl", "java_library")
 
 TEST_BASE = ["tst/org/eclipse/jgit/lfs/server/fs/LfsServerTest.java"]
+TEST_SRCS = glob(["tst/**/*.java"])
+
+filegroup(
+    name = "test-srcs",
+    testonly = 1,
+    srcs = TEST_SRCS,
+    visibility = [
+        "//org.eclipse.jgit.lfs.server.test.ee8:__pkg__",
+        "//tools/jgit-ee8:__pkg__",
+    ],
+)
+
+filegroup(
+    name = "base-test-srcs",
+    testonly = 1,
+    srcs = TEST_BASE,
+    visibility = ["//org.eclipse.jgit.lfs.server.test.ee8:__pkg__"],
+)
+
+filegroup(
+    name = "nonbase-test-srcs",
+    testonly = 1,
+    srcs = glob(
+        ["tst/**/*.java"],
+        exclude = TEST_BASE,
+    ),
+    visibility = ["//org.eclipse.jgit.lfs.server.test.ee8:__pkg__"],
+)
 
 DEPS = [
     "//org.eclipse.jgit.lfs.test:helpers",

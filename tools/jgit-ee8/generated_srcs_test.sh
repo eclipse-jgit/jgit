@@ -47,10 +47,22 @@ check_module() {
   fi
 
   local all_sources="${tmp}/all-sources"
+  local all_original_sources="${tmp}/all-original-sources"
   unzip -p "${srcjar}" > "${all_sources}"
+  cat "$@" > "${all_original_sources}"
 
   if grep -n 'jakarta\.servlet' "${all_sources}"; then
     echo "Found jakarta.servlet residue in ${srcjar}" >&2
+    exit 1
+  fi
+
+  if grep -n '^import jakarta\.' "${all_sources}"; then
+    echo "Found jakarta import residue in ${srcjar}" >&2
+    exit 1
+  fi
+
+  if grep -n 'org\.eclipse\.jetty\.ee10\.servlet' "${all_sources}"; then
+    echo "Found Jetty EE10 servlet residue in ${srcjar}" >&2
     exit 1
   fi
 
@@ -59,7 +71,8 @@ check_module() {
     exit 1
   fi
 
-  if ! grep -q 'javax\.servlet' "${all_sources}"; then
+  if grep -q 'jakarta\.servlet' "${all_original_sources}" &&
+      ! grep -q 'javax\.servlet' "${all_sources}"; then
     echo "No javax.servlet references found in ${srcjar}" >&2
     exit 1
   fi
