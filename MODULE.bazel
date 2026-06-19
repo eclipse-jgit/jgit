@@ -27,17 +27,17 @@ git_repository(
 
 BOUNCYCASTLE_VERSION = "1.84"
 
-BYTE_BUDDY_VERSION = "1.18.8"
+BYTE_BUDDY_VERSION = "1.18.10"
 
-JETTY_VERSION = "12.1.9"
+JETTY_VERSION = "12.1.10"
 
 JMH_VERSION = "1.37"
 
-JNA_VERSION = "5.18.1"
+JNA_VERSION = "5.19.1"
 
 SLF4J_VERSION = "2.0.18"
 
-SSHD_VERSION = "2.17.1"
+SSHD_VERSION = "2.18.0"
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(
