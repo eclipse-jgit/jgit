@@ -271,6 +271,24 @@ maven_jar(
 )
 
 maven_jar(
+    name = "jetty-ee8-nested",
+    artifact = "org.eclipse.jetty.ee8:jetty-ee8-nested:" + JETTY_VER,
+    sha1 = "8118cdcdf9cdf163584d47e136e1cee17b547985",
+)
+
+maven_jar(
+    name = "jetty-security-ee8",
+    artifact = "org.eclipse.jetty.ee8:jetty-ee8-security:" + JETTY_VER,
+    sha1 = "d25c84218ef00b7e54f537acdee3fda8f20be975",
+)
+
+maven_jar(
+    name = "jetty-servlet-ee8",
+    artifact = "org.eclipse.jetty.ee8:jetty-ee8-servlet:" + JETTY_VER,
+    sha1 = "881b69b15540215aace32ab7c985abb6e4fe0c25",
+)
+
+maven_jar(
     name = "jetty-security",
     artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VER,
     sha1 = "5fb2a02cc342fd132e5a358ecbb4479aabf58a3a",

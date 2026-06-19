@@ -69,6 +69,7 @@ java_library(
     visibility = [
         "//org.eclipse.jgit.http.apache:__pkg__",
         "//org.eclipse.jgit.lfs.server.test:__pkg__",
+        "//org.eclipse.jgit.lfs.server.test.ee8:__pkg__",
         "//org.eclipse.jgit.pgm:__pkg__",
     ],
     exports = ["@httpclient//jar"],
@@ -79,9 +80,11 @@ java_library(
     visibility = [
         "//org.eclipse.jgit.http.apache:__pkg__",
         "//org.eclipse.jgit.http.test:__pkg__",
+        "//org.eclipse.jgit.http.test.ee8:__pkg__",
         "//org.eclipse.jgit.lfs.server:__pkg__",
         "//org.eclipse.jgit.lfs.server.ee8:__pkg__",
         "//org.eclipse.jgit.lfs.server.test:__pkg__",
+        "//org.eclipse.jgit.lfs.server.test.ee8:__pkg__",
         "//org.eclipse.jgit.pgm:__pkg__",
     ],
     exports = ["@httpcore//jar"],
@@ -176,6 +179,35 @@ java_library(
         "@jetty-servlet//jar",
         "@jetty-util-ajax//jar",
     ],
+)
+
+java_library(
+    name = "jetty-ee8-nested",
+    testonly = 1,
+    visibility = ["//org.eclipse.jgit.junit.http.ee8:__pkg__"],
+    exports = ["@jetty-ee8-nested//jar"],
+)
+
+java_library(
+    name = "jetty-security-ee8",
+    testonly = 1,
+    visibility = [
+        "//org.eclipse.jgit.http.test.ee8:__pkg__",
+        "//org.eclipse.jgit.junit.http.ee8:__pkg__",
+        "//org.eclipse.jgit.lfs.server.test.ee8:__pkg__",
+    ],
+    exports = ["@jetty-security-ee8//jar"],
+)
+
+java_library(
+    name = "jetty-servlet-ee8",
+    testonly = 1,
+    visibility = [
+        "//org.eclipse.jgit.http.test.ee8:__pkg__",
+        "//org.eclipse.jgit.junit.http.ee8:__pkg__",
+        "//org.eclipse.jgit.lfs.server.test.ee8:__pkg__",
+    ],
+    exports = ["@jetty-servlet-ee8//jar"],
 )
 
 java_library(
@@ -317,6 +349,7 @@ java_library(
         "//org.eclipse.jgit.http.server:__pkg__",
         "//org.eclipse.jgit.http.test:__pkg__",
         "//org.eclipse.jgit.junit.http:__pkg__",
+        "//org.eclipse.jgit.junit.http.ee8:__pkg__",
         "//org.eclipse.jgit.lfs.server:__pkg__",
         "//org.eclipse.jgit.lfs.server.test:__pkg__",
         "//org.eclipse.jgit.pgm:__pkg__",
@@ -328,7 +361,10 @@ java_library(
     name = "javax-servlet-api",
     visibility = [
         "//org.eclipse.jgit.http.server.ee8:__pkg__",
+        "//org.eclipse.jgit.http.test.ee8:__pkg__",
+        "//org.eclipse.jgit.junit.http.ee8:__pkg__",
         "//org.eclipse.jgit.lfs.server.ee8:__pkg__",
+        "//org.eclipse.jgit.lfs.server.test.ee8:__pkg__",
     ],
     exports = ["@javax-servlet-api//jar"],
 )
