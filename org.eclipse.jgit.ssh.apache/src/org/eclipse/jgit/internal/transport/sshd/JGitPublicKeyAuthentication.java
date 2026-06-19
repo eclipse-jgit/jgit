@@ -10,6 +10,7 @@
 package org.eclipse.jgit.internal.transport.sshd;
 
 import static java.text.MessageFormat.format;
+import static org.apache.sshd.common.SshConstants.SSH_MSG_USERAUTH_REQUEST;
 import static org.eclipse.jgit.transport.SshConstants.NONE;
 import static org.eclipse.jgit.transport.SshConstants.PKCS11_PROVIDER;
 import static org.eclipse.jgit.transport.SshConstants.PKCS11_SLOT_LIST_INDEX;
@@ -50,11 +51,16 @@ import org.apache.sshd.client.config.hosts.HostConfigEntry;
 import org.apache.sshd.client.session.ClientSession;
 import org.apache.sshd.common.FactoryManager;
 import org.apache.sshd.common.NamedFactory;
+import org.apache.sshd.common.RuntimeSshException;
 import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.config.keys.u2f.SecurityKeyPublicKey;
 import org.apache.sshd.common.signature.Signature;
 import org.apache.sshd.common.signature.SignatureFactoriesManager;
 import org.apache.sshd.common.util.GenericUtils;
+import org.apache.sshd.common.util.ValidateUtils;
+import org.apache.sshd.common.util.buffer.Buffer;
+import org.apache.sshd.common.util.buffer.BufferUtils;
+import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
 import org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile;
 import org.eclipse.jgit.internal.transport.sshd.pkcs11.Pkcs11Provider;
 import org.eclipse.jgit.transport.CredentialItem;
@@ -123,6 +129,68 @@ public class JGitPublicKeyAuthentication extends UserAuthPublicKey {
 			setSignatureFactoriesNames(session.getSignatureFactoriesNames());
 		}
 		super.init(session, service);
+	}
+
+	@Override
+	protected byte[] appendSignature(ClientSession session, String service,
+			String name, String username, String algo, PublicKey key,
+			PublicKey serverKey, Buffer buffer) throws Exception {
+		byte[] id = session.getSessionId();
+		int length = id.length + username.length() + service.length()
+				+ name.length() + algo.length() + ByteArrayBuffer.DEFAULT_SIZE
+				+ Long.SIZE;
+		Buffer bs = new ByteArrayBuffer(length, false);
+		bs.putBytes(id);
+		bs.putByte(SSH_MSG_USERAUTH_REQUEST);
+		bs.putString(username);
+		bs.putString(service);
+		bs.putString(name);
+		bs.putBoolean(true);
+		bs.putString(algo);
+		bs.putPublicKey(key);
+		if (serverKey != null) {
+			bs.putPublicKey(serverKey);
+		}
+
+		byte[] contents = bs.getCompactData();
+		byte[] sig;
+		try {
+			Map.Entry<String, byte[]> result = current.sign(session, algo,
+					contents);
+			String factoryName = result.getKey();
+			ValidateUtils.checkState(algo.equalsIgnoreCase(factoryName),
+					"Mismatched signature type generated: requested=%s, used=%s", //$NON-NLS-1$
+					algo, factoryName);
+			sig = result.getValue();
+		} catch (Error e) {
+			warn("appendSignature({})[{}][{}] failed ({}) to sign contents using {}: {}", //$NON-NLS-1$
+					session, service, name, e.getClass().getSimpleName(), algo,
+					e.getMessage(), e);
+			throw new RuntimeSshException(e);
+		}
+
+		String signatureAlgo = KeyUtils.getSignatureAlgorithm(algo, key);
+
+		if (log.isTraceEnabled()) {
+			log.trace(
+					"appendSignature({})[{}] name={}, key type={}, fingerprint={} - verification data={}", //$NON-NLS-1$
+					session, service, name, signatureAlgo,
+					KeyUtils.getFingerPrint(key), BufferUtils.toHex(contents));
+			log.trace(
+					"appendSignature({})[{}] name={}, key type={}, fingerprint={} - generated signature={}", //$NON-NLS-1$
+					session, service, name, signatureAlgo,
+					KeyUtils.getFingerPrint(key), BufferUtils.toHex(sig));
+		}
+
+		bs.clear();
+		if (key instanceof SecurityKeyPublicKey<?>) {
+			bs.putRawBytes(sig);
+		} else {
+			bs.putString(signatureAlgo);
+			bs.putBytes(sig);
+		}
+		buffer.putBytes(bs.array(), bs.rpos(), bs.available());
+		return sig;
 	}
 
 	@Override
