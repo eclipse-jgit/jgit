@@ -1,0 +1,26 @@
+sh_test(
+    name = "generated_srcs_test",
+    srcs = ["@com_googlesource_gerrit_bazlets//tools:generated_srcs_test.sh"],
+    args = [
+        "--forbid",
+        "jakarta\\.servlet",
+        "--forbid",
+        "org\\.eclipse\\.jgit\\..*\\.ee8",
+        "--require",
+        "javax\\.servlet",
+        "--module",
+        "org.eclipse.jgit.http.server/src/",
+        "$(location //org.eclipse.jgit.http.server.ee8:jgit-http-server-ee8-srcs)",
+        "$(locations //org.eclipse.jgit.http.server:srcs)",
+        "--module",
+        "org.eclipse.jgit.lfs.server/src/",
+        "$(location //org.eclipse.jgit.lfs.server.ee8:jgit-lfs-server-ee8-srcs)",
+        "$(locations //org.eclipse.jgit.lfs.server:srcs)",
+    ],
+    data = [
+        "//org.eclipse.jgit.http.server.ee8:jgit-http-server-ee8-srcs",
+        "//org.eclipse.jgit.http.server:srcs",
+        "//org.eclipse.jgit.lfs.server.ee8:jgit-lfs-server-ee8-srcs",
+        "//org.eclipse.jgit.lfs.server:srcs",
+    ],
+)

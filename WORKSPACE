@@ -3,7 +3,7 @@ workspace(name = "jgit")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("//tools:bazlets.bzl", "load_bazlets")
 
-load_bazlets(commit = "f9c119e45d9a241bee720b7fbd6c7fdbc952da5f")
+load_bazlets(commit = "156bae8bb0d329d8886f681c723979cbdb39d37c")
 
 load(
     "@com_googlesource_gerrit_bazlets//tools:maven_jar.bzl",
@@ -158,6 +158,12 @@ maven_jar(
     name = "servlet-api",
     artifact = "jakarta.servlet:jakarta.servlet-api:6.1.0",
     sha1 = "1169a246913fe3823782af7943e7a103634867c5",
+)
+
+maven_jar(
+    name = "javax-servlet-api",
+    artifact = "javax.servlet:javax.servlet-api:4.0.1",
+    sha1 = "a27082684a2ff0bf397666c3943496c44541d1ca",
 )
 
 maven_jar(
