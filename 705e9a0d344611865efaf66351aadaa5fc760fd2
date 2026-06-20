@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "eb9a4eb1_9a1bc629",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-06-20T11:08:18Z",
+      "side": 1,
+      "message": "\u003e Even with this change, we won\u0027t be able to provide fixes for Gerrit\u0027s stable-3.12 and stable-3.13 branches.\n\nThat\u0027s a fair point.\n\nAt the time this change was posted, the corresponding stable backports did not exist yet. The intention was to first develop and review the solution on master, which is usually the most effective way to validate the approach and address review feedback before backporting it to stable branches.\n\nYour comment highlighted that the value of the approach would be much stronger if it could also be demonstrated on the currently maintained release lines. Based on that feedback, I implemented the corresponding backports:\n\n* JGit stable-7.4: [1].\n* Gerrit stable-3.12: [2].\n\n[1]: https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1239923\n[2]: https://gerrit-review.googlesource.com/c/gerrit/+/598681",
+      "parentUuid": "618d67f4_c64a6136",
+      "range": {
+        "startLine": 22,
+        "startChar": 14,
+        "endLine": 23,
+        "endChar": 55
+      },
+      "revId": "705e9a0d344611865efaf66351aadaa5fc760fd2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a728ca74_f8c7d85c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
