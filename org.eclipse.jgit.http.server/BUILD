@@ -7,9 +7,18 @@ filegroup(
     srcs = glob(["resources/**"]),
 )
 
+filegroup(
+    name = "srcs",
+    srcs = glob(["src/**/*.java"]),
+    visibility = [
+        "//org.eclipse.jgit.http.server.ee8:__pkg__",
+        "//tools/jgit-ee8:__pkg__",
+    ],
+)
+
 java_library(
     name = "jgit-servlet",
-    srcs = glob(["src/**/*.java"]),
+    srcs = [":srcs"],
     resource_strip_prefix = "org.eclipse.jgit.http.server/resources",
     resources = [":jgit-servlet-resources"],
     deps = [

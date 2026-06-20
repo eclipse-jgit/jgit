@@ -155,9 +155,45 @@ maven_jar(
 )
 
 maven_jar(
+    name = "bnd-transform",
+    artifact = "biz.aQute.bnd:biz.aQute.bnd.transform:7.0.0",
+    sha1 = "01301baef29ca79c3ec787cfd7d121436be8f236",
+)
+
+maven_jar(
+    name = "commons-cli",
+    artifact = "commons-cli:commons-cli:1.9.0",
+    sha1 = "e1cdfa8bf40ccbb7440b2d1232f9f45bb20a1844",
+)
+
+maven_jar(
+    name = "eclipse-transformer",
+    artifact = "org.eclipse.transformer:org.eclipse.transformer:1.0.0",
+    sha1 = "d7895fdd4e27b1ea7a10170a751baed40234af54",
+)
+
+maven_jar(
+    name = "eclipse-transformer-cli",
+    artifact = "org.eclipse.transformer:org.eclipse.transformer.cli:1.0.0",
+    sha1 = "70b8e3970961fba3087fe79f9f5f8676513f59ac",
+)
+
+maven_jar(
+    name = "eclipse-transformer-jakarta",
+    artifact = "org.eclipse.transformer:org.eclipse.transformer.jakarta:1.0.0",
+    sha1 = "c675f7de2b7a4f884c173daefe7e6d1900c911b9",
+)
+
+maven_jar(
     name = "servlet-api",
     artifact = "jakarta.servlet:jakarta.servlet-api:6.1.0",
     sha1 = "1169a246913fe3823782af7943e7a103634867c5",
+)
+
+maven_jar(
+    name = "javax-servlet-api",
+    artifact = "javax.servlet:javax.servlet-api:4.0.1",
+    sha1 = "a27082684a2ff0bf397666c3943496c44541d1ca",
 )
 
 maven_jar(
