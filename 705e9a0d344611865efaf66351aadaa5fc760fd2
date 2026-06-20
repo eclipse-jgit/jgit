@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c5bde2a_00649776",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-06-20T15:24:31Z",
+      "side": 1,
+      "message": "**Update**\n\nI also added a second pair of stable backports that uses the same Eclipse Transformer CLI based source transformation model as this master change:\n\n* JGit stable-7.4: [3].\n* Gerrit stable-3.12: [4]. \n\nSo we now have two options for the stable branches:\n\n* the minimal local-rewrite variant;\n* the Transformer CLI variant.\n\nEven though using the same transformation model on master and stable has its advantages, my clear preference for stable-7.4/stable-3.12 is the minimal local-rewrite variant. These branches still use `WORKSPACE` and `maven_jar`, so the Transformer CLI variant requires adding the Transformer CLI runtime graph in JGit and repeating those repository declarations in Gerrit. That feels like too much churn on very stable branches for a transformation that is limited to replacing `jakarta.servlet` references with `javax.servlet`.\n\nSo personally I strongly lean toward the *using local rewrite* pair, but I wanted to provide both implementations to make the tradeoff concrete.\n\nI’ll leave the final call to the maintainers.\n\n[3]: https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1239925\n[4]: https://gerrit-review.googlesource.com/c/gerrit/+/598742",
+      "parentUuid": "eb9a4eb1_9a1bc629",
+      "range": {
+        "startLine": 22,
+        "startChar": 14,
+        "endLine": 23,
+        "endChar": 55
+      },
+      "revId": "705e9a0d344611865efaf66351aadaa5fc760fd2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a728ca74_f8c7d85c",
