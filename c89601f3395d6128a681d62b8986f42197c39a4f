@@ -52,6 +52,23 @@
       "parentUuid": "a433a2c5_4fb4f754",
       "revId": "c89601f3395d6128a681d62b8986f42197c39a4f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2e76f5c_4eb86bf7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-06-22T14:19:51Z",
+      "side": 1,
+      "message": "gerrit build verified successfully against https://gerrit-review.googlesource.com/c/gerrit/+/599221 which needs to be submitted to consume this merge in Gerrit",
+      "revId": "c89601f3395d6128a681d62b8986f42197c39a4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
