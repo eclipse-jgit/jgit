@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bacb1799_a7c42bf7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-06-23T21:43:10Z",
+      "side": 1,
+      "message": "https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1238355",
+      "parentUuid": "d4daf8d0_0f75748c",
+      "revId": "8120317aac5c34c8a140772a373ddc432887bc04",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42d98a7e_3a64b2cb",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 2
