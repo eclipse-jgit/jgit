@@ -16,6 +16,52 @@
       "message": "This might be a more efficient approach than what\u0027s in change 1238785 since it\u0027s still targeted to just the packed-refs file instead of the entire `.git` dir.",
       "revId": "b9118d8fc082c826d081f69d549eb45e53841bc9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7be39102_75dcef39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-06-23T21:42:07Z",
+      "side": 1,
+      "message": "I think you want to use the existing `isFileKeyChanged()` method and just make it public. Pretty sure the logic you have here is identical. However, if you do what I suggest in `RefDirectory`, you don\u0027t need this new method at all.",
+      "range": {
+        "startLine": 294,
+        "startChar": 0,
+        "endLine": 296,
+        "endChar": 60
+      },
+      "revId": "b9118d8fc082c826d081f69d549eb45e53841bc9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "616ad107_9f734b7b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1065,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-06-23T21:42:07Z",
+      "side": 1,
+      "message": "I think you want to re-use the static helpers `getFileAttributes()` and `getFileKey()` from `FileSnapshot`, or encapsulate this into `FileSnapshot` in some other way. In fact... just copy the `isModified()` call into this try block. That already does everything you\u0027re doing with the fileKey check.\n```suggestion\n\t\t\t\treturn snapshot.isModified(packedRefsFile);\n```",
+      "range": {
+        "startLine": 1056,
+        "startChar": 0,
+        "endLine": 1065,
+        "endChar": 5
+      },
+      "revId": "b9118d8fc082c826d081f69d549eb45e53841bc9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
