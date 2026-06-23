@@ -147,8 +147,7 @@ public class RefDirectory extends RefDatabase {
 	/** Immutable sorted list of packed references. */
 	final AtomicReference<PackedRefList> packedRefs = new AtomicReference<>();
 
-	private final AtomicReference<PackedRefsRefresher> packedRefsRefresher =
-			new AtomicReference<>();
+	private final AtomicReference<PackedRefsRefresher> packedRefsRefresher;
 
 	/**
 	 * Lock for coordinating operations within a single process that may contend
@@ -202,6 +201,7 @@ public class RefDirectory extends RefDatabase {
 		trustFolderStat = refDb.trustFolderStat;
 		trustPackedRefsStat = refDb.trustPackedRefsStat;
 		trustLooseRefStat = refDb.trustLooseRefStat;
+		packedRefsRefresher = refDb.packedRefsRefresher;
 		inProcessPackedRefsLock = refDb.inProcessPackedRefsLock;
 	}
 
@@ -227,6 +227,7 @@ public class RefDirectory extends RefDatabase {
 				.getEnum(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_TRUST_LOOSE_REF_STAT,
 						TrustLooseRefStat.ALWAYS);
+		packedRefsRefresher = new AtomicReference<>();
 		inProcessPackedRefsLock = new ReentrantLock(true);
 	}
 
