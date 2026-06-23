@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30356538_9dcd6758",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-06-23T21:19:56Z",
+      "side": 1,
+      "message": "This might be a more efficient approach than what\u0027s in change 1238785 since it\u0027s still targeted to just the packed-refs file instead of the entire `.git` dir.",
+      "revId": "b9118d8fc082c826d081f69d549eb45e53841bc9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
