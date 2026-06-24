@@ -29,6 +29,7 @@ import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.util.ShutdownHook;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BranchConfig.BranchRebaseMode;
@@ -40,6 +41,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
@@ -297,6 +299,11 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		}
 		config.update(clonedRepo.getConfig());
 
+		if (!filterSpec.isNoOp()) {
+			persistPartialCloneConfig(clonedRepo);
+			configurePromisorTransport(clonedRepo);
+		}
+
 		clonedRepo.getConfig().save();
 
 		// run the fetch command
@@ -320,6 +327,67 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		configure(command);
 
 		return command.call();
+	}
+
+	/**
+	 * Records that this repository is a partial clone backed by a promisor
+	 * remote, mirroring what native Git writes after
+	 * {@code git clone --filter=...}:
+	 * <ul>
+	 * <li>{@code remote.<remote>.promisor = true}</li>
+	 * <li>{@code remote.<remote>.partialclonefilter = <filter>}</li>
+	 * <li>{@code extensions.partialClone = <remote>}</li>
+	 * </ul>
+	 * The {@code extensions.partialClone} key requires a repository format
+	 * version of at least 1.
+	 *
+	 * @param clonedRepo
+	 *            the freshly initialized repository
+	 */
+	private void persistPartialCloneConfig(Repository clonedRepo) {
+		StoredConfig cfg = clonedRepo.getConfig();
+		if (cfg.getInt(ConfigConstants.CONFIG_CORE_SECTION,
+				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 0) < 1) {
+			cfg.setInt(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 1);
+		}
+		cfg.setBoolean(ConfigConstants.CONFIG_REMOTE_SECTION, remote,
+				ConfigConstants.CONFIG_KEY_PROMISOR, true);
+		cfg.setString(ConfigConstants.CONFIG_REMOTE_SECTION, remote,
+				ConfigConstants.CONFIG_KEY_PARTIAL_CLONE_FILTER,
+				filterSpec.getFilterConfigValue());
+		cfg.setString(ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
+				ConfigConstants.CONFIG_KEY_PARTIAL_CLONE, remote);
+	}
+
+	/**
+	 * Makes the credentials, timeout, and transport configuration given to this
+	 * clone available to the on-demand fetches a partial clone performs later
+	 * (during the initial checkout and any subsequent access to an omitted
+	 * object). Without this, lazy fetches against an authenticated promisor
+	 * remote would have no credentials beyond the global default.
+	 * <p>
+	 * Only the file-based object store supports lazy fetching, so this is a
+	 * no-op for other repository types. The callback configures the in-memory
+	 * repository instance only and is not persisted.
+	 *
+	 * @param clonedRepo
+	 *            the freshly initialized repository
+	 */
+	private void configurePromisorTransport(Repository clonedRepo) {
+		if (!(clonedRepo instanceof FileRepository)) {
+			return;
+		}
+		((FileRepository) clonedRepo)
+				.setPromisorTransportConfig(transport -> {
+					if (credentialsProvider != null) {
+						transport.setCredentialsProvider(credentialsProvider);
+					}
+					transport.setTimeout(timeout);
+					if (transportConfigCallback != null) {
+						transportConfigCallback.configure(transport);
+					}
+				});
 	}
 
 	private List<RefSpec> calculateRefSpecs(FETCH_TYPE type,

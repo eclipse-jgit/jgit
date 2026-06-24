@@ -308,23 +308,46 @@ public class GC {
 			if (!lock.lock()) {
 				return Collections.emptyList();
 			}
-			pm.start(6 /* tasks */);
-			boolean packRefs = gcConfig.getPackRefs() == PackRefsMode.TRUE
-					|| (gcConfig.getPackRefs() == PackRefsMode.NOTBARE
-							&& !repo.isBare());
-			if (packRefs) {
-				new PackRefsCommand(repo).setProgressMonitor(pm).setAll(true)
-						.call();
+			// Garbage collection walks objects to repack and prune them. In a
+			// partial clone that would download the objects the clone
+			// intentionally omits, defeating the partial clone. Suppress lazy
+			// fetching for the whole run so this can never happen silently.
+			repo.getObjectDatabase().setPromisorFetchSuppressed(true);
+			try {
+				pm.start(6 /* tasks */);
+				boolean packRefs = gcConfig.getPackRefs() == PackRefsMode.TRUE
+						|| (gcConfig.getPackRefs() == PackRefsMode.NOTBARE
+								&& !repo.isBare());
+				if (packRefs) {
+					new PackRefsCommand(repo).setProgressMonitor(pm)
+							.setAll(true).call();
+				}
+				// TODO: implement reflog_expire(pm, repo);
+				// repack() and prune() are no-ops on a partial clone; see
+				// isPartialClone().
+				Collection<Pack> newPacks = repack();
+				prune(Collections.emptySet());
+				// TODO: implement rerere_gc(pm);
+				if (shouldWriteCommitGraphWhenGc()) {
+					writeCommitGraph(refsToObjectIds(getAllRefs()));
+				}
+				return newPacks;
+			} finally {
+				repo.getObjectDatabase().setPromisorFetchSuppressed(false);
 			}
-			// TODO: implement reflog_expire(pm, repo);
-			Collection<Pack> newPacks = repack();
-			prune(Collections.emptySet());
-			// TODO: implement rerere_gc(pm);
-			if (shouldWriteCommitGraphWhenGc()) {
-				writeCommitGraph(refsToObjectIds(getAllRefs()));
-			}
-			return newPacks;
 		}
+	}
+
+	/**
+	 * Whether this repository is a partial clone whose missing objects can be
+	 * lazily fetched from a promisor remote.
+	 *
+	 * @return {@code true} if {@code extensions.partialClone} is set
+	 */
+	private boolean isPartialClone() {
+		return repo.getConfig().getString(
+				ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
+				ConfigConstants.CONFIG_KEY_PARTIAL_CLONE) != null;
 	}
 
 	/**
@@ -568,6 +591,15 @@ public class GC {
 	 */
 	public void prune(Set<ObjectId> objectsToKeep) throws IOException,
 			ParseException {
+		if (isPartialClone()) {
+			// Reachability-based pruning would walk into the objects a partial
+			// clone intentionally omits. Skip it for partial clones.
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("Skipping prune for partial clone {}", //$NON-NLS-1$
+						repo.getDirectory());
+			}
+			return;
+		}
 		long expireDate = getExpireDate();
 
 		// Collect all loose objects which are old enough, not referenced from
@@ -840,6 +872,17 @@ public class GC {
 	 *             {@link java.io.IOException} occurs
 	 */
 	public Collection<Pack> repack() throws IOException {
+		if (isPartialClone()) {
+			// Repacking would walk into the objects a partial clone
+			// intentionally omits, downloading them from the promisor remote
+			// and defeating the partial clone. Promisor-aware repacking is not
+			// implemented yet, so repacking is skipped for partial clones.
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("Skipping repack for partial clone {}", //$NON-NLS-1$
+						repo.getDirectory());
+			}
+			return Collections.emptyList();
+		}
 		Collection<Pack> toBeDeleted = repo.getObjectDatabase().getPacks();
 
 		Instant time = SystemReader.getInstance().now();
@@ -976,7 +1019,7 @@ public class GC {
 		try (RevWalk walk = new RevWalk(repo)) {
 			CommitGraphWriter writer = new CommitGraphWriter(
 					GraphCommits.fromWalk(pm, wants, walk),
-					shouldWriteBloomFilter());
+					shouldWriteBloomFilter() && !isPartialClone());
 			tmpFile = File.createTempFile("commit_", //$NON-NLS-1$
 					COMMIT_GRAPH.getTmpExtension(),
 					repo.getObjectDatabase().getInfoDirectory());

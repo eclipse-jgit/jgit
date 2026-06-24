@@ -1141,6 +1141,10 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			parser.setAllowThin(thinPack);
 			parser.setObjectChecker(transport.getObjectChecker());
 			parser.setLockMessage(lockMessage);
+			// A filtered fetch downloads from a promisor remote; record the
+			// resulting pack as a promisor pack so missing objects may later be
+			// fetched lazily.
+			parser.setPromisor(!filterSpec.isNoOp());
 			packLock = parser.parse(monitor);
 			ins.flush();
 		} finally {

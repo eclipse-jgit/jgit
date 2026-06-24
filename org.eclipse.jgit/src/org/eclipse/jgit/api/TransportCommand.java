@@ -11,6 +11,7 @@ package org.eclipse.jgit.api;
 
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.FilterSpec;
 import org.eclipse.jgit.transport.Transport;
 
 /**
@@ -43,6 +44,13 @@ public abstract class TransportCommand<C extends GitCommand, T> extends
 	 * Configured callback for transport configuration
 	 */
 	protected TransportConfigCallback transportConfigCallback;
+
+	/**
+	 * Configured object filter for partial clone/fetch
+	 *
+	 * @since 7.8
+	 */
+	protected FilterSpec filterSpec = FilterSpec.NO_FILTER;
 
 	/**
 	 * <p>Constructor for TransportCommand.</p>
@@ -99,6 +107,26 @@ public abstract class TransportCommand<C extends GitCommand, T> extends
 	}
 
 	/**
+	 * Set an object filter for a partial clone or fetch, e.g. {@code blob:none}
+	 * (parsed via {@link FilterSpec#fromFilterLine(String)}) for a blobless
+	 * clone.
+	 * <p>
+	 * The remote must support the {@code filter} capability (i.e.
+	 * {@code uploadpack.allowFilter} must be enabled on the server), otherwise
+	 * the operation will fail.
+	 *
+	 * @param filterSpec
+	 *            the filter to use, or {@code null} / {@link FilterSpec#NO_FILTER}
+	 *            to disable filtering
+	 * @return {@code this}
+	 * @since 7.8
+	 */
+	public C setFilterSpec(FilterSpec filterSpec) {
+		this.filterSpec = filterSpec == null ? FilterSpec.NO_FILTER : filterSpec;
+		return self();
+	}
+
+	/**
 	 * Return this command cast to {@code C}
 	 *
 	 * @return {@code this} cast to {@code C}
@@ -120,6 +148,8 @@ public abstract class TransportCommand<C extends GitCommand, T> extends
 		if (credentialsProvider != null)
 			transport.setCredentialsProvider(credentialsProvider);
 		transport.setTimeout(timeout);
+		if (filterSpec != null && !filterSpec.isNoOp())
+			transport.setFilterSpec(filterSpec);
 		if (transportConfigCallback != null)
 			transportConfigCallback.configure(transport);
 		return self();
@@ -137,6 +167,7 @@ public abstract class TransportCommand<C extends GitCommand, T> extends
 		childCommand.setCredentialsProvider(credentialsProvider);
 		childCommand.setTimeout(timeout);
 		childCommand.setTransportConfigCallback(transportConfigCallback);
+		childCommand.setFilterSpec(filterSpec);
 		return self();
 	}
 }

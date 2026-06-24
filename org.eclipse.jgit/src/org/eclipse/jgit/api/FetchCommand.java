@@ -29,6 +29,7 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
+import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -42,6 +43,7 @@ import org.eclipse.jgit.lib.SubmoduleConfig.FetchRecurseSubmodulesMode;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.transport.FetchResult;
+import org.eclipse.jgit.transport.FilterSpec;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.TagOpt;
 import org.eclipse.jgit.transport.Transport;
@@ -234,6 +236,22 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 				transport.setDeepenSince(deepenSince);
 			}
 			transport.setDeepenNots(shallowExcludes);
+			if (filterSpec.isNoOp()) {
+				// On a partial clone, keep using the configured filter for
+				// subsequent fetches so newly fetched packs stay marked as
+				// promisor packs.
+				String configFilter = repo.getConfig().getString(
+						ConfigConstants.CONFIG_REMOTE_SECTION, remote,
+						ConfigConstants.CONFIG_KEY_PARTIAL_CLONE_FILTER);
+				if (configFilter != null) {
+					try {
+						transport.setFilterSpec(
+								FilterSpec.fromFilterLine(configFilter));
+					} catch (PackProtocolException e) {
+						throw new JGitInternalException(e.getMessage(), e);
+					}
+				}
+			}
 			configure(transport);
 			FetchResult result = transport.fetch(monitor,
 					applyOptions(refSpecs), initialBranch);

@@ -32,6 +32,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.attributes.AttributesNode;
@@ -101,6 +102,8 @@ public class FileRepository extends Repository {
 	private final FileBasedConfig repoConfig;
 	private RefDatabase refs;
 	private final ObjectDirectory objectDatabase;
+
+	private volatile TransportConfigCallback promisorTransportConfig;
 
 	private final Object snapshotLock = new Object();
 
@@ -201,9 +204,60 @@ public class FileRepository extends Repository {
 						Long.valueOf(repositoryFormatVersion)));
 		}
 
+		// Enable lazy fetching of missing objects for partial clones. The
+		// fetcher itself is a no-op unless extensions.partialClone is set, so
+		// it is cheap to install unconditionally and picks up the setting even
+		// when it is written after this repository was opened (e.g. during
+		// CloneCommand).
+		objectDatabase.setPromisorObjectFetcher(new PromisorRemoteFetcher(this));
+
 		if (!isBare()) {
 			snapshot = FileSnapshot.save(getIndexFile());
 		}
+	}
+
+	/**
+	 * Set a callback to configure the {@link org.eclipse.jgit.transport.Transport}
+	 * used to lazily fetch missing objects from the promisor remote of a partial
+	 * clone.
+	 * <p>
+	 * In a partial clone some objects are intentionally absent and are
+	 * downloaded on demand the first time they are accessed (during checkout,
+	 * blame, diff, etc.). Because that access can happen long after any clone or
+	 * fetch command has returned, the credentials and other transport settings
+	 * those commands were given are not otherwise available to the on-demand
+	 * fetch. The transport always defaults to
+	 * {@link org.eclipse.jgit.transport.CredentialsProvider#getDefault()}; use
+	 * this hook when global state is not desired, for example to supply a
+	 * {@link org.eclipse.jgit.transport.CredentialsProvider} for an
+	 * authenticated promisor remote, a timeout, or proxy settings.
+	 * <p>
+	 * The callback configures the current repository instance only; it is not
+	 * persisted. After reopening the repository it must be set again, or the
+	 * fetch falls back to the default credentials provider.
+	 * {@link org.eclipse.jgit.api.CloneCommand} installs such a callback
+	 * automatically so that lazy fetches reuse the credentials the clone was
+	 * given.
+	 *
+	 * @param callback
+	 *            the callback, or {@code null} to use only the default transport
+	 *            configuration
+	 * @since 7.8
+	 */
+	public void setPromisorTransportConfig(
+			@Nullable TransportConfigCallback callback) {
+		this.promisorTransportConfig = callback;
+	}
+
+	/**
+	 * Get the callback used to configure the transport for lazy promisor
+	 * fetches.
+	 *
+	 * @return the callback, or {@code null} if none was set
+	 */
+	@Nullable
+	TransportConfigCallback getPromisorTransportConfig() {
+		return promisorTransportConfig;
 	}
 
 	private void loadRepoConfig() throws IOException {

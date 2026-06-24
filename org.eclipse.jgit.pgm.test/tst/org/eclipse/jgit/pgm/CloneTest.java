@@ -116,6 +116,33 @@ public class CloneTest extends CLIRepositoryTestCase {
 				e.getMessage());
 	}
 
+	@Test
+	public void testCloneBlobless() throws Exception {
+		createInitialCommit();
+
+		StoredConfig cfg = db.getConfig();
+		cfg.setBoolean("uploadpack", null, "allowfilter", true);
+		cfg.setBoolean("uploadpack", null, "allowanysha1inwant", true);
+		cfg.save();
+
+		File gitDir = db.getDirectory();
+		String sourceURI = gitDir.toURI().toString();
+		File target = createTempDirectory("target");
+		String cmd = "git clone --filter=blob:none " + sourceURI + " "
+				+ shellQuote(target.getPath());
+		String[] result = execute(cmd);
+		assertArrayEquals(new String[] {
+				"Cloning into '" + target.getPath() + "'...", "", "" }, result);
+
+		try (Git git2 = Git.open(target)) {
+			StoredConfig clonedCfg = git2.getRepository().getConfig();
+			assertEquals("origin",
+					clonedCfg.getString("extensions", null, "partialClone"));
+			assertEquals("blob:none", clonedCfg.getString("remote", "origin",
+					"partialclonefilter"));
+		}
+	}
+
 	private RevCommit createInitialCommit() throws Exception {
 		JGitTestUtil.writeTrashFile(db, "hello.txt", "world");
 		git.add().addFilepattern("hello.txt").call();

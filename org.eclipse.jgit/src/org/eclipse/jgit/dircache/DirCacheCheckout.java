@@ -513,6 +513,18 @@ public class DirCacheCheckout {
 		}
 	}
 
+	/**
+	 * Whether this repository is a partial clone whose missing objects can be
+	 * lazily fetched from a promisor remote.
+	 *
+	 * @return {@code true} if {@code extensions.partialClone} is set
+	 */
+	private boolean isPartialClone() {
+		return repo.getConfig().getString(
+				ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
+				ConfigConstants.CONFIG_KEY_PARTIAL_CLONE) != null;
+	}
+
 	private boolean doCheckout() throws CorruptObjectException, IOException,
 			MissingObjectException, IncorrectObjectTypeException,
 			CheckoutConflictException, IndexWriteException, CanceledException {
@@ -580,6 +592,27 @@ public class DirCacheCheckout {
 			if (file != null) {
 				removeEmptyParents(file);
 			}
+			// In a partial clone, the blobs being checked out may be absent
+			// locally. Fetch any missing ones from the promisor remote in a
+			// single batch instead of one network round trip per file.
+			if (isPartialClone()) {
+				List<ObjectId> toPrefetch = new ArrayList<>(updated.size());
+				for (Map.Entry<String, CheckoutMetadata> upd : updated
+						.entrySet()) {
+					DirCacheEntry entry = dc.getEntry(upd.getKey());
+					if (entry != null
+							&& !FileMode.GITLINK.equals(entry.getRawMode())) {
+						ObjectId oid = entry.getObjectId();
+						// Skip the zero id: it is never a real object and an
+						// unfetchable want would poison the whole batch request.
+						if (oid != null && !ObjectId.zeroId().equals(oid)) {
+							toPrefetch.add(oid);
+						}
+					}
+				}
+				objectReader.prefetch(toPrefetch);
+			}
+
 			Iterator<Map.Entry<String, CheckoutMetadata>> toUpdate = updated
 					.entrySet().iterator();
 			Map.Entry<String, CheckoutMetadata> e = null;
