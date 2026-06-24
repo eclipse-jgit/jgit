@@ -264,10 +264,10 @@ java_library(
     testonly = 1,
     visibility = ["//visibility:public"],
     exports = [
-        "@external_deps//:net_bytebuddy_byte_buddy_agent",
-        "@external_deps//:net_bytebuddy_byte_buddy",
-        "@external_deps//:org_hamcrest_hamcrest",
         "@external_deps//:junit_junit",
+        "@external_deps//:net_bytebuddy_byte_buddy",
+        "@external_deps//:net_bytebuddy_byte_buddy_agent",
+        "@external_deps//:org_hamcrest_hamcrest",
         "@external_deps//:org_mockito_mockito_core",
         "@external_deps//:org_objenesis_objenesis",
     ],
@@ -278,8 +278,8 @@ java_library(
     testonly = 1,
     visibility = ["//visibility:public"],
     exports = [
-        "@external_deps//:net_bytebuddy_byte_buddy_agent",
         "@external_deps//:net_bytebuddy_byte_buddy",
+        "@external_deps//:net_bytebuddy_byte_buddy_agent",
         "@external_deps//:org_mockito_mockito_core",
         "@external_deps//:org_objenesis_objenesis",
     ],
