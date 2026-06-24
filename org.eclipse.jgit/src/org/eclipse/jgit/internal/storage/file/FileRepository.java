@@ -201,6 +201,13 @@ public class FileRepository extends Repository {
 						Long.valueOf(repositoryFormatVersion)));
 		}
 
+		// Enable lazy fetching of missing objects for partial clones. The
+		// fetcher itself is a no-op unless extensions.partialClone is set, so
+		// it is cheap to install unconditionally and picks up the setting even
+		// when it is written after this repository was opened (e.g. during
+		// CloneCommand).
+		objectDatabase.setPromisorObjectFetcher(new PromisorRemoteFetcher(this));
+
 		if (!isBare()) {
 			snapshot = FileSnapshot.save(getIndexFile());
 		}

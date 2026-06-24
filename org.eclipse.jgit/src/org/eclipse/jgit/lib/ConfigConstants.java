@@ -775,6 +775,27 @@ public final class ConfigConstants {
 	public static final String CONFIG_REF_STORAGE_REFTABLE = "reftable";
 
 	/**
+	 * The extensions.partialClone key
+	 *
+	 * @since 7.8
+	 */
+	public static final String CONFIG_KEY_PARTIAL_CLONE = "partialClone";
+
+	/**
+	 * The "remote.&lt;name&gt;.promisor" key
+	 *
+	 * @since 7.8
+	 */
+	public static final String CONFIG_KEY_PROMISOR = "promisor";
+
+	/**
+	 * The "remote.&lt;name&gt;.partialclonefilter" key
+	 *
+	 * @since 7.8
+	 */
+	public static final String CONFIG_KEY_PARTIAL_CLONE_FILTER = "partialclonefilter";
+
+	/**
 	 * The "jmx" section
 	 * @since 5.1.13
 	 */

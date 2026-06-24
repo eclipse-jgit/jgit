@@ -49,6 +49,9 @@ import org.eclipse.jgit.util.NB;
  * {@link org.eclipse.jgit.lib.ObjectInserter#newPackParser(InputStream)}.
  */
 public class ObjectDirectoryPackParser extends PackParser {
+	private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory
+			.getLogger(ObjectDirectoryPackParser.class);
+
 	private final FileObjectDatabase db;
 
 	/** CRC-32 computation for objects that are appended onto the pack. */
@@ -514,6 +517,21 @@ public class ObjectDirectoryPackParser extends PackParser {
 						.format(JGitText.get().cannotMoveIndexTo,
 								finalObjectSizeIndex),
 						e);
+			}
+		}
+
+		if (isPromisor()) {
+			// Mark this as a promisor pack of a partial clone. The marker file
+			// is empty, matching the format written by native Git.
+			PackFile finalPromisor = finalPack.create(PackExt.PROMISOR);
+			try {
+				FileUtils.createNewFile(finalPromisor);
+			} catch (IOException e) {
+				// A missing promisor marker only degrades interoperability with
+				// other tools; it must not fail an otherwise successful fetch.
+				LOG.warn(MessageFormat.format(
+						JGitText.get().cannotCreatePromisorMarker,
+						finalPromisor), e);
 			}
 		}
 

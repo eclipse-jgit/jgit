@@ -125,6 +125,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotCreateDirectory;
 	/***/ public String cannotCreateHEAD;
 	/***/ public String cannotCreateIndexfile;
+	/***/ public String cannotCreatePromisorMarker;
 	/***/ public String cannotCreateTempDir;
 	/***/ public String cannotDeleteCheckedOutBranch;
 	/***/ public String cannotDeleteFile;
@@ -134,6 +135,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotEnterObjectsPath;
 	/***/ public String cannotEnterPathFromParent;
 	/***/ public String cannotExecute;
+	/***/ public String cannotFetchPromisorObjects;
 	/***/ public String cannotFindMergeBaseUsingFirstParent;
 	/***/ public String cannotGet;
 	/***/ public String cannotGetObjectsPath;

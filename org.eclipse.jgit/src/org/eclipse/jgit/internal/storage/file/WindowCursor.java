@@ -159,6 +159,12 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	}
 
 	@Override
+	public void prefetch(Collection<? extends AnyObjectId> objectIds)
+			throws IOException {
+		db.fetchMissing(objectIds);
+	}
+
+	@Override
 	public Set<ObjectId> getShallowCommits() throws IOException {
 		return db.getShallowCommits();
 	}

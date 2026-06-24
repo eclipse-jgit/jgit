@@ -152,6 +152,9 @@ public abstract class PackParser {
 	/** Message to protect the pack data from garbage collection. */
 	private String lockMessage;
 
+	/** Whether the resulting pack is a promisor pack of a partial clone. */
+	private boolean promisor;
+
 	/** Git object size limit */
 	private long maxObjectSizeLimit;
 
@@ -393,6 +396,34 @@ public abstract class PackParser {
 	 */
 	public void setLockMessage(String msg) {
 		lockMessage = msg;
+	}
+
+	/**
+	 * Whether the resulting pack should be marked as a promisor pack.
+	 *
+	 * @return {@code true} if the resulting pack should be marked as a promisor
+	 *         pack of a partial clone.
+	 * @since 7.8
+	 */
+	public boolean isPromisor() {
+		return promisor;
+	}
+
+	/**
+	 * Mark the incoming pack as a promisor pack.
+	 * <p>
+	 * Promisor packs are downloaded from the promisor remote of a partial
+	 * clone. Storage implementations that recognize promisor packs (such as the
+	 * file-based object directory) will write a {@code .promisor} marker file
+	 * next to the pack so that objects which are referenced but absent may be
+	 * fetched lazily later on.
+	 *
+	 * @param promisor
+	 *            {@code true} if the incoming pack is a promisor pack.
+	 * @since 7.8
+	 */
+	public void setPromisor(boolean promisor) {
+		this.promisor = promisor;
 	}
 
 	/**

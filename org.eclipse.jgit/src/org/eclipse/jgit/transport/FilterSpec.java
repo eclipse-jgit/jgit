@@ -236,15 +236,35 @@ public final class FilterSpec {
 	 */
 	@Nullable
 	public String filterLine() {
+		String value = filterValue();
+		return value == null ? null : OPTION_FILTER + " " + value; //$NON-NLS-1$
+	}
+
+	/**
+	 * Get the bare filter value describing this spec, as stored in the
+	 * repository configuration ({@code remote.<name>.partialclonefilter}). This
+	 * is the {@link #filterLine()} value without the leading "filter " prefix.
+	 *
+	 * @return the config value, e.g. {@code "blob:none"}, or {@code null} if
+	 *         this is a no-op filter
+	 * @since 7.8
+	 */
+	@Nullable
+	public String getFilterConfigValue() {
+		return filterValue();
+	}
+
+	@Nullable
+	private String filterValue() {
 		if (isNoOp()) {
 			return null;
 		} else if (types.equals(ObjectTypes.allow(OBJ_TREE, OBJ_COMMIT, OBJ_TAG)) &&
 					blobLimit == -1 && treeDepthLimit == -1) {
-			return OPTION_FILTER + " blob:none"; //$NON-NLS-1$
+			return "blob:none"; //$NON-NLS-1$
 		} else if (types.equals(ObjectTypes.ALL) && blobLimit >= 0 && treeDepthLimit == -1) {
-			return OPTION_FILTER + " blob:limit=" + blobLimit; //$NON-NLS-1$
+			return "blob:limit=" + blobLimit; //$NON-NLS-1$
 		} else if (types.equals(ObjectTypes.ALL) && blobLimit == -1 && treeDepthLimit >= 0) {
-			return OPTION_FILTER + " tree:" + treeDepthLimit; //$NON-NLS-1$
+			return "tree:" + treeDepthLimit; //$NON-NLS-1$
 		} else {
 			throw new IllegalStateException();
 		}

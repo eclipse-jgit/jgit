@@ -26,6 +26,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.eclipse.jgit.transport.FilterSpec;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.SystemReader;
 import org.kohsuke.args4j.Argument;
@@ -62,6 +63,9 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 
 	@Option(name = "--recurse-submodules", usage = "usage_recurseSubmodules")
 	private boolean cloneSubmodules;
+
+	@Option(name = "--filter", metaVar = "metaVar_filter", usage = "usage_filter")
+	private String filter;
 
 	@Option(name = "--timeout", metaVar = "metaVar_seconds", usage = "usage_abortConnectionIfNoActivity")
 	int timeout = -1;
@@ -115,6 +119,9 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 		}
 		for (String shallowExclude : shallowExcludes) {
 			command.addShallowExclude(shallowExclude);
+		}
+		if (filter != null) {
+			command.setFilterSpec(FilterSpec.fromFilterLine(filter));
 		}
 
 		command.setGitDir(gitdir == null ? null : new File(gitdir));

@@ -241,6 +241,34 @@ public abstract class ObjectReader implements AutoCloseable {
 			IOException;
 
 	/**
+	 * Hint that the given objects are about to be accessed.
+	 * <p>
+	 * This gives the implementation an opportunity to download, in a single
+	 * batch, any of the objects that are missing locally &mdash; for example
+	 * from the promisor remote of a partial clone. Bulk operations such as
+	 * checkout call this before reading objects one by one, turning what would
+	 * otherwise be one network round trip per missing object into a single
+	 * round trip.
+	 * <p>
+	 * This is an optional, best-effort optimization. The default implementation
+	 * does nothing, and implementations must not fail the caller if prefetching
+	 * is not possible: any object that is still missing afterwards will be
+	 * fetched (or reported missing) when it is actually
+	 * {@link #open(AnyObjectId, int) opened}.
+	 *
+	 * @param objectIds
+	 *            objects that are expected to be accessed soon
+	 * @throws IOException
+	 *             an unexpected error occurred while determining which objects
+	 *             are missing locally
+	 * @since 7.8
+	 */
+	public void prefetch(Collection<? extends AnyObjectId> objectIds)
+			throws IOException {
+		// Default implementation does nothing.
+	}
+
+	/**
 	 * Returns IDs for those commits which should be considered as shallow.
 	 *
 	 * @return IDs of shallow commits
@@ -634,6 +662,12 @@ public abstract class ObjectReader implements AutoCloseable {
 				throws MissingObjectException, IncorrectObjectTypeException,
 				IOException {
 			return delegate().open(objectId, typeHint);
+		}
+
+		@Override
+		public void prefetch(Collection<? extends AnyObjectId> objectIds)
+				throws IOException {
+			delegate().prefetch(objectIds);
 		}
 
 		@Override

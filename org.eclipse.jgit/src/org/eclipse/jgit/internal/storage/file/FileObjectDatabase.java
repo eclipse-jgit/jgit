@@ -60,6 +60,21 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 	abstract ObjectLoader openObject(WindowCursor curs, AnyObjectId objectId)
 			throws IOException;
 
+	/**
+	 * Batch-fetch objects that are missing locally from the promisor remote of
+	 * a partial clone. The default implementation does nothing.
+	 *
+	 * @param objectIds
+	 *            objects that are expected to be accessed soon
+	 * @throws IOException
+	 *             an unexpected error occurred while determining which objects
+	 *             are missing locally
+	 */
+	void fetchMissing(Collection<? extends AnyObjectId> objectIds)
+			throws IOException {
+		// Default implementation does nothing.
+	}
+
 	abstract long getObjectSize(WindowCursor curs, AnyObjectId objectId)
 			throws IOException;
 

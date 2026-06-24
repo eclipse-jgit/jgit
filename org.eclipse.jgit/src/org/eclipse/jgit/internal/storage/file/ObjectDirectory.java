@@ -75,6 +75,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 		R apply(A a, A2 a2, A3 a3) throws E;
 	}
 
+	private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory
+			.getLogger(ObjectDirectory.class);
+
 	/** Maximum number of candidates offered as resolutions of abbreviation. */
 	private static final int RESOLVE_ABBREV_LIMIT = 256;
 
@@ -105,6 +108,30 @@ public class ObjectDirectory extends FileObjectDatabase {
 	private FileSnapshot shallowFileSnapshot = FileSnapshot.DIRTY;
 
 	private Set<ObjectId> shallowCommitsIds;
+
+	/**
+	 * Fetches missing objects from the promisor remote of a partial clone, or
+	 * {@code null} if lazy fetching is disabled for this object directory.
+	 */
+	private volatile PromisorObjectFetcher promisorObjectFetcher;
+
+	/**
+	 * Guards against re-entrant lazy fetches: while a promisor fetch is in
+	 * progress on the current thread (e.g. during fetch negotiation), missing
+	 * objects must not trigger another lazy fetch.
+	 */
+	private final ThreadLocal<Boolean> fetchingMissingObject = ThreadLocal
+			.withInitial(() -> Boolean.FALSE);
+
+	/**
+	 * When set on a thread, lazy fetching of missing objects is suppressed for
+	 * that thread. Used during maintenance such as garbage collection, which
+	 * walks objects on the calling thread and must never silently download the
+	 * objects a partial clone intentionally omits. Scoped per-thread so that it
+	 * never affects concurrent readers on other threads.
+	 */
+	private final ThreadLocal<Boolean> promisorFetchSuppressed = ThreadLocal
+			.withInitial(() -> Boolean.FALSE);
 
 	/**
 	 * Initialize a reference to an on-disk object directory.
@@ -350,6 +377,36 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 	}
 
+	/**
+	 * Install a fetcher used to lazily download objects that are missing
+	 * locally from the promisor remote of a partial clone.
+	 *
+	 * @param fetcher
+	 *            the fetcher, or {@code null} to disable lazy fetching
+	 */
+	void setPromisorObjectFetcher(PromisorObjectFetcher fetcher) {
+		this.promisorObjectFetcher = fetcher;
+	}
+
+	/**
+	 * Suppress or re-enable lazy fetching of missing objects from the promisor
+	 * remote on the current thread. While suppressed, missing objects are
+	 * reported as missing instead of being downloaded. This is used during
+	 * garbage collection so that walking objects cannot silently materialize
+	 * the objects a partial clone intentionally omits, without affecting
+	 * concurrent readers on other threads.
+	 *
+	 * @param suppressed
+	 *            {@code true} to suppress lazy fetching on this thread
+	 */
+	void setPromisorFetchSuppressed(boolean suppressed) {
+		if (suppressed) {
+			promisorFetchSuppressed.set(Boolean.TRUE);
+		} else {
+			promisorFetchSuppressed.remove();
+		}
+	}
+
 	@Override
 	ObjectLoader openObject(WindowCursor curs, AnyObjectId objectId)
 			throws IOException {
@@ -360,8 +417,68 @@ public class ObjectDirectory extends FileObjectDatabase {
 			if (ldr == null && restoreFromSelfOrAlternate(objectId, null)) {
 				ldr = openObjectWithoutRestoring(curs, objectId);
 			}
+			if (ldr == null && fetchMissingObject(objectId)) {
+				ldr = openObjectWithoutRestoring(curs, objectId);
+			}
 		}
 		return ldr;
+	}
+
+	/**
+	 * Try to lazily fetch a missing object from the promisor remote of a
+	 * partial clone.
+	 *
+	 * @param objectId
+	 *            the object not found locally
+	 * @return {@code true} if a fetch was attempted and the caller should retry
+	 *         the local lookup
+	 * @throws IOException
+	 *             the fetch failed
+	 */
+	private boolean fetchMissingObject(AnyObjectId objectId)
+			throws IOException {
+		PromisorObjectFetcher fetcher = promisorObjectFetcher;
+		if (fetcher == null
+				|| Boolean.TRUE.equals(promisorFetchSuppressed.get())
+				|| Boolean.TRUE.equals(fetchingMissingObject.get())) {
+			return false;
+		}
+		fetchingMissingObject.set(Boolean.TRUE);
+		try {
+			return fetcher.fetch(Collections.singletonList(objectId.copy()));
+		} finally {
+			fetchingMissingObject.remove();
+		}
+	}
+
+	@Override
+	void fetchMissing(Collection<? extends AnyObjectId> objectIds)
+			throws IOException {
+		PromisorObjectFetcher fetcher = promisorObjectFetcher;
+		if (fetcher == null || objectIds.isEmpty()
+				|| Boolean.TRUE.equals(promisorFetchSuppressed.get())
+				|| Boolean.TRUE.equals(fetchingMissingObject.get())) {
+			return;
+		}
+		List<ObjectId> missing = new ArrayList<>();
+		for (AnyObjectId id : objectIds) {
+			if (!has(id)) {
+				missing.add(id.copy());
+			}
+		}
+		if (missing.isEmpty()) {
+			return;
+		}
+		fetchingMissingObject.set(Boolean.TRUE);
+		try {
+			fetcher.fetch(missing);
+		} catch (IOException e) {
+			// Best-effort: any object still missing will be fetched, or
+			// reported missing, when it is actually opened.
+			LOG.warn(e.getMessage(), e);
+		} finally {
+			fetchingMissingObject.remove();
+		}
 	}
 
 	private ObjectLoader openObjectWithoutRestoring(WindowCursor curs, AnyObjectId objectId)
@@ -436,6 +553,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 		if (sz == null) {
 			sz = getObjectSizeWithoutRestoring(curs, id);
 			if (sz < 0 && restoreFromSelfOrAlternate(id, null)) {
+				sz = getObjectSizeWithoutRestoring(curs, id);
+			}
+			if (sz < 0 && fetchMissingObject(id)) {
 				sz = getObjectSizeWithoutRestoring(curs, id);
 			}
 		}

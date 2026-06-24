@@ -410,6 +410,18 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	/**
+	 * Determines whether a {@code .promisor} marker file exists for this pack
+	 * file, i.e. whether it was downloaded from the promisor remote of a
+	 * partial clone.
+	 *
+	 * @return true if a {@code .promisor} file exists.
+	 * @since 7.8
+	 */
+	public boolean isPromisor() {
+		return packFile.create(PackExt.PROMISOR).exists();
+	}
+
+	/**
 	 * Get an object from this pack.
 	 *
 	 * @param curs

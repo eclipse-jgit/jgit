@@ -39,7 +39,15 @@ public enum PackExt {
 	OBJECT_SIZE_INDEX("objsize"), //$NON-NLS-1$
 
 	/** Multi pack index */
-	MULTI_PACK_INDEX("midx"); //$NON-NLS-1$
+	MULTI_PACK_INDEX("midx"), //$NON-NLS-1$
+
+	/**
+	 * A promisor pack marker. An empty file written next to a pack that was
+	 * downloaded from a promisor remote of a partial clone; its presence
+	 * records that objects referenced by, but absent from, this repository may
+	 * be lazily fetched from that remote.
+	 */
+	PROMISOR("promisor"); //$NON-NLS-1$
 
 	private final String ext;
 

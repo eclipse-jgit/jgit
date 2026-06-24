@@ -40,6 +40,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
@@ -297,6 +298,10 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		}
 		config.update(clonedRepo.getConfig());
 
+		if (!filterSpec.isNoOp()) {
+			persistPartialCloneConfig(clonedRepo);
+		}
+
 		clonedRepo.getConfig().save();
 
 		// run the fetch command
@@ -320,6 +325,37 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		configure(command);
 
 		return command.call();
+	}
+
+	/**
+	 * Records that this repository is a partial clone backed by a promisor
+	 * remote, mirroring what native Git writes after
+	 * {@code git clone --filter=...}:
+	 * <ul>
+	 * <li>{@code remote.<remote>.promisor = true}</li>
+	 * <li>{@code remote.<remote>.partialclonefilter = <filter>}</li>
+	 * <li>{@code extensions.partialClone = <remote>}</li>
+	 * </ul>
+	 * The {@code extensions.partialClone} key requires a repository format
+	 * version of at least 1.
+	 *
+	 * @param clonedRepo
+	 *            the freshly initialized repository
+	 */
+	private void persistPartialCloneConfig(Repository clonedRepo) {
+		StoredConfig cfg = clonedRepo.getConfig();
+		if (cfg.getInt(ConfigConstants.CONFIG_CORE_SECTION,
+				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 0) < 1) {
+			cfg.setInt(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 1);
+		}
+		cfg.setBoolean(ConfigConstants.CONFIG_REMOTE_SECTION, remote,
+				ConfigConstants.CONFIG_KEY_PROMISOR, true);
+		cfg.setString(ConfigConstants.CONFIG_REMOTE_SECTION, remote,
+				ConfigConstants.CONFIG_KEY_PARTIAL_CLONE_FILTER,
+				filterSpec.getFilterConfigValue());
+		cfg.setString(ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
+				ConfigConstants.CONFIG_KEY_PARTIAL_CLONE, remote);
 	}
 
 	private List<RefSpec> calculateRefSpecs(FETCH_TYPE type,
