@@ -130,6 +130,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bd38815_42dbdd9b",
+        "filename": "lib/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-06-24T15:27:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440d40c8_2f3bf64b",
+      "range": {
+        "startLine": 270,
+        "startChar": 0,
+        "endLine": 272,
+        "endChar": 49
+      },
+      "revId": "705e9a0d344611865efaf66351aadaa5fc760fd2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81a3e3d1_ca6c855c",
@@ -147,6 +171,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e88720f4_6f66b17e",
+        "filename": "lib/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-06-24T15:27:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81a3e3d1_ca6c855c",
+      "revId": "705e9a0d344611865efaf66351aadaa5fc760fd2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b25512ca_f45bfce7",
@@ -160,6 +202,24 @@
       "writtenOn": "2026-06-18T10:07:25Z",
       "side": 1,
       "message": "Why is this called `_test`?\n\nHow is this approach different than Ivan Frade\u0027s support [1] on the Gerrit side?\nHow does this address the issues that caused the revert of [1]?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/446221/5",
+      "revId": "705e9a0d344611865efaf66351aadaa5fc760fd2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "876fcae8_31f09988",
+        "filename": "tools/jgit-ee8/generated_srcs_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-06-24T15:27:40Z",
+      "side": 1,
+      "message": "\u003e Why is this called _test?\n\nIt\u0027s the srcs of the Bazel` sh_test` target `//tools/jgit-ee8:generated_srcs_test — _test` is the Bazel test-rule convention so it runs under bazel test. It\u0027s the verification harness for the generated EE8 sources: per module it asserts the generated `srcjar` entry list matches the canonical srcs filegroup, every file keeps an identical line count (so debugger breakpoints land correctly), and there\u0027s no `jakarta.servlet` residue after the rewrite. Happy to rename the script (e.g. `check_generated_srcs.sh`) if the name is confusing; the target name stays `generated_srcs_test`.\n\n\u003e How is this approach different than Ivan Frade\u0027s support [1] on the Gerrit side?\n\n[1] put the bridge in Gerrit: the `jakarta` → `javax` rewrite lived in Gerrit\u0027s `lib/BUILD`, repackaging `jgit-servlet` by string-replacing package names; the JGit side only exposed the servlet resources as a filegroup. It was Bazel-only, Gerrit-only, untested.\n\nThis series moves the bridge into JGit (the producer): generated into separate .ee8 modules that keep the canonical Java packages instead of mutating `jgit-servlet`; shipped in both Bazel (Eclipse Transformer srcjar flow) and Maven (copy-and-rewrite, green on CI); and tested at the rewrite level (this `generated_srcs_test` + the EE8 module test targets running the HTTP/LFS tests against the generated jars).\n\n\u003e How does this address the issues that caused the revert of [1]?\n\nThe revert [2] reason was \"works in bazel build but breaks the build in Eclipse.\"\n\nThis series resolves each underlying issue:\n\n* Eclipse / IDE: EE8 is additive — canonical jakarta modules are untouched, so neither the Eclipse/PDE nor the canonical Maven build changes. On the Gerrit side (companion [3]), `tools/eclipse/project.py` attaches the generated EE8 source jar and `Documentation/dev-eclipse.txt` documents the developer story.\n* Debugger: the line-count-preserving rewrite (enforced by generated_srcs_test) keeps breakpoints accurate. Verified end-to-end — with Gerrit running, a git clone over HTTP suspends in UploadPackServlet$InfoRefs.begin sourced from the attached `libjgit-servlet-ee8.jar` (`javax.servlet`), debugged live in Eclipse.\n* Maintenance: it lives in JGit and consumes the canonical srcs filegroups via glob, so new sources flow in automatically — Gerrit tracks JGit master instead of a `servlet-4` branch.\n\nMaven Central sources/binary publication is intentionally left as a follow-up for when a non-Bazel binary consumer exists; it\u0027s independent of the source+build+test foundation here.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/446221/5\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/447822\n[3] https://gerrit-review.googlesource.com/c/gerrit/+/597681",
+      "parentUuid": "b25512ca_f45bfce7",
       "revId": "705e9a0d344611865efaf66351aadaa5fc760fd2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
