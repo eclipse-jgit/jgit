@@ -53,10 +53,11 @@ tests(tests = glob(
     exclude = HELPERS + DATA + EXCLUDED,
 ))
 
-
-tests(tests = glob(["exttst/**/*.java"]),
+tests(
+    extra_tags = ["ext"],
     srcprefix = "exttst/",
-    extra_tags = ["ext"])
+    tests = glob(["exttst/**/*.java"]),
+)
 
 # Non abstract base classes used for tests by other test classes
 BASE = [
