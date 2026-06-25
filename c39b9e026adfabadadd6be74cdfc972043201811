@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8fc57fd_b8e378d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039665
+      },
+      "writtenOn": "2026-06-25T12:31:15Z",
+      "side": 1,
+      "message": "Disclosure: this change was developed with the assistance of an AI coding agent (Claude), under my direction, review, and steering throughout. I have reviewed the design and the code and stand behind the contribution; the ECA applies as usual.\n\nScope: this implements partial-clone support for blobless clones (--filter\u003dblob:none) and blob:limit. It covers on-demand lazy fetching of missing blobs (so blame/checkout/diff work on a blobless clone), partial-clone config persistence (remote.\u003cname\u003e.promisor, partialclonefilter, extensions.partialClone), .promisor pack markers, GC safety on partial clones, batched prefetch during checkout, and a --filter option for the pgm clone command.\n\nNot yet supported (planned follow-up): treeless clones (--filter\u003dtree:0). Those additionally require (a) honoring explicit wants in PackWriter\u0027s tree-depth filter (depthSkip), and (b) relaxing the post-fetch connectivity check for partial clones. The DFS object store is also out of scope here (file-based object store only).",
+      "revId": "c39b9e026adfabadadd6be74cdfc972043201811",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
