@@ -41,7 +41,7 @@ import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.http.AccessEvent;
-import org.eclipse.jgit.junit.http.AppServer;
+import org.eclipse.jgit.junit.http.AppServerBase;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -266,12 +266,12 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 		Repository dst = createBareRepository();
 		try (Transport t = Transport.open(dst, dumbAuthBasicURI)) {
 			t.setCredentialsProvider(new UsernamePasswordCredentialsProvider(
-					AppServer.username, AppServer.password));
+					AppServerBase.username, AppServerBase.password));
 			t.openFetch().close();
 		}
 		try (Transport t = Transport.open(dst, dumbAuthBasicURI)) {
 			t.setCredentialsProvider(new UsernamePasswordCredentialsProvider(
-					AppServer.username, ""));
+					AppServerBase.username, ""));
 			try {
 				t.openFetch();
 				fail("connection opened even info/refs needs auth basic and we provide wrong password");
