@@ -10,6 +10,7 @@
 package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -19,16 +20,21 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
@@ -440,5 +446,42 @@ public class FetchCommandTest extends RepositoryTestCase {
 				.getTrackingRefUpdate(Constants.R_TAGS + tagName);
 		assertEquals(RefUpdate.Result.FORCED, update.getResult());
 		assertEquals(tagRef2.getObjectId(), db.resolve(tagName));
+	}
+
+	@Test
+	public void testFetchCallsAutoGc() throws Exception {
+		remoteGit.commit().setMessage("initial").call();
+		AtomicBoolean autoGcCalled = new AtomicBoolean();
+		try (FileRepository spyRepo = new FileRepository(db.getDirectory()) {
+			@Override
+			public void autoGC(ProgressMonitor monitor) {
+				autoGcCalled.set(true);
+			}
+		}) {
+			Git.wrap(spyRepo).fetch().setRemote("test")
+					.setRefSpecs("refs/heads/master").call();
+		}
+		assertTrue("fetch should have called autoGC", autoGcCalled.get());
+	}
+
+	@Test
+	public void testFetchDoesNotCallAutoGcWhenDisabled() throws Exception {
+		remoteGit.commit().setMessage("initial").call();
+		AtomicBoolean autoGcCalled = new AtomicBoolean();
+		try (FileRepository spyRepo = new FileRepository(db.getDirectory()) {
+			@Override
+			public void autoGC(ProgressMonitor monitor) {
+				autoGcCalled.set(true);
+			}
+		}) {
+			FileBasedConfig cfg = spyRepo.getConfig();
+			cfg.setBoolean(ConfigConstants.CONFIG_FETCH_SECTION, null,
+					ConfigConstants.CONFIG_KEY_AUTOGC, false);
+			cfg.save();
+			Git.wrap(spyRepo).fetch().setRemote("test")
+					.setRefSpecs("refs/heads/master").call();
+		}
+		assertFalse("fetch.autogc=false should suppress autoGC",
+				autoGcCalled.get());
 	}
 }
