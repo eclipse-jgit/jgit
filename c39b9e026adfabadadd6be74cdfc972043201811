@@ -16,6 +16,23 @@
       "message": "Disclosure: this change was developed with the assistance of an AI coding agent (Claude), under my direction, review, and steering throughout. I have reviewed the design and the code and stand behind the contribution; the ECA applies as usual.\n\nScope: this implements partial-clone support for blobless clones (--filter\u003dblob:none) and blob:limit. It covers on-demand lazy fetching of missing blobs (so blame/checkout/diff work on a blobless clone), partial-clone config persistence (remote.\u003cname\u003e.promisor, partialclonefilter, extensions.partialClone), .promisor pack markers, GC safety on partial clones, batched prefetch during checkout, and a --filter option for the pgm clone command.\n\nNot yet supported (planned follow-up): treeless clones (--filter\u003dtree:0). Those additionally require (a) honoring explicit wants in PackWriter\u0027s tree-depth filter (depthSkip), and (b) relaxing the post-fetch connectivity check for partial clones. The DFS object store is also out of scope here (file-based object store only).",
       "revId": "c39b9e026adfabadadd6be74cdfc972043201811",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46641252_516c2e37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PromisorRemoteFetcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-06-26T08:47:24Z",
+      "side": 1,
+      "message": "How does code using the JGit library pass in the CredentialsProvider here?\n\nJGit has no support yet for git credential helpers (c.f. [1]), so normally for HTTPS or SSH with password code using JGit has to pass in a credentials provider. I think SSH with public key authentication would work if configured right via ~/.ssh/config.\n\n[1] https://github.com/eclipse-egit/egit/issues/191",
+      "revId": "c39b9e026adfabadadd6be74cdfc972043201811",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
