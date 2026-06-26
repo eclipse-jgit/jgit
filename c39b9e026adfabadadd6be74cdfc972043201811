@@ -33,6 +33,24 @@
       "message": "How does code using the JGit library pass in the CredentialsProvider here?\n\nJGit has no support yet for git credential helpers (c.f. [1]), so normally for HTTPS or SSH with password code using JGit has to pass in a credentials provider. I think SSH with public key authentication would work if configured right via ~/.ssh/config.\n\n[1] https://github.com/eclipse-egit/egit/issues/191",
       "revId": "c39b9e026adfabadadd6be74cdfc972043201811",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aeb444f6_61c43c2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PromisorRemoteFetcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-06-26T08:54:28Z",
+      "side": 1,
+      "message": "BTW: similar problem exists for LFS; compare [1] and maybe [2].\n\n[1] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/185407\n[2] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1193831",
+      "parentUuid": "46641252_516c2e37",
+      "revId": "c39b9e026adfabadadd6be74cdfc972043201811",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
