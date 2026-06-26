@@ -69,6 +69,24 @@
       "parentUuid": "aeb444f6_61c43c2d",
       "revId": "c39b9e026adfabadadd6be74cdfc972043201811",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26091c36_8808783e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PromisorRemoteFetcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1039665
+      },
+      "writtenOn": "2026-06-26T10:45:53Z",
+      "side": 1,
+      "message": "Good catch — thanks. There are two cases:\n\nGlobal default: Transport.open() already initialises the transport with CredentialsProvider.getDefault(), so apps that call CredentialsProvider.setDefault(...) (and SSH public-key auth via ~/.ssh/config) work for lazy fetches today.\n\nPer-repository / non-global: for callers that can\u0027t use global state, I\u0027ve added FileRepository.setPromisorTransportConfig(TransportConfigCallback). The callback is applied to the Transport used for each on-demand fetch, so you can set a CredentialsProvider, timeout, proxy, etc. CloneCommand now registers one automatically, forwarding the clone\u0027s own credentials provider / timeout / TransportConfigCallback, so a clone --filter\u003d... followed by checkout/blame/diff reuses the credentials the clone was given without any extra wiring.\n\nThe reason this lives on the repository rather than on a fetch operation is that a lazy fetch fires deep in ObjectReader during arbitrary later reads, long after any FetchCommand has returned — so the credentials are inherently repository-scoped, not operation-scoped. One consequence worth noting: the callback configures the in-memory Repository instance and isn\u0027t persisted (credentials can\u0027t be written to config), so after reopening a repo you either re-register it or fall back to the default provider.\n\nThis is the same gap LFS has (thanks for the pointers); I went with an explicit per-repo hook rather than a ThreadLocal. Happy to adjust the shape if you\u0027d prefer it elsewhere. Lazy fetching is file-store-only for now, hence the hook on FileRepository.",
+      "parentUuid": "aeb444f6_61c43c2d",
+      "revId": "c39b9e026adfabadadd6be74cdfc972043201811",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
