@@ -87,6 +87,24 @@
       "parentUuid": "aeb444f6_61c43c2d",
       "revId": "c39b9e026adfabadadd6be74cdfc972043201811",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4535e5e_7f4c5fc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PromisorRemoteFetcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-06-27T10:23:27Z",
+      "side": 1,
+      "message": "Thanks. I\u0027m very happy that you came up with a solution that doesn\u0027t use `ThreadLocal`.\n\nIn LFS the situation may be a little bit different since even if one uses git-over-ssh the LFS blob downloads may be over HTTPS. But I think essentially the same approach could be used. (Didn\u0027t look closely, though.)",
+      "parentUuid": "26091c36_8808783e",
+      "revId": "c39b9e026adfabadadd6be74cdfc972043201811",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
