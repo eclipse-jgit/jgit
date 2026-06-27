@@ -74,6 +74,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a7d16208_b098c6cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-06-27T13:49:51Z",
+      "side": 1,
+      "message": "On second thought, I decided to go with `sed` based toolchain extracted to `bazlets` and avoid external dependencies, to just replace a string in a file.\n\nSo that we could reuse the same machinery in JGit, Gitiles and Gerrit.",
+      "parentUuid": "1c5bde2a_00649776",
+      "range": {
+        "startLine": 22,
+        "startChar": 14,
+        "endLine": 23,
+        "endChar": 55
+      },
+      "revId": "705e9a0d344611865efaf66351aadaa5fc760fd2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a728ca74_f8c7d85c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
