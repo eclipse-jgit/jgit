@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a244ddfe_a6d6479f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-06-29T17:32:19Z",
+      "side": 1,
+      "message": "Looks like it aligns to https://www.eclipse.org/projects/handbook/#legaldoc-notice",
+      "revId": "0f55a0f28e5e0c0507b75834f72f7c3b2340f1f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
