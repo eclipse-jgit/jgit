@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c407e41_b850f8db",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheEntryTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-06-29T18:13:34Z",
+      "side": 1,
+      "message": "Can you add a negative test too? Maybe something like:\n```java\n@Test\npublic void testNotRacilyCleanWhenSmudgeIsAfter() {\n\tDirCacheEntry entry \u003d new DirCacheEntry(\"some/path\");\n\tfinal Instant entryTime \u003d Instant.ofEpochSecond(1, 0);\n\tentry.setLastModified(entryTime);\n\tfinal Instant smudge \u003d entryTime.plus(Duration.ofNanos(1));\n\tassertFalse(entry.mightBeRacilyClean(smudge));\n}\n```",
+      "revId": "2c610157c4aa77b160917d39c18b3bff4559d55d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41dea99c_0b07cba9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-06-29T18:13:34Z",
+      "side": 1,
+      "message": "nit: Maybe call this `entryMtimeSec` so it\u0027s a little clearer what it is?\n```suggestion\n\t\tfinal int entryMtimeSec \u003d NB.decodeInt32(info, base);\n```",
+      "revId": "2c610157c4aa77b160917d39c18b3bff4559d55d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
