@@ -5,7 +5,7 @@ bazel_dep(name = "rules_android", version = "0.7.1")
 bazel_dep(name = "rules_go", version = "0.60.0")
 bazel_dep(name = "rules_java", version = "9.3.0")
 bazel_dep(name = "rules_jvm_external", version = "6.10")
-
+bazel_dep(name = "rules_shell", version = "0.6.1")
 bazel_dep(name = "rbe_autoconfig")
 git_override(
     module_name = "rbe_autoconfig",
@@ -21,7 +21,7 @@ git_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:git.bzl", "g
 
 git_repository(
     name = "com_googlesource_gerrit_bazlets",
-    commit = "f9c119e45d9a241bee720b7fbd6c7fdbc952da5f",
+    commit = "156bae8bb0d329d8886f681c723979cbdb39d37c",
     remote = "https://gerrit.googlesource.com/bazlets",
 )
 
@@ -53,6 +53,7 @@ maven.install(
         "commons-io:commons-io:2.22.0",
         "commons-logging:commons-logging:1.4.0",
         "jakarta.servlet:jakarta.servlet-api:6.1.0",
+        "javax.servlet:javax.servlet-api:4.0.1",
         "junit:junit:4.13.2",
         "net.bytebuddy:byte-buddy-agent:" + BYTE_BUDDY_VERSION,
         "net.bytebuddy:byte-buddy:" + BYTE_BUDDY_VERSION,
@@ -78,6 +79,9 @@ maven.install(
         "org.eclipse.jetty:jetty-session:" + JETTY_VERSION,
         "org.eclipse.jetty:jetty-util-ajax:" + JETTY_VERSION,
         "org.eclipse.jetty:jetty-util:" + JETTY_VERSION,
+        "org.eclipse.jetty.ee8:jetty-ee8-nested:" + JETTY_VERSION,
+        "org.eclipse.jetty.ee8:jetty-ee8-security:" + JETTY_VERSION,
+        "org.eclipse.jetty.ee8:jetty-ee8-servlet:" + JETTY_VERSION,
         "org.eclipse.jetty.ee10:jetty-ee10-servlet:" + JETTY_VERSION,
         "org.hamcrest:hamcrest:3.0",
         "org.mockito:mockito-core:5.23.0",
