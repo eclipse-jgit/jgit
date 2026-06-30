@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84540525_b01698c1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheEntryTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-06-30T07:40:29Z",
+      "side": 1,
+      "message": "Good idea, I\u0027ve added the test case. Thanks for the suggestion",
+      "parentUuid": "6c407e41_b850f8db",
+      "revId": "2c610157c4aa77b160917d39c18b3bff4559d55d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41dea99c_0b07cba9",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-06-29T18:13:34Z",
       "side": 1,
       "message": "nit: Maybe call this `entryMtimeSec` so it\u0027s a little clearer what it is?\n```suggestion\n\t\tfinal int entryMtimeSec \u003d NB.decodeInt32(info, base);\n```",
+      "revId": "2c610157c4aa77b160917d39c18b3bff4559d55d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "884e6be8_8bda26b4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-06-30T07:40:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41dea99c_0b07cba9",
       "revId": "2c610157c4aa77b160917d39c18b3bff4559d55d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
