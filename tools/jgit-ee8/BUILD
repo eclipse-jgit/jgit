@@ -7,7 +7,7 @@ sh_test(
         "--forbid",
         "jakarta\\.servlet",
         "--forbid",
-        "org\\.eclipse\\.jetty\\.ee10\\.servlet",
+        "org\\.eclipse\\.jetty\\.ee11\\.servlet",
         "--forbid",
         "org\\.eclipse\\.jgit\\..*\\.ee8",
         "--require-if-source",

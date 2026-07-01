@@ -53,7 +53,7 @@ three HTTP server utility tests. It is not part of the default EE8 suite because
 those classes already run under `//org.eclipse.jgit.http.test.ee8:http`.
 
 The test rewrite rules also map Jetty test helper imports from
-`org.eclipse.jetty.ee10.servlet` to the Jetty EE8 packages needed by the tests.
+`org.eclipse.jetty.ee11.servlet` to the Jetty EE8 packages needed by the tests.
 They are intentionally test-only and separate from the production
 `jakarta.servlet` to `javax.servlet` rules.
 
