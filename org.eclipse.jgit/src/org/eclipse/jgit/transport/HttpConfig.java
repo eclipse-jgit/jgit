@@ -12,12 +12,10 @@
 package org.eclipse.jgit.transport;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Supplier;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -41,8 +39,6 @@ import org.slf4j.LoggerFactory;
 public class HttpConfig {
 
 	private static final Logger LOG = LoggerFactory.getLogger(HttpConfig.class);
-
-	private static final String FTP = "ftp"; //$NON-NLS-1$
 
 	/** git config section key for http settings. */
 	public static final String HTTP = "http"; //$NON-NLS-1$
@@ -326,7 +322,8 @@ public class HttpConfig {
 		saveCookies = config.getBoolean(HTTP, SAVE_COOKIES_KEY, false);
 		cookieFileCacheLimit = config.getInt(HTTP, COOKIE_FILE_CACHE_LIMIT_KEY,
 				DEFAULT_COOKIE_FILE_CACHE_LIMIT);
-		String match = findMatch(config.getSubsections(HTTP), uri);
+		String match = UrlConfigMatcher.findMatch(config.getSubsections(HTTP),
+				uri);
 
 		if (match != null) {
 			// Override with more specific items
@@ -385,165 +382,12 @@ public class HttpConfig {
 		return -1;
 	}
 
-	/**
-	 * Determines the best match from a set of subsection names (representing
-	 * prefix URLs) for the given {@link URIish}.
-	 *
-	 * @param names
-	 *            to match against the {@code uri}
-	 * @param uri
-	 *            to find a match for
-	 * @return the best matching subsection name, or {@code null} if no
-	 *         subsection matches
-	 */
-	private String findMatch(Set<String> names, URIish uri) {
-		String bestMatch = null;
-		int bestMatchLength = -1;
-		boolean withUser = false;
-		String uPath = uri.getPath();
-		boolean hasPath = !StringUtils.isEmptyOrNull(uPath);
-		if (hasPath) {
-			uPath = normalize(uPath);
-			if (uPath == null) {
-				// Normalization failed; warning was logged.
-				return null;
-			}
-		}
-		for (String s : names) {
-			try {
-				URIish candidate = new URIish(s);
-				// Scheme and host must match case-insensitively
-				if (!compare(uri.getScheme(), candidate.getScheme())
-						|| !compare(uri.getHost(), candidate.getHost())) {
-					continue;
-				}
-				// Ports must match after default ports have been substituted
-				if (defaultedPort(uri.getPort(),
-						uri.getScheme()) != defaultedPort(candidate.getPort(),
-								candidate.getScheme())) {
-					continue;
-				}
-				// User: if present in candidate, must match
-				boolean hasUser = false;
-				if (candidate.getUser() != null) {
-					if (!candidate.getUser().equals(uri.getUser())) {
-						continue;
-					}
-					hasUser = true;
-				}
-				// Path: prefix match, longer is better
-				String cPath = candidate.getPath();
-				int matchLength = -1;
-				if (StringUtils.isEmptyOrNull(cPath)) {
-					matchLength = 0;
-				} else {
-					if (!hasPath) {
-						continue;
-					}
-					// Paths can match only on segments
-					matchLength = segmentCompare(uPath, cPath);
-					if (matchLength < 0) {
-						continue;
-					}
-				}
-				// A longer path match is always preferred even over a user
-				// match. If the path matches are equal, a match with user wins
-				// over a match without user.
-				if (matchLength > bestMatchLength
-						|| (!withUser && hasUser && matchLength >= 0
-								&& matchLength == bestMatchLength)) {
-					bestMatch = s;
-					bestMatchLength = matchLength;
-					withUser = hasUser;
-				}
-			} catch (URISyntaxException e) {
-				LOG.warn(MessageFormat
-						.format(JGitText.get().httpConfigInvalidURL, s));
-			}
-		}
-		return bestMatch;
-	}
-
-	private boolean compare(String a, String b) {
-		if (a == null) {
-			return b == null;
-		}
-		return a.equalsIgnoreCase(b);
-	}
-
-	private int defaultedPort(int port, String scheme) {
-		if (port >= 0) {
-			return port;
-		}
-		if (FTP.equalsIgnoreCase(scheme)) {
-			return 21;
-		} else if (HTTP.equalsIgnoreCase(scheme)) {
-			return 80;
-		} else {
-			return 443; // https
-		}
-	}
-
-	static int segmentCompare(String uriPath, String m) {
-		// Precondition: !uriPath.isEmpty() && !m.isEmpty(),and u must already
-		// be normalized
-		String matchPath = normalize(m);
-		if (matchPath == null || !uriPath.startsWith(matchPath)) {
-			return -1;
-		}
-		// We can match only on a segment boundary: either both paths are equal,
-		// or if matchPath does not end in '/', there is a '/' in uriPath right
-		// after the match.
-		int uLength = uriPath.length();
-		int mLength = matchPath.length();
-		if (mLength == uLength || matchPath.charAt(mLength - 1) == '/'
-				|| (mLength < uLength && uriPath.charAt(mLength) == '/')) {
-			return mLength;
-		}
-		return -1;
+	static int segmentCompare(String uriPath, String match) {
+		return UrlConfigMatcher.segmentCompare(uriPath, match);
 	}
 
 	static String normalize(String path) {
-		// C-git resolves . and .. segments
-		int i = 0;
-		int length = path.length();
-		StringBuilder builder = new StringBuilder(length);
-		builder.append('/');
-		if (length > 0 && path.charAt(0) == '/') {
-			i = 1;
-		}
-		while (i < length) {
-			int slash = path.indexOf('/', i);
-			if (slash < 0) {
-				slash = length;
-			}
-			if (slash == i || (slash == i + 1 && path.charAt(i) == '.')) {
-				// Skip /. or also double slashes
-			} else if (slash == i + 2 && path.charAt(i) == '.'
-					&& path.charAt(i + 1) == '.') {
-				// Remove previous segment if we have "/.."
-				int l = builder.length() - 2; // Skip terminating slash.
-				while (l >= 0 && builder.charAt(l) != '/') {
-					l--;
-				}
-				if (l < 0) {
-					LOG.warn(MessageFormat.format(
-							JGitText.get().httpConfigCannotNormalizeURL, path));
-					return null;
-				}
-				builder.setLength(l + 1);
-			} else {
-				// Include the slash, if any
-				builder.append(path, i, Math.min(length, slash + 1));
-			}
-			i = slash + 1;
-		}
-		if (builder.length() > 1 && builder.charAt(builder.length() - 1) == '/'
-				&& length > 0 && path.charAt(length - 1) != '/') {
-			// . or .. normalization left a trailing slash when the original
-			// path had none at the end
-			builder.setLength(builder.length() - 1);
-		}
-		return builder.toString();
+		return UrlConfigMatcher.normalize(path);
 	}
+
 }
