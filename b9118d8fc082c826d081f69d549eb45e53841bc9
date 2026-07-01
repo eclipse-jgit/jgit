@@ -61,6 +61,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37970074_cefd9717",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-07-01T23:31:49Z",
+      "side": 1,
+      "message": "I don\u0027t believe this is accurate, as inodes can be reused. So, while the file exists it can be identified that way, but I don\u0027t think you can differentiate between files across time that way. Is there a reason that using the FileChannel approach here is not good enough?",
+      "revId": "b9118d8fc082c826d081f69d549eb45e53841bc9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "616ad107_9f734b7b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 1
