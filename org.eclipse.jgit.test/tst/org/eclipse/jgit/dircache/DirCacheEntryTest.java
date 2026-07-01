@@ -22,6 +22,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
@@ -338,5 +339,30 @@ public class DirCacheEntryTest {
 			assertEquals(DirCacheEntry.STAGE_1, e.getStage());
 		assertTrue(e.isUpdateNeeded());
 		assertEquals("some/path", e.getPathString());
+	}
+
+	@Test
+	public void testMightBeRacilyCleanNanoOverflow() {
+		DirCacheEntry entry = new DirCacheEntry("some/path");
+		final Instant instant = Instant.ofEpochSecond(1, 999_999_999);
+		entry.setLastModified(instant.plus(Duration.ofNanos(1)));
+		assertTrue(entry.mightBeRacilyClean(instant));
+	}
+
+	@Test
+	public void testMightBeRacilyCleanOneSecondAfter() {
+		DirCacheEntry entry = new DirCacheEntry("some/path");
+		final Instant instant = Instant.ofEpochSecond(1, 0);
+		entry.setLastModified(instant.plus(Duration.ofSeconds(1)));
+		assertTrue(entry.mightBeRacilyClean(instant));
+	}
+
+	@Test
+	public void testNotRacilyCleanWhenSmudgeIsAfter() {
+		DirCacheEntry entry = new DirCacheEntry("some/path");
+		final Instant entryTime = Instant.ofEpochSecond(1, 0);
+		entry.setLastModified(entryTime);
+		final Instant smudge = entryTime.plus(Duration.ofNanos(1));
+		assertFalse(entry.mightBeRacilyClean(smudge));
 	}
 }
