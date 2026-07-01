@@ -25,8 +25,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
-import org.eclipse.jetty.ee10.servlet.ServletHolder;
+import org.eclipse.jetty.ee11.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee11.servlet.ServletHolder;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.junit.TestRepository;
@@ -140,7 +140,14 @@ public class DumbClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals(join(remoteURI, "HEAD"), head.getPath());
 		assertEquals(0, head.getParameters().size());
 		assertEquals(200, head.getStatus());
-		assertEquals("text/plain", head.getResponseHeader(HDR_CONTENT_TYPE));
+		assertEquals("text/plain",
+				mediaType(head.getResponseHeader(HDR_CONTENT_TYPE)));
+	}
+
+	private static String mediaType(String contentType) {
+		int parameterStart = contentType.indexOf(';');
+		return parameterStart >= 0 ? contentType.substring(0, parameterStart)
+				: contentType;
 	}
 
 	@Test

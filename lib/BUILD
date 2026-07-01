@@ -176,7 +176,7 @@ java_library(
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
     exports = [
-        "@external_deps//:org_eclipse_jetty_ee10_jetty_ee10_servlet",
+        "@external_deps//:org_eclipse_jetty_ee11_jetty_ee11_servlet",
         "@external_deps//:org_eclipse_jetty_jetty_util_ajax",
     ],
 )
@@ -218,10 +218,10 @@ java_library(
 )
 
 java_library(
-    name = "jetty-ee10-servlet",
+    name = "jetty-ee11-servlet",
     # TODO: This should be testonly but org.eclipse.jgit.pgm depends on it.
     visibility = ["//visibility:public"],
-    exports = ["@external_deps//:org_eclipse_jetty_ee10_jetty_ee10_servlet"],
+    exports = ["@external_deps//:org_eclipse_jetty_ee11_jetty_ee11_servlet"],
 )
 
 java_library(
