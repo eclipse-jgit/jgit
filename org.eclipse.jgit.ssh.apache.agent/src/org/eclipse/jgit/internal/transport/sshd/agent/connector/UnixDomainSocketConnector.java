@@ -9,17 +9,14 @@
  */
 package org.eclipse.jgit.internal.transport.sshd.agent.connector;
 
-import static org.eclipse.jgit.internal.transport.sshd.agent.connector.Sockets.AF_UNIX;
-import static org.eclipse.jgit.internal.transport.sshd.agent.connector.Sockets.DEFAULT_PROTOCOL;
-import static org.eclipse.jgit.internal.transport.sshd.agent.connector.Sockets.SOCK_STREAM;
-import static org.eclipse.jgit.internal.transport.sshd.agent.connector.UnixSockets.FD_CLOEXEC;
-import static org.eclipse.jgit.internal.transport.sshd.agent.connector.UnixSockets.F_SETFD;
 import static org.eclipse.jgit.transport.SshConstants.ENV_SSH_AUTH_SOCKET;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.net.StandardProtocolFamily;
+import java.net.UnixDomainSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.sshd.common.SshException;
@@ -27,15 +24,11 @@ import org.eclipse.jgit.transport.sshd.agent.AbstractConnector;
 import org.eclipse.jgit.transport.sshd.agent.ConnectorFactory.ConnectorDescriptor;
 import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.sun.jna.LastErrorException;
-import com.sun.jna.Native;
-import com.sun.jna.platform.unix.LibCAPI;
 
 /**
- * JNA-based implementation of communication through a Unix domain socket.
+ * JRE-based implementation of communication through a Unix domain socket.
+ * Support added in JRE 16 with <a href="https://openjdk.org/jeps/380">JEP
+ * 380</a>.
  */
 public class UnixDomainSocketConnector extends AbstractConnector {
 
@@ -55,31 +48,11 @@ public class UnixDomainSocketConnector extends AbstractConnector {
 		}
 	};
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(UnixDomainSocketConnector.class);
+	private final UnixDomainSocketAddress socketAddress;
 
-	private static UnixSockets library;
-
-	private static boolean libraryLoaded = false;
-
-	private static synchronized UnixSockets getLibrary() {
-		if (!libraryLoaded) {
-			libraryLoaded = true;
-			try {
-				library = Native.load(UnixSockets.LIBRARY_NAME, UnixSockets.class);
-			} catch (Exception | UnsatisfiedLinkError
-					| NoClassDefFoundError e) {
-				LOG.error(Texts.get().logErrorLoadLibrary, e);
-			}
-		}
-		return library;
-	}
-
-	private final String socketFile;
+	private SocketChannel client;
 
 	private AtomicBoolean connected = new AtomicBoolean();
-
-	private volatile int socketFd = -1;
 
 	/**
 	 * Creates a new instance.
@@ -95,142 +68,53 @@ public class UnixDomainSocketConnector extends AbstractConnector {
 				|| ENV_SSH_AUTH_SOCKET.equals(file)) {
 			file = SystemReader.getInstance().getenv(ENV_SSH_AUTH_SOCKET);
 		}
-		this.socketFile = file;
+		this.socketAddress = UnixDomainSocketAddress.of(file);
 	}
 
 	@Override
 	public boolean connect() throws IOException {
-		if (StringUtils.isEmptyOrNull(socketFile)) {
-			return false;
-		}
-		int fd = socketFd;
-		synchronized (this) {
-			if (connected.get()) {
-				return true;
-			}
-			UnixSockets sockets = getLibrary();
-			if (sockets == null) {
-				return false;
-			}
-			try {
-				fd = sockets.socket(AF_UNIX, SOCK_STREAM, DEFAULT_PROTOCOL);
-				// OS X apparently doesn't have SOCK_CLOEXEC, so we can't set it
-				// atomically. Set it via fcntl, which exists on all systems
-				// we're interested in.
-				sockets.fcntl(fd, F_SETFD, FD_CLOEXEC);
-				Sockets.SockAddr sockAddr = new Sockets.SockAddr(socketFile,
-						StandardCharsets.UTF_8);
-				sockets.connect(fd, sockAddr, sockAddr.size());
-				connected.set(true);
-			} catch (LastErrorException e) {
-				if (fd >= 0) {
-					try {
-						sockets.close(fd);
-					} catch (LastErrorException e1) {
-						e.addSuppressed(e1);
-					}
-				}
-				throw new IOException(MessageFormat
-						.format(Texts.get().msgConnectFailed, socketFile), e);
-			}
-		}
-		socketFd = fd;
-		return connected.get();
+		client = SocketChannel.open(StandardProtocolFamily.UNIX);
+		client.bind(socketAddress);
+		connected.set(true);
+		return true;
 	}
 
 	@Override
 	public synchronized void close() throws IOException {
-		int fd = socketFd;
-		if (connected.getAndSet(false) && fd >= 0) {
-			socketFd = -1;
-			try {
-				getLibrary().close(fd);
-			} catch (LastErrorException e) {
-				throw new IOException(MessageFormat.format(
-						Texts.get().msgCloseFailed, Integer.toString(fd)), e);
-			}
-		}
+		client.close();
 	}
 
 	@Override
 	public byte[] rpc(byte command, byte[] message) throws IOException {
 		prepareMessage(command, message);
-		int fd = socketFd;
-		if (!connected.get() || fd < 0) {
+		if (!connected.get()) {
 			// No translation, internal error
 			throw new IllegalStateException("Not connected to SSH agent"); //$NON-NLS-1$
 		}
-		writeFully(fd, message);
+		writeFully(message);
 		// Now receive the reply
 		byte[] lengthBuf = new byte[4];
-		readFully(fd, lengthBuf);
+		readFully(lengthBuf);
 		int length = toLength(command, lengthBuf);
 		byte[] payload = new byte[length];
-		readFully(fd, payload);
+		readFully(payload);
 		return payload;
 	}
 
-	private void writeFully(int fd, byte[] message) throws IOException {
-		int toWrite = message.length;
-		try {
-			byte[] buf = message;
-			while (toWrite > 0) {
-				int written = getLibrary()
-						.write(fd, buf, new LibCAPI.size_t(buf.length))
-						.intValue();
-				if (written < 0) {
-					throw new IOException(
-							MessageFormat.format(Texts.get().msgSendFailed,
-									Integer.toString(message.length),
-									Integer.toString(toWrite)));
-				}
-				toWrite -= written;
-				if (written > 0 && toWrite > 0) {
-					buf = Arrays.copyOfRange(buf, written, buf.length);
-				}
-			}
-		} catch (LastErrorException e) {
-			throw new IOException(
-					MessageFormat.format(Texts.get().msgSendFailed,
-							Integer.toString(message.length),
-							Integer.toString(toWrite)),
-					e);
-		}
+	private void writeFully(byte[] message) throws IOException {
+		ByteBuffer byteBuffer = ByteBuffer.wrap(message);
+		client.write(byteBuffer);
 	}
 
-	private void readFully(int fd, byte[] data) throws IOException {
-		int n = 0;
-		int offset = 0;
-		while (offset < data.length
-				&& (n = read(fd, data, offset, data.length - offset)) > 0) {
-			offset += n;
-		}
+	private void readFully(byte[] data) throws IOException {
+		ByteBuffer byteBuffer = ByteBuffer.wrap(data);
+		int offset = client.read(byteBuffer);
 		if (offset < data.length) {
 			throw new SshException(
 					MessageFormat.format(Texts.get().msgShortRead,
 							Integer.toString(data.length),
-							Integer.toString(offset), Integer.toString(n)));
-		}
-	}
-
-	private int read(int fd, byte[] buffer, int offset, int length)
-			throws IOException {
-		try {
-			LibCAPI.size_t toRead = new LibCAPI.size_t(length);
-			if (offset == 0) {
-				return getLibrary().read(fd, buffer, toRead).intValue();
-			}
-			byte[] data = new byte[length];
-			int read = getLibrary().read(fd, data, toRead).intValue();
-			if (read > 0) {
-				System.arraycopy(data, 0, buffer, offset, read);
-			}
-			return read;
-		} catch (LastErrorException e) {
-			throw new IOException(
-					MessageFormat.format(Texts.get().msgReadFailed,
-							Integer.toString(length)),
-					e);
+							Integer.toString(offset),
+							Integer.toString(offset)));
 		}
 	}
 }
