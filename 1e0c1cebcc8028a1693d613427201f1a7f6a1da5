@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a46c484e_5d865f5d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-07-01T09:02:32Z",
+      "side": 1,
+      "message": "last build on CI succeeded but didn\u0027t vote on this change\nhttps://ci.eclipse.org/jgit/job/stable/job/jgit-stable.gerrit/6229/",
+      "revId": "1e0c1cebcc8028a1693d613427201f1a7f6a1da5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
