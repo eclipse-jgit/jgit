@@ -28,7 +28,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-public class GitCredentialHelperProviderTest {
+public class GitCredentialHelperCredentialsProviderTest {
 
 	@Rule
 	public TemporaryFolder tmp = new TemporaryFolder();
@@ -53,32 +53,32 @@ public class GitCredentialHelperProviderTest {
 
 	@Test
 	public void testSupportsUsernameAndPassword() {
-		GitCredentialHelperProvider p = new GitCredentialHelperProvider("test"); //$NON-NLS-1$
+		GitCredentialHelperCredentialsProvider p = new GitCredentialHelperCredentialsProvider("test"); //$NON-NLS-1$
 		assertTrue(p.supports(new CredentialItem.Username(),
 				new CredentialItem.Password()));
 	}
 
 	@Test
 	public void testSupportsPasswordStringType() {
-		GitCredentialHelperProvider p = new GitCredentialHelperProvider("test"); //$NON-NLS-1$
+		GitCredentialHelperCredentialsProvider p = new GitCredentialHelperCredentialsProvider("test"); //$NON-NLS-1$
 		assertTrue(p.supports(new CredentialItem.StringType("Password: ", true))); //$NON-NLS-1$
 	}
 
 	@Test
 	public void testDoesNotSupportYesNoType() {
-		GitCredentialHelperProvider p = new GitCredentialHelperProvider("test"); //$NON-NLS-1$
+		GitCredentialHelperCredentialsProvider p = new GitCredentialHelperCredentialsProvider("test"); //$NON-NLS-1$
 		assertFalse(p.supports(new CredentialItem.YesNoType("Trust?"))); //$NON-NLS-1$
 	}
 
 	@Test
 	public void testDoesNotSupportArbitraryStringType() {
-		GitCredentialHelperProvider p = new GitCredentialHelperProvider("test"); //$NON-NLS-1$
+		GitCredentialHelperCredentialsProvider p = new GitCredentialHelperCredentialsProvider("test"); //$NON-NLS-1$
 		assertFalse(p.supports(new CredentialItem.StringType("Token: ", true))); //$NON-NLS-1$
 	}
 
 	@Test
 	public void testIsNotInteractive() {
-		GitCredentialHelperProvider p = new GitCredentialHelperProvider("test"); //$NON-NLS-1$
+		GitCredentialHelperCredentialsProvider p = new GitCredentialHelperCredentialsProvider("test"); //$NON-NLS-1$
 		assertFalse(p.isInteractive());
 	}
 
@@ -89,8 +89,8 @@ public class GitCredentialHelperProviderTest {
 	@Test
 	public void testBuildCommandShellSnippet() {
 		assumeFalse(isWindows());
-		GitCredentialHelperProvider p =
-				new GitCredentialHelperProvider("!my-helper --opt"); //$NON-NLS-1$
+		GitCredentialHelperCredentialsProvider p =
+				new GitCredentialHelperCredentialsProvider("!my-helper --opt"); //$NON-NLS-1$
 		List<String> cmd = p.buildCommand("get"); //$NON-NLS-1$
 		assertEquals("sh", cmd.get(0)); //$NON-NLS-1$
 		assertEquals("-c", cmd.get(1)); //$NON-NLS-1$
@@ -100,8 +100,8 @@ public class GitCredentialHelperProviderTest {
 	@Test
 	public void testBuildCommandAbsolutePath() {
 		assumeFalse(isWindows());
-		GitCredentialHelperProvider p =
-				new GitCredentialHelperProvider("/usr/bin/git-credential-foo"); //$NON-NLS-1$
+		GitCredentialHelperCredentialsProvider p =
+				new GitCredentialHelperCredentialsProvider("/usr/bin/git-credential-foo"); //$NON-NLS-1$
 		List<String> cmd = p.buildCommand("get"); //$NON-NLS-1$
 		assertEquals(2, cmd.size());
 		assertEquals("/usr/bin/git-credential-foo", cmd.get(0)); //$NON-NLS-1$
@@ -111,8 +111,8 @@ public class GitCredentialHelperProviderTest {
 	@Test
 	public void testBuildCommandRelativeName() {
 		assumeFalse(isWindows());
-		GitCredentialHelperProvider p =
-				new GitCredentialHelperProvider("osxkeychain"); //$NON-NLS-1$
+		GitCredentialHelperCredentialsProvider p =
+				new GitCredentialHelperCredentialsProvider("osxkeychain"); //$NON-NLS-1$
 		List<String> cmd = p.buildCommand("get"); //$NON-NLS-1$
 		assertEquals("sh", cmd.get(0)); //$NON-NLS-1$
 		assertEquals("-c", cmd.get(1)); //$NON-NLS-1$
@@ -129,8 +129,8 @@ public class GitCredentialHelperProviderTest {
 		assumeFalse(isWindows());
 		// Shell snippet that echoes username and password
 		String snippet = "!printf 'username=alice\\npassword=s3cr3t\\n\\n'"; //$NON-NLS-1$
-		GitCredentialHelperProvider p =
-				new GitCredentialHelperProvider(snippet);
+		GitCredentialHelperCredentialsProvider p =
+				new GitCredentialHelperCredentialsProvider(snippet);
 
 		CredentialItem.Username u = new CredentialItem.Username();
 		CredentialItem.Password pw = new CredentialItem.Password();
@@ -145,8 +145,8 @@ public class GitCredentialHelperProviderTest {
 			throws UnsupportedCredentialItem {
 		assumeFalse(isWindows());
 		String snippet = "!printf 'username=bob\\npassword=p@ss\\n\\n'"; //$NON-NLS-1$
-		GitCredentialHelperProvider p =
-				new GitCredentialHelperProvider(snippet);
+		GitCredentialHelperCredentialsProvider p =
+				new GitCredentialHelperCredentialsProvider(snippet);
 
 		CredentialItem.StringType pw =
 				new CredentialItem.StringType("Password: ", true); //$NON-NLS-1$
@@ -161,8 +161,8 @@ public class GitCredentialHelperProviderTest {
 		assumeFalse(isWindows());
 		// Helper that outputs nothing (just a blank line)
 		String snippet = "!printf '\\n'"; //$NON-NLS-1$
-		GitCredentialHelperProvider p =
-				new GitCredentialHelperProvider(snippet);
+		GitCredentialHelperCredentialsProvider p =
+				new GitCredentialHelperCredentialsProvider(snippet);
 
 		CredentialItem.Username u = new CredentialItem.Username();
 		CredentialItem.Password pw = new CredentialItem.Password();
@@ -175,8 +175,8 @@ public class GitCredentialHelperProviderTest {
 			throws UnsupportedCredentialItem {
 		assumeFalse(isWindows());
 		String snippet = "!exit 1"; //$NON-NLS-1$
-		GitCredentialHelperProvider p =
-				new GitCredentialHelperProvider(snippet);
+		GitCredentialHelperCredentialsProvider p =
+				new GitCredentialHelperCredentialsProvider(snippet);
 
 		CredentialItem.Username u = new CredentialItem.Username();
 		CredentialItem.Password pw = new CredentialItem.Password();
@@ -192,8 +192,8 @@ public class GitCredentialHelperProviderTest {
 		// Write stdin to a file, then echo fixed credentials
 		String snippet = "!f() { cat > " + capture.toAbsolutePath() //$NON-NLS-1$
 				+ "; printf 'username=x\\npassword=y\\n\\n'; }; f"; //$NON-NLS-1$
-		GitCredentialHelperProvider p =
-				new GitCredentialHelperProvider(snippet)
+		GitCredentialHelperCredentialsProvider p =
+				new GitCredentialHelperCredentialsProvider(snippet)
 						.setUseHttpPath(true);
 
 		CredentialItem.Username u = new CredentialItem.Username();
@@ -215,8 +215,8 @@ public class GitCredentialHelperProviderTest {
 		Path capture = tmp.newFile("stdin-capture-port.txt").toPath(); //$NON-NLS-1$
 		String snippet = "!f() { cat > " + capture.toAbsolutePath() //$NON-NLS-1$
 				+ "; printf 'username=x\\npassword=y\\n\\n'; }; f"; //$NON-NLS-1$
-		GitCredentialHelperProvider p =
-				new GitCredentialHelperProvider(snippet);
+		GitCredentialHelperCredentialsProvider p =
+				new GitCredentialHelperCredentialsProvider(snippet);
 
 		CredentialItem.Username u = new CredentialItem.Username();
 		CredentialItem.Password pw = new CredentialItem.Password();
@@ -239,8 +239,8 @@ public class GitCredentialHelperProviderTest {
 		// Write the received action to a side-effect file
 		String snippet = "!f() { echo \"$1\" > " //$NON-NLS-1$
 				+ sideEffect.toAbsolutePath() + "; }; f"; //$NON-NLS-1$
-		GitCredentialHelperProvider p =
-				new GitCredentialHelperProvider(snippet);
+		GitCredentialHelperCredentialsProvider p =
+				new GitCredentialHelperCredentialsProvider(snippet);
 
 		p.reset(uri("https://example.com/repo.git")); //$NON-NLS-1$
 
@@ -256,8 +256,8 @@ public class GitCredentialHelperProviderTest {
 		Path sideEffect = tmp.newFile("store.txt").toPath(); //$NON-NLS-1$
 		String snippet = "!f() { echo \"$1\" > " //$NON-NLS-1$
 				+ sideEffect.toAbsolutePath() + "; }; f"; //$NON-NLS-1$
-		GitCredentialHelperProvider p =
-				new GitCredentialHelperProvider(snippet);
+		GitCredentialHelperCredentialsProvider p =
+				new GitCredentialHelperCredentialsProvider(snippet);
 
 		p.store(uri("https://example.com/repo.git"), "alice", //$NON-NLS-1$ //$NON-NLS-2$
 				"s3cr3t".toCharArray()); //$NON-NLS-1$
@@ -274,8 +274,8 @@ public class GitCredentialHelperProviderTest {
 		// Wrap in a function so the appended action argument is harmless
 		String snippet = "!f() { cat > " + capture.toAbsolutePath() //$NON-NLS-1$
 				+ "; }; f"; //$NON-NLS-1$
-		GitCredentialHelperProvider p =
-				new GitCredentialHelperProvider(snippet);
+		GitCredentialHelperCredentialsProvider p =
+				new GitCredentialHelperCredentialsProvider(snippet);
 
 		p.store(uri("https://example.com/repo.git"), "alice", //$NON-NLS-1$ //$NON-NLS-2$
 				"s3cr3t".toCharArray()); //$NON-NLS-1$
@@ -298,8 +298,8 @@ public class GitCredentialHelperProviderTest {
 		String snippet = "!f() { cat > " + capture.toAbsolutePath() //$NON-NLS-1$
 				+ "; printf 'username=x\\npassword=y\\n\\n'; }; f"; //$NON-NLS-1$
 		// useHttpPath defaults to false
-		GitCredentialHelperProvider p =
-				new GitCredentialHelperProvider(snippet);
+		GitCredentialHelperCredentialsProvider p =
+				new GitCredentialHelperCredentialsProvider(snippet);
 
 		CredentialItem.Username u = new CredentialItem.Username();
 		CredentialItem.Password pw = new CredentialItem.Password();
@@ -320,8 +320,8 @@ public class GitCredentialHelperProviderTest {
 		Path capture = tmp.newFile("with-path-capture.txt").toPath(); //$NON-NLS-1$
 		String snippet = "!f() { cat > " + capture.toAbsolutePath() //$NON-NLS-1$
 				+ "; printf 'username=x\\npassword=y\\n\\n'; }; f"; //$NON-NLS-1$
-		GitCredentialHelperProvider p =
-				new GitCredentialHelperProvider(snippet)
+		GitCredentialHelperCredentialsProvider p =
+				new GitCredentialHelperCredentialsProvider(snippet)
 						.setUseHttpPath(true);
 
 		CredentialItem.Username u = new CredentialItem.Username();
@@ -341,8 +341,8 @@ public class GitCredentialHelperProviderTest {
 		String snippet = "!f() { cat > " + capture.toAbsolutePath() //$NON-NLS-1$
 				+ "; printf 'username=x\\npassword=y\\n\\n'; }; f"; //$NON-NLS-1$
 		// useHttpPath=false but scheme is ssh, so path must still be sent
-		GitCredentialHelperProvider p =
-				new GitCredentialHelperProvider(snippet);
+		GitCredentialHelperCredentialsProvider p =
+				new GitCredentialHelperCredentialsProvider(snippet);
 
 		CredentialItem.Username u = new CredentialItem.Username();
 		CredentialItem.Password pw = new CredentialItem.Password();
@@ -355,10 +355,10 @@ public class GitCredentialHelperProviderTest {
 
 	@Test
 	public void testSetUseHttpPathReturnsSelf() {
-		GitCredentialHelperProvider p =
-				new GitCredentialHelperProvider("test"); //$NON-NLS-1$
+		GitCredentialHelperCredentialsProvider p =
+				new GitCredentialHelperCredentialsProvider("test"); //$NON-NLS-1$
 		assertFalse(p.isUseHttpPath());
-		GitCredentialHelperProvider returned = p.setUseHttpPath(true);
+		GitCredentialHelperCredentialsProvider returned = p.setUseHttpPath(true);
 		assertTrue(p.isUseHttpPath());
 		assertTrue(returned == p); // fluent setter returns same instance
 	}

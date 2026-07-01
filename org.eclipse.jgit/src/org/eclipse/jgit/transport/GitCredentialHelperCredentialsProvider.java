@@ -26,8 +26,8 @@ import org.eclipse.jgit.errors.UnsupportedCredentialItem;
 
 /**
  * A {@link CredentialsProvider} that delegates to an external credential helper
- * using the git-credential protocol described at
- * https://git-scm.com/docs/gitcredentials#_custom_helpers.
+ * using the <a href="https://git-scm.com/docs/gitcredentials#_custom_helpers">
+ * git credential helpers protocol</a>.
  * <p>
  * The helper is specified as a string following git's helper resolution rules:
  * <ol>
@@ -56,7 +56,7 @@ import org.eclipse.jgit.errors.UnsupportedCredentialItem;
  *
  * @since 7.8
  */
-public class GitCredentialHelperProvider extends CredentialsProvider {
+public class GitCredentialHelperCredentialsProvider extends CredentialsProvider {
 
 	private static final int PROCESS_TIMEOUT_SECONDS = 30;
 
@@ -86,7 +86,7 @@ public class GitCredentialHelperProvider extends CredentialsProvider {
 	 *            absolute path is used verbatim, otherwise
 	 *            {@code "git-credential-"} is prepended.
 	 */
-	public GitCredentialHelperProvider(String helper) {
+	public GitCredentialHelperCredentialsProvider(String helper) {
 		this.helper = helper;
 	}
 
@@ -106,7 +106,7 @@ public class GitCredentialHelperProvider extends CredentialsProvider {
 	 *            {@code true} to include the path for HTTP(S) URLs.
 	 * @return this provider, for fluent chaining.
 	 */
-	public GitCredentialHelperProvider setUseHttpPath(boolean useHttpPath) {
+	public GitCredentialHelperCredentialsProvider setUseHttpPath(boolean useHttpPath) {
 		this.useHttpPath = useHttpPath;
 		return this;
 	}
