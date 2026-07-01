@@ -25,6 +25,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.eclipse.jgit.transport.ConfigAwareCredentialsProvider;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
@@ -83,6 +84,7 @@ class Push extends TextBuiltin {
 	protected void run() {
 		try (Git git = new Git(db)) {
 			PushCommand push = git.push();
+			push.setCredentialsProvider(ConfigAwareCredentialsProvider.mergeWithDefault(db.getConfig()));
 			push.setDryRun(dryRun);
 			push.setForce(force);
 			push.setProgressMonitor(new TextProgressMonitor(errw));

@@ -26,6 +26,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.eclipse.jgit.transport.ConfigAwareCredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.SystemReader;
 import org.kohsuke.args4j.Argument;
@@ -107,6 +108,7 @@ class Clone extends AbstractFetchCommand implements CloneCommand.Callback {
 				.setMirror(isMirror).setNoCheckout(noCheckout).setBranch(branch)
 				.setCloneSubmodules(cloneSubmodules).setTimeout(timeout);
 
+		command.setCredentialsProvider(ConfigAwareCredentialsProvider.mergeWithDefault());
 		if (depth != null) {
 			command.setDepth(depth.intValue());
 		}

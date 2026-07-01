@@ -119,7 +119,8 @@ __org.eclipse.jgit.junit.ssh__: Helpers for unit testing
 - Only the timestamp of the index is used by JGit if the index is
   dirty.
 
-- JGit 6.0 and newer requires at least Java 11. Older versions require at least Java 1.8.
+- JGit 7.0 and newer requires at least Java 17. JGit 6.x requires at least Java 11. 
+  Older versions require at least Java 1.8.
 
 - CRLF conversion is performed depending on the `core.autocrlf` setting,
   however Git for Windows by default stores that setting during
@@ -184,7 +185,6 @@ There are some missing features:
 - signing push
 - shallow and partial cloning
 - support for remote helpers
-- support for credential helpers
 - support for multiple working trees (git-worktree)
 - using external diff tools
 - support for HTTPS client certificates

@@ -18,8 +18,10 @@ import java.util.TreeSet;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.LsRemoteCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.transport.ConfigAwareCredentialsProvider;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -44,9 +46,10 @@ class LsRemote extends TextBuiltin {
 	protected void run() {
 		LsRemoteCommand command = Git.lsRemoteRepository().setRemote(remote)
 				.setTimeout(timeout).setHeads(heads).setTags(tags);
-		TreeSet<Ref> refs = new TreeSet<>(
-				(Ref r1, Ref r2) -> r1.getName().compareTo(r2.getName()));
+				TreeSet<Ref> refs = new TreeSet<>(
+					(Ref r1, Ref r2) -> r1.getName().compareTo(r2.getName()));
 		try {
+			command.setCredentialsProvider(ConfigAwareCredentialsProvider.mergeWithDefault());
 			refs.addAll(command.call());
 			for (Ref r : refs) {
 				if (symref && r.isSymbolic()) {
@@ -57,7 +60,7 @@ class LsRemote extends TextBuiltin {
 					show(r.getPeeledObjectId(), r.getName() + "^{}"); //$NON-NLS-1$
 				}
 			}
-		} catch (GitAPIException | IOException e) {
+		} catch (GitAPIException | IOException | ConfigInvalidException e) {
 			throw die(e.getMessage(), e);
 		}
 	}

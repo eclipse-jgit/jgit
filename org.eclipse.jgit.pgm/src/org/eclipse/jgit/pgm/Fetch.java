@@ -25,6 +25,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.SubmoduleConfig.FetchRecurseSubmodulesMode;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.eclipse.jgit.transport.ConfigAwareCredentialsProvider;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.TagOpt;
@@ -117,6 +118,7 @@ class Fetch extends AbstractFetchCommand implements FetchCommand.Callback {
 	protected void run() {
 		try (Git git = new Git(db)) {
 			FetchCommand fetch = git.fetch();
+			fetch.setCredentialsProvider(ConfigAwareCredentialsProvider.mergeWithDefault(db.getConfig()));
 			if (fsck != null) {
 				fetch.setCheckFetchedObjects(fsck.booleanValue());
 			}
