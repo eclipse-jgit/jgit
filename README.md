@@ -111,6 +111,15 @@ __org.eclipse.jgit.junit.ssh__: Helpers for unit testing
 - __org.eclipse.jgit.ssh.apache.test__: Unit tests for org.eclipse.jgit.ssh.apache
 - __org.eclipse.jgit.test__: Unit tests for org.eclipse.jgit
 
+## SBOM
+
+To enhance supply chain security and offer users clear insight into project  components,
+Eclipse JGit now generates a Software Bill of Materials (SBOM) for every release.
+These are published to the Eclipse Foundation SBOM registry
+[Eclipse Foundation SBOM registry](https://sbom.eclipse.org/projects/e315d88f-0474-4a00-a6ed-0b95e62a2acc/collectionprojects),
+with access instructions and usage details available in
+this [documentation](https://eclipse-csi.github.io/security-handbook/sbom/registry.html).
+
 ## Warnings/Caveats
 
 - Native symbolic links are supported, provided the file system supports
