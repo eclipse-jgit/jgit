@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75e8a91c_8adac7f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039627
+      },
+      "writtenOn": "2026-07-06T11:38:46Z",
+      "side": 1,
+      "message": "I can\u0027t actually see the build failures 🙃",
+      "revId": "e67bd50cacad5f8906a0ee65b2d926c04860dec8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
