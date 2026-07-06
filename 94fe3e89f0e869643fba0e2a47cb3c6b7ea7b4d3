@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a639969_134a2b43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-07-06T14:28:12Z",
+      "side": 1,
+      "message": "I verified that bazel build and tests succeed",
+      "revId": "94fe3e89f0e869643fba0e2a47cb3c6b7ea7b4d3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
