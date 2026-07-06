@@ -16,6 +16,12 @@ RESOURCES = glob(["resources/**"])
 java_library(
     name = "jgit_non_stamped",
     srcs = SRCS,
+    javacopts = [
+        "-Xep:ReferenceEquality:OFF",
+        "-Xep:StringEquality:OFF",
+        "-Xep:TypeParameterUnusedInFormals:OFF",
+        "-Xep:DefaultCharset:OFF",
+    ],
     resource_strip_prefix = "org.eclipse.jgit/resources",
     resources = RESOURCES,
     deps = [
@@ -24,12 +30,6 @@ java_library(
         "//lib:javaewah",
         "//lib:slf4j-api",
     ],
-    javacopts = [
-        "-Xep:ReferenceEquality:OFF",
-        "-Xep:StringEquality:OFF",
-        "-Xep:TypeParameterUnusedInFormals:OFF",
-        "-Xep:DefaultCharset:OFF",
-    ]
 )
 
 genrule(

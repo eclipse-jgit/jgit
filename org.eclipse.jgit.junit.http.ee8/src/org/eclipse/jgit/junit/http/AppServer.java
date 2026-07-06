@@ -14,19 +14,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
-import org.eclipse.jetty.ee10.servlet.security.ConstraintMapping;
-import org.eclipse.jetty.ee10.servlet.security.ConstraintSecurityHandler;
+import org.eclipse.jetty.ee8.nested.ServletConstraint;
+import org.eclipse.jetty.ee8.security.ConstraintMapping;
+import org.eclipse.jetty.ee8.security.ConstraintSecurityHandler;
+import org.eclipse.jetty.ee8.security.authentication.BasicAuthenticator;
+import org.eclipse.jetty.ee8.servlet.ServletContextHandler;
 import org.eclipse.jetty.security.AbstractLoginService;
-import org.eclipse.jetty.security.Constraint;
-import org.eclipse.jetty.security.authentication.BasicAuthenticator;
 
 /**
- * Tiny web application server for unit testing, wired for the Jakarta servlet
- * (Jetty EE10) generation.
+ * Tiny web application server for unit testing, wired for the EE8
+ * (javax.servlet / Jetty EE8) generation.
  * <p>
- * Only the Jetty security wiring is generation specific; everything else lives
- * in {@link AppServerBase}.
+ * Only the Jetty security wiring is generation specific; everything else is
+ * inherited from the generated {@link AppServerBase}. This is the hand
+ * maintained EE8 overlay that the canonical {@code AppServer} cannot be
+ * rewritten into automatically, because the Jetty EE8 security API
+ * ({@code ServletConstraint} + {@code setSecurityHandler}) differs structurally
+ * from the EE10 one.
  */
 public class AppServer extends AppServerBase {
 	/**
@@ -64,11 +68,10 @@ public class AppServer extends AppServerBase {
 
 	private ConstraintMapping createConstraintMapping() {
 		ConstraintMapping cm = new ConstraintMapping();
-		Constraint constraint = new Constraint.Builder()
-				.authorization(Constraint.Authorization.SPECIFIC_ROLE)
-				.roles(new String[] { authRole }).build();
-		cm.setConstraint(constraint);
-		cm.setPathSpec("/*");
+		cm.setConstraint(new ServletConstraint());
+		cm.getConstraint().setAuthenticate(true);
+		cm.getConstraint().setDataConstraint(ServletConstraint.DC_NONE);
+		cm.getConstraint().setRoles(new String[] { authRole });
 		return cm;
 	}
 
@@ -78,11 +81,14 @@ public class AppServer extends AppServerBase {
 		AbstractLoginService users = new TestMappedLoginService(authRole);
 		List<ConstraintMapping> mappings = new ArrayList<>();
 		if (methods == null || methods.length == 0) {
-			mappings.add(createConstraintMapping());
+			ConstraintMapping cm = createConstraintMapping();
+			cm.setPathSpec("/*");
+			mappings.add(cm);
 		} else {
 			for (String method : methods) {
 				ConstraintMapping cm = createConstraintMapping();
 				cm.setMethod(method.toUpperCase(Locale.ROOT));
+				cm.setPathSpec("/*");
 				mappings.add(cm);
 			}
 		}
@@ -92,9 +98,6 @@ public class AppServer extends AppServerBase {
 		sec.setAuthenticator(new BasicAuthenticator());
 		sec.setLoginService(users);
 		sec.setConstraintMappings(mappings.toArray(new ConstraintMapping[0]));
-		sec.setHandler(ctx);
-
-		contexts.removeHandler(ctx);
-		contexts.addHandler(sec);
+		ctx.setSecurityHandler(sec);
 	}
 }
