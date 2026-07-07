@@ -61,6 +61,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dd7f13eb_6c83496a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-07-07T06:43:03Z",
+      "side": 1,
+      "message": "yes, this method isn\u0027t needed, instead, as Nasser suggested, use `snapshot.isModified` in `RefDirectory.shouldRefreshPackedRefs`",
+      "parentUuid": "7be39102_75dcef39",
+      "range": {
+        "startLine": 294,
+        "startChar": 0,
+        "endLine": 296,
+        "endChar": 60
+      },
+      "revId": "b9118d8fc082c826d081f69d549eb45e53841bc9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "37970074_cefd9717",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
         "patchSetId": 1
