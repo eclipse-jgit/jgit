@@ -21,7 +21,7 @@ git_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:git.bzl", "g
 
 git_repository(
     name = "com_googlesource_gerrit_bazlets",
-    commit = "156bae8bb0d329d8886f681c723979cbdb39d37c",
+    commit = "5ef765b723e81759359048edb43d314046178ac4",
     remote = "https://gerrit.googlesource.com/bazlets",
 )
 
@@ -82,7 +82,7 @@ maven.install(
         "org.eclipse.jetty.ee8:jetty-ee8-nested:" + JETTY_VERSION,
         "org.eclipse.jetty.ee8:jetty-ee8-security:" + JETTY_VERSION,
         "org.eclipse.jetty.ee8:jetty-ee8-servlet:" + JETTY_VERSION,
-        "org.eclipse.jetty.ee10:jetty-ee10-servlet:" + JETTY_VERSION,
+        "org.eclipse.jetty.ee11:jetty-ee11-servlet:" + JETTY_VERSION,
         "org.hamcrest:hamcrest:3.0",
         "org.mockito:mockito-core:5.23.0",
         "org.objenesis:objenesis:3.4",

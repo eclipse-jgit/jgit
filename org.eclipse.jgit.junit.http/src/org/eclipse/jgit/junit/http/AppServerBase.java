@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee11.servlet.ServletContextHandler;
 import org.eclipse.jetty.security.AbstractLoginService;
 import org.eclipse.jetty.security.RolePrincipal;
 import org.eclipse.jetty.security.UserPrincipal;
@@ -241,7 +241,7 @@ public abstract class AppServerBase {
 	 *            path of the context; use "/" for the root context if binding
 	 *            to the root is desired.
 	 * @return the context to add servlets into.
-	 * @since 7.0
+	 * @since 7.8
 	 */
 	public ServletContextHandler addContext(String path) {
 		assertNotYetSetUp();
@@ -263,7 +263,7 @@ public abstract class AppServerBase {
 	 * @param methods
 	 *            the methods
 	 * @return servlet context handler
-	 * @since 7.0
+	 * @since 7.8
 	 */
 	public ServletContextHandler authBasic(ServletContextHandler ctx,
 			String... methods) {

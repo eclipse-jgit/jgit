@@ -152,8 +152,8 @@ maven jetty
 	includeSources
 {
 	dependency {
-		groupId = "org.eclipse.jetty.ee10"
-		artifactId = "jetty-ee10-servlet"
+		groupId = "org.eclipse.jetty.ee11"
+		artifactId = "jetty-ee11-servlet"
 		version = "12.1.10"
 	}
 	dependency {

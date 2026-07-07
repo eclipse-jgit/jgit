@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.38" sequenceNumber="1782203969">
+<target name="jgit-4.38" sequenceNumber="1782897118">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20230916-1400"/>
@@ -111,8 +111,8 @@
     <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="error" type="Maven" label="jetty">
       <dependencies>
         <dependency>
-          <groupId>org.eclipse.jetty.ee10</groupId>
-          <artifactId>jetty-ee10-servlet</artifactId>
+          <groupId>org.eclipse.jetty.ee11</groupId>
+          <artifactId>jetty-ee11-servlet</artifactId>
           <version>12.1.10</version>
           <type>jar</type>
         </dependency>
