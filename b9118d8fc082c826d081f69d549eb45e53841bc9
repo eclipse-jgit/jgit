@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e46b986_6956cdda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-07-07T07:05:20Z",
+      "side": 1,
+      "message": "I think the same should be done for all other implementations of AFTER_OPEN, they also should use `FileChannel.open()` to refresh attributes on NFS\n- `FileReftableStack.isUpToDate()`\n- `LooseObject.open()`\n- `PackDirectory.searchPacksAgain()`",
+      "revId": "b9118d8fc082c826d081f69d549eb45e53841bc9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "30356538_9dcd6758",
@@ -113,6 +130,30 @@
       "writtenOn": "2026-06-23T21:42:07Z",
       "side": 1,
       "message": "I think you want to re-use the static helpers `getFileAttributes()` and `getFileKey()` from `FileSnapshot`, or encapsulate this into `FileSnapshot` in some other way. In fact... just copy the `isModified()` call into this try block. That already does everything you\u0027re doing with the fileKey check.\n```suggestion\n\t\t\t\treturn snapshot.isModified(packedRefsFile);\n```",
+      "range": {
+        "startLine": 1056,
+        "startChar": 0,
+        "endLine": 1065,
+        "endChar": 5
+      },
+      "revId": "b9118d8fc082c826d081f69d549eb45e53841bc9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5d6cf91_ee57fd2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1065,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-07-07T07:05:20Z",
+      "side": 1,
+      "message": "no, this code can be removed completely since `case AFTER_OPEN` falls through to `case ALWAYS` which already calls `snapshot.isModified()` in line 1071",
+      "parentUuid": "616ad107_9f734b7b",
       "range": {
         "startLine": 1056,
         "startChar": 0,
