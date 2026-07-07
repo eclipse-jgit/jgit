@@ -147,7 +147,7 @@
    <bundle id="org.apache.commons.lang3.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
-   <bundle id="org.apache.commons.logging">
+   <bundle id="org.apache.commons.commons-logging">
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <bundle id="org.apache.httpcomponents.httpclient">
