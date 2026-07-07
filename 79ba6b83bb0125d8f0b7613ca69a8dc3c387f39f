@@ -16,6 +16,23 @@
       "message": "verified bazel build and tests",
       "revId": "79ba6b83bb0125d8f0b7613ca69a8dc3c387f39f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c35260e_ee4cbdc1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-07-07T09:52:27Z",
+      "side": 1,
+      "message": "Alternatively, we could just cherry-pick the fix I54f5caa01e316cab2f26437e117573e96a6a6964?",
+      "revId": "79ba6b83bb0125d8f0b7613ca69a8dc3c387f39f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
