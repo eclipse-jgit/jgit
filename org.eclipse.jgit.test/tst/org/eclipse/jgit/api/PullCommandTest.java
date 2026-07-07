@@ -189,6 +189,9 @@ public class PullCommandTest extends RepositoryTestCase {
 				CONFIG_KEY_CONFLICTSTYLE, ConflictStyle.DIFF3);
 
 		res = target.pull().call();
+		assertFalse(res.getFetchResult().getTrackingRefUpdates().isEmpty());
+		assertTrue(res.getMergeResult().getMergeStatus()
+				.equals(MergeStatus.CONFLICTING));
 
 		String sourceChangeString = "Source change\n>>>>>>> branch 'master' of "
 				+ target.getRepository().getConfig().getString("remote",
