@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b822effc_f5b3a775",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-07-07T08:55:28Z",
+      "side": 1,
+      "message": "looks like we need to demote some errorprone patterns to make the tests pass:\n\n```\n$ bazelisk test //...\n...\n  Did you mean \u0027assertEquals(MergeStatus.CONFLICTING,\u0027 or \u0027assertEquals(/* expected\u003d */res.getMergeResult().getMergeStatus(),\u0027?\norg.eclipse.jgit.test/tst/org/eclipse/jgit/api/PullCommandTest.java:191: error: [UnusedVariable] This assignment to the local variable \u0027res\u0027 is never read.\n\t\tres \u003d target.pull().call();\n\t\t    ^\n    (see https://errorprone.info/bugpattern/UnusedVariable)\n```",
+      "revId": "09be6f9865933897a67ac575a58a8a40b4a22658",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
