@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64dc5707_91343c5c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-07-08T23:08:13Z",
+      "side": 1,
+      "message": "Can you remove this now duplicate like and the break below?",
+      "revId": "c16e2f53309c1148a2cbf487de796620a1deec34",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
