@@ -16,6 +16,24 @@
       "message": "Can you remove this now duplicate like and the break below?",
       "revId": "c16e2f53309c1148a2cbf487de796620a1deec34",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8c29b20_9d6c8c8c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-07-08T23:15:56Z",
+      "side": 1,
+      "message": "I think we should read the file attributes while the channel is open in the try with resource block",
+      "parentUuid": "64dc5707_91343c5c",
+      "revId": "c16e2f53309c1148a2cbf487de796620a1deec34",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
