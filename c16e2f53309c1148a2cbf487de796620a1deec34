@@ -34,6 +34,24 @@
       "parentUuid": "64dc5707_91343c5c",
       "revId": "c16e2f53309c1148a2cbf487de796620a1deec34",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f45ec53_8c5a4652",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-07-09T02:08:42Z",
+      "side": 1,
+      "message": "Makes sense. I want to make sure this passes the in house tests we developed for this. We will report on that soon.",
+      "parentUuid": "d8c29b20_9d6c8c8c",
+      "revId": "c16e2f53309c1148a2cbf487de796620a1deec34",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
