@@ -146,6 +146,7 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 			return;
 		}
 
+		refdb.inProcessPackedRefsLock.lock();
 		// Pack refs normally, so we can create lock files even in the case where
 		// refs/x is deleted and refs/x/y is created in this batch.
 		try {
@@ -158,7 +159,6 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 
 		Map<String, LockFile> locks = null;
 		LockFile packedRefsLock = null;
-		refdb.inProcessPackedRefsLock.lock();
 		try {
 			// During clone locking isn't needed since no refs exist yet.
 			// This also helps to avoid problems with refs only differing in
