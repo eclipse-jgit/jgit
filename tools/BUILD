@@ -7,7 +7,12 @@ load("@rules_java//java:defs.bzl", "java_package_configuration")
 default_java_toolchain(
     name = "error_prone_warnings_toolchain_java17",
     configuration = dict(),
-    java_runtime = "@rules_java//toolchains:remotejdk_17",
+    # The toolchain java_runtime executes the build tools (JavaBuilder,
+    # turbine). The java_tools shipped with rules_java 9.5.0 are Java 21
+    # bytecode and no longer load on a 17 JVM (the java_tools of
+    # rules_java 9.3.0 still ran on remotejdk_17). JGit itself still
+    # targets Java 17 via source_version/target_version below.
+    java_runtime = "@rules_java//toolchains:remotejdk_21",
     package_configuration = [
         ":error_prone",
         ":error_prone_tests",
