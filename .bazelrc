@@ -6,11 +6,17 @@ build --incompatible_strict_action_env
 build --action_env=PATH
 build --disk_cache=~/.gerritcodereview/bazel-cache/cas
 
+# Builds using remote_jdk25, executes using remote_jdk25 or local_jdk
+build --java_language_version=25
+build --java_runtime_version=remotejdk_25
+build --tool_java_language_version=25
+build --tool_java_runtime_version=remotejdk_25
+
 # Builds using remote_jdk17, executes using remote_jdk17 or local_jdk
-build --java_language_version=17
-build --java_runtime_version=remotejdk_17
-build --tool_java_language_version=17
-build --tool_java_runtime_version=remotejdk_17
+build:java17 --java_language_version=17
+build:java17 --java_runtime_version=remotejdk_17
+build:java17 --tool_java_language_version=17
+build:java17 --tool_java_runtime_version=remotejdk_17
 
 # Builds and executes on RBE using remotejdk_17
 build:remote17 --java_language_version=17
@@ -31,6 +37,13 @@ build:remote21 --java_runtime_version=remotejdk_21
 build:remote21 --tool_java_language_version=21
 build:remote21 --tool_java_runtime_version=remotejdk_21
 build:remote21 --config=remote
+
+# Builds and executes on RBE using remotejdk_25
+build:remote25 --java_language_version=25
+build:remote25 --java_runtime_version=remotejdk_25
+build:remote25 --tool_java_language_version=25
+build:remote25 --tool_java_runtime_version=remotejdk_25
+build:remote25 --config=remote
 
 test --build_tests_only
 test --test_output=errors

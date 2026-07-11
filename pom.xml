@@ -113,7 +113,7 @@
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <java.version>17</java.version>
+    <java.version>25</java.version>
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
     <project.build.outputTimestamp>${commit.time.iso}</project.build.outputTimestamp>
@@ -492,7 +492,7 @@
           <failOnWarnings>true</failOnWarnings>
           <excludePackageNames>org.eclipse.jgit.http.test</excludePackageNames>
           <links>
-            <link>https://docs.oracle.com/en/java/javase/17/docs/api</link>
+            <link>https://docs.oracle.com/en/java/javase/25/docs/api</link>
           </links>
           <tags>
             <tag>
@@ -660,13 +660,13 @@
           <dependency>
             <groupId>org.apache.groovy</groupId>
             <artifactId>groovy</artifactId>
-            <version>4.0.21</version>
+            <version>4.0.32</version>
             <scope>runtime</scope>
           </dependency>
           <dependency>
             <groupId>org.apache.groovy</groupId>
             <artifactId>groovy-ant</artifactId>
-            <version>4.0.21</version>
+            <version>4.0.32</version>
             <scope>runtime</scope>
           </dependency>
         </dependencies>
@@ -766,7 +766,7 @@
           <failOnWarnings>false</failOnWarnings>
           <excludePackageNames>org.eclipse.jgit.http.test</excludePackageNames>
           <links>
-            <link>https://docs.oracle.com/en/java/javase/17/docs/api</link>
+            <link>https://docs.oracle.com/en/java/javase/25/docs/api</link>
           </links>
           <tags>
             <tag>

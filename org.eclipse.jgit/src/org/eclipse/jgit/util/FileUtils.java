@@ -1098,7 +1098,7 @@ public class FileUtils {
 	 * @since 5.1.8
 	 */
 	public static void touch(Path f) throws IOException {
-		try (FileChannel fc = FileChannel.open(f, StandardOpenOption.CREATE,
+		try (FileChannel _ = FileChannel.open(f, StandardOpenOption.CREATE,
 				StandardOpenOption.APPEND, StandardOpenOption.SYNC)) {
 			// touch
 		}
