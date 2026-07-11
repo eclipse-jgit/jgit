@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.40" sequenceNumber="1783726606">
+<target name="jgit-4.40" sequenceNumber="1783728874">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="com.jcraft.jsch" version="0.1.55.v20230916-1400"/>
@@ -113,49 +113,49 @@
         <dependency>
           <groupId>org.eclipse.jetty.ee11</groupId>
           <artifactId>jetty-ee11-servlet</artifactId>
-          <version>12.1.10</version>
+          <version>12.1.11</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-http</artifactId>
-          <version>12.1.10</version>
+          <version>12.1.11</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-io</artifactId>
-          <version>12.1.10</version>
+          <version>12.1.11</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-security</artifactId>
-          <version>12.1.10</version>
+          <version>12.1.11</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-server</artifactId>
-          <version>12.1.10</version>
+          <version>12.1.11</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-session</artifactId>
-          <version>12.1.10</version>
+          <version>12.1.11</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-util</artifactId>
-          <version>12.1.10</version>
+          <version>12.1.11</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
           <artifactId>jetty-util-ajax</artifactId>
-          <version>12.1.10</version>
+          <version>12.1.11</version>
           <type>jar</type>
         </dependency>
         <dependency>
