@@ -1,6 +1,15 @@
 load("@rules_java//java:defs.bzl", "java_library")
 
 java_library(
+    name = "ant",
+    visibility = [
+        "//org.eclipse.jgit.ant:__pkg__",
+        "//org.eclipse.jgit.ant.test:__pkg__",
+    ],
+    exports = ["@external_deps//:org_apache_ant_ant"],
+)
+
+java_library(
     name = "args4j",
     visibility = [
         "//org.eclipse.jgit.pgm:__pkg__",
