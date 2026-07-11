@@ -112,7 +112,7 @@ class LooseObjects {
 				|| exists) {
 			return exists;
 		}
-		try (InputStream stream = Files.newInputStream(directory.toPath())) {
+		try (InputStream _ = Files.newInputStream(directory.toPath())) {
 			// refresh directory to work around NFS caching issue
 		} catch (IOException e) {
 			return false;
@@ -171,7 +171,7 @@ class LooseObjects {
 			case NEVER:
 				break;
 			case AFTER_OPEN:
-				try (InputStream stream = Files
+				try (InputStream _ = Files
 						.newInputStream(path.getParentFile().toPath())) {
 					// open the loose object's fanout directory to refresh
 					// attributes (on some NFS clients)
@@ -234,7 +234,7 @@ class LooseObjects {
 			if (trustLooseObjectStat == TrustStat.ALWAYS) {
 				throw e;
 			}
-			try (InputStream stream = Files
+			try (InputStream _ = Files
 					.newInputStream(directory.toPath())) {
 				// refresh directory to work around NFS caching issues
 			}
@@ -271,7 +271,7 @@ class LooseObjects {
 				if (trustLooseObjectStat == TrustStat.ALWAYS) {
 					throw noFile;
 				}
-				try (InputStream stream = Files
+				try (InputStream _ = Files
 						.newInputStream(directory.toPath())) {
 					// refresh directory to work around NFS caching issue
 				}
