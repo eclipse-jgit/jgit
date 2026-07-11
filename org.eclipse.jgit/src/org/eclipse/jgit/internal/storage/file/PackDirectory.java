@@ -386,7 +386,7 @@ class PackDirectory {
 		case NEVER:
 			break;
 		case AFTER_OPEN:
-			try (InputStream stream = Files
+			try (InputStream _ = Files
 					.newInputStream(directory.toPath())) {
 				// open the pack directory to refresh attributes (on some NFS
 				// clients)
