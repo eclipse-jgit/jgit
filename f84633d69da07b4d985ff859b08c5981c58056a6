@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e07bac7_b15afe6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-07-11T13:33:40Z",
+      "side": 1,
+      "message": "We should block submitting this until Eclipse switched to JDK 25.",
+      "revId": "f84633d69da07b4d985ff859b08c5981c58056a6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
