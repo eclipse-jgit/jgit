@@ -1042,7 +1042,7 @@ public class RefDirectory extends RefDatabase {
 		case NEVER:
 			break;
 		case AFTER_OPEN:
-			try (InputStream stream = Files
+			try (InputStream _ = Files
 					.newInputStream(packedRefsFile.toPath())) {
 				// open the file to refresh attributes (on some NFS clients)
 			} catch (FileNotFoundException | NoSuchFileException e) {
@@ -1356,7 +1356,7 @@ public class RefDirectory extends RefDatabase {
 			// Use Files.newInputStream(Path) as it is consistent with other
 			// code where a refresh is being done (see getPackedRefs()) and also
 			// it performs slightly better than Files.newDirectoryStream(Path)
-			try (InputStream stream = Files.newInputStream(dir.toPath())) {
+			try (InputStream _ = Files.newInputStream(dir.toPath())) {
 				// open the dir to refresh attributes (on some NFS clients)
 			} catch (IOException e) {
 				break; // loose ref may not exist

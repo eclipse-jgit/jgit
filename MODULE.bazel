@@ -8,9 +8,7 @@ bazel_dep(name = "rules_java", version = "9.5.0")
 bazel_dep(name = "rules_jvm_external", version = "7.1")
 bazel_dep(name = "rules_shell", version = "0.8.0")
 
-register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
-
-register_toolchains("//tools:error_prone_warnings_toolchain_java21_definition")
+register_toolchains("//tools:error_prone_warnings_toolchain_java25_definition")
 
 git_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
