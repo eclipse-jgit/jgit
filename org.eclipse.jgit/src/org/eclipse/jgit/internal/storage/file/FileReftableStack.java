@@ -313,7 +313,7 @@ public class FileReftableStack implements AutoCloseable {
 			case NEVER:
 				break;
 			case AFTER_OPEN:
-				try (InputStream stream = Files
+				try (InputStream _ = Files
 						.newInputStream(reftableDir.toPath())) {
 					// open the refs/reftable/ directory to refresh attributes
 					// of reftable files and the tables.list file listing their

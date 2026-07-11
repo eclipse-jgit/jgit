@@ -17,6 +17,8 @@ register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
 
 register_toolchains("//tools:error_prone_warnings_toolchain_java21_definition")
 
+register_toolchains("//tools:error_prone_warnings_toolchain_java25_definition")
+
 git_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 git_repository(

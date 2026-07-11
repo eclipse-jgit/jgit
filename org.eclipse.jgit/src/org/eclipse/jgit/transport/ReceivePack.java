@@ -2295,7 +2295,7 @@ public class ReceivePack {
 				.toMillis();
 
 		if (hasCommands()) {
-			try (PostReceiveExecutor e = new PostReceiveExecutor()) {
+			try (PostReceiveExecutor _ = new PostReceiveExecutor()) {
 				if (needPack()) {
 					try {
 						receivePackAndCheckConnectivity();

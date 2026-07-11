@@ -30,6 +30,7 @@ import org.eclipse.jgit.util.io.SilentFileInputStream;
 /**
  * Input/Output utilities
  */
+@SuppressWarnings("JavaLangClash") // clashes with java.lang.IO, new in Java 25
 public class IO {
 
 	/**
