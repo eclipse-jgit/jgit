@@ -255,8 +255,8 @@ public class RepositoryCache {
 	}
 
 	private void registerRepository(Key location, Repository db) {
-		try (Repository oldDb = cacheMap.put(location, db)) {
-			// oldDb is auto-closed
+		try (Repository _ = cacheMap.put(location, db)) {
+			// old repository is auto-closed
 		}
 	}
 
