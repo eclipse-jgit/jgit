@@ -14,33 +14,6 @@ HTTP_SERVER_UNIT_TEST_SRCS = [
     "tst/org/eclipse/jgit/http/server/ServletUtilsTest.java",
 ]
 
-filegroup(
-    name = "helper-srcs",
-    testonly = 1,
-    srcs = HTTP_HELPER_SRCS,
-    visibility = [
-        "//org.eclipse.jgit.http.test.ee8:__pkg__",
-        "//tools/jgit-ee8:__pkg__",
-    ],
-)
-
-filegroup(
-    name = "test-srcs",
-    testonly = 1,
-    srcs = HTTP_TEST_SRCS,
-    visibility = [
-        "//org.eclipse.jgit.http.test.ee8:__pkg__",
-        "//tools/jgit-ee8:__pkg__",
-    ],
-)
-
-filegroup(
-    name = "http-server-unit-test-srcs",
-    testonly = 1,
-    srcs = HTTP_SERVER_UNIT_TEST_SRCS,
-    visibility = ["//org.eclipse.jgit.http.test.ee8:__pkg__"],
-)
-
 junit_tests(
     name = "http",
     srcs = HTTP_TEST_SRCS,
