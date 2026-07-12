@@ -1,15 +1,11 @@
 load("@rules_java//java:defs.bzl", "java_library")
 
-package(default_visibility = ["//visibility:public"])
-
 filegroup(
     name = "srcs",
     srcs = glob(["src/**/*.java"]),
-    visibility = [
-        "//org.eclipse.jgit.http.server.ee8:__pkg__",
-        "//tools/jgit-ee8:__pkg__",
-    ],
 )
+
+package(default_visibility = ["//visibility:public"])
 
 filegroup(
     name = "jgit-servlet-resources",
