@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -218,6 +219,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	private boolean firstParent;
 
 	boolean shallowCommitsInitialized;
+
+	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
 	private enum GetMergedIntoStrategy {
 		RETURN_ON_FIRST_FOUND, RETURN_ON_FIRST_NOT_FOUND, EVALUATE_ALL
@@ -675,7 +678,39 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
+		checkCancelled();
 		return pending.next();
+	}
+
+	/**
+	 * Set a progress monitor to cooperatively cancel this walk.
+	 * <p>
+	 * The walk periodically checks {@link ProgressMonitor#isCancelled()}
+	 * during traversal and aborts with a
+	 * {@link org.eclipse.jgit.errors.CancelledException} once the monitor
+	 * reports cancellation.
+	 *
+	 * @param monitor
+	 *            monitor to poll for cancellation, or {@code null} to stop
+	 *            checking for cancellation.
+	 * @since 7.8
+	 */
+	public void setProgressMonitor(ProgressMonitor monitor) {
+		this.monitor = monitor == null ? NullProgressMonitor.INSTANCE
+				: monitor;
+	}
+
+	/**
+	 * Check whether this walk has been cooperatively cancelled.
+	 *
+	 * @throws CancelledException
+	 *             if the configured {@link ProgressMonitor} reports
+	 *             cancellation, or if the current thread was interrupted.
+	 */
+	void checkCancelled() throws CancelledException {
+		if (monitor.isCancelled() || Thread.currentThread().isInterrupted()) {
+			throw new CancelledException(JGitText.get().operationCanceled);
+		}
 	}
 
 	/**
