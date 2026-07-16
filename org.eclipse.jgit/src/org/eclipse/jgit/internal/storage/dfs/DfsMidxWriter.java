@@ -34,7 +34,6 @@ import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackBitmapCalculator;
 import org.eclipse.jgit.internal.storage.pack.PackBitmapIndexWriter;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -116,7 +115,7 @@ public class DfsMidxWriter {
 
 		// TODO(ifrade): At the moment we only support bitmaps on the base
 		if (base == null && packConfig != null) {
-			createAndAttachBitmaps(objdb.getRepository(), midxPackDesc,
+			createAndAttachBitmaps(pm, objdb.getRepository(), midxPackDesc,
 					checksum, data, packs,
 					packConfig);
 		}
@@ -124,10 +123,10 @@ public class DfsMidxWriter {
 		return midxPackDesc;
 	}
 
-	private static void createAndAttachBitmaps(DfsRepository db,
-			DfsPackDescription desc, byte[] checksum, PackIndexMerger data,
-			List<DfsPackFile> packs, PackConfig cfg) throws IOException {
-
+	private static void createAndAttachBitmaps(ProgressMonitor pm,
+			DfsRepository db, DfsPackDescription desc, byte[] checksum,
+			PackIndexMerger data, List<DfsPackFile> packs, PackConfig cfg)
+			throws IOException {
 		// TODO(ifrade): Verify we duplicate the behaviour about tags of regular
 		// bitmapping
 		List<ObjectId> allHeads = db.getRefDatabase()
@@ -151,7 +150,7 @@ public class DfsMidxWriter {
 
 			PackBitmapCalculator calculator = new PackBitmapCalculator(cfg);
 			// This will do ctx.getBitmapIndex() to reuse/copy previous bitmaps
-			calculator.calculate(ctx, NullProgressMonitor.INSTANCE, commitCount,
+			calculator.calculate(ctx, pm, commitCount,
 					inPack, new HashSet<>(), writeBitmaps);
 			PackBitmapIndexWriter pbiWriter = db.getObjectDatabase()
 					.getPackBitmapIndexWriter(desc);
