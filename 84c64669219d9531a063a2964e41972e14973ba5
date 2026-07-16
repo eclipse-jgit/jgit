@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55e4dab3_650107ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-07-16T21:25:02Z",
+      "side": 1,
+      "message": "this was removed hence this section should be removed from the commit message",
+      "revId": "84c64669219d9531a063a2964e41972e14973ba5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85e4a05d_573c6b7d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1038,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-07-16T21:25:02Z",
+      "side": 1,
+      "message": "we use Eclipse formatter which uses the same indentation for `switch` and `case` like it was formatted in the previous version",
+      "revId": "84c64669219d9531a063a2964e41972e14973ba5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3aed3bd8_c1cdbafe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-07-16T21:25:02Z",
+      "side": 1,
+      "message": "If opening the `packed-refs` file fails with `FileNotFoundeException` doesn\u0027t that proof that the file doesn\u0027t exist and hence we should return `false` here ? Otherwise repos not having `packed-refs` (only loose refs) do an unnecessary refresh",
+      "revId": "84c64669219d9531a063a2964e41972e14973ba5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
