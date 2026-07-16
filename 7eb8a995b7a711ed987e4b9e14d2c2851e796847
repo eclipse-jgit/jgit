@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1efe78a_643ae32a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-07-16T08:15:53Z",
+      "side": 1,
+      "message": "I guess this depends on https://gerrit-review.googlesource.com/c/gerrit/+/606563 ?\nWhen do we expect this change to be accepted by Google ?",
+      "revId": "7eb8a995b7a711ed987e4b9e14d2c2851e796847",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
