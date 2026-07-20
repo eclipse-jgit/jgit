@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de1c8901_b6df9e3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-07-20T21:32:16Z",
+      "side": 1,
+      "message": "We have been running PS1 of this in prod for a few days now on our server with the largest busiest repo with ~4M refs, it helps reduce pushes by around 3-5s seconds. The improvement is greater when there are waiting pushes since it might be an additional improvement of 3-5s for each other push a push is waiting on. In other words, in the busy case, the normal latency doesn\u0027t go down more than 3-5s, but it goes up less due to contention.",
+      "revId": "3cea29f5035968174b2ebe7ae49c2f3b31152b9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
