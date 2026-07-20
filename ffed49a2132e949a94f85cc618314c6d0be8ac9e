@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b26e24b6_43e95955",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-07-20T09:25:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7f02a1d_0d0fe374",
+      "revId": "ffed49a2132e949a94f85cc618314c6d0be8ac9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2fffb8cf_12f3a37f",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-07-20T08:33:26Z",
       "side": 1,
       "message": "rename this local variable to not hide the field `generation`",
+      "range": {
+        "startLine": 739,
+        "startChar": 6,
+        "endLine": 739,
+        "endChar": 16
+      },
+      "revId": "ffed49a2132e949a94f85cc618314c6d0be8ac9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16ee85b2_edf3ebf5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-07-20T09:25:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fffb8cf_12f3a37f",
       "range": {
         "startLine": 739,
         "startChar": 6,
