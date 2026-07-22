@@ -16,6 +16,63 @@
       "message": "We have been running PS1 of this in prod for a few days now on our server with the largest busiest repo with ~4M refs, it helps reduce pushes by around 3-5s seconds. The improvement is greater when there are waiting pushes since it might be an additional improvement of 3-5s for each other push a push is waiting on. In other words, in the busy case, the normal latency doesn\u0027t go down more than 3-5s, but it goes up less due to contention.",
       "revId": "3cea29f5035968174b2ebe7ae49c2f3b31152b9b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e49d1df8_5571ad67",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-07-22T00:46:53Z",
+      "side": 1,
+      "message": "Assuming my suggestion below on L149 is correct, I think you want this to be something like\n```suggestion\n * \u003cli\u003eIf a delete is involved and loose refs will be locked, pack loose refs involved in the transaction using\n```",
+      "revId": "3cea29f5035968174b2ebe7ae49c2f3b31152b9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a03c8825_d5185852",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-07-22T00:46:53Z",
+      "side": 1,
+      "message": "Not a problem introduced by your change, but this doesn\u0027t mention the optimization for clones nor the `shouldLockLooseRefs` field.",
+      "revId": "3cea29f5035968174b2ebe7ae49c2f3b31152b9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7360ca2_34022944",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-07-22T00:46:53Z",
+      "side": 1,
+      "message": "Should this be `\u0026\u0026 shouldLockLooseRefs` (same as L168)?\n```suggestion\n\t\tif (hasDelete(pending) \u0026\u0026 shouldLockLooseRefs) {\n```",
+      "range": {
+        "startLine": 149,
+        "startChar": 24,
+        "endLine": 149,
+        "endChar": 48
+      },
+      "revId": "3cea29f5035968174b2ebe7ae49c2f3b31152b9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
