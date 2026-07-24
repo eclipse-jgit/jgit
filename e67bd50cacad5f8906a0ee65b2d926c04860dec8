@@ -16,6 +16,189 @@
       "message": "I can\u0027t actually see the build failures 🙃",
       "revId": "e67bd50cacad5f8906a0ee65b2d926c04860dec8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1decf2e1_ec941b48",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-07-24T23:12:17Z",
+      "side": 1,
+      "message": "Thanks! Overall it looks good. Few renamings here and there a test for the default review.",
+      "revId": "e67bd50cacad5f8906a0ee65b2d926c04860dec8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2948c706_b9bb197c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/gitrepo/RepoCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1305,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-07-24T23:12:17Z",
+      "side": 1,
+      "message": "We could have either a second test or tweak this manifes to cover that we use the review of the default remote if remote is not set.",
+      "revId": "e67bd50cacad5f8906a0ee65b2d926c04860dec8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed05aa84_668fbb45",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/BareSuperprojectWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-07-24T23:12:17Z",
+      "side": 1,
+      "message": "rename hostId to reviewHost",
+      "range": {
+        "startLine": 195,
+        "startChar": 11,
+        "endLine": 195,
+        "endChar": 17
+      },
+      "revId": "e67bd50cacad5f8906a0ee65b2d926c04860dec8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "488d781a_be92edd4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/BareSuperprojectWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-07-24T23:12:17Z",
+      "side": 1,
+      "message": "Should this be \"review\" or \"remote-review\"?",
+      "range": {
+        "startLine": 197,
+        "startChar": 18,
+        "endLine": 197,
+        "endChar": 24
+      },
+      "revId": "e67bd50cacad5f8906a0ee65b2d926c04860dec8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "423a3dd3_6f8e7cc8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/BareSuperprojectWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-07-24T23:12:17Z",
+      "side": 1,
+      "message": "I think all this function could be just replaced with:  URI.create(reviewUrl).getHost();",
+      "revId": "e67bd50cacad5f8906a0ee65b2d926c04860dec8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaf7bf97_1d050b2c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/BareSuperprojectWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-07-24T23:12:17Z",
+      "side": 1,
+      "message": "Rename to getPlainHost and add a javadoc saying that this returns the host without -review suffix.",
+      "range": {
+        "startLine": 349,
+        "startChar": 23,
+        "endLine": 349,
+        "endChar": 40
+      },
+      "revId": "e67bd50cacad5f8906a0ee65b2d926c04860dec8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25e6f31f_de94e7f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-07-24T23:12:17Z",
+      "side": 1,
+      "message": "Should this capture a defaultReview?",
+      "revId": "e67bd50cacad5f8906a0ee65b2d926c04860dec8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f64b8e5_2ff7b5e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-07-24T23:12:17Z",
+      "side": 1,
+      "message": "review or reviewHostname, please update accordingly the setter and getter.",
+      "range": {
+        "startLine": 44,
+        "startChar": 16,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "e67bd50cacad5f8906a0ee65b2d926c04860dec8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8276ecc7_003ccffd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RepoProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-07-24T23:12:17Z",
+      "side": 1,
+      "message": "Rename to \"review\", is is a property of the project. Maybe add a comment to indicate that the value comes from the remote (if I understood this correctly).",
+      "range": {
+        "startLine": 44,
+        "startChar": 16,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "e67bd50cacad5f8906a0ee65b2d926c04860dec8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
