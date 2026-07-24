@@ -16,3 +16,4 @@ Import-Package: org.eclipse.jgit.transport.sshd;version="[7.8.0,7.9.0)",
 Require-Bundle: com.sun.jna;bundle-version="[5.8.0,6.0.0)",
  com.sun.jna.platform;bundle-version="[5.8.0,6.0.0)"
 Export-Package: org.eclipse.jgit.internal.transport.sshd.agent.connector;version="7.8.0";x-internal:=true
+
