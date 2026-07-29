@@ -105,8 +105,8 @@ public class PlotWalk extends RevWalk {
 	}
 
 	@Override
-	protected RevCommit createCommit(AnyObjectId id) {
-		return new PlotCommit(id);
+	protected RevCommit createCommit(AnyObjectId id, int graphPos) {
+		return new PlotCommit(id, graphPos);
 	}
 
 	@Override

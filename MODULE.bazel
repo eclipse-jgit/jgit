@@ -25,11 +25,11 @@ git_repository(
     remote = "https://gerrit.googlesource.com/bazlets",
 )
 
-BOUNCYCASTLE_VERSION = "1.84"
+BOUNCYCASTLE_VERSION = "1.85"
 
-BYTE_BUDDY_VERSION = "1.18.10"
+BYTE_BUDDY_VERSION = "1.18.11"
 
-JETTY_VERSION = "12.1.10"
+JETTY_VERSION = "12.1.11"
 
 JMH_VERSION = "1.37"
 
@@ -37,7 +37,7 @@ JNA_VERSION = "5.19.1"
 
 SLF4J_VERSION = "2.0.18"
 
-SSHD_VERSION = "2.18.0"
+SSHD_VERSION = "2.19.0"
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(

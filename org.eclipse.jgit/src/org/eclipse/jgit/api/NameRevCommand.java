@@ -51,8 +51,8 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 		private int distance;
 		private long cost;
 
-		private NameRevCommit(AnyObjectId id) {
-			super(id);
+		private NameRevCommit(AnyObjectId id, int graphPosition) {
+			super(id, graphPosition);
 		}
 
 		private StringBuilder format() {
@@ -96,8 +96,8 @@ public class NameRevCommand extends GitCommand<Map<ObjectId, String>> {
 		revs = new ArrayList<>(2);
 		walk = new RevWalk(repo) {
 			@Override
-			public NameRevCommit createCommit(AnyObjectId id) {
-				return new NameRevCommit(id);
+			protected RevCommit createCommit(AnyObjectId id, int graphPos) {
+				return new NameRevCommit(id, graphPos);
 			}
 		};
 	}

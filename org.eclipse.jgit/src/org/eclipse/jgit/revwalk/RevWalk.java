@@ -971,10 +971,10 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	}
 
 	/**
-	 * This method is intended to be invoked only by {@link RevCommitCG}, in
-	 * order to give commit the correct graphPosition before accessing the
-	 * commit-graph. In this way, the headers of the commit can be obtained in
-	 * constant time.
+	 * This method is intended to be invoked only by
+	 * {@link RevCommit#parseInGraph(RevWalk)}, in order to give commit the
+	 * correct graphPosition before accessing the commit-graph. In this way, the
+	 * headers of the commit can be obtained in constant time.
 	 *
 	 * @param id
 	 *            name of the commit object.
@@ -1764,16 +1764,28 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * @param id
 	 *            the object this walker requires a commit reference for.
 	 * @return a new unparsed reference for the object.
+	 *
+	 * @nooverride Since 7.8 This method is not intended to be re-implemented or
+	 *             extended by clients. Override
+	 *             {@link #createCommit(AnyObjectId, int)} instead.
 	 */
 	protected RevCommit createCommit(AnyObjectId id) {
 		return createCommit(id, commitGraph().findGraphPosition(id));
 	}
 
-	private RevCommit createCommit(AnyObjectId id, int graphPos) {
-		if (graphPos >= 0) {
-			return new RevCommitCG(id, graphPos);
-		}
-		return new RevCommit(id);
+	/**
+	 * Construct a new unparsed commit for the given object.
+	 *
+	 * @param id
+	 *            the object this walker requires a commit reference for.
+	 * @param graphPos
+	 *            the position of the commit in the commit graph or {@code -1}
+	 *            if the commit is not present in the commit graph
+	 * @return a new unparsed reference for the object.
+	 * @since 7.8
+	 */
+	protected RevCommit createCommit(AnyObjectId id, int graphPos) {
+		return new RevCommit(id, graphPos);
 	}
 
 	void carryFlagsImpl(RevCommit c) {

@@ -690,7 +690,8 @@ public class PackStatistics {
 	 * @return total time spent processing this pack.
 	 */
 	public long getTimeTotal() {
-		return statistics.timeCounting + statistics.timeSearchingForReuse
+		return statistics.timeNegotiating + statistics.timeCounting
+				+ statistics.timeSearchingForReuse
 				+ statistics.timeSearchingForSizes + statistics.timeCompressing
 				+ statistics.timeWriting;
 	}
