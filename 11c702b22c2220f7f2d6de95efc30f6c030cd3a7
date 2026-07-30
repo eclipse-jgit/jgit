@@ -16,6 +16,24 @@
       "message": "I think we should we make a change in this series to first only use visited here instead of seen. That might could actually be faster than using bitmaps.",
       "revId": "11c702b22c2220f7f2d6de95efc30f6c030cd3a7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9477439_eb5913e6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/revwalk/BitmappedObjectReachabilityChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-07-30T20:58:53Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "69abe99b_c44f8da1",
+      "revId": "11c702b22c2220f7f2d6de95efc30f6c030cd3a7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

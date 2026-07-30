@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebc5e8d0_e0c1a716",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-07-30T20:58:53Z",
+      "side": 1,
+      "message": "This timing likely needs to be updated to compare this to the current tip which now has https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1236589 on it.",
+      "revId": "17df297dbb7962825b279755e912b0e5156dc1f4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
