@@ -90,6 +90,24 @@
       "message": "7.7?",
       "revId": "f88f0e23a039889c5493d32ccfb65ad0b9f1c4b8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0ef754f_35ce288a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-07-31T11:52:19Z",
+      "side": 1,
+      "message": "no, 7.7.0 was released in June. We are now heading for 7.8.",
+      "parentUuid": "2ec80deb_912c8181",
+      "revId": "f88f0e23a039889c5493d32ccfb65ad0b9f1c4b8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
