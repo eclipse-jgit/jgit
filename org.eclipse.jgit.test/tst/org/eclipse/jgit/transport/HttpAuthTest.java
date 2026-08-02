@@ -42,6 +42,9 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.util.HttpSupport.HDR_AUTHORIZATION;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
@@ -91,6 +94,26 @@ public class HttpAuthTest {
 				negotiateHeader, bearerHeader }, NEGOTIATE);
 	}
 
+	@Test
+	public void testAuthFromUriPreservesPlusInUserInfo() throws Exception {
+		HttpAuthMethod authMethod = InternalHttpClientGlue
+				.authFromUri(new URIish("http://user:pa+ss@example.com/repo")); //$NON-NLS-1$
+		AuthHeadersResponse request = new AuthHeadersResponse(new String[0]);
+
+		authMethod.configureRequest(request);
+
+		assertEquals("Basic dXNlcjpwYStzcw==", //$NON-NLS-1$
+				request.requestProperties.get(HDR_AUTHORIZATION));
+	}
+
+	@Test
+	public void testRetryOnAuthFailureNeedsActiveAuth() throws Exception {
+		InternalHttpClientGlue.Authenticator authenticator = InternalHttpClientGlue
+				.newAuthenticator(new URIish("http://example.com/repo"), null); //$NON-NLS-1$
+
+		assertFalse(authenticator.retryOnAuthFailure());
+	}
+
 	private static void checkResponse(String[] headers,
 			String expectedAuthMethod) {
 
@@ -114,6 +137,8 @@ public class HttpAuthTest {
 
 	private static class AuthHeadersResponse extends JDKHttpConnection {
 		Map<String, List<String>> headerFields = new HashMap<>();
+
+		Map<String, String> requestProperties = new HashMap<>();
 
 		public AuthHeadersResponse(String[] authHeaders)
 				throws MalformedURLException, IOException {
@@ -142,6 +167,11 @@ public class HttpAuthTest {
 				return headerFields.get(name).get(n - 1);
 			}
 			return null;
+		}
+
+		@Override
+		public void setRequestProperty(String key, String value) {
+			requestProperties.put(key, value);
 		}
 
 		@Override
