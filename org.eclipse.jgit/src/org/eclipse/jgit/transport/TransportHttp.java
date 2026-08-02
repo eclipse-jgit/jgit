@@ -42,7 +42,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpCookie;
 import java.net.MalformedURLException;
 import java.net.Proxy;
@@ -51,7 +50,6 @@ import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.InvalidPathException;
 import java.security.GeneralSecurityException;
@@ -439,7 +437,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 		if (StringUtils.isEmptyOrNull(username)
 				|| StringUtils.isEmptyOrNull(password)) {
-			authMethod = authFromUri(currentUri);
+			authMethod = InternalHttpClientGlue.authFromUri(currentUri);
 		} else {
 			HttpAuthMethod basic = HttpAuthMethod.Type.BASIC.method(null);
 			basic.authorize(username, password);
@@ -610,28 +608,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		return new NoRemoteRepositoryException(u, text);
 	}
 
-	private HttpAuthMethod authFromUri(URIish u) {
-		String user = u.getUser();
-		String pass = u.getPass();
-		if (user != null && pass != null) {
-			try {
-				// User/password are _not_ application/x-www-form-urlencoded. In
-				// particular the "+" sign would be replaced by a space.
-				user = URLDecoder.decode(user.replace("+", "%2B"), //$NON-NLS-1$ //$NON-NLS-2$
-						StandardCharsets.UTF_8.name());
-				pass = URLDecoder.decode(pass.replace("+", "%2B"), //$NON-NLS-1$ //$NON-NLS-2$
-						StandardCharsets.UTF_8.name());
-				HttpAuthMethod basic = HttpAuthMethod.Type.BASIC.method(null);
-				basic.authorize(user, pass);
-				return basic;
-			} catch (IllegalArgumentException
-					| UnsupportedEncodingException e) {
-				LOG.warn(JGitText.get().httpUserInfoDecodeError, u);
-			}
-		}
-		return HttpAuthMethod.Type.NONE.method(null);
-	}
-
 	private HttpConnection connect(String service)
 			throws TransportException, NotSupportedException {
 		return connect(service, null);
@@ -642,7 +618,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			throws TransportException, NotSupportedException {
 		URL u = getServiceURL(service);
 		if (HttpAuthMethod.Type.NONE.equals(authMethod.getType())) {
-			authMethod = authFromUri(currentUri);
+			authMethod = InternalHttpClientGlue.authFromUri(currentUri);
 		}
 		int authAttempts = 1;
 		int redirects = 0;
