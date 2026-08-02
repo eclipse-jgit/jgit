@@ -96,7 +96,7 @@ public abstract class LfsServerTest {
 		FS.getFileStoreAttributes(tmp.getParent());
 
 		server = new AppServer();
-		ServletContextHandler app = server.addContext("/lfs");
+		ServletContextHandler app = configureContext(server.addContext("/lfs"));
 		dir = Paths.get(tmp.toString(), "lfs");
 		this.repository = new FileLfsRepository(null, dir);
 		servlet = new FileLfsServlet(repository, timeout);
@@ -116,6 +116,17 @@ public abstract class LfsServerTest {
 
 		server.setUp();
 		this.repository.setUrl(server.getURI() + "/lfs/objects/");
+	}
+
+	/**
+	 * Allows subclasses to customize the test context before servlets are added.
+	 *
+	 * @param app
+	 *            servlet context handler
+	 * @return the context handler to add servlets to
+	 */
+	protected ServletContextHandler configureContext(ServletContextHandler app) {
+		return app;
 	}
 
 	@After
