@@ -35,7 +35,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.util.HttpSupport;
 
-import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 /**
@@ -137,14 +136,8 @@ public class SmudgeFilter extends FilterCommand {
 		for (LfsPointer p : res) {
 			oidStr2ptr.put(p.getOid().name(), p);
 		}
-		HttpConnection lfsServerConn = LfsConnectionFactory.getLfsConnection(db,
-				HttpSupport.METHOD_POST, Protocol.OPERATION_DOWNLOAD);
-		Gson gson = Protocol.gson();
-		lfsServerConn.getOutputStream()
-				.write(gson
-						.toJson(LfsConnectionFactory
-								.toRequest(Protocol.OPERATION_DOWNLOAD, res))
-						.getBytes(UTF_8));
+		HttpConnection lfsServerConn = LfsBatchRequest.execute(db,
+				Protocol.OPERATION_DOWNLOAD, res);
 		int responseCode = lfsServerConn.getResponseCode();
 		if (!(responseCode == HttpConnection.HTTP_OK
 				|| responseCode == HttpConnection.HTTP_NOT_AUTHORITATIVE)) {
@@ -156,7 +149,7 @@ public class SmudgeFilter extends FilterCommand {
 		try (JsonReader reader = new JsonReader(
 				new InputStreamReader(lfsServerConn.getInputStream(),
 						UTF_8))) {
-			Protocol.Response resp = gson.fromJson(reader,
+			Protocol.Response resp = Protocol.gson().fromJson(reader,
 					Protocol.Response.class);
 			for (Protocol.ObjectInfo o : resp.objects) {
 				if (o.error != null) {
