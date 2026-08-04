@@ -72,16 +72,16 @@ class PendingGenerator extends Generator {
 	 */
 	private int overScan = OVER_SCAN;
 
-	private final boolean canDispose;
+	boolean canDispose;
 
-	PendingGenerator(RevWalk w, DateRevQueue p, RevFilter f, int out,
-			boolean canDispose) {
+	PendingGenerator(final RevWalk w, final DateRevQueue p,
+			final RevFilter f, final int out) {
 		super(w.isFirstParent());
-		this.walker = w;
-		this.pending = p;
-		this.filter = f;
-		this.output = out;
-		this.canDispose = canDispose;
+		walker = w;
+		pending = p;
+		filter = f;
+		output = out;
+		canDispose = true;
 	}
 
 	@Override
