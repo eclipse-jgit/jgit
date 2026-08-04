@@ -1,0 +1,7 @@
+Code-Review+2: Martin Fick <mfick@nvidia.com>
+Verified+1: eclipse-jgit-bot <jgit-bot@eclipse.org>
+Submitted-by: Nasser Grainawi <nasser.grainawi@oss.qualcomm.com>
+Submitted-at: Tue, 04 Aug 2026 18:43:23 +0000
+Reviewed-on: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1244477
+Project: eclipse-jgit/jgit
+Branch: refs/heads/stable-7.7
