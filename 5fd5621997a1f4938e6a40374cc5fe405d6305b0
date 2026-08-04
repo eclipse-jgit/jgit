@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a3d4e9a_32615f5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-08-04T21:48:14Z",
+      "side": 1,
+      "message": "@florian.schwabe@vector.com I\u0027d rather not revert your change, but it seems like something is broken.\n\nOne thing that caught my attention, is there enough non-commit-graph test coverage in your change?",
+      "revId": "5fd5621997a1f4938e6a40374cc5fe405d6305b0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
