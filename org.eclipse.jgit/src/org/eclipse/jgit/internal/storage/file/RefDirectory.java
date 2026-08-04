@@ -155,8 +155,7 @@ public class RefDirectory extends RefDatabase {
 	/** Immutable sorted list of packed references. */
 	final AtomicReference<PackedRefList> packedRefs = new AtomicReference<>();
 
-	private final AtomicReference<PackedRefsRefresher> packedRefsRefresher =
-			new AtomicReference<>();
+	private final AtomicReference<PackedRefsRefresher> packedRefsRefresher;
 
 	/**
 	 * Lock for coordinating operations within a single process that may contend
@@ -205,6 +204,7 @@ public class RefDirectory extends RefDatabase {
 		looseRefs.set(refDb.looseRefs.get());
 		packedRefs.set(refDb.packedRefs.get());
 		coreConfig = refDb.coreConfig;
+		packedRefsRefresher = refDb.packedRefsRefresher;
 		inProcessPackedRefsLock = refDb.inProcessPackedRefsLock;
 	}
 
@@ -221,6 +221,7 @@ public class RefDirectory extends RefDatabase {
 		looseRefs.set(RefList.<LooseRef> emptyList());
 		packedRefs.set(NO_PACKED_REFS);
 		coreConfig = db.getConfig().get(CoreConfig.KEY);
+		packedRefsRefresher = new AtomicReference<>();
 		inProcessPackedRefsLock = new ReentrantLock(true);
 	}
 
