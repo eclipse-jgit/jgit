@@ -30,7 +30,7 @@ class TopoSortPendingGenerator extends Generator {
 		super(walker.isFirstParent());
 
 		this.output = (output | SORT_COMMIT_TIME_DESC | SORT_TOPO)
-				& ~(NEEDS_REWRITE);
+				& ~NEEDS_REWRITE;
 		this.explorePhase = new TopoExplorePhase(walker, filter, canDispose);
 		this.inDegreePhase = new TopoInDegreePhase(walker, explorePhase,
 				(output & NEEDS_REWRITE) != 0);
