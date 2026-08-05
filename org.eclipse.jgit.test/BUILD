@@ -24,6 +24,7 @@ HELPERS = glob(
     "nls/MissingPropertyBundle.java",
     "nls/NoPropertiesBundle.java",
     "nls/NonTranslatedBundle.java",
+    "revwalk/AbstractRevWalkWithCommitGraphTest.java",
     "revwalk/RevQueueTestCase.java",
     "revwalk/RevWalkTestCase.java",
     "transport/ObjectIdMatcher.java",
@@ -36,6 +37,7 @@ HELPERS = glob(
     "util/http/HttpCookiesMatcher.java",
     "util/io/Strings.java",
 ]]
+
 
 DATA = [
     PKG + "lib/empty.gitindex.dat",
