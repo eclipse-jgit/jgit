@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e43dc0b1_11d11909",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-08-05T07:50:24Z",
+      "side": 1,
+      "message": "we should add another CI verification job running build and tests using bazel",
+      "revId": "f344fc53c37ac20a8e581790388e7ec04fc65c1d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
