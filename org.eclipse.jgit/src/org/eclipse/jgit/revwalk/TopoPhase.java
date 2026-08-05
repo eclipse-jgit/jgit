@@ -77,4 +77,8 @@ class TopoPhase {
 		return null;
 	}
 
+	RevFlag getTestFlag() {
+		return testFlag;
+	}
+
 }
