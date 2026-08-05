@@ -45,6 +45,10 @@ final class TopoExplorePhase extends TopoPhase {
 		}
 	}
 
+	RevFlag getTopoPassedFilterFlag() {
+		return topoPassedFilterFlag;
+	}
+
 	boolean hasPassedFilter(RevCommit c) {
 		return c.has(topoPassedFilterFlag);
 	}

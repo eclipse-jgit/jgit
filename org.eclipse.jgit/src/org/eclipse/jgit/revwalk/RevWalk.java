@@ -1526,6 +1526,11 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		}
 	}
 
+	void delayFreeFlags(int mask) {
+		retainOnReset &= ~mask;
+		delayFreeFlags |= mask;
+	}
+
 	private void finishDelayedFreeFlags() {
 		if (delayFreeFlags != 0) {
 			freeFlags |= delayFreeFlags;

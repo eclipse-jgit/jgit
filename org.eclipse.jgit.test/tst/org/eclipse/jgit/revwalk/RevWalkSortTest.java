@@ -10,6 +10,7 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -363,5 +364,33 @@ public class RevWalkSortTest extends RevWalkTestCase {
 					JGitText.get().cannotCombineTopoSortWithTopoKeepBranchTogetherSort,
 					e.getMessage());
 		}
+	}
+
+	@Test
+	public void testSort_TOPO_reset_doesNotLeakFlags() throws Exception {
+		final RevCommit a = commit();
+		final RevCommit b = commit(a);
+		final RevCommit c = commit(b);
+		final RevCommit d = commit(c);
+
+		rw.sort(RevSort.TOPO);
+		markStart(d);
+		assertCommit(d, rw.next());
+		assertCommit(c, rw.next());
+		assertCommit(b, rw.next());
+		assertCommit(a, rw.next());
+		assertNull(rw.next());
+
+		int freeFlags = 32 - RevWalk.RESERVED_FLAGS;
+
+		assertThat(Integer.bitCount(rw.freeFlags))
+				.as("4 Flags should be allocated by TopoSortPendingGenerator")
+				.isEqualTo(freeFlags - 4);
+
+		rw.reset();
+
+		assertThat(Integer.bitCount(rw.freeFlags)) //
+				.as("Flags allocated by TopoSortPendingGenerator should be freed when calling RevWalk.reset()")
+				.isEqualTo(freeFlags);
 	}
 }
