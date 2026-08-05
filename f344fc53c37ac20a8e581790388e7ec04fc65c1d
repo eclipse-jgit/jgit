@@ -33,6 +33,24 @@
       "message": "I should remove the redundant blank line and run buildifier on this change",
       "revId": "f344fc53c37ac20a8e581790388e7ec04fc65c1d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd12065c_014bf6af",
+        "filename": "org.eclipse.jgit.test/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-08-05T09:38:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c39437e7_4930dda5",
+      "revId": "f344fc53c37ac20a8e581790388e7ec04fc65c1d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
