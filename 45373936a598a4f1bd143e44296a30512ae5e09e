@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55d89e0b_c6a2c471",
+        "filename": "tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-08-05T19:50:18Z",
+      "side": 1,
+      "message": "I did an alternative fix in: https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1244694/1/org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+      "revId": "45373936a598a4f1bd143e44296a30512ae5e09e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
