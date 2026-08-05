@@ -16,6 +16,24 @@
       "message": "@florian.schwabe@vector.com I\u0027d rather not revert your change, but it seems like something is broken.\n\nOne thing that caught my attention, is there enough non-commit-graph test coverage in your change?",
       "revId": "5fd5621997a1f4938e6a40374cc5fe405d6305b0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfa645b9_55717adf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-08-05T04:37:25Z",
+      "side": 1,
+      "message": "I ran some AI analysis on it and here\u0027s what it reported:\n\n## Root cause\n\nIt\u0027s a `RevFlag` leak in the new topo-sort code, not anything to do with rebasing or committer emails. The test dies with:\n\n```\njava.lang.IllegalArgumentException: 23 flags already created.\n\tat org.eclipse.jgit.revwalk.RevWalk.allocFlag(RevWalk.java:1419)\n\tat org.eclipse.jgit.revwalk.TopoPhase.\u003cinit\u003e(TopoPhase.java:28)\n\tat org.eclipse.jgit.revwalk.TopoInDegreePhase.\u003cinit\u003e(TopoInDegreePhase.java:34)\n\tat org.eclipse.jgit.revwalk.TopoSortPendingGenerator.\u003cinit\u003e(TopoSortPendingGenerator.java:35)\n\tat org.eclipse.jgit.revwalk.StartGenerator.next(StartGenerator.java:135)\n\t...\n\tat com.google.gerrit.server.git.MergeUtil.findUnmergedChanges(MergeUtil.java:1184)\n```\n\nThe chain:\n\n1. `RevWalk` has a hard budget of 23 application flags (`APP_FLAGS`, since `RESERVED_FLAGS \u003d 9`). `allocFlag()` throws once `freeFlags \u003d\u003d 0`.\n2. `ab51fe2bd` (\"RevWalk: Use an incremental topological sorting algorithm\") replaced the old `PendingGenerator→RewriteGenerator→TopoSortGenerator` chain with `TopoSortPendingGenerator`. The old generators allocated **zero** flags. The new one allocates **four** per walk setup — `EXPLORE_SEEN` and `INDEGREE_SEEN` (from `TopoPhase`\u0027s constructor, `modules/jgit/org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoPhase.java:28`), plus `TOPO_PASSED_FILTER` (`TopoExplorePhase.java:29`) and `TOPO_SEEN` (`TopoInDegreePhase.java:38`).\n3. These are allocated lazily in `StartGenerator.next()`, i.e. **every time the walk is restarted**, and they are never released — nothing calls `disposeFlag()`. Critically, `reset()`/`resetRetain()` do *not* reclaim flags; only `dispose()` does, and Gerrit doesn\u0027t call it here.\n4. Gerrit\u0027s submit path shares one long-lived `RevWalk` per repo, created in `MergeOpRepoManager.OpenRepo` (`java/com/google/gerrit/server/submit/MergeOpRepoManager.java:78-84`) with `RevSort.TOPO` and one `CAN_MERGE` flag. `MergeUtil.findUnmergedChanges` calls `rw.resetRetain(canMergeFlag)` and re-walks — reusing that same walk repeatedly across submits.\n\nSo each re-walk burns 4 more flags off a 22-flag remainder. I instrumented `newFlag()` to confirm the arithmetic exactly; the exhausted walk\u0027s allocation sequence is unambiguous:\n\n```\nCAN_MERGE          remainingFree\u003d22\nEXPLORE_SEEN       remainingFree\u003d21\nTOPO_PASSED_FILTER remainingFree\u003d20\nINDEGREE_SEEN      remainingFree\u003d19\nTOPO_SEEN          remainingFree\u003d18\n... (repeats identically) ...\nEXPLORE_SEEN       remainingFree\u003d1\nTOPO_PASSED_FILTER remainingFree\u003d0   ← next alloc throws\n```\n\nFive clean re-walks (20 flags) plus `CAN_MERGE` leaves 2 free; the sixth walk gets 2 of its 4 flags and throws on the third.\n\nThis is why *this* test in particular trips it: `rebaseWithCommitterEmail` is one of the few that does **two** submits plus two rebases on the same repo (`RebaseIT.java:766-811`), pushing the shared walk past six re-walk cycles. Both `RebaseViaRevisionApi` and `RebaseViaChangeApi` fail identically at `RebaseIT.java:803`, the second `revision.submit()`.\n\n## Verification\n\n- With submodule at `253ca534f` (pre-revert): 2 of 3 tests fail with `23 flags already created`.\n- With the revert `c8427b216` restored: `PASSED in 8.9s`.\n\n## Next steps\n\nThe revert is a valid stopgap, but the underlying bug is in JGit and would hit any caller that reuses a TOPO-sorted `RevWalk` across `reset()` — Gerrit\u0027s submit path is just an unusually good detector.\n\n### Fix\n\nA real fix would allocate the four flags once per `RevWalk` rather than per `StartGenerator.next()`, or release them via `disposeFlag()` when the generator is torn down. `RevWalk.disposeFlag`/`freeFlag` already exist (`RevWalk.java:1515-1533`) and handle the in-use case by deferring through `delayFreeFlags`, so the release path is available.",
+      "parentUuid": "9a3d4e9a_32615f5e",
+      "revId": "5fd5621997a1f4938e6a40374cc5fe405d6305b0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
