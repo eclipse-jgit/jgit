@@ -1765,9 +1765,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 *            the object this walker requires a commit reference for.
 	 * @return a new unparsed reference for the object.
 	 *
-	 * @nooverride Since 7.8 This method is not intended to be re-implemented or
-	 *             extended by clients. Override
-	 *             {@link #createCommit(AnyObjectId, int)} instead.
+	 * @apiNote Since 7.8 this method is not intended to be re-implemented
+	 *          or extended by clients. Override
+	 *          {@link #createCommit(AnyObjectId, int)} instead.
 	 */
 	protected RevCommit createCommit(AnyObjectId id) {
 		return createCommit(id, commitGraph().findGraphPosition(id));

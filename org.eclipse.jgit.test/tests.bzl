@@ -66,6 +66,10 @@ def tests(tests, srcprefix="tst/", extra_tags=[]):
             additional_deps = [
                 "//lib:mockito",
             ]
+        if src.endswith("RevWalkSortTopoWithCommitGraphTest.java"):
+            additional_deps = [
+                "//lib:assertj-core",
+            ]
         if src.endswith("ArchiveCommandTest.java"):
             additional_deps = [
                 "//lib:commons-compress",
