@@ -111,6 +111,10 @@ final class TopoInDegreePhase extends TopoPhase {
 		return c;
 	}
 
+	RevFlag getTopoSeenFlag() {
+		return topoSeen;
+	}
+
 	private void expand(RevCommit c) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		for (RevCommit p : c.getParents()) {
