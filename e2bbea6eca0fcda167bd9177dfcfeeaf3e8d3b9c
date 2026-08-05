@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cad4a0c3_9a53d79c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkSortTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-08-05T18:40:27Z",
+      "side": 1,
+      "message": "Can you add a comment indicating where this magic `32` comes from? Or (since I think this is the source) remove the `private` from `APP_FLAGS`?",
+      "revId": "e2bbea6eca0fcda167bd9177dfcfeeaf3e8d3b9c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdec8c23_35c252f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1529,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-08-05T18:40:27Z",
+      "side": 1,
+      "message": "Maybe rename this to `freeFlagOnReset()` so the intent is clearer? And we can add a javadoc note cautioning how to not misuse this? (i.e. it must only be called while a generator is being constructed)\n```suggestion\n\t/**\n\t * Arrange for flags to be recycled at the next {@code reset}, without\n\t * recycling them immediately.\n\t * \u003cp\u003e\n\t * Unlike {@link #freeFlag(int)}, this \u003cem\u003ealways\u003c/em\u003e defers: the flags join\n\t * the delayed-free set and are only returned to the free pool by\n\t * {@link #finishDelayedFreeFlags()}, which every {@code reset} invokes. If\n\t * the flags were marked {@code retainOnReset}, that request is cleared.\n\t * \u003cp\u003e\n\t * \u003cb\u003eOnly call this while a {@link Generator} is under construction\u003c/b\u003e —\n\t * i.e. from within the call chain of {@code StartGenerator.next()}. At that\n\t * point {@link #pending} is still the {@code StartGenerator}, so\n\t * {@link #isNotStarted()} reports {@code true} and {@link #freeFlag(int)}\n\t * would return the flags to {@code freeFlags} immediately, while the\n\t * generator being built is about to use them. The next\n\t * {@link #newFlag(String)} would then hand the same bits to an unrelated\n\t * caller, silently corrupting both walks. Calling this from anywhere else is\n\t * almost certainly a mistake; use {@link #disposeFlag(RevFlag)} instead.\n\t *\n\t * @param mask\n\t *            the flag bits to recycle at the next {@code reset}.\n\t */\n\tvoid freeFlagOnReset(int mask) {\n```",
+      "revId": "e2bbea6eca0fcda167bd9177dfcfeeaf3e8d3b9c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b939cdc_d1aa2c9f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortPendingGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-08-05T18:40:27Z",
+      "side": 1,
+      "message": "This might be good enough to merge to get the bug fixed, but it feels very fragile. Any new flag that\u0027s added needs to show up in this mask, otherwise we have the same bug again. I\u0027m not sure of the best way to solve it long term, but one-by-one handling of the flags probably isn\u0027t it.\n\nOne approach you could do now that I think is an improvement, add an `getAllocatedFlagsMask()` to `TopoPhase` so that you only need:\n```\nint allocatedFlags \u003d explorePhase.getAllocatedFlagsMask();\nallocatedFlags |\u003d inDegreePhase.getAllocatedFlagsMask();\n```\n\nYou\u0027d override `getAllocatedFlagsMask()` in the subclasses to combine the super method return with the flag from the subclass.",
+      "revId": "e2bbea6eca0fcda167bd9177dfcfeeaf3e8d3b9c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
