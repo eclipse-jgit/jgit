@@ -45,6 +45,11 @@ final class TopoExplorePhase extends TopoPhase {
 		}
 	}
 
+	@Override
+	int getAllocatedFlags() {
+		return super.getAllocatedFlags() | topoPassedFilterFlag.mask;
+	}
+
 	boolean hasPassedFilter(RevCommit c) {
 		return c.has(topoPassedFilterFlag);
 	}
