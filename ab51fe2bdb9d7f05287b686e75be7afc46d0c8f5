@@ -1,4 +1,22 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ef9baaf_75f20aeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-08-05T07:52:07Z",
+      "side": 1,
+      "message": "found post submit: this broke running tests using bazel\nFixed in Ib8c199af664e6c03a251556ac70aaa8bdcafdef8",
+      "revId": "ab51fe2bdb9d7f05287b686e75be7afc46d0c8f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ],
   "submitRequirementResults": []
 }
