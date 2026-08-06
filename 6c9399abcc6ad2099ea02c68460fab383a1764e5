@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfb10739_e1624f83",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoSortPendingGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-08-06T18:13:17Z",
+      "side": 1,
+      "message": "nit: remove this extra blank line?",
+      "revId": "6c9399abcc6ad2099ea02c68460fab383a1764e5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
