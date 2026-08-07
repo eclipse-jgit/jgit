@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67d730bf_950ca45f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-08-07T14:39:25Z",
+      "side": 1,
+      "message": "Verified against Gerrit — works as expected.",
+      "revId": "9eed719b3f0771ef18ca6734e0ce764e266ebf6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
