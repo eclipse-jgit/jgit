@@ -457,6 +457,24 @@
       "message": "This is buggy, it should not be unlocked here! With this change, the shouldLock variable is now being ignored, and it always unlocks things. Instead, line 831 should be doing the unlocking when appropriate. This means that transactions can result in rewinding of loose refs. It is very rare because we do another repack right before this one, so loose refs should be rare here, but it is a race that gets much worse if https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1240100 is applied.",
       "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "803d7b52_da8525dc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-07T20:40:00Z",
+      "side": 1,
+      "message": "This unlock breaks the expectations on line 69 here https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1240100/2/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java#69 where it says \" without deleting them afterwards\".",
+      "parentUuid": "cca90c24_ab988205",
+      "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
