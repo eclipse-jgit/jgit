@@ -475,6 +475,24 @@
       "parentUuid": "cca90c24_ab988205",
       "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf70821c_966c1333",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-08-07T20:43:46Z",
+      "side": 1,
+      "message": "Not sure if you were implying this or not, but I don\u0027t think this change introduced the bug. If you look at the base version of `delete()`, it has the same `if (rLck !\u003d null) { rLck.unlock(); }` block.\n\nI do agree that there\u0027s a bug and the unlock should be guarded by `shouldUnlock`.",
+      "parentUuid": "cca90c24_ab988205",
+      "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
