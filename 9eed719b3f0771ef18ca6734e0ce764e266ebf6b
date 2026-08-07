@@ -33,6 +33,24 @@
       "message": "This breaks running this test using bazel, we need to add an asserj-core dependency in the bazel build. I will push another patchset fixing this.",
       "revId": "9eed719b3f0771ef18ca6734e0ce764e266ebf6b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c218d18_d3b17a8a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkSortTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-08-07T15:42:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1764c960_c165617c",
+      "revId": "9eed719b3f0771ef18ca6734e0ce764e266ebf6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
