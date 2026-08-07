@@ -30,11 +30,9 @@ build:remote --disk_cache=
 
 # Set several flags related to specifying the platform, toolchain and java
 # properties.
-build:remote --crosstool_top=@rbe_autoconfig//cc:toolchain
-build:remote --extra_toolchains=@rbe_autoconfig//config:cc-toolchain
-build:remote --extra_execution_platforms=@rbe_autoconfig//config:platform
-build:remote --host_platform=@rbe_autoconfig//config:platform
-build:remote --platforms=@rbe_autoconfig//config:platform
+build:remote --extra_execution_platforms=//tools/remote:platform
+build:remote --host_platform=//tools/remote:platform
+build:remote --platforms=//tools/remote:platform
 
 # Set various strategies so that all actions execute remotely. Mixing remote
 # and local execution will lead to errors unless the toolchain and remote
