@@ -493,6 +493,24 @@
       "parentUuid": "cca90c24_ab988205",
       "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e5e4af5_7c0cc024",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-07T22:37:06Z",
+      "side": 1,
+      "message": "You are correct. That has been there since https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/73745 which was been before the conditional unlock which came in for the transactions here https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/100771/9/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java which should have removed the lock deletion. But given the poorly name method delete() at that point (thanks for fixing that here), it likely went unnoticed. I didn\u0027t notice it even with the better naming since I saw the shouldUnlock pattern, my brain assumed deleteAndUnlock() only deleted the file. :( Seems straight forward enough to fix, and probably should get a test or 4. At least one test for each of the conditions for locking/unlocking it.",
+      "parentUuid": "803d7b52_da8525dc",
+      "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
