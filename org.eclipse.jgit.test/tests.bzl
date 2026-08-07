@@ -72,6 +72,10 @@ def tests(tests, srcprefix="tst/", extra_tags=[]):
                 "//lib:xz",
                 "//org.eclipse.jgit.archive:jgit-archive",
             ]
+        if src.endswith("RevWalkSortTopoWithCommitGraphTest.java"):
+            additional_deps = [
+                "//lib:assertj-core",
+            ]
         if src.endswith("FileRepositoryBuilderAfterOpenConfigTest.java") or \
            src.endswith("RefDirectoryAfterOpenConfigTest.java") or \
            src.endswith("SnapshottingRefDirectoryTest.java"):

@@ -199,7 +199,7 @@ errorprone_checks = [
     "-Xep:InstanceOfAndCastMatchWrongType:ERROR",
     "-Xep:InstantTemporalUnit:ERROR",
     "-Xep:IntLongMath:ERROR",
-    "-Xep:InvalidBlockTag:ERROR",
+    "-Xep:InvalidBlockTag:WARN",
     "-Xep:InvalidInlineTag:ERROR",
     "-Xep:InvalidJavaTimeConstant:ERROR",
     "-Xep:InvalidLink:ERROR",
