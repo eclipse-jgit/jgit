@@ -345,6 +345,12 @@ java_library(
 
 java_library(
     name = "javax-servlet-api",
+    # The servlet API is container-supplied; JGit's own Maven/Tycho POMs already
+    # treat it as provided. Mark it maven:compile-only so rules_jvm_external keeps
+    # it out of the auto-generated <dependencies> of any artifact published from
+    # this Bazel graph. This tag only affects java_export/maven_export POM
+    # generation; compilation and the published servlet classes are unaffected.
+    tags = ["maven:compile-only"],
     visibility = [
         "//org.eclipse.jgit.http.server.ee8:__pkg__",
         "//org.eclipse.jgit.http.test.ee8:__pkg__",
