@@ -842,8 +842,19 @@ public class RefDirectory extends RefDatabase {
 								}
 								newLoose = curLoose.remove(idx);
 							} while (!looseRefs.compareAndSet(curLoose, newLoose));
+<<<<<<< HEAD   (2f8bc42fadd4c836f1f280888e0b33cdbd13f417 Ensure the SnapshottingRefDirectory shares the packedRefsRef)
 							int levels = levelsIn(refName) - 2;
 							deleteAndUnlock(refFile, levels, rLck);
+=======
+							if (shouldUnlock) {
+								int levels = levelsIn(refName) - 2;
+								deleteAndUnlock(refFile, levels, rLck);
+								shouldUnlock = false;
+							} else {
+								delete(refFile);
+							}
+							LOG.debug(JGitText.get().deleteLooseRef, refFile, clr_oid);
+>>>>>>> CHANGE (9d7ec6911e3d46a4621eac0958afc4e4e881406c RefDirectory: fix pack() unlocking held locks prematurely)
 						}
 					} finally {
 						if (shouldUnlock) {
