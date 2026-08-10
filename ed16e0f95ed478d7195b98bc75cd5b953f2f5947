@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07d2e1a9_fc69506f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1536,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-08-10T23:04:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7d832ac_06fc3a90",
+      "revId": "ed16e0f95ed478d7195b98bc75cd5b953f2f5947",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af8c405f_0e6c2706",
@@ -55,6 +73,30 @@
       "side": 1,
       "message": "Hmm, tricky, I think that means that line 885 should be attempting to do that work instead then.",
       "parentUuid": "af8c405f_0e6c2706",
+      "range": {
+        "startLine": 880,
+        "startChar": 23,
+        "endLine": 880,
+        "endChar": 29
+      },
+      "revId": "ed16e0f95ed478d7195b98bc75cd5b953f2f5947",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be28f76e_c5b5deac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-08-10T23:04:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e33d1c8c_5b3055bd",
       "range": {
         "startLine": 880,
         "startChar": 23,
