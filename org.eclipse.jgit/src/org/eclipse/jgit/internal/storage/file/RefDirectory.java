@@ -858,6 +858,7 @@ public class RefDirectory extends RefDatabase {
 						shouldUnlock = false;
 					}
 
+					boolean isDeleted = false;
 					try {
 						LooseRef currentLooseRef = scanRef(null, refName);
 						if (currentLooseRef == null || currentLooseRef.isSymbolic()) {
@@ -876,13 +877,17 @@ public class RefDirectory extends RefDatabase {
 								}
 								newLoose = curLoose.remove(idx);
 							} while (!looseRefs.compareAndSet(curLoose, newLoose));
-							int levels = levelsIn(refName) - 2;
-							deleteAndUnlock(refFile, levels, rLck);
+							delete(refFile);
+							isDeleted = true;
 							LOG.debug(JGitText.get().deleteLooseRef, refFile, clr_oid);
 						}
 					} finally {
 						if (shouldUnlock) {
 							rLck.unlock();
+						}
+						if (isDeleted) {
+							deleteEmptyParentDirs(refFile,
+									levelsIn(refName) - 2);
 						}
 					}
 				}
@@ -1473,15 +1478,6 @@ public class RefDirectory extends RefDatabase {
 		delete(file);
 		if (refUpdate != null) {
 			refUpdate.unlock(); // otherwise cannot delete parent directories emptied by the update
-		}
-		deleteEmptyParentDirs(file, depth);
-	}
-
-	private static void deleteAndUnlock(File file, int depth, LockFile rLck)
-			throws IOException {
-		delete(file);
-		if (rLck != null) {
-			rLck.unlock(); // otherwise cannot delete parent directories of the lock file
 		}
 		deleteEmptyParentDirs(file, depth);
 	}
