@@ -876,13 +876,13 @@ public class RefDirectory extends RefDatabase {
 								}
 								newLoose = curLoose.remove(idx);
 							} while (!looseRefs.compareAndSet(curLoose, newLoose));
-							int levels = levelsIn(refName) - 2;
-							deleteAndUnlock(refFile, levels, rLck);
+							delete(refFile);
 							LOG.debug(JGitText.get().deleteLooseRef, refFile, clr_oid);
 						}
 					} finally {
 						if (shouldUnlock) {
-							rLck.unlock();
+							deleteAndUnlock(refFile, levelsIn(refName) - 2,
+									rLck);
 						}
 					}
 				}
