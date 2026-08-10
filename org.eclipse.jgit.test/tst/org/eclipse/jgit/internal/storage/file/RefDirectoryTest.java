@@ -1362,6 +1362,25 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 				StringUtils.commonPrefix("refs/heads/", "refs/heads/main"));
 	}
 
+	@Test
+	public void testPackDoesNotUnlockHeldLocks() throws IOException {
+		String ref = "refs/heads/master";
+		writeLooseRef(ref, A);
+
+		File refFile = refdir.fileFor(ref);
+		LockFile held = new LockFile(refFile);
+		assertTrue("must acquire lock", held.lock());
+		try {
+			refdir.pack(Map.of(ref, held));
+			assertFalse("loose ref must be deleted after packing",
+					refFile.exists());
+			assertTrue("held lock must still be locked after pack()",
+					held.isLocked());
+		} finally {
+			held.unlock();
+		}
+	}
+
 	void writePackedRef(String name, AnyObjectId id) throws IOException {
 		writePackedRefs(id.name() + " " + name + "\n");
 	}

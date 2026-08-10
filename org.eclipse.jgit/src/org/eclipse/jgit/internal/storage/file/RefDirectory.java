@@ -842,8 +842,13 @@ public class RefDirectory extends RefDatabase {
 								}
 								newLoose = curLoose.remove(idx);
 							} while (!looseRefs.compareAndSet(curLoose, newLoose));
-							int levels = levelsIn(refName) - 2;
-							deleteAndUnlock(refFile, levels, rLck);
+							if (shouldUnlock) {
+								int levels = levelsIn(refName) - 2;
+								deleteAndUnlock(refFile, levels, rLck);
+								shouldUnlock = false;
+							} else {
+								delete(refFile);
+							}
 						}
 					} finally {
 						if (shouldUnlock) {
