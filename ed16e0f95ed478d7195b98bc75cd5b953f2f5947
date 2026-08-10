@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7d832ac_06fc3a90",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1536,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-10T22:48:16Z",
+      "side": 1,
+      "message": "Format with tabs (like rest of file)",
+      "revId": "ed16e0f95ed478d7195b98bc75cd5b953f2f5947",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
