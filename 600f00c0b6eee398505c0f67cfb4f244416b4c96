@@ -139,6 +139,29 @@
       "parentUuid": "f7e3c6d0_f26f21a3",
       "revId": "600f00c0b6eee398505c0f67cfb4f244416b4c96",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ed06f06_cf4ba5b0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 1039310
+      },
+      "writtenOn": "2026-08-10T22:48:31Z",
+      "side": 1,
+      "message": "Is below more readable? It will also skip the unnecessary call to `deleteEmptyParentDirs`.\n\n\n\n```suggestion\n\t\t\t\t\t\t\tif (shouldUnlock) {\n\t                                                \tdeleteAndUnlock(refFile, levels, rLck);\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\tdelete(refFile);\n\t\t\t\t\t\t\t}\n```",
+      "range": {
+        "startLine": 880,
+        "startChar": 0,
+        "endLine": 881,
+        "endChar": 36
+      },
+      "revId": "600f00c0b6eee398505c0f67cfb4f244416b4c96",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
