@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97b5362c_601802cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-10T22:28:37Z",
+      "side": 1,
+      "message": "I think this needs to more strongly indicate that this means that ref-updates can inadvertently get rewound, and that we believe we have seen this in production due to this.",
+      "revId": "600f00c0b6eee398505c0f67cfb4f244416b4c96",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dea6d91f_afae49c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-10T22:28:37Z",
+      "side": 1,
+      "message": "I would also hightlight how the contract in BatchPackedRefUpdater indicates that this should not happen.",
+      "revId": "600f00c0b6eee398505c0f67cfb4f244416b4c96",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a7bf4df_854204c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-10T22:28:37Z",
+      "side": 1,
+      "message": "Signed-off-by? (needed for jgit)",
+      "revId": "600f00c0b6eee398505c0f67cfb4f244416b4c96",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7e3c6d0_f26f21a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-10T22:28:37Z",
+      "side": 1,
+      "message": "Use delete() instead since there is no reason to ever unlock here (the finally takes care of it when it is needed).",
+      "revId": "600f00c0b6eee398505c0f67cfb4f244416b4c96",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
