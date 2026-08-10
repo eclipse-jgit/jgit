@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02b8eb38_f492290c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 1039310
+      },
+      "writtenOn": "2026-08-10T23:12:35Z",
+      "side": 1,
+      "message": "Why are you calling `deleteAndUnlock`, that will attempt the delete again? Maybe something like below?\n\n```suggestion\n\t\t\t\t\t} finally {\n\t\t\t\t\t\tif (shouldUnlock) {\n\t\t\t\t\t\t\trLck.unlock();\n\t\t\t\t\t\t}\n\t\t\t\t\t\tif (isDeleted) { // isDeleted is a new boolean that will be true when delete at 879 happens\n\t\t\t\t\t\t\tdeleteEmptyParentDirs(refFile, levelsIn(refName) - 2);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n```\n```",
+      "range": {
+        "startLine": 882,
+        "startChar": 0,
+        "endLine": 887,
+        "endChar": 6
+      },
+      "revId": "c46653dbc9b872f56afbad3184169e304af6c05e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
