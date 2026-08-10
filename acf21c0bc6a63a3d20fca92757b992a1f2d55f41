@@ -511,6 +511,24 @@
       "parentUuid": "803d7b52_da8525dc",
       "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "183e79ed_96331230",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-08-10T22:59:18Z",
+      "side": 1,
+      "message": "I\u0027m marking this resolved as it\u0027s being addressed in https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1245200",
+      "parentUuid": "9e5e4af5_7c0cc024",
+      "revId": "acf21c0bc6a63a3d20fca92757b992a1f2d55f41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
