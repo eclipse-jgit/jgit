@@ -16,6 +16,24 @@
       "message": "I think another important distinction is that maxConnections helps limit memory and socket resources, whereas maxStart helps limit networking BW and CPU. It might be worth explaining those in the docs for these configs.",
       "revId": "07e906834d49780cc408ff8a6eba30e3ff03b1d9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf86d605_9d0dd1ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-08-10T21:52:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2158f1a_60a8f1ae",
+      "revId": "07e906834d49780cc408ff8a6eba30e3ff03b1d9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
