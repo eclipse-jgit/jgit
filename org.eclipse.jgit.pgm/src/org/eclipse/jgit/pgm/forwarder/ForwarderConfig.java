@@ -10,17 +10,21 @@
 
 package org.eclipse.jgit.pgm.forwarder;
 
+import java.net.InetSocketAddress;
+import java.net.SocketOption;
+import java.net.StandardSocketOptions;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
+
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.pgm.Die;
 import org.eclipse.jgit.transport.Daemon;
 import org.eclipse.jgit.transport.forwarder.GitForwarderConfig;
 import org.eclipse.jgit.transport.forwarder.RoutingListener;
-
-import java.net.InetSocketAddress;
-import java.net.SocketOption;
-import java.net.StandardSocketOptions;
 
 /**
  * Parses forwarder configuration.
@@ -47,9 +51,33 @@ import java.net.StandardSocketOptions;
  *  # is free. Unlike maxConnections, this helps limit networking bandwidth
  *  # and CPU.
  *  maxStart = 10
+ *
+ * # Optional per-project limits; first matching section applies.
+ * # Pattern is a Java regex matched against the repo path (no .git suffix).
+ * [project "some/repo.*"]
+ *  maxConnections = 5
+ *  maxStart = 2
  * </pre>
  */
 class ForwarderConfig implements GitForwarderConfig {
+
+	/**
+	 * Per-project concurrency limit identified by a Java regex.
+	 *
+	 * @param pattern
+	 *            Java regex matched against the repo path (no .git suffix)
+	 * @param maxConnections
+	 *            hard cap; excess rejected immediately, or &lt;= 0 for no limit
+	 * @param maxStart
+	 *            soft cap; excess queued until a slot is free, or &lt;= 0 for
+	 *            no limit
+	 */
+	record RepositoryLimit(Pattern pattern, int maxConnections, int maxStart) {
+		boolean matches(String repo) {
+			return pattern.matcher(repo).matches();
+		}
+	}
+
 	private static final String GLOBAL = "global"; //$NON-NLS-1$
 
 	private static final String LISTEN = "listen"; //$NON-NLS-1$
@@ -61,6 +89,8 @@ class ForwarderConfig implements GitForwarderConfig {
 	private static final String MAX_CONNECTIONS = "maxConnections"; //$NON-NLS-1$
 
 	private static final String MAX_START = "maxStart"; //$NON-NLS-1$
+
+	private static final String PROJECT = "project"; //$NON-NLS-1$
 
 	private final InetSocketAddress listen;
 
@@ -93,7 +123,8 @@ class ForwarderConfig implements GitForwarderConfig {
 		this.remote = parseAddress(remoteValue);
 		this.routingListener = new FixedRouteListener(this.remote,
 				cfg.getInt(GLOBAL, null, MAX_CONNECTIONS, -1),
-				cfg.getInt(GLOBAL, null, MAX_START, -1));
+				cfg.getInt(GLOBAL, null, MAX_START, -1),
+				loadProjectLimits(cfg));
 		this.keepAlive = cfg.getBoolean(GLOBAL, null, KEEP_ALIVE, false);
 	}
 
@@ -125,6 +156,26 @@ class ForwarderConfig implements GitForwarderConfig {
 	 */
 	InetSocketAddress getRemote() {
 		return remote;
+	}
+
+	private static List<RepositoryLimit> loadProjectLimits(Config cfg)
+			throws Die {
+		Set<String> subsections = cfg.getSubsections(PROJECT);
+		List<RepositoryLimit> limits = new ArrayList<>();
+		for (String pattern : subsections) {
+			int maxConn = cfg.getInt(PROJECT, pattern, MAX_CONNECTIONS, -1);
+			int maxStart = cfg.getInt(PROJECT, pattern, MAX_START, -1);
+			if (maxConn <= 0 && maxStart <= 0) {
+				continue;
+			}
+			try {
+				limits.add(new RepositoryLimit(Pattern.compile(pattern),
+						maxConn, maxStart));
+			} catch (IllegalArgumentException e) {
+				throw new Die("Invalid project regex: " + pattern, e); //$NON-NLS-1$
+			}
+		}
+		return limits;
 	}
 
 	private InetSocketAddress parseAddress(String in) {
