@@ -16,6 +16,29 @@
       "message": "Format with tabs (like rest of file)",
       "revId": "ed16e0f95ed478d7195b98bc75cd5b953f2f5947",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af8c405f_0e6c2706",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 1039310
+      },
+      "writtenOn": "2026-08-10T22:52:12Z",
+      "side": 1,
+      "message": "`levels` is not needed? i.e the call to `deleteEmptyParentDirs` is not needed as we know the lock is held and the dir wont be empty.",
+      "range": {
+        "startLine": 880,
+        "startChar": 23,
+        "endLine": 880,
+        "endChar": 29
+      },
+      "revId": "ed16e0f95ed478d7195b98bc75cd5b953f2f5947",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
