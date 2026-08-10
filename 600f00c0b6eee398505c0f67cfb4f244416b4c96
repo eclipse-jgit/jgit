@@ -162,6 +162,30 @@
       },
       "revId": "600f00c0b6eee398505c0f67cfb4f244416b4c96",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6450cd8_ffbf8dac",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 1039310
+      },
+      "writtenOn": "2026-08-10T22:49:29Z",
+      "side": 1,
+      "message": "nvm, I didn\u0027t see the new patchset and the feedback.",
+      "parentUuid": "6ed06f06_cf4ba5b0",
+      "range": {
+        "startLine": 880,
+        "startChar": 0,
+        "endLine": 881,
+        "endChar": 36
+      },
+      "revId": "600f00c0b6eee398505c0f67cfb4f244416b4c96",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
