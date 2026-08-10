@@ -46,6 +46,30 @@
       },
       "revId": "c46653dbc9b872f56afbad3184169e304af6c05e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02439158_af85a7bd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 1039310
+      },
+      "writtenOn": "2026-08-10T23:20:11Z",
+      "side": 1,
+      "message": "\u003edelete part is no-op\n\nIt may not be in the future, so better to not do it, if it is not needed here. And, it will make the code hard to follow.",
+      "parentUuid": "81a62191_41da1578",
+      "range": {
+        "startLine": 882,
+        "startChar": 0,
+        "endLine": 887,
+        "endChar": 6
+      },
+      "revId": "c46653dbc9b872f56afbad3184169e304af6c05e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
