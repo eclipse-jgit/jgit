@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f0e52f5_dc071ac9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-10T21:34:58Z",
+      "side": 1,
+      "message": "I still don\u0027t understand well how this works, so maybe my comments are off. At least tests pass. Clarifications welcome.",
+      "revId": "314d29b3e97dc98b87a3668d41a1175660db989d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e8e9492_0fb5c599",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-10T21:34:58Z",
+      "side": 1,
+      "message": "We prefer early returns to keep the indentation small. \n\nIn this case, \"if parents \u003d\u003d 0, continue\".\n\nFew lines below:\nif (!visited.add(p.getId()) {\n   // Already visited\n   continue;\n}\n...",
+      "revId": "314d29b3e97dc98b87a3668d41a1175660db989d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f65ac5a7_7781a3e8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-10T21:34:58Z",
+      "side": 1,
+      "message": "I think Region.deepClone() does this (?).",
+      "revId": "314d29b3e97dc98b87a3668d41a1175660db989d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc3539f8_0b3350f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-10T21:34:58Z",
+      "side": 1,
+      "message": "This is browsing the parents until finding non-ignored... could we do that directly in this loop? What if we do here:\n\nif (... \u0026 ignoreIds.contains(n.sourceCommit.getId())) {\n   enqueue a copy of the candidate for each n.parent\n   continue;\n}\n\nThen the first non-ignored parent will follow the regular processing.",
+      "revId": "314d29b3e97dc98b87a3668d41a1175660db989d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cb3197f_5e81a258",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-10T21:34:58Z",
+      "side": 1,
+      "message": "This looks similar to what we do in processOne. If so, is this is only covering the case that each effective parent has only one parent himself and there are no renames?",
+      "revId": "314d29b3e97dc98b87a3668d41a1175660db989d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "701280be_59a026fb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-10T21:34:58Z",
+      "side": 1,
+      "message": "Previous code assumed that parent exists and sourceText was loaded... why is it now different?",
+      "revId": "314d29b3e97dc98b87a3668d41a1175660db989d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
