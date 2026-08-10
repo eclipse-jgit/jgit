@@ -877,7 +877,8 @@ public class RefDirectory extends RefDatabase {
 								newLoose = curLoose.remove(idx);
 							} while (!looseRefs.compareAndSet(curLoose, newLoose));
 							int levels = levelsIn(refName) - 2;
-							deleteAndUnlock(refFile, levels, rLck);
+							deleteAndUnlock(refFile, levels,
+								shouldUnlock ? rLck : null);
 							LOG.debug(JGitText.get().deleteLooseRef, refFile, clr_oid);
 						}
 					} finally {
