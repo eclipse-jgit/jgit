@@ -124,6 +124,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47e8b145_4b961c54",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/FixedRouteListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-08-10T21:52:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccc715c6_afa51c3b",
+      "revId": "a334247cb2c1834eeca540f0fb04c4f4c4b78766",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "46e18cc5_5087c6a3",
@@ -137,6 +155,24 @@
       "writtenOn": "2026-06-08T16:02:55Z",
       "side": 1,
       "message": "Already done on line 100?",
+      "revId": "a334247cb2c1834eeca540f0fb04c4f4c4b78766",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53debd3e_1b9e55bb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/forwarder/GitForwarder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-08-10T21:52:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46e18cc5_5087c6a3",
       "revId": "a334247cb2c1834eeca540f0fb04c4f4c4b78766",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
