@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56e135f3_250cdc0e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-08-11T07:11:28Z",
+      "side": 0,
+      "message": "I believe we may have the same issue at L746",
+      "range": {
+        "startLine": 879,
+        "startChar": 0,
+        "endLine": 880,
+        "endChar": 46
+      },
+      "revId": "d2e115ee637a88b087653ed71e78e055e6cbe5be",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
