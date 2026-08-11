@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06078f7e_81189524",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-08-11T20:18:11Z",
+      "side": 1,
+      "message": "Thanks for the review and insights! Your comments on processOne and renames prompted a bit of a redesign, and the new patchset is hopefully simpler and a bit more robust.\n\nInstead of jumping over commits in the commit graph (which missed renames and assumed line offsets didn\u0027t change), we now let ignored commits flow through standard processOne / processMerge diff processing.\n\n1. Normal blame diffs child vs parent, and attributes modified lines to the child.\n2. When the child commit is in ignoreIds, Candidate.takeBlame() translates those modified line coordinates into the parent\u0027s coordinate space (Candidate.addIgnoredEdit) and transfers them to the parent candidate instead of claiming them on the child.\n3. File renames, line additions/deletions, and multi-parent merges now work naturally out of the box using JGit\u0027s existing diff pipeline.\n\nThe custom graph-bypassing logic (getEffectiveParents, findNonIgnoredAncestors, cloneRegionList) and the bypass block in next() have been completely removed.",
+      "parentUuid": "7f0e52f5_dc071ac9",
+      "revId": "314d29b3e97dc98b87a3668d41a1175660db989d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e8e9492_0fb5c599",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-10T21:34:58Z",
       "side": 1,
       "message": "We prefer early returns to keep the indentation small. \n\nIn this case, \"if parents \u003d\u003d 0, continue\".\n\nFew lines below:\nif (!visited.add(p.getId()) {\n   // Already visited\n   continue;\n}\n...",
+      "revId": "314d29b3e97dc98b87a3668d41a1175660db989d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d259cccc_55d69ac6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-08-11T20:18:11Z",
+      "side": 1,
+      "message": "Method removed in the new patchset.",
+      "parentUuid": "7e8e9492_0fb5c599",
       "revId": "314d29b3e97dc98b87a3668d41a1175660db989d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -52,6 +88,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95c98680_8fb64ca1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-08-11T20:18:11Z",
+      "side": 1,
+      "message": "Method removed in the new patchset (and confirmed Region.deepCopy() is the standard helper).",
+      "parentUuid": "f65ac5a7_7781a3e8",
+      "revId": "314d29b3e97dc98b87a3668d41a1175660db989d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc3539f8_0b3350f7",
@@ -65,6 +119,24 @@
       "writtenOn": "2026-08-10T21:34:58Z",
       "side": 1,
       "message": "This is browsing the parents until finding non-ignored... could we do that directly in this loop? What if we do here:\n\nif (... \u0026 ignoreIds.contains(n.sourceCommit.getId())) {\n   enqueue a copy of the candidate for each n.parent\n   continue;\n}\n\nThen the first non-ignored parent will follow the regular processing.",
+      "revId": "314d29b3e97dc98b87a3668d41a1175660db989d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85ebc85a_0838cc0f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-08-11T20:18:11Z",
+      "side": 1,
+      "message": "Done. Removed getEffectiveParents and this entire bypass block. Commits now step through next() and processOne() / processMerge() naturally.",
+      "parentUuid": "bc3539f8_0b3350f7",
       "revId": "314d29b3e97dc98b87a3668d41a1175660db989d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -86,6 +158,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3738e4c_e584face",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-08-11T20:18:11Z",
+      "side": 1,
+      "message": "This was the key insight. Bypassing processOne was not a good idea, it would have not handled file renames and line-coordinate transformations across formatting changes. In the new patchset, we removed this bypass entirely and integrated the ignore handling into Candidate.takeBlame(), so processOne (and rename detection) does the hanlding.",
+      "parentUuid": "1cb3197f_5e81a258",
+      "revId": "314d29b3e97dc98b87a3668d41a1175660db989d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "701280be_59a026fb",
@@ -99,6 +189,24 @@
       "writtenOn": "2026-08-10T21:34:58Z",
       "side": 1,
       "message": "Previous code assumed that parent exists and sourceText was loaded... why is it now different?",
+      "revId": "314d29b3e97dc98b87a3668d41a1175660db989d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a149a5a_04c59383",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-08-11T20:18:11Z",
+      "side": 1,
+      "message": "Reverted. These defensive checks were only needed due to the previous graph-skipping logic.",
+      "parentUuid": "701280be_59a026fb",
       "revId": "314d29b3e97dc98b87a3668d41a1175660db989d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
