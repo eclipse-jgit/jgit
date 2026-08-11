@@ -56,6 +56,23 @@
       "message": "trigger build",
       "revId": "afc50dd2894ecbdcd03033d5b8c0a29ecaa3871f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d2aa5d3_3df38ba4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-11T19:18:03Z",
+      "side": 1,
+      "message": "It would be better to not add more state tracking here with variables. I think it might be cleare to do something like:\n\n```\nif (shouldUnlock) {\n  deleteAndUnlock(refFile, levelsIn(refName) - 2, rLck);\n} else {\n  delete(refFile);\n}\n```\nAnd leave the exception handling as is?\n\nIf you don\u0027t like having an rLck.unlock() potentially called twice (which is actually OK to do), that could be prevented by adding: ```shouldUnlock \u003d false;``` here.",
+      "revId": "afc50dd2894ecbdcd03033d5b8c0a29ecaa3871f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
