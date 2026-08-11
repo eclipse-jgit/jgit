@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32b54774_6da1e6c9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1541,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-08-11T21:41:27Z",
+      "side": 1,
+      "message": "nit: Use `fileFor()`\n\n```suggestion\n\t\tFile refFile \u003d refdir.fileFor(ref);\n```",
+      "revId": "504bb52fb8660eaeb8a6aa6ae3b107822627e041",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
