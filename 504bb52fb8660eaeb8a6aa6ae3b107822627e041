@@ -16,6 +16,24 @@
       "message": "nit: Use `fileFor()`\n\n```suggestion\n\t\tFile refFile \u003d refdir.fileFor(ref);\n```",
       "revId": "504bb52fb8660eaeb8a6aa6ae3b107822627e041",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81e27932_924ebc4f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/RefDirectoryTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1541,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-08-11T23:13:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32b54774_6da1e6c9",
+      "revId": "504bb52fb8660eaeb8a6aa6ae3b107822627e041",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
