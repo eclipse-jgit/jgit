@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61cc1603_995aeb2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-08-11T05:37:31Z",
+      "side": 1,
+      "message": "Can you please create a bug on the JGit issue tracker for this?\nI have also seen refs rewind in production, so it could well be that was the same issues.\n\nHaving an official issue would help pull all the strings together.",
+      "range": {
+        "startLine": 12,
+        "startChar": 27,
+        "endLine": 13,
+        "endChar": 40
+      },
+      "revId": "afc50dd2894ecbdcd03033d5b8c0a29ecaa3871f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c322a32c_e8ddf91c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-08-11T05:37:31Z",
+      "side": 1,
+      "message": "Once merged, we should also backport to the earliest supported stable branch.",
+      "revId": "afc50dd2894ecbdcd03033d5b8c0a29ecaa3871f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
