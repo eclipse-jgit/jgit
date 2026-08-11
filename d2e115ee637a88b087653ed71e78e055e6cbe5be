@@ -22,6 +22,30 @@
       },
       "revId": "d2e115ee637a88b087653ed71e78e055e6cbe5be",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14578ad5_0d4ec5b2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-08-11T19:11:27Z",
+      "side": 0,
+      "message": "This doesn\u0027t seem to be a issue. Also, since its not in the flow of pack() could be dealt in different change.",
+      "parentUuid": "56e135f3_250cdc0e",
+      "range": {
+        "startLine": 879,
+        "startChar": 0,
+        "endLine": 880,
+        "endChar": 46
+      },
+      "revId": "d2e115ee637a88b087653ed71e78e055e6cbe5be",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
