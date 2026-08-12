@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d3801a3_a0b17423",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-12T22:49:14Z",
+      "side": 1,
+      "message": "I consider this a bug fix, so getting this on a stable branch would be nice.",
+      "revId": "a0e28e6c56c3e309be9342efe7141a44bb19a354",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
