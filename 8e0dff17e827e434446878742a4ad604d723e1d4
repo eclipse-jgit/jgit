@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4cb7ba6_6fe289ca",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-12T03:03:59Z",
+      "side": 1,
+      "message": "This isn\u0027t safe unless the try block which currently starts on line 163 is moved below this.",
+      "revId": "8e0dff17e827e434446878742a4ad604d723e1d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
