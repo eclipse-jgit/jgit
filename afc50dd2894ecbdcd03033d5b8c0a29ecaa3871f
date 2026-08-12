@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0345eef6_e63a00f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1039310
+      },
+      "writtenOn": "2026-08-12T17:56:22Z",
+      "side": 1,
+      "message": "Add it as a footer in the commit-message too?\n`Bug: jgit-281`",
+      "parentUuid": "147b9500_6dd447c8",
+      "range": {
+        "startLine": 12,
+        "startChar": 27,
+        "endLine": 13,
+        "endChar": 40
+      },
+      "revId": "afc50dd2894ecbdcd03033d5b8c0a29ecaa3871f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c322a32c_e8ddf91c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
