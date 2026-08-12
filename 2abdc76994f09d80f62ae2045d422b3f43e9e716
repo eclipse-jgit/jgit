@@ -16,6 +16,23 @@
       "message": "trigger build",
       "revId": "2abdc76994f09d80f62ae2045d422b3f43e9e716",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4f1d016_c68fb826",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-08-12T03:40:22Z",
+      "side": 1,
+      "message": "(going back to +1 since there\u0027s no \"unresolved comments\" submit requirement)",
+      "revId": "2abdc76994f09d80f62ae2045d422b3f43e9e716",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
