@@ -16,6 +16,23 @@
       "message": "We should block submitting this until Eclipse switched to JDK 25.",
       "revId": "f84633d69da07b4d985ff859b08c5981c58056a6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca33996b_d9fa3e7e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-08-12T08:15:06Z",
+      "side": 1,
+      "message": "The Eclipse Packaging Project (EPP) [recently updated to Java 25 in Eclipse IDE 2026-09 M2](https://github.com/HeikoKlare/eclipse-simrel-.github/blob/2a3f484448d13de1c22d84b2e3fd37e1e8799892/wiki/Planning_Council/2026-08-05.md) which will be released Sep 9. Though so far none of the components contributing to Eclipse IDE already requires Java 25.",
+      "revId": "f84633d69da07b4d985ff859b08c5981c58056a6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
