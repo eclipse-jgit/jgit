@@ -1,0 +1,12 @@
+Code-Review+2: Nasser Grainawi <nasser.grainawi@oss.qualcomm.com>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+2: Martin Fick <mfick@nvidia.com>
+Verified+1: eclipse-jgit-bot <jgit-bot@eclipse.org>
+Code-Review+2: Luca Milanesio <luca.milanesio@gmail.com>
+Submitted-by: Martin Fick <mfick@nvidia.com>
+Submitted-at: Thu, 13 Aug 2026 15:43:03 +0000
+Reviewed-on: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1245200
+Comments-Total: 35
+Comments-Unresolved: 1
+Project: eclipse-jgit/jgit
+Branch: refs/heads/master
