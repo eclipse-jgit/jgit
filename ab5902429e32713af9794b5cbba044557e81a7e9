@@ -16,6 +16,24 @@
       "message": "This currently does not benefit from retrying the loose ref locks as lockLooseRefs() does, so it could fail more easily. Now, it would be easy to move the call to lockLoosRefs() before this. If we did, we would get the benefit of early return when there\u0027s nothing to lock, retry more, and more importantly we could continue to hold the loose ref locks for both repacks (if we pass them in as heldlocks to both repacks), decreasing the chance of being slowed down or even failing the transaction if the locks are grabbed by another thread.",
       "revId": "ab5902429e32713af9794b5cbba044557e81a7e9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a839f111_657ce8ae",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-13T23:12:23Z",
+      "side": 1,
+      "message": "Argh, this is actually hard to do, but maybe we can figure it out anyway. The issue is that the first pack does not pass in held locks because in the special delete case this is handling, you cannot get all the locks at the same time. It repacks, and then gets each lock one at a time while deleting the ref (including the ref which will become a \"directory\" in the future). This clears the way for the next repack to get the locks for the new refs. I think we would need to pass in the locks only for refs which are not new (since they can\u0027t be created due to the file/dir conflict). Then before the second repack we would need to additionally get the locks for the new refs (in case they had been created already in the meantime by another thread. Alternatively, we could just pass in the lock for the ref to be deleted up front, and only if there is one; this starts to move towards this change then -\u003e https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1240100.",
+      "parentUuid": "1efc42c9_1e04e186",
+      "revId": "ab5902429e32713af9794b5cbba044557e81a7e9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
