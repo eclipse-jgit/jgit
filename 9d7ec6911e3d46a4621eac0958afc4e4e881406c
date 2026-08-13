@@ -34,6 +34,24 @@
       "parentUuid": "97122167_4b8bea3e",
       "revId": "9d7ec6911e3d46a4621eac0958afc4e4e881406c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb3b2cb7_b54e00eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-08-13T07:47:28Z",
+      "side": 1,
+      "message": "- gerrit stable-3.12 and stable-3.13 currently use jgit 7.5, stable-3.14 uses jgit stable-7.7\n- if you want you can backport it to stable-6.10",
+      "parentUuid": "5fe5f0f0_2f336256",
+      "revId": "9d7ec6911e3d46a4621eac0958afc4e4e881406c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
