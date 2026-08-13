@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97122167_4b8bea3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-08-13T07:13:57Z",
+      "side": 1,
+      "message": "I believe this fix *must* be backported also to the stable branches, at least stable-7.4, isn\u0027t it?",
+      "revId": "9d7ec6911e3d46a4621eac0958afc4e4e881406c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
