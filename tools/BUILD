@@ -7,7 +7,11 @@ load("@rules_java//java:defs.bzl", "java_package_configuration")
 default_java_toolchain(
     name = "error_prone_warnings_toolchain_java17",
     configuration = dict(),
-    java_runtime = "@rules_java//toolchains:remotejdk_17",
+    # Run JavaBuilder/Turbine on JDK 21: the tools shipped with rules_java
+    # 9.8.0 are compiled for JDK 21 and fail on a 17 runtime with
+    # UnsupportedClassVersionError. source/target stay 17 so the produced
+    # bytecode is still Java 17 compatible.
+    java_runtime = "@rules_java//toolchains:remotejdk_21",
     package_configuration = [
         ":error_prone",
         ":error_prone_tests",
