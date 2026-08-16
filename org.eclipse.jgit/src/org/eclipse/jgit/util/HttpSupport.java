@@ -14,7 +14,6 @@ package org.eclipse.jgit.util;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.Proxy;
 import java.net.ProxySelector;
@@ -178,11 +177,7 @@ public class HttpSupport {
 	public static void encode(StringBuilder urlstr, String key) {
 		if (key == null || key.length() == 0)
 			return;
-		try {
-			urlstr.append(URLEncoder.encode(key, UTF_8.name()));
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(JGitText.get().couldNotURLEncodeToUTF8, e);
-		}
+		urlstr.append(URLEncoder.encode(key, UTF_8));
 	}
 
 	/**
@@ -200,12 +195,7 @@ public class HttpSupport {
 	 */
 	public static String urlEncode(String url, boolean keepPathSlash) {
 		String encoded;
-		try {
-			encoded = URLEncoder.encode(url, UTF_8.name());
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(JGitText.get().couldNotURLEncodeToUTF8,
-					e);
-		}
+		encoded = URLEncoder.encode(url, UTF_8);
 		if (keepPathSlash) {
 			encoded = encoded.replace("%2F", "/"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
