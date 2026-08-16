@@ -171,7 +171,7 @@ public abstract class GitHook<T> implements Callable<T> {
 				getStdinArgs());
 		if (result.isExecutedWithError()) {
 			handleError(new String(errorByteArray.toByteArray(),
-					SystemReader.getInstance().getDefaultCharset().name()),
+					SystemReader.getInstance().getDefaultCharset()),
 					result);
 		}
 	}

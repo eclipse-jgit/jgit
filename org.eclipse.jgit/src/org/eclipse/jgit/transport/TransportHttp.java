@@ -42,7 +42,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpCookie;
 import java.net.MalformedURLException;
 import java.net.Proxy;
@@ -618,14 +617,13 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				// User/password are _not_ application/x-www-form-urlencoded. In
 				// particular the "+" sign would be replaced by a space.
 				user = URLDecoder.decode(user.replace("+", "%2B"), //$NON-NLS-1$ //$NON-NLS-2$
-						StandardCharsets.UTF_8.name());
+						StandardCharsets.UTF_8);
 				pass = URLDecoder.decode(pass.replace("+", "%2B"), //$NON-NLS-1$ //$NON-NLS-2$
-						StandardCharsets.UTF_8.name());
+						StandardCharsets.UTF_8);
 				HttpAuthMethod basic = HttpAuthMethod.Type.BASIC.method(null);
 				basic.authorize(user, pass);
 				return basic;
-			} catch (IllegalArgumentException
-					| UnsupportedEncodingException e) {
+			} catch (IllegalArgumentException e) {
 				LOG.warn(JGitText.get().httpUserInfoDecodeError, u);
 			}
 		}
