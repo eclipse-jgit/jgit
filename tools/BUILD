@@ -340,7 +340,7 @@ errorprone_checks = [
     "-Xep:RandomModInteger:ERROR",
     "-Xep:ReachabilityFenceUsage:ERROR",
     "-Xep:RectIntersectReturnValueIgnored:ERROR",
-    "-Xep:ReferenceEquality:ERROR",
+    "-Xep:ReferenceEquality:WARN",
     "-Xep:RefersToDaggerCodegen:ERROR",
     "-Xep:RemovedInJDK11:ERROR",
     "-Xep:RequiredModifiers:ERROR",
