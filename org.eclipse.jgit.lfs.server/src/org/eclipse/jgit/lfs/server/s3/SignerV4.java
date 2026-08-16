@@ -13,7 +13,6 @@ package org.eclipse.jgit.lfs.server.s3;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.util.HttpSupport.HDR_AUTHORIZATION;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
@@ -360,11 +359,7 @@ class SignerV4 {
 
 	private static String urlEncode(String url, boolean keepPathSlash) {
 		String encoded;
-		try {
-			encoded = URLEncoder.encode(url, UTF_8.name());
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(LfsServerText.get().unsupportedUtf8, e);
-		}
+		encoded = URLEncoder.encode(url, UTF_8);
 		if (keepPathSlash) {
 			encoded = encoded.replace("%2F", "/"); //$NON-NLS-1$ //$NON-NLS-2$
 		}

@@ -119,7 +119,7 @@ public class FS_POSIX extends FS {
 					null, null);
 			try (BufferedReader lineRead = new BufferedReader(
 					new InputStreamReader(p.getInputStream(), SystemReader
-							.getInstance().getDefaultCharset().name()))) {
+							.getInstance().getDefaultCharset()))) {
 				if (p.waitFor() == 0) {
 					String s = lineRead.readLine();
 					if (s != null && s.matches("0?\\d{3}")) { //$NON-NLS-1$

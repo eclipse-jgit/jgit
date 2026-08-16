@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.FileStore;
 import java.nio.file.Files;
@@ -1343,8 +1344,14 @@ public abstract class FS {
 			GobblerThread gobbler = new GobblerThread(p, command, dir);
 			gobbler.start();
 			String r = null;
+			Charset charset;
+			try {
+				charset = Charset.forName(encoding);
+			} catch (IllegalArgumentException e) {
+				throw new IOException("Unsupported charset: " + encoding, e); //$NON-NLS-1$
+			}
 			try (BufferedReader lineRead = new BufferedReader(
-					new InputStreamReader(p.getInputStream(), encoding))) {
+					new InputStreamReader(p.getInputStream(), charset))) {
 				r = lineRead.readLine();
 				if (debug) {
 					LOG.debug("readpipe may return '{}'", //$NON-NLS-1$
