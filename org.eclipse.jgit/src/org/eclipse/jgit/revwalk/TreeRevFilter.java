@@ -136,6 +136,7 @@ public class TreeRevFilter extends RevFilter {
 					changedPathFilterUsed);
 			if (mustCalculateChgs) {
 				while (tw.next()) {
+					walker.checkCancelled();
 					chgs++;
 					if (tw.getRawMode(0) == 0 && tw.getRawMode(1) != 0) {
 						adds++;
@@ -197,6 +198,7 @@ public class TreeRevFilter extends RevFilter {
 		while (tw.next()) {
 			int myMode = tw.getRawMode(nParents);
 			for (int i = 0; i < nParents; i++) {
+				walker.checkCancelled();
 				int pMode = tw.getRawMode(i);
 				if (myMode == pMode && tw.idEqual(i, nParents)) {
 					continue;
