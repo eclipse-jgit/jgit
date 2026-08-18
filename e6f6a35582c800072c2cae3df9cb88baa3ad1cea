@@ -39,6 +39,30 @@
       },
       "revId": "e6f6a35582c800072c2cae3df9cb88baa3ad1cea",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3020a246_5783d116",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-08-18T21:07:32Z",
+      "side": 1,
+      "message": "Not needed. That will be added while upmerging. (not part of this change)",
+      "parentUuid": "733fb66c_df0a7739",
+      "range": {
+        "startLine": 845,
+        "startChar": 0,
+        "endLine": 857,
+        "endChar": 115
+      },
+      "revId": "e6f6a35582c800072c2cae3df9cb88baa3ad1cea",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
