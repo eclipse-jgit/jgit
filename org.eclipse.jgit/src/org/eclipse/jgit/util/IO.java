@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InterruptedIOException;
 import java.io.Reader;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
@@ -31,6 +32,19 @@ import org.eclipse.jgit.util.io.SilentFileInputStream;
  * Input/Output utilities
  */
 public class IO {
+	/**
+	 * Check wether the current thread is interruptes and throw an
+	 * InterruptedIOException if so.
+	 *
+	 * @throws java.io.InterruptedIOException
+	 *             if the current thread is interrupted
+	 * @since 6.10
+	 */
+	public static void throwIfInterrupted() throws InterruptedIOException {
+		if (Thread.currentThread().isInterrupted()) {
+			throw new InterruptedIOException();
+		}
+	}
 
 	/**
 	 * Read an entire local file into memory as a byte array.

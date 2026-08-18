@@ -50,6 +50,7 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.IO;
 
 /**
  * Traditional file system based {@link org.eclipse.jgit.lib.ObjectDatabase}.
@@ -327,6 +328,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	void resolve(Set<ObjectId> matches, AbbreviatedObjectId id)
 			throws IOException {
+		IO.throwIfInterrupted();
 		resolve(matches, id, null);
 	}
 
@@ -353,6 +355,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	ObjectLoader openObject(WindowCursor curs, AnyObjectId objectId)
 			throws IOException {
+		IO.throwIfInterrupted();
 		ObjectLoader ldr = getFromLocalObjectToPack(curs, objectId,
 				(p, c, l) -> p.load(c, l.offset));
 		if (ldr == null) {
@@ -425,6 +428,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	ObjectLoader openLooseObject(WindowCursor curs, AnyObjectId id)
 			throws IOException {
+		IO.throwIfInterrupted();
 		return loose.open(curs, id);
 	}
 
@@ -515,6 +519,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	void selectObjectRepresentation(PackWriter packer, ObjectToPack otp,
 			WindowCursor curs) throws IOException {
+		IO.throwIfInterrupted();
 		selectObjectRepresentation(packer, otp, curs, null);
 	}
 
