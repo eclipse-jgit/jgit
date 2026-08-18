@@ -16,6 +16,29 @@
       "message": "@achakilam@nvidia.com are you planning on working on this?\nI don\u0027t have access to jenkins to investigate the failure, locally tests seem to pass for me.",
       "revId": "e6f6a35582c800072c2cae3df9cb88baa3ad1cea",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "733fb66c_df0a7739",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1020677
+      },
+      "writtenOn": "2026-08-18T07:17:40Z",
+      "side": 1,
+      "message": "This should resolve the conflict.\n\n```suggestion\n\t\t\t\t\t\t\tint levels \u003d levelsIn(refName) - 2;\n\t\t\t\t\t\t\tdeleteAndUnlock(refFile, levels, rLck);\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\t\t\t\t\t\t\tif (shouldUnlock) {\n\t\t\t\t\t\t\t\tint levels \u003d levelsIn(refName) - 2;\n\t\t\t\t\t\t\t\tdeleteAndUnlock(refFile, levels, rLck);\n\t\t\t\t\t\t\t\tshouldUnlock \u003d false;\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\tdelete(refFile);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\tLOG.debug(JGitText.get().deleteLooseRef, refFile, clr_oid);\n```\n\nYou\u0027ll also need to add \n```\ndeleteLooseRef\u003dDeleted loose ref {}, object Id {}\n```\n\nto `org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties` and\n\n```\n/***/ public String deleteLooseRef;\n```\n\nto `org.eclipse.jgit/src/org/eclipse/jgit/internal/JGitText.java`\n\nAs `JGitText.get().deleteLooseRef` was added by Ponch with I8a1144042, which isn\u0027t present here.",
+      "range": {
+        "startLine": 845,
+        "startChar": 0,
+        "endLine": 857,
+        "endChar": 115
+      },
+      "revId": "e6f6a35582c800072c2cae3df9cb88baa3ad1cea",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
