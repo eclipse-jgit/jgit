@@ -43,6 +43,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.util.IO;
 
 /** Active handle to a ByteWindow. */
 final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
@@ -180,6 +181,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	public void copyObjectAsIs(PackOutputStream out, ObjectToPack otp,
 			boolean validate) throws IOException,
 			StoredObjectRepresentationNotAvailableException {
+		IO.throwIfInterrupted();
 		LocalObjectToPack src = (LocalObjectToPack) otp;
 		src.pack.copyAsIs(out, src, validate, this);
 	}
