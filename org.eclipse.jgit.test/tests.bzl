@@ -1,13 +1,14 @@
-'''
+"""
 Expose each test as a bazel target
-'''
+"""
+
 load(
     "@com_googlesource_gerrit_bazlets//tools:junit.bzl",
     "junit_tests",
 )
 
-def tests(tests, srcprefix="tst/", extra_tags=[]):
-    '''
+def tests(tests, srcprefix = "tst/", extra_tags = []):
+    """
     Create a target each of the tests
 
     Each target is the full push (removing srcprefix) replacing directory
@@ -21,7 +22,7 @@ def tests(tests, srcprefix="tst/", extra_tags=[]):
       srcprefix: prefix between org.eclipse.jgit.tests and the package
         start
       extra_tags: additional tags to add to the generated targets
-    '''
+    """
     for src in tests:
         name = src[len(srcprefix):len(src) - len(".java")].replace("/", "_")
         labels = []
@@ -71,6 +72,11 @@ def tests(tests, srcprefix="tst/", extra_tags=[]):
                 "//lib:commons-compress",
                 "//lib:xz",
                 "//org.eclipse.jgit.archive:jgit-archive",
+            ]
+        if src.endswith("RevWalkSortTest.java") or \
+           src.endswith("RevWalkSortTopoWithCommitGraphTest.java"):
+            additional_deps = [
+                "//lib:assertj-core",
             ]
         if src.endswith("FileRepositoryBuilderAfterOpenConfigTest.java") or \
            src.endswith("RefDirectoryAfterOpenConfigTest.java") or \

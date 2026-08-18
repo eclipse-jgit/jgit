@@ -254,4 +254,26 @@ public class ManifestParserTest {
 		assertTrue(e.getCause().getMessage().contains("DOCTYPE"));
 	}
 
+	@Test
+	public void testManifestParserWithReview() throws Exception {
+		String baseUrl = "https://git.google.com/";
+		StringBuilder xmlContent = new StringBuilder();
+		xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+				.append("<manifest>")
+				.append("<remote name=\"remote1\" fetch=\".\" review=\"https://review-1.com\" />")
+				.append("<remote name=\"remote2\" fetch=\".\" review=\"https://review-2.com\" />")
+				.append("<default revision=\"master\" remote=\"remote1\" />")
+				.append("<project path=\"foo\" name=\"foo\" />")
+				.append("<project path=\"bar\" name=\"bar\" remote=\"remote2\" />")
+				.append("</manifest>");
+
+		ManifestParser parser = new ManifestParser(null, null, "master", baseUrl, null, null);
+		parser.read(new ByteArrayInputStream(xmlContent.toString().getBytes(UTF_8)));
+
+		Map<String, RepoProject> map = parser.getProjects().stream()
+				.collect(Collectors.toMap(RepoProject::getPath, Function.identity()));
+		assertEquals("https://review-1.com", map.get("foo").getReview());
+		assertEquals("https://review-2.com", map.get("bar").getReview());
+	}
+
 }

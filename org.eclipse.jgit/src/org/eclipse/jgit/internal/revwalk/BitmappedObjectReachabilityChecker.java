@@ -69,7 +69,7 @@ public class BitmappedObjectReachabilityChecker
 						true);
 				seen = seen == null ? visited : seen.or(visited);
 
-				remainingTargets.removeIf(seen::contains);
+				remainingTargets.removeIf(visited::contains);
 				if (remainingTargets.isEmpty()) {
 					return Optional.empty();
 				}

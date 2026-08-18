@@ -192,6 +192,11 @@ class BareSuperprojectWriter {
 					rec.append(" "); //$NON-NLS-1$
 					rec.append(group);
 				}
+				String reviewHost = getPlainHost(proj.getReview());
+				if (reviewHost != null && !reviewHost.isEmpty()) {
+					rec.append(" remote-review="); //$NON-NLS-1$
+					rec.append(reviewHost);
+				}
 				rec.append("\n"); //$NON-NLS-1$
 				attributes.append(rec.toString());
 			}
@@ -319,5 +324,38 @@ class BareSuperprojectWriter {
 		}
 
 		return rw.parseCommit(commitId);
+	}
+
+	private static String getReviewHost(String reviewUrl) {
+		if (reviewUrl == null) {
+			return null;
+		}
+		try {
+			if (!reviewUrl.contains("://")) { //$NON-NLS-1$
+				reviewUrl = "https://" + reviewUrl; //$NON-NLS-1$
+			}
+			return URI.create(reviewUrl).getHost();
+		} catch (IllegalArgumentException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Return the host name without "-review" suffix.
+	 *
+	 * @param reviewUrl
+	 *            the review URL
+	 * @return host name without "-review" suffix
+	 */
+	private static String getPlainHost(String reviewUrl) {
+		String host = getReviewHost(reviewUrl);
+		if (host == null) {
+			return null;
+		}
+		int reviewIdx = host.indexOf("-review"); //$NON-NLS-1$
+		if (reviewIdx != -1) {
+			return host.substring(0, reviewIdx);
+		}
+		return host;
 	}
 }

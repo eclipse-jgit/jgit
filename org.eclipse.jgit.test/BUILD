@@ -24,6 +24,7 @@ HELPERS = glob(
     "nls/MissingPropertyBundle.java",
     "nls/NoPropertiesBundle.java",
     "nls/NonTranslatedBundle.java",
+    "revwalk/AbstractRevWalkWithCommitGraphTest.java",
     "revwalk/RevQueueTestCase.java",
     "revwalk/RevWalkTestCase.java",
     "transport/ObjectIdMatcher.java",

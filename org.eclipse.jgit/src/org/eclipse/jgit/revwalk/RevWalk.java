@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -179,7 +180,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	static final int RESERVED_FLAGS = 9;
 
-	private static final int APP_FLAGS = -1 & ~((1 << RESERVED_FLAGS) - 1);
+	static final int APP_FLAGS = -1 & ~((1 << RESERVED_FLAGS) - 1);
 
 	final ObjectReader reader;
 
@@ -218,6 +219,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	private boolean firstParent;
 
 	boolean shallowCommitsInitialized;
+
+	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
 	private enum GetMergedIntoStrategy {
 		RETURN_ON_FIRST_FOUND, RETURN_ON_FIRST_NOT_FOUND, EVALUATE_ALL
@@ -675,7 +678,39 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	public RevCommit next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
+		checkCancelled();
 		return pending.next();
+	}
+
+	/**
+	 * Set a progress monitor to cooperatively cancel this walk.
+	 * <p>
+	 * The walk periodically checks {@link ProgressMonitor#isCancelled()}
+	 * during traversal and aborts with a
+	 * {@link org.eclipse.jgit.errors.CancelledException} once the monitor
+	 * reports cancellation.
+	 *
+	 * @param monitor
+	 *            monitor to poll for cancellation, or {@code null} to stop
+	 *            checking for cancellation.
+	 * @since 7.8
+	 */
+	public void setProgressMonitor(ProgressMonitor monitor) {
+		this.monitor = monitor == null ? NullProgressMonitor.INSTANCE
+				: monitor;
+	}
+
+	/**
+	 * Check whether this walk has been cooperatively cancelled.
+	 *
+	 * @throws CancelledException
+	 *             if the configured {@link ProgressMonitor} reports
+	 *             cancellation, or if the current thread was interrupted.
+	 */
+	void checkCancelled() throws CancelledException {
+		if (monitor.isCancelled() || Thread.currentThread().isInterrupted()) {
+			throw new CancelledException(JGitText.get().operationCanceled);
+		}
 	}
 
 	/**
@@ -1524,6 +1559,32 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		} else {
 			delayFreeFlags |= mask;
 		}
+	}
+
+	/**
+	 * Arrange for flags to be recycled at the next {@code reset}.
+	 * <p>
+	 * Unlike {@link #freeFlag(int)}, this <em>always</em> defers: the flags
+	 * join the {@link #delayFreeFlags} set and are only returned to the
+	 * {@link #freeFlags} by an invocation of a {@code reset} method. If the
+	 * flags were marked {@code retainOnReset}, that request is cleared.
+	 * <p>
+	 * <strong>Only call this while a {@link Generator} is under
+	 * construction</strong> - i.e. from within the call chain of
+	 * {@link StartGenerator#next()}. At that point {@link #pending} is still
+	 * the {@link StartGenerator}, so {@link #isNotStarted()} reports
+	 * {@code true} and {@link #freeFlag(int)} would return the flags to
+	 * {@link #freeFlags} immediately. The next {@link #newFlag(String)} would
+	 * then hand the same bits to an unrelated caller, silently corrupting both
+	 * walks. Calling this from anywhere else is almost certainly a mistake; use
+	 * {@link #disposeFlag(RevFlag)} instead.
+	 *
+	 * @param mask
+	 *            the flag bits to recycle at the next {@code reset}.
+	 */
+	final void freeFlagOnReset(int mask) {
+		retainOnReset &= ~mask;
+		delayFreeFlags |= mask;
 	}
 
 	private void finishDelayedFreeFlags() {
