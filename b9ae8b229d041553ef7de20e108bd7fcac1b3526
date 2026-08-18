@@ -16,6 +16,24 @@
       "message": "I think we should not submit this without anybody asking for it",
       "revId": "b9ae8b229d041553ef7de20e108bd7fcac1b3526",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "157f836b_fe851d1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-08-18T05:58:45Z",
+      "side": 1,
+      "message": "@matthias.sohn@sap.com — the condition I abandoned this under (\"only consider submitting it if another project really needs it\") is now met.\n\nGerrit is moving to consume released JGit from Maven artifacts instead of building it from source: https://gerrit-review.googlesource.com/c/gerrit/+/620125. For the Servlet-4 (javax) flavour Gerrit ships, that requires the EE8 bundles (org.eclipse.jgit.http.server.ee8, junit.http.ee8, lfs.server.ee8) to be resolvable from Maven Central — and only JGit can publish those under the org.eclipse.jgit coordinates.\n\nOne clarification on the original concern: the co-install collision that motivated keeping EE8 out of the p2 update site does not apply to Maven Central. p2 auto-installs co-installable features onto a shared classpath, so an EE8 bundle and its jakarta counterpart could collide there — which is why this change deliberately keeps EE8 off p2, and that\u0027s still the right call. Maven consumers instead resolve explicit coordinates and never place both variants on one classpath, so there is no equivalent collision risk on Central.\n\nThis also needs no new publishing infrastructure. Restoring the change is enough — it already wires the EE8 tree into the default Maven reactor (root pom.xml \u003cmodules\u003e), and the modules inherit JGit\u0027s existing release deploy (repo.eclipse.org → Central), the eclipse-sign profile, and the source/javadoc jars like every other module. So the next release deploys the EE8 bundles to Central purely by inheritance, no pom edits, while p2 stays untouched. (Like the canonical *.test modules, the two EE8 test modules deploy too; if you\u0027d prefer to publish only the three library bundles, a maven.deploy.skip on http.test.ee8 / lfs.server.test.ee8 does that — though it\u0027d diverge from how the canonical test modules behave today.)",
+      "parentUuid": "e99c62ae_e592dada",
+      "revId": "b9ae8b229d041553ef7de20e108bd7fcac1b3526",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
