@@ -74,7 +74,7 @@ maven bouncycastle
 	dependency {
 		groupId = "org.bouncycastle"
 		artifactId = "bcprov-jdk18on"
-		version = "1.85"
+		version = "1.85.2"
 	}
 	dependency {
 		groupId = "org.bouncycastle"

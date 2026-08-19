@@ -70,7 +70,7 @@ maven.install(
         "org.assertj:assertj-core:3.27.7",
         "org.bouncycastle:bcpg-jdk18on:" + BOUNCYCASTLE_VERSION,
         "org.bouncycastle:bcpkix-jdk18on:" + BOUNCYCASTLE_VERSION,
-        "org.bouncycastle:bcprov-jdk18on:" + BOUNCYCASTLE_VERSION,
+        "org.bouncycastle:bcprov-jdk18on:1.85.2",
         "org.bouncycastle:bcutil-jdk18on:" + BOUNCYCASTLE_VERSION,
         "org.eclipse.jetty:jetty-http:" + JETTY_VERSION,
         "org.eclipse.jetty:jetty-io:" + JETTY_VERSION,
