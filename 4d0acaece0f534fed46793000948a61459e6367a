@@ -16,6 +16,24 @@
       "message": "This seems to be limiting how many concurrent forwards, but not what I think of as connections. I would expect that we would want a limit for the number of concurrent forwards, when that is reached, I would expect any new incoming connections to not fail, but to get queued. I would then expect the maxConnections to be the limit on forwarding + queued.",
       "revId": "4d0acaece0f534fed46793000948a61459e6367a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "029208cb_fba7a5b8",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-20T23:01:35Z",
+      "side": 1,
+      "message": "Nevermind, I see that this really is limiting connections, and just happens to also be limiting concurrency at the same time. I would set this much higher then, maybe 1K? I\u0027m still hoping for a user doc explaining the config file format.",
+      "parentUuid": "b26a4786_e27fe8f1",
+      "revId": "4d0acaece0f534fed46793000948a61459e6367a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
