@@ -1,0 +1,10 @@
+# JUnit 4 test target
+java_test(
+    name = "tests",
+    srcs = glob(["**/*.java"]),
+    test_class = "org.example.MainTest",  # Optional: specify a test suite class
+    deps = [
+        "//src/main/org/example:Main",
+        "@maven//:junit_junit",  # JUnit 4 dependency from Maven
+    ],
+)
