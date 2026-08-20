@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d23870e_10ffc083",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/FixedRouteListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-20T23:06:47Z",
+      "side": 1,
+      "message": "Won\u0027t blocking here prevent connections limits from being enforced?",
+      "revId": "aba13ab67221a5a2778debeaf8c748aa28871da1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
