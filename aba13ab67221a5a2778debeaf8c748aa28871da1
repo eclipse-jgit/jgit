@@ -16,6 +16,24 @@
       "message": "Won\u0027t blocking here prevent connections limits from being enforced?",
       "revId": "aba13ab67221a5a2778debeaf8c748aa28871da1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "677f0b12_b12ccb79",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/FixedRouteListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-08-20T23:56:25Z",
+      "side": 1,
+      "message": "The maxConnections limit is applied on the L#55",
+      "parentUuid": "4d23870e_10ffc083",
+      "revId": "aba13ab67221a5a2778debeaf8c748aa28871da1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
