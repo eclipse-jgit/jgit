@@ -34,6 +34,24 @@
       "parentUuid": "b26a4786_e27fe8f1",
       "revId": "4d0acaece0f534fed46793000948a61459e6367a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45f4ce4a_5ef4dc63",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/ForwarderConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1039213
+      },
+      "writtenOn": "2026-08-20T23:55:24Z",
+      "side": 1,
+      "message": "The doc listed here itself is the format. In the \u003cpre\u003e block. I can add a sentence clarifying it.",
+      "parentUuid": "029208cb_fba7a5b8",
+      "revId": "4d0acaece0f534fed46793000948a61459e6367a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
