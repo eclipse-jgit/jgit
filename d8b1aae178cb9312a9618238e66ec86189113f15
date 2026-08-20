@@ -123,6 +123,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce81d3c4_aa6d1b91",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 1869,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-20T22:33:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba2db8a0_cb98f72f",
+      "revId": "d8b1aae178cb9312a9618238e66ec86189113f15",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f88adbb0_55f9c21c",
