@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ebf14236_7c480e82",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-20T23:35:58Z",
+      "side": 1,
+      "message": "\u003e That said, if we\u0027re targeting fundamental layers, why not go lower? Going lower actually strengthens your own argument: a check inside a pack iteration loop is hit regardless of how many higher-level callers exist, whereas a check at an `ObjectDirectory` entry point is only good for whichever entry points we add it to.\n\nI did start at that layer and decided that it was too low. It is tricky for sure; I am aiming to balance how many places we have to do this. Since going to the loop inside PackDirectory misses all the loose object lookups, I realized that the higher-level entrance points from users make more sense as they should catch most higher-level loops. We can always add more to super lower-level loops if needed, but I suspect that starting there would result in way more checkpoints. I believe this middle logic layer has the best chance of catching most things.\n\nI have this naive view that there is an hourglass shaped surface of APIs. In other words, I believe the number of high-level loops using middle layer APIs is likely larger than the number of middle layer APIs. On the other side, I suspect the number of lower-level methods explodes and is also larger than the number of middle layer APIs. My hope is that by targeting the middle of the hourglass, i.e. the thinnest API chokepoint, that we can get the most bang for the buck.\n\nAs you get lower, the more you will impact performance. But probably more importantly, I expect the lower layers to mostly maintain low enough latency to avoid needing to be interrupted. If that isn\u0027t the case for specific lower layers, we can make that call whether there is a problem that needs to be fixed at that layer, or whether it deserves a checkpoint. The objective here is not to be super responsive to interrupts, but at least meaningfully responsive for a human. More specifically, if the pack iteration loops need to be interrupted because they are taking too long, I would want to revisit the design and figure out why that is. For example, at one point we were loading bitmap files in the pack loops when a new pack was found. This ended up causing contention issues, so I delayed the load that until the pack was actually used. I would rather fix latency issues at that loop level than add the extra complexity to make those loops interruptible.",
+      "parentUuid": "ab35d0b1_96e0cab3",
+      "revId": "91b1ccbb97c77b06ebb290ba20c6086ec9108334",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0ecde0e1_d6ceb7be",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
         "patchSetId": 1
