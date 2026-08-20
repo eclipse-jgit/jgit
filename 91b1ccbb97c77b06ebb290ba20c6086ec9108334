@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ab35d0b1_96e0cab3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-08-20T23:10:35Z",
+      "side": 1,
+      "message": "I wasn\u0027t saying fix `CancellableDigestOutputStream`, but rather saying fix `ProgressMonitor` to check if the thread has been interrupted. I still think that would help, but I looked closer and it wouldn\u0027t cover everything you\u0027re touching here.\n\nThat said, if we\u0027re targeting fundamental layers, why not go lower? Going lower actually strengthens your own argument: a check inside a pack iteration loop is hit regardless of how many higher-level callers exist, whereas a check at an `ObjectDirectory` entry point is only good for whichever entry points we add it to.\n\nFor `resolve()`, the meaningful loops are over packs in [`PackDirectory.resolve()`](https://github.com/eclipse-jgit/jgit/blob/stable-6.10/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java#L206) and over loose object dirs in [`LooseObjects.resolve()`](https://github.com/eclipse-jgit/jgit/blob/stable-6.10/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java#L146).\n\nYou can cover packed object opening in the `SEARCH` loop in [`Pack.load()`](https://github.com/eclipse-jgit/jgit/blob/stable-6.10/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java#L856), which unwinds delta chains — worth checking for deeply nested deltas. If we care, we can do the same in [`LooseObjects.open()`](https://github.com/eclipse-jgit/jgit/blob/stable-6.10/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java#L168), but that\u0027s only a single file open with stale file handle retries.\n\nAnd I would push the object representation selection check down into the loop over packs inside [`PackDirectory.selectObjectRepresentation()`](https://github.com/eclipse-jgit/jgit/blob/stable-6.10/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackDirectory.java#L285). That\u0027s still outside the try/catch with `handlePackError()`, so it doesn\u0027t change the exception handling.",
+      "parentUuid": "b524b9cf_cd1070cf",
+      "revId": "91b1ccbb97c77b06ebb290ba20c6086ec9108334",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0ecde0e1_d6ceb7be",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
         "patchSetId": 1
@@ -107,6 +125,24 @@
       "side": 1,
       "message": "Should I make it internal instead, it doesn\u0027t quite feel like something that library users should be calling?",
       "parentUuid": "abc27094_cdb374bc",
+      "revId": "91b1ccbb97c77b06ebb290ba20c6086ec9108334",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d33daf8_8b74f126",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-08-20T23:10:35Z",
+      "side": 1,
+      "message": "Yes, that\u0027s probably better.",
+      "parentUuid": "fcc320f3_7aa94e1e",
       "revId": "91b1ccbb97c77b06ebb290ba20c6086ec9108334",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
