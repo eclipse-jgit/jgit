@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b524b9cf_cd1070cf",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-20T21:27:09Z",
+      "side": 1,
+      "message": "While I am not against improving the CancellableDigestOutputStream, it only hits use cases that use it. I think the fundamental layers here are likely to be hit by many things which may not use CancellableDigestOutputStream, and they are less likely to be \"missed\" if 1) new higher level entrance points are added, 2) refactoring stops using CancellableDigestOutputStream.",
+      "parentUuid": "7716aef6_43230d9f",
+      "revId": "91b1ccbb97c77b06ebb290ba20c6086ec9108334",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0ecde0e1_d6ceb7be",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
         "patchSetId": 1
@@ -71,6 +89,24 @@
       "writtenOn": "2026-08-20T18:55:12Z",
       "side": 1,
       "message": "Since this method wasn\u0027t in the original 6.10, you\u0027ll need to update [`org.eclipse.jgit/.settings/.api_filters`](https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1197358/1/org.eclipse.jgit/.settings/.api_filters) to suppress this as an API error. Slightly more context in [this comment from Matthias](https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1197387/comments/fb6ec91d_67bf13fa).",
+      "revId": "91b1ccbb97c77b06ebb290ba20c6086ec9108334",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcc320f3_7aa94e1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-20T21:27:09Z",
+      "side": 1,
+      "message": "Should I make it internal instead, it doesn\u0027t quite feel like something that library users should be calling?",
+      "parentUuid": "abc27094_cdb374bc",
       "revId": "91b1ccbb97c77b06ebb290ba20c6086ec9108334",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
