@@ -63,6 +63,24 @@ public abstract class AbstractRevWalkWithCommitGraphTest extends RevWalkTestCase
 				.setStartPoint(commit.name()).call();
 	}
 
+        protected List<RevCommit> travel(RevWalk walk, boolean enableCommitGraph) {
+                db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+                                ConfigConstants.CONFIG_COMMIT_GRAPH, enableCommitGraph);
+ 
+                List<RevCommit> commits = new ArrayList<>();
+ 
+                if (enableCommitGraph) {
+                        assertTrue(walk.commitGraph().getCommitCnt() > 0);
+                } else {
+                        assertEquals(EMPTY, walk.commitGraph());
+                }
+ 
+                for (RevCommit commit : walk) {
+                        commits.add(commit);
+                }
+                return commits;
+        }
+
 	protected final List<RevCommit> travel(TreeFilter treeFilter,
 			RevFilter revFilter, RevSort revSort, boolean enableCommitGraph,
 			String... starts)
@@ -79,18 +97,7 @@ public abstract class AbstractRevWalkWithCommitGraphTest extends RevWalkTestCase
 			for (String start : starts) {
 				walk.markStart(walk.lookupCommit(db.resolve(start)));
 			}
-			List<RevCommit> commits = new ArrayList<>();
-
-			if (enableCommitGraph) {
-				assertTrue(walk.commitGraph().getCommitCnt() > 0);
-			} else {
-				assertEquals(EMPTY, walk.commitGraph());
-			}
-
-			for (RevCommit commit : walk) {
-				commits.add(commit);
-			}
-			return commits;
+			return travel(walk, enableCommitGraph);
 		}
 	}
 

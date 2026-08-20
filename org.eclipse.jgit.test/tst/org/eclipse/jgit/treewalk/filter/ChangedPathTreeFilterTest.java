@@ -88,20 +88,47 @@ public class ChangedPathTreeFilterTest {
         assertTrue(result);
     }
 
-    private static class FakeRevCommit extends RevCommit {
+	@Test
+	public void shouldTreeWalk_yes_noParents() {
+		ChangedPathTreeFilter f = ChangedPathTreeFilter.create("what/ever");
+		boolean result = f.shouldTreeWalk(FakeRevCommit.noCpf(0), null, null);
 
+		assertTrue(result);
+	}
+
+	@Test
+	public void shouldTreeWalk_yes_noParents_usingCpf() {
+		ChangedPathTreeFilter f = ChangedPathTreeFilter.create("a/b");
+		// If no parents, always treewalk
+		boolean result = f.shouldTreeWalk(
+				FakeRevCommit.withCpfFor(0, "what/ever"), null, null);
+
+		assertTrue(result);
+	}
+
+    private static class FakeRevCommit extends RevCommit {
         static RevCommit withCpfFor(String... paths) {
-            return new FakeRevCommit(
-                    ChangedPathFilter.fromPaths(Arrays.stream(paths)
-                            .map(str -> ByteBuffer.wrap(str.getBytes(UTF_8)))
-                            .collect(Collectors.toSet())));
+			return withCpfFor(1, paths);
         }
+
+		static RevCommit withCpfFor(int numParents, String... paths) {
+			return new FakeRevCommit(numParents,
+					ChangedPathFilter.fromPaths(Arrays.stream(paths)
+							.map(str -> ByteBuffer.wrap(str.getBytes(UTF_8)))
+							.collect(Collectors.toSet())));
+		}
 
         static RevCommit noCpf() {
-            return new FakeRevCommit(null);
+			return noCpf(1);
         }
 
+		static RevCommit noCpf(int numParents) {
+			return new FakeRevCommit(numParents, null);
+		}
+
         private final ChangedPathFilter cpf;
+
+		private final int numParents;
 
         /**
          * Create a new commit reference.
@@ -109,10 +136,16 @@ public class ChangedPathTreeFilterTest {
          * @param cpf
          *            changedPathFilter
          */
-        protected FakeRevCommit(ChangedPathFilter cpf) {
+		protected FakeRevCommit(int numParents, ChangedPathFilter cpf) {
             super(ObjectId.zeroId());
             this.cpf = cpf;
+			this.numParents = numParents;
         }
+
+		@Override
+		public int getParentCount() {
+			return numParents;
+		}
 
         @Override
         public ChangedPathFilter getChangedPathFilter(RevWalk rw) {

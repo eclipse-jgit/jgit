@@ -116,15 +116,18 @@ public class TreeRevFilter extends RevFilter {
 	private boolean shouldInclude(RevWalk walker, RevCommit c)
 			throws IOException {
 		changedPathFilterUsed.reset();
-		if (c.getParentCount() == 1) {
-			TreeFilter tf = pathFilter.getFilter();
-			boolean shouldTreeWalk = tf.shouldTreeWalk(c, walker,
-					changedPathFilterUsed);
-			if (!shouldTreeWalk) {
-				stats.incrementChangedPathFilterNegative();
-				return false;
+		TreeFilter tf = pathFilter.getFilter();
+		boolean shouldTreeWalk = tf.shouldTreeWalk(c, walker,
+				changedPathFilterUsed);
+		if (!shouldTreeWalk) {
+			stats.incrementChangedPathFilterNegative();
+			if (c.getParentCount() > 1) {
+				stats.incrementNumMergeCommitsUsedBaseParentAsRedirect();
+				c.parents = new RevCommit[] { c.getParent(0) };
 			}
+			return false;
 		}
+
 		boolean shouldInclude = includeByTreeWalk(walker, c);
 		if (changedPathFilterUsed.get()) {
 			if (shouldInclude) {
@@ -236,6 +239,12 @@ public class TreeRevFilter extends RevFilter {
 						continue;
 					}
 
+					if (i == 0) {
+						stats.incrementNumMergeCommitsUsedBaseParentAsRedirect();
+					} else {
+						stats.incrementNumMergeCommitsUsedPullRequestParentAsRedirect();
+					}
+
 					c.parents = new RevCommit[] { p };
 					return false;
 				}
@@ -262,6 +271,7 @@ public class TreeRevFilter extends RevFilter {
 				// way from all of our parents. We have to take the blame for
 				// that difference.
 				//
+				stats.incrementNumMergeCommitsHadNoRedirect();
 				return true;
 			}
 
@@ -269,6 +279,7 @@ public class TreeRevFilter extends RevFilter {
 			// as they are and allow those parents to flow into pending
 			// for further scanning.
 			//
+			stats.incrementNumMergeCommitsHadNoDiffButNoInterestingParent();
 			return false;
 		}
 	}
