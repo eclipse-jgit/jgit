@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "794e10bf_1b025153",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-08-20T18:55:12Z",
+      "side": 1,
+      "message": "```suggestion\nfairly fundamental and called from within long outer loops making them\n```",
+      "revId": "91b1ccbb97c77b06ebb290ba20c6086ec9108334",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7716aef6_43230d9f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-08-20T18:55:12Z",
+      "side": 1,
+      "message": "When I looked at `CancellableDigestOutputStream`, it seemed it should already handle this, but that only happens if 1) there\u0027s a ProgressMonitor that isn\u0027t `NullProgressMonitor.INSTANCE` and 2) that progress monitor reports `isCancelled() \u003d\u003d true` when interrupted. AFAICT, all of the `ProgressMonitor` implementations always return `false`.\n\nMaybe instead of updating WindowCursor and ObjectDirectory, update the ProgressMonitor interface to have a default `isCancelled()` that checks if the thread is interrupted (and remove the hardcoded `return false` in implementors)?",
+      "revId": "91b1ccbb97c77b06ebb290ba20c6086ec9108334",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ecde0e1_d6ceb7be",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-08-20T18:55:12Z",
+      "side": 1,
+      "message": "```suggestion\n\t * Check wether the current thread is interrupted and throw an\n```",
+      "range": {
+        "startLine": 36,
+        "startChar": 39,
+        "endLine": 36,
+        "endChar": 51
+      },
+      "revId": "91b1ccbb97c77b06ebb290ba20c6086ec9108334",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abc27094_cdb374bc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-08-20T18:55:12Z",
+      "side": 1,
+      "message": "Since this method wasn\u0027t in the original 6.10, you\u0027ll need to update [`org.eclipse.jgit/.settings/.api_filters`](https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1197358/1/org.eclipse.jgit/.settings/.api_filters) to suppress this as an API error. Slightly more context in [this comment from Matthias](https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1197387/comments/fb6ec91d_67bf13fa).",
+      "revId": "91b1ccbb97c77b06ebb290ba20c6086ec9108334",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
