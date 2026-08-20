@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f0e9b31_a7c6214d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-20T22:39:02Z",
+      "side": 1,
+      "message": "This has been running as an internal patch for quite a while.\n\nThe verified failure is a flaky test. Needs reformatting before submitting.",
+      "revId": "87ea53daaafb03400397bf4b495287cfe1cf8300",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
