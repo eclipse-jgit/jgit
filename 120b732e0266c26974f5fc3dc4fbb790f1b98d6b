@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a57b10c7_bae03e3f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-21T23:13:47Z",
+      "side": 1,
+      "message": "This definition should have its scope also reduced (do it on line 171?).",
+      "revId": "120b732e0266c26974f5fc3dc4fbb790f1b98d6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
