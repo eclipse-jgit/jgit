@@ -34,6 +34,24 @@
       "parentUuid": "4d23870e_10ffc083",
       "revId": "aba13ab67221a5a2778debeaf8c748aa28871da1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23cff0b3_38fc237c",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/forwarder/FixedRouteListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-21T00:44:31Z",
+      "side": 1,
+      "message": "But once blocked here no new connections will ever get to line 55 since the acceptor loop is single threaded?",
+      "parentUuid": "677f0b12_b12ccb79",
+      "revId": "aba13ab67221a5a2778debeaf8c748aa28871da1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
