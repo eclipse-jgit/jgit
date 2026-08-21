@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfabb537_c53880dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-21T23:42:41Z",
+      "side": 1,
+      "message": "I think it is good, but this deserves more time to be reviewed by others. Since this is technically a bug fix it would be nice to get it on 6.10?",
+      "revId": "771bfb6ee69b2e1d63132b6fac66237d93777cb7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
