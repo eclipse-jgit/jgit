@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac1f2fa3_b0d6d12c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1039310
+      },
+      "writtenOn": "2026-08-21T23:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a57b10c7_bae03e3f",
+      "revId": "120b732e0266c26974f5fc3dc4fbb790f1b98d6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c707c3ac_4e459111",
@@ -35,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06e4ac90_590c09f3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1039310
+      },
+      "writtenOn": "2026-08-21T23:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c707c3ac_4e459111",
+      "revId": "120b732e0266c26974f5fc3dc4fbb790f1b98d6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b24f918_7587655d",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-08-21T23:17:57Z",
       "side": 1,
       "message": "I think the scope of this catch can be limited to the try block started on line 153 since the only thing happening before that is locking the inProcessPackedRefsLock which I don\u0027t think can throw this exception?",
+      "revId": "120b732e0266c26974f5fc3dc4fbb790f1b98d6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c95c6cd_168c3135",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1039310
+      },
+      "writtenOn": "2026-08-21T23:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b24f918_7587655d",
       "revId": "120b732e0266c26974f5fc3dc4fbb790f1b98d6b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
