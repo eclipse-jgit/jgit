@@ -146,49 +146,55 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 			return;
 		}
 
-		Map<String, LockFile> locks = null;
 		LockFile packedRefsLock = null;
 		refdb.inProcessPackedRefsLock.lock();
 		try {
-			// Pack refs normally, so we can create lock files even in the case
-			// where refs/x is deleted and refs/x/y is created in this batch.
-			refdb.pack(pending.stream().map(ReceiveCommand::getRefName)
-					.collect(toList()));
+			Map<String, LockFile> locks = null;
+			try {
+				// Pack refs normally, so we can create lock files even in
+				// the case where refs/x is deleted and refs/x/y is created
+				// in this batch.
+				refdb.pack(pending.stream().map(ReceiveCommand::getRefName)
+						.collect(toList()));
 
-			// During clone locking isn't needed since no refs exist yet.
-			// This also helps to avoid problems with refs only differing in
-			// case on a case insensitive filesystem (bug 528497)
-			if (!refdb.isInClone() && shouldLockLooseRefs) {
-				locks = lockLooseRefs(pending);
-				if (locks == null) {
-					return;
+				// During clone locking isn't needed since no refs exist yet.
+				// This also helps to avoid problems with refs only differing
+				// in case on a case insensitive filesystem (bug 528497)
+				if (!refdb.isInClone() && shouldLockLooseRefs) {
+					locks = lockLooseRefs(pending);
+					if (locks == null) {
+						return;
+					}
+					refdb.pack(locks);
 				}
-				refdb.pack(locks);
-			}
 
-			packedRefsLock = refdb.lockPackedRefsOrThrow();
-			PackedRefList oldPackedList = refdb.getLockedPackedRefs(packedRefsLock);
-			RefList<Ref> newRefs = applyUpdates(walk, oldPackedList, pending);
-			if (newRefs == null) {
-				return;
+				packedRefsLock = refdb.lockPackedRefsOrThrow();
+				try {
+					PackedRefList oldPackedList = refdb
+							.getLockedPackedRefs(packedRefsLock);
+					RefList<Ref> newRefs = applyUpdates(walk, oldPackedList,
+							pending);
+					if (newRefs == null) {
+						return;
+					}
+					refdb.commitPackedRefs(packedRefsLock, newRefs,
+							oldPackedList, true, oldPackedList.traits());
+				} finally {
+					if (packedRefsLock != null) {
+						// This will be no-op if commitPackedRefs is
+						// successful as it will remove the lock file (by
+						// renaming over real file).
+						packedRefsLock.unlock();
+					}
+				}
+			} finally {
+				unlockAll(locks);
 			}
-			refdb.commitPackedRefs(packedRefsLock, newRefs, oldPackedList,
-					true, oldPackedList.traits());
 		} catch (LockFailedException e) {
 			lockFailure(pending.get(0), pending);
 			return;
 		} finally {
-			try {
-				unlockAll(locks);
-				if (packedRefsLock != null) {
-					// This will be no-op if commitPackedRefs is successful as
-					// it will remove the lock file (by renaming over real
-					// file).
-					packedRefsLock.unlock();
-				}
-			} finally {
-				refdb.inProcessPackedRefsLock.unlock();
-			}
+			refdb.inProcessPackedRefsLock.unlock();
 		}
 
 		refdb.fireRefsChanged();
