@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71f90082_65c64637",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-24T23:26:36Z",
+      "side": 1,
+      "message": "This is a complicated change. The version without rebase was running as a downstream patch.\n\nComparing the rebased version with pre-rebase shows only minor expected changes (checking cancellation from upstream, the stats of the parent change).",
+      "revId": "669a7676c77fe83aba1ca980566767df86a71915",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
