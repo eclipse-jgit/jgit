@@ -16,6 +16,207 @@
       "message": "Now with deprecation notices instead of removing methods.",
       "revId": "811418fdeb95e8256e193d27e169fcd8f447362f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30ca5d60_fa17c81d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-08-24T21:53:12Z",
+      "side": 1,
+      "message": "can we store a RevFilterStats object in a field instead of using two sets of counters ?\n```suggestion\n\tprivate RevWalk.RevFilterStats stats;\n```",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 40
+      },
+      "revId": "811418fdeb95e8256e193d27e169fcd8f447362f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43c191a2_5e74defc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-08-24T21:53:12Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tstats \u003d walker.getRevFilterStats();\n\t\tstats.incrementCommitsThroughTreeRevFilter();\n```",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 68
+      },
+      "revId": "811418fdeb95e8256e193d27e169fcd8f447362f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "064be086_cb784cff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-08-24T21:53:12Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tstats.incrementNumTreesParsedInTreeRevFilter(trees.length);\n```",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 58
+      },
+      "revId": "811418fdeb95e8256e193d27e169fcd8f447362f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b0ae553_3973d343",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-08-24T21:53:12Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\t\t\t\tstats.incrementChangedPathFilterTruePositive();\n```",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 50
+      },
+      "revId": "811418fdeb95e8256e193d27e169fcd8f447362f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9497ee28_8df77eb6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-08-24T21:53:12Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\t\t\t\tstats.incrementChangedPathFilterFalsePositive();\n```",
+      "range": {
+        "startLine": 157,
+        "startChar": 6,
+        "endLine": 158,
+        "endChar": 51
+      },
+      "revId": "811418fdeb95e8256e193d27e169fcd8f447362f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd24e67c_5206da8e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-08-24T21:53:12Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\t\t\tstats.incrementChangedPathFilterNegative();\n```",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 45
+      },
+      "revId": "811418fdeb95e8256e193d27e169fcd8f447362f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d266717c_6d6e4ef2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-08-24T21:53:12Z",
+      "side": 1,
+      "message": "```suggestion\n\t\treturn stats !\u003d null ? stats.getChangedPathFilterTruePositive() : 0;\n```",
+      "revId": "811418fdeb95e8256e193d27e169fcd8f447362f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30de61c4_ebc927d3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-08-24T21:53:12Z",
+      "side": 1,
+      "message": "```suggestion\n\t\treturn stats !\u003d null ? stats.getChangedPathFilterFalsePositive() : 0;\n```",
+      "range": {
+        "startLine": 307,
+        "startChar": 0,
+        "endLine": 307,
+        "endChar": 40
+      },
+      "revId": "811418fdeb95e8256e193d27e169fcd8f447362f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1f48d1c_e29ee4c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-08-24T21:53:12Z",
+      "side": 1,
+      "message": "```suggestion\n\t\treturn stats !\u003d null ? stats.getChangedPathFilterNegative() : 0;\n```",
+      "range": {
+        "startLine": 321,
+        "startChar": 0,
+        "endLine": 321,
+        "endChar": 35
+      },
+      "revId": "811418fdeb95e8256e193d27e169fcd8f447362f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
