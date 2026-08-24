@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9550df5d_f82807c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039346
+      },
+      "writtenOn": "2026-08-24T17:05:44Z",
+      "side": 1,
+      "message": "Apologies - not really used gerrit before so it seems I have generated a separate review for the suggested changes: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1246046\nnot sure if this is the intended behaviour",
+      "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fe75207e_3108e5da",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 3
