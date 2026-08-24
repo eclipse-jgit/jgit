@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eec2d19d_ba75c63b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-24T23:08:06Z",
+      "side": 1,
+      "message": "Fixed appropriately with an explanation.",
+      "parentUuid": "e49d1df8_5571ad67",
+      "revId": "3cea29f5035968174b2ebe7ae49c2f3b31152b9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a03c8825_d5185852",
@@ -52,6 +70,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cea46347_95b20280",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-24T23:08:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a03c8825_d5185852",
+      "revId": "3cea29f5035968174b2ebe7ae49c2f3b31152b9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7360ca2_34022944",
@@ -65,6 +101,30 @@
       "writtenOn": "2026-07-22T00:46:53Z",
       "side": 1,
       "message": "Should this be `\u0026\u0026 shouldLockLooseRefs` (same as L168)?\n```suggestion\n\t\tif (hasDelete(pending) \u0026\u0026 shouldLockLooseRefs) {\n```",
+      "range": {
+        "startLine": 149,
+        "startChar": 24,
+        "endLine": 149,
+        "endChar": 48
+      },
+      "revId": "3cea29f5035968174b2ebe7ae49c2f3b31152b9b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83e5080d_728c2c59",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-24T23:08:06Z",
+      "side": 1,
+      "message": "No My understanding is that the !shouldLockLooseRefs is used by Gerrit NoteDb migration. While it makes sense to avoid extra locking in that situation, this call isn\u0027t about locking. It is about packing potential loose refs, which still needs to be done for NoteDb migration, even when not deleting since the second pack will get skipped. The good news is that if there are no loose refs, then it ends up being a NOP.",
+      "parentUuid": "b7360ca2_34022944",
       "range": {
         "startLine": 149,
         "startChar": 24,
