@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "607745dd_08673d69",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TreeRevFilter.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-08-24T14:25:25Z",
+      "side": 0,
+      "message": "removing these methods breaks public API which we should avoid in a minor release",
+      "revId": "239428ec31ae2ac717765bbdde7737ec8f609306",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
