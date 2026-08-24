@@ -49,6 +49,12 @@ public class TreeRevFilter extends RevFilter {
 
 	private final MutableBoolean changedPathFilterUsed = new MutableBoolean();
 
+	private long changedPathFilterTruePositive = 0;
+
+	private long changedPathFilterFalsePositive = 0;
+
+	private long changedPathFilterNegative = 0;
+
 	/**
 	 * Create a {@link org.eclipse.jgit.revwalk.filter.RevFilter} from a
 	 * {@link org.eclipse.jgit.treewalk.filter.TreeFilter}.
@@ -103,7 +109,6 @@ public class TreeRevFilter extends RevFilter {
 	public boolean include(RevWalk walker, RevCommit c)
 			throws StopWalkException, MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		walker.getRevFilterStats().incrementCommitsThroughTreeRevFilter();
 		c.flags |= FILTER_APPLIED;
 		// Reset the tree filter to scan this commit and parents.
 		//
@@ -120,8 +125,6 @@ public class TreeRevFilter extends RevFilter {
 		}
 		trees[nParents] = c.getTree();
 		tw.reset(trees);
-		walker.getRevFilterStats()
-				.incrementNumTreesParsedInTreeRevFilter(trees.length);
 		changedPathFilterUsed.reset();
 
 		if (nParents == 1) {
@@ -143,17 +146,14 @@ public class TreeRevFilter extends RevFilter {
 				}
 				if (changedPathFilterUsed.get()) {
 					if (chgs > 0) {
-						walker.getRevFilterStats()
-								.incrementChangedPathFilterTruePositive();
+						changedPathFilterTruePositive++;
 					} else {
-						walker.getRevFilterStats()
-								.incrementChangedPathFilterFalsePositive();
+						changedPathFilterFalsePositive++;
 					}
 				}
 			} else {
 				if (changedPathFilterUsed.get()) {
-					walker.getRevFilterStats()
-							.incrementChangedPathFilterNegative();
+					changedPathFilterNegative++;
 				}
 			}
 
@@ -270,6 +270,40 @@ public class TreeRevFilter extends RevFilter {
 	@Override
 	public boolean requiresCommitBody() {
 		return false;
+	}
+
+	/**
+	 * Return how many times a changed path filter correctly predicted that a
+	 * path was changed in a commit, for statistics gathering purposes.
+	 *
+	 * @return count of true positives
+	 * @since 6.7
+	 */
+	public long getChangedPathFilterTruePositive() {
+		return changedPathFilterTruePositive;
+	}
+
+	/**
+	 * Return how many times a changed path filter wrongly predicted that a path
+	 * was changed in a commit, for statistics gathering purposes.
+	 *
+	 * @return count of false positives
+	 * @since 6.7
+	 */
+	public long getChangedPathFilterFalsePositive() {
+		return changedPathFilterFalsePositive;
+	}
+
+	/**
+	 * Return how many times a changed path filter predicted that a path was not
+	 * changed in a commit (allowing that commit to be skipped), for statistics
+	 * gathering purposes.
+	 *
+	 * @return count of negatives
+	 * @since 6.7
+	 */
+	public long getChangedPathFilterNegative() {
+		return changedPathFilterNegative;
 	}
 
 	private void updateFollowFilter(ObjectId[] trees, DiffConfig cfg,
