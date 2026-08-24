@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c9156ff_72512c89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-08-24T23:42:27Z",
+      "side": 1,
+      "message": "FYI, we had this deployed internally and ran into rewinds which we believe were due to the potential premature unlock fixed in https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1245200. When the first repack is skipped, it creates a much higher chance that the premature unlock will happen, thus exposing the race more.\n\nThe premature unlock only happens when the second repack actually has a reason to delete the loose ref (and inadvertently also its lock). This could only happen if a loose ref were created after the first repack, which is a pretty small race window normally. However, when this change skips the first repack, it can cause the inadvertent unlock to happen anytime a ref was loose before entering this transaction, which on our one server is almost always.",
+      "revId": "f82f3f7ac082bda8fa3f4b0e2def50c0c3709059",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
