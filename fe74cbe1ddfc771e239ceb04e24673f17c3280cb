@@ -16,6 +16,23 @@
       "message": "The failure is in the flaky Interrupt test.",
       "revId": "fe74cbe1ddfc771e239ceb04e24673f17c3280cb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc57e16c_cafcb626",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-24T23:41:14Z",
+      "side": 1,
+      "message": "trigger build",
+      "revId": "fe74cbe1ddfc771e239ceb04e24673f17c3280cb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
