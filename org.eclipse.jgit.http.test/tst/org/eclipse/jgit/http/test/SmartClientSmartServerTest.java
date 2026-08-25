@@ -650,6 +650,34 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 	}
 
 	@Test
+	public void testFetch_NothingToFetchWithSmallPostBuffer() throws Exception {
+		try (Repository dst = createBareRepository()) {
+			try (Transport t = Transport.open(dst, remoteURI)) {
+				t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			}
+			assertEquals(B, dst.exactRef(master).getObjectId());
+
+			StoredConfig cfg = dst.getConfig();
+			cfg.setInt("http", null, "postbuffer", 8);
+			cfg.save();
+
+			// The commit is already present locally from the fetch above, so
+			// sendWants() has nothing to ask for. A new local ref still needs
+			// to be created, so the connection is used regardless.
+			RefSpec toOther = new RefSpec(master)
+					.setDestination(Constants.R_HEADS + "other")
+					.setForceUpdate(true);
+			try (Transport t = Transport.open(dst, remoteURI)) {
+				t.fetch(NullProgressMonitor.INSTANCE,
+						Collections.singleton(toOther));
+			}
+
+			assertEquals(B,
+					dst.exactRef(Constants.R_HEADS + "other").getObjectId());
+		}
+	}
+
+	@Test
 	public void test_CloneWithCustomFactory() throws Exception {
 		HttpConnectionFactory globalFactory = HttpTransport
 				.getConnectionFactory();
