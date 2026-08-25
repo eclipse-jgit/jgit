@@ -49,11 +49,7 @@ public class TreeRevFilter extends RevFilter {
 
 	private final MutableBoolean changedPathFilterUsed = new MutableBoolean();
 
-	private long changedPathFilterTruePositive = 0;
-
-	private long changedPathFilterFalsePositive = 0;
-
-	private long changedPathFilterNegative = 0;
+	private final RevWalk.RevFilterStats stats;
 
 	/**
 	 * Create a {@link org.eclipse.jgit.revwalk.filter.RevFilter} from a
@@ -98,6 +94,7 @@ public class TreeRevFilter extends RevFilter {
 		pathFilter.setFilter(t);
 		pathFilter.setRecursive(t.shouldBeRecursive());
 		this.rewriteFlag = rewriteFlag;
+		stats = walker.getRevFilterStats();
 	}
 
 	@Override
@@ -106,12 +103,45 @@ public class TreeRevFilter extends RevFilter {
 	}
 
 	@Override
-	public boolean include(RevWalk walker, RevCommit c)
+	public boolean include(RevWalk walker, RevCommit c) throws IOException {
+		c.flags |= FILTER_APPLIED;
+		stats.incrementCommitsThroughTreeRevFilter();
+		boolean shouldInclude = shouldInclude(walker, c);
+		if (!shouldInclude) {
+			c.flags |= rewriteFlag;
+		}
+		return shouldInclude;
+	}
+
+	private boolean shouldInclude(RevWalk walker, RevCommit c)
+			throws IOException {
+		changedPathFilterUsed.reset();
+		TreeFilter tf = pathFilter.getFilter();
+		boolean shouldTreeWalk = tf.shouldTreeWalk(c, walker,
+				changedPathFilterUsed);
+		if (!shouldTreeWalk) {
+			stats.incrementChangedPathFilterNegative();
+			if (c.getParentCount() > 1) {
+				stats.incrementNumMergeCommitsUsedBaseParentAsRedirect();
+				c.parents = new RevCommit[] { c.getParent(0) };
+			}
+			return false;
+		}
+
+		boolean shouldInclude = includeByTreeWalk(walker, c);
+		if (changedPathFilterUsed.get()) {
+			if (shouldInclude) {
+				stats.incrementChangedPathFilterTruePositive();
+			} else {
+				stats.incrementChangedPathFilterFalsePositive();
+			}
+		}
+		return shouldInclude;
+	}
+
+	private boolean includeByTreeWalk(RevWalk walker, RevCommit c)
 			throws StopWalkException, MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		c.flags |= FILTER_APPLIED;
-		// Reset the tree filter to scan this commit and parents.
-		//
 		RevCommit[] pList = c.getParents();
 		int nParents = pList.length;
 		TreeWalk tw = pathFilter;
@@ -125,43 +155,33 @@ public class TreeRevFilter extends RevFilter {
 		}
 		trees[nParents] = c.getTree();
 		tw.reset(trees);
-		changedPathFilterUsed.reset();
+		stats.incrementNumTreesParsedInTreeRevFilter(trees.length);
 
-		if (nParents == 1) {
+		if (nParents == 0) {
+			// We have no parents to compare against. Consider us to be
+			// REWRITE only if we have no paths matching our filter.
+			//
+			if (tw.next()) {
+				return true;
+			}
+			return false;
+		} else if (nParents == 1) {
 			// We have exactly one parent. This is a very common case.
 			//
 			int chgs = 0, adds = 0;
-			TreeFilter tf = pathFilter.getFilter();
-			boolean mustCalculateChgs = tf.shouldTreeWalk(c, walker,
-					changedPathFilterUsed);
-			if (mustCalculateChgs) {
-				while (tw.next()) {
-					walker.checkCancelled();
-					chgs++;
-					if (tw.getRawMode(0) == 0 && tw.getRawMode(1) != 0) {
-						adds++;
-					} else {
-						break; // no point in looking at this further.
-					}
-				}
-				if (changedPathFilterUsed.get()) {
-					if (chgs > 0) {
-						changedPathFilterTruePositive++;
-					} else {
-						changedPathFilterFalsePositive++;
-					}
-				}
-			} else {
-				if (changedPathFilterUsed.get()) {
-					changedPathFilterNegative++;
+			while (tw.next()) {
+				walker.checkCancelled();
+				chgs++;
+				if (tw.getRawMode(0) == 0 && tw.getRawMode(1) != 0) {
+					adds++;
+				} else {
+					break; // no point in looking at this further.
 				}
 			}
-
 			if (chgs == 0) {
 				// No changes, so our tree is effectively the same as
 				// our parent tree. We pass the buck to our parent.
 				//
-				c.flags |= rewriteFlag;
 				return false;
 			}
 
@@ -177,94 +197,91 @@ public class TreeRevFilter extends RevFilter {
 						c);
 			}
 			return true;
-		} else if (nParents == 0) {
-			// We have no parents to compare against. Consider us to be
-			// REWRITE only if we have no paths matching our filter.
+		} else {
+			// We are a merge commit. We can only be REWRITE if we are same
+			// to _all_ parents. We may also be able to eliminate a parent if
+			// it does not contribute changes to us. Such a parent may be an
+			// uninteresting side branch.
 			//
-			if (tw.next()) {
+			int[] chgs = new int[nParents];
+			int[] adds = new int[nParents];
+			while (tw.next()) {
+				int myMode = tw.getRawMode(nParents);
+				for (int i = 0; i < nParents; i++) {
+					walker.checkCancelled();
+					int pMode = tw.getRawMode(i);
+					if (myMode == pMode && tw.idEqual(i, nParents)) {
+						continue;
+					}
+					chgs[i]++;
+					if (pMode == 0 && myMode != 0) {
+						adds[i]++;
+					}
+				}
+			}
+
+			boolean same = false;
+			boolean diff = false;
+			for (int i = 0; i < nParents; i++) {
+				if (chgs[i] == 0) {
+					// No changes, so our tree is effectively the same as
+					// this parent tree. We pass the buck to only this one
+					// parent commit.
+					//
+
+					RevCommit p = pList[i];
+					if ((p.flags & UNINTERESTING) != 0) {
+						// This parent was marked as not interesting by the
+						// application. We should look for another parent
+						// that is interesting.
+						//
+						same = true;
+						continue;
+					}
+
+					if (i == 0) {
+						stats.incrementNumMergeCommitsUsedBaseParentAsRedirect();
+					} else {
+						stats.incrementNumMergeCommitsUsedPullRequestParentAsRedirect();
+					}
+
+					c.parents = new RevCommit[] { p };
+					return false;
+				}
+
+				if (chgs[i] == adds[i]) {
+					// All of the differences from this parent were because we
+					// added files that they did not have. This parent is our
+					// "empty tree root" and thus their history is not relevant.
+					// Cut our grandparents to be an empty list.
+					//
+					tw.reset(pList[i].getTree());
+					if (!tw.next()) {
+						pList[i].parents = RevCommit.NO_PARENTS;
+					}
+				}
+
+				// We have an interesting difference relative to this parent.
+				//
+				diff = true;
+			}
+
+			if (diff && !same) {
+				// We did not abort above, so we are different in at least one
+				// way from all of our parents. We have to take the blame for
+				// that difference.
+				//
+				stats.incrementNumMergeCommitsHadNoRedirect();
 				return true;
 			}
-			c.flags |= rewriteFlag;
+
+			// We are the same as all of our parents. We must keep them
+			// as they are and allow those parents to flow into pending
+			// for further scanning.
+			//
+			stats.incrementNumMergeCommitsHadNoDiffButNoInterestingParent();
 			return false;
 		}
-
-		// We are a merge commit. We can only be REWRITE if we are same
-		// to _all_ parents. We may also be able to eliminate a parent if
-		// it does not contribute changes to us. Such a parent may be an
-		// uninteresting side branch.
-		//
-		int[] chgs = new int[nParents];
-		int[] adds = new int[nParents];
-		while (tw.next()) {
-			int myMode = tw.getRawMode(nParents);
-			for (int i = 0; i < nParents; i++) {
-				walker.checkCancelled();
-				int pMode = tw.getRawMode(i);
-				if (myMode == pMode && tw.idEqual(i, nParents)) {
-					continue;
-				}
-				chgs[i]++;
-				if (pMode == 0 && myMode != 0) {
-					adds[i]++;
-				}
-			}
-		}
-
-		boolean same = false;
-		boolean diff = false;
-		for (int i = 0; i < nParents; i++) {
-			if (chgs[i] == 0) {
-				// No changes, so our tree is effectively the same as
-				// this parent tree. We pass the buck to only this one
-				// parent commit.
-				//
-
-				RevCommit p = pList[i];
-				if ((p.flags & UNINTERESTING) != 0) {
-					// This parent was marked as not interesting by the
-					// application. We should look for another parent
-					// that is interesting.
-					//
-					same = true;
-					continue;
-				}
-
-				c.flags |= rewriteFlag;
-				c.parents = new RevCommit[] { p };
-				return false;
-			}
-
-			if (chgs[i] == adds[i]) {
-				// All of the differences from this parent were because we
-				// added files that they did not have. This parent is our
-				// "empty tree root" and thus their history is not relevant.
-				// Cut our grandparents to be an empty list.
-				//
-				tw.reset(pList[i].getTree());
-				if (!tw.next()) {
-					pList[i].parents = RevCommit.NO_PARENTS;
-				}
-			}
-
-			// We have an interesting difference relative to this parent.
-			//
-			diff = true;
-		}
-
-		if (diff && !same) {
-			// We did not abort above, so we are different in at least one
-			// way from all of our parents. We have to take the blame for
-			// that difference.
-			//
-			return true;
-		}
-
-		// We are the same as all of our parents. We must keep them
-		// as they are and allow those parents to flow into pending
-		// for further scanning.
-		//
-		c.flags |= rewriteFlag;
-		return false;
 	}
 
 	@Override
@@ -278,9 +295,11 @@ public class TreeRevFilter extends RevFilter {
 	 *
 	 * @return count of true positives
 	 * @since 6.7
+	 * @deprecated See {@link RevWalk#getRevFilterStats()}
 	 */
+	@Deprecated(since = "7.8")
 	public long getChangedPathFilterTruePositive() {
-		return changedPathFilterTruePositive;
+		return stats.getChangedPathFilterTruePositive();
 	}
 
 	/**
@@ -289,9 +308,11 @@ public class TreeRevFilter extends RevFilter {
 	 *
 	 * @return count of false positives
 	 * @since 6.7
+	 * @deprecated See {@link RevWalk#getRevFilterStats()}
 	 */
+	@Deprecated(since = "7.8")
 	public long getChangedPathFilterFalsePositive() {
-		return changedPathFilterFalsePositive;
+		return stats.getChangedPathFilterFalsePositive();
 	}
 
 	/**
@@ -301,9 +322,11 @@ public class TreeRevFilter extends RevFilter {
 	 *
 	 * @return count of negatives
 	 * @since 6.7
+	 * @deprecated See {@link RevWalk#getRevFilterStats()}
 	 */
+	@Deprecated(since = "7.8")
 	public long getChangedPathFilterNegative() {
-		return changedPathFilterNegative;
+		return stats.getChangedPathFilterNegative();
 	}
 
 	private void updateFollowFilter(ObjectId[] trees, DiffConfig cfg,

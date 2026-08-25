@@ -218,6 +218,8 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	private boolean firstParent;
 
+	private RevFilterStats revFilterStats;
+
 	boolean shallowCommitsInitialized;
 
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
@@ -262,6 +264,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		treeFilter = TreeFilter.ALL;
 		this.closeReader = closeReader;
 		commitGraph = null;
+		revFilterStats = new RevFilterStats();
 	}
 
 	static AbstractRevQueue newDateRevQueue(boolean firstParent) {
@@ -876,6 +879,17 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 
 	boolean getRewriteParents() {
 		return rewriteParents;
+	}
+
+	/**
+	 * Get stats recorded within the RevFilter used in the RevWalk.
+	 *
+	 * @return {@link RevFilterStats} with stats recorded by RevFilters.
+	 *
+	 * @since 7.8
+	 */
+	public RevFilterStats getRevFilterStats() {
+		return revFilterStats;
 	}
 
 	/**
@@ -1686,6 +1700,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		roots.clear();
 		queue = newDateRevQueue(firstParent);
 		pending = new StartGenerator(this);
+		revFilterStats = new RevFilterStats();
 	}
 
 	/**
@@ -1708,6 +1723,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		queue = newDateRevQueue(firstParent);
 		pending = new StartGenerator(this);
 		shallowCommitsInitialized = false;
+		revFilterStats = new RevFilterStats();
 	}
 
 	/**
@@ -1908,6 +1924,189 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			} else {
 				lookupCommit(id).parents = RevCommit.NO_PARENTS;
 			}
+		}
+	}
+
+	/**
+	 * Statistics related RevFilter collected during the lifecycle of RevWalk.
+	 *
+	 * @since 7.8
+	 */
+	public static final class RevFilterStats {
+
+		private long changedPathFilterTruePositive;
+
+		private long changedPathFilterFalsePositive;
+
+		private long changedPathFilterNegative;
+
+		private long numCommitsThroughTreeRevFilter;
+
+		private long numTreesParsedInTreeRevFilter;
+
+		private long numMergeCommitsUsedBaseParentAsRedirect;
+
+		private long numMergeCommitsUsedPullRequestParentAsRedirect;
+
+		private long numMergeCommitsHadNoRedirect;
+
+		private long numMergeCommitsHadNoDiffWithAnyInterestingParent;
+
+		private RevFilterStats() {
+		}
+
+		/**
+		 * Increment the numMergeCommitsUsedBaseParentAsRedirect count
+		 */
+		public void incrementNumMergeCommitsUsedBaseParentAsRedirect() {
+			numMergeCommitsUsedBaseParentAsRedirect++;
+		}
+
+		/**
+		 * Increment the numMergeCommitsUsedPullRequestParentAsRedirect count
+		 */
+		public void incrementNumMergeCommitsUsedPullRequestParentAsRedirect() {
+			numMergeCommitsUsedPullRequestParentAsRedirect++;
+		}
+
+		/**
+		 * Increment the numMergeCommitsHadNoDiffWithAnyInterestingParent count
+		 */
+		public void incrementNumMergeCommitsHadNoDiffButNoInterestingParent() {
+			numMergeCommitsHadNoDiffWithAnyInterestingParent++;
+		}
+
+		/**
+		 * Increment the numMergeCommitsHadNoRedirect count
+		 */
+		public void incrementNumMergeCommitsHadNoRedirect() {
+			numMergeCommitsHadNoRedirect++;
+		}
+
+		/**
+		 * Increment the changedPathFilterTruePositive count
+		 */
+		void incrementChangedPathFilterTruePositive() {
+			changedPathFilterTruePositive++;
+		}
+
+		/**
+		 * Increment the changedPathFilterFalsePositive count
+		 */
+		void incrementChangedPathFilterFalsePositive() {
+			changedPathFilterFalsePositive++;
+		}
+
+		/**
+		 * Increment the changedPathFilterNegative count
+		 */
+		void incrementChangedPathFilterNegative() {
+			changedPathFilterNegative++;
+		}
+
+		/**
+		 * Increment the numCommitsThroughTreeRevFilter count
+		 */
+		void incrementCommitsThroughTreeRevFilter() {
+			numCommitsThroughTreeRevFilter++;
+		}
+
+		/**
+		 * Increment the numTreesParsedInTreeRevFilter count
+		 *
+		 * @param numTrees
+		 *            number of trees
+		 */
+		void incrementNumTreesParsedInTreeRevFilter(int numTrees) {
+			numTreesParsedInTreeRevFilter += numTrees;
+		}
+
+		/**
+		 * Return the number of merge commits used the base parent to redirect
+		 * the RevWalk
+		 *
+		 * @return count
+		 */
+		public long getNumMergeCommitsUsedBaseParentAsRedirect() {
+			return numMergeCommitsUsedBaseParentAsRedirect;
+		}
+
+		/**
+		 * Return the number of merge commits used a pull request parent to
+		 * redirect the RevWalk
+		 *
+		 * @return count
+		 */
+		public long getNumMergeCommitsUsedPullRequestParentAsRedirect() {
+			return numMergeCommitsUsedPullRequestParentAsRedirect;
+		}
+
+		/**
+		 * Return the number of merge commits did not need be redirected
+		 *
+		 * @return count
+		 */
+		public long getNumMergeCommitsHadNoRedirect() {
+			return numMergeCommitsHadNoRedirect;
+		}
+
+		/**
+		 * Return the number of merge commits had no diff and had no interesting
+		 * parent to redirect
+		 *
+		 * @return count
+		 */
+		public long getNumMergeCommitsHadNoDiffWithAnyInterestingParent() {
+			return numMergeCommitsHadNoDiffWithAnyInterestingParent;
+		}
+
+		/**
+		 * Return how many times a changed path filter correctly predicted that
+		 * a path was changed in a commit, for statistics gathering purposes.
+		 *
+		 * @return count of true positives
+		 */
+		public long getChangedPathFilterTruePositive() {
+			return changedPathFilterTruePositive;
+		}
+
+		/**
+		 * Return how many times a changed path filter wrongly predicted that a
+		 * path was changed in a commit, for statistics gathering purposes.
+		 *
+		 * @return count of false positives
+		 */
+		public long getChangedPathFilterFalsePositive() {
+			return changedPathFilterFalsePositive;
+		}
+
+		/**
+		 * Return how many times a changed path filter predicted that a path was
+		 * not changed in a commit (allowing that commit to be skipped), for
+		 * statistics gathering purposes.
+		 *
+		 * @return count of negatives
+		 */
+		public long getChangedPathFilterNegative() {
+			return changedPathFilterNegative;
+		}
+
+		/**
+		 * Return how many times a commit was evaluated by treeRevFilter
+		 *
+		 * @return count of treeRevFilter include calls
+		 */
+		public long getNumCommitsThroughTreeRevFilter() {
+			return numCommitsThroughTreeRevFilter;
+		}
+
+		/**
+		 * Return how many times a tree was parsed within TreeRevFilter
+		 *
+		 * @return count of trees parsed within TreeRevFilter
+		 */
+		public long getNumTreesParsedInTreeRevFilter() {
+			return numTreesParsedInTreeRevFilter;
 		}
 	}
 }
