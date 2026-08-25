@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f6df330_47403e2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-08-25T09:27:06Z",
+      "side": 1,
+      "message": "you ran `git commit` without the `--amend` option, I fixed this for you by squashing https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1246046 into this change\n\nnext time when you want to amend an existing change and upload a new version (aka patchset) do the following\n\n```\n# edit files for your change\n# `git add` them\n$ git commit --amend\n$ git push origin HEAD:refs/for/master\n```\n\nSince `commit --amend` preserves the ChangeId footer in the commit message Gerrit knows this is a new patchset for the already existing change and act accordingly.\nYou missed to use the --amend option which created a new commit on top of the previous version of the change and the commit-msg hook generated a new ChangeId footer into this new commit. Subsequently Gerrit showed an additional change.",
+      "parentUuid": "9550df5d_f82807c2",
+      "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe75207e_3108e5da",
