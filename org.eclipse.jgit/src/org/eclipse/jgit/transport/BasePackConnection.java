@@ -329,6 +329,7 @@ abstract class BasePackConnection extends BaseConnection {
 			pckOut.writeString("ref-prefix " + refPrefix); //$NON-NLS-1$
 		}
 		pckOut.end();
+		outNeedsEnd = false;
 		final Map<String, Ref> avail = new LinkedHashMap<>();
 		final Map<String, String> symRefs = new LinkedHashMap<>();
 		for (;;) {

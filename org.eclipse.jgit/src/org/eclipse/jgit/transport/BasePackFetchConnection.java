@@ -448,6 +448,10 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 				clearState();
 
 				receivePack(monitor, outputStream);
+			} else {
+				// We already have everything we wanted; no request was sent,
+				// so there is nothing for close() to flush-end later.
+				outNeedsEnd = false;
 			}
 		} catch (CancelledException ce) {
 			close();
@@ -483,7 +487,9 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		}
 
 		if (!sendWants(want, pckState, hasObjects)) {
-			// We already have everything we wanted.
+			// We already have everything we wanted; no request was sent,
+			// so there is nothing for close() to flush-end later.
+			outNeedsEnd = false;
 			return;
 		}
 
