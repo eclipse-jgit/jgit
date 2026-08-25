@@ -122,6 +122,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "855726fb_0f05e007",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/Mailmap.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1039346
+      },
+      "writtenOn": "2026-08-25T11:27:08Z",
+      "side": 1,
+      "message": "corrected and shown in new tests.",
+      "parentUuid": "01fdd243_5e8a6fa3",
+      "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75cfe8f4_48a1e53e",
@@ -153,6 +171,24 @@
       "side": 1,
       "message": "Could also address the point made here https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/154369/comment/01fdd243_5e8a6fa3/\nin that there is a hierarchy of matching - more specific (email+name) wins over less specific (email only)",
       "parentUuid": "75cfe8f4_48a1e53e",
+      "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ae6ab23_a051c641",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/Mailmap.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1039346
+      },
+      "writtenOn": "2026-08-25T11:27:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a60770b_4f6625c4",
       "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -191,6 +227,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a68216a_897d59c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/MailmapParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1039346
+      },
+      "writtenOn": "2026-08-25T11:27:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14c30c47_a413892a",
+      "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e39582d_e4d225ef",
@@ -204,6 +258,24 @@
       "writtenOn": "2026-04-13T17:41:31Z",
       "side": 1,
       "message": "Can become a record.",
+      "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dcd179d_7449e757",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/MailmapParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1039346
+      },
+      "writtenOn": "2026-08-25T11:27:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e39582d_e4d225ef",
       "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
