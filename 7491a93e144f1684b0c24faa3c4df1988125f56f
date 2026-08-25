@@ -50,6 +50,24 @@
       "message": "Trying to understand this better. This is about edits that belong to B (getLengthB is always \u003e 0), but we still want to assign to A.\n\nMaybe we could simplify the loop getting the case of \"all additions\" out of it:\nif (e.getLengthA() \u003d\u003d 0) {\n  // The edit is only adding lines to b.\n  // Assign it all to the insertion line in a\n  Region allToA \u003d new Region(r.resultStart, e.getBeginA(), rEnd); (? Recheck these params)\n  aTail \u003d ad(....);\n  return aTail.\n }\n \nAfter that, IIUC the edit is modifying a contiguous block of lines. Could we handle it as a block instead of line per line?\n\nIf the region in B is RB(10, 25) and the edit says \"lines 40-50 in A become lines 15-20 in B\", what is the expected output region?",
       "revId": "7491a93e144f1684b0c24faa3c4df1988125f56f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5157ed5d_14f0cc13",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-08-25T20:15:25Z",
+      "side": 1,
+      "message": "Good point about contiguous blocks of lines! I now added a new fast path to addIgnoredEdit so that blocks are transferred as a single region without looping. The loop is only kept for new insertions/expansions to clamp lines safely within parent bounds. Also added testBlameIgnoreContiguousBlockReformat to BlameGeneratorTest to test this explicitly.\n\nFor your example, lines 15..19 in B map directly to lines 40..44 in A as a single 5-line region.",
+      "parentUuid": "cc454953_d3fa50d3",
+      "revId": "7491a93e144f1684b0c24faa3c4df1988125f56f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
