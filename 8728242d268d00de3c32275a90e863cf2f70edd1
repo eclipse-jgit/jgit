@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "459dae0c_3de58e9e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-08-26T17:26:28Z",
+      "side": 1,
+      "message": "For pure additions (lengthA \u003d\u003d 0), parent A does not have those lines from B. If we created a single Region of that length then it would throw an IndexOutOfBoundsException for parent A.\n\nThe existing loop keeps every added line anchored to e.getBeginA(), which works because it creates 1-line regions that all point to the insertion line instead of walking past the end of parent A.",
+      "parentUuid": "fd84778b_9aabad14",
+      "revId": "8728242d268d00de3c32275a90e863cf2f70edd1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "664a03d2_c59832d0",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-08-26T16:31:45Z",
       "side": 1,
       "message": "Should we move most of the body to a function int aLine \u003d translateBIntoA(bline, e)?",
+      "range": {
+        "startLine": 296,
+        "startChar": 3,
+        "endLine": 315,
+        "endChar": 4
+      },
+      "revId": "8728242d268d00de3c32275a90e863cf2f70edd1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "797b3f49_31db03e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-08-26T17:26:28Z",
+      "side": 1,
+      "message": "Done!",
+      "parentUuid": "664a03d2_c59832d0",
       "range": {
         "startLine": 296,
         "startChar": 3,
