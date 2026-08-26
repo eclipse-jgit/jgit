@@ -1,0 +1,175 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad27a8fa_7eacf905",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-26T17:53:02Z",
+      "side": 1,
+      "message": "Nit: explain the first paragraph what is the problem and/or why do we need this change. \n\nIs this change for usability purposes (see the real modification of the line bypassing refactors) or performance (faster blame calculation?).\n\nSomething like:\n\n\"Git blame has a --ignore-revs-file option to skip over specified revisions. This allows uses to bypass [...] producing a clearer blame history assigning blame to real modifications instead of last line move. JGits BlameCommand/Generator is missing this functionality.\"",
+      "revId": "f58b5fb25b29b7321dddae8bbe64e467772f2457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9b1ba92_f807316b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-26T17:53:02Z",
+      "side": 1,
+      "message": "Thanks! It looks good. Few nits. \n\nThis shouldn\u0027t affect regular blame that doesn\u0027t use ignoredRevs. If we got something wrong we can always fix it in a follow up.",
+      "revId": "f58b5fb25b29b7321dddae8bbe64e467772f2457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38602e02_46133aa7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BlameCommand.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-26T17:53:02Z",
+      "side": 1,
+      "message": "Mention also here that ignoring refs disables using cached results.",
+      "revId": "f58b5fb25b29b7321dddae8bbe64e467772f2457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b2411a8_2d5b661b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BlameCommand.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-26T17:53:02Z",
+      "side": 1,
+      "message": "7.8",
+      "range": {
+        "startLine": 167,
+        "startChar": 11,
+        "endLine": 167,
+        "endChar": 14
+      },
+      "revId": "f58b5fb25b29b7321dddae8bbe64e467772f2457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ce7b023_580c5739",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-26T17:53:02Z",
+      "side": 1,
+      "message": "Mention in this javadoc that ignoring revs disables the cache.\n\nThinking about it, if it is about readable blames, then is fine, you really do not want to use the fully cached blame. \n\nIf this change is about performance in blame, disabling the cache would be a bad idea, as it saves a lot of walking/blaming.",
+      "revId": "f58b5fb25b29b7321dddae8bbe64e467772f2457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cca5e5d7_07bfede4",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-26T17:53:02Z",
+      "side": 1,
+      "message": "7.8",
+      "range": {
+        "startLine": 322,
+        "startChar": 11,
+        "endLine": 322,
+        "endChar": 14
+      },
+      "revId": "f58b5fb25b29b7321dddae8bbe64e467772f2457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce6c17e9_7e63e940",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-26T17:53:02Z",
+      "side": 1,
+      "message": "Nit: add paragraph here with a less technical wording:\n\n\"The edit blames some lines in B, but B is ignored, so we need to move the blame to A adapting the line numbers\".",
+      "revId": "f58b5fb25b29b7321dddae8bbe64e467772f2457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a32804c0_4d84146f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-26T17:53:02Z",
+      "side": 1,
+      "message": "We prefer early returns to keep indentation low.\n\nif (e.getLengthA() \u003d\u003d 0) {\n   return clamp(e.getBeginA(), 0, maxA);\n}",
+      "revId": "f58b5fb25b29b7321dddae8bbe64e467772f2457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e22f2c35_de63f85c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-26T17:53:02Z",
+      "side": 1,
+      "message": "Move this to a \"private static int clamp(int value, int min, int max), maybe implement it with Math.min/max combination. \n\nI think we cannot use the Math.clamp in java21 because jgit is still in java17 (?)",
+      "range": {
+        "startLine": 317,
+        "startChar": 0,
+        "endLine": 322,
+        "endChar": 3
+      },
+      "revId": "f58b5fb25b29b7321dddae8bbe64e467772f2457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
