@@ -34,6 +34,24 @@
       "parentUuid": "3044901f_bf615796",
       "revId": "9bcd76fe99110f242bf7062e84823735f5f17ae8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e752e2c_285ab92f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-26T21:13:25Z",
+      "side": 1,
+      "message": "We have another patch for the blame. I have just rebased this patch on top of it and I fixed a minor issue (takeBlame(..., false) -\u003e takeBlame(....)). \n\nI\u0027ll submit both of them as soon as i seen them verified.",
+      "parentUuid": "4545ee6c_912d49ca",
+      "revId": "9bcd76fe99110f242bf7062e84823735f5f17ae8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
