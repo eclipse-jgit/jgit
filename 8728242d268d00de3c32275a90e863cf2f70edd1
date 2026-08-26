@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd84778b_9aabad14",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-26T16:31:45Z",
+      "side": 1,
+      "message": "Can we move the case e.getLengthA() \u003d\u003d 0 here? IIUC that means that the edit was all additions in B and we just need to keep blaming in e.getBeginA() and the region would be new Region(r.resultStart, e.getBeginA(), r.length) [recheck this carefully, I may be completely wrong).",
+      "revId": "8728242d268d00de3c32275a90e863cf2f70edd1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "664a03d2_c59832d0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-26T16:31:45Z",
+      "side": 1,
+      "message": "Should we move most of the body to a function int aLine \u003d translateBIntoA(bline, e)?",
+      "range": {
+        "startLine": 296,
+        "startChar": 3,
+        "endLine": 315,
+        "endChar": 4
+      },
+      "revId": "8728242d268d00de3c32275a90e863cf2f70edd1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
