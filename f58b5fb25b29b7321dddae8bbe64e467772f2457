@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b6ddd984_8a60e048",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-08-26T18:56:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad27a8fa_7eacf905",
+      "revId": "f58b5fb25b29b7321dddae8bbe64e467772f2457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c9b1ba92_f807316b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 30
@@ -52,6 +70,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8425378e_69529c97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BlameCommand.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-08-26T18:56:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38602e02_46133aa7",
+      "revId": "f58b5fb25b29b7321dddae8bbe64e467772f2457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b2411a8_2d5b661b",
@@ -65,6 +101,30 @@
       "writtenOn": "2026-08-26T17:53:02Z",
       "side": 1,
       "message": "7.8",
+      "range": {
+        "startLine": 167,
+        "startChar": 11,
+        "endLine": 167,
+        "endChar": 14
+      },
+      "revId": "f58b5fb25b29b7321dddae8bbe64e467772f2457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87387dfc_9369f227",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BlameCommand.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-08-26T18:56:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b2411a8_2d5b661b",
       "range": {
         "startLine": 167,
         "startChar": 11,
@@ -92,6 +152,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb98351d_1cb44a66",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-08-26T18:56:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ce7b023_580c5739",
+      "revId": "f58b5fb25b29b7321dddae8bbe64e467772f2457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cca5e5d7_07bfede4",
@@ -105,6 +183,30 @@
       "writtenOn": "2026-08-26T17:53:02Z",
       "side": 1,
       "message": "7.8",
+      "range": {
+        "startLine": 322,
+        "startChar": 11,
+        "endLine": 322,
+        "endChar": 14
+      },
+      "revId": "f58b5fb25b29b7321dddae8bbe64e467772f2457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a02092c7_d73e11ff",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-08-26T18:56:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cca5e5d7_07bfede4",
       "range": {
         "startLine": 322,
         "startChar": 11,
@@ -132,6 +234,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5fe553a_a60411a0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-08-26T18:56:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce6c17e9_7e63e940",
+      "revId": "f58b5fb25b29b7321dddae8bbe64e467772f2457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a32804c0_4d84146f",
@@ -149,6 +269,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf902c24_03074380",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-08-26T18:56:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a32804c0_4d84146f",
+      "revId": "f58b5fb25b29b7321dddae8bbe64e467772f2457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e22f2c35_de63f85c",
@@ -162,6 +300,30 @@
       "writtenOn": "2026-08-26T17:53:02Z",
       "side": 1,
       "message": "Move this to a \"private static int clamp(int value, int min, int max), maybe implement it with Math.min/max combination. \n\nI think we cannot use the Math.clamp in java21 because jgit is still in java17 (?)",
+      "range": {
+        "startLine": 317,
+        "startChar": 0,
+        "endLine": 322,
+        "endChar": 3
+      },
+      "revId": "f58b5fb25b29b7321dddae8bbe64e467772f2457",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f5cd7ef_f5d0de08",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Candidate.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1039155
+      },
+      "writtenOn": "2026-08-26T18:56:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e22f2c35_de63f85c",
       "range": {
         "startLine": 317,
         "startChar": 0,
