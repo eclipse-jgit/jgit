@@ -89,6 +89,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f08613c_497c0098",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-08-27T21:39:12Z",
+      "side": 1,
+      "message": "Ok, let\u0027s try this. We can always adjust later. I do still think it\u0027s (separately) worth changing the default `isCancelled()` to check for thread interruptions.",
+      "parentUuid": "ebf14236_7c480e82",
+      "revId": "91b1ccbb97c77b06ebb290ba20c6086ec9108334",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ecde0e1_d6ceb7be",
