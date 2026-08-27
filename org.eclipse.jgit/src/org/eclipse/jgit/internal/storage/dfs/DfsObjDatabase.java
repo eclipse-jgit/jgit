@@ -91,6 +91,12 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		COMPACT,
 
 		/**
+		 * Pack was created by Git incremental garbage collection from
+		 * heads/tags.
+		 */
+		GC_PART,
+
+		/**
 		 * Pack was created by Git garbage collection by this implementation.
 		 * <p>
 		 * This source is only used by the {@link DfsGarbageCollector} when it
@@ -100,6 +106,9 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		 * @see DfsGarbageCollector
 		 */
 		GC,
+
+		/** Created from non-heads by incremental garbage collection. */
+		GC_REST_PART,
 
 		/** Created from non-heads by {@link DfsGarbageCollector}. */
 		GC_REST,
@@ -124,7 +133,9 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 				new ComparatorBuilder()
 						.add(INSERT, RECEIVE)
 						.add(COMPACT)
+						.add(GC_PART)
 						.add(GC)
+						.add(GC_REST_PART)
 						.add(GC_REST)
 						.add(UNREACHABLE_GARBAGE)
 						.build();

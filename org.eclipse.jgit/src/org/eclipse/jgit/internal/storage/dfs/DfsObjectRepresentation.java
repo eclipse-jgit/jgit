@@ -43,7 +43,9 @@ class DfsObjectRepresentation extends StoredObjectRepresentation {
 	public boolean wasDeltaAttempted() {
 		switch (pack.getPackDescription().getPackSource()) {
 		case GC:
+		case GC_PART:
 		case GC_REST:
+		case GC_REST_PART:
 			return true;
 		default:
 			return false;
