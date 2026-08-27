@@ -13,7 +13,9 @@ package org.eclipse.jgit.internal.storage.dfs;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.COMPACT;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.DEFAULT_COMPARATOR;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
+import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_PART;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_REST;
+import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_REST_PART;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.INSERT;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.RECEIVE;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
@@ -27,7 +29,9 @@ public class PackSourceTest {
 		assertEquals(0, DEFAULT_COMPARATOR.compare(INSERT, INSERT));
 		assertEquals(0, DEFAULT_COMPARATOR.compare(RECEIVE, RECEIVE));
 		assertEquals(0, DEFAULT_COMPARATOR.compare(COMPACT, COMPACT));
+		assertEquals(0, DEFAULT_COMPARATOR.compare(GC_PART, GC_PART));
 		assertEquals(0, DEFAULT_COMPARATOR.compare(GC, GC));
+		assertEquals(0, DEFAULT_COMPARATOR.compare(GC_REST_PART, GC_REST_PART));
 		assertEquals(0, DEFAULT_COMPARATOR.compare(GC_REST, GC_REST));
 		assertEquals(0, DEFAULT_COMPARATOR.compare(UNREACHABLE_GARBAGE, UNREACHABLE_GARBAGE));
 
@@ -40,10 +44,19 @@ public class PackSourceTest {
 		assertEquals(-1, DEFAULT_COMPARATOR.compare(RECEIVE, COMPACT));
 		assertEquals(1, DEFAULT_COMPARATOR.compare(COMPACT, RECEIVE));
 
-		assertEquals(-1, DEFAULT_COMPARATOR.compare(COMPACT, GC));
-		assertEquals(1, DEFAULT_COMPARATOR.compare(GC, COMPACT));
+		assertEquals(-1, DEFAULT_COMPARATOR.compare(COMPACT, GC_PART));
+		assertEquals(1, DEFAULT_COMPARATOR.compare(GC_PART, COMPACT));
 
-		assertEquals(-1, DEFAULT_COMPARATOR.compare(GC, GC_REST));
-		assertEquals(1, DEFAULT_COMPARATOR.compare(GC_REST, GC));
+		assertEquals(-1, DEFAULT_COMPARATOR.compare(GC_PART, GC));
+		assertEquals(1, DEFAULT_COMPARATOR.compare(GC, GC_PART));
+
+		assertEquals(-1, DEFAULT_COMPARATOR.compare(GC, GC_REST_PART));
+		assertEquals(1, DEFAULT_COMPARATOR.compare(GC_REST_PART, GC));
+
+		assertEquals(-1, DEFAULT_COMPARATOR.compare(GC_REST_PART, GC_REST));
+		assertEquals(1, DEFAULT_COMPARATOR.compare(GC_REST, GC_REST_PART));
+
+		assertEquals(-1, DEFAULT_COMPARATOR.compare(GC_REST, UNREACHABLE_GARBAGE));
+		assertEquals(1, DEFAULT_COMPARATOR.compare(UNREACHABLE_GARBAGE, GC_REST));
 	}
 }
