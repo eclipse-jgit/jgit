@@ -1,0 +1,7 @@
+Code-Review+2: Martin Fick <mfick@nvidia.com>
+Verified+1: eclipse-jgit-bot <jgit-bot@eclipse.org>
+Submitted-by: Martin Fick <mfick@nvidia.com>
+Submitted-at: Fri, 28 Aug 2026 23:15:42 +0000
+Reviewed-on: https://gerrithub.io/c/eclipse-jgit/jgit/+/1246015
+Project: eclipse-jgit/jgit
+Branch: refs/heads/stable-7.2
