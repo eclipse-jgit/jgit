@@ -369,7 +369,6 @@ java_library(
 
 java_library(
     name = "xz",
-    testonly = 1,
     visibility = ["//visibility:public"],
     exports = ["@external_deps//:org_tukaani_xz"],
 )
