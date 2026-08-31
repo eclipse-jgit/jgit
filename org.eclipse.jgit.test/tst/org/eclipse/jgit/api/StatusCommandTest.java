@@ -184,6 +184,28 @@ public class StatusCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testUntrackedFolderNotDroppedByUnrelatedStagedDeletion()
+			throws Exception {
+		// A staged (but uncommitted) deletion of a tracked file elsewhere in
+		// the repository must not cause an unrelated, still-untracked folder
+		// to disappear from getUntrackedFolders() -- gh-279.
+		try (Git git = new Git(db)) {
+			writeTrashFile("a/first.txt", "first");
+			writeTrashFile("b/second.txt", "second");
+			git.add().addFilepattern(".").call();
+			git.commit().setMessage("init").call();
+
+			writeTrashFile("a/untracked/file.txt", "untracked");
+			Status stat = git.status().call();
+			assertEquals(Sets.of("a/untracked"), stat.getUntrackedFolders());
+
+			git.rm().addFilepattern("b/second.txt").call();
+			stat = git.status().call();
+			assertEquals(Sets.of("a/untracked"), stat.getUntrackedFolders());
+		}
+	}
+
+	@Test
 	public void testNestedCommittedGitRepoAndPathFilter() throws Exception {
 		commitFile("file.txt", "file", "master");
 		try (Repository inner = new FileRepositoryBuilder()
