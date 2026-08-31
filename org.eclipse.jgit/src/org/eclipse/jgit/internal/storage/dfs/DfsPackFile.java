@@ -1420,7 +1420,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 			CommitGraph cg;
 			try {
 				cg = CommitGraphLoader.read(alignTo8kBlocks(rc),
-						readChangedPathFilters);
+						readChangedPathFilters ? -1 : 0);
 			} finally {
 				size = rc.position();
 				ctx.stats.readCommitGraphBytes += size;
