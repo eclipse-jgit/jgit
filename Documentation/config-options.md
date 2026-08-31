@@ -13,6 +13,7 @@ For details on native git options see also the official [git config documentatio
 
 |  option | default | git option | description |
 |---------|---------|------------|-------------|
+| `commitGraph.changedPathsVersion` | `0` | &#x2705; | Version of the changed-path Bloom filters that Git will read and write (0 is disabled, -1 any, n version n). Version 1 is not supported and JGit will skip loading bloom filters if that version is specified.|
 | `commitGraph.readChangedPaths` | `false` | &#x2705; | Whether to use the changed-path Bloom filters in the commit-graph file (if it exists, and they are present). |
 
 ## __core__ options
