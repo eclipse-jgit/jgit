@@ -18,6 +18,41 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b065d4c_fe378b71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-31T20:58:18Z",
+      "side": 1,
+      "message": "Can we submit this and get rid of the downstream patch?",
+      "revId": "9fdbbbc3b880e5bd6e026c035451b65c38f78693",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72c347ad_c8c7360b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-31T20:58:18Z",
+      "side": 1,
+      "message": "\u003e I think the fundamental question for this change is that whether commitGraph. changedPathsVersion requires us to keep commit graph data in memory consistent with the flag.\n\nI asked AI and it says: \"... the main reason to turn off commitGraph.readChangedPaths was protection against a subtle bug and corruption in the changed-paths Bloom filters, rather than saving memory.\"\n\n\"The primary reason this toggle exists—and why it was heavily utilized—dates back to a known bug in Version 1 Bloom filters. [...] Setting commitGraph.readChangedPaths \u003d false allowed users and administrators to instantly safeguard their workflows from reading these broken filters without needing to completely delete or rebuild the entire commit-graph\"\n\n\"While turning it off technically prevents Git from allocating the small chunk of memory [...], memory savings are almost never the motivating factor.\"\n\nAt least for now, we can live with the CPF still in memory but hidden.",
+      "parentUuid": "24a2ed63_3cf4fd33",
+      "revId": "9fdbbbc3b880e5bd6e026c035451b65c38f78693",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "468b959a_ded17862",
@@ -31,6 +66,24 @@
       "writtenOn": "2026-08-31T18:38:04Z",
       "side": 1,
       "message": "nit: this is a deprecated flag per https://git-scm.com/docs/git-commit-graph#Documentation/git-commit-graph.txt-commitGraphreadChangedPaths. \n\nWe should change it to use `commitGraph.changedPathsVersion`. Though this is not urgent since afaik we don\u0027t have multiple versions of BF in JGit.\n\nHowever, if we ever going to have multiple versions of BF by this flag, then we can\u0027t keep this layer of check in DfsPackFile.",
+      "revId": "9fdbbbc3b880e5bd6e026c035451b65c38f78693",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "805af7af_0274dcd0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/dfs/DfsPackFile.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-08-31T20:58:18Z",
+      "side": 1,
+      "message": "We can do that in a follow-up change.",
+      "parentUuid": "468b959a_ded17862",
       "revId": "9fdbbbc3b880e5bd6e026c035451b65c38f78693",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
