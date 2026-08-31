@@ -1423,8 +1423,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 			long size;
 			CommitGraph cg;
 			try {
-				cg = CommitGraphLoader.read(alignTo8kBlocks(rc),
-						true);
+				cg = CommitGraphLoader.read(alignTo8kBlocks(rc), -1);
 			} finally {
 				size = rc.position();
 				ctx.stats.readCommitGraphBytes += size;

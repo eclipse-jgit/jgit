@@ -111,7 +111,7 @@ public class CommitGraphLoader {
 			readChangedPathFilters = false;
 		}
 
-		return read(fd, readChangedPathFilters);
+		return read(fd, readChangedPathFilters ? -1 : 0);
 	}
 
 	/**
@@ -126,8 +126,9 @@ public class CommitGraphLoader {
 	 *            buffered as some small IOs are performed against the stream.
 	 *            The caller is responsible for closing the stream.
 	 *
-	 * @param readChangedPathFilters
-	 *            enable reading bloom filter chunks.
+	 * @param changedPathsVersion
+	 *            the version of changed path bloom filters to read (-1 for any
+	 *            supported version, 0 to disable reading, 1 for v1, etc.).
 	 *
 	 * @return a copy of the commit-graph file in memory
 	 * @throws CommitGraphFormatException
@@ -135,8 +136,7 @@ public class CommitGraphLoader {
 	 * @throws java.io.IOException
 	 *             the stream cannot be read.
 	 */
-	public static CommitGraph read(InputStream fd,
-			boolean readChangedPathFilters)
+	public static CommitGraph read(InputStream fd, int changedPathsVersion)
 			throws CommitGraphFormatException, IOException {
 		byte[] hdr = new byte[8];
 		IO.readFully(fd, hdr, 0, hdr.length);
@@ -183,6 +183,8 @@ public class CommitGraphLoader {
 		}
 
 		CommitGraphBuilder builder = CommitGraphBuilder.builder();
+		byte[] bloomFilterIndex = null;
+		byte[] bloomFilterData = null;
 		for (int i = 0; i < numberOfChunks; i++) {
 			long chunkOffset = chunks.get(i).offset;
 			int chunkId = chunks.get(i).id;
@@ -193,7 +195,7 @@ public class CommitGraphLoader {
 						JGitText.get().commitGraphFileIsTooLargeForJgit);
 			}
 
-			byte buffer[] = new byte[(int) len];
+			byte[] buffer = new byte[(int) len];
 			IO.readFully(fd, buffer, 0, buffer.length);
 
 			switch (chunkId) {
@@ -210,19 +212,44 @@ public class CommitGraphLoader {
 				builder.addExtraList(buffer);
 				break;
 			case CHUNK_ID_BLOOM_FILTER_INDEX:
-				if (readChangedPathFilters) {
-					builder.addBloomFilterIndex(buffer);
+				if (bloomFilterIndex != null) {
+					throw new CommitGraphFormatException(MessageFormat.format(
+							JGitText.get().commitGraphChunkRepeated,
+							Integer.toHexString(chunkId)));
 				}
+				bloomFilterIndex = buffer;
 				break;
 			case CHUNK_ID_BLOOM_FILTER_DATA:
-				if (readChangedPathFilters) {
-					builder.addBloomFilterData(buffer);
+				if (bloomFilterData != null) {
+					throw new CommitGraphFormatException(MessageFormat.format(
+							JGitText.get().commitGraphChunkRepeated,
+							Integer.toHexString(chunkId)));
 				}
+				bloomFilterData = buffer;
 				break;
 			default:
 				LOG.warn(MessageFormat.format(
 						JGitText.get().commitGraphChunkUnknown,
 						Integer.toHexString(chunkId)));
+			}
+		}
+
+		// A file with v1 could be v1 or v2 depending who created it (cgit or
+		// jgit). On top of that, JGit doesn't understand v1.
+		// If caller explicitly wants v1, act like there are no bloom filters.
+		if (changedPathsVersion == 0 || changedPathsVersion == 1) {
+			return builder.build();
+		}
+
+		if (bloomFilterIndex != null && bloomFilterData != null) {
+			if (bloomFilterData.length >= 4) {
+				int fileBloomVersion = (int) NB.decodeUInt32(bloomFilterData,
+						0);
+				if (changedPathsVersion == -1
+						|| changedPathsVersion == fileBloomVersion) {
+					builder.addBloomFilterIndex(bloomFilterIndex);
+					builder.addBloomFilterData(bloomFilterData);
+				}
 			}
 		}
 		return builder.build();
