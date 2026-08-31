@@ -60,13 +60,13 @@ import org.eclipse.jgit.internal.storage.pack.StoredObjectRepresentation;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BitmapIndex;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.LongList;
 
@@ -359,13 +359,10 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 			return null;
 		}
 
-		StoredConfig repoConfig = ctx.db.getRepository().getConfig();
-		boolean readChangedPathFilters = repoConfig.getBoolean(
-				ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
-				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
-
+		int changedPathsVersion = getChangedPathsVersion(
+				ctx.db.getRepository().getConfig());
 		if (commitGraph != null) {
-			return readChangedPathFilters ? commitGraph
+			return changedPathsVersion != 0 ? commitGraph
 					: new CommitGraphWithoutCpf(commitGraph);
 		}
 
@@ -374,7 +371,8 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 		DfsBlockCache.Ref<CommitGraph> cgref = cache
 				.getOrLoadRef(commitGraphKey, REF_POSITION, () -> {
 					cacheHit.set(false);
-					return loadCommitGraph(ctx, commitGraphKey);
+					return loadCommitGraph(ctx, commitGraphKey,
+							changedPathsVersion);
 				});
 		if (cacheHit.get()) {
 			ctx.stats.commitGraphCacheHit++;
@@ -384,7 +382,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 			commitGraph = cg;
 		}
 		ctx.emitIndexLoad(desc, COMMIT_GRAPH, commitGraph);
-		return readChangedPathFilters ? commitGraph
+		return changedPathsVersion != 0 ? commitGraph
 				: new CommitGraphWithoutCpf(commitGraph);
 	}
 
@@ -1416,14 +1414,17 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 	}
 
 	private DfsBlockCache.Ref<CommitGraph> loadCommitGraph(DfsReader ctx,
-			DfsStreamKey cgkey) throws IOException {
+			DfsStreamKey cgkey, int changedPathsVersion) throws IOException {
 		ctx.stats.readCommitGraph++;
 		long start = System.nanoTime();
 		try (ReadableChannel rc = ctx.db.openFile(desc, COMMIT_GRAPH)) {
 			long size;
 			CommitGraph cg;
 			try {
-				cg = CommitGraphLoader.read(alignTo8kBlocks(rc), -1);
+				// We always load changedPathsFilters. When disabled with 0,
+				// caller hides them with a wrapper
+				cg = CommitGraphLoader.read(alignTo8kBlocks(rc),
+						changedPathsVersion == 0 ? -1 : changedPathsVersion);
 			} finally {
 				size = rc.position();
 				ctx.stats.readCommitGraphBytes += size;
@@ -1437,6 +1438,27 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 							desc.getFileName(COMMIT_GRAPH)),
 					e);
 		}
+	}
+
+	private int getChangedPathsVersion(Config repoConfig) {
+		int changedPathsVersion;
+		try {
+			Integer version = repoConfig.getInt(
+					ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+					ConfigConstants.CONFIG_KEY_CHANGED_PATHS_VERSION);
+			if (version != null) {
+				changedPathsVersion = version.intValue();
+			} else {
+				changedPathsVersion = repoConfig.getBoolean(
+						ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+						ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false)
+								? -1
+								: 0;
+			}
+		} catch (IllegalArgumentException e) {
+			changedPathsVersion = 0;
+		}
+		return changedPathsVersion;
 	}
 
 	private static InputStream alignTo8kBlocks(ReadableChannel rc) {
