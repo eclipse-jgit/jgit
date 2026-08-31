@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
@@ -99,19 +100,28 @@ public class CommitGraphLoader {
 	public static CommitGraph read(InputStream fd)
 			throws CommitGraphFormatException, IOException {
 
-		boolean readChangedPathFilters;
+		int changedPathsVersion;
 		try {
-			readChangedPathFilters = SystemReader.getInstance().getJGitConfig()
-					.getBoolean(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
-							ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS,
-							false);
-		} catch (ConfigInvalidException e) {
+			Config config = SystemReader.getInstance().getJGitConfig();
+			Integer version = config.getInt(
+					ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+					ConfigConstants.CONFIG_KEY_CHANGED_PATHS_VERSION);
+			if (version != null) {
+				changedPathsVersion = version.intValue();
+			} else {
+				changedPathsVersion = config.getBoolean(
+						ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+						ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false)
+								? -1
+								: 0;
+			}
+		} catch (ConfigInvalidException | IllegalArgumentException e) {
 			// Use the default value if, for some reason, the config couldn't be
 			// read.
-			readChangedPathFilters = false;
+			changedPathsVersion = 0;
 		}
 
-		return read(fd, readChangedPathFilters ? -1 : 0);
+		return read(fd, changedPathsVersion);
 	}
 
 	/**

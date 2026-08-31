@@ -1082,6 +1082,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_WRITE_CHANGED_PATHS = "writeChangedPaths";
 
 	/**
+	 * The "changedPathsVersion" key
+	 *
+	 * @since 7.8
+	 */
+	public static final String CONFIG_KEY_CHANGED_PATHS_VERSION = "changedPathsVersion";
+
+	/**
 	 * The "readChangedPaths" key
 	 *
 	 * @since 6.7

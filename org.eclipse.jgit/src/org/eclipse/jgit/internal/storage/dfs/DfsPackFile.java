@@ -1412,15 +1412,29 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 		ctx.stats.readCommitGraph++;
 		long start = System.nanoTime();
 		StoredConfig repoConfig = ctx.db.getRepository().getConfig();
-		boolean readChangedPathFilters = repoConfig.getBoolean(
-				ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
-				ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false);
+		int changedPathsVersion;
+		try {
+			Integer version = repoConfig.getInt(
+					ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+					ConfigConstants.CONFIG_KEY_CHANGED_PATHS_VERSION);
+			if (version != null) {
+				changedPathsVersion = version.intValue();
+			} else {
+				changedPathsVersion = repoConfig.getBoolean(
+						ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION,
+						ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS, false)
+								? -1
+								: 0;
+			}
+		} catch (IllegalArgumentException e) {
+			changedPathsVersion = 0;
+		}
 		try (ReadableChannel rc = ctx.db.openFile(desc, COMMIT_GRAPH)) {
 			long size;
 			CommitGraph cg;
 			try {
 				cg = CommitGraphLoader.read(alignTo8kBlocks(rc),
-						readChangedPathFilters ? -1 : 0);
+						changedPathsVersion);
 			} finally {
 				size = rc.position();
 				ctx.stats.readCommitGraphBytes += size;
