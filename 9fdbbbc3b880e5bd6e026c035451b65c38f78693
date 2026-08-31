@@ -53,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "575d6d99_05300e44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2026-08-31T22:11:43Z",
+      "side": 1,
+      "message": "yes, the motivation of the jgit usage for this flag was to prevent data corruption in the initial phase of the rollout.",
+      "parentUuid": "72c347ad_c8c7360b",
+      "revId": "9fdbbbc3b880e5bd6e026c035451b65c38f78693",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "468b959a_ded17862",
