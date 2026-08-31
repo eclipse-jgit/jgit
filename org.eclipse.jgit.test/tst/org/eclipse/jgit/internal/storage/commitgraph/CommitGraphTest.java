@@ -15,6 +15,8 @@ import static org.eclipse.jgit.lib.Constants.COMMIT_GENERATION_UNKNOWN;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
@@ -225,6 +227,39 @@ public class CommitGraphTest extends RepositoryTestCase {
 		assertTrue(ccpf.maybeContains("d/f".getBytes(UTF_8)));
 	}
 
+	@Test
+	public void testGraphChangedPathsVersionDisabled() throws Exception {
+		RevCommit a = tr.commit(tr.tree(tr.file("d/f", tr.blob("a"))));
+		writeAndReadCommitGraph(Collections.singleton(a), 0);
+		assertNull(commitGraph
+				.getChangedPathFilter(commitGraph.findGraphPosition(a)));
+	}
+
+	@Test
+	public void testGraphChangedPathsVersion1() throws Exception {
+		RevCommit a = tr.commit(tr.tree(tr.file("d/f", tr.blob("a"))));
+		writeAndReadCommitGraph(Collections.singleton(a), 1);
+		assertNotNull(commitGraph
+				.getChangedPathFilter(commitGraph.findGraphPosition(a)));
+	}
+
+	@Test
+	public void testGraphChangedPathsVersion2Mismatch() throws Exception {
+		RevCommit a = tr.commit(tr.tree(tr.file("d/f", tr.blob("a"))));
+		// The generated commit-graph has bloom filter version 1, so version 2 should not load it
+		writeAndReadCommitGraph(Collections.singleton(a), 2);
+		assertNull(commitGraph
+				.getChangedPathFilter(commitGraph.findGraphPosition(a)));
+	}
+
+	@Test
+	public void testGraphChangedPathsVersionDefault() throws Exception {
+		RevCommit a = tr.commit(tr.tree(tr.file("d/f", tr.blob("a"))));
+		writeAndReadCommitGraph(Collections.singleton(a), -1);
+		assertNotNull(commitGraph
+				.getChangedPathFilter(commitGraph.findGraphPosition(a)));
+	}
+
 	void writeAndReadCommitGraph(Set<ObjectId> wants) throws Exception {
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		try (RevWalk walk = new RevWalk(db)) {
@@ -235,6 +270,21 @@ public class CommitGraphTest extends RepositoryTestCase {
 			InputStream inputStream = new ByteArrayInputStream(
 					os.toByteArray());
 			commitGraph = CommitGraphLoader.read(inputStream);
+		}
+	}
+
+	void writeAndReadCommitGraph(Set<ObjectId> wants,
+			int changedPathsVersion) throws Exception {
+		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
+		try (RevWalk walk = new RevWalk(db)) {
+			CommitGraphWriter writer = new CommitGraphWriter(
+					GraphCommits.fromWalk(m, wants, walk), true);
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+			writer.write(m, os);
+			InputStream inputStream = new ByteArrayInputStream(
+					os.toByteArray());
+			commitGraph = CommitGraphLoader.read(inputStream,
+					changedPathsVersion);
 		}
 	}
 
