@@ -20,7 +20,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.errors.NoHeadException;
@@ -58,6 +60,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk.OperationType;
+import org.eclipse.jgit.treewalk.filter.ChangedPathTreeFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.IO;
@@ -143,6 +146,14 @@ public class BlameGenerator implements AutoCloseable {
 	private boolean useCache = true;
 
 	private final Stats stats = new Stats();
+
+	private boolean useCommitGraphOptimizations;
+
+	private ChangedPathTreeFilter changedPathTreeFilter;
+
+	private final TreeFilter.MutableBoolean changedPathFilterUsed = new TreeFilter.MutableBoolean();
+
+	private Set<ObjectId> ignoreIds = Collections.emptySet();
 
 	/**
 	 * Create a blame generator for the repository and path (relative to
@@ -268,6 +279,27 @@ public class BlameGenerator implements AutoCloseable {
 	}
 
 	/**
+	 * Enable Commit Graph related optimizations.
+	 * <p>
+	 * If true, all commits will be parsed from Commit Graph if Commit Graph is
+	 * available. Use ChangedPathFilter if available.
+	 *
+	 * @param useCommitGraph
+	 *            set useCommitGraphOptimizations.
+	 * @return {@code this}
+	 *
+	 * @since 7.8
+	 */
+	public BlameGenerator setUseCommitGraphOptimizations(
+			boolean useCommitGraph) {
+		useCommitGraphOptimizations = useCommitGraph;
+		changedPathTreeFilter = ChangedPathTreeFilter
+				.create(resultPath.getPath());
+		revPool.setRetainBody(!useCommitGraph);
+		return this;
+	}
+
+	/**
 	 * Obtain the RenameDetector, allowing the application to configure its
 	 * settings for rename score and breaking behavior.
 	 *
@@ -302,6 +334,36 @@ public class BlameGenerator implements AutoCloseable {
 	 */
 	public void setUseCache(boolean useCache) {
 		this.useCache = useCache;
+	}
+
+	/**
+	 * Set revisions to ignore during blame.
+	 * <p>
+	 * Revisions to ignore are applied during forward blame traversal. When an
+	 * ignored commit is encountered, modified lines are transferred to the
+	 * parent commit without attributing blame to the ignored revision.
+	 * Specifying revisions to ignore disables using cached blame results.
+	 *
+	 * @param ids
+	 *            a {@link java.util.Collection} of
+	 *            {@link org.eclipse.jgit.lib.ObjectId}.
+	 * @return {@code this}
+	 * @since 7.8
+	 */
+	public BlameGenerator setIgnoreRevs(Collection<? extends ObjectId> ids) {
+		if (ids != null && !ids.isEmpty()) {
+			this.ignoreIds = Collections.unmodifiableSet(new HashSet<>(ids));
+			this.useCache = false;
+		} else {
+			this.ignoreIds = Collections.emptySet();
+		}
+		return this;
+	}
+
+	private boolean isIgnored(Candidate n) {
+		return !ignoreIds.isEmpty() && n.sourceCommit != null
+				&& !(n instanceof ReverseCandidate)
+				&& ignoreIds.contains(n.sourceCommit.getId());
 	}
 
 	/**
@@ -481,6 +543,7 @@ public class BlameGenerator implements AutoCloseable {
 					resultPath);
 			c.sourceBlob = id.toObjectId();
 			c.sourceText = new RawText(ldr.getCachedBytes(Integer.MAX_VALUE));
+			stats.blobsParsed++;
 			c.regionList = new Region(0, 0, c.sourceText.size());
 			remaining = c.sourceText.size();
 			push(c);
@@ -494,6 +557,7 @@ public class BlameGenerator implements AutoCloseable {
 		Candidate c = new Candidate(getRepository(), commit, resultPath);
 		c.sourceBlob = idBuf.toObjectId();
 		c.loadText(reader);
+		stats.blobsParsed++;
 		c.regionList = new Region(0, 0, c.sourceText.size());
 		remaining = c.sourceText.size();
 		push(c);
@@ -579,6 +643,7 @@ public class BlameGenerator implements AutoCloseable {
 				resultPath);
 		c.sourceBlob = idBuf.toObjectId();
 		c.loadText(reader);
+		stats.blobsParsed++;
 		c.regionList = new Region(0, 0, c.sourceText.size());
 		remaining = c.sourceText.size();
 		push(c);
@@ -652,7 +717,6 @@ public class BlameGenerator implements AutoCloseable {
 			if (n == null)
 				return done();
 			stats.candidatesVisited += 1;
-
 			int pCnt = n.getParentCount();
 			if (pCnt == 1) {
 				if (processOne(n))
@@ -758,7 +822,7 @@ public class BlameGenerator implements AutoCloseable {
 
 	@Nullable
 	private Candidate blameFromCache(Candidate n) throws IOException {
-		if (blameCache == null || !useCache) {
+		if (blameCache == null || !useCache || !ignoreIds.isEmpty()) {
 			return null;
 		}
 
@@ -783,9 +847,33 @@ public class BlameGenerator implements AutoCloseable {
 			return split(n.getNextCandidate(0), n);
 		revPool.parseHeaders(parent);
 
-		if (find(parent, n.sourcePath)) {
-			if (idBuf.equals(n.sourceBlob))
+		if (useCommitGraphOptimizations) {
+			RevCommit c = n.sourceCommit;
+			String path = n.sourcePath.getPath();
+			if (!changedPathTreeFilter.getPaths().contains(path)) {
+				changedPathTreeFilter.setPaths(path);
+			}
+			changedPathFilterUsed.reset();
+			boolean mightHaveChangedFile = changedPathTreeFilter
+					.shouldTreeWalk(c, revPool, changedPathFilterUsed);
+			if (!mightHaveChangedFile) {
+				// commit didn't change the file or renamed the file.
+				stats.changedPathFilterNegative++;
 				return blameEntireRegionOnParent(n, parent);
+			}
+		}
+
+		// parent has access to the same file
+		if (find(parent, n.sourcePath)) {
+			if (idBuf.equals(n.sourceBlob)) {
+				if (changedPathFilterUsed.get()) {
+					stats.changedPathFilterFalsePositive++;
+				}
+				return blameEntireRegionOnParent(n, parent);
+			}
+			if (changedPathFilterUsed.get()) {
+				stats.changedPathFilterTruePositive++;
+			}
 			return splitBlameWithParent(n, parent);
 		}
 
@@ -793,10 +881,17 @@ public class BlameGenerator implements AutoCloseable {
 			return result(n);
 
 		DiffEntry r = findRename(parent, n.sourceCommit, n.sourcePath);
-		if (r == null)
+		if (r == null) {
+			if (changedPathFilterUsed.get()) {
+				stats.changedPathFilterTruePositive++;
+			}
 			return result(n);
+		}
 
 		if (0 == r.getOldId().prefixCompare(n.sourceBlob)) {
+			if (changedPathFilterUsed.get()) {
+				stats.changedPathFilterTruePositive++;
+			}
 			// A 100% rename without any content change can also
 			// skip directly to the parent.
 			Candidate cached = blameFromCache(n);
@@ -809,12 +904,17 @@ public class BlameGenerator implements AutoCloseable {
 			return false;
 		}
 
+		// commit renamed the file and made content change
+		if (changedPathFilterUsed.get()) {
+			stats.changedPathFilterTruePositive++;
+		}
 
 		Candidate next = n.create(getRepository(), parent,
 				PathFilter.create(r.getOldPath()));
 		next.sourceBlob = r.getOldId().toObjectId();
 		next.renameScore = r.getScore();
 		next.loadText(reader);
+		stats.blobsParsed++;
 		return split(next, n);
 	}
 
@@ -830,6 +930,7 @@ public class BlameGenerator implements AutoCloseable {
 		Candidate next = n.create(getRepository(), parent, n.sourcePath);
 		next.sourceBlob = idBuf.toObjectId();
 		next.loadText(reader);
+		stats.blobsParsed++;
 		return split(next, n);
 	}
 
@@ -851,7 +952,8 @@ public class BlameGenerator implements AutoCloseable {
 			return result(cached);
 		}
 
-		parent.takeBlame(editList, source);
+		boolean isIgnored = isIgnored(source);
+		parent.takeBlame(editList, source, isIgnored);
 		if (parent.regionList != null)
 			push(parent);
 		if (source.regionList != null) {
@@ -938,6 +1040,7 @@ public class BlameGenerator implements AutoCloseable {
 				editList = new EditList(0);
 			} else {
 				p.loadText(reader);
+				stats.blobsParsed++;
 				editList = diffAlgorithm.diff(textComparator, p.sourceText,
 						n.sourceText);
 			}
@@ -1009,6 +1112,47 @@ public class BlameGenerator implements AutoCloseable {
 			return false;
 		}
 
+		if (n.regionList != null && isIgnored(n)) {
+			// Any remaining regions represent conflict resolutions or new
+			// edits authored directly in the merge commit itself (which did
+			// not match any parent). Since this merge commit is ignored, we
+			// must not blame it. Instead, transfer the leftover regions to
+			// an active parent candidate so traversal continues upstream.
+			Candidate target = null;
+			for (int pIdx = 0; pIdx < pCnt; pIdx++) {
+				if (parents[pIdx] != null) {
+					target = parents[pIdx];
+					break;
+				}
+			}
+			if (target != null) {
+				// Clamp residual coordinates within target's line bounds
+				int maxTarget = (target.sourceText != null
+						&& target.sourceText.size() > 0)
+								? target.sourceText.size() - 1
+								: 0;
+				for (Region r = n.regionList; r != null; r = r.next) {
+					if (r.sourceStart > maxTarget) {
+						r.sourceStart = maxTarget;
+					}
+				}
+				target.mergeRegions(n);
+			} else if (pCnt > 0) {
+				RevCommit p0 = n.getParent(0);
+				PathFilter p0Path = (renames != null && renames[0] != null)
+						? PathFilter.create(renames[0].getOldPath())
+						: n.sourcePath;
+				if (find(p0, p0Path)) {
+					Candidate p = n.create(getRepository(), p0, p0Path);
+					p.sourceBlob = idBuf.toObjectId();
+					p.loadText(reader);
+					p.regionList = n.regionList;
+					parents[0] = p;
+				}
+			}
+			n.regionList = null;
+		}
+
 		// Push any parents that are still candidates.
 		for (int pIdx = 0; pIdx < pCnt; pIdx++) {
 			if (parents[pIdx] != null)
@@ -1017,6 +1161,7 @@ public class BlameGenerator implements AutoCloseable {
 
 		if (n.regionList != null)
 			return result(n);
+
 		return false;
 	}
 
@@ -1192,6 +1337,7 @@ public class BlameGenerator implements AutoCloseable {
 	private boolean find(RevCommit commit, PathFilter path) throws IOException {
 		treeWalk.setFilter(path);
 		treeWalk.reset(commit.getTree());
+		stats.treesParsed++;
 		if (treeWalk.next() && isFile(treeWalk.getRawMode(0))) {
 			treeWalk.getObjectId(idBuf, 0);
 			return true;
@@ -1210,6 +1356,7 @@ public class BlameGenerator implements AutoCloseable {
 
 		treeWalk.setFilter(TreeFilter.ANY_DIFF);
 		treeWalk.reset(parent.getTree(), commit.getTree());
+		stats.treesParsed += 2;
 		List<DiffEntry> diffs = DiffEntry.scan(treeWalk);
 		FilteredRenameDetector filteredRenameDetector = new FilteredRenameDetector(
 				renameDetector);
@@ -1237,6 +1384,16 @@ public class BlameGenerator implements AutoCloseable {
 
 		private boolean cacheHit;
 
+		private int blobsParsed;
+
+		private int treesParsed;
+
+		private int changedPathFilterNegative;
+
+		private int changedPathFilterTruePositive;
+
+		private int changedPathFilterFalsePositive;
+
 		/**
 		 * Number of candidates taken from the queue
 		 * <p>
@@ -1257,6 +1414,65 @@ public class BlameGenerator implements AutoCloseable {
 		 */
 		public boolean isCacheHit() {
 			return cacheHit;
+		}
+
+		/**
+		 * Number of blobs parsed
+		 *
+		 * @return number of blobs parsed
+		 *
+		 * @since 7.8
+		 */
+		public int getBlobsParsed() {
+			return blobsParsed;
+		}
+
+		/**
+		 * Number of trees parsed
+		 *
+		 * @return number of trees parsed
+		 *
+		 * @since 7.8
+		 */
+		public int getTreesParsed() {
+			return treesParsed;
+		}
+
+		/**
+		 * Times the changedPathFilter said the commit does not touch a path
+		 *
+		 * @return count of times the changed path filter returned false
+		 *
+		 * @since 7.8
+		 */
+		public int getChangedPathFilterNegative() {
+			return changedPathFilterNegative;
+		}
+
+		/**
+		 * Times the changedPathFilter said the commit does contain a path, and
+		 * it was true.
+		 *
+		 * @return count of times the changed path filter returned true and
+		 *         later it was right.
+		 *
+		 * @since 7.8
+		 */
+		public int getChangedPathFilterTruePositive() {
+			return changedPathFilterTruePositive;
+		}
+
+		/**
+		 * Times the changedPathFilter said the commit does contains a path, and
+		 * later it was not true.
+		 *
+		 * @return count of times the changed path filter returned true and
+		 *         later was wrong.
+		 *
+		 * @since 7.8
+		 */
+		public int getChangedPathFilterFalsePositive() {
+			return changedPathFilterFalsePositive;
 		}
 	}
 }

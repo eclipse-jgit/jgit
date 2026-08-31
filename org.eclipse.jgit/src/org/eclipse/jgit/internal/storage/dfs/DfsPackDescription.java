@@ -622,7 +622,9 @@ public class DfsPackDescription {
 	static boolean isGC(PackSource s) {
 		switch (s) {
 		case GC:
+		case GC_PART:
 		case GC_REST:
+		case GC_REST_PART:
 			return true;
 		default:
 			return false;

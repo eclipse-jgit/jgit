@@ -12,7 +12,9 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.COMPACT;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
+import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_PART;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_REST;
+import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_REST_PART;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.INSERT;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.RECEIVE;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.UNREACHABLE_GARBAGE;
@@ -80,8 +82,9 @@ public final class DfsPackDescriptionTest {
 		assertComparesLessThan(
 				DfsPackDescription.objectLookupComparator(
 					new PackSource.ComparatorBuilder()
-						.add(GC)
-						.add(INSERT, RECEIVE, GC_REST, UNREACHABLE_GARBAGE)
+								.add(GC, GC_PART)
+								.add(INSERT, RECEIVE, GC_REST, GC_REST_PART,
+										UNREACHABLE_GARBAGE)
 						.add(COMPACT)
 						.build()),
 				a, b);
