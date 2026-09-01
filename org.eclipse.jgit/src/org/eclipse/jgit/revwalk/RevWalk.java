@@ -180,7 +180,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 */
 	static final int RESERVED_FLAGS = 9;
 
-	static final int APP_FLAGS = -1 & ~((1 << RESERVED_FLAGS) - 1);
+	private static final int APP_FLAGS = -1 & ~((1 << RESERVED_FLAGS) - 1);
 
 	final ObjectReader reader;
 
@@ -1573,32 +1573,6 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		} else {
 			delayFreeFlags |= mask;
 		}
-	}
-
-	/**
-	 * Arrange for flags to be recycled at the next {@code reset}.
-	 * <p>
-	 * Unlike {@link #freeFlag(int)}, this <em>always</em> defers: the flags
-	 * join the {@link #delayFreeFlags} set and are only returned to the
-	 * {@link #freeFlags} by an invocation of a {@code reset} method. If the
-	 * flags were marked {@code retainOnReset}, that request is cleared.
-	 * <p>
-	 * <strong>Only call this while a {@link Generator} is under
-	 * construction</strong> - i.e. from within the call chain of
-	 * {@link StartGenerator#next()}. At that point {@link #pending} is still
-	 * the {@link StartGenerator}, so {@link #isNotStarted()} reports
-	 * {@code true} and {@link #freeFlag(int)} would return the flags to
-	 * {@link #freeFlags} immediately. The next {@link #newFlag(String)} would
-	 * then hand the same bits to an unrelated caller, silently corrupting both
-	 * walks. Calling this from anywhere else is almost certainly a mistake; use
-	 * {@link #disposeFlag(RevFlag)} instead.
-	 *
-	 * @param mask
-	 *            the flag bits to recycle at the next {@code reset}.
-	 */
-	final void freeFlagOnReset(int mask) {
-		retainOnReset &= ~mask;
-		delayFreeFlags |= mask;
 	}
 
 	private void finishDelayedFreeFlags() {
