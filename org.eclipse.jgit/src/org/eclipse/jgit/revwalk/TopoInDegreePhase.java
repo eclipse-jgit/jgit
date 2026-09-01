@@ -44,17 +44,21 @@ final class TopoInDegreePhase extends TopoPhase {
 		List<RevCommit> roots = new ArrayList<>();
 
 		for (RevCommit root = p.next(); root != null; root = p.next()) {
-			roots.add(root);
+			explorePhase.enqueue(root);
 			checkUpdateMinGeneration(root);
 
-			explorePhase.enqueue(root);
-			enqueue(root);
+			if (!root.has(RevFlag.UNINTERESTING)) {
+				roots.add(root);
+				enqueue(root);
+			}
 		}
 
-		calculateInDegrees(minGeneration);
+		if (!roots.isEmpty()) {
+			calculateInDegrees(minGeneration);
 
-		for (RevCommit root : roots) {
-			checkAddReady(root);
+			for (RevCommit root : roots) {
+				checkAddReady(root);
+			}
 		}
 	}
 
