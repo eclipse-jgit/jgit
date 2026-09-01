@@ -111,11 +111,6 @@ final class TopoInDegreePhase extends TopoPhase {
 		return c;
 	}
 
-	@Override
-	int getAllocatedFlags() {
-		return super.getAllocatedFlags() | topoSeen.mask;
-	}
-
 	private void expand(RevCommit c) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		for (RevCommit p : c.getParents()) {

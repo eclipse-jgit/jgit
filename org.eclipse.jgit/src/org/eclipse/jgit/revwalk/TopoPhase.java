@@ -77,8 +77,4 @@ class TopoPhase {
 		return null;
 	}
 
-	int getAllocatedFlags() {
-		return testFlag.mask;
-	}
-
 }

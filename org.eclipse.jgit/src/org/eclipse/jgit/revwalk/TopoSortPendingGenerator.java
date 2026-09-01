@@ -36,10 +36,6 @@ class TopoSortPendingGenerator extends Generator {
 				(output & NEEDS_REWRITE) != 0);
 
 		inDegreePhase.initialize(pending);
-
-		int allocatedFlags = explorePhase.getAllocatedFlags();
-		allocatedFlags |= inDegreePhase.getAllocatedFlags();
-		walker.freeFlagOnReset(allocatedFlags);
 	}
 
 	@Override
