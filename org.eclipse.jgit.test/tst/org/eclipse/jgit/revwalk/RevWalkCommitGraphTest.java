@@ -1011,5 +1011,4 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 				travel(TreeFilter.ALL, RevFilter.ALL, RevSort.COMMIT_TIME_DESC,
 						false, compare));
 	}
-
 }
