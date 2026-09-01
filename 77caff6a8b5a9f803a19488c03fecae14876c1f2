@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9280426_5040119c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/InterruptTimer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-01T21:31:16Z",
+      "side": 1,
+      "message": "I think you want these in a `finally {` block so that they\u0027re cleared if `wait()` is interrupted.",
+      "range": {
+        "startLine": 183,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 22
+      },
+      "revId": "77caff6a8b5a9f803a19488c03fecae14876c1f2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
