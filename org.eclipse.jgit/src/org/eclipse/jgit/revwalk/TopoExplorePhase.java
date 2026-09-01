@@ -35,7 +35,11 @@ final class TopoExplorePhase extends TopoPhase {
 			IncorrectObjectTypeException, IOException {
 		RevCommit c;
 		while ((c = tryRemove(minGeneration)) != null) {
-			if (!propagateUninteresting(c) && passThroughFilter(c)) {
+			if (propagateUninteresting(c)) {
+				continue;
+			}
+
+			if (passThroughFilter(c)) {
 				c.add(topoPassedFilterFlag);
 			}
 

@@ -11,6 +11,7 @@ package org.eclipse.jgit.revwalk;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -110,6 +111,37 @@ public class RevWalkSortTopoWithCommitGraphTest
 					assertEquals(0, actual.size());
 				} //
 		);
+	}
+
+	@Test
+	public void testSort_TOPO_UninterestingBranchNotEagerlyExplored()
+			throws Exception {
+		RevCommit a = commit();
+		RevCommit b = commit(a);
+		RevCommit b15 = null;
+		for (int i = 0; i < 24; i++) {
+			b = commit(b);
+			if (i == 15) {
+				b15 = b;
+			}
+		}
+		RevCommit c = commit();
+		branch(b, "uninteresting_branch");
+		branch(c, "main");
+
+		enableAndWriteCommitGraph();
+		reinitializeRevWalk();
+
+		rw.sort(RevSort.TOPO);
+		RevCommit cInWalk = rw.lookupCommit(c);
+		RevCommit b15InWalk = rw.lookupCommit(b15);
+		rw.markStart(cInWalk);
+		rw.markUninteresting(rw.lookupCommit(b));
+
+		assertCommit(cInWalk, rw.next());
+		assertNull(rw.next());
+
+		org.junit.Assert.assertNull(b15InWalk.getParents());
 	}
 
 	// Test the RevWalk behavior with and without enabled commit graph
