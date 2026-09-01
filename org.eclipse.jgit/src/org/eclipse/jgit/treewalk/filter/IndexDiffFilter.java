@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -150,7 +151,14 @@ public class IndexDiffFilter extends TreeFilter {
 				int rmode = tw.getRawMode(i);
 				if (i != workingTree && rmode != FileMode.TYPE_MISSING
 						&& FileMode.TREE.equals(rmode)) {
-					untrackedParentFolders.clear();
+					// Only entries that are actual ancestors of the current
+					// path are known to be tracked here. Unrelated folders
+					// elsewhere in the walk -- e.g. a sibling subtree that is
+					// still a TREE in another comparison tree, such as an
+					// uncommitted staged deletion -- must stay in
+					// untrackedParentFolders (gh-279). Mirror the scoping
+					// copyUntrackedFolders() already uses.
+					removeAncestorsOf(path);
 					break;
 				}
 			}
@@ -227,6 +235,27 @@ public class IndexDiffFilter extends TreeFilter {
 				untrackedFolders.removeLast();
 			}
 			untrackedFolders.addLast(pathToBeSaved);
+		}
+	}
+
+	/**
+	 * Remove all entries from untrackedParentFolders which are equal to, or
+	 * ancestors of, currentPath. currentPath was just found to be tracked, so
+	 * these -- and only these -- stacked folders are no longer candidates for
+	 * untrackedParentFolders; entries unrelated to currentPath are left
+	 * untouched.
+	 *
+	 * @param currentPath
+	 *            the current path of the treewalk
+	 */
+	private void removeAncestorsOf(String currentPath) {
+		Iterator<String> it = untrackedParentFolders.iterator();
+		while (it.hasNext()) {
+			String folder = it.next();
+			if (currentPath.equals(folder)
+					|| currentPath.startsWith(folder + '/')) {
+				it.remove();
+			}
 		}
 	}
 
