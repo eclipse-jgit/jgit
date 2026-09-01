@@ -11,6 +11,7 @@ package org.eclipse.jgit.revwalk;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import org.assertj.core.api.ThrowingConsumer;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.ChangedPathTreeFilter;
 import org.junit.Test;
 
@@ -110,6 +112,38 @@ public class RevWalkSortTopoWithCommitGraphTest
 					assertEquals(0, actual.size());
 				} //
 		);
+	}
+
+	@Test
+	public void testInDegreePhase_UninterestingRootsNotReturnedFromNextReady()
+			throws Exception {
+		RevCommit u = commit(10);
+		RevCommit c = commit(5);
+		branch(u, "uninteresting_branch");
+		branch(c, "main");
+
+		enableAndWriteCommitGraph();
+		reinitializeRevWalk();
+
+		RevCommit uInWalk = rw.lookupCommit(u);
+		RevCommit cInWalk = rw.lookupCommit(c);
+		rw.parseHeaders(uInWalk);
+		rw.parseHeaders(cInWalk);
+		uInWalk.add(RevFlag.UNINTERESTING);
+
+		TopoExplorePhase explorePhase = new TopoExplorePhase(rw, RevFilter.ALL,
+				true);
+		TopoInDegreePhase inDegreePhase = new TopoInDegreePhase(rw,
+				explorePhase, false);
+
+		FIFORevQueue q = new FIFORevQueue();
+		q.add(uInWalk);
+		q.add(cInWalk);
+		inDegreePhase.initialize(q);
+
+		// Only the interesting commit c should ever be ready; u is uninteresting and must not be returned
+		assertEquals(cInWalk, inDegreePhase.nextReady());
+		assertNull(inDegreePhase.nextReady());
 	}
 
 	// Test the RevWalk behavior with and without enabled commit graph
