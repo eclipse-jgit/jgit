@@ -22,6 +22,30 @@
       },
       "revId": "77caff6a8b5a9f803a19488c03fecae14876c1f2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04ed2952_410b8b1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/InterruptTimer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-09-01T23:11:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9280426_5040119c",
+      "range": {
+        "startLine": 183,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 22
+      },
+      "revId": "77caff6a8b5a9f803a19488c03fecae14876c1f2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
