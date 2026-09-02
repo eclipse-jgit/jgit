@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7f092ce_7a2e8817",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-02T22:20:34Z",
+      "side": 1,
+      "message": "NM, sorry, posted right as you pushed 😉",
+      "parentUuid": "64e21f0c_cf6bc663",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 2
+      },
+      "revId": "281a301ef353514a8d2d669852c155c4e924f70a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20028745_ce806a18",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-09-02T22:19:02Z",
       "side": 1,
       "message": "nit: remove extra whitespace\n```suggestion\npropagateUninteresting returns true for a commit.\n\n```",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 2
+      },
+      "revId": "281a301ef353514a8d2d669852c155c4e924f70a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "862b218f_bae2902a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-02T22:20:34Z",
+      "side": 1,
+      "message": "NM, sorry, posted right as you pushed 😉",
+      "parentUuid": "20028745_ce806a18",
       "range": {
         "startLine": 15,
         "startChar": 0,
