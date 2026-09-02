@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0033c197_a4107e2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-02T21:54:44Z",
+      "side": 1,
+      "message": "Marked as unresolved. Still a typo in PS2.",
+      "parentUuid": "7a9f0b44_be5396ae",
+      "revId": "91b1ccbb97c77b06ebb290ba20c6086ec9108334",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7716aef6_43230d9f",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/WindowCursor.java",
         "patchSetId": 1

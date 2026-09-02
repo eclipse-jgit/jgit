@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b78dc609_26a7781e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/IO.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-02T21:54:44Z",
+      "side": 1,
+      "message": "2026?",
+      "revId": "417f914edec6641bd9d1a5bb21fc1d4a753dd626",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
