@@ -17,6 +17,7 @@ import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.FILE_
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.FILE_HEADER_LEN;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.INDEX_BLOCK_TYPE;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.LOG_BLOCK_TYPE;
+import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.OBJ_BLOCK_TYPE;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.REF_BLOCK_TYPE;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.VERSION_1;
 import static org.eclipse.jgit.internal.storage.reftable.ReftableConstants.isFileHeaderMagic;
@@ -149,7 +150,7 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 
 		byte[] key = refName.getBytes(UTF_8);
 		RefCursorImpl i = new RefCursorImpl(refEnd, key, false);
-		i.block = seek(REF_BLOCK_TYPE, key, refIndex, 0, refEnd);
+		i.block = seek(REF_BLOCK_TYPE, key, refIndex, refIndexPosition, endOfIndex(REF_BLOCK_TYPE), 0, refEnd);
 		return i;
 	}
 
@@ -159,7 +160,7 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 
 		byte[] key = prefix.getBytes(UTF_8);
 		RefCursorImpl i = new RefCursorImpl(refEnd, key, true);
-		i.block = seek(REF_BLOCK_TYPE, key, refIndex, 0, refEnd);
+		i.block = seek(REF_BLOCK_TYPE, key, refIndex, refIndexPosition, endOfIndex(REF_BLOCK_TYPE), 0, refEnd);
 		return i;
 	}
 
@@ -195,23 +196,33 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 			byte[] key = LogEntry.key(refName, updateIndex);
 			byte[] match = refName.getBytes(UTF_8);
 			LogCursorImpl i = new LogCursorImpl(logEnd, match);
-			i.block = seek(LOG_BLOCK_TYPE, key, logIndex, logPosition, logEnd);
+			i.block = seek(LOG_BLOCK_TYPE, key, logIndex, logIndexPosition, endOfIndex(LOG_BLOCK_TYPE), logPosition, logEnd);
 			return i;
 		}
 		return new EmptyLogCursor();
 	}
 
 	private BlockReader seek(byte blockType, byte[] key, BlockReader idx,
-			long startPos, long endPos) throws IOException {
+			long indexPosition, long indexEnd, long startPos, long endPos)
+			throws IOException {
 		if (idx != null) {
 			// Walk through a possibly multi-level index to a leaf block.
 			BlockReader block = idx;
-			do {
-				if (block.seekKey(key) > 0) {
+			long blockPosition = indexPosition;
+			while (block.seekKey(key) > 0) {
+				long pos = nextIndexBlockPosition(blockPosition, block);
+				if (pos >= indexEnd) {
 					return null;
 				}
+				block = readIndex(pos);
+				blockPosition = pos;
+			}
+			do {
 				long pos = block.readPositionFromIndex();
 				block = readBlock(pos, endPos);
+				if (block.type() == INDEX_BLOCK_TYPE && block.seekKey(key) > 0) {
+					return null;
+				}
 			} while (block.type() == INDEX_BLOCK_TYPE);
 			block.seekKey(key);
 			return block;
@@ -243,6 +254,41 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 			}
 		}
 		return binarySearch(blockType, key, startPos, endPos);
+	}
+
+	private long nextIndexBlockPosition(long blockPosition, BlockReader block) throws IOException {
+		long endPosition = block.endPosition();
+		if (blockSize <= 0) {
+			return endPosition;
+		}
+
+		long encodedBytes = endPosition - blockPosition;
+		long occupiedBytesInPartialBlock = encodedBytes % blockSize;
+		if (occupiedBytesInPartialBlock == 0) {
+			return endPosition;
+		}
+
+		ByteBuffer next = src.read(endPosition, 1);
+		if (next.position() == 1 && next.get(0) == 0) {
+			long paddingLength = blockSize - occupiedBytesInPartialBlock;
+			return endPosition + paddingLength;
+		}
+		return endPosition;
+	}
+
+	private long endOfIndex(byte blockType) throws IOException {
+		if (blockType == REF_BLOCK_TYPE) {
+			if (objPosition > 0) {
+				return objPosition;
+			}
+			if (logPosition > 0) {
+				return logPosition;
+			}
+		}
+		if (blockType == OBJ_BLOCK_TYPE && logPosition > 0) {
+			return logPosition;
+		}
+		return src.size() - FILE_FOOTER_LEN;
 	}
 
 	private BlockReader binarySearch(byte blockType, byte[] key,
@@ -513,7 +559,8 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 			// a UTF_8 string.
 			byteBuffer.put((byte) 0xFF);
 
-			block = seek(REF_BLOCK_TYPE, byteBuffer.array(), refIndex, 0, refEnd);
+			block = seek(REF_BLOCK_TYPE, byteBuffer.array(), refIndex,
+					refIndexPosition, endOfIndex(REF_BLOCK_TYPE), 0, refEnd);
 		}
 
 		@Override
@@ -622,16 +669,13 @@ public class ReftableReader extends Reftable implements AutoCloseable {
 			match.copyRawTo(rawId, 0);
 			byte[] key = Arrays.copyOf(rawId, objIdLen);
 
-			BlockReader b = objIndex;
-			do {
-				if (b.seekKey(key) > 0) {
-					blockPos = EMPTY_LONG_LIST;
-					return;
-				}
-				long pos = b.readPositionFromIndex();
-				b = readBlock(pos, objEnd);
-			} while (b.type() == INDEX_BLOCK_TYPE);
-			b.seekKey(key);
+			BlockReader b = seek(OBJ_BLOCK_TYPE, key, objIndex,
+					objIndexPosition, endOfIndex(OBJ_BLOCK_TYPE), objPosition,
+					objEnd);
+			if (b == null) {
+				blockPos = EMPTY_LONG_LIST;
+				return;
+			}
 			while (b.next()) {
 				b.parseKey();
 				if (b.match(key, false)) {

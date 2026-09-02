@@ -38,6 +38,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
+import java.util.zip.CRC32;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.io.BlockSource;
@@ -48,6 +49,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.SymbolicRef;
+import org.eclipse.jgit.util.NB;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
@@ -564,6 +566,131 @@ public class ReftableTest {
 		assertTrue(stats.refIndexLevels() > 0);
 		assertTrue(stats.refIndexSize() > 0);
 		assertSeek(refs, read(table));
+	}
+
+	@Test
+	public void indexSeekWithMultipleRootBlocks() throws IOException {
+		List<Ref> refs = new ArrayList<>();
+		for (int i = 1; i <= 5670; i++) {
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("refs/heads/%04d", i), i);
+			refs.add(ref);
+		}
+
+		ReftableConfig cfg = new ReftableConfig();
+		cfg.setRefBlockSize(256);
+		cfg.setIndexObjects(false);
+		byte[] table = write(refs, cfg);
+		assertTrue(stats.refIndexLevels() > 1);
+
+		ReftableReader reader = read(usePenultimateIndexLevelAsRoot(table));
+		assertSeek(refs, reader);
+		try (RefCursor cursor = reader.seekRef("refs/heads/9999")) {
+			assertFalse(cursor.next());
+		}
+
+		cfg.setAlignBlocks(false);
+		table = write(refs, cfg);
+		assertTrue(stats.refIndexLevels() > 1);
+		assertSeek(refs, read(usePenultimateIndexLevelAsRoot(table)));
+	}
+
+	@Test
+	public void missingRefAfterPaddedOversizedRoot() throws IOException {
+		List<Ref> refs = new ArrayList<>();
+		for (int i = 1; i <= 5670; i++) {
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("refs/heads/%04d", i), i);
+			refs.add(ref);
+		}
+
+		ReftableConfig cfg = new ReftableConfig();
+		cfg.setRefBlockSize(256);
+		cfg.setMaxIndexLevels(1);
+		byte[] table = write(refs, cfg);
+
+		int footerPosition = table.length - ReftableConstants.FILE_FOOTER_LEN;
+		long rootPosition = NB.decodeInt64(table, footerPosition + 24);
+		int rootLength = BlockReader.decodeBlockLen(
+				NB.decodeInt32(table, (int) rootPosition));
+		long objPosition = NB.decodeInt64(table, footerPosition + 32) >>> 5;
+		assertTrue(rootLength > cfg.getRefBlockSize());
+		assertTrue(rootPosition + rootLength < objPosition);
+
+		try (RefCursor cursor = read(table).seekRef("refs/heads/9999")) {
+			assertFalse(cursor.next());
+		}
+	}
+
+	@Test
+	public void objectIndexSeekWithMultipleRootBlocks() throws IOException {
+		List<Ref> refs = new ArrayList<>();
+		for (int i = 1; i <= 5670; i++) {
+			@SuppressWarnings("boxing")
+			Ref ref = ref(String.format("refs/heads/%04d", i), i);
+			refs.add(ref);
+		}
+		byte[] highBytes = new byte[OBJECT_ID_LENGTH];
+		Arrays.fill(highBytes, (byte) 0xff);
+		ObjectId highId = ObjectId.fromRaw(highBytes);
+		String highRefName = "refs/heads/high-object-id";
+		refs.add(new ObjectIdRef.PeeledNonTag(PACKED, highRefName, highId));
+
+		byte[] missingHighBytes = highBytes.clone();
+		missingHighBytes[1] = (byte) 0xfe;
+		ObjectId missingHighId = ObjectId.fromRaw(missingHighBytes);
+
+		ReftableConfig cfg = new ReftableConfig();
+		cfg.setRefBlockSize(256);
+		byte[] table = write(refs, cfg);
+		assertTrue(stats.objIndexLevels() > 1);
+
+		ReftableReader reader = read(
+				usePenultimateIndexLevelAsRoot(table, 40));
+		try (RefCursor cursor = reader.byObjectId(highId)) {
+			assertTrue(cursor.next());
+			assertEquals(highRefName, cursor.getRef().getName());
+			assertFalse(cursor.next());
+		}
+		try (RefCursor cursor = reader.byObjectId(missingHighId)) {
+			assertFalse(cursor.next());
+		}
+	}
+
+	@Test
+	public void logIndexSeekWithMultiplePaddedRootBlocks() throws IOException {
+		ReftableConfig cfg = new ReftableConfig();
+		cfg.setRefBlockSize(256);
+		cfg.setLogBlockSize(256);
+		cfg.setIndexObjects(false);
+
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		ReftableWriter writer = new ReftableWriter(buffer)
+				.setConfig(cfg)
+				.setMinUpdateIndex(1)
+				.setMaxUpdateIndex(1)
+				.begin();
+		PersonIdent who = new PersonIdent("Log", "Ger",
+				Instant.ofEpochMilli(1500079709), ZoneOffset.ofHours(-8));
+		for (int i = 1; i <= 5670; i++) {
+			writer.writeLog(String.format("refs/heads/%04d", i), 1, who,
+					ObjectId.zeroId(), id(i), "create");
+		}
+		writer.finish();
+
+		byte[] original = buffer.toByteArray();
+		for (byte[] table : Arrays.asList(
+				usePenultimateIndexLevelAsRoot(original, 56),
+				usePaddedPenultimateLogIndexAsRoot(original))) {
+			ReftableReader reader = read(table);
+			try (LogCursor cursor = reader.seekLog("refs/heads/5670", 1)) {
+				assertTrue(cursor.next());
+				assertEquals("refs/heads/5670", cursor.getRefName());
+			}
+			try (LogCursor cursor = reader.seekLog("refs/heads/9999", 1)) {
+				assertFalse(cursor.next());
+			}
+		}
 	}
 
 	@Test
@@ -1145,6 +1272,83 @@ public class ReftableTest {
 
 	private static ReftableReader read(byte[] table) {
 		return new ReftableReader(BlockSource.from(table));
+	}
+
+	private static byte[] usePenultimateIndexLevelAsRoot(byte[] table)
+			throws IOException {
+		return usePenultimateIndexLevelAsRoot(table, 24);
+	}
+
+	private static byte[] usePenultimateIndexLevelAsRoot(byte[] table,
+			int footerIndexPosition) throws IOException {
+		int footerPosition = table.length - ReftableConstants.FILE_FOOTER_LEN;
+		long rootPosition = NB.decodeInt64(table,
+				footerPosition + footerIndexPosition);
+		int rootLength = BlockReader.decodeBlockLen(
+				NB.decodeInt32(table, (int) rootPosition));
+
+		BlockReader root = new BlockReader();
+		root.readBlock(BlockSource.from(table), rootPosition, rootLength);
+		root.seekKey(new byte[0]);
+		long newRootPosition = root.readPositionFromIndex();
+
+		byte[] result = Arrays.copyOf(table,
+				(int) rootPosition + ReftableConstants.FILE_FOOTER_LEN);
+		int newFooterPosition = (int) rootPosition;
+		System.arraycopy(table, footerPosition, result, newFooterPosition,
+				ReftableConstants.FILE_FOOTER_LEN);
+		NB.encodeInt64(result, newFooterPosition + footerIndexPosition,
+				newRootPosition);
+
+		CRC32 crc = new CRC32();
+		crc.update(result, newFooterPosition,
+				ReftableConstants.FILE_FOOTER_LEN - 4);
+		NB.encodeInt32(result, result.length - 4, (int) crc.getValue());
+		return result;
+	}
+
+	private static byte[] usePaddedPenultimateLogIndexAsRoot(byte[] table)
+			throws IOException {
+		int footerPosition = table.length - ReftableConstants.FILE_FOOTER_LEN;
+		long rootPosition = NB.decodeInt64(table, footerPosition + 56);
+		int rootLength = BlockReader.decodeBlockLen(
+				NB.decodeInt32(table, (int) rootPosition));
+
+		BlockReader root = new BlockReader();
+		root.readBlock(BlockSource.from(table), rootPosition, rootLength);
+		root.seekKey(new byte[0]);
+		long newRootPosition = root.readPositionFromIndex();
+
+		int blockSize = NB.decodeInt32(table, 4) & 0xffffff;
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		out.write(table, 0, (int) newRootPosition);
+		int blockPosition = (int) newRootPosition;
+		int blockCount = 0;
+		while (blockPosition < rootPosition) {
+			int blockLength = BlockReader.decodeBlockLen(
+					NB.decodeInt32(table, blockPosition));
+			assertTrue(blockLength <= blockSize);
+			out.write(table, blockPosition, blockLength);
+			blockPosition += blockLength;
+			blockCount++;
+			if (blockPosition < rootPosition) {
+				out.write(new byte[blockSize - blockLength], 0,
+						blockSize - blockLength);
+			}
+		}
+		assertEquals(rootPosition, blockPosition);
+		assertTrue(blockCount > 1);
+
+		int newFooterPosition = out.size();
+		out.write(table, footerPosition, ReftableConstants.FILE_FOOTER_LEN);
+		byte[] result = out.toByteArray();
+		NB.encodeInt64(result, newFooterPosition + 56, newRootPosition);
+
+		CRC32 crc = new CRC32();
+		crc.update(result, newFooterPosition,
+				ReftableConstants.FILE_FOOTER_LEN - 4);
+		NB.encodeInt32(result, result.length - 4, (int) crc.getValue());
+		return result;
 	}
 
 	private byte[] write(Ref... refs) throws IOException {
