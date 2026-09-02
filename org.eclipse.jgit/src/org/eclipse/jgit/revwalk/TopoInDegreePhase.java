@@ -45,10 +45,10 @@ final class TopoInDegreePhase extends TopoPhase {
 
 		for (RevCommit root = p.next(); root != null; root = p.next()) {
 			explorePhase.enqueue(root);
-			checkUpdateMinGeneration(root);
 
 			if (!root.has(RevFlag.UNINTERESTING)) {
 				roots.add(root);
+				checkUpdateMinGeneration(root);
 				enqueue(root);
 			}
 		}
