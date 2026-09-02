@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ba2fd45_62b63a46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-09-02T06:33:25Z",
+      "side": 1,
+      "message": "Thank you for the finding, Ivan. Looks good on my part, I actually had this exact uninteresting check in PS 2 of I7e38a8f866bb8f46e455aedd82c3985c256841e0. Not sure why I changed it",
+      "revId": "281a301ef353514a8d2d669852c155c4e924f70a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
