@@ -37,6 +37,10 @@ public class ChangedPathFilter {
 	public static final int BITS_PER_ENTRY = 10;
 
 	/**
+	 * What hash version is this class computing
+	 */
+	public static final int BLOOM_FILTER_VERSION = 2;
+	/**
 	 * Seed value as described in man gitformat-commit-graph(5).
 	 */
 	private static final int SEED1 = 0x293ae76f;
