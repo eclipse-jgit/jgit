@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de6fdc07_24e802cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-09-03T13:21:32Z",
+      "side": 1,
+      "message": "it seems Eclipse platform will adopt Java 25 in the next release 2026-12, see https://github.com/eclipse-simrel/.github/pull/98/changes\n\nI think we need to bump the major version to update the minimum Java version to 25.\nWe should file a feature request in github to give this some visibility in the JGit community. Something like \"Update minimum Java version to 25 for Eclipse IDE 2026-12\"",
+      "revId": "dc1ef65e2ac2ce181b0a2935fa79c842f8df3a4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
