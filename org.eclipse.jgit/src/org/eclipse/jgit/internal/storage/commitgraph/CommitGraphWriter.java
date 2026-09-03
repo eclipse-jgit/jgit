@@ -392,7 +392,7 @@ public class CommitGraphWriter {
 		// big-endian bytes.
 		byte[] scratch = new byte[4];
 
-		NB.encodeInt32(scratch, 0, 1); // version 1
+		NB.encodeInt32(scratch, 0, ChangedPathFilter.BLOOM_FILTER_VERSION);
 		data.write(scratch);
 		NB.encodeInt32(scratch, 0, ChangedPathFilter.PATH_HASH_COUNT);
 		data.write(scratch);
