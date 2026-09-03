@@ -909,7 +909,7 @@
       </dependency>
 
       <dependency>
-        <groupId>org.apache.commons</groupId>
+        <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>2.22.0</version>
       </dependency>
