@@ -508,6 +508,11 @@
               <placement>a</placement>
               <head>Implementation Note:</head>
             </tag>
+            <tag>
+              <name>nooverride</name>
+              <placement>a</placement>
+              <head>No override:</head>
+            </tag>
           </tags>
         </configuration>
         <executions>
@@ -781,6 +786,11 @@
               <name>implNote</name>
               <placement>a</placement>
               <head>Implementation Note:</head>
+            </tag>
+            <tag>
+              <name>nooverride</name>
+              <placement>a</placement>
+              <head>No override:</head>
             </tag>
           </tags>
         </configuration>
