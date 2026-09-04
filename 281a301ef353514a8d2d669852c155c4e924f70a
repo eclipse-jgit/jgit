@@ -112,6 +112,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d96c59d_4ad98425",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-09-04T17:05:39Z",
+      "side": 1,
+      "message": "Another test in upload pack failed and exposed a deeper problem than just walkign unnecessary commits. \n\nI reused this change and a follow up with the fixes.",
+      "parentUuid": "2ba2fd45_62b63a46",
+      "revId": "281a301ef353514a8d2d669852c155c4e924f70a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29c730b3_8640c6b5",
@@ -125,6 +143,24 @@
       "writtenOn": "2026-09-02T22:19:02Z",
       "side": 1,
       "message": "Would it be good to have a variant of this test without commit graphs (assuming we don\u0027t already)?",
+      "revId": "281a301ef353514a8d2d669852c155c4e924f70a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfe6ea92_a5b6c1ee",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkSortTopoWithCommitGraphTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-09-04T17:05:39Z",
+      "side": 1,
+      "message": "Without commit graph we need to walk all the way to the root to calculate inDegree of the commits. This test is checking that we do NOT do that with commit graph.\n\nThe only thing we can test without commit graph is that the commits are returned in the expected order. That is covered in RevWalkSortTest.",
+      "parentUuid": "29c730b3_8640c6b5",
       "revId": "281a301ef353514a8d2d669852c155c4e924f70a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
