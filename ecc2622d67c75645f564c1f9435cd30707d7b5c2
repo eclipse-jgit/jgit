@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d849eb46_185db3a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-08T22:48:54Z",
+      "side": 1,
+      "message": "nit: You can reformat this to wrap better (you can do it with the Format button when you click Edit on the commit message)\n```suggestion\nDuring TopoInDegreePhase.initialize, root commits marked UNINTERESTING\nwere enqueued into the in-degree phase and added to the roots list.\nBecause an uninteresting root has an in-degree of 0, it was subsequently\nplaced into the ready queue and yielded by inDegreePhase.nextReady(),\nonly to be discarded by the filter check in\nTopoSortPendingGenerator.next.\n\nWhile this did not affect the external output of RevWalk (as\nuninteresting commits were filtered out before returning to the caller),\nit caused unnecessary queue operations and in-degree expansion on\ncommits that can never be part of the topological output.\n\nIn TopoInDegreePhase.initialize, enqueue roots into inDegreePhase and\nadd them to the roots list only when they are interesting. Only invoke\ncalculateInDegrees and ready queue seeding when interesting roots exist.\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 6
+      },
+      "revId": "ecc2622d67c75645f564c1f9435cd30707d7b5c2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
