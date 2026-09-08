@@ -16,7 +16,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -156,27 +155,13 @@ public abstract class SshTestBase extends SshBasicTestBase {
 				"User " + TEST_USER, //
 				"IdentityFile " + privateKey1.getAbsolutePath(),
 				"IdentityFile " + encryptedKey.getAbsolutePath());
-		// This test passes with JSch per chance because JSch completely ignores
-		// the second IdentityFile
 		assertEquals("CredentialsProvider should not have been called", 0,
 				provider.getLog().size());
-	}
-
-	private boolean isJsch() {
-		return getSessionFactory().getType().equals("jsch");
 	}
 
 	@Test
 	public void testSshWithConfigEncryptedUnusedKeyInConfigFirst()
 			throws Exception {
-		// Test cannot pass with JSch; it handles only one IdentityFile.
-		// assumeTrue(!(getSessionFactory() instanceof
-		// JschConfigSessionFactory)); gives in bazel a failure with "Never
-		// found parameters that satisfied method assumptions."
-		// In maven it's fine!?
-		if (isJsch()) {
-			return;
-		}
 		// Copy the encrypted test key from the bundle.
 		File encryptedKey = new File(sshDir, "id_dsa_test_key");
 		copyTestResource("id_dsa_testpass", encryptedKey);
@@ -284,12 +269,6 @@ public abstract class SshTestBase extends SshBasicTestBase {
 				"IdentityFile " + privateKey1.getAbsolutePath());
 		List<LogEntry> messages = provider.getLog();
 		assertFalse("Expected user interaction", messages.isEmpty());
-		if (isJsch()) {
-			// JSch doesn't create a non-existing file.
-			assertEquals("Expected to be asked about the key", 1,
-					messages.size());
-			return;
-		}
 		assertEquals(
 				"Expected to be asked about the key, and the file creation",
 				2, messages.size());
@@ -321,12 +300,6 @@ public abstract class SshTestBase extends SshBasicTestBase {
 				"User " + TEST_USER, //
 				"StrictHostKeyChecking accept-new", //
 				"IdentityFile " + privateKey1.getAbsolutePath());
-		if (isJsch()) {
-			// JSch doesn't create new files.
-			assertTrue("CredentialsProvider not called",
-					provider.getLog().isEmpty());
-			return;
-		}
 		assertEquals("Expected to be asked about the file creation", 1,
 				provider.getLog().size());
 		assertTrue("~/.ssh/known_hosts should exist now", knownHosts.exists());
@@ -796,11 +769,6 @@ public abstract class SshTestBase extends SshBasicTestBase {
 
 	@Theory
 	public void testSshKeys(String keyName) throws Exception {
-		// JSch fails on ECDSA 384/521 keys. Compare
-		// https://sourceforge.net/p/jsch/patches/10/
-		assumeTrue(!(isJsch() && (keyName.contains("ed25519")
-				|| keyName.startsWith("id_ecdsa_384")
-				|| keyName.startsWith("id_ecdsa_521"))));
 		File cloned = new File(getTemporaryDirectory(), "cloned");
 		String keyFileName = keyName + "_key";
 		File privateKey = new File(sshDir, keyFileName);

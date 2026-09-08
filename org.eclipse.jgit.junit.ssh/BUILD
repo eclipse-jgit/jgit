@@ -10,7 +10,6 @@ java_library(
     resources = glob(["resources/**"]),
     visibility = [
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
-        "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
     ],
     deps = [
         "//lib:junit",

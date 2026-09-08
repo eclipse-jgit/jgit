@@ -23,7 +23,6 @@
    </url>
 
    <requires>
-      <import plugin="com.jcraft.jsch"/>
       <import plugin="org.eclipse.jgit" version="7.9.0" match="equivalent"/>
    </requires>
 

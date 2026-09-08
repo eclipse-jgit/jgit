@@ -63,6 +63,7 @@
           <include>plugin.properties</include>
           <include>about.html</include>
           <include>META-INF/eclipse.inf</include>
+          <include>META-INF/p2.inf</include>
         </includes>
       </resource>
       <resource>

@@ -234,16 +234,6 @@ java_library(
 )
 
 java_library(
-    name = "jsch",
-    visibility = [
-        "//org.eclipse.jgit.junit.ssh:__pkg__",
-        "//org.eclipse.jgit.ssh.jsch:__pkg__",
-        "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
-    ],
-    exports = ["@external_deps//:com_jcraft_jsch"],
-)
-
-java_library(
     name = "bcpg",
     visibility = [
         "//org.eclipse.jgit.gpg.bc:__pkg__",
@@ -262,7 +252,6 @@ java_library(
         "//org.eclipse.jgit.gpg.bc.test:__pkg__",
         "//org.eclipse.jgit.ssh.apache:__pkg__",
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
-        "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
     exports = ["@external_deps//:org_bouncycastle_bcprov_jdk18on"],
@@ -275,7 +264,6 @@ java_library(
         "//org.eclipse.jgit.gpg.bc.test:__pkg__",
         "//org.eclipse.jgit.ssh.apache:__pkg__",
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
-        "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
     exports = ["@external_deps//:org_bouncycastle_bcutil_jdk18on"],
@@ -287,19 +275,9 @@ java_library(
         "//org.eclipse.jgit.gpg.bc:__pkg__",
         "//org.eclipse.jgit.ssh.apache:__pkg__",
         "//org.eclipse.jgit.ssh.apache.test:__pkg__",
-        "//org.eclipse.jgit.ssh.jsch.test:__pkg__",
         "//org.eclipse.jgit.test:__pkg__",
     ],
     exports = ["@external_deps//:org_bouncycastle_bcpkix_jdk18on"],
-)
-
-java_library(
-    name = "jzlib",
-    visibility = [
-        "//org.eclipse.jgit.ssh.jsch:__pkg__",
-        "//org.eclipse.jgit.test:__pkg__",
-    ],
-    exports = ["@external_deps//:com_jcraft_jzlib"],
 )
 
 java_library(

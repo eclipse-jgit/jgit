@@ -129,7 +129,7 @@ public abstract class SshTestHarness extends RepositoryTestCase {
 
 	private static File createKeyPair(KeyPair newKey, File privateKeyFile)
 			throws Exception {
-		// Write PKCS#8 PEM unencrypted. Both JSch and sshd can read that.
+		// Write PKCS#8 PEM unencrypted, sshd can read that.
 		PrivateKey privateKey = newKey.getPrivate();
 		String format = privateKey.getFormat();
 		if (!"PKCS#8".equalsIgnoreCase(format)) {

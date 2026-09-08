@@ -107,8 +107,7 @@ Export-Package: org.eclipse.jgit.annotations;version="7.9.0",
    org.eclipse.jgit.pgm,
    org.eclipse.jgit.pgm.test,
    org.eclipse.jgit.ssh.apache,
-   org.eclipse.jgit.ssh.apache.test,
-   org.eclipse.jgit.ssh.jsch.test",
+   org.eclipse.jgit.ssh.apache.test",
  org.eclipse.jgit.internal.storage.io;version="7.9.0";
   x-friends:="org.eclipse.jgit.junit,
    org.eclipse.jgit.test,
@@ -137,7 +136,6 @@ Export-Package: org.eclipse.jgit.annotations;version="7.9.0",
    org.eclipse.jgit.test",
  org.eclipse.jgit.internal.transport.ssh;version="7.9.0";
   x-friends:="org.eclipse.jgit.ssh.apache,
-   org.eclipse.jgit.ssh.jsch,
    org.eclipse.jgit.test",
  org.eclipse.jgit.internal.util;version="7.9.0";
   x-friends:="org.eclipse.jgit.junit",
