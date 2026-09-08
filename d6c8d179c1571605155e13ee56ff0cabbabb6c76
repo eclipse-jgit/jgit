@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45cbfe62_82153ccf",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-08T23:04:13Z",
+      "side": 1,
+      "message": "Document that JGit does not support v1 and will skip loading Bloom filters if that version is specified.",
+      "revId": "d6c8d179c1571605155e13ee56ff0cabbabb6c76",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
