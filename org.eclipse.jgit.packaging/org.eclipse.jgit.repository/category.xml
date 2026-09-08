@@ -24,9 +24,6 @@
    <feature url="features/org.eclipse.jgit.lfs_0.0.0.qualifier.jar" id="org.eclipse.jgit.lfs" version="0.0.0">
       <category name="JGit"/>
    </feature>
-   <feature url="features/org.eclipse.jgit.ssh.jsch_0.0.0.qualifier.jar" id="org.eclipse.jgit.ssh.jsch" version="0.0.0">
-      <category name="JGit"/>
-   </feature>
    <feature url="features/org.eclipse.jgit.gpg.bc_0.0.0.qualifier.jar" id="org.eclipse.jgit.gpg.bc" version="0.0.0">
       <category name="JGit"/>
    </feature>
@@ -43,18 +40,6 @@
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <bundle id="com.google.gson.source">
-      <category name="JGit-dependency-bundles"/>
-   </bundle>
-   <bundle id="com.jcraft.jsch">
-      <category name="JGit-dependency-bundles"/>
-   </bundle>
-   <bundle id="com.jcraft.jsch.source">
-      <category name="JGit-dependency-bundles"/>
-   </bundle>
-   <bundle id="com.jcraft.jzlib">
-      <category name="JGit-dependency-bundles"/>
-   </bundle>
-   <bundle id="com.jcraft.jzlib.source">
       <category name="JGit-dependency-bundles"/>
    </bundle>
    <bundle id="com.sun.jna">

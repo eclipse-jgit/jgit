@@ -33,11 +33,9 @@ import java.util.ResourceBundle;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.internal.CLIText;
-import org.eclipse.jgit.pgm.internal.SshDriver;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.SshSessionFactory;
-import org.eclipse.jgit.transport.ssh.jsch.JschConfigSessionFactory;
 import org.eclipse.jgit.transport.sshd.DefaultProxyDataFactory;
 import org.eclipse.jgit.transport.sshd.JGitKeyCache;
 import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
@@ -61,9 +59,6 @@ public abstract class TextBuiltin {
 
 	@Option(name = "--help", usage = "usage_displayThisHelpText", aliases = { "-h" })
 	private boolean help;
-
-	@Option(name = "--ssh", usage = "usage_sshDriver")
-	private SshDriver sshDriver = SshDriver.APACHE;
 
 	/**
 	 * Input stream, typically this is standard input.
@@ -215,27 +210,15 @@ public abstract class TextBuiltin {
 	 */
 	public final void execute(String[] args) throws Exception {
 		parseArguments(args);
-		switch (sshDriver) {
-		case APACHE: {
-			SshdSessionFactory factory = new SshdSessionFactory(
-					new JGitKeyCache(), new DefaultProxyDataFactory());
-			try {
-				Runtime.getRuntime()
-						.addShutdownHook(new Thread(factory::close));
-			} catch (IllegalStateException e) {
-				// ignore - the VM is already shutting down
-			}
-			SshSessionFactory.setInstance(factory);
-			break;
+		SshdSessionFactory factory = new SshdSessionFactory(new JGitKeyCache(),
+				new DefaultProxyDataFactory());
+		try {
+			Runtime.getRuntime().addShutdownHook(new Thread(factory::close));
+		} catch (IllegalStateException e) {
+			// ignore - the VM is already shutting down
 		}
-		case JSCH:
-			JschConfigSessionFactory factory = new JschConfigSessionFactory();
-			SshSessionFactory.setInstance(factory);
-			break;
-		default:
-			SshSessionFactory.setInstance(null);
-			break;
-		}
+		SshSessionFactory.setInstance(factory);
+
 		run();
 	}
 

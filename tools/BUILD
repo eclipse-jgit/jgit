@@ -467,7 +467,6 @@ package_group(
         "//org.eclipse.jgit.pgm/...",
         "//org.eclipse.jgit.ssh.apache.agent/...",
         "//org.eclipse.jgit.ssh.apache/...",
-        "//org.eclipse.jgit.ssh.jsch/...",
         "//org.eclipse.jgit.ui/...",
         "//org.eclipse.jgit/...",
     ],
@@ -483,7 +482,6 @@ package_group(
         "//org.eclipse.jgit.lfs.test/...",
         "//org.eclipse.jgit.pgm.test/...",
         "//org.eclipse.jgit.ssh.apache.test/...",
-        "//org.eclipse.jgit.ssh.jsch.test/...",
         "//org.eclipse.jgit.test/...",
     ],
 )

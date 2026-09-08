@@ -32,8 +32,8 @@ import org.eclipse.jgit.internal.JGitText;
  * <p>
  * Wraps an OutputStream to prevent interrupts during writes from being made
  * visible to that stream instance. This works around buggy or difficult
- * OutputStream implementations like JSch that cannot gracefully handle an
- * interrupt during write.
+ * OutputStream implementations that cannot gracefully handle an interrupt
+ * during write.
  * <p>
  * Every write (or flush) requires a context switch to another thread. Callers
  * should wrap this stream with {@code BufferedOutputStream} using a suitable

@@ -1,0 +1,11 @@
+# uninstall the removed org.eclipse.jgit.ssh.jsch plugin
+requires.0.namespace = org.eclipse.equinox.p2.iu
+requires.0.name = org.eclipse.jgit.ssh.jsch
+requires.0.min = 0
+requires.0.max = 0
+
+# uninstall the removed org.eclipse.jgit.ssh.jsch feature
+requires.1.namespace = org.eclipse.equinox.p2.iu
+requires.1.name = org.eclipse.jgit.ssh.jsch.feature.group
+requires.1.min = 0
+requires.1.max = 0

@@ -40,9 +40,8 @@ import org.eclipse.jgit.util.SystemReader;
 /**
  * Fairly complete configuration parser for the openssh ~/.ssh/config file.
  * <p>
- * Both JSch 0.1.54 and Apache MINA sshd 2.1.0 have parsers for this, but both
- * are buggy. Therefore we implement our own parser to read an openssh
- * configuration file.
+ * Apache MINA sshd 2.1.0 has parsers for this, but it is buggy. Therefore we
+ * implement our own parser to read an openssh configuration file.
  * </p>
  * <p>
  * Limitations compared to the full openssh 7.5 parser:
