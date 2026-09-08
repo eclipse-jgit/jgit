@@ -22,6 +22,30 @@
       },
       "revId": "c91ccb3733b8be31d9b4d7c941b7aee3d2212aad",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "731e6428_2a14b284",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-08T23:04:07Z",
+      "side": 1,
+      "message": "This makes more sense now in the context of https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1248257/ and the check added in PS4 should suffice.",
+      "parentUuid": "adc07a1c_3b76d620",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 72
+      },
+      "revId": "c91ccb3733b8be31d9b4d7c941b7aee3d2212aad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

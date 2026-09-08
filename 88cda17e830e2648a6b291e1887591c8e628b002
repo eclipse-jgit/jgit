@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "577398ba_0d0e37bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-08T23:04:07Z",
+      "side": 1,
+      "message": "Document the behavior added to skip loading unless the version is -1 or 2.",
+      "revId": "88cda17e830e2648a6b291e1887591c8e628b002",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
