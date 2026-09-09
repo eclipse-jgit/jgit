@@ -39,6 +39,29 @@
       "message": "Document the behavior added to skip loading unless the version is -1 or 2.",
       "revId": "88cda17e830e2648a6b291e1887591c8e628b002",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c35abf75_d45231a9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2026-09-09T16:14:58Z",
+      "side": 1,
+      "message": "nit: would be nice to have test names as test_outcome\neg: testGraphChangedPathsVersionDisabled_noBloomFilters, etc",
+      "range": {
+        "startLine": 231,
+        "startChar": 13,
+        "endLine": 231,
+        "endChar": 49
+      },
+      "revId": "88cda17e830e2648a6b291e1887591c8e628b002",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
