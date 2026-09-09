@@ -1,0 +1,9 @@
+Verified+1: eclipse-jgit-bot <jgit-bot@eclipse.org>
+Code-Review+2: Ivan Frade <ifrade@google.com>
+Code-Review+2: Nasser Grainawi <nasser.grainawi@oss.qualcomm.com>
+Submitted-by: Ivan Frade <ifrade@google.com>
+Submitted-at: Wed, 09 Sep 2026 22:25:23 +0000
+Reviewed-on: https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1247657
+Comments-Total: 8
+Project: eclipse-jgit/jgit
+Branch: refs/heads/master
