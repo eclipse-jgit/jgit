@@ -11,6 +11,8 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.COMPACT;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
+import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_REST;
+import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_REST_PART;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.INSERT;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
@@ -182,6 +184,151 @@ public class DfsObjDatabaseTest {
 	}
 
 	@Test
+	public void getPacks_midxAndGcRestMidx_midxEnabled_bothMidx()
+			throws IOException {
+		db.getObjectDatabase().setUseMultipackIndex(true);
+
+		DfsPackDescription gcPack = pack("aaaa", GC, 100, PACK);
+		DfsPackDescription compactPack = pack("cccc", COMPACT, 101, PACK);
+		DfsPackDescription midxGc = midx("midxGc", GC, null, 104, gcPack,
+				compactPack);
+
+		DfsPackDescription gcRestPack = pack("xxxx", GC_REST, 90, PACK);
+		DfsPackDescription gcRestPartPack = pack("xxxx_part", GC_REST_PART, 91,
+				PACK);
+		DfsPackDescription midxGcRest = midx("midxGcRest", GC_REST, null, 105,
+				gcRestPack, gcRestPartPack);
+
+		DfsPackDescription uncoveredPack = pack("dddd", COMPACT, 103, PACK);
+
+		db.getObjectDatabase().commitPack(List.of(gcPack, compactPack, midxGc,
+				gcRestPack, gcRestPartPack, midxGcRest, uncoveredPack), null);
+
+		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
+		assertPackList(packs, uncoveredPack, midxGc, midxGcRest);
+
+		assertTrue(packs[0] instanceof DfsPackFile);
+		assertFalse(packs[0] instanceof DfsPackFileMidx);
+
+		assertTrue(packs[1] instanceof DfsPackFileMidx);
+		DfsPackFileMidx midxGcFile = (DfsPackFileMidx) packs[1];
+		assertEquals(2, midxGcFile.getCoveredPacks().size());
+
+		assertTrue(packs[2] instanceof DfsPackFileMidx);
+		DfsPackFileMidx midxGcRestFile = (DfsPackFileMidx) packs[2];
+		assertEquals(2, midxGcRestFile.getCoveredPacks().size());
+
+		MidxPackList midxPackList = MidxPackList.create(packs);
+		assertEquals(2, midxPackList.getAllMidxPacks().size());
+		assertEquals(5, midxPackList.getAllPlainPacks().size());
+	}
+
+	@Test
+	public void getPacks_midxAndGcRestMidx_midxDisabled_packsNoMidx()
+			throws IOException {
+		db.getObjectDatabase().setUseMultipackIndex(false);
+
+		DfsPackDescription gcPack = pack("aaaa", GC, 100, PACK);
+		DfsPackDescription compactPack = pack("cccc", COMPACT, 101, PACK);
+		DfsPackDescription midxGc = midx("midxGc", GC, null, 104, gcPack,
+				compactPack);
+
+		DfsPackDescription gcRestPack = pack("xxxx", GC_REST, 90, PACK);
+		DfsPackDescription gcRestPartPack = pack("xxxx_part", GC_REST_PART, 91,
+				PACK);
+		DfsPackDescription midxGcRest = midx("midxGcRest", GC_REST, null, 105,
+				gcRestPack, gcRestPartPack);
+
+		DfsPackDescription uncoveredPack = pack("dddd", COMPACT, 103, PACK);
+
+		db.getObjectDatabase().commitPack(List.of(gcPack, compactPack, midxGc,
+				gcRestPack, gcRestPartPack, midxGcRest, uncoveredPack), null);
+
+		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
+		assertPackList(packs, uncoveredPack, compactPack, gcPack,
+				gcRestPartPack, gcRestPack);
+		for (DfsPackFile packFile : packs) {
+			assertFalse(packFile instanceof DfsPackFileMidx);
+		}
+	}
+
+	@Test
+	public void getPacks_multipleMidxChains_bothNested_topMidxs()
+			throws IOException {
+		db.getObjectDatabase().setUseMultipackIndex(true);
+
+		DfsPackDescription gcPack = pack("aaaa", GC, 100, PACK);
+		DfsPackDescription compact1 = pack("cccc", COMPACT, 101, PACK);
+		DfsPackDescription midxBase = midx("midxBase", GC, null, 104, gcPack,
+				compact1);
+
+		DfsPackDescription compact2 = pack("compact2", COMPACT, 105, PACK);
+		DfsPackDescription midxTip = midx("midxTip", GC, midxBase, 106,
+				compact2);
+
+		DfsPackDescription gcRestPack = pack("xxxx", GC_REST, 90, PACK);
+		DfsPackDescription midxGcRestBase = midx("midxGcRestBase", GC_REST,
+				null, 92, gcRestPack);
+
+		DfsPackDescription gcRestPartPack = pack("xxxx_part", GC_REST_PART, 93,
+				PACK);
+		DfsPackDescription midxGcRestTip = midx("midxGcRestTip", GC_REST,
+				midxGcRestBase, 94, gcRestPartPack);
+
+		DfsPackDescription uncoveredPack = pack("uncovered", COMPACT, 103,
+				PACK);
+
+		db.getObjectDatabase().commitPack(
+				List.of(gcPack, compact1, midxBase, compact2, midxTip,
+						gcRestPack, midxGcRestBase, gcRestPartPack,
+						midxGcRestTip, uncoveredPack),
+				null);
+
+		DfsPackFile[] packs = db.getObjectDatabase().getPacks();
+		assertPackList(packs, uncoveredPack, midxTip, midxGcRestTip);
+
+		assertTrue(packs[1] instanceof DfsPackFileMidx);
+		DfsPackFileMidx tipFile = (DfsPackFileMidx) packs[1];
+		assertEquals(midxBase,
+				tipFile.getMultipackIndexBase().getPackDescription());
+
+		assertTrue(packs[2] instanceof DfsPackFileMidx);
+		DfsPackFileMidx gcRestTipFile = (DfsPackFileMidx) packs[2];
+		assertEquals(midxGcRestBase,
+				gcRestTipFile.getMultipackIndexBase().getPackDescription());
+
+		MidxPackList midxPackList = MidxPackList.create(packs);
+		assertEquals(4, midxPackList.getAllMidxPacks().size());
+		assertEquals(6, midxPackList.getAllPlainPacks().size());
+	}
+
+	@Test
+	public void getReftables_multipleMidxChains() throws IOException {
+		db.getObjectDatabase().setUseMultipackIndex(true);
+
+		DfsPackDescription gcPack = pack("aaaa", GC, 100, PACK, REFTABLE);
+		DfsPackDescription compactPack = pack("cccc", COMPACT, 101, PACK);
+		DfsPackDescription midxGc = midx("midxGc", GC, null, 104, gcPack,
+				compactPack);
+
+		DfsPackDescription gcRestPack = pack("xxxx", GC_REST, 90, PACK,
+				REFTABLE);
+		DfsPackDescription gcRestPartPack = pack("xxxx_part", GC_REST_PART, 91,
+				PACK);
+		DfsPackDescription midxGcRest = midx("midxGcRest", GC_REST, null, 105,
+				gcRestPack, gcRestPartPack);
+
+		DfsPackDescription uncoveredPack = pack("dddd", COMPACT, 103, PACK,
+				REFTABLE);
+
+		db.getObjectDatabase().commitPack(List.of(gcPack, compactPack, midxGc,
+				gcRestPack, gcRestPartPack, midxGcRest, uncoveredPack), null);
+
+		DfsReftable[] reftables = db.getObjectDatabase().getReftables();
+		assertReftableList(reftables, gcRestPack, gcPack, uncoveredPack);
+	}
+
+	@Test
 	public void getReftables_multipleInsideMidx() throws IOException {
 		db.getObjectDatabase().setUseMultipackIndex(true);
 
@@ -319,7 +466,13 @@ public class DfsObjDatabaseTest {
 
 	private static DfsPackDescription midx(String name, DfsPackDescription base,
 			long timeMs, DfsPackDescription... covered) {
-		DfsPackDescription midx = pack(name, GC, timeMs, MULTI_PACK_INDEX);
+		return midx(name, GC, base, timeMs, covered);
+	}
+
+	private static DfsPackDescription midx(String name,
+			DfsObjDatabase.PackSource source, DfsPackDescription base,
+			long timeMs, DfsPackDescription... covered) {
+		DfsPackDescription midx = pack(name, source, timeMs, MULTI_PACK_INDEX);
 		midx.setCoveredPacks(Arrays.stream(covered).toList());
 		if (base != null) {
 			midx.setMultiPackIndexBase(base);

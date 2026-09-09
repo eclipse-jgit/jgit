@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 
 /**
@@ -86,22 +88,34 @@ public class MidxPackFilter {
 			return packs;
 		}
 
+		// All midx in a chain have the same source (e.g. GC, or GC_REST).
 		Set<DfsPackDescription> packsSet = new HashSet<>(packs);
-		Optional<DfsPackDescription> bestMidx = midxs.stream()
-				.filter(midx -> isValid(midx, packsSet)).findFirst();
-		if (bestMidx.isEmpty()) {
+		Map<PackSource, List<DfsPackDescription>> midxsBySource = midxs.stream()
+				.collect(Collectors
+						.groupingBy(DfsPackDescription::getPackSource));
+
+		Set<DfsPackDescription> bestMidxs = new HashSet<>();
+		Set<DfsPackDescription> coveredPacksAndMidxs = new HashSet<>();
+		for (List<DfsPackDescription> sourceMidxs : midxsBySource.values()) {
+			Optional<DfsPackDescription> bestMidx = sourceMidxs.stream()
+					.filter(midx -> isValid(midx, packsSet)).findFirst();
+			if (bestMidx.isPresent()) {
+				bestMidxs.add(bestMidx.get());
+				coveredPacksAndMidxs.addAll(getAllCoveredPacks(bestMidx.get()));
+			}
+		}
+
+		if (bestMidxs.isEmpty()) {
 			return skipMidxs(packs);
 		}
 
 		// Take the packs covered by the midxs and other midxs themselves out of
 		// the list
-		Set<DfsPackDescription> coveredPacksAndMidxs = getAllCoveredPacks(
-				bestMidx.get());
 		return packs.stream().filter(p -> !coveredPacksAndMidxs.contains(p))
-				// At this point, any midx in the list besides bestMidx is a
+				// At this point, any midx in the list besides bestMidxs is a
 				// straggler.
 				.filter(p -> !p.hasFileExt(PackExt.MULTI_PACK_INDEX)
-						|| p.equals(bestMidx.get()))
+						|| bestMidxs.contains(p))
 				.collect(Collectors.toCollection(ArrayList::new));
 	}
 
@@ -113,7 +127,11 @@ public class MidxPackFilter {
 				return false;
 			}
 
-			tip = tip.getMultiPackIndexBase();
+			DfsPackDescription base = tip.getMultiPackIndexBase();
+			if (base != null && !packs.contains(base)) {
+				return false;
+			}
+			tip = base;
 		}
 		return true;
 	}
