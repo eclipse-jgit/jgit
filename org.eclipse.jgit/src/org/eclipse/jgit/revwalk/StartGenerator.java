@@ -119,10 +119,6 @@ class StartGenerator extends Generator {
 		if (walker instanceof DepthWalk) {
 			DepthWalk dw = (DepthWalk) walker;
 			g = new DepthGenerator(dw, pending);
-
-			if (walker.hasRevSort(RevSort.TOPO)) {
-				g = new TopoSortGenerator(g);
-			}
 		} else {
 			// Because the boundary generator may produce uninteresting
 			// commits we cannot allow the pending generator to dispose
@@ -130,21 +126,18 @@ class StartGenerator extends Generator {
 			//
 			boolean canDispose = !walker.hasRevSort(RevSort.BOUNDARY);
 
-			if (walker.hasRevSort(RevSort.TOPO)) {
-				// Doesn't need rewrite
-				g = new TopoSortPendingGenerator(w, pending, rf,
-						pendingOutputType, canDispose);
-			} else {
-				g = new PendingGenerator(w, pending, rf, pendingOutputType,
-						canDispose);
-			}
+			g = new PendingGenerator(w, pending, rf, pendingOutputType,
+					canDispose);
 		}
 
 		if ((g.outputType() & NEEDS_REWRITE) != 0) {
 			g = new RewriteGenerator(g);
 		}
 
-		if (walker.hasRevSort(RevSort.TOPO_KEEP_BRANCH_TOGETHER)
+		if (walker.hasRevSort(RevSort.TOPO)
+				&& (g.outputType() & SORT_TOPO) == 0) {
+			g = new TopoSortGenerator(g);
+		} else if (walker.hasRevSort(RevSort.TOPO_KEEP_BRANCH_TOGETHER)
 				&& (g.outputType() & SORT_TOPO) == 0) {
 			g = new TopoNonIntermixSortGenerator(g);
 		}
