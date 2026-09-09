@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebe8c74f_6718f8fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-09-09T13:18:20Z",
+      "side": 1,
+      "message": "on the CI this test fails with an error:\n```\nRevWalkSortTest.testSort_TOPO_reset_doesNotLeakFlags:389 [4 Flags should be allocated by TopoSortPendingGenerator] expected:\u003c[19]\u003e but was:\u003c[23]\u003e\n```",
+      "revId": "7f471a9669b7f2b4bed92b2dd4293decfbe93d52",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
