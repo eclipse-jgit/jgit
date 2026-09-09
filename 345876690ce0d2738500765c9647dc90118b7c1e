@@ -52,6 +52,24 @@
       "parentUuid": "ff93342a_b839c0a2",
       "revId": "345876690ce0d2738500765c9647dc90118b7c1e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d382b638_38d5fb91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-09-09T16:22:41Z",
+      "side": 1,
+      "message": "Thanks a lot! Indeed that is much better looking to fix this. I\u0027ll submit that one and abandon these two rollbacks.",
+      "parentUuid": "f41a5e8d_59028700",
+      "revId": "345876690ce0d2738500765c9647dc90118b7c1e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
