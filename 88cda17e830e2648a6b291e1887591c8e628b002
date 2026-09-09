@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf5b5efb_77925450",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-09-09T21:44:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5992664f_17c75135",
+      "range": {
+        "startLine": 12,
+        "startChar": 16,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "88cda17e830e2648a6b291e1887591c8e628b002",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "577398ba_0d0e37bd",
@@ -41,6 +65,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5f2da68_18645676",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-09-09T21:44:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "577398ba_0d0e37bd",
+      "revId": "88cda17e830e2648a6b291e1887591c8e628b002",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c35abf75_d45231a9",
@@ -54,6 +96,30 @@
       "writtenOn": "2026-09-09T16:14:58Z",
       "side": 1,
       "message": "nit: would be nice to have test names as test_outcome\neg: testGraphChangedPathsVersionDisabled_noBloomFilters, etc",
+      "range": {
+        "startLine": 231,
+        "startChar": 13,
+        "endLine": 231,
+        "endChar": 49
+      },
+      "revId": "88cda17e830e2648a6b291e1887591c8e628b002",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0c85af5_c1dac7d2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/commitgraph/CommitGraphTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-09-09T21:44:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c35abf75_d45231a9",
       "range": {
         "startLine": 231,
         "startChar": 13,
