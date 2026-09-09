@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5992664f_17c75135",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1037553
+      },
+      "writtenOn": "2026-09-09T03:01:45Z",
+      "side": 1,
+      "message": "nit: behavior",
+      "range": {
+        "startLine": 12,
+        "startChar": 16,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "88cda17e830e2648a6b291e1887591c8e628b002",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "577398ba_0d0e37bd",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
