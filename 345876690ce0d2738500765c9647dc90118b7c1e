@@ -16,6 +16,24 @@
       "message": "We can also just revert the change in StartGenerator (i.e. use the old TopoSortGenerator) and leave the incremental algorithm untouched. That way, debugging and fixing the uninteresting checks should be easier",
       "revId": "345876690ce0d2738500765c9647dc90118b7c1e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff93342a_b839c0a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-09-09T07:34:47Z",
+      "side": 1,
+      "message": "this sounds like a good idea, can you push an alternative change implementing this ?",
+      "parentUuid": "a8237bec_c5a5f462",
+      "revId": "345876690ce0d2738500765c9647dc90118b7c1e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
