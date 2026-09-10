@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ccaa7d7_ff8ad17c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-10T17:11:30Z",
+      "side": 1,
+      "message": "Looking back at the discussion in [this thread](https://review.gerrithub.io/c/eclipse-jgit/jgit/+/194140/comment/ecdead47_21234d73/), it wasn\u0027t clear how many commits are typically added to the queue. If most usage is \u003c1000 commits, then using `DateRevPriorityQueue` could be a regression overall, unless there are also enough \u003e1000 commit use cases that the significant speedup there is worthwhile.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "bb00da0bf1ec8e4cb6e837e208bebb1112693a75",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
