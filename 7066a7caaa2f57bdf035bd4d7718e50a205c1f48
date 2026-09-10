@@ -387,6 +387,30 @@
       },
       "revId": "7066a7caaa2f57bdf035bd4d7718e50a205c1f48",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8812d79_a1bb4e80",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-09-10T15:24:02Z",
+      "side": 1,
+      "message": "@matthias.sohn@sap.com, you were right on the money on this.\n\nThis happened again see [issue 460019541](https://issues.gerritcodereview.com/issues/460019541) and it was indeed due to `addRefTable`.\n\nI have proposed a fix [here](https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1248953)",
+      "parentUuid": "55b688c0_1cb8959c",
+      "range": {
+        "startLine": 276,
+        "startChar": 5,
+        "endLine": 276,
+        "endChar": 28
+      },
+      "revId": "7066a7caaa2f57bdf035bd4d7718e50a205c1f48",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
