@@ -40,9 +40,12 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.internal.storage.reftable.ReftableDatabase;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -178,6 +181,71 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		} finally {
 			pool.shutdown();
 			pool.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
+		}
+	}
+
+	@Test
+	public void testFailedAddDoesNotCloseCachedReader() throws Exception {
+		FileReftableDatabase refDb = (FileReftableDatabase) db
+				.getRefDatabase();
+		refDb.setAutoRefresh(true);
+
+		// This first checks auto-refresh, then opens and caches a reader for the
+		// current reftable files.
+		Ref master = refDb.exactRef("refs/heads/master");
+		ReftableDatabase reftableDb = refDb.getReftableDatabase();
+
+		try (FileRepository other = new FileRepository(db.getDirectory())) {
+			// Let's use a second repository object for the same directory to change
+			// the reftable files without updating refDb's in-memory view of them.
+			RefUpdate update = other.updateRef("refs/heads/new");
+			update.setNewObjectId(master.getObjectId());
+			assertEquals(Result.NEW, update.update());
+			// This replaces the old table files on disk. refDb still has a reader
+			// for one of those old files, so its view is now stale.
+			((FileReftableDatabase) other.getRefDatabase()).compactFully();
+		}
+
+		// Prepare a task that calls `addReftable()`:
+		// - It makes refDb reload its stale table list.
+		// - That reload closes refDb's old table reader.
+		// Without the lock, concurrent exactRef() uses that closed cached reader
+		// and throws ClosedChannelException.
+		Thread reloader = new Thread(new FutureTask<>(
+				() -> refDb.addReftable(w -> {
+					// noop
+				})));
+
+		// Use the real reader lock to coordinate the main thread and the reloader.
+		// exactRef() uses it while reading a cached table.
+		// The reloader must wait here before reload() can close that table.
+		ReentrantLock readerLock = reftableDb.getLock();
+		readerLock.lock();
+		try {
+			reloader.start();
+			// Wait until the reloader is blocked on readerLock. Without the fix,
+			// reload() already closed the cached reader before it gets here. With
+			// the fix, reload() has not happened yet.
+			waitForQueuedThread(readerLock, reloader);
+
+			// refDb.exactRef() would auto-refresh again and hide the gap before it
+			// uses the cached reader.
+			assertEquals(master.getObjectId(),
+					reftableDb.exactRef(master.getName()).getObjectId());
+		} finally {
+			readerLock.unlock();
+			reloader.join();
+		}
+	}
+
+	private static void waitForQueuedThread(ReentrantLock lock,
+			Thread thread) throws InterruptedException {
+		long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(5);
+		while (!lock.hasQueuedThread(thread)) {
+			if (System.nanoTime() >= deadline) {
+				throw new AssertionError("reloader did not reach the reader lock");
+			}
+			Thread.sleep(10);
 		}
 	}
 

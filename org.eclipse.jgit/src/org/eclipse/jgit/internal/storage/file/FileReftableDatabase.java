@@ -402,15 +402,30 @@ public class FileReftableDatabase extends RefDatabase {
 				true);
 	}
 
-	private boolean addReftable(FileReftableStack.Writer w) throws IOException {
-		if (!reftableStack.addReftable(w)) {
-			reftableStack.reload();
+	// Visible for testing
+	boolean addReftable(FileReftableStack.Writer w) throws IOException {
+		// reload() can close a table reader used by reftableDatabase's cached
+		// merged table. Hold its reader lock so a ref lookup cannot use that table
+		// while reload() runs.
+		ReentrantLock lock = getLock();
+		lock.lock();
+		try {
+			if (!reftableStack.addReftable(w)) {
+				reftableStack.reload();
+				reftableDatabase.clearCache();
+				return false;
+			}
 			reftableDatabase.clearCache();
-			return false;
-		}
-		reftableDatabase.clearCache();
 
-		return true;
+			return true;
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	// Visible for testing
+	ReftableDatabase getReftableDatabase() {
+		return reftableDatabase;
 	}
 
 	private class FileReftableBatchRefUpdate extends ReftableBatchRefUpdate {
