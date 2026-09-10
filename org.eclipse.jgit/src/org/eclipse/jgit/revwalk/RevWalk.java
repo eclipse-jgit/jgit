@@ -284,8 +284,9 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	}
 
 	private static boolean usePriorityQueue() {
-		return Boolean.parseBoolean(SystemReader.getInstance()
-				.getProperty("REVWALK_USE_PRIORITY_QUEUE")); //$NON-NLS-1$
+		String p = SystemReader.getInstance()
+				.getProperty("REVWALK_USE_PRIORITY_QUEUE"); //$NON-NLS-1$
+		return p != null ? Boolean.parseBoolean(p) : true;
 	}
 
 	/**
