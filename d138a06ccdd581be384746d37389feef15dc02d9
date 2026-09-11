@@ -46,6 +46,30 @@
       },
       "revId": "d138a06ccdd581be384746d37389feef15dc02d9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f86967d_8c579eab",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-09-11T18:41:52Z",
+      "side": 1,
+      "message": "Thanks @nasser.grainawi@oss.qualcomm.com, well spotted!",
+      "parentUuid": "c027fb54_6b746bb9",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 184
+      },
+      "revId": "d138a06ccdd581be384746d37389feef15dc02d9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
