@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6135b662_eab1950a",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-11T18:00:04Z",
+      "side": 1,
+      "message": "I think you swapped these.\n```suggestion\n| `core.repositoryCacheExpireAfter` | `1.hour`| \u0026#x20DE; | Time an unused repository should expired and be evicted from the RepositoryCache. |\n| `core.repositoryCacheCleanupDelay` | minimum of 1/10 of `core.repositoryCacheExpireAfter` and `10.minutes`. | \u0026#x20DE; | Delay between the periodic cleanup of expired repositories. |\n```",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 184
+      },
+      "revId": "d138a06ccdd581be384746d37389feef15dc02d9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
