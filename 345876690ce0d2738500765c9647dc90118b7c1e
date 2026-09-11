@@ -70,6 +70,24 @@
       "parentUuid": "f41a5e8d_59028700",
       "revId": "345876690ce0d2738500765c9647dc90118b7c1e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65fca8a9_66500586",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-09-11T08:37:48Z",
+      "side": 1,
+      "message": "@ifrade@google.com I implemented an early-exit for the TopoSortPendingGenerator here: https://github.com/eclipse-jgit/jgit/compare/master...vi-eclipse:jgit:TopoSortPendingEarlyExit\nI also updated StartGenerator to only use this algorithm, if a commit-graph file is present.\n\nCan you reproduce the long reachability check in this branch? If this resolves the issue, I will polish up the change and submit it here",
+      "parentUuid": "d382b638_38d5fb91",
+      "revId": "345876690ce0d2738500765c9647dc90118b7c1e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
