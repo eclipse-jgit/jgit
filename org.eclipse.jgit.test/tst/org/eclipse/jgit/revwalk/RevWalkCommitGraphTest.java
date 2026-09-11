@@ -85,7 +85,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 
 		reinitializeRevWalk();
 		RevCommit parseInGraph = rw.lookupCommit(c1);
-		parseInGraph.parseCanonical(rw, rw.getCachedBytes(c1));
+		parseInGraph.parseCanonical(rw, () -> rw.getCachedBytes(c1));
 
 		assertNotNull(parseInGraph.getRawBuffer());
 		assertEquals(1, parseInGraph.getGeneration());
@@ -99,7 +99,10 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 		reinitializeRevWalk();
 		rw.setRetainBody(false);
 		RevCommit noBody = rw.lookupCommit(c1);
-		noBody.parseCanonical(rw, rw.getCachedBytes(c1));
+		noBody.parseCanonical(rw, () -> {
+			throw new AssertionError(
+					"retainBody is false, Parsing Headers should only use commit graph");
+		});
 
 		assertNull(noBody.getRawBuffer());
 		assertEquals(1, noBody.getGeneration());
