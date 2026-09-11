@@ -36,6 +36,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RevWalkException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
+import org.eclipse.jgit.internal.util.TypedCallable;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
 import org.eclipse.jgit.lib.Constants;
@@ -1235,7 +1236,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 		switch (type) {
 		case Constants.OBJ_COMMIT: {
 			final RevCommit c = createCommit(id);
-			c.parseCanonical(this, getCachedBytes(c, ldr));
+			c.parseCanonical(this, () -> getCachedBytes(c, ldr));
 			r = c;
 			break;
 		}
@@ -1357,16 +1358,15 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 					return null;
 
 				ObjectId id = lItr.getObjectId();
-				ObjectLoader ldr = lItr.open();
 				RevObject r = objects.get(id);
 				if (r == null)
-					r = parseNew(id, ldr);
-				else if (r instanceof RevCommit) {
-					byte[] raw = ldr.getCachedBytes();
-					((RevCommit) r).parseCanonical(RevWalk.this, raw);
-				} else if (r instanceof RevTag) {
-					byte[] raw = ldr.getCachedBytes();
-					((RevTag) r).parseCanonical(RevWalk.this, raw);
+					r = parseNew(id, lItr.open());
+				else if (r instanceof RevCommit commit) {
+					commit.parseCanonical(RevWalk.this,
+							() -> lItr.open().getCachedBytes());
+				} else if (r instanceof RevTag tag) {
+					byte[] raw = lItr.open().getCachedBytes();
+					tag.parseCanonical(RevWalk.this, raw);
 				} else
 					r.flags |= PARSED;
 				return r;
@@ -1891,15 +1891,17 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	 * commits to an empty array.
 	 * <p>
 	 * There is a sequencing problem if the first commit being parsed is a
-	 * shallow commit, since {@link RevCommit#parseCanonical(RevWalk, byte[])}
-	 * calls this method before its callers add the new commit to the
+	 * shallow commit, since
+	 * {@link RevCommit#parseCanonical(RevWalk, TypedCallable)} calls this
+	 * method before its callers add the new commit to the
 	 * {@link RevWalk#objects} map. That means a call from this method to
 	 * {@link #lookupCommit(AnyObjectId)} fails to find that commit and creates
 	 * a new one, which is promptly discarded.
 	 * <p>
-	 * To avoid that, {@link RevCommit#parseCanonical(RevWalk, byte[])} passes
-	 * its commit to this method, so that this method can apply the shallow
-	 * state to it directly and avoid creating the duplicate commit object.
+	 * To avoid that, {@link RevCommit#parseCanonical(RevWalk, TypedCallable)}
+	 * passes its commit to this method, so that this method can apply the
+	 * shallow state to it directly and avoid creating the duplicate commit
+	 * object.
 	 *
 	 * @param rc
 	 *            the initial commit being parsed

@@ -24,6 +24,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
+import org.eclipse.jgit.internal.util.TypedCallable;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
@@ -97,7 +98,7 @@ public class RevCommit extends RevObject {
 	public static RevCommit parse(RevWalk rw, byte[] raw) throws IOException {
 		try (ObjectInserter.Formatter fmt = new ObjectInserter.Formatter()) {
 			RevCommit r = rw.lookupCommit(fmt.idFor(Constants.OBJ_COMMIT, raw));
-			r.parseCanonical(rw, raw);
+			r.parseCanonical(rw, () -> raw);
 			r.buffer = raw;
 			return r;
 		}
@@ -126,9 +127,9 @@ public class RevCommit extends RevObject {
 	int inDegree;
 
 	/**
-	 * Raw unparsed commit body of the commit. Populated only
-	 * after {@link #parseCanonical(RevWalk, byte[])} with
-	 * {@link RevWalk#isRetainBody()} enable or after
+	 * Raw unparsed commit body of the commit. Populated only after
+	 * {@link #parseCanonical(RevWalk, TypedCallable)} with
+	 * {@link RevWalk#isRetainBody()} enabled or after
 	 * {@link #parseBody(RevWalk)} and {@link #parse(RevWalk, byte[])}.
 	 *
 	 * @since 6.5.1
@@ -166,7 +167,7 @@ public class RevCommit extends RevObject {
 	@Override
 	final void parseHeaders(RevWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		parseCanonical(walk, walk.getCachedBytes(this));
+		parseCanonical(walk, () -> walk.getCachedBytes(this));
 	}
 
 	@Override
@@ -175,23 +176,24 @@ public class RevCommit extends RevObject {
 		if (buffer == null) {
 			buffer = walk.getCachedBytes(this);
 			if ((flags & PARSED) == 0)
-				parseCanonical(walk, buffer);
+				parseCanonical(walk, () -> buffer);
 		}
 	}
 
-	final void parseCanonical(RevWalk walk, byte[] raw) throws IOException {
+	final void parseCanonical(RevWalk walk,
+			TypedCallable<byte[], IOException> raw) throws IOException {
 		if (!walk.shallowCommitsInitialized) {
 			walk.initializeShallowCommits(this);
 		}
 
 		if (graphPosition >= 0) {
 			if (walk.isRetainBody()) {
-				buffer = raw;
+				buffer = raw.call();
 			}
 
 			parseInGraph(walk);
 		} else {
-			parseFromObject(walk, raw);
+			parseFromObject(walk, raw.call());
 		}
 
 		flags |= PARSED;
