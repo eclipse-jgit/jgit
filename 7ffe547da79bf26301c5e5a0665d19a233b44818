@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65cbe79c_8d3ef23e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-09-11T15:50:19Z",
+      "side": 1,
+      "message": "Post-merge -1, the new settings should be documented.",
+      "revId": "7ffe547da79bf26301c5e5a0665d19a233b44818",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0b09b48_0d5ffcce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCacheConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-09-11T15:50:19Z",
+      "side": 1,
+      "message": "Apologies for the super-duper-late review: these new parameters are extremely important for assuring a prompt cache eviction of unused repositories. I believe they should be documented properly in JGit Documentation https://github.com/eclipse-jgit/jgit/blob/master/Documentation/config-options.md.",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 2
+      },
+      "revId": "7ffe547da79bf26301c5e5a0665d19a233b44818",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
