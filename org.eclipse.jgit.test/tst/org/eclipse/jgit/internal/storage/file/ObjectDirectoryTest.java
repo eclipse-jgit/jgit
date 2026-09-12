@@ -243,6 +243,39 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testOpenLooseObjectIgnoresFailedDirectoryRefresh()
+			throws Exception {
+		ObjectId id = ObjectId
+				.fromString("873fb8d667d05436d728c52b1d7a09528e6eb59b");
+		LooseObjects looseObjects = looseObjectsWithUnopenableDirectory();
+
+		try (WindowCursor curs = new WindowCursor(db.getObjectDatabase())) {
+			assertNull(looseObjects.open(curs, id));
+		}
+	}
+
+	@Test
+	public void testGetLooseObjectSizeIgnoresFailedDirectoryRefresh()
+			throws Exception {
+		ObjectId id = ObjectId
+				.fromString("873fb8d667d05436d728c52b1d7a09528e6eb59b");
+		LooseObjects looseObjects = looseObjectsWithUnopenableDirectory();
+
+		try (WindowCursor curs = new WindowCursor(db.getObjectDatabase())) {
+			assertEquals(-1L, looseObjects.getSize(curs, id));
+		}
+	}
+
+	private LooseObjects looseObjectsWithUnopenableDirectory() {
+		Config config = new Config();
+		config.setString("core", null, "trustLooseObjectStat", "NEVER");
+		// Opening this directory to refresh its attributes throws
+		// NoSuchFileException, the way opening any directory throws
+		// AccessDeniedException on Windows
+		return new LooseObjects(config, new File(trash, "missing-objects"));
+	}
+
+	@Test
 	public void testWindowCursorGetCommitGraph() throws Exception {
 		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_COMMIT_GRAPH, true);
