@@ -237,6 +237,9 @@ class LooseObjects {
 			try (InputStream stream = Files
 					.newInputStream(directory.toPath())) {
 				// refresh directory to work around NFS caching issues
+			} catch (IOException ignored) {
+				// best effort, opening a directory fails on some platforms,
+				// e.g. Windows
 			}
 			return getObjectLoaderWithoutRefresh(curs, path, id);
 		}
@@ -274,6 +277,9 @@ class LooseObjects {
 				try (InputStream stream = Files
 						.newInputStream(directory.toPath())) {
 					// refresh directory to work around NFS caching issue
+				} catch (IOException ignored) {
+					// best effort, opening a directory fails on some
+					// platforms, e.g. Windows
 				}
 				return getSizeWithoutRefresh(curs, id);
 			} catch (FileNotFoundException unused) {
