@@ -175,8 +175,9 @@ class LooseObjects {
 						.newInputStream(path.getParentFile().toPath())) {
 					// open the loose object's fanout directory to refresh
 					// attributes (on some NFS clients)
-				} catch (FileNotFoundException | NoSuchFileException e) {
-					// ignore
+				} catch (IOException ignored) {
+					// best effort, opening a directory fails on some
+					// platforms, e.g. Windows
 				}
 				//$FALL-THROUGH$
 			case ALWAYS:
@@ -237,6 +238,9 @@ class LooseObjects {
 			try (InputStream stream = Files
 					.newInputStream(directory.toPath())) {
 				// refresh directory to work around NFS caching issues
+			} catch (IOException ignored) {
+				// best effort, opening a directory fails on some platforms,
+				// e.g. Windows
 			}
 			return getObjectLoaderWithoutRefresh(curs, path, id);
 		}
@@ -274,6 +278,9 @@ class LooseObjects {
 				try (InputStream stream = Files
 						.newInputStream(directory.toPath())) {
 					// refresh directory to work around NFS caching issue
+				} catch (IOException ignored) {
+					// best effort, opening a directory fails on some
+					// platforms, e.g. Windows
 				}
 				return getSizeWithoutRefresh(curs, id);
 			} catch (FileNotFoundException unused) {

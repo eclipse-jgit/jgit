@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.StandardCopyOption;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -318,8 +317,9 @@ public class FileReftableStack implements AutoCloseable {
 					// open the refs/reftable/ directory to refresh attributes
 					// of reftable files and the tables.list file listing their
 					// names (on some NFS clients)
-				} catch (FileNotFoundException | NoSuchFileException e) {
-					// ignore
+				} catch (IOException ignored) {
+					// best effort, opening a directory fails on some
+					// platforms, e.g. Windows
 				}
 				//$FALL-THROUGH$
 			case ALWAYS:
