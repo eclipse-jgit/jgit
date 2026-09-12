@@ -192,6 +192,7 @@ public class SubmoduleDeinitCommand
 		}
 
 		try (SubmoduleWalk w = SubmoduleWalk.forIndex(repo)) {
+			w.setFilter(PathFilter.create(path));
 			if (!w.next()) {
 				// The submodule does not exist in the index (shouldn't happen
 				// since we check this earlier)

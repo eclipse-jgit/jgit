@@ -180,6 +180,33 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 		assertEquals(0, submoduleDir.list().length);
 	}
 
+	@Test
+	public void dirtyRequestedSubmoduleIsNotDeinitialized() throws Exception {
+		final String cleanPath = "sub-a";
+		final String dirtyPath = "sub-b";
+		Git git = Git.wrap(db);
+
+		// Both submodules point at the same commit, so their index entries
+		// share an object id.
+		commitSubmodulesCreation(git, cleanPath, dirtyPath);
+
+		Collection<String> updated = new SubmoduleUpdateCommand(db)
+				.addPath(cleanPath).addPath(dirtyPath).setFetch(false).call();
+		assertEquals(2, updated.size());
+
+		File dirtyDir = new File(db.getWorkTree(), dirtyPath);
+		assertTrue(dirtyDir.isDirectory());
+		write(new File(dirtyDir, "untracked"), "untracked");
+
+		// sub-a sorts first in the index, but sub-b is the one requested.
+		SubmoduleDeinitResult result = runDeinit(
+				new SubmoduleDeinitCommand(db).addPath(dirtyPath));
+		assertEquals(dirtyPath, result.getPath());
+		assertEquals(SubmoduleDeinitCommand.SubmoduleDeinitStatus.DIRTY,
+				result.getStatus());
+		assertNotEquals(0, dirtyDir.list().length);
+	}
+
 	private SubmoduleDeinitResult runDeinit(SubmoduleDeinitCommand command) throws GitAPIException {
 		Collection<SubmoduleDeinitResult> deinitialized = command.call();
 		assertNotNull(deinitialized);
@@ -221,5 +248,44 @@ public class SubmoduleDeinitTest extends RepositoryTestCase {
 		git.add().addFilepattern(Constants.DOT_GIT_MODULES).call();
 		git.commit().setMessage("create submodule").call();
 		return commit;
+	}
+
+	private void commitSubmodulesCreation(Git git, String... paths)
+			throws IOException, GitAPIException {
+		writeTrashFile("file.txt", "content");
+		git.add().addFilepattern("file.txt").call();
+		final RevCommit commit = git.commit().setMessage("create file").call();
+
+		DirCache cache = db.lockDirCache();
+		DirCacheEditor editor = cache.editor();
+		for (String path : paths) {
+			editor.add(new PathEdit(path) {
+
+				@Override
+				public void apply(DirCacheEntry ent) {
+					ent.setFileMode(FileMode.GITLINK);
+					ent.setObjectId(commit);
+				}
+			});
+		}
+		editor.commit();
+
+		StoredConfig config = db.getConfig();
+		FileBasedConfig modulesConfig = new FileBasedConfig(
+				new File(db.getWorkTree(), Constants.DOT_GIT_MODULES),
+				db.getFS());
+		for (String path : paths) {
+			config.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+					ConfigConstants.CONFIG_KEY_URL,
+					db.getDirectory().toURI().toString());
+			modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
+					path, ConfigConstants.CONFIG_KEY_PATH, path);
+			new File(db.getWorkTree(), path).mkdir();
+		}
+		config.save();
+		modulesConfig.save();
+
+		git.add().addFilepattern(Constants.DOT_GIT_MODULES).call();
+		git.commit().setMessage("create submodules").call();
 	}
 }
