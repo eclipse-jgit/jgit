@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e09d4015_28066c37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-09-13T22:38:41Z",
+      "side": 1,
+      "message": "move clearCache into the finally block ?\n\n```suggestion\n\t\ttry {\n\t\t\tif (!reftableStack.addReftable(w)) {\n\t\t\t\treftableStack.reload();\n\t\t\t\treturn false;\n\t\t\t}\n\t\t\treturn true;\n\t\t} finally {\n\t\t\treftableDatabase.clearCache();\n\t\t\tlock.unlock();\n\n\t\t}\n```",
+      "range": {
+        "startLine": 412,
+        "startChar": 0,
+        "endLine": 423,
+        "endChar": 3
+      },
+      "revId": "3aa0700a6b7efc41b426ccae67fc8c79c4d35b51",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
