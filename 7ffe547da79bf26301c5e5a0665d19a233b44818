@@ -57,6 +57,30 @@
       },
       "revId": "7ffe547da79bf26301c5e5a0665d19a233b44818",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb33ac19_4201aea9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCacheConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-09-13T22:44:44Z",
+      "side": 1,
+      "message": "this change predates the documentation in `Documentation/config-options.md` which was added later in 2020 in Iab7262b25942fa8c062b979d394674635b70a284",
+      "parentUuid": "a0b09b48_0d5ffcce",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 2
+      },
+      "revId": "7ffe547da79bf26301c5e5a0665d19a233b44818",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
