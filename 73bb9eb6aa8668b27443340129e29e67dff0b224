@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8477e2c8_407fb6f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-14T22:21:21Z",
+      "side": 1,
+      "message": "A similar version of this bug exists where the catch is too narrow to include `AccessDeniedException` and only covers `FileNotFoundException` and/or `NoSuchFileException`.\n\nCheck: `org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java` and `org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java`.",
+      "revId": "73bb9eb6aa8668b27443340129e29e67dff0b224",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd2563e7_0ba4c628",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/LooseObjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-14T22:21:21Z",
+      "side": 1,
+      "message": "Include `AccessDeniedException` here or switch to IOException\n```suggestion\n\t\t\t\t} catch (IOException ignored) {\n```",
+      "revId": "73bb9eb6aa8668b27443340129e29e67dff0b224",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
