@@ -412,13 +412,11 @@ public class FileReftableDatabase extends RefDatabase {
 		try {
 			if (!reftableStack.addReftable(w)) {
 				reftableStack.reload();
-				reftableDatabase.clearCache();
 				return false;
 			}
-			reftableDatabase.clearCache();
-
 			return true;
 		} finally {
+			reftableDatabase.clearCache();
 			lock.unlock();
 		}
 	}
