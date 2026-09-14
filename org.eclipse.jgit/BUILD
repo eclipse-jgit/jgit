@@ -14,7 +14,7 @@ SRCS = glob(
 RESOURCES = glob(["resources/**"])
 
 java_library(
-    name = "jgit_non_stamped",
+    name = "jgit",
     srcs = SRCS,
     javacopts = [
         "-Xep:ReferenceEquality:OFF",
@@ -32,9 +32,15 @@ java_library(
     ],
 )
 
+alias(
+    name = "jgit_non_stamped",
+    actual = ":jgit",
+    visibility = ["//visibility:public"],
+)
+
 genrule(
-    name = "jgit",
-    srcs = [":jgit_non_stamped"],
+    name = "jgit-stamped",
+    srcs = [":jgit"],
     outs = ["jgit.jar"],
     cmd = " && ".join([
         "ROOT=$$PWD",
