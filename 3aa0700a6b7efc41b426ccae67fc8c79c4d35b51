@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bd98b0b2_e7f1ea91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-09-14T05:42:21Z",
+      "side": 1,
+      "message": "Seems a bit too cryptic to me.\n\n\n\n```suggestion\nWhen an externally updated `tables.list` causes `addReftable()` \nto fail, the system triggers a stack reload. Previously, this \nreload occurred before obtaining the cached-reader lock.\n\nThis lock inversion was unsafe. The reload operation could close \na table that was concurrently being read by a ref lookup, which \nresulted in a `ClosedChannelException`.\n\nFix this by acquiring the cached-reader lock before reloading the \nstack. This ensures that tables remain open and safe to access \nwhile concurrent threads are actively reading them.\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "3aa0700a6b7efc41b426ccae67fc8c79c4d35b51",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71eb6cf1_e2fa0785",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-09-14T05:42:21Z",
+      "side": 1,
+      "message": "The test is quite complex: worth adding an overview of the test as a JavaDoc on top of the test name?\n\nI see that you\u0027ve put also extensive comments on the body of the test, however, having an overview of what the test is trying to achieve would be beneficial to the reader.",
+      "range": {
+        "startLine": 188,
+        "startChar": 13,
+        "endLine": 188,
+        "endChar": 50
+      },
+      "revId": "3aa0700a6b7efc41b426ccae67fc8c79c4d35b51",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e09d4015_28066c37",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
         "patchSetId": 3
@@ -14,6 +60,30 @@
       "writtenOn": "2026-09-13T22:38:41Z",
       "side": 1,
       "message": "move clearCache into the finally block ?\n\n```suggestion\n\t\ttry {\n\t\t\tif (!reftableStack.addReftable(w)) {\n\t\t\t\treftableStack.reload();\n\t\t\t\treturn false;\n\t\t\t}\n\t\t\treturn true;\n\t\t} finally {\n\t\t\treftableDatabase.clearCache();\n\t\t\tlock.unlock();\n\n\t\t}\n```",
+      "range": {
+        "startLine": 412,
+        "startChar": 0,
+        "endLine": 423,
+        "endChar": 3
+      },
+      "revId": "3aa0700a6b7efc41b426ccae67fc8c79c4d35b51",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0b60d29_e67f4a75",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-09-14T05:42:21Z",
+      "side": 1,
+      "message": "Putting the `reftableDatabase.clearCache()` on the finally block makes sense, however, that code was there already. Worth doing it on a follow-up? It would be best to have one fix in one change and a refactor in a follow\u003dup, for better clarify and for being able to cherry-pick also on previous releases cleanly.",
+      "parentUuid": "e09d4015_28066c37",
       "range": {
         "startLine": 412,
         "startChar": 0,
