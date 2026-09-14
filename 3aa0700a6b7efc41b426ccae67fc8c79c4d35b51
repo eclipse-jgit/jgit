@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c72eef96_0b0ef9b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-09-14T10:21:58Z",
+      "side": 1,
+      "message": "So, I looked at the other `reload` paths.\n\nMaking `FileReftableStack.reload()` safe by itself looks possible, but it is more involved than I thought.\n\nThe thing is that the lock protects both the reload and the cached `MergedReftable` in [ReftableDatabase.java#L38](https://github.com/eclipse-jgit/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/ReftableDatabase.java#L38).\n\n`reload()` can close readers from tables that disappeared\nfrom `tables.list`. The cached `MergedReftable` may still refer to those readers, so clearing that cache must happen while we hold the same lock.\n\nI was thinking we could add a helper in `FileReftableDatabase`, for example:\n\n```\nlock();\ntry {\n  reftableStack.reload();\n  reftableDatabase.clearCache();\n} finally {\n  unlock();\n}\n```\n\nThat helper would work nicely for paths such as `refresh()` and the failed-add path, because `FileReftableDatabase` explicitly calls `reload()` there.\n\nSuccessful `FileReftableDatabase.addReftable()` is different, though, because it calls `FileReftableStack.addReftable()`, and the stack reloads itself after it has written the new table.\nIt can also compact tables, which reloads again.\n\n`FileReftableDatabase.compactFully()` is similar. It calls `compactRange()`, and that calls `reload()` after it has written the compacted table and updated `tables.list`.\n\nSo calling the helper after `addReftable()` or `compactFully()` returns would be too late because the stack has already reloaded. \n\nThe locking we do today covers those cases because it is taken _before_ entering the stack operation and released only after it finishes.\n\nTo cover every path, I believe we would need to change the stack API. Either stop it from reloading internally, or give it a callback that can clear the database cache under the same lock.\n\nBut I don\u0027t love either solution, to be honest.\n\nI think all of this, should we decide it is needed, should be handled as a separate refactor.\n\nWDYT?",
+      "parentUuid": "2af846fc_72ab0cdf",
+      "range": {
+        "startLine": 14,
+        "startChar": 5,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "3aa0700a6b7efc41b426ccae67fc8c79c4d35b51",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "71eb6cf1_e2fa0785",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
         "patchSetId": 3
