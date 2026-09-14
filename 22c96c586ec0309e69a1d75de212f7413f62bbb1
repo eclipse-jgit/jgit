@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f621f7cb_61c01311",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-14T22:39:55Z",
+      "side": 1,
+      "message": "It\u0027s a breaking change for anyone depending on the current `jgit` target. Is there anything we can do to announce that? Post on our list?",
+      "revId": "22c96c586ec0309e69a1d75de212f7413f62bbb1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
