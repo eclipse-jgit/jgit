@@ -410,15 +410,13 @@ public class FileReftableDatabase extends RefDatabase {
 		ReentrantLock lock = getLock();
 		lock.lock();
 		try {
-			if (!reftableStack.addReftable(w)) {
+			boolean added = reftableStack.addReftable(w);
+			if (!added) {
 				reftableStack.reload();
-				reftableDatabase.clearCache();
-				return false;
 			}
-			reftableDatabase.clearCache();
-
-			return true;
+			return added;
 		} finally {
+			reftableDatabase.clearCache();
 			lock.unlock();
 		}
 	}
