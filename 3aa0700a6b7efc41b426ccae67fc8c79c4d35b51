@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ddda7f0_338eb43b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-09-14T09:12:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd98b0b2_e7f1ea91",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "3aa0700a6b7efc41b426ccae67fc8c79c4d35b51",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2af846fc_72ab0cdf",
@@ -60,6 +84,30 @@
       "writtenOn": "2026-09-14T05:42:21Z",
       "side": 1,
       "message": "The test is quite complex: worth adding an overview of the test as a JavaDoc on top of the test name?\n\nI see that you\u0027ve put also extensive comments on the body of the test, however, having an overview of what the test is trying to achieve would be beneficial to the reader.",
+      "range": {
+        "startLine": 188,
+        "startChar": 13,
+        "endLine": 188,
+        "endChar": 50
+      },
+      "revId": "3aa0700a6b7efc41b426ccae67fc8c79c4d35b51",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f6fd493_a96b25b4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/FileReftableTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-09-14T09:12:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71eb6cf1_e2fa0785",
       "range": {
         "startLine": 188,
         "startChar": 13,
