@@ -81,6 +81,30 @@
       },
       "revId": "7ffe547da79bf26301c5e5a0665d19a233b44818",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0a2e965_c2a016f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCacheConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-09-14T05:14:39Z",
+      "side": 1,
+      "message": "Oh, gosh, well spotted. That means we may have plenty of other configuration options missing in the documentation.",
+      "parentUuid": "eb33ac19_4201aea9",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 2
+      },
+      "revId": "7ffe547da79bf26301c5e5a0665d19a233b44818",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
