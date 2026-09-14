@@ -187,6 +187,30 @@
       },
       "revId": "3aa0700a6b7efc41b426ccae67fc8c79c4d35b51",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b841ab1c_328da745",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-09-14T10:44:34Z",
+      "side": 1,
+      "message": "Done as a [follow-up change](https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1248959)",
+      "parentUuid": "b0b60d29_e67f4a75",
+      "range": {
+        "startLine": 412,
+        "startChar": 0,
+        "endLine": 423,
+        "endChar": 3
+      },
+      "revId": "3aa0700a6b7efc41b426ccae67fc8c79c4d35b51",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
