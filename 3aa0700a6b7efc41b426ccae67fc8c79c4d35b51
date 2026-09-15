@@ -119,6 +119,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "562e6a56_94a7f1d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2026-09-15T14:02:11Z",
+      "side": 1,
+      "message": "Agreed, we can keep this refactoring as a follow-up for master if we want.\nThis fix should cover all known call points as today.\n\nThanks for the reviews!",
+      "parentUuid": "154fa759_b0ca4aa0",
+      "range": {
+        "startLine": 14,
+        "startChar": 5,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "3aa0700a6b7efc41b426ccae67fc8c79c4d35b51",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71eb6cf1_e2fa0785",
