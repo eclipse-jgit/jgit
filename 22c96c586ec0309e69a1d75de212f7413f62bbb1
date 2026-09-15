@@ -34,6 +34,24 @@
       "parentUuid": "f621f7cb_61c01311",
       "revId": "22c96c586ec0309e69a1d75de212f7413f62bbb1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d0e29c9_21864114",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-15T16:51:58Z",
+      "side": 1,
+      "message": "Thanks! Should there be a JGit-specific issue in https://github.com/eclipse-jgit/jgit/issues too?",
+      "parentUuid": "8d24ea6d_1b91795a",
+      "revId": "22c96c586ec0309e69a1d75de212f7413f62bbb1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
