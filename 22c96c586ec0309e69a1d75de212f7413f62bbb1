@@ -52,6 +52,24 @@
       "parentUuid": "8d24ea6d_1b91795a",
       "revId": "22c96c586ec0309e69a1d75de212f7413f62bbb1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58d66e28_00012a4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-09-15T22:17:05Z",
+      "side": 1,
+      "message": "I considered it, but decided against it for now.\n\nThe official JGit build is Maven-based, so the impact is limited to Bazel consumers of JGit, primarily Gerrit ecosystem projects. That is why I filed the tracking issue in the Gerrit tracker: it can cover the coordinated follow-up work in Gerrit and Gitiles as well as the JGit Bazel target split.\n\nIf we learn about non-Gerrit Bazel consumers, or if JGit maintainers prefer a JGit-side tracking issue for release-note visibility, I am happy to add one.",
+      "parentUuid": "0d0e29c9_21864114",
+      "revId": "22c96c586ec0309e69a1d75de212f7413f62bbb1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
