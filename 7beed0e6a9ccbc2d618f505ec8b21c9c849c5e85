@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7116fe6_7f274cc8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039876
+      },
+      "writtenOn": "2026-09-15T12:16:24Z",
+      "side": 1,
+      "message": "Good catch widened all three. LooseObjects.open() and FileReftableStack.isUpToDate() both open a directory, same as the original issue, so I used the same comment. RefDirectory.shouldRefreshPackedRefs() opens packed refs, a regular file, so I kept its original \"may not exist\" reasoning and just widened the catch. I haven\u0027t added new unit tests for the two new sites  isUpToDate() is testable but I\u0027m not confident about its downstream behavior when the whole directory is missing without reading further, and shouldRefreshPackedRefs() is private. Both are covered functionally by RefDirectoryAfterOpenConfigTest and FileReftableStackTest\u0027s existing suites. Happy to add targeted tests if you\u0027d like them.",
+      "revId": "7beed0e6a9ccbc2d618f505ec8b21c9c849c5e85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
