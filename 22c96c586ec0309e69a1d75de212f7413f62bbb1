@@ -16,6 +16,24 @@
       "message": "It\u0027s a breaking change for anyone depending on the current `jgit` target. Is there anything we can do to announce that? Post on our list?",
       "revId": "22c96c586ec0309e69a1d75de212f7413f62bbb1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d24ea6d_1b91795a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-09-15T10:43:21Z",
+      "side": 1,
+      "message": "Good point. I filed a tracking issue for visibility: https://issues.gerritcodereview.com/issues/561838827\n\nThe affected audience is Bazel consumers of JGit, primarily in the Gerrit ecosystem. Official JGit builds are Maven-based.\n\nThe intended migration is:\n\n* use //org.eclipse.jgit:jgit for ordinary compile/test dependencies\n* use //org.eclipse.jgit:jgit-stamped when packaging an artifact that needs the Implementation-Version manifest entry\n\nGerrit and Gitiles have follow-up changes that use this split at their WAR packaging boundaries, so their WARs still contain the versioned JGit jar without pulling the stamped jar into regular build/test targets.",
+      "parentUuid": "f621f7cb_61c01311",
+      "revId": "22c96c586ec0309e69a1d75de212f7413f62bbb1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
