@@ -28,9 +28,9 @@ permissions:
 jobs:
   generate-sbom:
     runs-on: ubuntu-latest
-    outputs:
-      # Make env var available in re-usuable workflow (see actions/runner#2372)
-      project-version: ${{ env.PROJECT_VERSION }}
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - name: Checkout repository at '${{ env.PROJECT_VERSION }}'
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
@@ -54,19 +54,8 @@ jobs:
 
 
       - name: Upload
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: eclipse-csi/workflows/upload-sbom@20e3c63807b2bd61b7f1a9f438e5ce588c054efc # main
         with:
-          name: sbom
-          path: target/cyclonedx.json
-
-  # Store SBOM and metadata in a predefined format for otterdog to pick up
-  store-sbom-data:
-    needs: ['generate-sbom']
-    uses: eclipse-csi/workflows/.github/workflows/store-sbom-data.yml@main
-    with:
-      projectName: 'JGit'
-      projectVersion: ${{ needs.generate-sbom.outputs.project-version }}
-      bomArtifact: 'sbom'
-      bomFilename: 'cyclonedx.json'
-      parentProject: '6638fa7e-8518-4528-9419-e24f629b7e9f'
-
+          sbom-file: target/cyclonedx.json
+          product-name: 'JGit'
+          product-version: ${{ env.PROJECT_VERSION }}
