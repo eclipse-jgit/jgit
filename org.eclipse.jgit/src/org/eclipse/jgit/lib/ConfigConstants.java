@@ -1084,7 +1084,7 @@ public final class ConfigConstants {
 	/**
 	 * The "changedPathsVersion" key
 	 *
-	 * @since 7.8
+	 * @since 7.9
 	 */
 	public static final String CONFIG_KEY_CHANGED_PATHS_VERSION = "changedPathsVersion";
 
