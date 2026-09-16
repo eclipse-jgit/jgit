@@ -11,6 +11,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.COMPACT;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
+import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_REST;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.INSERT;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
@@ -205,6 +206,91 @@ public class MidxPackFilterTest {
 	}
 
 	@Test
+	public void useMidx_midxAndGcRestMidx_both() {
+		DfsPackDescription gc = pack("aaaa", GC, PACK);
+		DfsPackDescription compact = pack("cccc", COMPACT, PACK);
+		DfsPackDescription compactTwo = pack("bbbb", COMPACT, PACK);
+		DfsPackDescription midx = pack("midx", GC, MULTI_PACK_INDEX);
+		midx.setCoveredPacks(List.of(gc, compact, compactTwo));
+
+		DfsPackDescription extra = pack("extra", COMPACT, PACK);
+		DfsPackDescription gcRest = pack("xxxx", GC_REST, PACK);
+		DfsPackDescription gcRestPAck = pack("xxxx_part", GC_REST, PACK);
+		DfsPackDescription midxGcRest = pack("midxGcRest", GC_REST,
+				MULTI_PACK_INDEX);
+		midxGcRest.setCoveredPacks(List.of(gcRest, gcRestPAck));
+
+		List<DfsPackDescription> reorgPacks = MidxPackFilter
+				.useMidx(List.of(gc, compact, compactTwo, midx, extra, gcRest,
+						gcRestPAck, midxGcRest));
+		assertEquals(3, reorgPacks.size());
+		assertTrue(reorgPacks.contains(midx));
+		assertTrue(reorgPacks.contains(extra));
+		assertTrue(reorgPacks.contains(midxGcRest));
+	}
+
+	@Test
+	public void useMidx_twoMidxChains_oneInvalid_useValidAndPlainPacks() {
+		DfsPackDescription gc = pack("aaaa", GC, PACK);
+		DfsPackDescription compact = pack("cccc", COMPACT, PACK);
+		DfsPackDescription compactTwo = pack("bbbb", COMPACT, PACK);
+		DfsPackDescription midx = pack("midx", GC, MULTI_PACK_INDEX);
+		midx.setCoveredPacks(List.of(gc, compact, compactTwo));
+
+		DfsPackDescription extra = pack("extra", COMPACT, PACK);
+		DfsPackDescription gcRest = pack("xxxx", GC_REST, PACK);
+		DfsPackDescription gcRestPack = pack("xxxx_part", GC_REST, PACK);
+		DfsPackDescription missingPack = pack("missing", GC_REST, PACK);
+		DfsPackDescription midxGcRest = pack("midxGcRest", GC_REST,
+				MULTI_PACK_INDEX);
+		midxGcRest.setCoveredPacks(List.of(gcRest, gcRestPack, missingPack));
+
+		List<DfsPackDescription> reorgPacks = MidxPackFilter
+				.useMidx(List.of(gc, compact, compactTwo, midx, extra, gcRest,
+						gcRestPack, midxGcRest));
+		assertEquals(4, reorgPacks.size());
+		assertTrue(reorgPacks.contains(midx));
+		assertTrue(reorgPacks.contains(extra));
+		assertTrue(reorgPacks.contains(gcRest));
+		assertTrue(reorgPacks.contains(gcRestPack));
+	}
+
+	@Test
+	public void useMidx_twoMidxChains_bothNested_topMidxs() {
+		DfsPackDescription gc = pack("aaaa", GC, PACK);
+		DfsPackDescription compact = pack("cccc", COMPACT, PACK);
+		DfsPackDescription firstMidx = pack("midx1", GC, MULTI_PACK_INDEX);
+		firstMidx.setCoveredPacks(List.of(gc, compact));
+
+		DfsPackDescription compact2 = pack("dddd", COMPACT, PACK);
+		DfsPackDescription compact3 = pack("eeee", COMPACT, PACK);
+		DfsPackDescription topMidx = pack("midx2", GC, MULTI_PACK_INDEX);
+		topMidx.setCoveredPacks(List.of(compact2, compact3));
+		topMidx.setMultiPackIndexBase(firstMidx);
+
+		DfsPackDescription gcRest = pack("xxxx", GC_REST, PACK);
+		DfsPackDescription firstMidxGcRest = pack("midxGcRest1", GC_REST,
+				MULTI_PACK_INDEX);
+		firstMidxGcRest.setCoveredPacks(List.of(gcRest));
+
+		DfsPackDescription gcRestPart = pack("xxxx_part", GC_REST, PACK);
+		DfsPackDescription topMidxGcRest = pack("midxGcRest2", GC_REST,
+				MULTI_PACK_INDEX);
+		topMidxGcRest.setCoveredPacks(List.of(gcRestPart));
+		topMidxGcRest.setMultiPackIndexBase(firstMidxGcRest);
+
+		DfsPackDescription extra = pack("extra", COMPACT, PACK);
+
+		List<DfsPackDescription> reorgPacks = MidxPackFilter.useMidx(List.of(
+				gc, compact, firstMidx, compact2, compact3, topMidx,
+				gcRest, firstMidxGcRest, gcRestPart, topMidxGcRest, extra));
+		assertEquals(3, reorgPacks.size());
+		assertTrue(reorgPacks.contains(topMidx));
+		assertTrue(reorgPacks.contains(topMidxGcRest));
+		assertTrue(reorgPacks.contains(extra));
+	}
+
+	@Test
 	public void skipMidx_oneMidxCoversAll_allPacks() {
 		DfsPackDescription gc = pack("aaaa", GC, PACK);
 		DfsPackDescription compact = pack("cccc", COMPACT, PACK);
@@ -299,6 +385,33 @@ public class MidxPackFilterTest {
 		assertTrue(reorgPacks.contains(compact2));
 		assertTrue(reorgPacks.contains(compact3));
 		assertTrue(reorgPacks.contains(uncovered));
+	}
+
+	@Test
+	public void skipMidx_midxAndGcRestMidx_allPacks() {
+		DfsPackDescription gc = pack("aaaa", GC, PACK);
+		DfsPackDescription compact = pack("cccc", COMPACT, PACK);
+		DfsPackDescription compactTwo = pack("bbbb", COMPACT, PACK);
+		DfsPackDescription midx = pack("midx", GC, MULTI_PACK_INDEX);
+		midx.setCoveredPacks(List.of(gc, compact, compactTwo));
+
+		DfsPackDescription extra = pack("extra", COMPACT, PACK);
+		DfsPackDescription gcRest = pack("xxxx", GC_REST, PACK);
+		DfsPackDescription gcRestPack = pack("xxxx_part", GC_REST, PACK);
+		DfsPackDescription midxGcRest = pack("midxGcRest", GC_REST,
+				MULTI_PACK_INDEX);
+		midxGcRest.setCoveredPacks(List.of(gcRest, gcRestPack));
+
+		List<DfsPackDescription> reorgPacks = MidxPackFilter
+				.skipMidxs(List.of(gc, compact, compactTwo, midx, extra, gcRest,
+						gcRestPack, midxGcRest));
+		assertEquals(6, reorgPacks.size());
+		assertTrue(reorgPacks.contains(gc));
+		assertTrue(reorgPacks.contains(compact));
+		assertTrue(reorgPacks.contains(compactTwo));
+		assertTrue(reorgPacks.contains(extra));
+		assertTrue(reorgPacks.contains(gcRest));
+		assertTrue(reorgPacks.contains(gcRestPack));
 	}
 
 	private static DfsPackDescription pack(String name,
