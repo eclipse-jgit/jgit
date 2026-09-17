@@ -33,6 +33,42 @@
       "message": "this test fails on the CI:\n```\n10:17:16  [INFO] Running org.eclipse.jgit.transport.UploadPackReachabilityTest\n10:17:16  org.eclipse.jgit.transport.UploadPackInternalServerErrorException\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.upload(UploadPack.java:793)\n10:17:16  \tat org.eclipse.jgit.transport.InternalFetchConnection$2.run(InternalFetchConnection.java:77)\n10:17:16  Caused by: org.eclipse.jgit.transport.WantNotValidException: want aa382866b350a2b0883af67abda2288cbe29a490 not valid\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.checkNotAdvertisedWants(UploadPack.java:2100)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack$ReachableCommitRequestValidator.checkWants(UploadPack.java:1974)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.parseWants(UploadPack.java:1912)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.processHaveLines(UploadPack.java:1786)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.negotiate(UploadPack.java:1759)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.service(UploadPack.java:1090)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.uploadWithExceptionPropagation(UploadPack.java:862)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.upload(UploadPack.java:770)\n10:17:16  \t... 1 more\n10:17:16  org.eclipse.jgit.transport.UploadPackInternalServerErrorException\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.upload(UploadPack.java:793)\n10:17:16  \tat org.eclipse.jgit.transport.InternalFetchConnection$2.run(InternalFetchConnection.java:77)\n10:17:16  Caused by: org.eclipse.jgit.transport.WantNotValidException: want 19102815663d23f8b75a47e7a01965dcdc96468c not valid\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.checkNotAdvertisedWants(UploadPack.java:2062)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack$ReachableCommitRequestValidator.checkWants(UploadPack.java:1974)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.parseWants(UploadPack.java:1912)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.processHaveLines(UploadPack.java:1786)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.negotiate(UploadPack.java:1759)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.service(UploadPack.java:1090)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.uploadWithExceptionPropagation(UploadPack.java:862)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.upload(UploadPack.java:770)\n10:17:16  \t... 1 more\n10:17:16  Caused by: java.lang.Exception: Cannot walk without bitmaps\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.checkNotAdvertisedWants(UploadPack.java:2063)\n10:17:16  \t... 8 more\n10:17:16  org.eclipse.jgit.transport.UploadPackInternalServerErrorException\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.upload(UploadPack.java:793)\n10:17:16  \tat org.eclipse.jgit.transport.InternalFetchConnection$2.run(InternalFetchConnection.java:77)\n10:17:16  Caused by: org.eclipse.jgit.transport.WantNotValidException: want 19102815663d23f8b75a47e7a01965dcdc96468c not valid\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.checkNotAdvertisedWants(UploadPack.java:2062)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack$ReachableCommitRequestValidator.checkWants(UploadPack.java:1974)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.parseWants(UploadPack.java:1912)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.processHaveLines(UploadPack.java:1786)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.negotiate(UploadPack.java:1759)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.service(UploadPack.java:1090)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.uploadWithExceptionPropagation(UploadPack.java:862)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.upload(UploadPack.java:770)\n10:17:16  \t... 1 more\n10:17:16  Caused by: java.lang.Exception: Cannot walk without bitmaps\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.checkNotAdvertisedWants(UploadPack.java:2063)\n10:17:16  \t... 8 more\n10:17:16  org.eclipse.jgit.transport.UploadPackInternalServerErrorException\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.upload(UploadPack.java:793)\n10:17:16  \tat org.eclipse.jgit.transport.InternalFetchConnection$2.run(InternalFetchConnection.java:77)\n10:17:16  Caused by: org.eclipse.jgit.transport.WantNotValidException: want 19102815663d23f8b75a47e7a01965dcdc96468c not valid\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.checkNotAdvertisedWants(UploadPack.java:2062)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack$ReachableCommitRequestValidator.checkWants(UploadPack.java:1974)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.parseWants(UploadPack.java:1912)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.processHaveLines(UploadPack.java:1786)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.negotiate(UploadPack.java:1759)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.service(UploadPack.java:1090)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.uploadWithExceptionPropagation(UploadPack.java:862)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.upload(UploadPack.java:770)\n10:17:16  \t... 1 more\n10:17:16  Caused by: java.lang.Exception: Cannot walk without bitmaps\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.checkNotAdvertisedWants(UploadPack.java:2063)\n10:17:16  \t... 8 more\n10:17:16  org.eclipse.jgit.transport.UploadPackInternalServerErrorException\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.upload(UploadPack.java:793)\n10:17:16  \tat org.eclipse.jgit.transport.InternalFetchConnection$2.run(InternalFetchConnection.java:77)\n10:17:16  Caused by: org.eclipse.jgit.transport.WantNotValidException: want aa382866b350a2b0883af67abda2288cbe29a490 not valid\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.checkNotAdvertisedWants(UploadPack.java:2100)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack$ReachableCommitRequestValidator.checkWants(UploadPack.java:1974)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.parseWants(UploadPack.java:1912)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.processHaveLines(UploadPack.java:1786)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.negotiate(UploadPack.java:1759)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.service(UploadPack.java:1090)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.uploadWithExceptionPropagation(UploadPack.java:862)\n10:17:16  \tat org.eclipse.jgit.transport.UploadPack.upload(UploadPack.java:770)\n10:17:16  \t... 1 more\n```",
       "revId": "d88484b221b1c333700a93b523e7c21acc654665",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21431bb6_62be6207",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-09-17T11:55:28Z",
+      "side": 1,
+      "message": "The Test runs locally",
+      "parentUuid": "c7575526_66510647",
+      "revId": "d88484b221b1c333700a93b523e7c21acc654665",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab2d624c_52334f2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-09-17T11:55:28Z",
+      "side": 1,
+      "message": "The Test passes locally and also passed in Patchset 2 (which only has a different commit message). Is the test flaky?",
+      "parentUuid": "c7575526_66510647",
+      "revId": "d88484b221b1c333700a93b523e7c21acc654665",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
