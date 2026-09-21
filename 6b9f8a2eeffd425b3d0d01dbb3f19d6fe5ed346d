@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0291565a_321ea3a3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-09-21T16:16:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dffab686_ffa943d2",
+      "range": {
+        "startLine": 147,
+        "startChar": 4,
+        "endLine": 154,
+        "endChar": 6
+      },
+      "revId": "6b9f8a2eeffd425b3d0d01dbb3f19d6fe5ed346d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "958175c9_6637b37d",
