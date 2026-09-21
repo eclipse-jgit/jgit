@@ -112,6 +112,12 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 		checkCallable();
 
 		try (RevWalk revWalk = new RevWalk(repo)) {
+			if (SequencerState.isInProgress(repo)
+					|| repo.readCherryPickHead() != null
+					|| repo.readRevertHead() != null) {
+				throw new WrongRepositoryStateException(
+						JGitText.get().cherryPickOrRevertAlreadyInProgress);
+			}
 
 			// get the head commit
 			Ref headRef = repo.exactRef(Constants.HEAD);
@@ -122,15 +128,40 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 
 			newHead = revWalk.parseCommit(headRef.getObjectId());
 
-			// loop through all refs to be cherry-picked
+			// resolve all commits to be cherry-picked up front so that the
+			// sequencer state (if any) can be written before the first one
+			// is applied
+			List<RevCommit> toPick = new ArrayList<>(commits.size());
 			for (Ref src : commits) {
-				// get the commit to be cherry-picked
-				// handle annotated tags
 				ObjectId srcObjectId = src.getPeeledObjectId();
 				if (srcObjectId == null) {
 					srcObjectId = src.getObjectId();
 				}
-				RevCommit srcCommit = revWalk.parseCommit(srcObjectId);
+				toPick.add(revWalk.parseCommit(srcObjectId));
+			}
+
+			// Native Git only writes sequencer state for multi-commit
+			// cherry-picks; a single commit just sets CHERRY_PICK_HEAD.
+			boolean useSequencer = toPick.size() > 1;
+			if (useSequencer) {
+				SequencerState.Options seqOpts = new SequencerState.Options();
+				seqOpts.noCommit = noCommit;
+				seqOpts.mainline = mainlineParentNumber;
+				if (strategy != null && !MergeStrategy.RECURSIVE.getName()
+						.equals(strategy.getName())) {
+					seqOpts.strategy = strategy.getName();
+				}
+				SequencerState.begin(repo, newHead.getId(), seqOpts);
+			}
+
+			// loop through all refs to be cherry-picked
+			for (int i = 0; i < toPick.size(); i++) {
+				Ref src = commits.get(i);
+				RevCommit srcCommit = toPick.get(i);
+				if (useSequencer) {
+					SequencerState.writeTodo(repo, SequencerState.Action.PICK,
+							toPick.subList(i, toPick.size()));
+				}
 
 				// get the parent of the commit to cherry-pick
 				final RevCommit srcParent = getParentCommit(srcCommit, revWalk);
@@ -188,6 +219,10 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 						}
 					}
 					cherryPickedRefs.add(src);
+					if (useSequencer) {
+						SequencerState.writeAbortSafety(repo,
+								newHead.getId());
+					}
 				} else {
 					if (failingPaths != null && !failingPaths.isEmpty()) {
 						return new CherryPickResult(failingPaths);
@@ -215,6 +250,9 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 
 					return CherryPickResult.CONFLICT;
 				}
+			}
+			if (useSequencer) {
+				SequencerState.end(repo);
 			}
 		} catch (IOException e) {
 			throw new JGitInternalException(
