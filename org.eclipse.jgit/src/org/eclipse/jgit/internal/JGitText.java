@@ -171,6 +171,9 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotWriteObjectsPath;
 	/***/ public String canOnlyCherryPickCommitsWithOneParent;
 	/***/ public String canOnlyRevertCommitsWithOneParent;
+	/***/ public String cherryPickOrRevertAlreadyInProgress;
+	/***/ public String couldNotReadSequencerFile;
+	/***/ public String couldNotWriteSequencerFile;
 	/***/ public String commitDoesNotHaveGivenParent;
 	/***/ public String cantFindObjectInReversePackIndexForTheSpecifiedOffset;
 	/***/ public String channelMustBeInRange1_255;
