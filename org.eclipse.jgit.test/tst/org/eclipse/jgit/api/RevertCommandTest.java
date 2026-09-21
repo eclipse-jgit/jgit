@@ -28,6 +28,7 @@ import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -158,6 +159,9 @@ public class RevertCommandTest extends RepositoryTestCase {
 
 			assertEquals(RepositoryState.SAFE, db.getRepositoryState());
 
+			assertFalse(new File(db.getDirectory(), Constants.SEQUENCER_DIR)
+					.exists());
+
 			checkFile(new File(db.getWorkTree(), "a"), "first\n");
 			Iterator<RevCommit> history = git.log().call().iterator();
 			RevCommit revertCommit = history.next();
@@ -210,6 +214,18 @@ public class RevertCommandTest extends RepositoryTestCase {
 
 			// not SAFE because it failed
 			assertEquals(RepositoryState.REVERTING, db.getRepositoryState());
+
+			File todoFile = new File(db.getDirectory(),
+					Constants.SEQUENCER_TODO_FILE);
+			assertTrue(todoFile.exists());
+			assertEquals("revert " + secondCommit
+					.abbreviate(OBJECT_ID_ABBREV_STRING_LENGTH).name()
+					+ " add second\n", JGitTestUtil.read(todoFile));
+			File headFile = new File(db.getDirectory(),
+					Constants.SEQUENCER_HEAD_FILE);
+			assertTrue(headFile.exists());
+			assertEquals(fourthCommit.getId().name(),
+					JGitTestUtil.read(headFile).trim());
 
 			checkFile(new File(db.getWorkTree(), "a"), "first\n"
 					+ "<<<<<<< master\n" + "second\n" + "third\n" + "=======\n"

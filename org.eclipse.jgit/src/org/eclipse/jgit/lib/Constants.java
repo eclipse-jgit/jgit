@@ -779,6 +779,48 @@ public final class Constants {
 	public static final String REVERT_HEAD = "REVERT_HEAD";
 
 	/**
+	 * Name of the directory used by native Git to keep track of an in-progress,
+	 * possibly multi-commit {@code cherry-pick} or {@code revert} sequence.
+	 *
+	 * @since 7.9
+	 */
+	public static final String SEQUENCER_DIR = "sequencer";
+
+	/**
+	 * Name (relative to the repository's git-dir) of the file listing the
+	 * remaining {@code pick}/{@code revert} commands of an in-progress
+	 * sequencer operation.
+	 *
+	 * @since 7.9
+	 */
+	public static final String SEQUENCER_TODO_FILE = "sequencer/todo";
+
+	/**
+	 * Name (relative to the repository's git-dir) of the file storing the
+	 * options in effect for an in-progress sequencer operation.
+	 *
+	 * @since 7.9
+	 */
+	public static final String SEQUENCER_OPTS_FILE = "sequencer/opts";
+
+	/**
+	 * Name (relative to the repository's git-dir) of the file storing the HEAD
+	 * commit as it was before an in-progress sequencer operation was started.
+	 *
+	 * @since 7.9
+	 */
+	public static final String SEQUENCER_HEAD_FILE = "sequencer/head";
+
+	/**
+	 * Name (relative to the repository's git-dir) of the file storing the HEAD
+	 * commit expected before continuing an in-progress sequencer operation;
+	 * used by native Git to detect concurrent HEAD changes.
+	 *
+	 * @since 7.9
+	 */
+	public static final String SEQUENCER_ABORT_SAFETY_FILE = "sequencer/abort-safety";
+
+	/**
 	 * name of the ref ORIG_HEAD used by certain commands to store the original
 	 * value of HEAD
 	 */

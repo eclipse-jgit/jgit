@@ -29,9 +29,11 @@ import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.MultipleParentsNotAllowedException;
+import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.events.ChangeRecorder;
 import org.eclipse.jgit.events.ListenerHandle;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -136,6 +138,8 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 					.include(fixingA).call();
 			assertEquals(CherryPickResult.CherryPickStatus.OK,
 					result.getStatus());
+			assertFalse(new File(db.getDirectory(), Constants.SEQUENCER_DIR)
+					.exists());
 
 			Iterator<RevCommit> history = git.log().call().iterator();
 			assertEquals("fixed a", history.next().getFullMessage());
@@ -143,6 +147,97 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 			assertEquals("create b", history.next().getFullMessage());
 			assertEquals("create a", history.next().getFullMessage());
 			assertFalse(history.hasNext());
+		}
+	}
+
+	@Test
+	public void testSequencerStateWrittenOnMultiCommitConflict()
+			throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("a", "first line\nsecond line\nthird line\n");
+			git.add().addFilepattern("a").call();
+			RevCommit firstCommit = git.commit().setMessage("create a").call();
+
+			writeTrashFile("a", "conflicting change\n");
+			git.add().addFilepattern("a").call();
+			RevCommit conflictingA = git.commit().setMessage("conflicting a")
+					.call();
+
+			writeTrashFile("b", "unrelated");
+			git.add().addFilepattern("b").call();
+			RevCommit unrelatedB = git.commit().setMessage("create b").call();
+
+			git.branchCreate().setName("side").setStartPoint(firstCommit)
+					.call();
+			checkoutBranch("refs/heads/side");
+			writeTrashFile("a", "conflicts with conflictingA\n");
+			git.add().addFilepattern("a").call();
+			git.commit().setMessage("create side conflict").call();
+
+			ObjectId originalHead = db.resolve(Constants.HEAD);
+
+			CherryPickResult result = git.cherryPick()
+					.include(conflictingA.getId()).include(unrelatedB.getId())
+					.call();
+			assertEquals(CherryPickResult.CherryPickStatus.CONFLICTING,
+					result.getStatus());
+
+			// The sequencer state must survive the conflict so that
+			// "cherry-pick --continue/--skip/--abort" can resume the still
+			// pending pick(s).
+			File todoFile = new File(db.getDirectory(),
+					Constants.SEQUENCER_TODO_FILE);
+			assertTrue(todoFile.exists());
+			String todo = JGitTestUtil.read(todoFile);
+			assertEquals("pick "
+					+ conflictingA
+							.abbreviate(
+									Constants.OBJECT_ID_ABBREV_STRING_LENGTH)
+							.name()
+					+ " conflicting a\n" + "pick "
+					+ unrelatedB
+							.abbreviate(
+									Constants.OBJECT_ID_ABBREV_STRING_LENGTH)
+							.name()
+					+ " create b\n", todo);
+
+			File headFile = new File(db.getDirectory(),
+					Constants.SEQUENCER_HEAD_FILE);
+			assertTrue(headFile.exists());
+			assertEquals(originalHead.name(),
+					JGitTestUtil.read(headFile).trim());
+
+			assertTrue(new File(db.getDirectory(),
+					Constants.SEQUENCER_ABORT_SAFETY_FILE).exists());
+
+			// Starting a new cherry-pick/revert while the sequencer state
+			// from the interrupted one is still around must be rejected,
+			// just like native Git does.
+			try {
+				git.cherryPick().include(unrelatedB.getId()).call();
+				fail("expected WrongRepositoryStateException");
+			} catch (WrongRepositoryStateException expected) {
+				// good
+			}
+			try {
+				git.revert().include(unrelatedB.getId()).call();
+				fail("expected WrongRepositoryStateException");
+			} catch (WrongRepositoryStateException expected) {
+				// good
+			}
+		}
+	}
+
+	@Test
+	public void testNoSequencerStateForSingleCommitCherryPick()
+			throws Exception {
+		try (Git git = new Git(db)) {
+			RevCommit sideCommit = prepareCherryPick(git);
+
+			git.cherryPick().include(sideCommit.getId()).call();
+
+			assertFalse(new File(db.getDirectory(), Constants.SEQUENCER_DIR)
+					.exists());
 		}
 	}
 
