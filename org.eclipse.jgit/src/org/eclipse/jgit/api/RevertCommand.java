@@ -108,6 +108,12 @@ public class RevertCommand extends GitCommand<RevCommit> {
 		checkCallable();
 
 		try (RevWalk revWalk = new RevWalk(repo)) {
+			if (SequencerState.isInProgress(repo)
+					|| repo.readCherryPickHead() != null
+					|| repo.readRevertHead() != null) {
+				throw new WrongRepositoryStateException(
+						JGitText.get().cherryPickOrRevertAlreadyInProgress);
+			}
 
 			// get the head commit
 			Ref headRef = repo.exactRef(Constants.HEAD);
@@ -118,14 +124,38 @@ public class RevertCommand extends GitCommand<RevCommit> {
 
 			newHead = headCommit;
 
-			// loop through all refs to be reverted
+			// resolve all commits to be reverted up front so that the
+			// sequencer state (if any) can be written before the first one
+			// is applied
+			List<RevCommit> toRevert = new ArrayList<>(commits.size());
 			for (Ref src : commits) {
-				// get the commit to be reverted
-				// handle annotated tags
 				ObjectId srcObjectId = src.getPeeledObjectId();
 				if (srcObjectId == null)
 					srcObjectId = src.getObjectId();
-				RevCommit srcCommit = revWalk.parseCommit(srcObjectId);
+				toRevert.add(revWalk.parseCommit(srcObjectId));
+			}
+
+			// Native Git only writes sequencer state for multi-commit
+			// reverts; a single commit just sets REVERT_HEAD.
+			boolean useSequencer = toRevert.size() > 1;
+			if (useSequencer) {
+				SequencerState.Options seqOpts = new SequencerState.Options();
+				if (strategy != null && !MergeStrategy.RECURSIVE.getName()
+						.equals(strategy.getName())) {
+					seqOpts.strategy = strategy.getName();
+				}
+				SequencerState.begin(repo, newHead.getId(), seqOpts);
+			}
+
+			// loop through all refs to be reverted
+			for (int i = 0; i < toRevert.size(); i++) {
+				Ref src = commits.get(i);
+				RevCommit srcCommit = toRevert.get(i);
+				if (useSequencer) {
+					SequencerState.writeTodo(repo,
+							SequencerState.Action.REVERT,
+							toRevert.subList(i, toRevert.size()));
+				}
 
 				// get the parent of the commit to revert
 				if (srcCommit.getParentCount() != 1)
@@ -177,6 +207,10 @@ public class RevertCommand extends GitCommand<RevCommit> {
 					}
 					revertedRefs.add(src);
 					headCommit = newHead;
+					if (useSequencer) {
+						SequencerState.writeAbortSafety(repo,
+								newHead.getId());
+					}
 				} else {
 					unmergedPaths = merger.getUnmergedPaths();
 					Map<String, MergeFailureReason> failingPaths = merger
@@ -207,6 +241,9 @@ public class RevertCommand extends GitCommand<RevCommit> {
 					}
 					return null;
 				}
+			}
+			if (useSequencer) {
+				SequencerState.end(repo);
 			}
 		} catch (IOException e) {
 			throw new JGitInternalException(
