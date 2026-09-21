@@ -22,6 +22,30 @@
       },
       "revId": "6b9f8a2eeffd425b3d0d01dbb3f19d6fe5ed346d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1df531b9_fb4fa0d1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SequencerState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-09-21T16:08:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "958175c9_6637b37d",
+      "range": {
+        "startLine": 81,
+        "startChar": 20,
+        "endLine": 81,
+        "endChar": 29
+      },
+      "revId": "6b9f8a2eeffd425b3d0d01dbb3f19d6fe5ed346d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
