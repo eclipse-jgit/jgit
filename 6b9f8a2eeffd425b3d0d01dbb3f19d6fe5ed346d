@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "958175c9_6637b37d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SequencerState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-09-21T16:07:29Z",
+      "side": 1,
+      "message": "Although the format is similar to org.eclipse.jgit.lib.RebaseTodoLine, adapting the existing RebaseTodoFile/RebaseTodoLine logic to also work with sequencer files did not seem practical as both these files are already public API and cannot easily be renamed or adapted for the new sequencer actions",
+      "range": {
+        "startLine": 81,
+        "startChar": 20,
+        "endLine": 81,
+        "endChar": 29
+      },
+      "revId": "6b9f8a2eeffd425b3d0d01dbb3f19d6fe5ed346d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
