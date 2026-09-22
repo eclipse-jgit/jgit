@@ -22,6 +22,30 @@
       },
       "revId": "bb00da0bf1ec8e4cb6e837e208bebb1112693a75",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5da45dd_31667dab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-09-22T09:49:47Z",
+      "side": 1,
+      "message": "Fair point, our repositories are quite big so even when showing the history of the currently selected item and selecting \"small\" items (packages / projects), the chance is big that we have \u003e\u003d 1000 commits. For small items (classes, single files) the history has often \u003c 1000 commits.\n\nThat being said, the performance of the table is measured in `ns/op` which means even the penalty for using the wrong/slow queue is very small. For example, the penalty for using `DateRevPriorityQueue` for 5 commits can be calculated by looking at these rows: \n\n```\n(numCommits)  (usePriorityQueue)  Mode  Cnt     Score Error  Units\n           5                true  avgt   10    39,4 ±   6,1  ns/op\n           5               false  avgt   10    14,1 ±   2,2  ns/op\n```\n\nAnd yields:\n\n```\n(39,4 ns/op - 14,1 ns/op) x 5 op \u003d 126,5 ns \u003d 0,0001265 ms\n```\n\nAnd so, the penalty for each queue would be:\n\n| N (commits) | \\|diff\\| ns/op | Total penalty (ns) | `DateRevPriorityQueue` | `DateRevQueue` |\n|---|---|---|---|---|\n| 5 | 25.3 | 126.5 | +0.00013 ms | −0.00013 ms |\n| 10 | 16.5 | 165 | +0.00017 ms | −0.00017 ms |\n| 50 | 31.8 | 1,590 | +0.00159 ms | −0.00159 ms |\n| 100 | 37.8 | 3,780 | +0.00378 ms | −0.00378 ms |\n| **500** | 8.4 | 4,200 | **+0.00420 ms** | −0.00420 ms |\n| 1000 | 13.5 | 13,500 | −0.01350 ms | +0.01350 ms |\n| 5000 | 179.5 | 897,500 | −0.8975 ms | +0.8975 ms |\n| 10000 | 333.4 | 3,334,000 | −3.334 ms | +3.334 ms |\n| 50000 | 586.7 | 29,335,000 | −29.335 ms | +29.335 ms |\n| 100000 | 903.3 | 90,330,000 | −90.33 ms | +90.33 ms |\n| 500000 | 9483.0 | 4,741,500,000 | −4,741.5 ms (≈4.74 s) | +4,741.5 ms (≈4.74 s) |\n\nObserve that each row has the same absolute value in the last two columns and a `+` represents \"extra time\" i.e. \"slower\" and a `-` means \"less time\" i.e. \"faster\".\n\nI guess the more relevant question here is: Do we really need to have 2 implementations if the worst penalty that we pay for using the `DateRevPriorityQueue` is **+0.00420 ms** (see **500 commits**)?\n\nGiven that `DateRevQueue` only outperforms `DateRevPriorityQueue` when working with histories with \u003c1000 commits and that it only does so by \u003c1ms, I don\u0027t see the need to still maintain it. Histories will only grow larger with time, not smaller.",
+      "parentUuid": "2ccaa7d7_ff8ad17c",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "bb00da0bf1ec8e4cb6e837e208bebb1112693a75",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
