@@ -50,6 +50,24 @@
       "message": "If opening the `packed-refs` file fails with `FileNotFoundeException` doesn\u0027t that proof that the file doesn\u0027t exist and hence we should return `false` here ? Otherwise repos not having `packed-refs` (only loose refs) do an unnecessary refresh",
       "revId": "84c64669219d9531a063a2964e41972e14973ba5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e841d929_4edb4989",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-22T17:07:05Z",
+      "side": 1,
+      "message": "\u003e If opening the `packed-refs` file fails with `FileNotFoundeException` doesn\u0027t that proof that the file doesn\u0027t exist and hence we should return `false` here ?\n\nNot unconditionally.\n\n- `FileNotFoundException` means the open failed; it does not always prove the path is absent.\n- If `packed-refs` was previously loaded and is then deleted, returning `false` would retain stale packed refs. Returning `true` lets `readPackedRefs()` replace them with `NO_PACKED_REFS` ([RefDirectory.java:1057](https://github.com/eclipse-jgit/jgit/blob/bf0f0ad1cc2ce422604383272a4a4b8b3947b465/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java#L1057), [RefDirectory.java:1081](https://github.com/eclipse-jgit/jgit/blob/bf0f0ad1cc2ce422604383272a4a4b8b3947b465/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java#L1081)).\n\n\u003e Otherwise repos not having `packed-refs` (only loose refs) do an unnecessary refresh\n\nThe loose-only refresh concern is real, but it is pre-existing: `NO_PACKED_REFS.shouldRefresh()` always returns `true` ([RefDirectory.java:1580](https://github.com/eclipse-jgit/jgit/blob/bf0f0ad1cc2ce422604383272a4a4b8b3947b465/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java#L1580)). Changing this catch would not fix that path.\n\nA correct optimization would require retaining a “missing file” snapshot and returning false only while the file remains absent, while still detecting its later creation.",
+      "parentUuid": "3aed3bd8_c1cdbafe",
+      "revId": "84c64669219d9531a063a2964e41972e14973ba5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2ac7670_55ebf5df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-22T17:07:05Z",
+      "side": 1,
+      "message": "I investigated the remaining `AFTER_OPEN` sites and I think we should keep the `FileChannel.open()` change limited to packed-refs and reftable.\n\nThe other paths open parent directories only to refresh NFS directory/attribute caching; they do not need to hold a mutable target file open while checking its snapshot. On the standard Unix provider, `Files.newInputStream()` already uses a file channel internally, so replacing these directory refreshes would not provide additional behavior and could reduce portability.\n\nFor `FileReftableStack`, since `tables.list` is a mutable manifest and `LockFile.commit()` replaces it atomically, it could receive a new inode and `isUpToDate()` may incorrectly skip reloading the table list. `FileRefTableStack.isUpToDate()` should therefore use the same pattern as for `packed-refs`:\n```\n  try (FileChannel fc \u003d FileChannel.open(tablesListFile.toPath(),\n          StandardOpenOption.READ)) {\n      if (!snapshot.get().isModified(tablesListFile)) {\n          return true;\n      }\n  }\n```",
+      "parentUuid": "d7017113_85d64161",
+      "revId": "b9118d8fc082c826d081f69d549eb45e53841bc9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "30356538_9dcd6758",
