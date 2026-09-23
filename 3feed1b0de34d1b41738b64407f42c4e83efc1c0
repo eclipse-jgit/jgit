@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15052f09_76aff8a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038550
+      },
+      "writtenOn": "2026-09-23T09:31:54Z",
+      "side": 1,
+      "message": "Hi,\n\nPackMidx.getObjectSizeIndexCount() throws UnsupportedOperationException,\nbut its base class Pack returns 0 when there is no object size index.\n\nGC.getStatistics() calls this for every pack without checking\nhasObjectSizeIndex() first, so computing repository statistics on any\nrepo with a multi-pack-index fails with an exception.\n\nI hit this in production: with midx enabled, GC could not complete,\npack files grew from a few to 400+, and 30k+ loose objects accumulated,\neventually causing code fetch failures and missing object errors.\n\nFix: return 0, following the base class contract. A midx never has an\nobject size index.",
+      "revId": "3feed1b0de34d1b41738b64407f42c4e83efc1c0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
