@@ -163,8 +163,8 @@ public class PackMidx extends Pack {
 	}
 
 	@Override
-	public long getObjectSizeIndexCount() {
-		throw new UnsupportedOperationException();
+	public long getObjectSizeIndexCount() throws IOException {
+		return 0;
 	}
 
 	@Override
