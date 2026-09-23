@@ -34,12 +34,13 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
+import org.eclipse.jgit.internal.util.IO;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
@@ -327,6 +328,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	void resolve(Set<ObjectId> matches, AbbreviatedObjectId id)
 			throws IOException {
+		IO.throwIfInterrupted();
 		resolve(matches, id, null);
 	}
 
@@ -353,6 +355,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	ObjectLoader openObject(WindowCursor curs, AnyObjectId objectId)
 			throws IOException {
+		IO.throwIfInterrupted();
 		ObjectLoader ldr = getFromLocalObjectToPack(curs, objectId,
 				(p, c, l) -> p.load(c, l.offset));
 		if (ldr == null) {
@@ -425,6 +428,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	ObjectLoader openLooseObject(WindowCursor curs, AnyObjectId id)
 			throws IOException {
+		IO.throwIfInterrupted();
 		return loose.open(curs, id);
 	}
 
@@ -515,6 +519,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	void selectObjectRepresentation(PackWriter packer, ObjectToPack otp,
 			WindowCursor curs) throws IOException {
+		IO.throwIfInterrupted();
 		selectObjectRepresentation(packer, otp, curs, null);
 	}
 
