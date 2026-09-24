@@ -69,6 +69,24 @@
       "parentUuid": "c7575526_66510647",
       "revId": "d88484b221b1c333700a93b523e7c21acc654665",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "511eb3f5_2afdf535",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-09-24T09:10:53Z",
+      "side": 1,
+      "message": "Build was successful after rebase",
+      "parentUuid": "ab2d624c_52334f2f",
+      "revId": "d88484b221b1c333700a93b523e7c21acc654665",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
