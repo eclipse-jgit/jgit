@@ -1486,7 +1486,7 @@ public class RefDirectory extends RefDatabase {
 		deleteEmptyParentDirs(file, depth);
 	}
 
-	private static void deleteEmptyParentDirs(File file, int depth) {
+	static void deleteEmptyParentDirs(File file, int depth) {
 		File dir = file.getParentFile();
 		for (int i = 0; i < depth; ++i) {
 			try {
