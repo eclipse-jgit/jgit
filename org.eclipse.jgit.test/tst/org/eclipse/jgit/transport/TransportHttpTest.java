@@ -204,4 +204,23 @@ public class TransportHttpTest extends SampleDataRepositoryTestCase {
 		assertHeaders("{a=b, c=d}", "a: b", "q/p: x", "c :d");
 		assertHeaders("{a=b, c=d}", "a: b", "x: ä", "c :d");
 	}
+
+	@Test
+	public void authFromUriUsesBearerOnOriginalHost() throws Exception {
+		try (TransportHttp t = new TransportHttp(db, uri)) {
+			t.setCredentialsProvider(new BearerCredentialsProvider("tok-123"));
+			Assert.assertEquals(HttpAuthMethod.Type.BEARER,
+					t.authFromUri(uri).getType());
+		}
+	}
+
+	@Test
+	public void authFromUriDropsBearerOnCrossHost() throws Exception {
+		try (TransportHttp t = new TransportHttp(db, uri)) {
+			t.setCredentialsProvider(new BearerCredentialsProvider("tok-123"));
+			URIish other = new URIish("https://other.example.org/u/2");
+			Assert.assertEquals(HttpAuthMethod.Type.NONE,
+					t.authFromUri(other).getType());
+		}
+	}
 }

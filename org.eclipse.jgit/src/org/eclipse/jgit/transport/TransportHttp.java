@@ -413,10 +413,12 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	/**
 	 * Sets preemptive Basic HTTP authentication. If the given {@code username}
-	 * or {@code password} is empty or {@code null}, no preemptive
-	 * authentication will be done. If {@code username} and {@code password} are
-	 * set, they will override authority information from the URI
-	 * ("user:password@").
+	 * or {@code password} is empty or {@code null}, preemptive Basic
+	 * authentication is not set; any preemptive authentication derived from the
+	 * URI ("user:password@") or from a bearer-token
+	 * {@link org.eclipse.jgit.transport.CredentialsProvider} still applies. If
+	 * {@code username} and {@code password} are set, they will override
+	 * authority information from the URI ("user:password@").
 	 * <p>
 	 * If the connection encounters redirects, the pre-authentication will be
 	 * cleared if the redirect goes to a different host.
@@ -609,7 +611,18 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		return new NoRemoteRepositoryException(u, text);
 	}
 
-	private HttpAuthMethod authFromUri(URIish u) {
+	HttpAuthMethod authFromUri(URIish u) {
+		CredentialsProvider cp = getCredentialsProvider();
+		// Apply bearer credentials only to the original host. redirect() resets
+		// authMethod on cross-host redirects; this host check keeps the token
+		// scoped to the original host on any later connection too.
+		String host = uri.getHost();
+		if (cp != null && host != null && host.equals(u.getHost())) {
+			HttpAuthMethod bearer = HttpAuthMethod.Type.BEARER.method(null);
+			if (bearer.authorize(u, cp)) {
+				return bearer;
+			}
+		}
 		String user = u.getUser();
 		String pass = u.getPass();
 		if (user != null && pass != null) {
@@ -677,6 +690,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 							conn.getResponseMessage());
 
 				case HttpConnection.HTTP_UNAUTHORIZED:
+					if (authMethod.getType() == HttpAuthMethod.Type.BEARER) {
+						throw new TransportException(uri,
+								JGitText.get().notAuthorized);
+					}
 					authMethod = HttpAuthMethod.scanResponse(conn, ignoreTypes);
 					if (authMethod.getType() == HttpAuthMethod.Type.NONE)
 						throw new TransportException(uri, MessageFormat.format(
@@ -1729,6 +1746,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 						continue;
 
 					case HttpConnection.HTTP_UNAUTHORIZED:
+						if (authMethod.getType() == HttpAuthMethod.Type.BEARER) {
+							throw new TransportException(uri,
+									JGitText.get().notAuthorized);
+						}
 						HttpAuthMethod nextMethod = HttpAuthMethod
 								.scanResponse(conn, ignoreTypes);
 						switch (nextMethod.getType()) {

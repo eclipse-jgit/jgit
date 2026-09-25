@@ -74,9 +74,12 @@ public class HttpAuthTest {
 
 	private static String NEGOTIATE = "Negotiate";
 
+	private static String NONE = "None";
+
 	@Test
 	public void testHttpAuthScanResponse() {
 		checkResponse(new String[] { basicHeader }, BASIC);
+		checkResponse(new String[] { bearerHeader }, NONE);
 		checkResponse(new String[] { digestHeader }, DIGEST);
 		checkResponse(new String[] { negotiateHeader }, NEGOTIATE);
 		checkResponse(new String[] { basicHeader, digestHeader }, DIGEST);

@@ -92,6 +92,19 @@ abstract class HttpAuthMethod {
 			public String getSchemeName() {
 				return "Negotiate"; //$NON-NLS-1$
 			}
+		},
+		// Preemptive-only: scanResponse skips it, so its (highest) ordinal is
+		// not a negotiation priority.
+		BEARER {
+			@Override
+			public HttpAuthMethod method(String hdr) {
+				return new Bearer();
+			}
+
+			@Override
+			public String getSchemeName() {
+				return "Bearer"; //$NON-NLS-1$
+			}
 		};
 		/**
 		 * Creates a HttpAuthMethod instance configured with the provided HTTP
@@ -138,6 +151,10 @@ abstract class HttpAuthMethod {
 							try {
 								Type methodType = Type.valueOf(
 										valuePart[0].toUpperCase(Locale.ROOT));
+
+								if (methodType == Type.BEARER) {
+									continue;
+								}
 
 								if ((ignoreTypes != null)
 										&& ignoreTypes.contains(methodType)) {
@@ -289,6 +306,51 @@ abstract class HttpAuthMethod {
 			String enc = Base64.encodeBytes(ident.getBytes(UTF_8));
 			conn.setRequestProperty(HDR_AUTHORIZATION, type.getSchemeName()
 					+ " " + enc); //$NON-NLS-1$
+		}
+	}
+
+	/**
+	 * Performs HTTP bearer-token authentication (RFC 6750), typically an OAuth 2.0
+	 * access token. The token is obtained from the {@link CredentialsProvider} via a
+	 * {@link CredentialItem.Bearer} item, so it carries no user name.
+	 */
+	private static class Bearer extends HttpAuthMethod {
+		private char[] token;
+
+		public Bearer() {
+			super(Type.BEARER);
+		}
+
+		@Override
+		boolean authorize(URIish uri, CredentialsProvider credentialsProvider) {
+			if (credentialsProvider == null) {
+				return false;
+			}
+			CredentialItem.Bearer item = new CredentialItem.Bearer();
+			if (!credentialsProvider.supports(item)
+					|| !credentialsProvider.get(uri, item)) {
+				return false;
+			}
+			char[] value = item.getValue();
+			if (value == null) {
+				return false;
+			}
+			token = value.clone();
+			item.clear();
+			return true;
+		}
+
+		@Override
+		void authorize(String user, String bearerToken) {
+			token = bearerToken == null ? null : bearerToken.toCharArray();
+		}
+
+		@Override
+		void configureRequest(HttpConnection conn) throws IOException {
+			StringBuilder value = new StringBuilder(
+					type.getSchemeName().length() + 1 + token.length);
+			value.append(type.getSchemeName()).append(' ').append(token);
+			conn.setRequestProperty(HDR_AUTHORIZATION, value.toString());
 		}
 	}
 
