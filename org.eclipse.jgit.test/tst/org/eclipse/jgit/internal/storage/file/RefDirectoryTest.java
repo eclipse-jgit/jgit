@@ -1552,6 +1552,31 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void deleteEmptyParentDirsOfMultipleRefs() throws IOException {
+		File heads = new File(diskRepo.getDirectory(), "refs/heads");
+		File tags = new File(diskRepo.getDirectory(), "refs/tags");
+		// Empty directories, as left behind by lock files
+		assertTrue(new File(heads, "a/b").mkdirs());
+		assertTrue(new File(heads, "a/c/d").mkdirs());
+		assertTrue(new File(heads, "x/y").mkdirs());
+		assertTrue(new File(tags, "t").mkdirs());
+		// Directory still holding another ref
+		writeLooseRef("refs/heads/x/keep", A);
+
+		refdir.deleteEmptyParentDirs(Arrays.asList("refs/heads/a/b/r1",
+				"refs/heads/a/b/r2", "refs/heads/a/c/d/r3",
+				"refs/heads/a/r4", "refs/heads/x/y/r5", "refs/tags/t/r6",
+				"refs/heads/top"));
+
+		assertFalse(new File(heads, "a").exists());
+		assertFalse(new File(heads, "x/y").exists());
+		assertTrue(new File(heads, "x/keep").isFile());
+		assertFalse(new File(tags, "t").exists());
+		assertTrue(heads.isDirectory());
+		assertTrue(tags.isDirectory());
+	}
+
 	void writePackedRef(String name, AnyObjectId id) throws IOException {
 		writePackedRefs(id.name() + " " + name + "\n");
 	}
