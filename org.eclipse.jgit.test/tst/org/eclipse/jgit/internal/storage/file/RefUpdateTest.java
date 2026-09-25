@@ -350,6 +350,29 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
+	public void testDeletePackedRemovesDirectoriesCreatedForLock()
+			throws IOException {
+		ObjectId pid = db.resolve("refs/heads/c^");
+		for (String name : List.of("refs/heads/z/y/c", "refs/heads/z/keep")) {
+			RefUpdate u = db.updateRef(name);
+			u.setNewObjectId(pid);
+			assertEquals(Result.NEW, u.update());
+		}
+		((RefDirectory) db.getRefDatabase()).pack(List.of("refs/heads/z/y/c"));
+		assertFalse(new File(db.getDirectory(), Constants.R_HEADS + "z/y")
+				.exists());
+
+		RefUpdate updateRef = db.updateRef("refs/heads/z/y/c");
+		updateRef.setForceUpdate(true);
+		assertEquals(Result.FORCED, updateRef.delete());
+		assertNull(db.resolve("refs/heads/z/y/c"));
+		assertFalse(new File(db.getDirectory(), Constants.R_HEADS + "z/y")
+				.exists());
+		assertTrue(new File(db.getDirectory(), Constants.R_HEADS + "z/keep")
+				.exists());
+	}
+
+	@Test
 	public void testDeleteNotFound() throws IOException {
 		final RefUpdate ref = updateRef("refs/heads/xyz");
 		delete(ref, Result.NEW, false, true);

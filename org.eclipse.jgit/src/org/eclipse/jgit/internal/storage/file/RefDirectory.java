@@ -746,6 +746,11 @@ public class RefDirectory extends RefDatabase {
 					deleteAndUnlock(refFile, levels, update);
 					LOG.debug(JGitText.get().deleteLooseRef,
 							refFile, refObjectId);
+				} else {
+					// Locking a packed ref may have created its parent
+					// directories to hold the lock file; remove them again.
+					update.unlock();
+					deleteEmptyParentDirs(fileFor(name), levels);
 				}
 			} finally {
 				lck.unlock();
