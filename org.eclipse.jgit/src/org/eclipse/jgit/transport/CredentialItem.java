@@ -283,4 +283,53 @@ public abstract class CredentialItem {
 			super(msg, true);
 		}
 	}
+
+	/**
+	 * A bearer token (for example an OAuth 2.0 access token).
+	 * <p>
+	 * Not a {@link CharArrayType}: interactive providers would treat any
+	 * {@code CharArrayType} as promptable, but a bearer token is supplied
+	 * programmatically and answered only by a bearer-aware provider.
+	 *
+	 * @since 7.9
+	 */
+	public static class Bearer extends CredentialItem {
+		private char[] value;
+
+		/** Initialize a new bearer-token item. */
+		public Bearer() {
+			super(JGitText.get().credentialBearerToken, true);
+		}
+
+		@Override
+		public void clear() {
+			if (value != null) {
+				Arrays.fill(value, (char) 0);
+				value = null;
+			}
+		}
+
+		/**
+		 * Get the current token value.
+		 *
+		 * @return the token, or {@code null} if unset
+		 */
+		public char[] getValue() {
+			return value;
+		}
+
+		/**
+		 * Set the token value, clearing any previous value.
+		 *
+		 * @param newValue
+		 *            the token; copied if not {@code null}
+		 */
+		public void setValue(char[] newValue) {
+			clear();
+			if (newValue != null) {
+				value = new char[newValue.length];
+				System.arraycopy(newValue, 0, value, 0, newValue.length);
+			}
+		}
+	}
 }
