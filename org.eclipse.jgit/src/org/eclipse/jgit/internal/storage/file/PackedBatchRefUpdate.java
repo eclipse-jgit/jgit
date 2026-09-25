@@ -490,9 +490,15 @@ class PackedBatchRefUpdate extends BatchRefUpdate {
 				Ref.Storage.PACKED, cmd.getRefName(), newId);
 	}
 
-	private static void unlockAll(@Nullable Map<?, LockFile> locks) {
+	private void unlockAll(@Nullable Map<String, LockFile> locks) {
 		if (locks != null) {
-			locks.values().forEach(LockFile::unlock);
+			locks.forEach((name, lock) -> {
+				lock.unlock();
+				// Locking may have created the ref's parent directories to
+				// hold the lock file; remove them again if they are empty.
+				RefDirectory.deleteEmptyParentDirs(refdb.fileFor(name),
+						RefDirectory.levelsIn(name) - 2);
+			});
 		}
 	}
 
