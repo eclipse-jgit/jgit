@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a690802_90c680dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-09-25T12:08:10Z",
+      "side": 1,
+      "message": "### Notes on testing / verifying the correctness of the sequencer files via native Git:\n\nPerform a multi-commit cherry-pick via JGit which results in a single or multiple sequential merge conflict. The following test case can be used as an example:\n\n\tpublic class MultiCherryPickTest extends RepositoryTestCase {\n\n\t\t@Test\n\t\tpublic void testMultiCherryPick() throws Exception {\n\t\t\ttry (Git git \u003d new Git(db)) {\n\t\t\t\twriteTrashFile(\"a\", \"initial\");\n\t\t\t\tgit.add().addFilepattern(\"a\").call();\n\t\t\t\tRevCommit initialCommit \u003d git.commit().setMessage(\"initial\").call();\n\n\t\t\t\tcreateBranch(initialCommit, \"refs/heads/master\");\n\t\t\t\tcreateBranch(initialCommit, \"refs/heads/side\");\n\n\t\t\t\tcheckoutBranch(\"refs/heads/side\");\n\n\t\t\t\twriteTrashFile(\"a\", \"other\");\n\t\t\t\tgit.add().addFilepattern(\"a\").call();\n\t\t\t\tgit.commit().setMessage(\"other\").call();\n\n\t\t\t\tcheckoutBranch(\"refs/heads/master\");\n\n\t\t\t\twriteTrashFile(\"a\", \"commit 1\");\n\t\t\t\tgit.add().addFilepattern(\"a\").call();\n\t\t\t\tRevCommit commit1 \u003d git.commit().setMessage(\"commit 1\").call();\n\n\t\t\t\twriteTrashFile(\"a\", \"commit 2\");\n\t\t\t\tgit.add().addFilepattern(\"a\").call();\n\t\t\t\tRevCommit commit2 \u003d git.commit().setMessage(\"commit 2\").call();\n\n\t\t\t\tcheckoutBranch(\"refs/heads/side\");\n\n\t\t\t\tCherryPickResult result \u003d git.cherryPick().include(commit1)\n\t\t\t\t\t\t.include(commit2).call();\n\n\t\t\t\tassertThat(result.getStatus())\n\t\t\t\t\t\t.isEqualTo(CherryPickResult.CherryPickStatus.CONFLICTING);\n\t\t\t}\n\t\t}\n\t}\n\t\nJGit should now write the current sequencer state to the $GIT_DIR/sequencer directory:\n\n    $ ls .git/sequencer/\n    abort-safety  head  todo\n\nNative Git should now show the running cherry-pick:\n\n    $ git status\n    On branch side\n    You are currently cherry-picking commit 01c90f4.\n    \nVerify that the cherry-pick can be continued via:\n\n    $ git add .\n    $ git cherry-pick --continue",
+      "revId": "6b9f8a2eeffd425b3d0d01dbb3f19d6fe5ed346d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dffab686_ffa943d2",
