@@ -46,10 +46,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -1484,18 +1487,61 @@ public class RefDirectory extends RefDatabase {
 	static void deleteEmptyParentDirs(File file, int depth) {
 		File dir = file.getParentFile();
 		for (int i = 0; i < depth; ++i) {
-			try {
-				Files.deleteIfExists(dir.toPath());
-			} catch (DirectoryNotEmptyException e) {
-				// Don't log; normal case when there are other refs with the
-				// same prefix
-				break;
-			} catch (IOException e) {
-				LOG.warn(MessageFormat.format(JGitText.get().unableToRemovePath,
-						dir), e);
+			if (!deleteIfEmpty(dir)) {
 				break;
 			}
 			dir = dir.getParentFile();
+		}
+	}
+
+	/**
+	 * Delete the empty parent directories of the loose files of the given
+	 * refs.
+	 * <p>
+	 * Each directory is tried at most once, and only after any of its
+	 * subdirectories that are also tried, so that directories shared by many
+	 * refs are not tried repeatedly.
+	 *
+	 * @param names
+	 *            names of the refs whose parent directories should be deleted
+	 *            if empty
+	 */
+	void deleteEmptyParentDirs(Collection<String> names) {
+		Set<File> dirs = new HashSet<>();
+		for (String name : names) {
+			File dir = fileFor(name).getParentFile();
+			for (int i = levelsIn(name) - 2; i > 0; i--) {
+				if (!dirs.add(dir)) {
+					// Ancestors were already added for another ref
+					break;
+				}
+				dir = dir.getParentFile();
+			}
+		}
+		List<File> deepestFirst = new ArrayList<>(dirs);
+		// A directory's path is longer than its parent's path
+		deepestFirst.sort(Comparator
+				.comparingInt((File d) -> d.getPath().length()).reversed());
+		Set<File> notEmpty = new HashSet<>();
+		for (File dir : deepestFirst) {
+			if (notEmpty.contains(dir) || !deleteIfEmpty(dir)) {
+				notEmpty.add(dir.getParentFile());
+			}
+		}
+	}
+
+	private static boolean deleteIfEmpty(File dir) {
+		try {
+			Files.deleteIfExists(dir.toPath());
+			return true;
+		} catch (DirectoryNotEmptyException e) {
+			// Don't log; normal case when there are other refs with the
+			// same prefix
+			return false;
+		} catch (IOException e) {
+			LOG.warn(MessageFormat.format(JGitText.get().unableToRemovePath,
+					dir), e);
+			return false;
 		}
 	}
 
