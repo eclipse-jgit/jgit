@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13d59339_151ae184",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-09-26T18:24:18Z",
+      "side": 1,
+      "message": "Looks good, but I\u0027m unsure about the way to run the helpers. FS.runInShell() seems more appropriate.",
+      "revId": "b5f0f3841e7cea2149ce0840583166de5ada73b3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f004704_e1f38684",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitCredentialHelperCredentialsProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-09-26T18:24:18Z",
+      "side": 1,
+      "message": "I wonder: shouldn\u0027t this use FS.runInShell()?",
+      "revId": "b5f0f3841e7cea2149ce0840583166de5ada73b3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "592dddab_60cb57f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitCredentialHelperCredentialsProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-09-26T18:24:18Z",
+      "side": 1,
+      "message": "On Mac you probably want to run \"sh -l -c\", otherwise $PATH may not be what you\u0027d expect.",
+      "revId": "b5f0f3841e7cea2149ce0840583166de5ada73b3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0baaa91_78f574e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitCredentialHelperCredentialsProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-09-26T18:24:18Z",
+      "side": 1,
+      "message": "Ditto; probably needs sh -l -c on Mac.",
+      "revId": "b5f0f3841e7cea2149ce0840583166de5ada73b3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b3b8611_e406c284",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/GitCredentialHelperCredentialsProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-09-26T18:24:18Z",
+      "side": 1,
+      "message": "SystemReader.getInstance().isWindows() is the JGit way.",
+      "revId": "b5f0f3841e7cea2149ce0840583166de5ada73b3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
