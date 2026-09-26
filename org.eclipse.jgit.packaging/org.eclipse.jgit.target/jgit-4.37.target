@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.37" sequenceNumber="1790403802">
+<target name="jgit-4.37" sequenceNumber="1790404040">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.apache.ant" version="1.10.15.v20240901-1000"/>
@@ -45,19 +45,19 @@
         <dependency>
           <groupId>org.slf4j</groupId>
           <artifactId>slf4j-api</artifactId>
-          <version>2.0.18</version>
+          <version>2.0.20</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.slf4j</groupId>
           <artifactId>slf4j-simple</artifactId>
-          <version>2.0.18</version>
+          <version>2.0.20</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.slf4j</groupId>
           <artifactId>jcl-over-slf4j</artifactId>
-          <version>2.0.18</version>
+          <version>2.0.20</version>
           <type>jar</type>
         </dependency>
       </dependencies>
