@@ -20,7 +20,7 @@ git_repository(
     remote = "https://gerrit.googlesource.com/bazlets",
 )
 
-BOUNCYCASTLE_VERSION = "1.85"
+BOUNCYCASTLE_VERSION = "1.86"
 
 BYTE_BUDDY_VERSION = "1.18.12"
 
@@ -64,7 +64,7 @@ maven.install(
         "org.assertj:assertj-core:3.27.7",
         "org.bouncycastle:bcpg-jdk18on:" + BOUNCYCASTLE_VERSION,
         "org.bouncycastle:bcpkix-jdk18on:" + BOUNCYCASTLE_VERSION,
-        "org.bouncycastle:bcprov-jdk18on:1.85.2",
+        "org.bouncycastle:bcprov-jdk18on:" + BOUNCYCASTLE_VERSION,
         "org.bouncycastle:bcutil-jdk18on:" + BOUNCYCASTLE_VERSION,
         "org.eclipse.jetty:jetty-http:" + JETTY_VERSION,
         "org.eclipse.jetty:jetty-io:" + JETTY_VERSION,
