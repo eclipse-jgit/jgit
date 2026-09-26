@@ -118,7 +118,7 @@
 
     <project.build.outputTimestamp>${commit.time.iso}</project.build.outputTimestamp>
 
-    <jgit-last-release-version>7.7.0.202606012155-r</jgit-last-release-version>
+    <jgit-last-release-version>7.8.0.202609011348-r</jgit-last-release-version>
     <ant-version>1.10.15</ant-version>
     <apache-sshd-version>2.19.0</apache-sshd-version>
     <javaewah-version>1.2.3</javaewah-version>
