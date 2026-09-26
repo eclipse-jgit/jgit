@@ -78,7 +78,7 @@ maven.install(
         "org.eclipse.jetty.ee8:jetty-ee8-servlet:" + JETTY_VERSION,
         "org.eclipse.jetty.ee11:jetty-ee11-servlet:" + JETTY_VERSION,
         "org.hamcrest:hamcrest:3.0",
-        "org.mockito:mockito-core:5.23.0",
+        "org.mockito:mockito-core:5.24.0",
         "org.objenesis:objenesis:3.4",
         "org.openjdk.jmh:jmh-core:" + JMH_VERSION,
         "org.openjdk.jmh:jmh-generator-annprocess:" + JMH_VERSION,

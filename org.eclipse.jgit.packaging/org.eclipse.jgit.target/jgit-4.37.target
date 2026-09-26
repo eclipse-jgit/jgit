@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.37" sequenceNumber="1790402831">
+<target name="jgit-4.37" sequenceNumber="1790403802">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.apache.ant" version="1.10.15.v20240901-1000"/>
@@ -83,7 +83,7 @@
         <dependency>
           <groupId>org.mockito</groupId>
           <artifactId>mockito-core</artifactId>
-          <version>5.23.0</version>
+          <version>5.24.0</version>
           <type>jar</type>
         </dependency>
       </dependencies>
