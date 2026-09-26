@@ -208,7 +208,7 @@ public final class NetscapeCookieFile {
 			return null;
 		}
 		String[] cookieLineParts = line.split(COLUMN_SEPARATOR, 7);
-		if (cookieLineParts == null) {
+		if (cookieLineParts == null || cookieLineParts.length <= 1) {
 			throw new IllegalArgumentException(MessageFormat
 					.format(JGitText.get().couldNotFindTabInLine, line));
 		}
