@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="jgit-4.39" sequenceNumber="1790402645">
+<target name="jgit-4.39" sequenceNumber="1790402734">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
       <unit id="org.apache.ant" version="1.10.15.v20240901-1000"/>
@@ -197,13 +197,13 @@
         <dependency>
           <groupId>net.bytebuddy</groupId>
           <artifactId>byte-buddy</artifactId>
-          <version>1.18.12</version>
+          <version>1.18.14</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>net.bytebuddy</groupId>
           <artifactId>byte-buddy-agent</artifactId>
-          <version>1.18.12</version>
+          <version>1.18.14</version>
           <type>jar</type>
         </dependency>
       </dependencies>
