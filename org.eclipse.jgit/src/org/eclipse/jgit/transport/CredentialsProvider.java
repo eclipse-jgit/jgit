@@ -134,4 +134,35 @@ public abstract class CredentialsProvider {
 	public void reset(URIish uri) {
 		// default does nothing
 	}
+
+	/**
+	 * Notify the provider that these credentials authenticated, so it may
+	 * persist them (git's {@code credential approve}). The default does nothing;
+	 * override in providers backed by a persistent store.
+	 *
+	 * @param uri
+	 *            the URI the credentials authenticated against.
+	 * @param items
+	 *            the populated items that authenticated (e.g.
+	 *            {@link CredentialItem.Username} and
+	 *            {@link CredentialItem.Password}, or
+	 *            {@link CredentialItem.Bearer}).
+	 * @since 7.9
+	 */
+	public void store(URIish uri, CredentialItem... items) {
+		// default does nothing
+	}
+
+	/**
+	 * Notify the provider that the credentials for the given URI were rejected,
+	 * so it may drop them (git's {@code credential reject}). The default does
+	 * nothing; override in providers backed by a persistent store.
+	 *
+	 * @param uri
+	 *            the URI whose stored credentials should be removed.
+	 * @since 7.9
+	 */
+	public void erase(URIish uri) {
+		// default does nothing
+	}
 }

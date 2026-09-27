@@ -248,6 +248,20 @@ abstract class HttpAuthMethod {
 	abstract void authorize(String user, String pass);
 
 	/**
+	 * Hand the credentials that just authenticated back to the provider so it
+	 * may store them (git's {@code store} action). The default does nothing;
+	 * schemes carrying storable credentials override it.
+	 *
+	 * @param credentialsProvider
+	 *            the provider to notify
+	 * @param uri
+	 *            the URI the credentials authenticated against
+	 */
+	void store(CredentialsProvider credentialsProvider, URIish uri) {
+		// Default: nothing to store (e.g. NONE, NEGOTIATE).
+	}
+
+	/**
 	 * Update connection properties based on this authentication method.
 	 *
 	 * @param conn
@@ -301,6 +315,22 @@ abstract class HttpAuthMethod {
 		}
 
 		@Override
+		void store(CredentialsProvider credentialsProvider, URIish uri) {
+			if (user == null || pass == null) {
+				return;
+			}
+			CredentialItem.Username u = new CredentialItem.Username();
+			u.setValue(user);
+			CredentialItem.Password p = new CredentialItem.Password();
+			p.setValue(pass.toCharArray());
+			try {
+				credentialsProvider.store(uri, u, p);
+			} finally {
+				p.clear();
+			}
+		}
+
+		@Override
 		void configureRequest(HttpConnection conn) throws IOException {
 			String ident = user + ":" + pass; //$NON-NLS-1$
 			String enc = Base64.encodeBytes(ident.getBytes(UTF_8));
@@ -343,6 +373,20 @@ abstract class HttpAuthMethod {
 		@Override
 		void authorize(String user, String bearerToken) {
 			token = bearerToken == null ? null : bearerToken.toCharArray();
+		}
+
+		@Override
+		void store(CredentialsProvider credentialsProvider, URIish uri) {
+			if (token == null) {
+				return;
+			}
+			CredentialItem.Bearer b = new CredentialItem.Bearer();
+			b.setValue(token);
+			try {
+				credentialsProvider.store(uri, b);
+			} finally {
+				b.clear();
+			}
 		}
 
 		@Override

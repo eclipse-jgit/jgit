@@ -42,6 +42,9 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
@@ -52,6 +55,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.junit.RecordingCredentialsProvider;
 import org.eclipse.jgit.transport.http.JDKHttpConnection;
 import org.junit.Test;
 
@@ -92,6 +96,36 @@ public class HttpAuthTest {
 				BASIC);
 		checkResponse(new String[] { ntlmHeader, basicHeader, digestHeader,
 				negotiateHeader, bearerHeader }, NEGOTIATE);
+	}
+
+	@Test
+	public void basicStoreHandsBackUsernamePassword() throws Exception {
+		HttpAuthMethod basic = HttpAuthMethod.Type.BASIC.method(null);
+		basic.authorize("alice", "s3cret");
+		RecordingCredentialsProvider cp = new RecordingCredentialsProvider("",
+				"");
+		basic.store(cp, new URIish("https://example.com/repo.git"));
+		assertEquals("alice", cp.storedUsername);
+		assertArrayEquals("s3cret".toCharArray(), cp.storedPassword);
+	}
+
+	@Test
+	public void bearerStoreHandsBackToken() throws Exception {
+		HttpAuthMethod bearer = HttpAuthMethod.Type.BEARER.method(null);
+		bearer.authorize(null, "tok");
+		RecordingCredentialsProvider cp = new RecordingCredentialsProvider("",
+				"");
+		bearer.store(cp, new URIish("https://example.com/repo.git"));
+		assertArrayEquals("tok".toCharArray(), cp.storedBearer);
+	}
+
+	@Test
+	public void noneStoreDoesNothing() throws Exception {
+		HttpAuthMethod none = HttpAuthMethod.Type.NONE.method(null);
+		RecordingCredentialsProvider cp = new RecordingCredentialsProvider("",
+				"");
+		none.store(cp, new URIish("https://example.com/repo.git"));
+		assertFalse(cp.stored);
 	}
 
 	private static void checkResponse(String[] headers,
