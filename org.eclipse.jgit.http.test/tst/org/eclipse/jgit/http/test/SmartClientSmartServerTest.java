@@ -64,6 +64,7 @@ import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.http.server.resolver.DefaultUploadPackFactory;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
+import org.eclipse.jgit.junit.RecordingCredentialsProvider;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRng;
 import org.eclipse.jgit.junit.http.AccessEvent;
@@ -1019,6 +1020,49 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 		assertEquals(401, info.getStatus());
 
 		assertFetchRequests(requests, 1);
+	}
+
+	@Test
+	public void testInitialClone_StoresCredentialsOnSuccess() throws Exception {
+		RecordingCredentialsProvider cp = new RecordingCredentialsProvider(
+				AppServerBase.username, AppServerBase.password);
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, authURI)) {
+			t.setCredentialsProvider(cp);
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+		}
+		assertTrue("store called after successful auth", cp.stored);
+		assertFalse("erase not called on success", cp.erased);
+	}
+
+	@Test
+	public void testInitialClone_ErasesCredentialsOnAuthFailure()
+			throws Exception {
+		RecordingCredentialsProvider cp = new RecordingCredentialsProvider(
+				AppServerBase.username, AppServerBase.password + 'x');
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, authURI)) {
+			t.setCredentialsProvider(cp);
+			assertThrows(TransportException.class, () -> t
+					.fetch(NullProgressMonitor.INSTANCE, mirror(master)));
+		}
+		assertTrue("erase called after auth rejection", cp.erased);
+	}
+
+	@Test
+	public void testInitialClone_UriUserPassIsNotStored() throws Exception {
+		URIish withCreds = authURI.setUser(AppServerBase.username)
+				.setPass(AppServerBase.password);
+		RecordingCredentialsProvider cp = new RecordingCredentialsProvider(
+				"unused", "unused");
+		try (Repository dst = createBareRepository();
+				Transport t = Transport.open(dst, withCreds)) {
+			t.setCredentialsProvider(cp);
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+			assertTrue(dst.getObjectDatabase().has(A_txt));
+		}
+		assertFalse("URI user:pass must not be stored", cp.stored);
 	}
 
 	@Test

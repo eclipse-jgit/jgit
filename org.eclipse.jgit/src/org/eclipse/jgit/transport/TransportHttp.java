@@ -655,6 +655,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		if (HttpAuthMethod.Type.NONE.equals(authMethod.getType())) {
 			authMethod = authFromUri(currentUri);
 		}
+		// A provider-supplied Bearer token is storable; URI user:pass is not.
+		boolean authenticated = authMethod
+				.getType() == HttpAuthMethod.Type.BEARER;
 		int authAttempts = 1;
 		int redirects = 0;
 		Collection<HttpAuthMethod.Type> ignoreTypes = null;
@@ -683,6 +686,12 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					if (authMethod.getType() == HttpAuthMethod.Type.NONE
 							&& conn.getHeaderField(HDR_WWW_AUTHENTICATE) != null)
 						authMethod = HttpAuthMethod.scanResponse(conn, ignoreTypes);
+					if (authenticated) {
+						CredentialsProvider cp = getCredentialsProvider();
+						if (cp != null) {
+							authMethod.store(cp, currentUri);
+						}
+					}
 					return conn;
 
 				case HttpConnection.HTTP_NOT_FOUND:
@@ -690,6 +699,13 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 							conn.getResponseMessage());
 
 				case HttpConnection.HTTP_UNAUTHORIZED:
+					if (authenticated) {
+						CredentialsProvider cp = getCredentialsProvider();
+						if (cp != null) {
+							cp.erase(currentUri);
+						}
+						authenticated = false;
+					}
 					if (authMethod.getType() == HttpAuthMethod.Type.BEARER) {
 						throw new TransportException(uri,
 								JGitText.get().notAuthorized);
@@ -710,6 +726,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 						throw new TransportException(uri,
 								JGitText.get().notAuthorized);
 					}
+					authenticated = true;
 					authAttempts++;
 					continue;
 
@@ -738,6 +755,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					setURI(newUri);
 					u = getServiceURL(service);
 					authAttempts = 1;
+					// Don't store/erase against the redirect target for
+					// credentials that authenticated the original URI.
+					authenticated = false;
 					break;
 				default:
 					String err = status + " " + conn.getResponseMessage(); //$NON-NLS-1$
@@ -1687,6 +1707,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			// authentication scheme
 			int authAttempts = 1;
 			int redirects = 0;
+			// True once this request re-authorized via the provider (a 401 on
+			// the inherited GET method), so store/erase act on those creds.
+			boolean authenticated = false;
 			for (;;) {
 				try {
 					// The very first time we will try with the authentication
@@ -1707,6 +1730,12 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					final int status = HttpSupport.response(conn);
 					switch (status) {
 					case HttpConnection.HTTP_OK:
+						if (authenticated) {
+							CredentialsProvider cp = getCredentialsProvider();
+							if (cp != null) {
+								authMethod.store(cp, currentUri);
+							}
+						}
 						// We're done.
 						return;
 
@@ -1743,9 +1772,19 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 											baseUrl, currentUri),
 									e);
 						}
+						// Don't store/erase against the redirect target for
+						// credentials that authenticated the original URI.
+						authenticated = false;
 						continue;
 
 					case HttpConnection.HTTP_UNAUTHORIZED:
+						if (authenticated) {
+							CredentialsProvider cp = getCredentialsProvider();
+							if (cp != null) {
+								cp.erase(currentUri);
+							}
+							authenticated = false;
+						}
 						if (authMethod.getType() == HttpAuthMethod.Type.BEARER) {
 							throw new TransportException(uri,
 									JGitText.get().notAuthorized);
@@ -1803,6 +1842,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 							throw new TransportException(uri,
 									JGitText.get().notAuthorized);
 						}
+						authenticated = true;
 						authAttempts++;
 						continue;
 
