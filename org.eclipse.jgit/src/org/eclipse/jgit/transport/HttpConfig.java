@@ -396,7 +396,7 @@ public class HttpConfig {
 	 * @return the best matching subsection name, or {@code null} if no
 	 *         subsection matches
 	 */
-	private String findMatch(Set<String> names, URIish uri) {
+	static String findMatch(Set<String> names, URIish uri) {
 		String bestMatch = null;
 		int bestMatchLength = -1;
 		boolean withUser = false;
@@ -464,14 +464,14 @@ public class HttpConfig {
 		return bestMatch;
 	}
 
-	private boolean compare(String a, String b) {
+	private static boolean compare(String a, String b) {
 		if (a == null) {
 			return b == null;
 		}
 		return a.equalsIgnoreCase(b);
 	}
 
-	private int defaultedPort(int port, String scheme) {
+	private static int defaultedPort(int port, String scheme) {
 		if (port >= 0) {
 			return port;
 		}
