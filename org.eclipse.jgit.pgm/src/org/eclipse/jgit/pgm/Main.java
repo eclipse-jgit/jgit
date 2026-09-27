@@ -13,6 +13,7 @@ package org.eclipse.jgit.pgm;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -29,7 +30,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-import org.eclipse.jgit.awtui.AwtAuthenticator;
 import org.eclipse.jgit.awtui.AwtCredentialsProvider;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lfs.BuiltinLFS;
@@ -38,7 +38,9 @@ import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.pgm.opt.SubcommandHandler;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.HttpTransport;
+import org.eclipse.jgit.transport.NetRCCredentialsProvider;
 import org.eclipse.jgit.transport.http.apache.HttpClientConnectionFactory;
 import org.eclipse.jgit.util.CachedAuthenticator;
 import org.kohsuke.args4j.Argument;
@@ -128,8 +130,7 @@ public class Main {
 		writer = createErrorWriter();
 		try {
 			if (!installConsole()) {
-				AwtAuthenticator.install();
-				AwtCredentialsProvider.install();
+				installNoConsoleAuth(GraphicsEnvironment.isHeadless());
 			}
 			configureHttpProxy();
 			execute(argv);
@@ -308,6 +309,15 @@ public class Main {
 				| IllegalAccessException | InvocationTargetException
 				| NoSuchMethodException e) {
 			throw new RuntimeException(CLIText.get().cannotSetupConsole, e);
+		}
+	}
+
+	static void installNoConsoleAuth(boolean headless) {
+		NoPromptAuthenticator.install();
+		if (headless) {
+			CredentialsProvider.setDefault(new NetRCCredentialsProvider());
+		} else {
+			AwtCredentialsProvider.install();
 		}
 	}
 
