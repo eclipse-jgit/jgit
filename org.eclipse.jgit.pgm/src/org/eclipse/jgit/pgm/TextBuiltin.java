@@ -30,15 +30,20 @@ import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.GitConfigCredentialsProvider;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.sshd.DefaultProxyDataFactory;
 import org.eclipse.jgit.transport.sshd.JGitKeyCache;
 import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
+import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.io.ThrowingPrintWriter;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
@@ -219,7 +224,43 @@ public abstract class TextBuiltin {
 		}
 		SshSessionFactory.setInstance(factory);
 
+		CredentialsProvider credentials = credentialsProvider();
+		if (credentials != null) {
+			CredentialsProvider.setDefault(credentials);
+		}
 		run();
+	}
+
+	/**
+	 * Credentials provider for authenticated remote access by this command.
+	 * <p>
+	 * The default composes the {@code credential.helper} entries from the
+	 * effective git config (the repository config if present, else the user
+	 * config) in front of the process-wide default provider, so the CLI honors
+	 * credential helpers like native git. With no helper configured it delegates
+	 * to the default, leaving behavior unchanged. Bearer tokens are accepted.
+	 * Subclasses may override.
+	 *
+	 * @return the provider to install as the default before {@link #run()}, or
+	 *         {@code null} to leave the current default unchanged
+	 * @since 7.9
+	 */
+	protected CredentialsProvider credentialsProvider() {
+		CredentialsProvider defaultProvider = CredentialsProvider.getDefault();
+		if (defaultProvider instanceof GitConfigCredentialsProvider) {
+			// Already installed by an earlier command in the same JVM; do not
+			// re-wrap, which would nest providers.
+			return null;
+		}
+		try {
+			Config config = db != null ? db.getConfig()
+					: SystemReader.getInstance().getUserConfig();
+			return new GitConfigCredentialsProvider(config, defaultProvider)
+					.setUseBearer(true);
+		} catch (IOException | ConfigInvalidException e) {
+			// Fall back to the default provider if config cannot be read.
+			return defaultProvider;
+		}
 	}
 
 	/**
