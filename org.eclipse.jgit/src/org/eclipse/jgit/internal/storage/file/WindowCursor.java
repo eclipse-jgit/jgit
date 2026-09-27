@@ -33,6 +33,7 @@ import org.eclipse.jgit.internal.storage.pack.ObjectReuseAsIs;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
+import org.eclipse.jgit.internal.util.IO;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BitmapIndex;
@@ -252,6 +253,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	public void copyObjectAsIs(PackOutputStream out, ObjectToPack otp,
 			boolean validate) throws IOException,
 			StoredObjectRepresentationNotAvailableException {
+		IO.throwIfInterrupted();
 		LocalObjectToPack src = (LocalObjectToPack) otp;
 		src.pack.copyAsIs(out, src, validate, this);
 	}
