@@ -46,6 +46,30 @@
       },
       "revId": "bb00da0bf1ec8e4cb6e837e208bebb1112693a75",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e7cd28f_38815e12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-09-28T16:17:07Z",
+      "side": 1,
+      "message": "Correction:\n\n\u003e  [...] when showing the history of the currently selected item and selecting \"small\" items (packages / projects)\n\nIt was supposed to say:\n\n\u003e [...] when showing the history of the currently selected item and selecting \"medium-size\" items (packages / projects)\n\n@nasser.grainawi@oss.qualcomm.com I\u0027d say we should get rid of `DateRevQueue` since it\u0027s not much faster than `DateRevPriorityQueue` when working with \u003c1000 commits (under 1ms faster).",
+      "parentUuid": "f5da45dd_31667dab",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "bb00da0bf1ec8e4cb6e837e208bebb1112693a75",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
