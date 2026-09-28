@@ -1185,11 +1185,12 @@ public class MergerTest extends RepositoryTestCase {
 		git.add().addFilepattern("c.txt").call();
 		git.commit().setMessage("added c.txt").call();
 
-		// Get a handle to the file so on windows it can't be deleted.
-		try (FileInputStream fis = new FileInputStream(
-				new File(db.getWorkTree(), "b.txt"))) {
-			MergeResult mergeRes = git.merge().setStrategy(strategy)
-					.include(masterCommit).call();
+			// Get a handle to the file so on windows it can't be deleted.
+			try (FileInputStream fis = new FileInputStream(
+					new File(db.getWorkTree(), "b.txt"))) {
+				assertNotNull(fis);
+				MergeResult mergeRes = git.merge().setStrategy(strategy)
+						.include(masterCommit).call();
 			if (mergeRes.getMergeStatus().equals(MergeStatus.FAILED)) {
 				// probably windows
 				assertEquals(1, mergeRes.getFailingPaths().size());

@@ -365,6 +365,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		write(cfg, configStr);
 
 		try (FileRepository unused = new FileRepository(db.getDirectory())) {
+			assertNotNull(unused);
 			fail("incorrectly opened a bad repository");
 		} catch (IllegalArgumentException ioe) {
 			assertNotNull(ioe.getMessage());

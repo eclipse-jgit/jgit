@@ -726,6 +726,7 @@ public class SmartClientSmartServerTest extends AllProtocolsHttpTestCase {
 			try (Git git = Git.cloneRepository().setDirectory(tmp)
 					.setTransportConfigCallback(callback)
 					.setURI(remoteURI.toPrivateString()).call()) {
+				assertNotNull(git);
 				assertTrue("Should have used the local HttpConnectionFactory",
 						localFactoryUsed[0]);
 			}

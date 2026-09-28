@@ -157,7 +157,7 @@ public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCas
 			}
 		}) {
 			try (PushConnection c = t.openPush()) {
-				// Just has to open/close for advertisement.
+				assertNotNull(c);
 			}
 		}
 

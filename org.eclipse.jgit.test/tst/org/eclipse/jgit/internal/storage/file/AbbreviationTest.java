@@ -157,7 +157,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 		}
 
 		try (FileOutputStream unused = new FileOutputStream(packFile)) {
-			// unused
+			assertNotNull(unused);
 		}
 
 		assertEquals(id.abbreviate(20), reader.abbreviate(id, 2));

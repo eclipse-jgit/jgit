@@ -97,7 +97,6 @@ public class LfsConnectionFactoryTest extends RepositoryTestCase {
 	public void lfsUrlFromLocalConfig() throws Exception {
 		addRemoteUrl("https://localhost/repo");
 
-		@SuppressWarnings("restriction")
 		StoredConfig cfg = db.getConfig();
 		cfg.setString(ConfigConstants.CONFIG_SECTION_LFS,
 				null,
@@ -112,7 +111,6 @@ public class LfsConnectionFactoryTest extends RepositoryTestCase {
 	public void lfsUrlFromOriginConfig() throws Exception {
 		addRemoteUrl("https://localhost/repo");
 
-		@SuppressWarnings("restriction")
 		StoredConfig cfg = db.getConfig();
 		cfg.setString(ConfigConstants.CONFIG_SECTION_LFS,
 				org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME,
@@ -163,7 +161,7 @@ public class LfsConnectionFactoryTest extends RepositoryTestCase {
 				.setURI(db.getDirectory().toURI().toString()).setBare(true)
 				.call().getRepository()) {
 
-			checkLfsUrl(LFS_SERVER_URL1);
+			checkLfsUrl(bareRepoDb, LFS_SERVER_URL1);
 		}
 	}
 
@@ -243,7 +241,7 @@ public class LfsConnectionFactoryTest extends RepositoryTestCase {
 			LfsConfigInvalidException actualException = assertThrows(
 					LfsConfigInvalidException.class,
 					() -> {
-						LfsConnectionFactory.getLfsConnection(db,
+						LfsConnectionFactory.getLfsConnection(bareRepoDb,
 								HttpSupport.METHOD_POST,
 								Protocol.OPERATION_DOWNLOAD);
 					});
@@ -309,8 +307,13 @@ public class LfsConnectionFactoryTest extends RepositoryTestCase {
 	}
 
 	private void checkLfsUrl(String lfsUrl) throws IOException {
+		checkLfsUrl(db, lfsUrl);
+	}
+
+	private void checkLfsUrl(Repository repository, String lfsUrl)
+			throws IOException {
 		HttpConnection lfsServerConn;
-		lfsServerConn = LfsConnectionFactory.getLfsConnection(db,
+		lfsServerConn = LfsConnectionFactory.getLfsConnection(repository,
 				HttpSupport.METHOD_POST, Protocol.OPERATION_DOWNLOAD);
 
 		assertEquals(lfsUrl + Protocol.OBJECTS_LFS_ENDPOINT,

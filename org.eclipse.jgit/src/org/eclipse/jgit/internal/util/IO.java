@@ -15,6 +15,7 @@ import java.io.InterruptedIOException;
 /**
  * Input/Output utilities
  */
+@SuppressWarnings("AvoidCommonTypeNames")
 public class IO {
 	/**
 	 * Check wether the current thread is interrupted and throw an

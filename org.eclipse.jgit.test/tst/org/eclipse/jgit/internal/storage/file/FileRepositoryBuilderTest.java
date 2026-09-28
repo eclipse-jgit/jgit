@@ -50,7 +50,7 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 		config.save();
 
 		try (FileRepository repo = new FileRepository(r.getDirectory())) {
-			// Unused
+			assertNotNull(repo);
 		}
 	}
 
@@ -63,6 +63,7 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 		config.save();
 
 		try (FileRepository repo = new FileRepository(r.getDirectory())) {
+			assertNotNull(repo);
 			fail("IllegalArgumentException not thrown");
 		} catch (IllegalArgumentException e) {
 			assertNotNull(e.getMessage());
@@ -78,6 +79,7 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 		config.save();
 
 		try (FileRepository repo = new FileRepository(r.getDirectory())) {
+			assertNotNull(repo);
 			fail("IOException not thrown");
 		} catch (IOException e) {
 			assertNotNull(e.getMessage());
