@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93932fd7_a13df6c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-09-28T11:23:42Z",
+      "side": 1,
+      "message": "trigger build, testing with jdk 25",
+      "revId": "9ac86f3b949c5ce2dfc191ca64fd1b2bf59beb5b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
