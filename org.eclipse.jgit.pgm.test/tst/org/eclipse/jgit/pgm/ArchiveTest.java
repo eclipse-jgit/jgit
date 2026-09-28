@@ -561,6 +561,8 @@ public class ArchiveTest extends CLIRepositoryTestCase {
 		ProcessBuilder procBuilder = new ProcessBuilder(cmdline)
 				.directory(cwd)
 				.redirectErrorStream(true);
+		procBuilder.environment().put("LC_ALL", "C");
+		procBuilder.environment().put("LANG", "C");
 		Process proc = null;
 		try {
 			proc = procBuilder.start();
