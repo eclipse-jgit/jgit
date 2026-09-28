@@ -1049,6 +1049,7 @@ public class WalkEncryptionTest {
 
 				try (Git git = Git.cloneRepository().setURI(uri)
 						.setDirectory(dirTwo).call()) {
+					assertNotNull(git);
 					assertTrue("Provided by clone", fileStatic.exists());
 				}
 

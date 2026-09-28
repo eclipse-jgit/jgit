@@ -12,6 +12,7 @@ package org.eclipse.jgit.pgm;
 import static org.eclipse.jgit.junit.JGitTestUtil.check;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.jgit.api.Git;
@@ -22,6 +23,7 @@ public class CleanTest extends CLIRepositoryTestCase {
 	@Test
 	public void testCleanRequiresForce() throws Exception {
 		try (Git git = new Git(db)) {
+			assertNotNull(git);
 			assertArrayOfLinesEquals(
 					new String[] { "Removing a", "Removing b" },
 					execute("git clean"));

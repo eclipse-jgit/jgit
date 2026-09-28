@@ -18,6 +18,7 @@ import static org.eclipse.jgit.transport.SideBandOutputStream.HDR_SIZE;
 import static org.eclipse.jgit.transport.SideBandOutputStream.MAX_BUF;
 import static org.eclipse.jgit.transport.SideBandOutputStream.SMALL_BUF;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
@@ -165,7 +166,7 @@ public class SideBandOutputStreamTest {
 	private void createSideBandOutputStream(int chan, int sz, OutputStream os)
 			throws Exception {
 		try (SideBandOutputStream s = new SideBandOutputStream(chan, sz, os)) {
-			// Unused
+			assertNotNull(s);
 		}
 	}
 

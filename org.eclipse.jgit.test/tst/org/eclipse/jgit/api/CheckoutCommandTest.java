@@ -231,6 +231,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	public void testCheckoutWithNonDeletedFiles() throws Exception {
 		File testFile = writeTrashFile("temp", "");
 		try (FileInputStream fis = new FileInputStream(testFile)) {
+			assertNotNull(fis);
 			FileUtils.delete(testFile);
 			return;
 		} catch (IOException e) {
@@ -250,6 +251,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		assertTrue(testFile.exists());
 		// lock the file so it can't be deleted (in Windows, that is)
 		try (FileInputStream fis = new FileInputStream(testFile)) {
+			assertNotNull(fis);
 			assertEquals(Status.NOT_TRIED, co.getResult().getStatus());
 			co.setName("test").call();
 			assertTrue(testFile.exists());
@@ -865,7 +867,9 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		RevCommit crudCommit = git.commit().setMessage("delete, modify, add")
 				.call();
 		git.checkout().setName(addFiles.getName()).call();
-		try ( FileInputStream fis=new FileInputStream(new File(db.getWorkTree(), "Test.txt")) ) {
+		try (FileInputStream fis = new FileInputStream(
+				new File(db.getWorkTree(), "Test.txt"))) {
+			assertNotNull(fis);
 			CheckoutCommand coCommand = git.checkout();
 			coCommand.setName(crudCommit.getName()).call();
 			CheckoutResult result = coCommand.getResult();

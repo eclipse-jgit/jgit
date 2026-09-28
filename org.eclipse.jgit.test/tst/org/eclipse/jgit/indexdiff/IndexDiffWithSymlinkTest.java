@@ -151,13 +151,14 @@ public class IndexDiffWithSymlinkTest extends LocalDiskRepositoryTestCase {
 		builder.environment().put("HOME",
 				FS.DETECTED.userHome().getAbsolutePath());
 		builder.directory(testDir);
-		Process process = builder.start();
-		try (InputStream stdOutStream = process.getInputStream();
-				InputStream stdErrStream = process.getErrorStream();
-				OutputStream stdInStream = process.getOutputStream()) {
-			readStream(stdOutStream);
-			stdErr = readStream(stdErrStream);
-			process.waitFor();
+			Process process = builder.start();
+			try (InputStream stdOutStream = process.getInputStream();
+					InputStream stdErrStream = process.getErrorStream();
+					OutputStream stdInStream = process.getOutputStream()) {
+				assertNotNull(stdInStream);
+				readStream(stdOutStream);
+				stdErr = readStream(stdErrStream);
+				process.waitFor();
 			exitCode = process.exitValue();
 		}
 		if (exitCode != 0) {
