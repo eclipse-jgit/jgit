@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2edd8a57_84aa5cf0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-28T17:24:43Z",
+      "side": 1,
+      "message": "Should we build a map of names-\u003elevels and delete all the parent dirs in a single pass after unlocking? Otherwise, we could unsuccessfully try to delete a dir many times if we have locks like `refs/heads/a/b/c.lock`, `a/b/d.lock`, `a/b/e.lock`, etc.\n\nTo do it most efficiently, I think we\u0027d either want to pass the Map to a new version of `RefDirectory.deleteEmptyParentDirs()` that de-dups the lock parent dirs, or add that method here.",
+      "range": {
+        "startLine": 499,
+        "startChar": 0,
+        "endLine": 500,
+        "endChar": 39
+      },
+      "revId": "fd7534d4089faf4df7538763933781b8d626c067",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
