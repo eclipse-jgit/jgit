@@ -12,6 +12,7 @@ package org.eclipse.jgit.api;
 import static org.eclipse.jgit.lib.Constants.DOT_GIT_MODULES;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -229,7 +230,7 @@ public class CleanCommandTest extends RepositoryTestCase {
 		String uri = db.getDirectory().toURI().toString();
 		command.setURI(uri);
 		try (Repository repo = command.call()) {
-			// Unused
+			assertNotNull(repo);
 		}
 
 		Status beforeCleanStatus = git.status().call();

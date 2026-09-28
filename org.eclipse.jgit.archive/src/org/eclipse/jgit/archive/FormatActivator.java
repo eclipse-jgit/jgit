@@ -24,8 +24,6 @@ import org.osgi.framework.BundleContext;
  */
 public class FormatActivator implements BundleActivator {
 	/**
-	 * {@inheritDoc}
-	 *
 	 * Registers all included archive formats by calling
 	 * {@link ArchiveFormats#registerAll()}. This method is called by the OSGi
 	 * framework when the bundle is started.
@@ -36,8 +34,6 @@ public class FormatActivator implements BundleActivator {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 *
 	 * Cleans up after {@link #start(BundleContext)} by calling
 	 * {@link ArchiveFormats#unregisterAll}.
 	 */
