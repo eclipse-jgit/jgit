@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4eacb69f_50bdc692",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-28T17:23:57Z",
+      "side": 1,
+      "message": "This isn\u0027t how we handle an update with a new patchset. Your commit message should reflect the whole content of the new commit as if no one had ever seen the previous patchset commit (AI agents struggle with this by default).\n\nIn this specific case, your subject line is now inaccurate as the whole scope of the commit has changed and lines 19-23 should explicitly note that they refer to `LooseObjects`. The subject line could maybe say something like \"Add/widen ignores for stat refresh failures\". And then update this paragraph to 1) remove the direct reference to me (it\u0027s not really relevant long-term), 2) use `LooseObjects` instead of \"this class\u0027s own\", and 3) keep the text noting how `FileReftableStack.isUpToDate()`, `RefDirectory.shouldRefreshPackedRefs()`, and `LooseObjects.open()` were widened to catch `IOException`s.\n```suggestion\n\nAlso widen the catch on LooseObjects.open(),\nFileReftableStack.isUpToDate(), and\nRefDirectory.shouldRefreshPackedRefs() to include all IOExceptions.\nEach method already treats a failed refresh as best effort and falls\nthrough to using cached data, so widening FileNotFoundException |\nNoSuchFileException to IOException only extends that existing behavior\nto also cover AccessDeniedException and other refresh failures.\n```",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 49
+      },
+      "revId": "7beed0e6a9ccbc2d618f505ec8b21c9c849c5e85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c7116fe6_7f274cc8",
@@ -14,6 +37,23 @@
       "writtenOn": "2026-09-15T12:16:24Z",
       "side": 1,
       "message": "Good catch widened all three. LooseObjects.open() and FileReftableStack.isUpToDate() both open a directory, same as the original issue, so I used the same comment. RefDirectory.shouldRefreshPackedRefs() opens packed refs, a regular file, so I kept its original \"may not exist\" reasoning and just widened the catch. I haven\u0027t added new unit tests for the two new sites  isUpToDate() is testable but I\u0027m not confident about its downstream behavior when the whole directory is missing without reading further, and shouldRefreshPackedRefs() is private. Both are covered functionally by RefDirectoryAfterOpenConfigTest and FileReftableStackTest\u0027s existing suites. Happy to add targeted tests if you\u0027d like them.",
+      "revId": "7beed0e6a9ccbc2d618f505ec8b21c9c849c5e85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f574217_5946e73f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-09-28T17:23:57Z",
+      "side": 1,
+      "message": "Just needs some tweaks on the commit message.",
       "revId": "7beed0e6a9ccbc2d618f505ec8b21c9c849c5e85",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
