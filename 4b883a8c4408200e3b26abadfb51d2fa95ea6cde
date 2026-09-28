@@ -16,6 +16,24 @@
       "message": "there is another invalid inheritDoc tag in `org.eclipse.jgit.internal.transport.sshd.agent.connector.Factory`. It is invalid since this class implements an interface and doesn\u0027t override a superclass implementation of a method:\n\n```\n[WARNING] Javadoc Warnings\n[WARNING] org.eclipse.jgit.ssh.apache.agent/src/org/eclipse/jgit/internal/transport/sshd/agent/connector/Factory.java:74: warning: @inheritDoc used but getSupportedConnectors() does not override or implement any method.\n[WARNING] public Collection\u003cConnectorDescriptor\u003e getSupportedConnectors() {\n[WARNING] ^\n...\n[ERROR] Failed to execute goal org.apache.maven.plugins:maven-javadoc-plugin:3.12.0:jar (default) on project org.eclipse.jgit.ssh.apache.agent: MavenReportException: Error while generating Javadoc: Project contains Javadoc Warnings -\u003e [Help 1]\n```",
       "revId": "4b883a8c4408200e3b26abadfb51d2fa95ea6cde",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1939820_d191bb40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-09-28T23:10:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d969bab7_9b80ba73",
+      "revId": "4b883a8c4408200e3b26abadfb51d2fa95ea6cde",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
