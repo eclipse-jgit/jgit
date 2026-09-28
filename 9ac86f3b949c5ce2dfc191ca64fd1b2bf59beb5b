@@ -33,6 +33,24 @@
       "message": "- I tried the maven build and that failed with errors\n- I temporarily updated the CI job to use temurin 25 and that also failed with errors\n- please rebase this change on master and resolve conflicts",
       "revId": "9ac86f3b949c5ce2dfc191ca64fd1b2bf59beb5b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53c4c274_2bb5088d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-09-28T19:28:58Z",
+      "side": 1,
+      "message": "Done, thanks.\n\nI rebased the change on current master and split out two prerequisite changes below it:\n\n* Fix Java 25 prerequisite build issues\n* Stabilize tests for Java 25\n\nThe Maven build failures I could reproduce locally are addressed there, and the Java 25 change now focuses on the actual baseline/toolchain migration.\n\nI also verified locally with JDK 25:\n\n* Maven focused test/build for the affected tests: PASS\n* bazelisk build //...: PASS",
+      "parentUuid": "fc92c056_6298bc0c",
+      "revId": "9ac86f3b949c5ce2dfc191ca64fd1b2bf59beb5b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
