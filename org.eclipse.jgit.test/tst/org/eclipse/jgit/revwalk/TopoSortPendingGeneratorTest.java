@@ -48,4 +48,27 @@ public class TopoSortPendingGeneratorTest
 				.isEqualTo(appFlags);
 	}
 
+
+	@Test
+	public void testSort_TOPO_ExplorePhase_earlyReturn() throws Exception {
+		final RevCommit root = commit();
+		final RevCommit beforeUninteresting = commit(root);
+		final RevCommit uninteresting = commit(beforeUninteresting);
+		final RevCommit afterBoundary = commit(uninteresting);
+		final RevCommit head = commit("main", afterBoundary);
+
+		initializeRevWalk();
+		rw.sort(RevSort.TOPO);
+		markStart(head);
+		markUninteresting(uninteresting);
+
+		assertCommit(head, rw.next());
+		assertCommit(afterBoundary, rw.next());
+		assertNull(rw.next());
+
+		// Explore phase should stop as soon as only UNINTERESTING commits
+		// remain, without parsing commits before 'uninteresting'
+		assertNull(rw.lookupCommit(beforeUninteresting).getParents());
+	}
+
 }
