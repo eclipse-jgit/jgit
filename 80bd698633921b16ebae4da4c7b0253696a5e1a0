@@ -16,6 +16,23 @@
       "message": "I inserted a change bumping the version to 8.0.0 since raising the minimum Java version to 25 is a breaking change.",
       "revId": "80bd698633921b16ebae4da4c7b0253696a5e1a0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbcd1f90_2187eb9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-09-29T13:20:28Z",
+      "side": 1,
+      "message": "trigger build",
+      "revId": "80bd698633921b16ebae4da4c7b0253696a5e1a0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
