@@ -12,10 +12,8 @@ package org.eclipse.jgit.revwalk;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNull;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore("Re-enable when I573f980abb0c97414e8e7dfcc3ac6dab2544f6c1 is reverted")
 public class TopoSortPendingGeneratorTest
 		extends AbstractRevWalkWithCommitGraphTest {
 
