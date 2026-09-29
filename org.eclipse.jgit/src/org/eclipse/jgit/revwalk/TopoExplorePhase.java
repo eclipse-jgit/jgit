@@ -23,19 +23,27 @@ final class TopoExplorePhase extends TopoPhase {
 
 	private final boolean canDispose;
 
-	TopoExplorePhase(RevWalk walker, RevFilter filter,
-			boolean canDispose) {
+	private final boolean needsRewrite;
+
+	TopoExplorePhase(RevWalk walker, RevFilter filter, boolean canDispose,
+			boolean needsRewrite) {
 		super(walker, "EXPLORE"); //$NON-NLS-1$
 		this.topoPassedFilterFlag = walker.newFlag("TOPO_PASSED_FILTER"); //$NON-NLS-1$
 		this.filter = filter;
 		this.canDispose = canDispose;
+		this.needsRewrite = needsRewrite;
 	}
 
 	void explore(int minGeneration) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		RevCommit c;
 		while ((c = tryRemove(minGeneration)) != null) {
-			if (!propagateUninteresting(c) && passThroughFilter(c)) {
+			if (propagateUninteresting(c)) {
+				if (canEarlyExit()) {
+					clear();
+					return;
+				}
+			} else if (passThroughFilter(c)) {
 				c.add(topoPassedFilterFlag);
 			}
 
@@ -43,6 +51,21 @@ final class TopoExplorePhase extends TopoPhase {
 				enqueue(p);
 			}
 		}
+	}
+
+	/**
+	 * Checks whether exploration can stop early because everything left to
+	 * discover is uninteresting.
+	 * <p>
+	 * <strong>Disabled when rewriting is performed</strong>: Rewriting commits
+	 * relies on the UNINTERESTING flag being propagated to all recursive
+	 * parents of uninteresting commits. This cannot be guaranteed if we
+	 * early-return.
+	 *
+	 * @return {@code true} if the queue can be cleared and exploration stopped
+	 */
+	private boolean canEarlyExit() {
+		return !needsRewrite && allQueuedCommitsHaveFlag(RevWalk.UNINTERESTING);
 	}
 
 	@Override
@@ -60,8 +83,8 @@ final class TopoExplorePhase extends TopoPhase {
 	}
 
 	private boolean passThroughFilter(RevCommit c)
-			throws MissingObjectException,
-			IncorrectObjectTypeException, IOException {
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
 		boolean hadBody = c.getRawBuffer() != null;
 
 		if (filter.requiresCommitBody() && !hadBody) {
