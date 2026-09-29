@@ -120,7 +120,7 @@
 
     <jgit-last-release-version>7.8.0.202609011348-r</jgit-last-release-version>
     <ant-version>1.10.15</ant-version>
-    <apache-sshd-version>2.19.0</apache-sshd-version>
+    <apache-sshd-version>2.20.0</apache-sshd-version>
     <javaewah-version>1.2.3</javaewah-version>
     <junit-version>4.13.2</junit-version>
     <test-fork-count>1C</test-fork-count>
