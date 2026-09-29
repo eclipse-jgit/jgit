@@ -77,6 +77,14 @@ class TopoPhase {
 		return null;
 	}
 
+	final boolean allQueuedCommitsHaveFlag(int flag) {
+		return queue.stream().allMatch(c -> (c.flags & flag) == flag);
+	}
+
+	final void clear() {
+		queue.clear();
+	}
+
 	int getAllocatedFlags() {
 		return testFlag.mask;
 	}
