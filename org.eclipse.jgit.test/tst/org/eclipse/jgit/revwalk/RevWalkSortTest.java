@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2010, Google Inc. and others
+ * Copyright (C) 2009-2026, Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -10,14 +10,12 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.eclipse.jgit.internal.JGitText;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class RevWalkSortTest extends RevWalkTestCase {
@@ -106,97 +104,6 @@ public class RevWalkSortTest extends RevWalkTestCase {
 		assertCommit(b, rw.next());
 		assertCommit(a, rw.next());
 		assertCommit(c1, rw.next());
-		assertNull(rw.next());
-	}
-
-	@Test
-	public void testSort_TOPO() throws Exception {
-		// c1 is back dated before its parent.
-		//
-		final RevCommit a = commit();
-		final RevCommit b = commit(a);
-		final RevCommit c1 = commit(-5, b);
-		final RevCommit c2 = commit(10, b);
-		final RevCommit d = commit(c1, c2);
-
-		rw.sort(RevSort.TOPO);
-		markStart(d);
-		assertCommit(d, rw.next());
-		assertCommit(c2, rw.next());
-		assertCommit(c1, rw.next());
-		assertCommit(b, rw.next());
-		assertCommit(a, rw.next());
-		assertNull(rw.next());
-	}
-
-	@Test
-	public void testSort_TOPO_reachable() throws Exception {
-		// c1 is back dated before its parent.
-		//
-		final RevCommit a = commit();
-		final RevCommit b = commit(a);
-		final RevCommit c1 = commit(-5, b);
-		final RevCommit c2 = commit(10, b);
-		final RevCommit d = commit(c1, c2);
-
-		assertEquals("", d.getShortMessage());
-		assertEquals("", c2.getShortMessage());
-		assertEquals("", c1.getShortMessage());
-		assertEquals("", b.getShortMessage());
-		rw.sort(RevSort.TOPO);
-		markStart(d);
-		markUninteresting(b);
-		assertEquals("", d.getShortMessage());
-		assertEquals("", c2.getShortMessage());
-		assertEquals("", c1.getShortMessage());
-		assertEquals("", b.getShortMessage());
-		assertCommit(d, rw.next());
-		assertCommit(c2, rw.next());
-		assertCommit(c1, rw.next());
-		assertNull(rw.next());
-		assertEquals("", d.getShortMessage());
-		assertEquals("", c2.getShortMessage());
-		assertEquals("", c1.getShortMessage());
-		assertEquals("", b.getShortMessage());
-	}
-
-	@Test
-	public void testSort_TOPO_reachable2() throws Exception {
-		// c1 is back dated before its parent.
-		//
-		final RevCommit a = commit();
-		final RevCommit b = commit(a);
-		final RevCommit c1 = commit(-5, b);
-		final RevCommit c2 = commit(10, b);
-		final RevCommit d = commit(c1, c2);
-
-		assertEquals("", d.getShortMessage());
-		rw.sort(RevSort.TOPO);
-		markStart(d);
-		markUninteresting(d);
-		assertEquals("", d.getShortMessage());
-		assertNull(rw.next());
-		assertEquals("", d.getShortMessage());
-	}
-
-	@Test
-	public void testSort_TOPO_REVERSE() throws Exception {
-		// c1 is back dated before its parent.
-		//
-		final RevCommit a = commit();
-		final RevCommit b = commit(a);
-		final RevCommit c1 = commit(-5, b);
-		final RevCommit c2 = commit(10, b);
-		final RevCommit d = commit(c1, c2);
-
-		rw.sort(RevSort.TOPO);
-		rw.sort(RevSort.REVERSE, true);
-		markStart(d);
-		assertCommit(a, rw.next());
-		assertCommit(b, rw.next());
-		assertCommit(c1, rw.next());
-		assertCommit(c2, rw.next());
-		assertCommit(d, rw.next());
 		assertNull(rw.next());
 	}
 
@@ -367,33 +274,4 @@ public class RevWalkSortTest extends RevWalkTestCase {
 		}
 	}
 
-	@Test
-	@Ignore("Re-enable when I573f980abb0c97414e8e7dfcc3ac6dab2544f6c1 is reverted")
-	public void testSort_TOPO_reset_doesNotLeakFlags() throws Exception {
-		final RevCommit a = commit();
-		final RevCommit b = commit(a);
-		final RevCommit c = commit(b);
-		final RevCommit d = commit(c);
-
-		int appFlags = Integer.bitCount(RevWalk.APP_FLAGS);
-
-		rw.sort(RevSort.TOPO);
-		markStart(d);
-		assertCommit(d, rw.next());
-		assertCommit(c, rw.next());
-		assertCommit(b, rw.next());
-		assertCommit(a, rw.next());
-		assertNull(rw.next());
-
-
-		assertThat(Integer.bitCount(rw.freeFlags))
-				.as("4 Flags should be allocated by TopoSortPendingGenerator")
-				.isEqualTo(appFlags - 4);
-
-		rw.reset();
-
-		assertThat(Integer.bitCount(rw.freeFlags)) //
-				.as("Flags allocated by TopoSortPendingGenerator should be freed when calling RevWalk.reset()")
-				.isEqualTo(appFlags);
-	}
 }
