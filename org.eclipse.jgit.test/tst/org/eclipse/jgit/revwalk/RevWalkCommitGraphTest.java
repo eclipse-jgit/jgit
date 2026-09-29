@@ -39,19 +39,23 @@ import org.junit.Test;
 
 public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 
+	public RevWalkCommitGraphTest() {
+		super(true);
+	}
+
 	@Test
 	public void testParseHeaders() throws Exception {
 		RevCommit c1 = commitFile("file1", "1", "master");
 
+		rw = new RevWalk(db);
 		RevCommit notParseInGraph = rw.lookupCommit(c1);
 		rw.parseHeaders(notParseInGraph);
 		assertNotNull(notParseInGraph.getRawBuffer());
 		assertEquals(Constants.COMMIT_GENERATION_UNKNOWN,
 				notParseInGraph.getGeneration());
 
-		enableAndWriteCommitGraph();
-
-		reinitializeRevWalk();
+		rw.close();
+		initializeRevWalk();
 		RevCommit parseInGraph = rw.lookupCommit(c1);
 		parseInGraph.parseHeaders(rw);
 
@@ -78,7 +82,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 	@Test
 	public void testParseCanonical() throws Exception {
 		RevCommit c1 = commitFile("file1", "1", "master");
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 
 		RevCommit notParseInGraph = rw.lookupCommit(c1);
 		rw.parseHeaders(notParseInGraph);
@@ -113,7 +117,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 	public void testInitializeShallowCommits() throws Exception {
 		RevCommit c1 = commit(commit());
 		branch(c1, "master");
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 		assertCommitCntInGraph(2);
 
 		db.getObjectDatabase().setShallowCommits(Collections.singleton(c1));
@@ -132,7 +136,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 		RevCommit c3 = commitFile("file1", "3", "master");
 		RevCommit c4 = commitFile("file2", "4", "master");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 		assertCommitCntInGraph(4);
 
 		rw.markStart(rw.lookupCommit(c4));
@@ -165,7 +169,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 
 		branch(tip, "master");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 
 		FollowFilter followFilter = FollowFilter.create("file2",
 				db.getConfig().get(DiffConfig.KEY));
@@ -207,7 +211,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 
 		branch(merge2, "master");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 
 		ChangedPathTreeFilter changedPathTreeFilter = ChangedPathTreeFilter.create("file1");
 
@@ -246,7 +250,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 
 		branch(merge2, "master");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 
 		ChangedPathTreeFilter changedPathTreeFilter = ChangedPathTreeFilter.create("file1");
 
@@ -285,7 +289,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 
 		branch(merge2, "master");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 
 		ChangedPathTreeFilter changedPathTreeFilter = ChangedPathTreeFilter.create("file1");
 		rw.setTreeFilter(changedPathTreeFilter);
@@ -339,7 +343,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 		expectedRevWalk.markUninteresting(expectedRevWalk.lookupCommit(merge1));
 		expectedRevWalk.markUninteresting(expectedRevWalk.lookupCommit(root3));
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 		rw.setTreeFilter(changedPathTreeFilter);
 		rw.setRevFilter(RevFilter.ALL);
 		rw.sort(RevSort.NONE);
@@ -374,7 +378,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 
 		branch(c4, "master");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 
 		TreeRevFilter trf = new TreeRevFilter(rw,
 				ChangedPathTreeFilter.create("file1"));
@@ -406,7 +410,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 
 		branch(c4, "master");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 
 		TreeRevFilter trf = new TreeRevFilter(rw,
 				ChangedPathTreeFilter.create("file1"));
@@ -437,7 +441,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 
 		branch(c4, "master");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 
 		TreeRevFilter trf = new TreeRevFilter(rw,
 				ChangedPathTreeFilter.create("file1", "file2"));
@@ -475,7 +479,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 				c3);
 		branch(c4, "master");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 
 		db.getConfig().setString(ConfigConstants.CONFIG_DIFF_SECTION, null,
 				ConfigConstants.CONFIG_KEY_RENAMES, "true");
@@ -515,7 +519,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 
 		branch(c5, "master");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 
 		ChangedPathTreeFilter pf1 = ChangedPathTreeFilter.create("file1");
 		ChangedPathTreeFilter pf2 = ChangedPathTreeFilter.create("file2");
@@ -555,7 +559,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 
 		branch(c5, "master");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 
 		ChangedPathTreeFilter pf1 = ChangedPathTreeFilter.create("file1");
 		ChangedPathTreeFilter pf2 = ChangedPathTreeFilter.create("file2");
@@ -595,7 +599,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 
 		branch(c4, "master");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 
 		ChangedPathTreeFilter pf = ChangedPathTreeFilter.create("file1");
 		TreeFilter npf = TreeFilter.ANY_DIFF;
@@ -631,7 +635,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 		RevCommit c3 = commitFile("file3", "3", "master");
 		RevCommit c4 = commitFile("file4", "4", "master");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 
 		TreeFilter npf1 = TreeFilter.ANY_DIFF;
 		TreeFilter npf2 = TreeFilter.ANY_DIFF;
@@ -666,7 +670,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 
 		branch(c2, "master");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 
 		ChangedPathTreeFilter pf1 = ChangedPathTreeFilter.create("file1");
 		ChangedPathTreeFilter pf2 = ChangedPathTreeFilter.create("file2");
@@ -703,7 +707,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 
 		branch(c3, "master");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 
 		ChangedPathTreeFilter pf1 = ChangedPathTreeFilter.create("file1");
 		ChangedPathTreeFilter pf2 = ChangedPathTreeFilter.create("file2");
@@ -739,7 +743,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 
 		branch(c3, "master");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 
 		ChangedPathTreeFilter pf = ChangedPathTreeFilter.create("file1");
 		TreeFilter npf = TreeFilter.ANY_DIFF;
@@ -773,7 +777,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 		RevCommit c3 = commitFile("file3", "3", "master");
 		RevCommit c4 = commitFile("file4", "4", "master");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 
 		TreeFilter npf1 = TreeFilter.ANY_DIFF;
 		TreeFilter npf2 = TreeFilter.ANY_DIFF;
@@ -808,7 +812,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 		RevCommit c = commitBuilder().parent(b).message("commit-c").create();
 		branch(c, "master");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 		assertCommitCntInGraph(3);
 
 		rw.setRevFilter(MessageRevFilter.create("quick brown fox jumps"));
@@ -826,7 +830,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 		RevCommit c3 = commit(c2);
 		branch(c3, "commits/3");
 
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 		assertCommitCntInGraph(3);
 		testRevWalkBehavior("commits/1", "commits/3");
 
@@ -903,7 +907,7 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 		Ref branch4 = branch(c4, "commits/4");
 		RevCommit c5 = commit(c4);
 		Ref branch5 = branch(c5, "commits/5");
-		enableAndWriteCommitGraph();
+		initializeRevWalk();
 		RevCommit c6 = commit(c1);
 		Ref branch6 = branch(c6, "commits/6");
 		RevCommit c7 = commit(c2, c4);

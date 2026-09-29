@@ -12,17 +12,20 @@ package org.eclipse.jgit.revwalk;
 import static org.eclipse.jgit.internal.storage.commitgraph.CommitGraph.EMPTY;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Ref;
@@ -30,13 +33,63 @@ import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
-public abstract class AbstractRevWalkWithCommitGraphTest extends RevWalkTestCase {
+public abstract class AbstractRevWalkWithCommitGraphTest
+		extends RevWalkTestCase {
+
+	private final boolean commitGraphEnabled;
+
+	public AbstractRevWalkWithCommitGraphTest(boolean withCommitGraph) {
+		commitGraphEnabled = withCommitGraph;
+	}
+
+	public final boolean commitGraphEnabled() {
+		return commitGraphEnabled;
+	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		reinitializeRevWalk();
 		mockSystemReader.setJGitConfig(new MockConfig());
+		rw.close();
+		rw = null; // Test author must explicitly initialize RevWalk after setup
+					// to generate commit graph
+	}
+
+	@Override
+	protected void markStart(RevCommit commit) throws Exception {
+		rw.markStart(rw.parseCommit(commit));
+	}
+
+	@Override
+	protected void markUninteresting(RevCommit commit) throws Exception {
+		rw.markUninteresting(rw.parseCommit(commit));
+	}
+
+	protected final void initializeRevWalk() throws Exception {
+		if (commitGraphEnabled()) {
+			enableAndWriteCommitGraph();
+		}
+
+		Optional<CommitGraph> commitGraph = db.getObjectDatabase()
+				.getCommitGraph();
+
+		if (commitGraphEnabled()) {
+			assertTrue(commitGraph.isPresent());
+			assertTrue(commitGraph.get().getCommitCnt() > 0);
+		} else {
+			assertTrue(commitGraph.isEmpty());
+		}
+
+		rw = new RevWalk(db);
+	}
+
+	@Override
+	protected void assertCommit(RevCommit exp, RevCommit act) {
+		try {
+			assertSame(rw.parseCommit(exp), rw.parseCommit(act));
+		} catch (IOException e) {
+			throw new AssertionError(e.getMessage(), e);
+		}
 	}
 
 	protected final void assertCommitCntInGraph(int expect) {
@@ -66,15 +119,15 @@ public abstract class AbstractRevWalkWithCommitGraphTest extends RevWalkTestCase
         protected List<RevCommit> travel(RevWalk walk, boolean enableCommitGraph) {
                 db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
                                 ConfigConstants.CONFIG_COMMIT_GRAPH, enableCommitGraph);
- 
+
                 List<RevCommit> commits = new ArrayList<>();
- 
+
                 if (enableCommitGraph) {
                         assertTrue(walk.commitGraph().getCommitCnt() > 0);
                 } else {
                         assertEquals(EMPTY, walk.commitGraph());
                 }
- 
+
                 for (RevCommit commit : walk) {
                         commits.add(commit);
                 }
@@ -117,7 +170,7 @@ public abstract class AbstractRevWalkWithCommitGraphTest extends RevWalkTestCase
 		rw = new RevWalk(db);
 	}
 
-	private static final class MockConfig extends FileBasedConfig {
+	private final class MockConfig extends FileBasedConfig {
 		private MockConfig() {
 			super(null, null);
 		}
@@ -145,7 +198,9 @@ public abstract class AbstractRevWalkWithCommitGraphTest extends RevWalkTestCase
 		@Override
 		public boolean getBoolean(final String section, final String name,
 				final boolean defaultValue) {
-			if (section.equals(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION)
+			if (commitGraphEnabled()
+					&& section
+							.equals(ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION)
 					&& name.equals(
 							ConfigConstants.CONFIG_KEY_READ_CHANGED_PATHS)) {
 				return true;
