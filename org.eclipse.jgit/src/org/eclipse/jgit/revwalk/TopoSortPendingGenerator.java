@@ -24,16 +24,18 @@ class TopoSortPendingGenerator extends Generator {
 	private final TopoInDegreePhase inDegreePhase;
 
 	protected TopoSortPendingGenerator(RevWalk walker, AbstractRevQueue pending,
-			RevFilter filter, int output, boolean canDispose)
+			RevFilter filter, int outputType, boolean canDispose)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		super(walker.isFirstParent());
 
-		this.output = (output | SORT_COMMIT_TIME_DESC | SORT_TOPO)
+		this.output = (outputType | SORT_COMMIT_TIME_DESC | SORT_TOPO)
 				& ~NEEDS_REWRITE;
-		this.explorePhase = new TopoExplorePhase(walker, filter, canDispose);
+		boolean needsRewrite = (outputType & NEEDS_REWRITE) != 0;
+		this.explorePhase = new TopoExplorePhase(walker, filter, canDispose,
+				needsRewrite);
 		this.inDegreePhase = new TopoInDegreePhase(walker, explorePhase,
-				(output & NEEDS_REWRITE) != 0);
+				needsRewrite);
 
 		inDegreePhase.initialize(pending);
 
