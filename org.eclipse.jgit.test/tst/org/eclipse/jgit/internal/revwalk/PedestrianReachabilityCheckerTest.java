@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019, Google LLC. and others
+ * Copyright (C) 2019-2026, Google LLC. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -9,17 +9,20 @@
  */
 package org.eclipse.jgit.internal.revwalk;
 
-import org.eclipse.jgit.internal.storage.file.FileRepository;
-import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.ReachabilityChecker;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 public class PedestrianReachabilityCheckerTest
 		extends ReachabilityCheckerTestCase {
 
+	public PedestrianReachabilityCheckerTest(boolean withCommitGraph) {
+		super(withCommitGraph);
+	}
+
 	@Override
-	protected ReachabilityChecker getChecker(
-			TestRepository<FileRepository> repository) {
-		return new PedestrianReachabilityChecker(true, repository.getRevWalk());
+	protected ReachabilityChecker createReachabilityChecker(RevWalk revWalk)
+			throws Exception {
+		return new PedestrianReachabilityChecker(true, revWalk);
 	}
 
 }
