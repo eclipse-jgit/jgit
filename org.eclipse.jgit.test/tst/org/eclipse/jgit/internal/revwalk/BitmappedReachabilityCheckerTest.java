@@ -11,17 +11,20 @@ package org.eclipse.jgit.internal.revwalk;
 
 import static org.junit.Assert.assertNotNull;
 
-import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.GC;
-import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.ReachabilityChecker;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 public class BitmappedReachabilityCheckerTest
 		extends ReachabilityCheckerTestCase {
 
+	public BitmappedReachabilityCheckerTest(boolean withCommitGraph) {
+		super(withCommitGraph);
+	}
+
 	@Override
-	protected ReachabilityChecker getChecker(
-			TestRepository<FileRepository> repository) throws Exception {
+	protected ReachabilityChecker createReachabilityChecker(RevWalk revWalk)
+			throws Exception {
 		// GC generates the bitmaps
 		GC gc = new GC(repo.getRepository());
 		gc.setAuto(false);
@@ -31,7 +34,7 @@ public class BitmappedReachabilityCheckerTest
 		assertNotNull("Probably the test didn't define any ref",
 				repo.getRevWalk().getObjectReader().getBitmapIndex());
 
-		return new BitmappedReachabilityChecker(repository.getRevWalk());
+		return new BitmappedReachabilityChecker(revWalk);
 	}
 
 }
