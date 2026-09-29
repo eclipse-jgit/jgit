@@ -28,6 +28,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -170,9 +171,9 @@ public abstract class AbstractRevWalkWithCommitGraphTest
 		}
 	}
 
-	protected final Ref branch(RevCommit commit, String name) throws Exception {
+	protected final Ref branch(ObjectId start, String name) throws Exception {
 		return Git.wrap(db).branchCreate().setName(name)
-				.setStartPoint(commit.name()).call();
+				.setStartPoint(start.name()).call();
 	}
 
         protected List<RevCommit> travel(RevWalk walk, boolean enableCommitGraph) {
