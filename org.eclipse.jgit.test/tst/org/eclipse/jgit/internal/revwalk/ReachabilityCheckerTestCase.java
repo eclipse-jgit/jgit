@@ -10,9 +10,11 @@
 package org.eclipse.jgit.internal.revwalk;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -124,6 +126,57 @@ public abstract class ReachabilityCheckerTestCase
 
 		assertReachable("reachable with long chain in the middle", //
 				List.of(root), Stream.of(head));
+	}
+
+	@Test
+	public void reachable_oldLongBranchAndRecentShortBranch() throws Exception {
+		final int oldBranchLength = 10000;
+		final int recentBranchLength = 3;
+
+		RevCommit root = commit();
+		RevCommit target = commit(root);
+
+		// Long branch with old timestamps
+		ObjectId oldTip = target;
+		ObjectId oldBranchMiddle = null;
+		for (int i = 0; i < oldBranchLength; i++) {
+			oldTip = unparsedCommit(oldTip);
+
+			if (i == (oldBranchLength / 2)) {
+				oldBranchMiddle = oldTip;
+			}
+		}
+
+		// Short branch with much more recent timestamps
+		tick(1_000_000);
+		ObjectId recentTip = target;
+		for (int i = 0; i < recentBranchLength; i++) {
+			recentTip = unparsedCommit(recentTip);
+		}
+
+		branch(oldTip, "old");
+		branch(recentTip, "recent");
+
+		initializeRevWalk();
+		RevWalk walk = createWalkForReachabilityCheck();
+		ReachabilityChecker checker = createReachabilityChecker(walk);
+
+		List<AnyObjectId> targets = List.of(target);
+		Stream<AnyObjectId> starters = Stream.of(oldTip, recentTip);
+
+		long start = System.nanoTime();
+		Optional<RevCommit> unreachable = areAllReachable(targets, starters,
+				walk, checker);
+		Duration duration = Duration.ofNanos(System.nanoTime() - start);
+
+		assertTrue("Reachability check timed out",
+				duration.compareTo(Duration.ofSeconds(5)) < 0);
+		assertReachable("target is reachable from both tips", unreachable);
+
+		if (!commitGraphEnabled()) {
+			assertNull("Old branch is not parsed",
+					walk.lookupCommit(oldBranchMiddle).getParents());
+		}
 	}
 
 	private Optional<RevCommit> areAllReachable(Collection<AnyObjectId> targets,
