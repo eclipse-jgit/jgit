@@ -450,11 +450,8 @@ public class SshdSession implements RemoteSession2 {
 
 		@Override
 		public void connect(int timeout, TimeUnit unit) throws IOException {
-			if (timeout <= 0) {
-				// This timeout must not be null!
-				SFTP_CHANNEL_OPEN_TIMEOUT.set(session,
-						Duration.ofMillis(Long.MAX_VALUE));
-			} else {
+			if (timeout > 0) {
+				// If timeout <= 0 rely on the session's default setting (15s)
 				SFTP_CHANNEL_OPEN_TIMEOUT.set(session,
 						Duration.ofMillis(unit.toMillis(timeout)));
 			}
