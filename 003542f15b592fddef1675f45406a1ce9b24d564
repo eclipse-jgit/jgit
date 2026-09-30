@@ -22,6 +22,30 @@
       },
       "revId": "003542f15b592fddef1675f45406a1ce9b24d564",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30efae0b_3dd9fc33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-09-30T19:52:51Z",
+      "side": 1,
+      "message": "Sure. Done: new change I5a07ffd141131e124e9565195c6d8f7591db566a and rebased this onto it.",
+      "parentUuid": "7f3f7d1e_471024c5",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 45
+      },
+      "revId": "003542f15b592fddef1675f45406a1ce9b24d564",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
