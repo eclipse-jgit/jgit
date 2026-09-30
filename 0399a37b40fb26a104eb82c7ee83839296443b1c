@@ -16,6 +16,24 @@
       "message": "This of course causes the problem in sshd 2.20.0. It\u0027s nonsense; SFTP_CHANNEL_OPEN_TIMEOUT is the timeout to wait for the server to respond to the initial SFTP request. We definitely don\u0027t want to wait \"forever\" here.\n\nI think it\u0027s better to simply not set the property at all, which means sshd will fall back to its default value of 15 seconds.",
       "revId": "0399a37b40fb26a104eb82c7ee83839296443b1c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f01948d_1c65fe35",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSession.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-09-30T18:52:11Z",
+      "side": 0,
+      "message": "Acknowledged",
+      "parentUuid": "984e6231_d9c43ffd",
+      "revId": "0399a37b40fb26a104eb82c7ee83839296443b1c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
