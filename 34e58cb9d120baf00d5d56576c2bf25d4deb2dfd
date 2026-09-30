@@ -16,6 +16,24 @@
       "message": "the following sshd tests fail:\n```\n[ERROR]   ApacheSshTest\u003eSshTestBase.testSftpCloneWithConfigAndPush:468-\u003eSshTestHarness.cloneWith:289 » Arithmetic long overflow\n[ERROR]   ApacheSshTest\u003eSshTestBase.testSftpWithConfig:458-\u003eSshTestHarness.cloneWith:289 » Arithmetic long overflow\n```",
       "revId": "34e58cb9d120baf00d5d56576c2bf25d4deb2dfd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8c6e783_980eab6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-09-30T07:51:27Z",
+      "side": 1,
+      "message": "[In line 511 of `DefaultSftpClient`](https://github.com/apache/mina-sshd/blob/master/sshd-sftp/src/main/java/org/apache/sshd/sftp/client/impl/DefaultSftpClient.java#L511) it tries to convert a duration of `PT2562047788015H12M55.807S` to nanoseconds which fails with an arithmetic long overflow. It seems this was introduced in [53bce94f4b27d1dd7b4d8d730af8b96b9616446f](https://github.com/apache/mina-sshd/commit/53bce94f4b27d1dd7b4d8d730af8b96b9616446f0).",
+      "parentUuid": "0fe8b04b_2204129a",
+      "revId": "34e58cb9d120baf00d5d56576c2bf25d4deb2dfd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
