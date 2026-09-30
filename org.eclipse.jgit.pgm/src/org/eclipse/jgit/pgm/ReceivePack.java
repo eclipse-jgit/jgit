@@ -14,10 +14,13 @@ package org.eclipse.jgit.pgm;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Collection;
 
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.FS;
 import org.kohsuke.args4j.Argument;
 
@@ -46,10 +49,31 @@ class ReceivePack extends TextBuiltin {
 		}
 
 		rp = new org.eclipse.jgit.transport.ReceivePack(db);
+		rp.setPostReceiveHook(this::runPostReceiveHook);
 		try {
 			rp.receive(ins, outs, errs);
 		} catch (IOException e) {
 			throw die(e.getMessage(), e);
+		}
+	}
+
+	private void runPostReceiveHook(
+			org.eclipse.jgit.transport.ReceivePack receivePack,
+			Collection<ReceiveCommand> commands) {
+		if (commands.isEmpty()) {
+			return;
+		}
+		StringBuilder stdin = new StringBuilder();
+		for (ReceiveCommand cmd : commands) {
+			stdin.append(cmd.getOldId().name()).append(' ')
+					.append(cmd.getNewId().name()).append(' ')
+					.append(cmd.getRefName()).append('\n');
+		}
+		try {
+			db.getFS().runHookIfPresent(db, "post-receive", new String[0], //$NON-NLS-1$
+					errs, errs, stdin.toString());
+		} catch (JGitInternalException e) {
+			receivePack.sendMessage(e.getMessage());
 		}
 	}
 }
