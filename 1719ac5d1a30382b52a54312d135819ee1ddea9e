@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "873394ce_f2b5a4b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-10-01T11:23:53Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\t// the lock files; remove them again if they are empty after unlocking.\n```",
+      "revId": "1719ac5d1a30382b52a54312d135819ee1ddea9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28c9f23a_8dafb99d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1499,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-10-01T11:23:53Z",
+      "side": 1,
+      "message": "```suggestion\n\t * Delete the empty parent directories of the given loose refs.\n```",
+      "range": {
+        "startLine": 1498,
+        "startChar": 43,
+        "endLine": 1499,
+        "endChar": 9
+      },
+      "revId": "1719ac5d1a30382b52a54312d135819ee1ddea9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3b2027d_f1cace43",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1502,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-10-01T11:23:53Z",
+      "side": 1,
+      "message": "```suggestion\n\t * subdirectories that are also tried, so that parent directories shared by many\n```",
+      "range": {
+        "startLine": 1502,
+        "startChar": 48,
+        "endLine": 1502,
+        "endChar": 59
+      },
+      "revId": "1719ac5d1a30382b52a54312d135819ee1ddea9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
