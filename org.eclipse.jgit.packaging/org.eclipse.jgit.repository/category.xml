@@ -243,6 +243,12 @@
    <bundle id="org.apache.aries.spifly.dynamic.bundle">
       <category name="JGit-dependency-bundles"/>
    </bundle>
+   <bundle id="org.eclipse.jetty.session">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
+   <bundle id="org.eclipse.jetty.session.source">
+      <category name="JGit-dependency-bundles"/>
+   </bundle>
    <category-def name="JGit" label="Java implementation of Git">
       <description>
          Java implementation of Git
