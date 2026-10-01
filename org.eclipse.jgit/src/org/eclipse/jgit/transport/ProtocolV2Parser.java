@@ -39,7 +39,9 @@ import java.util.function.Consumer;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 
 /**
  * Parse the incoming git protocol lines from the wire and translate them into a
@@ -134,8 +136,12 @@ final class ProtocolV2Parser {
 						.fromString(line2.substring(PACKET_WANT.length())));
 			} else if (transferConfig.isAllowRefInWant()
 					&& line2.startsWith(PACKET_WANT_REF)) {
-				reqBuilder.addWantedRef(
-						line2.substring(PACKET_WANT_REF.length()));
+				String refName = line2.substring(PACKET_WANT_REF.length());
+				if (!isValidRefName(refName)) {
+					throw new PackProtocolException(MessageFormat
+							.format(JGitText.get().invalidRefName, refName));
+				}
+				reqBuilder.addWantedRef(refName);
 			} else if (line2.startsWith(PACKET_HAVE)) {
 				reqBuilder.addPeerHas(ObjectId
 						.fromString(line2.substring(PACKET_HAVE.length())));
@@ -260,7 +266,12 @@ final class ProtocolV2Parser {
 			} else if (line2.equals("symrefs")) { //$NON-NLS-1$
 				builder.setSymrefs(true);
 			} else if (line2.startsWith("ref-prefix ")) { //$NON-NLS-1$
-				prefixes.add(line2.substring("ref-prefix ".length())); //$NON-NLS-1$
+				String prefix = line2.substring("ref-prefix ".length()); //$NON-NLS-1$
+				if (!isValidRefPrefix(prefix)) {
+					throw new PackProtocolException(MessageFormat
+							.format(JGitText.get().invalidRefName, prefix));
+				}
+				prefixes.add(prefix);
 			} else {
 				throw new PackProtocolException(MessageFormat
 						.format(JGitText.get().unexpectedPacketLine, line2));
@@ -268,6 +279,20 @@ final class ProtocolV2Parser {
 		}
 
 		return builder.setRefPrefixes(prefixes).build();
+	}
+
+	private static boolean isValidRefPrefix(String prefix) {
+		if (prefix.isEmpty()) {
+			return true;
+		}
+		String refName = prefix.endsWith("/") //$NON-NLS-1$
+				? prefix + "x" //$NON-NLS-1$
+				: prefix + "/x"; //$NON-NLS-1$
+		return Repository.isValidRefName(refName);
+	}
+
+	private static boolean isValidRefName(String name) {
+		return Constants.HEAD.equals(name) || Repository.isValidRefName(name);
 	}
 
 	ObjectInfoRequest parseObjectInfoRequest(PacketLineIn pckIn)
