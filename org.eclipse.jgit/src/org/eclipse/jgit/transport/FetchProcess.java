@@ -46,12 +46,18 @@ import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class FetchProcess {
+	private static final Logger LOG = LoggerFactory
+			.getLogger(FetchProcess.class);
+
 	/** Transport we will fetch over. */
 	private final Transport transport;
 
@@ -549,6 +555,16 @@ class FetchProcess {
 					JGitText.get().transportProvidedRefWithNoObjectId,
 					src.getName()));
 		}
+		if (spec.getDestination() != null
+				&& !isValidFetchDestination(spec.getDestination())) {
+			// Drop an invalid expanded destination before it becomes a ref
+			// update, an object request, or a FETCH_HEAD entry. Warn so the
+			// drop is visible, like native git's "Ignoring funny ref" message.
+			LOG.warn(MessageFormat.format(
+					JGitText.get().ignoringFunnyRefLocally,
+					spec.getDestination()));
+			return;
+		}
 		if (spec.getDestination() != null) {
 			final TrackingRefUpdate tru = createUpdate(spec, newId);
 			// if depth is set we need to update the ref
@@ -571,6 +587,23 @@ class FetchProcess {
 	private void want(ObjectId id) {
 		askFor.put(id,
 				new ObjectIdRef.Unpeeled(Ref.Storage.NETWORK, id.name(), id));
+	}
+
+	/**
+	 * Checks whether an expanded local fetch destination is safe to store.
+	 * <p>
+	 * Matches native git's {@code get_fetch_map()} rule: the destination must
+	 * live under {@code refs/} and be a valid ref name. A wildcard refspec
+	 * copies the matched part of the remote name verbatim into the destination,
+	 * so a hostile remote could otherwise introduce path-traversal components.
+	 *
+	 * @param name
+	 *            expanded local destination from a fetch refspec.
+	 * @return {@code true} if it is safe to turn into a local ref update.
+	 */
+	private static boolean isValidFetchDestination(String name) {
+		return name.startsWith(Constants.R_REFS)
+				&& Repository.isValidRefName(name);
 	}
 
 	private TrackingRefUpdate createUpdate(RefSpec spec, ObjectId newId)
