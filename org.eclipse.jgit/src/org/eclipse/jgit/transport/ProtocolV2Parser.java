@@ -39,7 +39,9 @@ import java.util.function.Consumer;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 
 /**
  * Parse the incoming git protocol lines from the wire and translate them into a
@@ -134,8 +136,12 @@ final class ProtocolV2Parser {
 						.fromString(line2.substring(PACKET_WANT.length())));
 			} else if (transferConfig.isAllowRefInWant()
 					&& line2.startsWith(PACKET_WANT_REF)) {
-				reqBuilder.addWantedRef(
-						line2.substring(PACKET_WANT_REF.length()));
+				String refName = line2.substring(PACKET_WANT_REF.length());
+				if (!isSafeRefName(refName)) {
+					throw new PackProtocolException(MessageFormat
+							.format(JGitText.get().invalidRefName, refName));
+				}
+				reqBuilder.addWantedRef(refName);
 			} else if (line2.startsWith(PACKET_HAVE)) {
 				reqBuilder.addPeerHas(ObjectId
 						.fromString(line2.substring(PACKET_HAVE.length())));
@@ -260,7 +266,12 @@ final class ProtocolV2Parser {
 			} else if (line2.equals("symrefs")) { //$NON-NLS-1$
 				builder.setSymrefs(true);
 			} else if (line2.startsWith("ref-prefix ")) { //$NON-NLS-1$
-				prefixes.add(line2.substring("ref-prefix ".length())); //$NON-NLS-1$
+				String prefix = line2.substring("ref-prefix ".length()); //$NON-NLS-1$
+				if (!isSafeRefPrefix(prefix)) {
+					throw new PackProtocolException(MessageFormat
+							.format(JGitText.get().invalidRefName, prefix));
+				}
+				prefixes.add(prefix);
 			} else {
 				throw new PackProtocolException(MessageFormat
 						.format(JGitText.get().unexpectedPacketLine, line2));
@@ -268,6 +279,45 @@ final class ProtocolV2Parser {
 		}
 
 		return builder.setRefPrefixes(prefixes).build();
+	}
+
+	/**
+	 * Checks whether a client-supplied {@code ls-refs} ref-prefix is safe.
+	 * <p>
+	 * The prefix is forwarded to {@code RefDatabase.getRefsByPrefix()}; for
+	 * file-backed repositories {@code RefDirectory} turns it into a loose-ref
+	 * file path, so a prefix with path-traversal components (for example
+	 * {@code refs/heads/../../../other.git/refs/}) would escape the served
+	 * repository and expose refs outside it. It must therefore be rejected
+	 * before it reaches the ref database.
+	 * <p>
+	 * A ref-prefix is a partial name, so a synthetic leaf is appended to form a
+	 * complete multi-level name before validating with
+	 * {@link Repository#isValidRefName(String)}.
+	 */
+	private static boolean isSafeRefPrefix(String prefix) {
+		if (prefix.isEmpty()) {
+			// An empty prefix matches all refs; there is nothing to escape.
+			return true;
+		}
+		// Append a leaf so the value is a complete multi-level ref name; use
+		// "x" not "/x" after a trailing slash to avoid a double slash.
+		String refName = prefix.endsWith("/") //$NON-NLS-1$
+				? prefix + "x" //$NON-NLS-1$
+				: prefix + "/x"; //$NON-NLS-1$
+		return Repository.isValidRefName(refName);
+	}
+
+	/**
+	 * Checks whether a client-supplied {@code want-ref} name is safe.
+	 * <p>
+	 * Unlike a ref-prefix, a want-ref is already a complete ref name, so it is
+	 * validated directly. {@code HEAD} is also allowed: it is a legitimate
+	 * want-ref that {@link Repository#isValidRefName(String)} rejects only for
+	 * being a one-level name.
+	 */
+	private static boolean isSafeRefName(String name) {
+		return Constants.HEAD.equals(name) || Repository.isValidRefName(name);
 	}
 
 	ObjectInfoRequest parseObjectInfoRequest(PacketLineIn pckIn)

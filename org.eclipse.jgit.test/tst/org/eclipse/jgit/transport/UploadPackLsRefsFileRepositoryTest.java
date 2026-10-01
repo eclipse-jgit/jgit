@@ -10,18 +10,25 @@
 package org.eclipse.jgit.transport;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Sets;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
@@ -65,16 +72,43 @@ public class UploadPackLsRefsFileRepositoryTest
 		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
 	}
 
-	private ByteArrayInputStream uploadPackV2(String... inputLines)
+	@Test
+	public void testV2LsRefsRejectsPathTraversalRefPrefix()
 			throws Exception {
-		return uploadPackV2(null, inputLines);
+		try (FileRepository source = createBareRepository();
+				FileRepository victim = createBareRepository()) {
+			ObjectId admin = writeLooseRef(victim, "refs/private/admin",
+					"private object in victim repository");
+			ObjectId deploy = writeLooseRef(victim, "refs/private/deploy",
+					"second private object in victim repository");
+
+			assertNull(source.exactRef("refs/private/admin"));
+			assertNull(source.exactRef("refs/private/deploy"));
+			assertTrue(!source.getObjectDatabase().has(admin));
+			assertTrue(!source.getObjectDatabase().has(deploy));
+
+			String prefix = "refs/heads/../../../"
+					+ victim.getDirectory().getName() + "/refs/private/";
+			UploadPackInternalServerErrorException e = assertThrows(
+					UploadPackInternalServerErrorException.class,
+					() -> uploadPackV2(source, "command=ls-refs\n",
+							PacketLineIn.delimiter(), "ref-prefix " + prefix,
+							PacketLineIn.end()));
+
+			assertThat(e.getCause().getMessage(),
+					containsString("Invalid ref name: " + prefix));
+		}
 	}
 
-	private ByteArrayInputStream uploadPackV2(
-			Consumer<UploadPack> postConstructionSetup, String... inputLines)
+	private ByteArrayInputStream uploadPackV2(String... inputLines)
 			throws Exception {
-		ByteArrayInputStream recvStream = uploadPackV2Setup(
-				postConstructionSetup, inputLines);
+		return uploadPackV2(server, inputLines);
+	}
+
+	private ByteArrayInputStream uploadPackV2(FileRepository repository,
+			String... inputLines) throws Exception {
+		ByteArrayInputStream recvStream = uploadPackV2Setup(repository,
+				inputLines);
 		PacketLineIn pckIn = new PacketLineIn(recvStream);
 
 		// drain capabilities
@@ -85,22 +119,38 @@ public class UploadPackLsRefsFileRepositoryTest
 	}
 
 	private ByteArrayInputStream uploadPackV2Setup(
-			Consumer<UploadPack> postConstructionSetup, String... inputLines)
+			FileRepository repository, String... inputLines)
 			throws Exception {
 
 		ByteArrayInputStream send = linesAsInputStream(inputLines);
 
-		server.getConfig().setString("protocol", null, "version", "2");
-		UploadPack up = new UploadPack(server);
-		if (postConstructionSetup != null) {
-			postConstructionSetup.accept(up);
-		}
+		repository.getConfig().setString("protocol", null, "version", "2");
+		UploadPack up = new UploadPack(repository);
 		up.setExtraParameters(Sets.of("version=2"));
 
 		ByteArrayOutputStream recv = new ByteArrayOutputStream();
 		up.upload(send, recv, null);
 
 		return new ByteArrayInputStream(recv.toByteArray());
+	}
+
+	private static ObjectId writeLooseRef(FileRepository repository,
+			String name, String contents) throws IOException {
+		ObjectId oid;
+		try (ObjectInserter inserter = repository.newObjectInserter()) {
+			oid = inserter.insert(Constants.OBJ_BLOB,
+					contents.getBytes(StandardCharsets.UTF_8));
+			inserter.flush();
+		}
+
+		RefUpdate update = repository.updateRef(name);
+		update.setNewObjectId(oid);
+		update.setForceUpdate(true);
+		RefUpdate.Result result = update.update();
+		assertTrue(result == RefUpdate.Result.NEW
+				|| result == RefUpdate.Result.FORCED
+				|| result == RefUpdate.Result.NO_CHANGE);
+		return oid;
 	}
 
 	private static ByteArrayInputStream linesAsInputStream(String... inputLines)
