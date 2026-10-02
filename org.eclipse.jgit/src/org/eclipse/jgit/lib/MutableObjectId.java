@@ -21,7 +21,7 @@ import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
- * A mutable SHA-1 abstraction.
+ * A mutable object id abstraction.
  */
 public class MutableObjectId extends AnyObjectId {
 	/**
@@ -29,6 +29,7 @@ public class MutableObjectId extends AnyObjectId {
 	 */
 	public MutableObjectId() {
 		super();
+		w = new int[Constants.OBJECT_ID_LENGTH / 4];
 	}
 
 	/**
@@ -46,38 +47,21 @@ public class MutableObjectId extends AnyObjectId {
 	 *
 	 * @param index
 	 *            index of the byte to set in the raw form of the ObjectId. Must
-	 *            be in range [0,
-	 *            {@link org.eclipse.jgit.lib.Constants#OBJECT_ID_LENGTH}).
+	 *            be in range [0, {@link #getLength()}).
 	 * @param value
 	 *            the value of the specified byte at {@code index}. Values are
 	 *            unsigned and thus are in the range [0,255] rather than the
 	 *            signed byte range of [-128, 127].
 	 * @throws java.lang.ArrayIndexOutOfBoundsException
-	 *             {@code index} is less than 0, equal to
-	 *             {@link org.eclipse.jgit.lib.Constants#OBJECT_ID_LENGTH}, or
-	 *             greater than
-	 *             {@link org.eclipse.jgit.lib.Constants#OBJECT_ID_LENGTH}.
+	 *             {@code index} is less than 0, equal to {@link #getLength()},
+	 *             or greater than {@link #getLength()}.
 	 */
 	public void setByte(int index, int value) {
-		switch (index >> 2) {
-		case 0:
-			w1 = set(w1, index & 3, value);
-			break;
-		case 1:
-			w2 = set(w2, index & 3, value);
-			break;
-		case 2:
-			w3 = set(w3, index & 3, value);
-			break;
-		case 3:
-			w4 = set(w4, index & 3, value);
-			break;
-		case 4:
-			w5 = set(w5, index & 3, value);
-			break;
-		default:
+		final int word = index >> 2;
+		if (word >= w.length) {
 			throw new ArrayIndexOutOfBoundsException(index);
 		}
+		w[word] = set(w[word], index & 3, value);
 	}
 
 	private static int set(int w, int index, int value) {
@@ -101,11 +85,7 @@ public class MutableObjectId extends AnyObjectId {
 	 * Make this id match {@link org.eclipse.jgit.lib.ObjectId#zeroId()}.
 	 */
 	public void clear() {
-		w1 = 0;
-		w2 = 0;
-		w3 = 0;
-		w4 = 0;
-		w5 = 0;
+		java.util.Arrays.fill(w, 0);
 	}
 
 	/**
@@ -115,11 +95,7 @@ public class MutableObjectId extends AnyObjectId {
 	 *            the source id to copy from.
 	 */
 	public void fromObjectId(AnyObjectId src) {
-		this.w1 = src.w1;
-		this.w2 = src.w2;
-		this.w3 = src.w3;
-		this.w4 = src.w4;
-		this.w5 = src.w5;
+		w = src.w.clone();
 	}
 
 	/**
@@ -143,11 +119,40 @@ public class MutableObjectId extends AnyObjectId {
 	 *            position to read the first byte of data from.
 	 */
 	public void fromRaw(byte[] bs, int p) {
-		w1 = NB.decodeInt32(bs, p);
-		w2 = NB.decodeInt32(bs, p + 4);
-		w3 = NB.decodeInt32(bs, p + 8);
-		w4 = NB.decodeInt32(bs, p + 12);
-		w5 = NB.decodeInt32(bs, p + 16);
+		ensureCapacity(Constants.OBJECT_ID_LENGTH);
+		w[0] = NB.decodeInt32(bs, p);
+		w[1] = NB.decodeInt32(bs, p + 4);
+		w[2] = NB.decodeInt32(bs, p + 8);
+		w[3] = NB.decodeInt32(bs, p + 12);
+		w[4] = NB.decodeInt32(bs, p + 16);
+	}
+
+	/**
+	 * Convert an ObjectId from raw binary representation.
+	 *
+	 * @param bs
+	 *            the raw byte buffer to read from. At least {@code len} bytes
+	 *            after p must be available within this byte array.
+	 * @param p
+	 *            position to read the first byte of data from.
+	 * @param len
+	 *            number of bytes to read, i.e. the length of the object id:
+	 *            {@code 20} for SHA-1, {@code 32} for SHA-256.
+	 * @since 7.9
+	 */
+	public void fromRaw(byte[] bs, int p, int len) {
+		if (len == Constants.OBJECT_ID_LENGTH) {
+			fromRaw(bs, p);
+			return;
+		}
+		if (len % 4 != 0 || len <= 0) {
+			throw new IllegalArgumentException(
+					"Invalid object id length: " + len); //$NON-NLS-1$
+		}
+		ensureCapacity(len);
+		for (int i = 0; i < w.length; i++) {
+			w[i] = NB.decodeInt32(bs, p + 4 * i);
+		}
 	}
 
 	/**
@@ -171,11 +176,12 @@ public class MutableObjectId extends AnyObjectId {
 	 *            position to read the first integer of data from.
 	 */
 	public void fromRaw(int[] ints, int p) {
-		w1 = ints[p];
-		w2 = ints[p + 1];
-		w3 = ints[p + 2];
-		w4 = ints[p + 3];
-		w5 = ints[p + 4];
+		ensureCapacity(Constants.OBJECT_ID_LENGTH);
+		w[0] = ints[p];
+		w[1] = ints[p + 1];
+		w[2] = ints[p + 2];
+		w[3] = ints[p + 3];
+		w[4] = ints[p + 4];
 	}
 
 	/**
@@ -194,11 +200,12 @@ public class MutableObjectId extends AnyObjectId {
 	 * @since 4.7
 	 */
 	public void set(int a, int b, int c, int d, int e) {
-		w1 = a;
-		w2 = b;
-		w3 = c;
-		w4 = d;
-		w5 = e;
+		ensureCapacity(Constants.OBJECT_ID_LENGTH);
+		w[0] = a;
+		w[1] = b;
+		w[2] = c;
+		w[3] = d;
+		w[4] = e;
 	}
 
 	/**
@@ -215,30 +222,77 @@ public class MutableObjectId extends AnyObjectId {
 	}
 
 	/**
+	 * Convert an ObjectId from hex characters (US-ASCII).
+	 *
+	 * @param buf
+	 *            the US-ASCII buffer to read from. At least {@code len} bytes
+	 *            after {@code offset} must be available within this byte array.
+	 * @param offset
+	 *            position to read the first character from.
+	 * @param len
+	 *            number of hex characters to read: {@code 40} for a SHA-1
+	 *            object id, {@code 64} for SHA-256.
+	 * @since 7.9
+	 */
+	public void fromString(byte[] buf, int offset, int len) {
+		if (len == Constants.OBJECT_ID_STRING_LENGTH) {
+			fromHexString(buf, offset);
+			return;
+		}
+		if (len % 8 != 0 || len <= 0) {
+			throw new IllegalArgumentException(
+					"Invalid object id hex length: " + len); //$NON-NLS-1$
+		}
+		ensureCapacity(len / 2);
+		try {
+			for (int i = 0; i < w.length; i++) {
+				w[i] = RawParseUtils.parseHexInt32(buf, offset + 8 * i);
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			InvalidObjectIdException e1 = new InvalidObjectIdException(buf,
+					offset, len);
+			e1.initCause(e);
+			throw e1;
+		}
+	}
+
+	/**
 	 * Convert an ObjectId from hex characters.
 	 *
 	 * @param str
-	 *            the string to read from. Must be 40 characters long.
+	 *            the string to read from. Must be 40 characters long for
+	 *            SHA-1, or 64 characters long for SHA-256.
 	 */
 	public void fromString(String str) {
-		if (str.length() != Constants.OBJECT_ID_STRING_LENGTH)
+		final int len = str.length();
+		if (len != Constants.OBJECT_ID_STRING_LENGTH
+				&& len != ObjectFormat.SHA_256.getHexLength()) {
 			throw new IllegalArgumentException(MessageFormat.format(
 					JGitText.get().invalidId, str));
-		fromHexString(Constants.encodeASCII(str), 0);
+		}
+		fromString(Constants.encodeASCII(str), 0, len);
 	}
 
 	private void fromHexString(byte[] bs, int p) {
+		ensureCapacity(Constants.OBJECT_ID_LENGTH);
 		try {
-			w1 = RawParseUtils.parseHexInt32(bs, p);
-			w2 = RawParseUtils.parseHexInt32(bs, p + 8);
-			w3 = RawParseUtils.parseHexInt32(bs, p + 16);
-			w4 = RawParseUtils.parseHexInt32(bs, p + 24);
-			w5 = RawParseUtils.parseHexInt32(bs, p + 32);
+			w[0] = RawParseUtils.parseHexInt32(bs, p);
+			w[1] = RawParseUtils.parseHexInt32(bs, p + 8);
+			w[2] = RawParseUtils.parseHexInt32(bs, p + 16);
+			w[3] = RawParseUtils.parseHexInt32(bs, p + 24);
+			w[4] = RawParseUtils.parseHexInt32(bs, p + 32);
 		} catch (ArrayIndexOutOfBoundsException e) {
 			InvalidObjectIdException e1 = new InvalidObjectIdException(bs, p,
 					Constants.OBJECT_ID_STRING_LENGTH);
 			e1.initCause(e);
 			throw e1;
+		}
+	}
+
+	private void ensureCapacity(int byteLength) {
+		final int n = byteLength / 4;
+		if (w == null || w.length != n) {
+			w = new int[n];
 		}
 	}
 

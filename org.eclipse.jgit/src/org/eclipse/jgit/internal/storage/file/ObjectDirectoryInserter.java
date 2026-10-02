@@ -26,15 +26,16 @@ import java.util.zip.DeflaterOutputStream;
 
 import org.eclipse.jgit.errors.ObjectWritingException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.ObjectHasher;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectFormat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
-import org.eclipse.jgit.util.sha1.SHA1;
 
 /** Creates loose objects in a {@link ObjectDirectory}. */
 class ObjectDirectoryInserter extends ObjectInserter {
@@ -44,7 +45,9 @@ class ObjectDirectoryInserter extends ObjectInserter {
 
 	private Deflater deflate;
 
-	ObjectDirectoryInserter(FileObjectDatabase dest, Config cfg) {
+	ObjectDirectoryInserter(FileObjectDatabase dest, Config cfg,
+			ObjectFormat objectFormat) {
+		super(objectFormat);
 		db = dest;
 		config = cfg.get(WriteConfig.KEY);
 	}
@@ -118,7 +121,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 			return insert(type, buf, 0, actLen, createDuplicate);
 
 		}
-		SHA1 md = digest();
+		ObjectHasher md = ObjectHasher.forFormat(getObjectFormat());
 		File tmp = toTemp(md, type, len, is);
 		ObjectId id = md.toObjectId();
 		return insertOneObject(tmp, id, createDuplicate);
@@ -169,7 +172,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 		}
 	}
 
-	private File toTemp(final SHA1 md, final int type, long len,
+	private File toTemp(final ObjectHasher md, final int type, long len,
 			final InputStream is) throws IOException {
 		boolean delete = true;
 		File tmp = newTempFile();
@@ -180,7 +183,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 					out = Channels.newOutputStream(fOut.getChannel());
 				}
 				DeflaterOutputStream cOut = compress(out);
-				SHA1OutputStream dOut = new SHA1OutputStream(cOut, md);
+				HashOutputStream dOut = new HashOutputStream(cOut, md);
 				writeHeader(dOut, type, len);
 
 				final byte[] buf = buffer();
@@ -262,10 +265,10 @@ class ObjectDirectoryInserter extends ObjectInserter {
 				JGitText.get().inputDidntMatchLength, Long.valueOf(missing)));
 	}
 
-	private static class SHA1OutputStream extends FilterOutputStream {
-		private final SHA1 md;
+	private static class HashOutputStream extends FilterOutputStream {
+		private final ObjectHasher md;
 
-		SHA1OutputStream(OutputStream out, SHA1 md) {
+		HashOutputStream(OutputStream out, ObjectHasher md) {
 			super(out);
 			this.md = md;
 		}

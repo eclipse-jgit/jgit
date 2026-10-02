@@ -19,7 +19,10 @@ import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.References;
 
 /**
- * A (possibly mutable) SHA-1 abstraction.
+ * A (possibly mutable) object id abstraction.
+ * <p>
+ * An object id is the hash of a Git object computed with the repository's
+ * {@link ObjectFormat}, e.g. SHA-1 (20 bytes) or SHA-256 (32 bytes).
  * <p>
  * If this is an instance of {@link org.eclipse.jgit.lib.MutableObjectId} the
  * concept of equality with this instance can alter at any time, if this
@@ -42,29 +45,38 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 		if (References.isSameObject(firstObjectId, secondObjectId)) {
 			return true;
 		}
+		final int[] a = firstObjectId.w;
+		final int[] b = secondObjectId.w;
+		if (a.length != b.length) {
+			return false;
+		}
 		// We test word 3 first since the git file-based ODB
-		// uses the first byte of w1, and we use w2 as the
+		// uses the first byte of w[0], and we use w[1] as the
 		// hash code, one of those probably came up with these
 		// two instances which we are comparing for equality.
 		// Therefore the first two words are very likely to be
 		// identical. We want to break away from collisions as
 		// quickly as possible.
-		return firstObjectId.w3 == secondObjectId.w3
-				&& firstObjectId.w4 == secondObjectId.w4
-				&& firstObjectId.w5 == secondObjectId.w5
-				&& firstObjectId.w1 == secondObjectId.w1
-				&& firstObjectId.w2 == secondObjectId.w2;
+		for (int i = 2; i < a.length; i++) {
+			if (a[i] != b[i]) {
+				return false;
+			}
+		}
+		return a[0] == b[0] && a[1] == b[1];
 	}
 
-	int w1;
+	int[] w;
 
-	int w2;
-
-	int w3;
-
-	int w4;
-
-	int w5;
+	/**
+	 * Get the length of this ObjectId in bytes.
+	 *
+	 * @return length of this ObjectId in bytes, e.g. 20 for SHA-1 and 32 for
+	 *         SHA-256.
+	 * @since 7.9
+	 */
+	public final int getLength() {
+		return w.length * 4;
+	}
 
 	/**
 	 * Get the first 8 bits of the ObjectId.
@@ -76,7 +88,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 *         signed byte range of [-128, 127].
 	 */
 	public final int getFirstByte() {
-		return w1 >>> 24;
+		return w[0] >>> 24;
 	}
 
 	/**
@@ -87,40 +99,20 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 *
 	 * @param index
 	 *            index of the byte to obtain from the raw form of the ObjectId.
-	 *            Must be in range [0,
-	 *            {@link org.eclipse.jgit.lib.Constants#OBJECT_ID_LENGTH}).
+	 *            Must be in range [0, {@link #getLength()}).
 	 * @return the value of the requested byte at {@code index}. Returned values
 	 *         are unsigned and thus are in the range [0,255] rather than the
 	 *         signed byte range of [-128, 127].
 	 * @throws java.lang.ArrayIndexOutOfBoundsException
-	 *             {@code index} is less than 0, equal to
-	 *             {@link org.eclipse.jgit.lib.Constants#OBJECT_ID_LENGTH}, or
-	 *             greater than
-	 *             {@link org.eclipse.jgit.lib.Constants#OBJECT_ID_LENGTH}.
+	 *             {@code index} is less than 0, equal to {@link #getLength()},
+	 *             or greater than {@link #getLength()}.
 	 */
 	public final int getByte(int index) {
-		int w;
-		switch (index >> 2) {
-		case 0:
-			w = w1;
-			break;
-		case 1:
-			w = w2;
-			break;
-		case 2:
-			w = w3;
-			break;
-		case 3:
-			w = w4;
-			break;
-		case 4:
-			w = w5;
-			break;
-		default:
+		final int word = index >> 2;
+		if (word >= w.length) {
 			throw new ArrayIndexOutOfBoundsException(index);
 		}
-
-		return (w >>> (8 * (3 - (index & 3)))) & 0xff;
+		return (w[word] >>> (8 * (3 - (index & 3)))) & 0xff;
 	}
 
 	/**
@@ -133,25 +125,13 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 		if (this == other)
 			return 0;
 
-		int cmp;
-
-		cmp = NB.compareUInt32(w1, other.w1);
-		if (cmp != 0)
-			return cmp;
-
-		cmp = NB.compareUInt32(w2, other.w2);
-		if (cmp != 0)
-			return cmp;
-
-		cmp = NB.compareUInt32(w3, other.w3);
-		if (cmp != 0)
-			return cmp;
-
-		cmp = NB.compareUInt32(w4, other.w4);
-		if (cmp != 0)
-			return cmp;
-
-		return NB.compareUInt32(w5, other.w5);
+		final int common = Math.min(w.length, other.w.length);
+		for (int i = 0; i < common; i++) {
+			final int cmp = NB.compareUInt32(w[i], other.w[i]);
+			if (cmp != 0)
+				return cmp;
+		}
+		return w.length - other.w.length;
 	}
 
 	/**
@@ -161,30 +141,18 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 *            array containing the other ObjectId in network byte order.
 	 * @param p
 	 *            position within {@code bs} to start the compare at. At least
-	 *            20 bytes, starting at this position are required.
+	 *            {@link #getLength()} bytes, starting at this position are
+	 *            required.
 	 * @return a negative integer, zero, or a positive integer as this object is
 	 *         less than, equal to, or greater than the specified object.
 	 */
 	public final int compareTo(byte[] bs, int p) {
-		int cmp;
-
-		cmp = NB.compareUInt32(w1, NB.decodeInt32(bs, p));
-		if (cmp != 0)
-			return cmp;
-
-		cmp = NB.compareUInt32(w2, NB.decodeInt32(bs, p + 4));
-		if (cmp != 0)
-			return cmp;
-
-		cmp = NB.compareUInt32(w3, NB.decodeInt32(bs, p + 8));
-		if (cmp != 0)
-			return cmp;
-
-		cmp = NB.compareUInt32(w4, NB.decodeInt32(bs, p + 12));
-		if (cmp != 0)
-			return cmp;
-
-		return NB.compareUInt32(w5, NB.decodeInt32(bs, p + 16));
+		for (int i = 0; i < w.length; i++) {
+			final int cmp = NB.compareUInt32(w[i], NB.decodeInt32(bs, p + 4 * i));
+			if (cmp != 0)
+				return cmp;
+		}
+		return 0;
 	}
 
 	/**
@@ -193,31 +161,19 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 * @param bs
 	 *            array containing the other ObjectId in network byte order.
 	 * @param p
-	 *            position within {@code bs} to start the compare at. At least 5
-	 *            integers, starting at this position are required.
+	 *            position within {@code bs} to start the compare at. At least
+	 *            {@code w.length} integers, starting at this position are
+	 *            required.
 	 * @return a negative integer, zero, or a positive integer as this object is
 	 *         less than, equal to, or greater than the specified object.
 	 */
 	public final int compareTo(int[] bs, int p) {
-		int cmp;
-
-		cmp = NB.compareUInt32(w1, bs[p]);
-		if (cmp != 0)
-			return cmp;
-
-		cmp = NB.compareUInt32(w2, bs[p + 1]);
-		if (cmp != 0)
-			return cmp;
-
-		cmp = NB.compareUInt32(w3, bs[p + 2]);
-		if (cmp != 0)
-			return cmp;
-
-		cmp = NB.compareUInt32(w4, bs[p + 3]);
-		if (cmp != 0)
-			return cmp;
-
-		return NB.compareUInt32(w5, bs[p + 4]);
+		for (int i = 0; i < w.length; i++) {
+			final int cmp = NB.compareUInt32(w[i], bs[p + i]);
+			if (cmp != 0)
+				return cmp;
+		}
+		return 0;
 	}
 
 	/**
@@ -233,7 +189,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 
 	@Override
 	public final int hashCode() {
-		return w2;
+		return w[1];
 	}
 
 	/**
@@ -263,11 +219,9 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 *            the buffer to copy to. Must be in big endian order.
 	 */
 	public void copyRawTo(ByteBuffer w) {
-		w.putInt(w1);
-		w.putInt(w2);
-		w.putInt(w3);
-		w.putInt(w4);
-		w.putInt(w5);
+		for (int word : this.w) {
+			w.putInt(word);
+		}
 	}
 
 	/**
@@ -279,11 +233,9 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 *            the offset within b to write at.
 	 */
 	public void copyRawTo(byte[] b, int o) {
-		NB.encodeInt32(b, o, w1);
-		NB.encodeInt32(b, o + 4, w2);
-		NB.encodeInt32(b, o + 8, w3);
-		NB.encodeInt32(b, o + 12, w4);
-		NB.encodeInt32(b, o + 16, w5);
+		for (int i = 0; i < w.length; i++) {
+			NB.encodeInt32(b, o + 4 * i, w[i]);
+		}
 	}
 
 	/**
@@ -295,11 +247,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 *            the offset within b to write at.
 	 */
 	public void copyRawTo(int[] b, int o) {
-		b[o] = w1;
-		b[o + 1] = w2;
-		b[o + 2] = w3;
-		b[o + 3] = w4;
-		b[o + 4] = w5;
+		System.arraycopy(w, 0, b, o, w.length);
 	}
 
 	/**
@@ -311,11 +259,9 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 *             the stream writing failed.
 	 */
 	public void copyRawTo(OutputStream w) throws IOException {
-		writeRawInt(w, w1);
-		writeRawInt(w, w2);
-		writeRawInt(w, w3);
-		writeRawInt(w, w4);
-		writeRawInt(w, w5);
+		for (int word : this.w) {
+			writeRawInt(w, word);
+		}
 	}
 
 	private static void writeRawInt(OutputStream w, int v)
@@ -347,56 +293,38 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 *            the offset within b to write at.
 	 */
 	public void copyTo(byte[] b, int o) {
-		formatHexByte(b, o + 0, w1);
-		formatHexByte(b, o + 8, w2);
-		formatHexByte(b, o + 16, w3);
-		formatHexByte(b, o + 24, w4);
-		formatHexByte(b, o + 32, w5);
+		for (int i = 0; i < w.length; i++) {
+			formatHexByte(b, o + 8 * i, w[i]);
+		}
 	}
 
 	/**
 	 * Copy this ObjectId to a ByteBuffer in hex format.
 	 *
-	 * @param b
+	 * @param w
 	 *            the buffer to copy to.
 	 */
-	public void copyTo(ByteBuffer b) {
-		b.put(toHexByteArray());
+	public void copyTo(ByteBuffer w) {
+		w.put(toHexByteArray());
 	}
 
 	private byte[] toHexByteArray() {
-		final byte[] dst = new byte[Constants.OBJECT_ID_STRING_LENGTH];
-		formatHexByte(dst, 0, w1);
-		formatHexByte(dst, 8, w2);
-		formatHexByte(dst, 16, w3);
-		formatHexByte(dst, 24, w4);
-		formatHexByte(dst, 32, w5);
+		final byte[] dst = new byte[w.length * 8];
+		copyTo(dst, 0);
 		return dst;
 	}
 
 	private static final byte[] hexbyte = { '0', '1', '2', '3', '4', '5', '6',
 			'7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
-	private static void formatHexByte(byte[] dst, int p, int w) {
+	static void formatHexByte(byte[] dst, int p, int w) {
 		int o = p + 7;
 		while (o >= p && w != 0) {
 			dst[o--] = hexbyte[w & 0xf];
 			w >>>= 4;
 		}
 		while (o >= p)
-			dst[o--] = '0';
-	}
-
-	/**
-	 * Copy this ObjectId to an output writer in hex format.
-	 *
-	 * @param w
-	 *            the stream to copy to.
-	 * @throws java.io.IOException
-	 *             the stream writing failed.
-	 */
-	public void copyTo(Writer w) throws IOException {
-		w.write(toHexCharArray());
+			dst[o--] = (byte) '0';
 	}
 
 	/**
@@ -413,7 +341,7 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 */
 	public void copyTo(char[] tmp, Writer w) throws IOException {
 		toHexCharArray(tmp);
-		w.write(tmp, 0, Constants.OBJECT_ID_STRING_LENGTH);
+		w.write(tmp, 0, getLength() * 2);
 	}
 
 	/**
@@ -428,21 +356,19 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 */
 	public void copyTo(char[] tmp, StringBuilder w) {
 		toHexCharArray(tmp);
-		w.append(tmp, 0, Constants.OBJECT_ID_STRING_LENGTH);
+		w.append(tmp, 0, getLength() * 2);
 	}
 
 	private char[] toHexCharArray() {
-		final char[] dst = new char[Constants.OBJECT_ID_STRING_LENGTH];
+		final char[] dst = new char[w.length * 8];
 		toHexCharArray(dst);
 		return dst;
 	}
 
 	private void toHexCharArray(char[] dst) {
-		formatHexChar(dst, 0, w1);
-		formatHexChar(dst, 8, w2);
-		formatHexChar(dst, 16, w3);
-		formatHexChar(dst, 24, w4);
-		formatHexChar(dst, 32, w5);
+		for (int i = 0; i < w.length; i++) {
+			formatHexChar(dst, 8 * i, w[i]);
+		}
 	}
 
 	private static final char[] hexchar = { '0', '1', '2', '3', '4', '5', '6',
@@ -467,23 +393,23 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	/**
 	 * <p>name.</p>
 	 *
-	 * @return string form of the SHA-1, in lower case hexadecimal.
+	 * @return string form of the object id, in lower case hexadecimal.
 	 */
 	public final String name() {
 		return new String(toHexCharArray());
 	}
 
 	/**
-	 * Get string form of the SHA-1, in lower case hexadecimal.
+	 * Get string form of the object id, in lower case hexadecimal.
 	 *
-	 * @return string form of the SHA-1, in lower case hexadecimal.
+	 * @return string form of the object id, in lower case hexadecimal.
 	 */
 	public final String getName() {
 		return name();
 	}
 
 	/**
-	 * Return an abbreviation (prefix) of this object SHA-1.
+	 * Return an abbreviation (prefix) of this object id.
 	 * <p>
 	 * This implementation does not guarantee uniqueness. Callers should instead
 	 * use
@@ -492,15 +418,20 @@ public abstract class AnyObjectId implements Comparable<AnyObjectId> {
 	 * database.
 	 *
 	 * @param len
-	 *            length of the abbreviated string.
-	 * @return SHA-1 abbreviation.
+	 *            length of the abbreviated string. Must be in range [1, 40];
+	 *            abbreviations longer than 40 digits are not supported.
+	 * @return object id abbreviation.
 	 */
 	public AbbreviatedObjectId abbreviate(int len) {
-		final int a = AbbreviatedObjectId.mask(len, 1, w1);
-		final int b = AbbreviatedObjectId.mask(len, 2, w2);
-		final int c = AbbreviatedObjectId.mask(len, 3, w3);
-		final int d = AbbreviatedObjectId.mask(len, 4, w4);
-		final int e = AbbreviatedObjectId.mask(len, 5, w5);
+		if (len > 40) {
+			throw new IllegalArgumentException(
+					"Abbreviations longer than 40 digits are not supported"); //$NON-NLS-1$
+		}
+		final int a = AbbreviatedObjectId.mask(len, 1, w[0]);
+		final int b = AbbreviatedObjectId.mask(len, 2, w[1]);
+		final int c = AbbreviatedObjectId.mask(len, 3, w[2]);
+		final int d = AbbreviatedObjectId.mask(len, 4, w[3]);
+		final int e = AbbreviatedObjectId.mask(len, 5, w[4]);
 		return new AbbreviatedObjectId(len, a, b, c, d, e);
 	}
 

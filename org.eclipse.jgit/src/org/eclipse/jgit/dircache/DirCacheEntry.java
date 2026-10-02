@@ -31,6 +31,7 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectFormat;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.IO;
@@ -82,18 +83,12 @@ public class DirCacheEntry {
 
 	private static final int P_OBJECTID = 40;
 
-	private static final int P_FLAGS = 60;
-	private static final int P_FLAGS2 = 62;
-
-	/** Mask applied to data in {@link #P_FLAGS} to get the name length. */
+	/** Mask applied to the entry flags to get the name length. */
 	private static final int NAME_MASK = 0xfff;
 
 	private static final int INTENT_TO_ADD = 0x20000000;
 	private static final int SKIP_WORKTREE = 0x40000000;
 	private static final int EXTENDED_FLAGS = (INTENT_TO_ADD | SKIP_WORKTREE);
-
-	private static final int INFO_LEN = 62;
-	private static final int INFO_LEN_EXTENDED = 64;
 
 	private static final int EXTENDED = 0x40;
 	private static final int ASSUME_VALID = 0x80;
@@ -107,31 +102,53 @@ public class DirCacheEntry {
 	/** First location within {@link #info} where our header starts. */
 	private final int infoOffset;
 
+	/** Length of the object id in this entry, in bytes. */
+	private final int idLength;
+
 	/** Our encoded path name, from the root of the repository. */
 	final byte[] path;
 
 	/** Flags which are never stored to disk. */
 	private byte inCoreFlags;
 
+	private int flagsOffset() {
+		return infoOffset + P_OBJECTID + idLength;
+	}
+
+	private int infoLen() {
+		return P_OBJECTID + idLength + 2;
+	}
+
+	/**
+	 * Get the length of the object id in this entry, in bytes.
+	 *
+	 * @return length of the object id in this entry, in bytes.
+	 * @since 7.9
+	 */
+	public int getIdLength() {
+		return idLength;
+	}
+
 	DirCacheEntry(byte[] sharedInfo, MutableInteger infoAt, InputStream in,
 			MessageDigest md, Instant smudge, DirCacheVersion version,
-			DirCacheEntry previous)
+			DirCacheEntry previous, int idLength)
 			throws IOException {
 		info = sharedInfo;
 		infoOffset = infoAt.value;
+		this.idLength = idLength;
 
-		IO.readFully(in, info, infoOffset, INFO_LEN);
+		IO.readFully(in, info, infoOffset, infoLen());
 
 		int len;
 		if (isExtended()) {
-			len = INFO_LEN_EXTENDED;
-			IO.readFully(in, info, infoOffset + INFO_LEN, INFO_LEN_EXTENDED - INFO_LEN);
+			len = infoLen() + 2;
+			IO.readFully(in, info, infoOffset + infoLen(), 2);
 
 			if ((getExtendedFlags() & ~EXTENDED_FLAGS) != 0)
 				throw new IOException(MessageFormat.format(JGitText.get()
 						.DIRCUnrecognizedExtendedFlags, String.valueOf(getExtendedFlags())));
 		} else
-			len = INFO_LEN;
+			len = infoLen();
 
 		infoAt.value += len;
 		md.update(info, infoOffset, len);
@@ -160,7 +177,7 @@ public class DirCacheEntry {
 						Integer.valueOf(toRemove), previous.getPathString()));
 			}
 		}
-		int pathLen = NB.decodeUInt16(info, infoOffset + P_FLAGS) & NAME_MASK;
+		int pathLen = NB.decodeUInt16(info, flagsOffset()) & NAME_MASK;
 		int skipped = 0;
 		if (pathLen < NAME_MASK) {
 			path = new byte[pathLen];
@@ -249,6 +266,28 @@ public class DirCacheEntry {
 	}
 
 	/**
+	 * Create an empty entry at the specified stage with an object id of the
+	 * given length.
+	 *
+	 * @param newPath
+	 *            name of the cache entry.
+	 * @param stage
+	 *            the stage index of the new entry.
+	 * @param idLength
+	 *            length of the object id in this entry, in bytes, e.g. 20 for
+	 *            SHA-1 and 32 for SHA-256.
+	 * @throws java.lang.IllegalArgumentException
+	 *             If the path starts or ends with "/", or contains "//" either
+	 *             "\0". These sequences are not permitted in a git tree
+	 *             object or DirCache file. Or if {@code stage} is outside of
+	 *             the range 0..3, inclusive.
+	 * @since 7.9
+	 */
+	public DirCacheEntry(String newPath, int stage, int idLength) {
+		this(Constants.encode(newPath), stage, idLength);
+	}
+
+	/**
 	 * Create an empty entry at the specified stage.
 	 *
 	 * @param newPath
@@ -292,16 +331,39 @@ public class DirCacheEntry {
 	 *             or DirCache file.  Or if {@code stage} is outside of the
 	 *             range 0..3, inclusive.
 	 */
-	@SuppressWarnings("boxing")
 	public DirCacheEntry(byte[] path, int stage) {
+		this(path, stage, Constants.OBJECT_ID_LENGTH);
+	}
+
+	/**
+	 * Create an empty entry at the specified stage with an object id of the
+	 * given length.
+	 *
+	 * @param path
+	 *            name of the cache entry, in the standard encoding.
+	 * @param stage
+	 *            the stage index of the new entry.
+	 * @param idLength
+	 *            length of the object id in this entry, in bytes, e.g. 20 for
+	 *            SHA-1 and 32 for SHA-256.
+	 * @throws java.lang.IllegalArgumentException
+	 *             If the path starts or ends with "/", or contains "//" either
+	 *             "\0". These sequences are not permitted in a git tree object
+	 *             or DirCache file.  Or if {@code stage} is outside of the
+	 *             range 0..3, inclusive.
+	 * @since 7.9
+	 */
+	@SuppressWarnings("boxing")
+	public DirCacheEntry(byte[] path, int stage, int idLength) {
 		checkPath(path);
 		if (stage < 0 || 3 < stage)
 			throw new IllegalArgumentException(MessageFormat.format(
 					JGitText.get().invalidStageForPath,
 					stage, toString(path)));
 
-		info = new byte[INFO_LEN];
+		info = new byte[P_OBJECTID + idLength + 2];
 		infoOffset = 0;
+		this.idLength = idLength;
 		this.path = path;
 
 		int flags = ((stage & 0x3) << 12);
@@ -309,7 +371,7 @@ public class DirCacheEntry {
 			flags |= path.length;
 		else
 			flags |= NAME_MASK;
-		NB.encodeInt16(info, infoOffset + P_FLAGS, flags);
+		NB.encodeInt16(info, flagsOffset(), flags);
 	}
 
 	/**
@@ -324,9 +386,10 @@ public class DirCacheEntry {
 	 */
 	public DirCacheEntry(DirCacheEntry src) {
 		path = src.path;
-		info = new byte[INFO_LEN];
+		idLength = src.idLength;
+		info = new byte[src.infoLen()];
 		infoOffset = 0;
-		System.arraycopy(src.info, src.infoOffset, info, 0, INFO_LEN);
+		System.arraycopy(src.info, src.infoOffset, info, 0, src.infoLen());
 	}
 
 	private int readNulTerminatedString(InputStream in, OutputStream out)
@@ -348,7 +411,7 @@ public class DirCacheEntry {
 
 	void write(OutputStream os, DirCacheVersion version, DirCacheEntry previous)
 			throws IOException {
-		final int len = isExtended() ? INFO_LEN_EXTENDED : INFO_LEN;
+		final int len = isExtended() ? infoLen() + 2 : infoLen();
 		if (version != DirCacheVersion.DIRC_VERSION_PATHCOMPRESS) {
 			os.write(info, infoOffset, len);
 			os.write(path, 0, path.length);
@@ -454,7 +517,10 @@ public class DirCacheEntry {
 	 */
 	public final boolean isSmudged() {
 		final int base = infoOffset + P_OBJECTID;
-		return (getLength() == 0) && (Constants.EMPTY_BLOB_ID.compareTo(info, base) != 0);
+		final AnyObjectId emptyBlob = idLength == Constants.OBJECT_ID_LENGTH
+				? Constants.EMPTY_BLOB_ID
+				: ObjectFormat.SHA_256.getEmptyBlobId();
+		return (getLength() == 0) && (emptyBlob.compareTo(info, base) != 0);
 	}
 
 	final byte[] idBuffer() {
@@ -475,7 +541,7 @@ public class DirCacheEntry {
 	 * @return true if we must assume the entry is unmodified.
 	 */
 	public boolean isAssumeValid() {
-		return (info[infoOffset + P_FLAGS] & ASSUME_VALID) != 0;
+		return (info[flagsOffset()] & ASSUME_VALID) != 0;
 	}
 
 	/**
@@ -487,9 +553,9 @@ public class DirCacheEntry {
 	 */
 	public void setAssumeValid(boolean assume) {
 		if (assume)
-			info[infoOffset + P_FLAGS] |= (byte) ASSUME_VALID;
+			info[flagsOffset()] |= (byte) ASSUME_VALID;
 		else
-			info[infoOffset + P_FLAGS] &= (byte) ~ASSUME_VALID;
+			info[flagsOffset()] &= (byte) ~ASSUME_VALID;
 	}
 
 	/**
@@ -522,7 +588,7 @@ public class DirCacheEntry {
 	 * @return the stage of this entry.
 	 */
 	public int getStage() {
-		return (info[infoOffset + P_FLAGS] >>> 4) & 0x3;
+		return (info[flagsOffset()] >>> 4) & 0x3;
 	}
 
 	/**
@@ -539,8 +605,8 @@ public class DirCacheEntry {
 			throw new IllegalArgumentException(
 					"Invalid stage, must be in range [0..3]"); //$NON-NLS-1$
 		}
-		byte flags = info[infoOffset + P_FLAGS];
-		info[infoOffset + P_FLAGS] = (byte) ((flags & 0xCF) | (stage << 4));
+		byte flags = info[flagsOffset()];
+		info[flagsOffset()] = (byte) ((flags & 0xCF) | (stage << 4));
 	}
 
 	/**
@@ -711,7 +777,7 @@ public class DirCacheEntry {
 	 * @return object identifier for the entry.
 	 */
 	public ObjectId getObjectId() {
-		return ObjectId.fromRaw(idBuffer(), idOffset());
+		return ObjectId.fromRaw(idBuffer(), idOffset(), idLength);
 	}
 
 	/**
@@ -723,6 +789,12 @@ public class DirCacheEntry {
 	 *            current identifier.
 	 */
 	public void setObjectId(AnyObjectId id) {
+		if (id.getLength() != idLength) {
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().invalidObjectIdLengthForEntry,
+					Integer.valueOf(id.getLength()),
+					Integer.valueOf(idLength), getPathString()));
+		}
 		id.copyRawTo(idBuffer(), idOffset());
 	}
 
@@ -736,7 +808,7 @@ public class DirCacheEntry {
 	 *            position to read the first byte of data from.
 	 */
 	public void setObjectIdFromRaw(byte[] bs, int p) {
-		final int n = Constants.OBJECT_ID_LENGTH;
+		final int n = idLength;
 		System.arraycopy(bs, p, idBuffer(), idOffset(), n);
 	}
 
@@ -805,9 +877,15 @@ public class DirCacheEntry {
 	 *            if true, the stage attribute will not be copied
 	 */
 	void copyMetaData(DirCacheEntry src, boolean keepStage) {
-		int origflags = NB.decodeUInt16(info, infoOffset + P_FLAGS);
-		int newflags = NB.decodeUInt16(src.info, src.infoOffset + P_FLAGS);
-		System.arraycopy(src.info, src.infoOffset, info, infoOffset, INFO_LEN);
+		if (src.idLength != idLength) {
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().invalidObjectIdLengthForEntry,
+					Integer.valueOf(src.idLength), Integer.valueOf(idLength),
+					getPathString()));
+		}
+		int origflags = NB.decodeUInt16(info, flagsOffset());
+		int newflags = NB.decodeUInt16(src.info, src.flagsOffset());
+		System.arraycopy(src.info, src.infoOffset, info, infoOffset, infoLen());
 		final int pLen = origflags & NAME_MASK;
 		final int SHIFTED_STAGE_MASK = 0x3 << 12;
 		final int pStageShifted;
@@ -815,7 +893,7 @@ public class DirCacheEntry {
 			pStageShifted = origflags & SHIFTED_STAGE_MASK;
 		else
 			pStageShifted = newflags & SHIFTED_STAGE_MASK;
-		NB.encodeInt16(info, infoOffset + P_FLAGS, pStageShifted | pLen
+		NB.encodeInt16(info, flagsOffset(), pStageShifted | pLen
 				| (newflags & ~NAME_MASK & ~SHIFTED_STAGE_MASK));
 	}
 
@@ -825,7 +903,7 @@ public class DirCacheEntry {
 	 * @return true if the entry contains extended flags.
 	 */
 	boolean isExtended() {
-		return (info[infoOffset + P_FLAGS] & EXTENDED) != 0;
+		return (info[flagsOffset()] & EXTENDED) != 0;
 	}
 
 	private long decodeTS(int pIdx) {
@@ -856,7 +934,7 @@ public class DirCacheEntry {
 
 	private int getExtendedFlags() {
 		if (isExtended()) {
-			return NB.decodeUInt16(info, infoOffset + P_FLAGS2) << 16;
+			return NB.decodeUInt16(info, flagsOffset() + 2) << 16;
 		}
 		return 0;
 	}
@@ -876,6 +954,10 @@ public class DirCacheEntry {
 	}
 
 	static int getMaximumInfoLength(boolean extended) {
-		return extended ? INFO_LEN_EXTENDED : INFO_LEN;
+		return getMaximumInfoLength(extended, Constants.OBJECT_ID_LENGTH);
+	}
+
+	static int getMaximumInfoLength(boolean extended, int idLength) {
+		return extended ? P_OBJECTID + idLength + 4 : P_OBJECTID + idLength + 2;
 	}
 }

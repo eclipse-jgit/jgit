@@ -45,12 +45,39 @@ public abstract class ObjectReader implements AutoCloseable {
 	/** Type hint indicating the caller doesn't know the type. */
 	public static final int OBJ_ANY = -1;
 
+	private ObjectFormat objectFormat = ObjectFormat.SHA_1;
+
 	/**
 	 * The threshold at which a file will be streamed rather than loaded
 	 * entirely into memory.
 	 * @since 4.6
 	 */
 	protected int streamFileThreshold;
+
+	/**
+	 * Get the object format of the underlying object database.
+	 *
+	 * @return the object format used to compute object ids in the
+	 *         underlying object database.
+	 * @since 7.9
+	 */
+	public ObjectFormat getObjectFormat() {
+		return objectFormat;
+	}
+
+	/**
+	 * Set the object format of the underlying object database.
+	 * <p>
+	 * For use by {@link ObjectDatabase} implementations when creating
+	 * readers.
+	 *
+	 * @param objectFormat
+	 *            the object format of the underlying object database.
+	 * @since 7.9
+	 */
+	protected void setObjectFormat(ObjectFormat objectFormat) {
+		this.objectFormat = objectFormat;
+	}
 
 	/**
 	 * Construct a new reader from the same data.
@@ -582,6 +609,11 @@ public abstract class ObjectReader implements AutoCloseable {
 	 * @since 4.4
 	 */
 	public abstract static class Filter extends ObjectReader {
+		@Override
+		public ObjectFormat getObjectFormat() {
+			return delegate().getObjectFormat();
+		}
+
 		/**
 		 * Get delegate ObjectReader to handle all processing
 		 *

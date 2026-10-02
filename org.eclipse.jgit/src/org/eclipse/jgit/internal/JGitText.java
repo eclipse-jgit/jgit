@@ -475,6 +475,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidNameContainsDotDot;
 	/***/ public String invalidNegativeAndForce;
 	/***/ public String invalidObject;
+	/***/ public String invalidObjectIdLengthForEntry;
 	/***/ public String invalidOldIdSent;
 	/***/ public String invalidPacketLineHeader;
 	/***/ public String invalidPath;
@@ -612,6 +613,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String nullRevCommit;
 	/***/ public String numberDoesntFit;
 	/***/ public String objectAtHasBadZlibStream;
+	/***/ public String objectFormatNotSupported;
 	/***/ public String objectIsCorrupt;
 	/***/ public String objectIsCorrupt3;
 	/***/ public String objectIsNotA;
@@ -880,6 +882,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unknownDIRCVersion;
 	/***/ public String unknownHost;
 	/***/ public String unknownObject;
+	/***/ public String unknownObjectFormat;
 	/***/ public String unknownObjectInIndex;
 	/***/ public String unknownObjectType;
 	/***/ public String unknownObjectType2;

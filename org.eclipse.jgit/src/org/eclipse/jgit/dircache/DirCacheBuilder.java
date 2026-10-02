@@ -174,13 +174,13 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 		return p.eof() ? p.next() : p;
 	}
 
-	private static DirCacheEntry toEntry(int stage, CanonicalTreeParser i) {
+	private DirCacheEntry toEntry(int stage, CanonicalTreeParser i) {
 		byte[] buf = i.getEntryPathBuffer();
 		int len = i.getEntryPathLength();
 		byte[] path = new byte[len];
 		System.arraycopy(buf, 0, path, 0, len);
 
-		DirCacheEntry e = new DirCacheEntry(path, stage);
+		DirCacheEntry e = new DirCacheEntry(path, stage, cache.getIdLength());
 		e.setFileMode(i.getEntryRawMode());
 		e.setObjectIdFromRaw(i.idBuffer(), i.idOffset());
 		return e;

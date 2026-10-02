@@ -46,6 +46,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.ConfigEnum;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectFormat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -136,6 +137,7 @@ public class DirCache {
 	public static DirCache read(ObjectReader reader, AnyObjectId treeId)
 			throws IOException {
 		DirCache d = newInCore();
+		d.objectFormat = reader.getObjectFormat();
 		DirCacheBuilder b = d.builder();
 		b.addTree(null, DirCacheEntry.STAGE_0, reader, treeId);
 		b.finish();
@@ -161,8 +163,11 @@ public class DirCache {
 	 */
 	public static DirCache read(Repository repository)
 			throws CorruptObjectException, IOException {
-		final DirCache c = read(repository.getIndexFile(), repository.getFS());
+		final DirCache c = new DirCache(repository.getIndexFile(),
+				repository.getFS());
 		c.repository = repository;
+		c.objectFormat = repository.getObjectFormat();
+		c.read();
 		return c;
 	}
 
@@ -256,9 +261,20 @@ public class DirCache {
 	public static DirCache lock(final Repository repository,
 			final IndexChangedListener indexChangedListener)
 			throws CorruptObjectException, IOException {
-		DirCache c = lock(repository.getIndexFile(), repository.getFS(),
-				indexChangedListener);
+		final DirCache c = new DirCache(repository.getIndexFile(),
+				repository.getFS());
 		c.repository = repository;
+		c.objectFormat = repository.getObjectFormat();
+		if (!c.lock()) {
+			throw new LockFailedException(repository.getIndexFile());
+		}
+		try {
+			c.read();
+		} catch (IOException | RuntimeException | Error e) {
+			c.unlock();
+			throw e;
+		}
+		c.registerIndexChangedListener(indexChangedListener);
 		return c;
 	}
 
@@ -300,6 +316,29 @@ public class DirCache {
 
 	/** Individual file index entries, sorted by path name. */
 	private DirCacheEntry[] sortedEntries;
+
+	/** Object format of this cache. */
+	private ObjectFormat objectFormat = ObjectFormat.SHA_1;
+
+	/**
+	 * Get the object format of this cache.
+	 *
+	 * @return the object format used by this cache's object ids.
+	 * @since 7.9
+	 */
+	public ObjectFormat getObjectFormat() {
+		return objectFormat;
+	}
+
+	/**
+	 * Get the length of the object ids in this cache, in bytes.
+	 *
+	 * @return length of the object ids in this cache, in bytes.
+	 * @since 7.9
+	 */
+	public int getIdLength() {
+		return objectFormat.getLength();
+	}
 
 	/** Number of positions within {@link #sortedEntries} that are valid. */
 	private int entryCnt;
@@ -456,7 +495,7 @@ public class DirCache {
 
 		// Read the index header and verify we understand it.
 		//
-		final byte[] hdr = new byte[20];
+		final byte[] hdr = new byte[Math.max(20, getIdLength())];
 		IO.readFully(in, hdr, 0, 12);
 		md.update(hdr, 0, 12);
 		if (!is_DIRC(hdr))
@@ -490,21 +529,24 @@ public class DirCache {
 
 		// Load the individual file entries.
 		//
-		final int infoLength = DirCacheEntry.getMaximumInfoLength(extended);
+		final int infoLength = DirCacheEntry.getMaximumInfoLength(extended,
+				getIdLength());
 		final byte[] infos = new byte[infoLength * entryCnt];
 		sortedEntries = new DirCacheEntry[entryCnt];
 
 		final MutableInteger infoAt = new MutableInteger();
 		for (int i = 0; i < entryCnt; i++) {
 			sortedEntries[i] = new DirCacheEntry(infos, infoAt, in, md, smudge,
-					version, i == 0 ? null : sortedEntries[i - 1]);
+					version, i == 0 ? null : sortedEntries[i - 1],
+					getIdLength());
 		}
 
 		// After the file entries are index extensions, and then a footer.
 		//
+		final int footerLen = getIdLength();
 		for (;;) {
-			in.mark(21);
-			IO.readFully(in, hdr, 0, 20);
+			in.mark(footerLen + 1);
+			IO.readFully(in, hdr, 0, footerLen);
 			if (in.read() < 0) {
 				// No extensions present; the file ended where we expected.
 				//
@@ -526,7 +568,8 @@ public class DirCache {
 				final byte[] raw = new byte[(int) sz];
 				IO.readFully(in, raw, 0, raw.length);
 				md.update(raw, 0, raw.length);
-				tree = new DirCacheTree(raw, new MutableInteger(), null);
+				tree = new DirCacheTree(raw, new MutableInteger(), null,
+						getIdLength());
 				break;
 			}
 			default:
@@ -712,6 +755,9 @@ public class DirCache {
 	}
 
 	private void readConfig() {
+		if (this.repository != null) {
+			objectFormat = repository.getObjectFormat();
+		}
 		if (version == null && this.repository != null) {
 			DirCacheConfig config = repository.getConfig()
 					.get(DirCacheConfig::new);
@@ -724,7 +770,7 @@ public class DirCache {
 		if (skipHash) {
 			return NullMessageDigest.getInstance();
 		}
-		return Constants.newMessageDigest();
+		return objectFormat.newMessageDigest();
 	}
 
 	/**

@@ -829,10 +829,16 @@ public final class RawParseUtils {
 	 */
 	public static final int author(byte[] b, int ptr) {
 		final int sz = b.length;
-		if (ptr == 0)
-			ptr += 46; // skip the "tree ..." line.
-		while (ptr < sz && b[ptr] == 'p')
-			ptr += 48; // skip this parent.
+		if (ptr == 0) {
+			int lf = nextLF(b, ptr);
+			ptr = lf >= 0 ? lf : sz; // skip the "tree ..." line.
+		}
+		while (ptr < sz && b[ptr] == 'p') {
+			int lf = nextLF(b, ptr);
+			if (lf < 0)
+				break;
+			ptr = lf; // skip this parent.
+		}
 		return match(b, ptr, author);
 	}
 
@@ -851,10 +857,16 @@ public final class RawParseUtils {
 	 */
 	public static final int committer(byte[] b, int ptr) {
 		final int sz = b.length;
-		if (ptr == 0)
-			ptr += 46; // skip the "tree ..." line.
-		while (ptr < sz && b[ptr] == 'p')
-			ptr += 48; // skip this parent.
+		if (ptr == 0) {
+			int lf = nextLF(b, ptr);
+			ptr = lf >= 0 ? lf : sz; // skip the "tree ..." line.
+		}
+		while (ptr < sz && b[ptr] == 'p') {
+			int lf = nextLF(b, ptr);
+			if (lf < 0)
+				break;
+			ptr = lf; // skip this parent.
+		}
 		if (ptr < sz && b[ptr] == 'a')
 			ptr = nextLF(b, ptr);
 		return match(b, ptr, committer);
@@ -875,8 +887,10 @@ public final class RawParseUtils {
 	 */
 	public static final int tagger(byte[] b, int ptr) {
 		final int sz = b.length;
-		if (ptr == 0)
-			ptr += 48; // skip the "object ..." line.
+		if (ptr == 0) {
+			int lf = nextLF(b, ptr);
+			ptr = lf >= 0 ? lf : sz; // skip the "object ..." line.
+		}
 		while (ptr < sz) {
 			if (b[ptr] == '\n')
 				return -1;
@@ -1338,10 +1352,16 @@ public final class RawParseUtils {
 	 */
 	public static final int commitMessage(byte[] b, int ptr) {
 		final int sz = b.length;
-		if (ptr == 0)
-			ptr += 46; // skip the "tree ..." line.
-		while (ptr < sz && b[ptr] == 'p')
-			ptr += 48; // skip this parent.
+		if (ptr == 0) {
+			int lf = nextLF(b, ptr);
+			ptr = lf >= 0 ? lf : sz; // skip the "tree ..." line.
+		}
+		while (ptr < sz && b[ptr] == 'p') {
+			int lf = nextLF(b, ptr);
+			if (lf < 0)
+				break;
+			ptr = lf; // skip this parent.
+		}
 
 		// Skip any remaining header lines, ignoring what their actual
 		// header line type is. This is identical to the logic for a tag.
@@ -1362,8 +1382,10 @@ public final class RawParseUtils {
 	 */
 	public static final int tagMessage(byte[] b, int ptr) {
 		final int sz = b.length;
-		if (ptr == 0)
-			ptr += 48; // skip the "object ..." line.
+		if (ptr == 0) {
+			int lf = nextLF(b, ptr);
+			ptr = lf >= 0 ? lf : sz; // skip the "object ..." line.
+		}
 		// Assume the rest of the current paragraph is all headers.
 		while (ptr < sz && b[ptr] != '\n')
 			ptr = nextLF(b, ptr);

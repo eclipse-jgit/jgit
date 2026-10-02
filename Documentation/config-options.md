@@ -65,6 +65,13 @@ For details on native git options see also the official [git config documentatio
 | `core.trustStat` | `always` | &#x20DE; | Global option to configure whether to trust file attributes (Java equivalent of stat command on Unix) of files storing git objects. Can be overridden for specific files by configuring `core.trustLooseRefStat, core.trustPackedRefsStat, core.trustLooseObjectStat, core.trustPackStat,core.trustTablesListStat`. If `never` JGit will ignore the file attributes of the file and always read it. If `always` JGit will trust the file attributes and will only read it if a file attribute has changed. `after_open` behaves the same as `always`, but file attributes are only considered *after* the file itself and any transient parent directories have been opened and closed. An open/close of the file/directory is known to refresh its file attributes, at least on some NFS clients. |
 | `core.worktree` | Root directory of the working tree if it is not the parent directory of the `.git` directory | &#x2705; | The path to the root of the working tree. |
 
+## __extensions__ options
+
+|  option | default | git option | description |
+|---------|---------|------------|-------------|
+| `extensions.objectFormat` | `sha1` | &#x2705; | Hash function used to identify objects in this repository. Only taken into account if `core.repositoryFormatVersion` is `1`. `sha256` repositories can be created (e.g. via `InitCommand.setObjectFormat(ObjectFormat.SHA_256)` or `jgit init --object-format=sha256`). Loose-object workflows (add, commit, log, status) are supported; pack-based operations, commit-graphs and network transfer for `sha256` are not yet implemented. |
+| `extensions.refStorage` | `files` | &#x2705; | Ref storage backend to use, either `files` or `reftable`. Only taken into account if `core.repositoryFormatVersion` is `1`. |
+
 ## __fetch__ options
 
 | option                    | default | git option | description                                                                                                                                         |

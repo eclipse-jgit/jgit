@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.ObjectHasher;
 import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.util.sha1.SHA1;
 
@@ -150,13 +151,37 @@ public abstract class ObjectInserter implements AutoCloseable {
 
 	private final SHA1 hasher = SHA1.newInstance();
 
+	private final ObjectFormat objectFormat;
+
 	/** Temporary working buffer for streaming data through. */
 	private byte[] tempBuffer;
 
 	/**
-	 * Create a new inserter for a database.
+	 * Create a new inserter for a database using the SHA-1 object format.
 	 */
 	protected ObjectInserter() {
+		this(ObjectFormat.SHA_1);
+	}
+
+	/**
+	 * Create a new inserter for a database.
+	 *
+	 * @param objectFormat
+	 *            object format used to compute object ids.
+	 * @since 7.9
+	 */
+	protected ObjectInserter(ObjectFormat objectFormat) {
+		this.objectFormat = objectFormat;
+	}
+
+	/**
+	 * Get the object format used by this inserter to compute object ids.
+	 *
+	 * @return the object format used by this inserter.
+	 * @since 7.9
+	 */
+	public final ObjectFormat getObjectFormat() {
+		return objectFormat;
 	}
 
 	/**
@@ -227,7 +252,7 @@ public abstract class ObjectInserter implements AutoCloseable {
 	 * @return the name of the object.
 	 */
 	public ObjectId idFor(int type, byte[] data, int off, int len) {
-		SHA1 md = SHA1.newInstance();
+		ObjectHasher md = ObjectHasher.forFormat(objectFormat);
 		md.update(Constants.encodedTypeString(type));
 		md.update((byte) ' ');
 		md.update(Constants.encodeASCII(len));
@@ -252,7 +277,7 @@ public abstract class ObjectInserter implements AutoCloseable {
 	 */
 	public ObjectId idFor(int objectType, long length, InputStream in)
 			throws IOException {
-		SHA1 md = SHA1.newInstance();
+		ObjectHasher md = ObjectHasher.forFormat(objectFormat);
 		md.update(Constants.encodedTypeString(objectType));
 		md.update((byte) ' ');
 		md.update(Constants.encodeASCII(length));

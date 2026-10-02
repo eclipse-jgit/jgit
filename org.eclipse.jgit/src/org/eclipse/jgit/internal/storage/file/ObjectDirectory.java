@@ -188,7 +188,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	@Override
 	public ObjectDirectoryInserter newInserter() {
-		return new ObjectDirectoryInserter(this, config);
+		return new ObjectDirectoryInserter(this, config, getObjectFormat());
 	}
 
 	/**

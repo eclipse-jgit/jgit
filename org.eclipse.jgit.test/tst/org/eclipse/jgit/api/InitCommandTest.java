@@ -9,23 +9,30 @@
  */
 package org.eclipse.jgit.api;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectFormat;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,6 +55,103 @@ public class InitCommandTest extends RepositoryTestCase {
 			Repository r = git.getRepository();
 			assertNotNull(r);
 			assertEquals("refs/heads/master", r.getFullBranch());
+		}
+	}
+
+	@Test
+	public void testInitRepositoryDefaultObjectFormat() throws Exception {
+		File directory = createTempDirectory(
+				"testInitRepositoryDefaultObjectFormat");
+		InitCommand command = new InitCommand();
+		command.setDirectory(directory);
+		try (Git git = command.call()) {
+			Repository r = git.getRepository();
+			assertNotNull(r);
+			assertEquals(ObjectFormat.SHA_1, r.getObjectFormat());
+			assertNull(r.getConfig().getString(
+					ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
+					ConfigConstants.CONFIG_KEY_OBJECT_FORMAT));
+		}
+	}
+
+	@Test
+	public void testInitRepositorySha256() throws Exception {
+		File directory = createTempDirectory("testInitRepositorySha256");
+		InitCommand command = new InitCommand();
+		command.setDirectory(directory);
+		command.setObjectFormat(ObjectFormat.SHA_256);
+		try (Git git = command.call()) {
+			Repository r = git.getRepository();
+			assertNotNull(r);
+			assertEquals(ObjectFormat.SHA_256, r.getObjectFormat());
+			StoredConfig config = r.getConfig();
+			assertEquals(1,
+					config.getInt(ConfigConstants.CONFIG_CORE_SECTION, null,
+							ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, -1));
+			assertEquals("sha256",
+					config.getString(
+							ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
+							ConfigConstants.CONFIG_KEY_OBJECT_FORMAT));
+		}
+		// Reopen: the object format must be detected from the config.
+		try (Repository r = new FileRepository(
+				new File(directory, Constants.DOT_GIT))) {
+			assertEquals(ObjectFormat.SHA_256, r.getObjectFormat());
+		}
+	}
+
+	@Test
+	public void testAddCommitLogStatusSha256() throws Exception {
+		File directory = createTempDirectory("testAddCommitLogSha256");
+		InitCommand command = new InitCommand();
+		command.setDirectory(directory);
+		command.setObjectFormat(ObjectFormat.SHA_256);
+		try (Git git = command.call()) {
+			File f = new File(directory, "a.txt");
+			try (FileOutputStream out = new FileOutputStream(f)) {
+				out.write("content".getBytes(UTF_8));
+			}
+			git.add().addFilepattern("a.txt").call();
+			PersonIdent ident = new PersonIdent("Test", "t@example.com");
+			RevCommit c = git.commit().setAuthor(ident).setCommitter(ident)
+					.setMessage("first").call();
+			assertEquals(64, c.name().length());
+			assertEquals("Test", c.getAuthorIdent().getName());
+			assertEquals("first", c.getFullMessage().trim());
+			int n = 0;
+			java.util.Iterator<RevCommit> it = git.log().call().iterator();
+			while (it.hasNext()) {
+				it.next();
+				n++;
+			}
+			assertEquals(1, n);
+			assertTrue(git.status().call().isClean());
+		}
+	}
+
+	@Test
+	public void testStatusCleanWithRacilyCleanEntrySha256() throws Exception {
+		File directory = createTempDirectory("testStatusSmudgeSha256");
+		InitCommand command = new InitCommand();
+		command.setDirectory(directory);
+		command.setObjectFormat(ObjectFormat.SHA_256);
+		try (Git git = command.call()) {
+			File f = new File(directory, "a.txt");
+			try (FileOutputStream out = new FileOutputStream(f)) {
+				out.write("content".getBytes(UTF_8));
+			}
+			git.add().addFilepattern("a.txt").call();
+			PersonIdent ident = new PersonIdent("Test", "t@example.com");
+			git.commit().setAuthor(ident).setCommitter(ident)
+					.setMessage("first").call();
+			// Simulate a racy filesystem: when the index is written in the
+			// same time slot as the file was created the entry is smudged,
+			// forcing a content check on the next status call.
+			DirCache dc = git.getRepository().lockDirCache();
+			dc.getEntry(0).smudgeRacilyClean();
+			dc.write();
+			dc.commit();
+			assertTrue(git.status().call().isClean());
 		}
 	}
 

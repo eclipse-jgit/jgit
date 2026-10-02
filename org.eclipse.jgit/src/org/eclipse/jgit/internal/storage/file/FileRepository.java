@@ -48,6 +48,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.HideDotFiles;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectFormat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -201,6 +202,30 @@ public class FileRepository extends Repository {
 						Long.valueOf(repositoryFormatVersion)));
 		}
 
+		ObjectFormat format = null;
+		if (repositoryFormatVersion >= 1) {
+			String value = repoConfig.getString(
+					ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
+					ConfigConstants.CONFIG_KEY_OBJECT_FORMAT);
+			if (value != null) {
+				format = ObjectFormat.findByConfigName(value);
+				if (format == null) {
+					throw new IOException(MessageFormat.format(
+							JGitText.get().unknownObjectFormat, value));
+				}
+			}
+		}
+		if (format == null) {
+			if (objectDatabase.exists()) {
+				format = ObjectFormat.SHA_1;
+			} else {
+				ObjectFormat requested = options.getObjectFormat();
+				format = requested != null ? requested : ObjectFormat.SHA_1;
+			}
+		}
+		setObjectFormat(format);
+		objectDatabase.setObjectFormat(format);
+
 		if (!isBare()) {
 			snapshot = FileSnapshot.save(getIndexFile());
 		}
@@ -302,8 +327,16 @@ public class FileRepository extends Repository {
 			cfg.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
 					ConfigConstants.CONFIG_KEY_SYMLINKS, symLinks.name()
 							.toLowerCase(Locale.ROOT));
-		cfg.setInt(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 0);
+		if (getObjectFormat() != ObjectFormat.SHA_1) {
+			cfg.setInt(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 1);
+			cfg.setString(ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
+					ConfigConstants.CONFIG_KEY_OBJECT_FORMAT,
+					getObjectFormat().getConfigName());
+		} else {
+			cfg.setInt(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 0);
+		}
 		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_FILEMODE, fileMode);
 		if (bare)

@@ -27,11 +27,39 @@ public abstract class ObjectDatabase implements AutoCloseable {
 
 	private static final Set<ObjectId> shallowCommits = Collections.emptySet();
 
+	private ObjectFormat objectFormat = ObjectFormat.SHA_1;
+
 	/**
 	 * Initialize a new database instance for access.
 	 */
 	protected ObjectDatabase() {
 		// Protected to force extension.
+	}
+
+	/**
+	 * Get the object format of this database.
+	 *
+	 * @return the object format used by this database to compute object ids.
+	 * @since 7.9
+	 */
+	public ObjectFormat getObjectFormat() {
+		return objectFormat;
+	}
+
+	/**
+	 * Set the object format of this database.
+	 * <p>
+	 * For use by {@link org.eclipse.jgit.lib.Repository} implementations
+	 * which detect the object format from the repository's config when the
+	 * repository is opened.
+	 *
+	 * @param objectFormat
+	 *            the object format used by this database to compute object
+	 *            ids.
+	 * @since 7.9
+	 */
+	public void setObjectFormat(ObjectFormat objectFormat) {
+		this.objectFormat = objectFormat;
 	}
 
 	/**

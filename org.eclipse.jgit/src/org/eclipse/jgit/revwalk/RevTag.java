@@ -26,6 +26,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectFormat;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -144,9 +145,12 @@ public class RevTag extends RevObject {
 		final MutableInteger pos = new MutableInteger();
 		final int oType;
 
-		pos.value = 53; // "object $sha1\ntype "
+		final ObjectFormat format = walk.reader != null
+				? walk.reader.getObjectFormat()
+				: ObjectFormat.SHA_1;
+		pos.value = 7 + format.getHexLength() + 6; // "object <id>\ntype "
 		oType = Constants.decodeTypeString(this, rawTag, (byte) '\n', pos);
-		walk.idBuffer.fromString(rawTag, 7);
+		walk.idBuffer.fromString(rawTag, 7, format.getHexLength());
 		object = walk.lookupAny(walk.idBuffer, oType);
 
 		int p = pos.value += 4; // "tag "

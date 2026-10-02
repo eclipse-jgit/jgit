@@ -23,6 +23,7 @@ import org.eclipse.jgit.attributes.AttributesNode;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectFormat;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -54,7 +55,11 @@ public abstract class AbstractTreeIterator {
 	protected static final int DEFAULT_PATH_SIZE = 128;
 
 	/** A dummy object id buffer that matches the zero ObjectId. */
-	protected static final byte[] zeroid = new byte[Constants.OBJECT_ID_LENGTH];
+	protected static final byte[] zeroid = new byte[ObjectFormat.SHA_256
+			.getLength()];
+
+	/** Length of the object ids iterated by this iterator, in bytes. */
+	protected int idLength = Constants.OBJECT_ID_LENGTH;
 
 	/**
 	 * Iterator for the parent tree; null if we are the root iterator.
@@ -388,8 +393,23 @@ public abstract class AbstractTreeIterator {
 	 * @return true if both iterators have the same object id; false otherwise.
 	 */
 	public boolean idEqual(AbstractTreeIterator otherIterator) {
-		return ObjectId.equals(idBuffer(), idOffset(),
-				otherIterator.idBuffer(), otherIterator.idOffset());
+		if (idLength != otherIterator.idLength) {
+			return false;
+		}
+		if (idLength == Constants.OBJECT_ID_LENGTH) {
+			return ObjectId.equals(idBuffer(), idOffset(),
+					otherIterator.idBuffer(), otherIterator.idOffset());
+		}
+		byte[] a = idBuffer();
+		byte[] b = otherIterator.idBuffer();
+		int ao = idOffset();
+		int bo = otherIterator.idOffset();
+		for (int i = 0; i < idLength; i++) {
+			if (a[ao + i] != b[bo + i]) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -405,7 +425,7 @@ public abstract class AbstractTreeIterator {
 	 * @return an object id for the current entry.
 	 */
 	public ObjectId getEntryObjectId() {
-		return ObjectId.fromRaw(idBuffer(), idOffset());
+		return ObjectId.fromRaw(idBuffer(), idOffset(), idLength);
 	}
 
 	/**
@@ -415,7 +435,7 @@ public abstract class AbstractTreeIterator {
 	 *            buffer to copy the object id into.
 	 */
 	public void getEntryObjectId(MutableObjectId out) {
-		out.fromRaw(idBuffer(), idOffset());
+		out.fromRaw(idBuffer(), idOffset(), idLength);
 	}
 
 	/**

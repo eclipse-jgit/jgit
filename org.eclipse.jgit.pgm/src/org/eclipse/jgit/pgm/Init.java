@@ -22,6 +22,7 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.InitCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.ObjectFormat;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.util.StringUtils;
@@ -36,6 +37,10 @@ class Init extends TextBuiltin {
 	@Option(name = "--initial-branch", aliases = { "-b" },
 			metaVar = "metaVar_branchName", usage = "usage_initialBranch")
 	private String branch;
+
+	@Option(name = "--object-format", metaVar = "metaVar_objectFormat",
+			usage = "usage_objectFormat")
+	private String objectFormat;
 
 	@Argument(index = 0, metaVar = "metaVar_directory")
 	private String directory;
@@ -59,6 +64,15 @@ class Init extends TextBuiltin {
 		try {
 			if (!StringUtils.isEmptyOrNull(branch)) {
 				command.setInitialBranch(branch);
+			}
+			if (!StringUtils.isEmptyOrNull(objectFormat)) {
+				ObjectFormat format = ObjectFormat
+						.findByConfigName(objectFormat);
+				if (format == null) {
+					throw die(MessageFormat.format(
+							CLIText.get().unknownObjectFormat, objectFormat));
+				}
+				command.setObjectFormat(format);
 			}
 			repository = command.call().getRepository();
 			outw.println(MessageFormat.format(

@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.api.CherryPickResult.CherryPickStatus;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.EmptyCommitException;
 import org.eclipse.jgit.api.errors.UnsupportedSigningFormatException;
@@ -66,6 +67,24 @@ import org.junit.Test;
  * Unit tests of {@link CommitCommand}.
  */
 public class CommitCommandTest extends RepositoryTestCase {
+
+	@Test
+	public void testCommitFailureIncludesCauseMessage() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("f.txt", "content");
+			git.add().addFilepattern("f.txt").call();
+			File lock = new File(db.getDirectory(), "index.lock");
+			assertTrue(lock.createNewFile());
+			try {
+				git.commit().setMessage("m").call();
+				fail("expected JGitInternalException");
+			} catch (JGitInternalException e) {
+				// The IOException cause must be surfaced in the message.
+				assertTrue("unexpected message: " + e.getMessage(),
+						e.getMessage().contains("index.lock"));
+			}
+		}
+	}
 
 	@Test
 	public void testExecutableRetention() throws Exception {
