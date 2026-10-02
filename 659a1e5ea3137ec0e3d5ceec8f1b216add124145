@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "043ec6ed_d67c47bf",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/TopoSortPendingGeneratorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-02T11:48:27Z",
+      "side": 1,
+      "message": "You added the test but kept the class `@Ignore`d. You should move the `@Ignore` to `testSort_TOPO_reset_doesNotLeakFlags` in this commit (and remove it in I0bf1636a13a2f37f4634699e136e2093d44c5065).",
+      "range": {
+        "startLine": 57,
+        "startChar": 13,
+        "endLine": 57,
+        "endChar": 51
+      },
+      "revId": "659a1e5ea3137ec0e3d5ceec8f1b216add124145",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e200f538_0cedf950",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/TopoSortPendingGeneratorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-02T11:48:27Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tfinal RevCommit uninteresting \u003d commit(beforeUninteresting);\n```",
+      "range": {
+        "startLine": 60,
+        "startChar": 18,
+        "endLine": 60,
+        "endChar": 31
+      },
+      "revId": "659a1e5ea3137ec0e3d5ceec8f1b216add124145",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
