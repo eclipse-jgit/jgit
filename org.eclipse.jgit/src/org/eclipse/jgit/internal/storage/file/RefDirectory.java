@@ -68,6 +68,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.CoreConfig.TrustStat;
+import org.eclipse.jgit.lib.ObjectFormat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.PackedRefsTrait;
@@ -1319,23 +1320,30 @@ public class RefDirectory extends RefDatabase {
 		if (n < OBJECT_ID_STRING_LENGTH)
 			return null; // impossibly short object identifier; not a reference.
 
-		final ObjectId id;
-		try {
-			id = ObjectId.fromString(loose.buf, 0);
-			if (ref != null && !ref.isSymbolic()
-					&& id.equals(ref.getTarget().getObjectId())) {
-				assert(currentSnapshot != null);
-				currentSnapshot.setClean(loose.snapshot);
-				return ref;
-			}
-
-		} catch (IllegalArgumentException notRef) {
+		// The object id is the first hex token of the file; ignore trailing
+		// content (e.g. FETCH_HEAD's "not-for-merge" annotations).
+		final int hexLen;
+		if (n >= ObjectFormat.SHA_256.getHexLength() && isHex(loose.buf,
+				ObjectFormat.SHA_256.getHexLength())) {
+			hexLen = ObjectFormat.SHA_256.getHexLength();
+		} else if (isHex(loose.buf, Constants.OBJECT_ID_STRING_LENGTH)) {
+			hexLen = Constants.OBJECT_ID_STRING_LENGTH;
+		} else {
 			while (0 < n && Character.isWhitespace(loose.buf[n - 1]))
 				n--;
 			String content = RawParseUtils.decode(loose.buf, 0, n);
-
 			throw new IOException(MessageFormat.format(JGitText.get().notARef,
-					name, content), notRef);
+					name, content),
+					new InvalidObjectIdException(loose.buf, 0,
+							Constants.OBJECT_ID_STRING_LENGTH));
+		}
+
+		final ObjectId id = ObjectId.fromString(loose.buf, 0, hexLen);
+		if (ref != null && !ref.isSymbolic()
+				&& id.equals(ref.getTarget().getObjectId())) {
+			assert(currentSnapshot != null);
+			currentSnapshot.setClean(loose.snapshot);
+			return ref;
 		}
 		return new LooseUnpeeled(loose.snapshot, name, id);
 	}
@@ -1361,6 +1369,20 @@ public class RefDirectory extends RefDatabase {
 				break; // loose ref may not exist
 			}
 		}
+	}
+
+	private static boolean isHex(byte[] buf, int len) {
+		if (buf.length < len) {
+			return false;
+		}
+		for (int i = 0; i < len; i++) {
+			int c = buf[i];
+			if (!(c >= '0' && c <= '9') && !(c >= 'a' && c <= 'f')
+					&& !(c >= 'A' && c <= 'F')) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private static boolean isSymRef(byte[] buf, int n) {

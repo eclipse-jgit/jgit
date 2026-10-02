@@ -49,8 +49,10 @@ import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.ignore.FastIgnoreRule;
 import org.eclipse.jgit.ignore.IgnoreNode;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.ObjectHasher;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectFormat;
 import org.eclipse.jgit.lib.CoreConfig.CheckStat;
 import org.eclipse.jgit.lib.CoreConfig.EolStreamType;
 import org.eclipse.jgit.lib.CoreConfig.SymLinks;
@@ -73,7 +75,6 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.LocalFile;
 import org.eclipse.jgit.util.io.ByteBufferInputStream;
 import org.eclipse.jgit.util.io.EolStreamTypeUtil;
-import org.eclipse.jgit.util.sha1.SHA1;
 
 /**
  * Walks a working directory tree as part of a
@@ -190,6 +191,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 */
 	protected WorkingTreeIterator(WorkingTreeIterator p) {
 		super(p);
+		idLength = p.idLength;
 		state = p.state;
 		repository = p.repository;
 	}
@@ -205,6 +207,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 */
 	protected void initRootIterator(Repository repo) {
 		repository = repo;
+		idLength = repo.getObjectFormat().getLength();
 		Entry entry;
 		if (ignoreNode instanceof PerDirectoryIgnoreNode)
 			entry = ((PerDirectoryIgnoreNode) ignoreNode).entry;
@@ -1120,7 +1123,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	private byte[] computeHash(InputStream in, long length) throws IOException {
-		SHA1 contentDigest = SHA1.newInstance();
+		ObjectFormat format = repository != null
+				? repository.getObjectFormat()
+				: ObjectFormat.SHA_1;
+		ObjectHasher contentDigest = ObjectHasher.forFormat(format);
 		final byte[] contentReadBuffer = state.contentReadBuffer;
 
 		contentDigest.update(hblob);

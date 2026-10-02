@@ -26,6 +26,7 @@ import org.eclipse.jgit.internal.storage.commitgraph.ChangedPathFilter;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectFormat;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -198,11 +199,15 @@ public class RevCommit extends RevObject {
 	}
 
 	final void parseFromObject(RevWalk walk, byte[] raw) {
+		final ObjectFormat format = walk.reader != null
+				? walk.reader.getObjectFormat()
+				: ObjectFormat.SHA_1;
+		final int hexLen = format.getHexLength();
 		final MutableObjectId idBuffer = walk.idBuffer;
-		idBuffer.fromString(raw, 5);
+		idBuffer.fromString(raw, 5, hexLen);
 		tree = walk.lookupTree(idBuffer);
 
-		int ptr = 46;
+		int ptr = 5 + hexLen + 1;
 		if (getParents() == null) {
 			RevCommit[] pList = new RevCommit[1];
 			int nParents = 0;
@@ -210,7 +215,7 @@ public class RevCommit extends RevObject {
 				if (raw[ptr] != 'p') {
 					break;
 				}
-				idBuffer.fromString(raw, ptr + 7);
+				idBuffer.fromString(raw, ptr + 7, hexLen);
 				final RevCommit p = walk.lookupCommit(idBuffer);
 				switch (nParents) {
 				case 0:
@@ -229,7 +234,7 @@ public class RevCommit extends RevObject {
 					pList[nParents++] = p;
 					break;
 				}
-				ptr += 48;
+				ptr += hexLen + 8;
 			}
 			if (nParents != pList.length) {
 				RevCommit[] old = pList;

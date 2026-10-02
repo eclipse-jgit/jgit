@@ -85,16 +85,18 @@ public class DirCacheIterator extends AbstractTreeIterator {
 	 */
 	public DirCacheIterator(DirCache dc) {
 		cache = dc;
+		idLength = dc.getIdLength();
 		tree = dc.getCacheTree(true);
 		treeStart = 0;
 		treeEnd = tree.getEntrySpan();
-		subtreeId = new byte[Constants.OBJECT_ID_LENGTH];
+		subtreeId = new byte[dc.getIdLength()];
 		if (!eof())
 			parseEntry();
 	}
 
 	DirCacheIterator(DirCacheIterator p, DirCacheTree dct) {
 		super(p, p.path, p.pathLen + 1);
+		idLength = p.idLength;
 		cache = p.cache;
 		tree = dct;
 		treeStart = p.ptr;

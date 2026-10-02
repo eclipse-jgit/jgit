@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.eclipse.jgit.errors.UnmergedPathException;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.TreeFormatter;
@@ -106,7 +105,7 @@ public class DirCacheTree {
 	}
 
 	DirCacheTree(final byte[] in, final MutableInteger off,
-			final DirCacheTree myParent) {
+			final DirCacheTree myParent, final int idLength) {
 		parent = myParent;
 
 		int ptr = RawParseUtils.next(in, off.value, '\0');
@@ -125,15 +124,15 @@ public class DirCacheTree {
 			// Valid trees have a positive entry count and an id of a
 			// tree object that should exist in the object database.
 			//
-			id = ObjectId.fromRaw(in, off.value);
-			off.value += Constants.OBJECT_ID_LENGTH;
+			id = ObjectId.fromRaw(in, off.value, idLength);
+			off.value += idLength;
 		}
 
 		if (subcnt > 0) {
 			boolean alreadySorted = true;
 			children = new DirCacheTree[subcnt];
 			for (int i = 0; i < subcnt; i++) {
-				children[i] = new DirCacheTree(in, off, this);
+				children[i] = new DirCacheTree(in, off, this, idLength);
 
 				// C Git's ordering differs from our own; it prefers to
 				// sort by length first. This sometimes produces a sort
@@ -166,7 +165,7 @@ public class DirCacheTree {
 		os.write(tmp, ptr, tmp.length - ptr);
 		if (isValid()) {
 			id.copyRawTo(tmp, 0);
-			os.write(tmp, 0, Constants.OBJECT_ID_LENGTH);
+			os.write(tmp, 0, id.getLength());
 		}
 		for (int i = 0; i < childCnt; i++)
 			children[i].write(tmp, os);
@@ -313,8 +312,8 @@ public class DirCacheTree {
 					}
 				}
 
-				fmt.append(ep, pathOffset, ep.length - pathOffset, e
-						.getFileMode(), e.idBuffer(), e.idOffset());
+				fmt.append(ep, pathOffset, ep.length - pathOffset,
+						e.getFileMode(), e.getObjectId());
 				entryIdx++;
 			}
 

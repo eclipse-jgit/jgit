@@ -85,7 +85,8 @@ public class DirCacheEntryTest {
 		byte[] sharedInfo = new byte[raw.length];
 		MessageDigest md = Constants.newMessageDigest();
 		DirCacheEntry read = new DirCacheEntry(sharedInfo, infoAt, in, md,
-				Instant.ofEpochMilli(now), indexVersion, previous);
+				Instant.ofEpochMilli(now), indexVersion, previous,
+				Constants.OBJECT_ID_LENGTH);
 		assertEquals("Paths of length " + name.length() + " should match", name,
 				read.getPathString());
 		assertEquals("Should have been fully read", -1, in.read());

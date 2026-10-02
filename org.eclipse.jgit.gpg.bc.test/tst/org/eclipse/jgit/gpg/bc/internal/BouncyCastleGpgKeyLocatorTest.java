@@ -9,16 +9,62 @@
  */
 package org.eclipse.jgit.gpg.bc.internal;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Locale;
 
+import org.eclipse.jgit.util.NB;
 import org.junit.Test;
 
 public class BouncyCastleGpgKeyLocatorTest {
 
 	private static final String USER_ID = "Heinrich Heine <heinrichh@uni-duesseldorf.de>";
+
+	@Test
+	public void testFilterOpenPgpBlobs() throws Exception {
+		Path f = Files.createTempFile("keybox", ".kbx");
+		try (OutputStream out = Files.newOutputStream(f)) {
+			// 32-byte keybox file header: length, version/flags, "KBXf"
+			// magic at offset 8.
+			byte[] header = new byte[32];
+			NB.encodeInt32(header, 0, 32);
+			header[8] = 'K';
+			header[9] = 'B';
+			header[10] = 'X';
+			header[11] = 'f';
+			out.write(header);
+			// A type-2 (OpenPGP) blob with arbitrary content.
+			byte[] openPgp = new byte[40];
+			NB.encodeInt32(openPgp, 0, 40);
+			openPgp[4] = 2;
+			out.write(openPgp);
+			// A type-3 (X.509) blob which is dropped by the filter.
+			byte[] x509 = new byte[36];
+			NB.encodeInt32(x509, 0, 36);
+			x509[4] = 3;
+			out.write(x509);
+		}
+
+		byte[] filtered = BouncyCastleGpgKeyLocator.filterOpenPgpBlobs(f);
+		assertEquals(32 + 40, filtered.length);
+		assertEquals(32, NB.decodeInt32(filtered, 0));
+		assertEquals(2, filtered[32 + 4]);
+		Files.delete(f);
+
+		// Not a keybox: the filter must return null.
+		Path garbage = Files.createTempFile("garbage", ".kbx");
+		try (OutputStream out = Files.newOutputStream(garbage)) {
+			out.write(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+		}
+		assertTrue(BouncyCastleGpgKeyLocator
+				.filterOpenPgpBlobs(garbage) == null);
+		Files.delete(garbage);
+	}
 
 	private static boolean match(String userId, String pattern) {
 		return BouncyCastleGpgKeyLocator.containsSigningKey(userId, pattern);

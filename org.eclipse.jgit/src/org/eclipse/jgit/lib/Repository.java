@@ -136,6 +136,8 @@ public abstract class Repository implements AutoCloseable {
 
 	private final String initialBranch;
 
+	private ObjectFormat objectFormat;
+
 	private final AtomicReference<Boolean> caseInsensitiveWorktree = new AtomicReference<>();
 
 	/**
@@ -151,6 +153,8 @@ public abstract class Repository implements AutoCloseable {
 		workTree = options.getWorkTree();
 		indexFile = options.getIndexFile();
 		initialBranch = options.getInitialBranch();
+		ObjectFormat format = options.getObjectFormat();
+		objectFormat = format != null ? format : ObjectFormat.SHA_1;
 	}
 
 	/**
@@ -1053,7 +1057,36 @@ public abstract class Repository implements AutoCloseable {
 	}
 
 	/**
-	 * Objects known to exist but not expressed by {@link #getAllRefs()}.
+	 * Get the object format of this repository.
+	 * <p>
+	 * The object format is the hash function the repository uses to compute
+	 * object ids, as recorded in the config option
+	 * {@code extensions.objectformat}. Repositories without that option use
+	 * {@link ObjectFormat#SHA_1}.
+	 *
+	 * @return the object format of this repository.
+	 * @since 7.9
+	 */
+	public @NonNull ObjectFormat getObjectFormat() {
+		return objectFormat;
+	}
+
+	/**
+	 * Set the object format of this repository.
+	 * <p>
+	 * For use by {@link Repository} implementations which detect the object
+	 * format from the repository's config when the repository is opened.
+	 *
+	 * @param format
+	 *            the object format of this repository.
+	 * @since 7.9
+	 */
+	protected void setObjectFormat(@NonNull ObjectFormat format) {
+		this.objectFormat = format;
+	}
+
+	/**
+	 * Objects known to exist but not expressed by {@link #getAllRefs()}. 
 	 * <p>
 	 * When a repository borrows objects from another repository, it can
 	 * advertise that it safely has that other repository's references, without

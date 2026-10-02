@@ -105,7 +105,7 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 		if (toFind == null) {
 			return null;
 		}
-		int h = toFind.w1;
+		int h = toFind.w[0];
 		V obj = directory[h & mask][h >>> SEGMENT_SHIFT];
 		for (; obj != null; obj = (V) obj.next)
 			if (equals(obj, toFind))
@@ -140,7 +140,7 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 		if (++size == grow)
 			grow();
 
-		int h = newValue.w1;
+		int h = newValue.w[0];
 		V[] table = directory[h & mask];
 		h >>>= SEGMENT_SHIFT;
 
@@ -170,7 +170,7 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 	 */
 	@SuppressWarnings("unchecked")
 	public <Q extends V> V addIfAbsent(Q newValue) {
-		int h = newValue.w1;
+		int h = newValue.w[0];
 		V[] table = directory[h & mask];
 		h >>>= SEGMENT_SHIFT;
 
@@ -290,7 +290,7 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 				for (V obj = oldTable[i]; obj != null; obj = next) {
 					next = (V) obj.next;
 
-					if ((obj.w1 & s) == 0) {
+					if ((obj.w[0] & s) == 0) {
 						obj.next = chain0;
 						chain0 = obj;
 					} else {
@@ -318,11 +318,7 @@ public class ObjectIdOwnerMap<V extends ObjectIdOwnerMap.Entry>
 
 	private static final boolean equals(AnyObjectId firstObjectId,
 			AnyObjectId secondObjectId) {
-		return firstObjectId.w2 == secondObjectId.w2
-				&& firstObjectId.w3 == secondObjectId.w3
-				&& firstObjectId.w4 == secondObjectId.w4
-				&& firstObjectId.w5 == secondObjectId.w5
-				&& firstObjectId.w1 == secondObjectId.w1;
+		return AnyObjectId.isEqual(firstObjectId, secondObjectId);
 	}
 
 	/** Type of entry stored in the {@link ObjectIdOwnerMap}. */

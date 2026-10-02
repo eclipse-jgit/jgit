@@ -65,7 +65,7 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 	 */
 	public V get(AnyObjectId toFind) {
 		final int msk = mask;
-		int i = toFind.w1 & msk;
+		int i = toFind.w[0] & msk;
 		final V[] tbl = table;
 		V obj;
 
@@ -129,7 +129,7 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 	 */
 	public <Q extends V> V addIfAbsent(Q newValue) {
 		final int msk = mask;
-		int i = newValue.w1 & msk;
+		int i = newValue.w[0] & msk;
 		final V[] tbl = table;
 		V obj;
 
@@ -199,7 +199,7 @@ public class ObjectIdSubclassMap<V extends ObjectId>
 
 	private void insert(V newValue) {
 		final int msk = mask;
-		int j = newValue.w1 & msk;
+		int j = newValue.w[0] & msk;
 		final V[] tbl = table;
 		while (tbl[j] != null)
 			j = (j + 1) & msk;

@@ -37,6 +37,7 @@ public final class BCText extends TranslationBundle {
 	/***/ public String gpgNoKeyInLegacySecring;
 	/***/ public String gpgNoPublicKeyFound;
 	/***/ public String gpgNoSecretKeyForPublicKey;
+	/***/ public String keyboxBlobsSkipped;
 	/***/ public String gpgNotASigningKey;
 	/***/ public String gpgKeyInfo;
 	/***/ public String gpgSigningCancelled;
