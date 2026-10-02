@@ -27,7 +27,9 @@ import java.util.Arrays;
 
 import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
@@ -803,6 +805,38 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 			((MockSystemReader) system).setProperty("XDG_CONFIG_HOME", null);
 			Files.deleteIfExists(userIgnore2);
 		}
+	}
+
+	@Test
+	public void testIgnoreFileInWorkspace() throws Exception {
+		writeTrashFile("a", "");
+		writeTrashFile("b", "");
+		writeTrashFile("dir/ws_ignores", "/ignored\n/b");
+		writeTrashFile("e", "");
+		writeTrashFile("ignored", "");
+
+		beginWalk();
+		assertEntry(F, tracked, "a");
+		assertEntry(F, tracked, "b");
+		assertEntry(D, tracked, "dir");
+		assertEntry(F, tracked, "dir/ws_ignores");
+		assertEntry(F, tracked, "e");
+		assertEntry(F, tracked, "ignored");
+		endWalk();
+
+		FileBasedConfig config = db.getConfig();
+		config.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_EXCLUDESFILE, "dir/ws_ignores");
+		config.save();
+
+		beginWalk();
+		assertEntry(F, tracked, "a");
+		assertEntry(F, ignored, "b");
+		assertEntry(D, tracked, "dir");
+		assertEntry(F, tracked, "dir/ws_ignores");
+		assertEntry(F, tracked, "e");
+		assertEntry(F, ignored, "ignored");
+		endWalk();
 	}
 
 	@Test

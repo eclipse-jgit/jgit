@@ -1293,7 +1293,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			FS fs = repository.getFS();
 			Path path = repository.getConfig().getPath(
 					ConfigConstants.CONFIG_CORE_SECTION, null,
-					ConfigConstants.CONFIG_KEY_EXCLUDESFILE, fs, null, null);
+					ConfigConstants.CONFIG_KEY_EXCLUDESFILE, fs,
+					repository.getWorkTree(), null);
 			if (path != null) {
 				if (Files.exists(path)) {
 					loadRulesFromFile(coreExclude, path.toFile());
