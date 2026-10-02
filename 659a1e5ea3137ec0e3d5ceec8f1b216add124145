@@ -45,6 +45,52 @@
       },
       "revId": "659a1e5ea3137ec0e3d5ceec8f1b216add124145",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff57050a_1b7c62c7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoPhase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-02T11:58:15Z",
+      "side": 1,
+      "message": "Out of curiosity, how many elements can this `queue` typically have? Can this (even with the short-circuit logic of the streams) become a performance issue?",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 2
+      },
+      "revId": "659a1e5ea3137ec0e3d5ceec8f1b216add124145",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6dbc7909_513e7e1e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoPhase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-02T11:58:15Z",
+      "side": 1,
+      "message": "Since the method is called `allQueuedCommitsHaveFlag` (emphasis in `all`), why not this instead, it reads more naturally:\n\n```suggestion\n\tfinal boolean allQueuedCommitsHaveFlag(int flag) {\n\t\treturn queue.stream().allMatch(c -\u003e (c.flags \u0026 flag) !\u003d 0);\n\t}\n```",
+      "range": {
+        "startLine": 80,
+        "startChar": 1,
+        "endLine": 82,
+        "endChar": 2
+      },
+      "revId": "659a1e5ea3137ec0e3d5ceec8f1b216add124145",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
