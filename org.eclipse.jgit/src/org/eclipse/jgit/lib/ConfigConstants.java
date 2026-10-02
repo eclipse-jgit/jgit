@@ -782,6 +782,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_REF_STORAGE_FILES = "files";
 
 	/**
+	 * The extensions.objectformat key
+	 *
+	 * @since 8.0
+	 */
+	public static final String CONFIG_KEY_OBJECT_FORMAT = "objectformat";
+
+	/**
 	 * The "jmx" section
 	 * @since 5.1.13
 	 */

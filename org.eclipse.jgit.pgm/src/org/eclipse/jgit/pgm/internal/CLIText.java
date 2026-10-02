@@ -313,6 +313,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public char[] unknownIoErrorStdout;
 	/***/ public String unknownExtraArgument;
 	/***/ public String unknownMergeStrategy;
+	/***/ public String unknownObjectFormat;
 	/***/ public String unknownSubcommand;
 	/***/ public String unmergedPaths;
 	/***/ public String unsupportedOperation;

@@ -87,8 +87,15 @@ public final class AbbreviatedObjectId implements Serializable {
 	 * @return the converted object id.
 	 */
 	public static final AbbreviatedObjectId fromObjectId(AnyObjectId id) {
+		if (id.getLength() != Constants.OBJECT_ID_LENGTH) {
+			// An AbbreviatedObjectId can hold at most 40 nibbles, it cannot
+			// represent a complete object id of a longer object format.
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().invalidIdLength,
+					Integer.valueOf(id.getLength())));
+		}
 		return new AbbreviatedObjectId(Constants.OBJECT_ID_STRING_LENGTH,
-				id.w1, id.w2, id.w3, id.w4, id.w5);
+				id.w[0], id.w[1], id.w[2], id.w[3], id.w[4]);
 	}
 
 	/**
@@ -217,23 +224,23 @@ public final class AbbreviatedObjectId implements Serializable {
 	public final int prefixCompare(AnyObjectId other) {
 		int cmp;
 
-		cmp = NB.compareUInt32(w1, mask(1, other.w1));
+		cmp = NB.compareUInt32(w1, mask(1, other.w[0]));
 		if (cmp != 0)
 			return cmp;
 
-		cmp = NB.compareUInt32(w2, mask(2, other.w2));
+		cmp = NB.compareUInt32(w2, mask(2, other.w[1]));
 		if (cmp != 0)
 			return cmp;
 
-		cmp = NB.compareUInt32(w3, mask(3, other.w3));
+		cmp = NB.compareUInt32(w3, mask(3, other.w[2]));
 		if (cmp != 0)
 			return cmp;
 
-		cmp = NB.compareUInt32(w4, mask(4, other.w4));
+		cmp = NB.compareUInt32(w4, mask(4, other.w[3]));
 		if (cmp != 0)
 			return cmp;
 
-		return NB.compareUInt32(w5, mask(5, other.w5));
+		return NB.compareUInt32(w5, mask(5, other.w[4]));
 	}
 
 	/**

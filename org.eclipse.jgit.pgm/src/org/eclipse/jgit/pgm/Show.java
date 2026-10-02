@@ -27,6 +27,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectFormat;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.GpgConfig;
 import org.eclipse.jgit.lib.ObjectId;
@@ -280,7 +281,7 @@ class Show extends TextBuiltin {
 	}
 
 	private void show(RevWalk rw, RevCommit c) throws IOException {
-		char[] outbuffer = new char[Constants.OBJECT_ID_LENGTH * 2];
+		char[] outbuffer = new char[ObjectFormat.SHA_256.getHexLength()];
 
 		outw.print(CLIText.get().commitLabel);
 		outw.print(" "); //$NON-NLS-1$

@@ -286,7 +286,8 @@ public class AddCommand extends GitCommand<DirCache> {
 
 				byte[] path = tw.getRawPath();
 				if (entry == null || entry.getStage() > 0) {
-					entry = new DirCacheEntry(path);
+					entry = new DirCacheEntry(path, DirCacheEntry.STAGE_0,
+							dc.getIdLength());
 				}
 				FileMode mode = f.getIndexFileMode(c);
 				entry.setFileMode(mode);

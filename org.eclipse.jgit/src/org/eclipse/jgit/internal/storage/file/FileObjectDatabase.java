@@ -40,7 +40,8 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 
 	@Override
 	public ObjectDirectoryInserter newInserter() {
-		return new ObjectDirectoryInserter(this, getConfig());
+		return new ObjectDirectoryInserter(this, getConfig(),
+				getObjectFormat());
 	}
 
 	abstract void resolve(Set<ObjectId> matches, AbbreviatedObjectId id)
