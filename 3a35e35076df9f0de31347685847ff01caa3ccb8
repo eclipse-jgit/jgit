@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0efee57d_07b8af97",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-02T10:41:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a01dd2f_a52d0db3",
+      "revId": "3a35e35076df9f0de31347685847ff01caa3ccb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1fe3313e_782bbf00",
@@ -52,6 +70,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d2e5495_7fdf0d7e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-02T10:41:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fe3313e_782bbf00",
+      "revId": "3a35e35076df9f0de31347685847ff01caa3ccb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d54d28b8_0cd739c5",
@@ -65,6 +101,24 @@
       "writtenOn": "2026-10-02T10:21:01Z",
       "side": 1,
       "message": "Same feeling here.",
+      "revId": "3a35e35076df9f0de31347685847ff01caa3ccb8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af140a3b_9667773e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ProtocolV2Parser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-02T10:41:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d54d28b8_0cd739c5",
       "revId": "3a35e35076df9f0de31347685847ff01caa3ccb8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
