@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5386b3c1_3d1c792e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-02T11:10:04Z",
+      "side": 1,
+      "message": "Since this is all part of the `revwalk` package:\n\n```suggestion\nRevWalk: Parameterize ReachabilityCheckerTestCase\n```",
+      "revId": "d7e4f39a812a1d2a4ec6e657c24c89f0345e2d5a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3c3a827_69848d68",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/revwalk/BitmappedReachabilityCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-02T11:10:04Z",
+      "side": 1,
+      "message": "I tried moving this to the `setUp` method but some tests failed. I do see though, that this code is reached from `ReachabilityCheckerTestCase:areAllReachable(...)`, which (if you follow all the way to the tests) is code that is being always called **after** `ReachabilityCheckerTestCase::setCommitGraph(...)` (which _also_ does a GC). So those methods seem to be tightly coupled and you end up doing a 2 GC calls after each other in the tests:\n1. First when calling `ReachabilityCheckerTestCase::setCommitGraph(...)`\n2. Right afterwards when calling `ReachabilityCheckerTestCase::assertReachable(...)` or `ReachabilityCheckerTestCase::assertUnreachable(...)`.\n\nYou could remove the GC operation from `ReachabilityCheckerTestCase::setCommitGraph(...)` and explicitly comment that _a GC operation will not be performed_ in its JavaDoc. I already tried that and the tests run a bit faster too, which is a plus. This would need to happen in your other commit though: I8aa52086a9522cb66345e9e796b54fc2e2efbdc8",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 16
+      },
+      "revId": "d7e4f39a812a1d2a4ec6e657c24c89f0345e2d5a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c447c136_72de9b2c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/revwalk/BitmappedReachabilityCheckerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-02T11:10:04Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\t\trevWalk.getObjectReader().getBitmapIndex());\n```",
+      "revId": "d7e4f39a812a1d2a4ec6e657c24c89f0345e2d5a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f811ae2_5b292f3d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/revwalk/ReachabilityCheckerTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-02T11:10:04Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be good to make sure that enabling/disabling the commit graph is working as expected too somewhere in this test class? You already did that in `AbstractRevWalkWithCommitGraphTest.initializeRevWalk`:\n\n```java\nif (commitGraphEnabled()) {\n\tassertTrue(commitGraph.isPresent());\n\tassertTrue(commitGraph.get().getCommitCnt() \u003e 0);\n} else {\n\tassertTrue(commitGraph.isEmpty());\n}\n```",
+      "range": {
+        "startLine": 38,
+        "startChar": 22,
+        "endLine": 38,
+        "endChar": 49
+      },
+      "revId": "d7e4f39a812a1d2a4ec6e657c24c89f0345e2d5a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6cc2077_ab1aa3f9",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/revwalk/ReachabilityCheckerTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-02T11:10:04Z",
+      "side": 1,
+      "message": "Formatting is off --\u003e `Ctrl + Shift + F`",
+      "range": {
+        "startLine": 73,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 18
+      },
+      "revId": "d7e4f39a812a1d2a4ec6e657c24c89f0345e2d5a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08564899_07c642e2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/revwalk/ReachabilityCheckerTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-02T11:10:04Z",
+      "side": 1,
+      "message": "This is faster (good) but the test now probably tests something else? If it\u0027s intentional but only slightly related to the parameterization of the tests then I would mention it in the commit message too.",
+      "range": {
+        "startLine": 133,
+        "startChar": 15,
+        "endLine": 133,
+        "endChar": 29
+      },
+      "revId": "d7e4f39a812a1d2a4ec6e657c24c89f0345e2d5a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59b81b50_1dc6d8f2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/revwalk/ReachabilityCheckerTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-02T11:10:04Z",
+      "side": 1,
+      "message": "```suggestion\n\t\t\t\ttry (RevWalk walk \u003d new RevWalk(repo.getRevWalk().getObjectReader())) {\n\t\t\tReachabilityChecker checker \u003d createReachabilityChecker(walk);\n\n\t\t\treturn checker.areAllReachable(\n\t\t\t\t\ttargets.stream().map(walk::lookupCommit).toList(),\n\t\t\t\t\tstarters.map(walk::lookupCommit));\n\t\t}\n```",
+      "range": {
+        "startLine": 161,
+        "startChar": 2,
+        "endLine": 166,
+        "endChar": 38
+      },
+      "revId": "d7e4f39a812a1d2a4ec6e657c24c89f0345e2d5a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
