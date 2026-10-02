@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c611b0e6_57cecef2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-02T11:49:58Z",
+      "side": 1,
+      "message": "This is misleading, probably the default message from \"Revert commit\", but you actually added some logic to the `StartGenerator` e.g. you now check if `walker.commitGraph() !\u003d CommitGraph.EMPTY` before instantiating the `TopoSortPendingGenerator`.\n\n```suggestion\nThis reverts and adapts some of the shanges made to the StartGenerator in I573f980abb0c97414e8e7dfcc3ac6dab2544f6c1\n```",
+      "revId": "17738aebfd86acad855880d07c7f7555f00e7a8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "95a30e77_f7694742",
@@ -14,6 +31,23 @@
       "writtenOn": "2026-09-29T15:24:46Z",
       "side": 1,
       "message": "@ifrade@google.com can you try to reproduce the timeout you described in I6647e72f06c74b636493f0c682f4e08a6a6a6964 with these changes? The explore Phase can now early-exit (instead of eagerly exploring guaranteed UNINTERESTING commits), similar to the existing PendingGenerator. Also, the incremental Algorithm is now only used, if a commit graph is present.",
+      "revId": "17738aebfd86acad855880d07c7f7555f00e7a8c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3636080_b0527550",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-02T11:49:58Z",
+      "side": 1,
+      "message": "I can\u0027t see the failed checks in Jenkins. Can you please push again so that they run again?",
       "revId": "17738aebfd86acad855880d07c7f7555f00e7a8c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
