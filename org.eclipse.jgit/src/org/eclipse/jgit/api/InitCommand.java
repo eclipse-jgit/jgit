@@ -22,6 +22,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectFormat;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.util.FS;
@@ -44,6 +45,8 @@ public class InitCommand implements Callable<Git> {
 	private FS fs;
 
 	private String initialBranch;
+
+	private ObjectFormat objectFormat;
 
 	private boolean relativePaths;
 
@@ -101,6 +104,9 @@ public class InitCommand implements Callable<Git> {
 							ConfigConstants.CONFIG_INIT_SECTION, null,
 							ConfigConstants.CONFIG_KEY_DEFAULT_BRANCH)
 					: initialBranch);
+			if (objectFormat != null) {
+				builder.setObjectFormat(objectFormat);
+			}
 			Repository repository = builder.build();
 			if (!repository.getObjectDatabase().exists())
 				if (repository instanceof FileRepository) {
@@ -219,6 +225,21 @@ public class InitCommand implements Callable<Git> {
 	public InitCommand setInitialBranch(String branch)
 			throws InvalidRefNameException {
 		this.initialBranch = branch;
+		return this;
+	}
+
+	/**
+	 * Set the object format of the new repository. If not specified
+	 * ({@code null}), the repository will use {@link ObjectFormat#SHA_1}.
+	 *
+	 * @param format
+	 *            object format of the new repository, or {@code null} to use
+	 *            the default {@link ObjectFormat#SHA_1}.
+	 * @return {@code this}
+	 * @since 7.9
+	 */
+	public InitCommand setObjectFormat(ObjectFormat format) {
+		this.objectFormat = format;
 		return this;
 	}
 

@@ -12,7 +12,6 @@
 package org.eclipse.jgit.treewalk;
 
 import static org.eclipse.jgit.lib.Constants.DOT_GIT_ATTRIBUTES;
-import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 import static org.eclipse.jgit.lib.Constants.TYPE_TREE;
@@ -88,6 +87,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 
 	private CanonicalTreeParser(CanonicalTreeParser p) {
 		super(p);
+		idLength = p.idLength;
 	}
 
 	/**
@@ -188,6 +188,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	 */
 	public void reset(ObjectReader reader, AnyObjectId id)
 			throws IncorrectObjectTypeException, IOException {
+		idLength = reader.getObjectFormat().getLength();
 		reset(reader.open(id, OBJ_TREE).getCachedBytes());
 	}
 
@@ -195,7 +196,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	public CanonicalTreeParser createSubtreeIterator(final ObjectReader reader,
 			final MutableObjectId idBuffer)
 			throws IncorrectObjectTypeException, IOException {
-		idBuffer.fromRaw(idBuffer(), idOffset());
+		idBuffer.fromRaw(idBuffer(), idOffset(), idLength);
 		if (!FileMode.TREE.equals(mode)) {
 			final ObjectId me = idBuffer.toObjectId();
 			throw new IncorrectObjectTypeException(me, TYPE_TREE);
@@ -244,7 +245,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 
 	@Override
 	public int idOffset() {
-		return nextPtr - OBJECT_ID_LENGTH;
+		return nextPtr - idLength;
 	}
 
 	@Override
@@ -283,7 +284,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 			prevPtr = ptr;
 			while (raw[ptr] != 0)
 				ptr++;
-			ptr += OBJECT_ID_LENGTH + 1;
+			ptr += idLength + 1;
 		}
 		if (delta != 0)
 			throw new ArrayIndexOutOfBoundsException(delta);
@@ -319,7 +320,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 			trace[delta] = ptr;
 			while (raw[ptr] != 0)
 				ptr++;
-			ptr += OBJECT_ID_LENGTH + 1;
+			ptr += idLength + 1;
 		}
 		if (trace[1] == -1)
 			throw new ArrayIndexOutOfBoundsException(delta);
@@ -353,7 +354,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 			path[tmp] = c;
 		}
 		pathLen = tmp;
-		nextPtr = ptr + OBJECT_ID_LENGTH;
+		nextPtr = ptr + idLength;
 	}
 
 	/**

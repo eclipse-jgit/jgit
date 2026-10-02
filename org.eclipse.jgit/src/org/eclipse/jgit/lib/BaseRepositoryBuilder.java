@@ -132,6 +132,8 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 
 	private String initialBranch = Constants.MASTER;
 
+	private ObjectFormat objectFormat;
+
 	/** Directories limiting the search for a Git repository. */
 	private List<File> ceilingDirectories;
 
@@ -434,6 +436,36 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 */
 	public @NonNull String getInitialBranch() {
 		return initialBranch;
+	}
+
+	/**
+	 * Set the object format of the new repository. If not specified
+	 * ({@code null}), the repository will use {@link ObjectFormat#SHA_1}.
+	 * <p>
+	 * The object format is only used when creating a new repository; when
+	 * opening an existing repository its configured object format is
+	 * detected from the repository config.
+	 *
+	 * @param format
+	 *            object format of the new repository, or {@code null} to use
+	 *            the default {@link ObjectFormat#SHA_1}.
+	 * @return {@code this}
+	 * @since 7.9
+	 */
+	public B setObjectFormat(ObjectFormat format) {
+		this.objectFormat = format;
+		return self();
+	}
+
+	/**
+	 * Get the object format configured for the new repository.
+	 *
+	 * @return the object format of the new repository, or {@code null} if not
+	 *         set and the default {@link ObjectFormat#SHA_1} will be used.
+	 * @since 7.9
+	 */
+	public ObjectFormat getObjectFormat() {
+		return objectFormat;
 	}
 
 	/**

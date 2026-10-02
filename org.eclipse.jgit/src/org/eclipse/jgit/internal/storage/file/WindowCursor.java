@@ -70,6 +70,9 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	WindowCursor(FileObjectDatabase db) {
 		this.db = db;
 		this.createdFromInserter = null;
+		if (db != null) {
+			setObjectFormat(db.getObjectFormat());
+		}
 		this.streamFileThreshold = WindowCache.getStreamFileThreshold();
 		this.useObjectSizeIndex = db == null ? false
 				: db.getConfig().getBoolean(
@@ -81,6 +84,9 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 			@Nullable ObjectDirectoryInserter createdFromInserter) {
 		this.db = db;
 		this.createdFromInserter = createdFromInserter;
+		if (db != null) {
+			setObjectFormat(db.getObjectFormat());
+		}
 		this.streamFileThreshold = WindowCache.getStreamFileThreshold();
 		this.useObjectSizeIndex = db == null ? false
 				: db.getConfig().getBoolean(

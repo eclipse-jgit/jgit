@@ -13,6 +13,8 @@ import static java.nio.file.Files.exists;
 import static java.nio.file.Files.newInputStream;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -63,6 +65,7 @@ import org.eclipse.jgit.errors.UnsupportedCredentialItem;
 import org.eclipse.jgit.gpg.bc.internal.keys.KeyGrip;
 import org.eclipse.jgit.gpg.bc.internal.keys.SecretKeys;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.StringUtils;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
@@ -771,7 +774,86 @@ public class BouncyCastleGpgKeyLocator {
 		try (InputStream in = new BufferedInputStream(
 				newInputStream(keyboxFile))) {
 			keyBox = new JcaKeyBoxBuilder().build(in);
+		} catch (IOException firstFailure) {
+			// BouncyCastle may fail to parse keyboxes that contain blob types
+			// it cannot verify (e.g. X.509 blobs written by newer GnuPG
+			// versions). Retry with a sanitized copy that contains only the
+			// OpenPGP blobs, which are the only ones needed for signing.
+			byte[] sanitized = filterOpenPgpBlobs(keyboxFile);
+			if (sanitized == null) {
+				throw firstFailure;
+			}
+			try (InputStream in = new ByteArrayInputStream(sanitized)) {
+				keyBox = new JcaKeyBoxBuilder().build(in);
+			}
 		}
 		return keyBox;
+	}
+
+	/**
+	 * Create a sanitized copy of a GnuPG keybox file containing only its
+	 * OpenPGP blobs, dropping any other blobs. Used as a work-around for
+	 * BouncyCastle versions that fail to parse (or verify) other blob types.
+	 * <p>
+	 * The blob records are copied verbatim; their digests are not verified
+	 * here. The OpenPGP blobs retained in the result are still verified by
+	 * BouncyCastle when the returned content is parsed.
+	 *
+	 * @param keyboxFile
+	 *            the keybox file to filter.
+	 * @return the sanitized keybox content, or {@code null} if the file is
+	 *         not a valid keybox or contains no OpenPGP blobs.
+	 * @throws IOException
+	 *             if the keybox file cannot be read.
+	 */
+	static byte[] filterOpenPgpBlobs(Path keyboxFile)
+			throws IOException {
+		byte[] content;
+		try (InputStream in = new BufferedInputStream(
+				newInputStream(keyboxFile))) {
+			content = in.readAllBytes();
+		}
+
+		// GnuPG keybox file header: 4-byte length (32), version, flags and
+		// the 4-byte magic "KBXf" at offset 8.
+		final int headerLen = 32;
+		final int openPgpBlob = 2;
+		if (content.length < headerLen + 8
+				|| NB.decodeInt32(content, 0) != headerLen
+				|| content[8] != 'K' || content[9] != 'B'
+				|| content[10] != 'X' || content[11] != 'f') {
+			return null;
+		}
+
+		int openPgpBlobs = 0;
+		int droppedBlobs = 0;
+		ByteArrayOutputStream out = new ByteArrayOutputStream(content.length);
+		out.write(content, 0, headerLen);
+		int pos = headerLen;
+		while (pos < content.length) {
+			if (pos + 8 > content.length) {
+				return null; // truncated blob header
+			}
+			int length = NB.decodeInt32(content, pos);
+			if (length < 8 || pos + length > content.length) {
+				return null; // truncated or invalid blob
+			}
+			int type = content[pos + 4] & 0xff;
+			if (type == openPgpBlob) {
+				out.write(content, pos, length);
+				openPgpBlobs++;
+			} else {
+				droppedBlobs++;
+			}
+			pos += length;
+		}
+		if (openPgpBlobs == 0) {
+			return null;
+		}
+		if (droppedBlobs > 0) {
+			log.warn(MessageFormat.format(BCText.get().keyboxBlobsSkipped,
+					Integer.valueOf(droppedBlobs), keyboxFile));
+		}
+		return out.toByteArray();
 	}
 }

@@ -124,7 +124,8 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 			}
 
 			if (missing) {
-				DirCacheEntry ent = new DirCacheEntry(e.path);
+				DirCacheEntry ent = new DirCacheEntry(e.path,
+						DirCacheEntry.STAGE_0, cache.getIdLength());
 				e.apply(ent);
 				if (ent.getRawMode() == 0) {
 					throw new IllegalArgumentException(MessageFormat.format(

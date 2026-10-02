@@ -23,7 +23,10 @@ import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
- * A SHA-1 abstraction.
+ * An object id abstraction.
+ * <p>
+ * An object id is the raw hash of a Git object, 20 bytes for SHA-1
+ * repositories and 32 bytes for SHA-256 repositories.
  */
 public class ObjectId extends AnyObjectId implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -59,10 +62,12 @@ public class ObjectId extends AnyObjectId implements Serializable {
 		if (id == null) {
 			return false;
 		}
-		if (id.length() != Constants.OBJECT_ID_STRING_LENGTH)
+		final int len = id.length();
+		if (len != Constants.OBJECT_ID_STRING_LENGTH
+				&& len != ObjectFormat.SHA_256.getHexLength())
 			return false;
 		try {
-			for (int i = 0; i < Constants.OBJECT_ID_STRING_LENGTH; i++) {
+			for (int i = 0; i < len; i++) {
 				RawParseUtils.parseHexInt4((byte) id.charAt(i));
 			}
 			return true;
@@ -153,6 +158,36 @@ public class ObjectId extends AnyObjectId implements Serializable {
 	}
 
 	/**
+	 * Convert an ObjectId from raw binary representation.
+	 *
+	 * @param bs
+	 *            the raw byte buffer to read from.
+	 * @param p
+	 *            position to read the first byte of data from.
+	 * @param len
+	 *            number of bytes to read, i.e. the length of the object id:
+	 *            {@code 20} for SHA-1, {@code 32} for SHA-256. At least
+	 *            {@code len} bytes after {@code p} must be available within
+	 *            this byte array.
+	 * @return the converted object id.
+	 * @since 7.9
+	 */
+	public static final ObjectId fromRaw(byte[] bs, int p, int len) {
+		if (len == Constants.OBJECT_ID_LENGTH) {
+			return fromRaw(bs, p);
+		}
+		if (len % 4 != 0 || len <= 0) {
+			throw new IllegalArgumentException(
+					"Invalid object id length: " + len); //$NON-NLS-1$
+		}
+		final int[] words = new int[len / 4];
+		for (int i = 0; i < words.length; i++) {
+			words[i] = NB.decodeInt32(bs, p + 4 * i);
+		}
+		return new ObjectId(words);
+	}
+
+	/**
 	 * Convert an ObjectId from raw binary representation
 	 *
 	 * @param bb
@@ -209,17 +244,56 @@ public class ObjectId extends AnyObjectId implements Serializable {
 	}
 
 	/**
+	 * Convert an ObjectId from hex characters (US-ASCII).
+	 *
+	 * @param buf
+	 *            the US-ASCII buffer to read from. At least {@code len} bytes
+	 *            after {@code offset} must be available within this byte array.
+	 * @param offset
+	 *            position to read the first character from.
+	 * @param len
+	 *            number of hex characters to read: {@code 40} for a SHA-1
+	 *            object id, {@code 64} for SHA-256.
+	 * @return the converted object id.
+	 * @since 7.9
+	 */
+	public static final ObjectId fromString(byte[] buf, int offset, int len) {
+		if (len == Constants.OBJECT_ID_STRING_LENGTH) {
+			return fromHexString(buf, offset);
+		}
+		if (len % 8 != 0 || len <= 0) {
+			throw new IllegalArgumentException(
+					"Invalid object id hex length: " + len); //$NON-NLS-1$
+		}
+		try {
+			final int[] words = new int[len / 8];
+			for (int i = 0; i < words.length; i++) {
+				words[i] = RawParseUtils.parseHexInt32(buf, offset + 8 * i);
+			}
+			return new ObjectId(words);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			InvalidObjectIdException e1 = new InvalidObjectIdException(buf,
+					offset, len);
+			e1.initCause(e);
+			throw e1;
+		}
+	}
+
+	/**
 	 * Convert an ObjectId from hex characters.
 	 *
 	 * @param str
-	 *            the string to read from. Must be 40 characters long.
+	 *            the string to read from. Must be 40 characters long for
+	 *            SHA-1, or 64 characters long for SHA-256.
 	 * @return the converted object id.
 	 */
 	public static ObjectId fromString(String str) {
-		if (str.length() != Constants.OBJECT_ID_STRING_LENGTH) {
+		final int len = str.length();
+		if (len != Constants.OBJECT_ID_STRING_LENGTH
+				&& len != ObjectFormat.SHA_256.getHexLength()) {
 			throw new InvalidObjectIdException(str);
 		}
-		return fromHexString(Constants.encodeASCII(str), 0);
+		return fromString(Constants.encodeASCII(str), 0, len);
 	}
 
 	private static final ObjectId fromHexString(byte[] bs, int p) {
@@ -254,11 +328,11 @@ public class ObjectId extends AnyObjectId implements Serializable {
 	 * @since 4.7
 	 */
 	public ObjectId(int new_1, int new_2, int new_3, int new_4, int new_5) {
-		w1 = new_1;
-		w2 = new_2;
-		w3 = new_3;
-		w4 = new_4;
-		w5 = new_5;
+		w = new int[] { new_1, new_2, new_3, new_4, new_5 };
+	}
+
+	private ObjectId(int[] words) {
+		w = words;
 	}
 
 	/**
@@ -272,11 +346,7 @@ public class ObjectId extends AnyObjectId implements Serializable {
 	 *            another already parsed ObjectId to copy the value out of.
 	 */
 	protected ObjectId(AnyObjectId src) {
-		w1 = src.w1;
-		w2 = src.w2;
-		w3 = src.w3;
-		w4 = src.w4;
-		w5 = src.w5;
+		w = src.w.clone();
 	}
 
 	@Override
@@ -285,18 +355,20 @@ public class ObjectId extends AnyObjectId implements Serializable {
 	}
 
 	private void writeObject(ObjectOutputStream os) throws IOException {
-		os.writeInt(w1);
-		os.writeInt(w2);
-		os.writeInt(w3);
-		os.writeInt(w4);
-		os.writeInt(w5);
+		os.writeInt(w.length);
+		for (int word : w) {
+			os.writeInt(word);
+		}
 	}
 
 	private void readObject(ObjectInputStream ois) throws IOException {
-		w1 = ois.readInt();
-		w2 = ois.readInt();
-		w3 = ois.readInt();
-		w4 = ois.readInt();
-		w5 = ois.readInt();
+		final int n = ois.readInt();
+		if (n != 5 && n != 8) {
+			throw new IOException("Invalid object id word count: " + n); //$NON-NLS-1$
+		}
+		w = new int[n];
+		for (int i = 0; i < n; i++) {
+			w[i] = ois.readInt();
+		}
 	}
 }

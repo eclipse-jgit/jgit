@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectFormat;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.pgm.internal.CLIText;
@@ -54,7 +55,7 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 	@Option(name = "--all")
 	boolean all = false;
 
-	char[] outbuffer = new char[Constants.OBJECT_ID_LENGTH * 2];
+	char[] outbuffer = new char[ObjectFormat.SHA_256.getHexLength()];
 
 	private final EnumSet<RevSort> sorting = EnumSet.noneOf(RevSort.class);
 

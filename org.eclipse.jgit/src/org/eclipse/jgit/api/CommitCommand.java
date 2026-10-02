@@ -301,8 +301,11 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		} catch (UnmergedPathException e) {
 			throw new UnmergedPathsException(e);
 		} catch (IOException e) {
-			throw new JGitInternalException(
-					JGitText.get().exceptionCaughtDuringExecutionOfCommitCommand, e);
+			String reason = e.getMessage() != null ? e.getMessage()
+					: e.getClass().getSimpleName();
+			throw new JGitInternalException(MessageFormat.format(JGitText
+					.get().exceptionCaughtDuringExecutionOfCommitCommand,
+					reason), e);
 		}
 	}
 

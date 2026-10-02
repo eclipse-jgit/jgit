@@ -191,9 +191,10 @@ public class TreeFormatter {
 			throw new IllegalArgumentException(
 					JGitText.get().invalidTreeZeroLengthName);
 		}
-		if (fmtBuf(nameBuf, namePos, nameLen, mode)) {
+		final int idLen = id.getLength();
+		if (fmtBuf(nameBuf, namePos, nameLen, mode, idLen)) {
 			id.copyRawTo(buf, ptr);
-			ptr += OBJECT_ID_LENGTH;
+			ptr += idLen;
 
 		} else {
 			try {
@@ -243,7 +244,13 @@ public class TreeFormatter {
 
 	private boolean fmtBuf(byte[] nameBuf, int namePos, int nameLen,
 			FileMode mode) {
-		if (buf == null || buf.length < ptr + entrySize(mode, nameLen))
+		return fmtBuf(nameBuf, namePos, nameLen, mode, OBJECT_ID_LENGTH);
+	}
+
+	private boolean fmtBuf(byte[] nameBuf, int namePos, int nameLen,
+			FileMode mode, int idLen) {
+		if (buf == null || buf.length < ptr + entrySize(mode, nameLen)
+				- OBJECT_ID_LENGTH + idLen)
 			return false;
 
 		mode.copyTo(buf, ptr);

@@ -33,7 +33,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.util.ShutdownHook;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FS.LockToken;
@@ -267,9 +266,10 @@ public class LockFile {
 	 *             before throwing the underlying exception to the caller.
 	 */
 	public void write(ObjectId id) throws IOException {
-		byte[] buf = new byte[Constants.OBJECT_ID_STRING_LENGTH + 1];
+		final int hexLen = 2 * id.getLength();
+		byte[] buf = new byte[hexLen + 1];
 		id.copyTo(buf, 0);
-		buf[Constants.OBJECT_ID_STRING_LENGTH] = '\n';
+		buf[hexLen] = '\n';
 		write(buf);
 	}
 
