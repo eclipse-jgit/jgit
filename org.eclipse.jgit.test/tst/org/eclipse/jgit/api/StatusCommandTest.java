@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Christian Halstrick <christian.halstrick@sap.com> and others
+ * Copyright (C) 2011, 2026 Christian Halstrick <christian.halstrick@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -29,6 +29,26 @@ import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
 public class StatusCommandTest extends RepositoryTestCase {
+
+	@Test
+	public void testRelativeCoreExcludesFile() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("sub/myexclusions", "ignoring\n");
+			FileBasedConfig config = db.getConfig();
+			config.setString("core", null, "excludesFile", "sub/myexclusions");
+			config.save();
+			writeTrashFile("foo", "foo");
+			writeTrashFile("ignoring", "foo");
+			writeTrashFile("sub/foo", "foo");
+			writeTrashFile("sub/ignoring", "foo");
+
+			Status stat = git.status().call();
+			assertEquals(Sets.of("foo", "sub/foo", "sub/myexclusions"),
+					stat.getUntracked());
+			assertEquals(Sets.of("ignoring", "sub/ignoring"),
+					stat.getIgnoredNotInIndex());
+		}
+	}
 
 	@Test
 	public void testEmptyStatus() throws NoWorkTreeException,

@@ -2,7 +2,7 @@
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>
  * Copyright (C) 2010, Matthias Sohn <matthias.sohn@sap.com>
- * Copyright (C) 2012, 2022, Robin Rosenberg and others
+ * Copyright (C) 2012, 2026, Robin Rosenberg and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -1291,9 +1291,12 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		IgnoreNode load(IgnoreNode parent) throws IOException {
 			IgnoreNode coreExclude = new IgnoreNodeWithParent(parent);
 			FS fs = repository.getFS();
+			// C Git resolves a relative core.excludesFile against the work
+			// tree root (it chdirs there). Do not use the process CWD.
 			Path path = repository.getConfig().getPath(
 					ConfigConstants.CONFIG_CORE_SECTION, null,
-					ConfigConstants.CONFIG_KEY_EXCLUDESFILE, fs, null, null);
+					ConfigConstants.CONFIG_KEY_EXCLUDESFILE, fs,
+					repository.getWorkTree(), null);
 			if (path != null) {
 				if (Files.exists(path)) {
 					loadRulesFromFile(coreExclude, path.toFile());

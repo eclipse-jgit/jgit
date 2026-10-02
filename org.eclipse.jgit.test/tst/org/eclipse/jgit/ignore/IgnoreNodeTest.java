@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Red Hat Inc. and others
+ * Copyright (C) 2010, 2026 Red Hat Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -56,6 +56,32 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 		if (walk != null) {
 			walk.close();
 		}
+	}
+
+	@Test
+	public void testRelativeCoreExcludesFileResolvedAgainstWorkTree()
+			throws Exception {
+		// C Git resolves a relative core.excludesFile against the work tree
+		// root, not the process current directory. See
+		// https://github.com/eclipse-jgit/jgit/issues/280
+		writeIgnoreFile("sub/myexclusions", "ignoring");
+		db.getConfig().setString("core", null, "excludesFile",
+				"sub/myexclusions");
+		db.getConfig().save();
+
+		writeTrashFile("foo", "foo");
+		writeTrashFile("ignoring", "foo");
+		writeTrashFile("sub/foo", "foo");
+		writeTrashFile("sub/ignoring", "foo");
+
+		beginWalk();
+		assertEntry(F, tracked, "foo");
+		assertEntry(F, ignored, "ignoring");
+		assertEntry(D, tracked, "sub");
+		assertEntry(F, tracked, "sub/foo");
+		assertEntry(F, ignored, "sub/ignoring");
+		assertEntry(F, tracked, "sub/myexclusions");
+		endWalk();
 	}
 
 	@Test
