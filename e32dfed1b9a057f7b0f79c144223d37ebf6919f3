@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ea5a13f_04fcffa9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-10-02T10:28:45Z",
+      "side": 1,
+      "message": "I would have done this inside this `if` statement to avoid doing the null check twice.",
+      "revId": "e32dfed1b9a057f7b0f79c144223d37ebf6919f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
