@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a09de22f_f4101674",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-10-04T05:58:41Z",
+      "side": 1,
+      "message": "```suggestion\nC git resolves a relative path from core.excludesFile against the\n```",
+      "revId": "01349b5fdf2ffb42f42bfdf11b875bd17d4de8b1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
