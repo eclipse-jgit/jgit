@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, 2019 Google Inc. and others
+ * Copyright (C) 2011, 2026 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -54,6 +54,7 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.mailmap.Mailmap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -154,6 +155,10 @@ public class BlameGenerator implements AutoCloseable {
 	private final TreeFilter.MutableBoolean changedPathFilterUsed = new TreeFilter.MutableBoolean();
 
 	private Set<ObjectId> ignoreIds = Collections.emptySet();
+
+	private boolean useMailmap;
+
+	private Mailmap mailmap;
 
 	/**
 	 * Create a blame generator for the repository and path (relative to
@@ -296,6 +301,20 @@ public class BlameGenerator implements AutoCloseable {
 		changedPathTreeFilter = ChangedPathTreeFilter
 				.create(resultPath.getPath());
 		revPool.setRetainBody(!useCommitGraph);
+		return this;
+	}
+
+	/**
+	 * Sets whether to use the repository's mailmap.
+	 *
+	 * @param useMailmap
+	 *            {@code true} to use the repository's mailmap, {@code false}
+	 *            otherwise
+	 * @return {@code this}
+	 * @since 8.0
+	 */
+	public BlameGenerator setUseMailmap(boolean useMailmap) {
+		this.useMailmap = useMailmap;
 		return this;
 	}
 
@@ -1184,7 +1203,7 @@ public class BlameGenerator implements AutoCloseable {
 	 * @return current author being blamed
 	 */
 	public PersonIdent getSourceAuthor() {
-		return outCandidate.getAuthor();
+		return map(outCandidate.getAuthor());
 	}
 
 	/**
@@ -1194,7 +1213,18 @@ public class BlameGenerator implements AutoCloseable {
 	 */
 	public PersonIdent getSourceCommitter() {
 		RevCommit c = getSourceCommit();
-		return c != null ? c.getCommitterIdent() : null;
+		PersonIdent ident = c != null ? c.getCommitterIdent() : null;
+		return map(ident);
+	}
+
+	private PersonIdent map(PersonIdent ident) {
+		if (ident != null && useMailmap) {
+			if (mailmap == null) {
+				mailmap = getRepository().getMailmap();
+			}
+			ident = mailmap.map(ident);
+		}
+		return ident;
 	}
 
 	/**
