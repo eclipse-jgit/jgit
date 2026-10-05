@@ -2101,9 +2101,21 @@ public abstract class Repository implements AutoCloseable {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	private void load(Mailmap map, String blobRef) {
-		// TODO: load from blob
+		try (RevWalk walk = new RevWalk(this)) {
+			RevObject obj = walk.peel(walk.parseAny(resolve(blobRef)));
+			if (obj instanceof RevBlob) {
+				try (InputStream in = open(obj).openStream()) {
+					map.append(MailmapParser.parse(in));
+				}
+			} else {
+				LOG.error(MessageFormat
+						.format(JGitText.get().mailmapBlobNotABlob, blobRef));
+			}
+		} catch (IOException e) {
+			LOG.error(MessageFormat.format(JGitText.get().mailmapBlobCannotRead,
+					blobRef), e);
+		}
 	}
 
 	private void writeCommitMsg(File msgFile, String msg) throws IOException {

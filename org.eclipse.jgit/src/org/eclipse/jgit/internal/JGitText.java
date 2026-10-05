@@ -530,9 +530,10 @@ public class JGitText extends TranslationBundle {
 	/***/ public String logLargerFiletimeDiff;
 	/***/ public String logSmallerFiletime;
 	/***/ public String logXDGConfigHomeInvalid;
-
 	/***/ public String logXDGCacheHomeInvalid;
 	/***/ public String looseObjectHandleIsStale;
+	/***/ public String mailmapBlobCannotRead;
+	/***/ public String mailmapBlobNotABlob;
 	/***/ public String maxCountMustBeNonNegative;
 	/***/ public String mergeConflictOnNonNoteEntries;
 	/***/ public String mergeConflictOnNotes;
