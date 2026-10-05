@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022, Matthias Sohn <matthias.sohn@sap.com> and others
+ * Copyright (C) 2022, 2026 Matthias Sohn <matthias.sohn@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -13,6 +13,7 @@ package org.eclipse.jgit.pgm;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
+import org.eclipse.jgit.lib.Constants;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,6 +38,39 @@ public class ShowTest extends CLIRepositoryTestCase {
 		assertEquals(
 				toString("commit ecdf62e777b7413fc463c20e935403d424410ab2",
 						"Author: GIT_COMMITTER_NAME <GIT_COMMITTER_EMAIL>",
+						"Date:   Sat Aug 15 20:12:58 2009 -0330", "",
+						"    modified", "", "diff --git a/a b/a",
+						"index 2e65efe..59ef8d1 100644", "--- a/a", "+++ b/a",
+						"@@ -1 +1 @@", "-a", NO_NEWLINE, "+a1", NO_NEWLINE),
+				result);
+	}
+
+	@Test
+	public void testShowMailmap() throws Exception {
+		writeTrashFile(Constants.MAILMAP_FILENAME,
+				"Someone <Somewhere> GIT_COMMITTER_NAME <GIT_COMMITTER_EMAIL>");
+		String result = toString(execute("git show"));
+		assertEquals(
+				toString("commit ecdf62e777b7413fc463c20e935403d424410ab2",
+						"Author: Someone <Somewhere>",
+						"Date:   Sat Aug 15 20:12:58 2009 -0330", "",
+						"    modified", "", "diff --git a/a b/a",
+						"index 2e65efe..59ef8d1 100644", "--- a/a", "+++ b/a",
+						"@@ -1 +1 @@", "-a", NO_NEWLINE, "+a1", NO_NEWLINE),
+				result);
+		result = toString(execute("git show --no-mailmap"));
+		assertEquals(
+				toString("commit ecdf62e777b7413fc463c20e935403d424410ab2",
+						"Author: GIT_COMMITTER_NAME <GIT_COMMITTER_EMAIL>",
+						"Date:   Sat Aug 15 20:12:58 2009 -0330", "",
+						"    modified", "", "diff --git a/a b/a",
+						"index 2e65efe..59ef8d1 100644", "--- a/a", "+++ b/a",
+						"@@ -1 +1 @@", "-a", NO_NEWLINE, "+a1", NO_NEWLINE),
+				result);
+		result = toString(execute("git show --no-mailmap --mailmap"));
+		assertEquals(
+				toString("commit ecdf62e777b7413fc463c20e935403d424410ab2",
+						"Author: Someone <Somewhere>",
 						"Date:   Sat Aug 15 20:12:58 2009 -0330", "",
 						"    modified", "", "diff --git a/a b/a",
 						"index 2e65efe..59ef8d1 100644", "--- a/a", "+++ b/a",

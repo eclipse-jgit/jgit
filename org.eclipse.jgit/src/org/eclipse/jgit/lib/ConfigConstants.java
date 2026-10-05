@@ -1164,4 +1164,18 @@ public final class ConfigConstants {
 	 * @since 8.0
 	 */
 	public static final String CONFIG_KEY_FILE = "file";
+
+	/**
+	 * The "log" section
+	 *
+	 * @since 8.0
+	 */
+	public static final String CONFIG_LOG_SECTION = "log";
+
+	/**
+	 * The "mailmap" key
+	 *
+	 * @since 8.0
+	 */
+	public static final String CONFIG_KEY_MAILMAP = "mailmap";
 }

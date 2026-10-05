@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022, Matthias Sohn <matthias.sohn@sap.com> and others
+ * Copyright (C) 2022, 2026 Matthias Sohn <matthias.sohn@sap.com> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -13,6 +13,7 @@ package org.eclipse.jgit.pgm;
 import static org.junit.Assert.assertEquals;
 
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
+import org.eclipse.jgit.lib.Constants;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,6 +33,30 @@ public class LogTest extends CLIRepositoryTestCase {
 		assertEquals(
 				toString("commit b4680f542095a8b41ea4258a5c03b548543a817c",
 						"Author: GIT_COMMITTER_NAME <GIT_COMMITTER_EMAIL>",
+						"Date:   Sat Aug 15 20:12:58 2009 -0330", "added"),
+				result);
+	}
+
+	@Test
+	public void testLogMailmap() throws Exception {
+		writeTrashFile(Constants.MAILMAP_FILENAME,
+				"Someone <Somewhere> GIT_COMMITTER_NAME <GIT_COMMITTER_EMAIL>");
+		String result = toString(execute("git log"));
+		assertEquals(
+				toString("commit b4680f542095a8b41ea4258a5c03b548543a817c",
+						"Author: Someone <Somewhere>",
+						"Date:   Sat Aug 15 20:12:58 2009 -0330", "added"),
+				result);
+		result = toString(execute("git log --no-use-mailmap"));
+		assertEquals(
+				toString("commit b4680f542095a8b41ea4258a5c03b548543a817c",
+						"Author: GIT_COMMITTER_NAME <GIT_COMMITTER_EMAIL>",
+						"Date:   Sat Aug 15 20:12:58 2009 -0330", "added"),
+				result);
+		result = toString(execute("git log --no-use-mailmap --use-mailmap"));
+		assertEquals(
+				toString("commit b4680f542095a8b41ea4258a5c03b548543a817c",
+						"Author: Someone <Somewhere>",
 						"Date:   Sat Aug 15 20:12:58 2009 -0330", "added"),
 				result);
 	}
