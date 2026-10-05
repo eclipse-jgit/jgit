@@ -2,7 +2,7 @@
  * Copyright (C) 2011, Google Inc.
  * Copyright (C) 2009, Christian Halstrick <christian.halstrick@sap.com>
  * Copyright (C) 2009, Johannes E. Schindelin
- * Copyright (C) 2009, Johannes Schindelin <johannes.schindelin@gmx.de> and others
+ * Copyright (C) 2009, 2026 Johannes Schindelin <johannes.schindelin@gmx.de> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -156,6 +156,8 @@ class Blame extends TextBuiltin {
 			} else {
 				generator.prepareHead();
 			}
+
+			generator.setUseMailmap(!noAuthor);
 
 			blame = BlameResult.create(generator);
 			if (blame == null) {

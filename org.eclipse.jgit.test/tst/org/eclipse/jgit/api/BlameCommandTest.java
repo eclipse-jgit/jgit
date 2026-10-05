@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, 2019 GitHub Inc. and others
+ * Copyright (C) 2011, 2026 GitHub Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -23,6 +23,7 @@ import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.junit.Test;
@@ -558,6 +559,126 @@ public class BlameCommandTest extends RepositoryTestCase {
 			assertEquals(c2, lines.getSourceCommit(1));
 			assertEquals(c3, lines.getSourceCommit(2));
 		}
+	}
+
+	@Test
+	public void testMailmap() throws Exception {
+		try (Git git = new Git(db)) {
+			RevCommit[] commits = new RevCommit[3];
+
+			String[] content = new String[] { "first" };
+			writeTrashFile("file.txt", join(content));
+			git.add().addFilepattern("file.txt").call();
+			commits[0] = git.commit().setMessage("create file")
+					.setAuthor("First Tester", "first@example.com").call();
+
+			content = new String[] { "first", "second" };
+			writeTrashFile("file.txt", join(content));
+			git.add().addFilepattern("file.txt").call();
+			commits[1] = git.commit().setMessage("update file")
+					.setAuthor("Second Tester", "second@example.com").call();
+
+			content = new String[] { "first", "second", "third" };
+			writeTrashFile("file.txt", join(content));
+			git.add().addFilepattern("file.txt").call();
+			commits[2] = git.commit().setMessage("update file again")
+					.setAuthor("Third Tester", "third@example.com").call();
+
+			String[] authors = new String[commits.length];
+			for (int i = 0; i < commits.length; i++) {
+				authors[i] = commits[i].getAuthorIdent().getName() + " <"
+						+ commits[i].getAuthorIdent().getEmailAddress() + '>';
+			}
+
+			BlameCommand command = new BlameCommand(db);
+			command.setFilePath("file.txt");
+			BlameResult lines = command.call();
+			assertNotNull(lines);
+			assertEquals(content.length, lines.getResultContents().size());
+
+			for (int i = 0; i < content.length; i++) {
+				assertEquals(commits[i], lines.getSourceCommit(i));
+				assertEquals(i, lines.getSourceLine(i));
+				checkAuthor(authors[i], lines.getSourceAuthor(i));
+			}
+
+			String[] mapContent = {
+					"Peter Pan <peter@neverland.xx>  Third Tester <third@example.com>",
+					"Wendy <wendy@neverland.xx>  Second Tester <second@example.com>",
+					"Capt'n Hook <hook@neverland.xx>  First Tester <first@example.com>" };
+			writeTrashFile(".mailmap", join(mapContent));
+			authors[0] = "Capt'n Hook <hook@neverland.xx>";
+			authors[1] = "Wendy <wendy@neverland.xx>";
+			authors[2] = "Peter Pan <peter@neverland.xx>";
+
+			command = new BlameCommand(db);
+			command.setFilePath("file.txt");
+			lines = command.call();
+			assertNotNull(lines);
+			assertEquals(content.length, lines.getResultContents().size());
+
+			for (int i = 0; i < content.length; i++) {
+				assertEquals(commits[i], lines.getSourceCommit(i));
+				assertEquals(i, lines.getSourceLine(i));
+				checkAuthor(authors[i], lines.getSourceAuthor(i));
+			}
+
+			FileBasedConfig config = db.getConfig();
+
+			mapContent = new String[] {
+					"A U Thor <author@example.com> Third Tester <third@example.com>",
+					"Odin <odin@valhalla.xx> Second Tester <second@example.com>" };
+			writeTrashFile("mailmap.blob", join(mapContent));
+			git.add().addFilepattern("mailmap.blob").call();
+			git.commit().setMessage("Add mailmap blob").call();
+
+			config.setString(ConfigConstants.CONFIG_MAILMAP_SECTION, null,
+					ConfigConstants.CONFIG_KEY_BLOB, "HEAD:mailmap.blob");
+			config.save();
+
+			authors[1] = "Odin <odin@valhalla.xx>";
+			authors[2] = "A U Thor <author@example.com>";
+
+			command = new BlameCommand(db);
+			command.setFilePath("file.txt");
+			lines = command.call();
+			assertNotNull(lines);
+			assertEquals(content.length, lines.getResultContents().size());
+
+			for (int i = 0; i < content.length; i++) {
+				assertEquals(commits[i], lines.getSourceCommit(i));
+				assertEquals(i, lines.getSourceLine(i));
+				checkAuthor(authors[i], lines.getSourceAuthor(i));
+			}
+
+			mapContent = new String[] {
+					"Primary <primary@example.com> First Tester <first@example.com>",
+					"Secondary <secondary@example.com> SECOND Tester <second@example.com>" };
+			writeTrashFile("mymailmap.txt", join(mapContent));
+			config.setString(ConfigConstants.CONFIG_MAILMAP_SECTION, null,
+					ConfigConstants.CONFIG_KEY_FILE, "mymailmap.txt");
+			config.save();
+
+			authors[0] = "Primary <primary@example.com>";
+			authors[1] = "Secondary <secondary@example.com>";
+
+			command = new BlameCommand(db);
+			command.setFilePath("file.txt");
+			lines = command.call();
+			assertNotNull(lines);
+			assertEquals(content.length, lines.getResultContents().size());
+
+			for (int i = 0; i < content.length; i++) {
+				assertEquals(commits[i], lines.getSourceCommit(i));
+				assertEquals(i, lines.getSourceLine(i));
+				checkAuthor(authors[i], lines.getSourceAuthor(i));
+			}
+		}
+	}
+
+	private static void checkAuthor(String expected, PersonIdent ident) {
+		assertEquals(expected,
+				ident.getName() + " <" + ident.getEmailAddress() + '>');
 	}
 
 }

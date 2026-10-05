@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, 2019 GitHub Inc. and others
+ * Copyright (C) 2011, 2026 GitHub Inc. and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -41,6 +41,10 @@ public class BlameCommand extends GitCommand<BlameResult> {
 	private Collection<ObjectId> reverseEndCommits;
 
 	private Boolean followFileRenames;
+
+	private Collection<? extends ObjectId> ignoreRevs;
+
+	private boolean useMailmap = true;
 
 	/**
 	 * Constructor for BlameCommand
@@ -155,8 +159,6 @@ public class BlameCommand extends GitCommand<BlameResult> {
 		return this;
 	}
 
-	private Collection<? extends ObjectId> ignoreRevs;
-
 	/**
 	 * Set revisions to ignore during blame.
 	 * <p>
@@ -170,6 +172,20 @@ public class BlameCommand extends GitCommand<BlameResult> {
 	 */
 	public BlameCommand setIgnoreRevs(Collection<? extends ObjectId> revs) {
 		this.ignoreRevs = revs;
+		return this;
+	}
+
+	/**
+	 * Sets whether to use the repository's mailmap.
+	 *
+	 * @param useMailmap
+	 *            {@code true} to use the repository's mailmap, {@code false}
+	 *            otherwise
+	 * @return {@code this}
+	 * @since 8.0
+	 */
+	public BlameCommand setUseMailmap(boolean useMailmap) {
+		this.useMailmap = useMailmap;
 		return this;
 	}
 
@@ -199,6 +215,8 @@ public class BlameCommand extends GitCommand<BlameResult> {
 			else {
 				gen.prepareHead();
 			}
+
+			gen.setUseMailmap(useMailmap);
 			return gen.computeBlameResult();
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
