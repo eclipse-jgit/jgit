@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2010, Google Inc.
  * Copyright (C) 2006, 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, 2021, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2026, Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -30,14 +30,17 @@ import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.diff.RenameDetector;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.GpgConfig;
 import org.eclipse.jgit.lib.SignatureVerifier.SignatureVerification;
+import org.eclipse.jgit.mailmap.Mailmap;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SignatureVerifiers;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.internal.VerificationUtils;
@@ -58,6 +61,16 @@ class Log extends RevWalkTextBuiltin {
 	private Map<AnyObjectId, Set<Ref>> allRefsByPeeledObjectId;
 
 	private Map<String, NoteMap> noteMaps;
+
+	@Option(name = "--mailmap", aliases = {
+			"--use-mailmap" }, usage = "usage_mailmap")
+	private Boolean useMailmap;
+
+	@Option(name = "--no-mailmap", aliases = {
+			"--no-use-mailmap" }, usage = "usage_noMailmap")
+	void noMailmap(@SuppressWarnings("unused") boolean on) {
+		useMailmap = Boolean.FALSE;
+	}
 
 	private boolean showNameOnly = false;
 
@@ -175,6 +188,8 @@ class Log extends RevWalkTextBuiltin {
 
 	private GpgConfig config;
 
+	private Mailmap mailmap;
+
 	Log() {
 		dateFormatter = new GitDateFormatter(Format.DEFAULT);
 	}
@@ -187,9 +202,15 @@ class Log extends RevWalkTextBuiltin {
 
 	@Override
 	protected void run() {
-		config = new GpgConfig(db.getConfig());
+		StoredConfig repoConfig = db.getConfig();
+		config = new GpgConfig(repoConfig);
 		diffFmt.setRepository(db);
 		try {
+			if (useMailmap == null) {
+				useMailmap = Boolean.valueOf(repoConfig.getBoolean(
+						ConfigConstants.CONFIG_LOG_SECTION,
+						ConfigConstants.CONFIG_KEY_MAILMAP, true));
+			}
 			diffFmt.setPathFilter(pathFilter);
 			if (detectRenames != null) {
 				diffFmt.setDetectRenames(detectRenames.booleanValue());
@@ -218,6 +239,9 @@ class Log extends RevWalkTextBuiltin {
 			if (decorate) {
 				allRefsByPeeledObjectId = getRepository()
 						.getAllRefsByPeeledObjectId();
+			}
+			if (useMailmap.booleanValue()) {
+				mailmap = getRepository().getMailmap();
 			}
 			super.run();
 		} catch (Exception e) {
@@ -258,7 +282,10 @@ class Log extends RevWalkTextBuiltin {
 		if (showSignature) {
 			showSignature(c);
 		}
-		final PersonIdent author = c.getAuthorIdent();
+		PersonIdent author = c.getAuthorIdent();
+		if (mailmap != null) {
+			author = mailmap.map(author);
+		}
 		outw.println(MessageFormat.format(CLIText.get().authorInfo, author.getName(), author.getEmailAddress()));
 		outw.println(MessageFormat.format(CLIText.get().dateInfo,
 				dateFormatter.formatDate(author)));

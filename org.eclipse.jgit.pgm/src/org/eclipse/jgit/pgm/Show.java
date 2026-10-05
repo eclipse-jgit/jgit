@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2010, Google Inc.
  * Copyright (C) 2006-2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
+ * Copyright (C) 2008, 2026 Shawn O. Pearce <spearce@spearce.org> and others
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -26,6 +26,7 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.GpgConfig;
@@ -34,6 +35,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SignatureVerifier.SignatureVerification;
 import org.eclipse.jgit.lib.SignatureVerifiers;
+import org.eclipse.jgit.mailmap.Mailmap;
 import org.eclipse.jgit.pgm.internal.CLIText;
 import org.eclipse.jgit.pgm.internal.VerificationUtils;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
@@ -65,6 +67,16 @@ class Show extends TextBuiltin {
 
 	@Option(name = "--", metaVar = "metaVar_path", handler = PathTreeFilterHandler.class)
 	protected TreeFilter pathFilter = TreeFilter.ALL;
+
+	@Option(name = "--mailmap", aliases = {
+			"--use-mailmap" }, usage = "usage_mailmap")
+	private Boolean useMailmap;
+
+	@Option(name = "--no-mailmap", aliases = {
+			"--no-use-mailmap" }, usage = "usage_noMailmap")
+	void noMailmap(@SuppressWarnings("unused") boolean on) {
+		useMailmap = Boolean.FALSE;
+	}
 
 	@Option(name = "--show-signature", usage = "usage_showSignature")
 	private boolean showSignature;
@@ -155,6 +167,8 @@ class Show extends TextBuiltin {
 
 	// END -- Options shared with Diff
 
+	private Mailmap mailmap;
+
 	Show() {
 		fmt = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss yyyy ZZ", //$NON-NLS-1$
 				Locale.US);
@@ -171,6 +185,14 @@ class Show extends TextBuiltin {
 	protected void run() {
 		diffFmt.setRepository(db);
 		try {
+			if (useMailmap == null) {
+				useMailmap = Boolean.valueOf(db.getConfig().getBoolean(
+						ConfigConstants.CONFIG_LOG_SECTION,
+						ConfigConstants.CONFIG_KEY_MAILMAP, true));
+			}
+			if (useMailmap.booleanValue()) {
+				mailmap = db.getMailmap();
+			}
 			diffFmt.setPathFilter(pathFilter);
 			if (detectRenames != null) {
 				diffFmt.setDetectRenames(detectRenames.booleanValue());
@@ -234,6 +256,9 @@ class Show extends TextBuiltin {
 
 		PersonIdent tagger = tag.getTaggerIdent();
 		if (tagger != null) {
+			if (mailmap != null) {
+				tagger = mailmap.map(tagger);
+			}
 			outw.println(MessageFormat.format(CLIText.get().taggerInfo,
 					tagger.getName(), tagger.getEmailAddress()));
 
@@ -291,7 +316,10 @@ class Show extends TextBuiltin {
 			showSignature(c);
 		}
 
-		final PersonIdent author = c.getAuthorIdent();
+		PersonIdent author = c.getAuthorIdent();
+		if (mailmap != null) {
+			author = mailmap.map(author);
+		}
 		outw.println(MessageFormat.format(CLIText.get().authorInfo,
 				author.getName(), author.getEmailAddress()));
 
