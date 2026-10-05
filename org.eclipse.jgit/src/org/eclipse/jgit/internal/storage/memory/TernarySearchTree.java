@@ -63,21 +63,6 @@ public class TernarySearchTree<Value> {
 		}
 	}
 
-	/**
-	 * Loader to load key-value pairs to be cached in the tree
-	 *
-	 * @param <Value>
-	 *            type of values
-	 */
-	public static interface Loader<Value> {
-		/**
-		 * Load map of all key value pairs
-		 *
-		 * @return map of all key value pairs to cache in the tree
-		 */
-		Map<String, Value> loadAll();
-	}
-
 	private static void validateKey(String key) {
 		if (StringUtils.isEmptyOrNull(key)) {
 			throw new IllegalArgumentException(
