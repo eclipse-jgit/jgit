@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "126f4e22_9a158e1d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-10-05T11:58:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "873394ce_f2b5a4b7",
+      "revId": "1719ac5d1a30382b52a54312d135819ee1ddea9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28c9f23a_8dafb99d",
@@ -41,6 +59,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fcb6bbb_ea048fa9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1499,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-10-05T11:58:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28c9f23a_8dafb99d",
+      "range": {
+        "startLine": 1498,
+        "startChar": 43,
+        "endLine": 1499,
+        "endChar": 9
+      },
+      "revId": "1719ac5d1a30382b52a54312d135819ee1ddea9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3b2027d_f1cace43",
@@ -54,6 +96,30 @@
       "writtenOn": "2026-10-01T11:23:53Z",
       "side": 1,
       "message": "```suggestion\n\t * subdirectories that are also tried, so that parent directories shared by many\n```",
+      "range": {
+        "startLine": 1502,
+        "startChar": 48,
+        "endLine": 1502,
+        "endChar": 59
+      },
+      "revId": "1719ac5d1a30382b52a54312d135819ee1ddea9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2180c13e_4d43ad9a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1502,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-10-05T11:58:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3b2027d_f1cace43",
       "range": {
         "startLine": 1502,
         "startChar": 48,
