@@ -43,7 +43,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String anExceptionOccurredWhileTryingToAddTheIdOfHEAD;
 	/***/ public String anSSHSessionHasBeenAlreadyCreated;
 	/***/ public String applyBinaryBaseOidWrong;
-	/***/ public String applyBinaryForInCoreNotSupported;
 	/***/ public String applyBinaryOidTooShort;
 	/***/ public String applyBinaryPatchTypeNotSupported;
 	/***/ public String applyBinaryResultOidWrong;
@@ -92,7 +91,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String binaryDeltaInvalidResultLength;
 	/***/ public String binaryHunkDecodeError;
 	/***/ public String binaryHunkInvalidLength;
-	/***/ public String binaryHunkLineTooShort;
 	/***/ public String binaryHunkMissingNewline;
 	/***/ public String bitmapMissingObject;
 	/***/ public String bitmapsMustBePrepared;
@@ -205,12 +203,10 @@ public class JGitText extends TranslationBundle {
 	/***/ public String configSubsectionContainsNullByte;
 	/***/ public String configValueContainsNullByte;
 	/***/ public String configHandleIsStale;
-	/***/ public String configHandleMayBeLocked;
 	/***/ public String connectionFailed;
 	/***/ public String connectionTimeOut;
 	/***/ public String contextMustBeNonNegative;
 	/***/ public String cookieFilePathRelative;
-	/***/ public String copyFileFailedNullFiles;
 	/***/ public String corruptCommitGraph;
 	/***/ public String corruptionDetectedReReadingAt;
 	/***/ public String corruptObjectBadDate;
@@ -272,7 +268,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String couldNotLockHEAD;
 	/***/ public String couldNotPersistCookies;
 	/***/ public String couldNotReadCookieFile;
-	/***/ public String couldNotReadIndexInOneGo;
 	/***/ public String couldNotReadObjectWhileParsingCommit;
 	/***/ public String couldNotRewindToUpstreamCommit;
 	/***/ public String couldNotSignStringWithKey;
@@ -318,7 +313,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String downloadCancelled;
 	/***/ public String downloadCancelledDuringIndexing;
 	/***/ public String duplicateAdvertisementsOf;
-	/***/ public String duplicateCacheTablesGiven;
 	/***/ public String duplicatePackExtensionsForCacheTables;
 	/***/ public String duplicatePackExtensionsSet;
 	/***/ public String duplicateRef;
@@ -422,7 +416,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String incorrectOBJECT_ID_LENGTH;
 	/***/ public String indexFileCorruptedNegativeBucketCount;
 	/***/ public String indexFileIsTooLargeForJgit;
-	/***/ public String indexNumbersNotIncreasing;
 	/***/ public String indexWriteException;
 	/***/ public String initFailedBareRepoDifferentDirs;
 	/***/ public String initFailedDirIsNoDirectory;
@@ -540,8 +533,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String mergeUsingStrategyResultedInDescription;
 	/***/ public String mergeRecursiveConflictsWhenMergingCommonAncestors;
 	/***/ public String mergeRecursiveTooManyMergeBasesFor;
-	/***/ public String mergeToolNotGivenError;
-	/***/ public String mergeToolNullError;
 	/***/ public String messageAndTaggerNotAllowedInUnannotatedTags;
 	/***/ public String midxChunkNeeded;
 	/***/ public String midxChunkRepeated;
@@ -585,7 +576,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String noMergeBase;
 	/***/ public String noMergeHeadSpecified;
 	/***/ public String nonBareLinkFilesNotSupported;
-	/***/ public String nonCommitToHeads;
 	/***/ public String noPackExtConfigurationGiven;
 	/***/ public String noPackExtGivenForConfiguration;
 	/***/ public String noPathAttributesFound;
@@ -683,7 +673,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String pushNotPermitted;
 	/***/ public String pushOptionsNotSupported;
 	/***/ public String rawLogMessageDoesNotParseAsLogEntry;
-	/***/ public String readConfigFailed;
 	/***/ public String readShallowFailed;
 	/***/ public String readFileStoreAttributesFailed;
 	/***/ public String readerIsRequired;
@@ -719,7 +708,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String renameBranchUnexpectedResult;
 	/***/ public String renameCancelled;
 	/***/ public String renameFileFailed;
-	/***/ public String renameFileFailedNullFiles;
 	/***/ public String renamesAlreadyFound;
 	/***/ public String renamesBreakingModifies;
 	/***/ public String renamesFindingByContent;
@@ -771,9 +759,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String signatureServiceConflict;
 	/***/ public String signatureTypeUnknown;
 	/***/ public String signatureVerificationError;
-	/***/ public String signatureVerificationUnavailable;
 	/***/ public String signedTagMessageNoLf;
-	/***/ public String signingServiceUnavailable;
 	/***/ public String similarityScoreMustBeWithinBounds;
 	/***/ public String skipMustBeNonNegative;
 	/***/ public String skipNotAccessiblePath;
@@ -817,12 +803,10 @@ public class JGitText extends TranslationBundle {
 	/***/ public String submodulePathInvalid;
 	/***/ public String submoduleUrlInvalid;
 	/***/ public String supportOnlyPackIndexVersion2;
-	/***/ public String systemConfigFileInvalid;
 	/***/ public String tagAlreadyExists;
 	/***/ public String tagNameInvalid;
 	/***/ public String tagOnRepoWithoutHEADCurrentlyNotSupported;
 	/***/ public String temporaryBufferIsDestroyed;
-	/***/ public String timeoutMeasureFsTimestampResolution;
 	/***/ public String transactionAborted;
 	/***/ public String theFactoryMustNotBeNull;
 	/***/ public String threadInterruptedWhileRunning;
@@ -864,7 +848,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unableToSignCommitNoSecretKey;
 	/***/ public String unauthorized;
 	/***/ public String unencodeableFile;
-	/***/ public String unexpectedAwsApiSignatureVersion;
 	/***/ public String unexpectedCompareResult;
 	/***/ public String unexpectedEndOfConfigFile;
 	/***/ public String unexpectedEndOfInput;
@@ -929,7 +912,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String uriNotFound;
 	/***/ public String uriNotFoundWithMessage;
 	/***/ public String URINotSupported;
-	/***/ public String userConfigInvalid;
 	/***/ public String validatingGitModules;
 	/***/ public String valueExceedsRange;
 	/***/ public String verifySignatureBad;
