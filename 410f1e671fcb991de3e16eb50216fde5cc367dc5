@@ -16,6 +16,24 @@
       "message": "Many of the usages simply pass a `byte []` that has already been calculated, only `RevCommit::parseHeaders` and `RevWalk::parseNew` actually defer something, but you could rewrite the 1st like this:\n\n```java\n@Override\nfinal void parseHeaders(RevWalk walk) throws MissingObjectException, IncorrectObjectTypeException, IOException {\n\tif (graphPosition \u003e\u003d 0 \u0026\u0026 !walk.isRetainBody()) {\n\t\tparseCanonical(walk, null);\n\t} else {\n\t\tparseCanonical(walk, walk.getCachedBytes(this));\n\t}\n}\n```\n\n... and the 2nd one doesn\u0027t seem to be that expensive since both of its callers already did an `open(...)` operation, which I bet is the one that reads from disk, right?\n\nDo you have any performance measurements that can support the need for this change?",
       "revId": "410f1e671fcb991de3e16eb50216fde5cc367dc5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e38ec273_97763fcf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-10-06T07:40:28Z",
+      "side": 1,
+      "message": "Yes, there is a significant performance improvement for large repositories with a generated commit graph. For example, in the following setup:\n * Linux Kernel Repository\n * Commit Graph Generated\n * core.commitGraph \u003d true\n * HEAD only RevFilter\n * History View opened on the whole repository\n\nthen the GenerateHistoryJob runs for approximately 22 seconds if the raw bytes are always read. Most of that time (18.3 seconds) is spent in `RevWalk.getCachedBytes()`. Using this patch, that time is cut down to only 1.6 seconds.",
+      "parentUuid": "1bf63351_76d3c2a6",
+      "revId": "410f1e671fcb991de3e16eb50216fde5cc367dc5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
