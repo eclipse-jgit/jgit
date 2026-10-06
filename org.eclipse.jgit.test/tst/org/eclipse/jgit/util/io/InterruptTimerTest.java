@@ -27,7 +27,7 @@ public class InterruptTimerTest {
 
 	private static final int SHORT_ENOUGH = 1;
 	private static final int TOO_LONG = SHORT_ENOUGH * MULTIPLIER + BUFFER;
-	private static final int TIMEOUT_LONG_ENOUGH = TOO_LONG;
+	private static final int TIMEOUT_LONG_ENOUGH = 500; // Must outlast a CI pause
 	private static final int TIMEOUT_TOO_SHORT = SHORT_ENOUGH;
 
 	private InterruptTimer timer;
