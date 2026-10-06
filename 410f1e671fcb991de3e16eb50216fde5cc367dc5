@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bf63351_76d3c2a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-06T06:23:46Z",
+      "side": 1,
+      "message": "Many of the usages simply pass a `byte []` that has already been calculated, only `RevCommit::parseHeaders` and `RevWalk::parseNew` actually defer something, but you could rewrite the 1st like this:\n\n```java\n@Override\nfinal void parseHeaders(RevWalk walk) throws MissingObjectException, IncorrectObjectTypeException, IOException {\n\tif (graphPosition \u003e\u003d 0 \u0026\u0026 !walk.isRetainBody()) {\n\t\tparseCanonical(walk, null);\n\t} else {\n\t\tparseCanonical(walk, walk.getCachedBytes(this));\n\t}\n}\n```\n\n... and the 2nd one doesn\u0027t seem to be that expensive since both of its callers already did an `open(...)` operation, which I bet is the one that reads from disk, right?\n\nDo you have any performance measurements that can support the need for this change?",
+      "revId": "410f1e671fcb991de3e16eb50216fde5cc367dc5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
