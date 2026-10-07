@@ -33,6 +33,24 @@
       "message": "Add a comment explaining where this pipeline is supposed to be evaluated and where the pipeline definition lives.",
       "revId": "a209eb67565f94374097791ccc2d7c8e538cc7f2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18d5039b_f3049450",
+        "filename": "Jenkinsfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-07T19:02:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65a28295_0c0585f4",
+      "revId": "a209eb67565f94374097791ccc2d7c8e538cc7f2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
