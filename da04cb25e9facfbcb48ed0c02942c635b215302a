@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "071281c3_8ee2dfff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-10-07T09:44:55Z",
+      "side": 1,
+      "message": "I will first tag 7.9.0 M1 today and then 7.8.1 with these security fixes",
+      "revId": "da04cb25e9facfbcb48ed0c02942c635b215302a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
