@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ade4f480_cdbc8bc8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-10-07T09:32:09Z",
+      "side": 1,
+      "message": "this needs to wait until next week, we shouldn\u0027t bump the major version on the last day of 2026-12 M1 which is today",
+      "revId": "8e2ce382c6f5d7717ce9fc13f057ff0c2ecf37ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
