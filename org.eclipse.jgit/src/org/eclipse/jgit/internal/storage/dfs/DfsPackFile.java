@@ -36,7 +36,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
-
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -281,8 +280,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 		try {
 			index = indexFactory.getPackIndexes().index(ctx);
 			if (index == null) {
-				throw new IOException(
-						"Couldn't get a reference to the primary index"); //$NON-NLS-1$
+        throw new IOException("Couldn't get a reference to the primary index"); // $NON-NLS-1$
 			}
 			ctx.emitIndexLoad(desc, INDEX, index);
 			return index;
@@ -406,8 +404,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 		reverseIndex = indexFactory.getPackIndexes().reverseIndex(ctx,
 				getPackIndex(ctx));
 		if (reverseIndex == null) {
-			throw new IOException(
-					"Couldn't get a reference to the reverse index"); //$NON-NLS-1$
+      throw new IOException("Couldn't get a reference to the reverse index"); // $NON-NLS-1$
 		}
 		ctx.emitIndexLoad(desc, REVERSE_INDEX, reverseIndex);
 		return reverseIndex;
@@ -1050,7 +1047,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 		return hdr;
 	}
 
-	int getObjectType(DfsReader ctx, long pos) throws IOException {
+  public int getObjectType(DfsReader ctx, long pos) throws IOException {
 		final byte[] ib = ctx.tempId;
 		for (;;) {
 			readFully(pos, ib, 0, 20, ctx);
@@ -1187,7 +1184,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 	int getObjectSizeIndexThreshold(DfsReader ctx) throws IOException {
 		PackObjectSizeIndex idx = getObjectSizeIndex(ctx);
 		if (idx == null) {
-			throw new IOException("Asking threshold of non-existing obj-size"); //$NON-NLS-1$
+      throw new IOException("Asking threshold of non-existing obj-size"); // $NON-NLS-1$
 		}
 		return idx.getThreshold();
 	}
@@ -1220,8 +1217,8 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 		}
 		PackObjectSizeIndex sizeIdx = getObjectSizeIndex(ctx);
 		if (sizeIdx == null) {
-			throw new IllegalStateException(
-					"Asking indexed size from a pack without object size index"); //$NON-NLS-1$
+      throw new IllegalStateException(
+          "Asking indexed size from a pack without object size index"); //$NON-NLS-1$
 		}
 
 		return sizeIdx.getSize(idxPosition);

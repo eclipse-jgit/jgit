@@ -15,7 +15,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.zip.DataFormatException;
-
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
@@ -230,8 +229,8 @@ public abstract sealed class DfsPackFileMidx extends DfsPackFile
 		return location.getPack().getDeltaHeader(ctx, location.getPackOffset());
 	}
 
-	@Override
-	final int getObjectType(DfsReader ctx, long pos) throws IOException {
+  @Override
+  public final int getObjectType(DfsReader ctx, long pos) throws IOException {
 		DfsPackOffset location = getOffsetCalculator().decode(pos);
 		return location.getPack().getObjectType(ctx, location.getPackOffset());
 	}

@@ -29,7 +29,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
-
 import org.eclipse.jgit.internal.storage.file.BasePackIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndexWriterV1;
 import org.eclipse.jgit.internal.storage.pack.PackBitmapIndexWriter;
@@ -197,9 +196,13 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 
 			@Override
 			public String toString() {
-				return Arrays.stream(PackSource.values())
-						.map(s -> s + "=" + ranks.get(s)) //$NON-NLS-1$
-						.collect(joining(", ", getClass().getSimpleName() + "{", "}")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        return Arrays.stream(PackSource.values())
+            .map(s -> s + "=" + ranks.get(s)) // $NON-NLS-1$
+            .collect(
+                joining(
+                    ", ",
+                    getClass().getSimpleName() + "{",
+                    "}")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
 		}
 	}
@@ -388,73 +391,58 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		}
 	}
 
-	/**
-	 * Generate a new unique name for a pack file.
-	 *
-	 * @param source
-	 *            where the pack stream is created.
-	 * @return a unique name for the pack file. Must not collide with any other
-	 *         pack file name in the same DFS.
-	 * @throws java.io.IOException
-	 *             a new unique pack description cannot be generated.
-	 */
-	protected abstract DfsPackDescription newPack(PackSource source)
-			throws IOException;
+  /**
+   * Generate a new unique name for a pack file.
+   *
+   * @param source where the pack stream is created.
+   * @return a unique name for the pack file. Must not collide with any other pack file name in the
+   *     same DFS.
+   * @throws java.io.IOException a new unique pack description cannot be generated.
+   */
+  public abstract DfsPackDescription newPack(PackSource source) throws IOException;
 
-	/**
-	 * Generate a new unique name for a pack file.
-	 *
-	 * <p>
-	 * Default implementation of this method would be equivalent to
-	 * {@code newPack(source).setEstimatedPackSize(estimatedPackSize)}. But the
-	 * clients can override this method to use the given
-	 * {@code estimatedPackSize} value more efficiently in the process of
-	 * creating a new
-	 * {@link org.eclipse.jgit.internal.storage.dfs.DfsPackDescription} object.
-	 *
-	 * @param source
-	 *            where the pack stream is created.
-	 * @param estimatedPackSize
-	 *            the estimated size of the pack.
-	 * @return a unique name for the pack file. Must not collide with any other
-	 *         pack file name in the same DFS.
-	 * @throws java.io.IOException
-	 *             a new unique pack description cannot be generated.
-	 */
-	protected DfsPackDescription newPack(PackSource source,
-			long estimatedPackSize) throws IOException {
+  /**
+   * Generate a new unique name for a pack file.
+   *
+   * <p>Default implementation of this method would be equivalent to {@code
+   * newPack(source).setEstimatedPackSize(estimatedPackSize)}. But the clients can override this
+   * method to use the given {@code estimatedPackSize} value more efficiently in the process of
+   * creating a new {@link org.eclipse.jgit.internal.storage.dfs.DfsPackDescription} object.
+   *
+   * @param source where the pack stream is created.
+   * @param estimatedPackSize the estimated size of the pack.
+   * @return a unique name for the pack file. Must not collide with any other pack file name in the
+   *     same DFS.
+   * @throws java.io.IOException a new unique pack description cannot be generated.
+   */
+  public DfsPackDescription newPack(PackSource source, long estimatedPackSize) throws IOException {
 		DfsPackDescription pack = newPack(source);
 		pack.setEstimatedPackSize(estimatedPackSize);
 		return pack;
 	}
 
-	/**
-	 * Commit a pack and index pair that was written to the DFS.
-	 * <p>
-	 * Committing the pack/index pair makes them visible to readers. The JGit
-	 * DFS code always writes the pack, then the index. This allows a simple
-	 * commit process to do nothing if readers always look for both files to
-	 * exist and the DFS performs atomic creation of the file (e.g. stream to a
-	 * temporary file and rename to target on close).
-	 * <p>
-	 * During pack compaction or GC the new pack file may be replacing other
-	 * older files. Implementations should remove those older files (if any) as
-	 * part of the commit of the new file.
-	 * <p>
-	 * This method is a trivial wrapper around
-	 * {@link #commitPackImpl(Collection, Collection)} that calls the
-	 * implementation and fires events.
-	 *
-	 * @param desc
-	 *            description of the new packs.
-	 * @param replaces
-	 *            if not null, list of packs to remove.
-	 * @throws java.io.IOException
-	 *             the packs cannot be committed. On failure a rollback must
-	 *             also be attempted by the caller.
-	 */
-	protected void commitPack(Collection<DfsPackDescription> desc,
-			Collection<DfsPackDescription> replaces) throws IOException {
+  /**
+   * Commit a pack and index pair that was written to the DFS.
+   *
+   * <p>Committing the pack/index pair makes them visible to readers. The JGit DFS code always
+   * writes the pack, then the index. This allows a simple commit process to do nothing if readers
+   * always look for both files to exist and the DFS performs atomic creation of the file (e.g.
+   * stream to a temporary file and rename to target on close).
+   *
+   * <p>During pack compaction or GC the new pack file may be replacing other older files.
+   * Implementations should remove those older files (if any) as part of the commit of the new file.
+   *
+   * <p>This method is a trivial wrapper around {@link #commitPackImpl(Collection, Collection)} that
+   * calls the implementation and fires events.
+   *
+   * @param desc description of the new packs.
+   * @param replaces if not null, list of packs to remove.
+   * @throws java.io.IOException the packs cannot be committed. On failure a rollback must also be
+   *     attempted by the caller.
+   */
+  public void commitPack(
+      Collection<DfsPackDescription> desc, Collection<DfsPackDescription> replaces)
+      throws IOException {
 		commitPackImpl(desc, replaces);
 		getRepository().fireEvent(new DfsPacksChangedEvent());
 	}
@@ -476,22 +464,20 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	protected abstract void commitPackImpl(Collection<DfsPackDescription> desc,
 			Collection<DfsPackDescription> replaces) throws IOException;
 
-	/**
-	 * Try to rollback a pack creation.
-	 * <p>
-	 * JGit DFS always writes the pack first, then the index. If the pack does
-	 * not yet exist, then neither does the index. A safe DFS implementation
-	 * would try to remove both files to ensure they are really gone.
-	 * <p>
-	 * A rollback does not support failures, as it only occurs when there is
-	 * already a failure in progress. A DFS implementor may wish to log
-	 * warnings/error messages when a rollback fails, but should not send new
-	 * exceptions up the Java callstack.
-	 *
-	 * @param desc
-	 *            pack to delete.
-	 */
-	protected abstract void rollbackPack(Collection<DfsPackDescription> desc);
+  /**
+   * Try to rollback a pack creation.
+   *
+   * <p>JGit DFS always writes the pack first, then the index. If the pack does not yet exist, then
+   * neither does the index. A safe DFS implementation would try to remove both files to ensure they
+   * are really gone.
+   *
+   * <p>A rollback does not support failures, as it only occurs when there is already a failure in
+   * progress. A DFS implementor may wish to log warnings/error messages when a rollback fails, but
+   * should not send new exceptions up the Java callstack.
+   *
+   * @param desc pack to delete.
+   */
+  public abstract void rollbackPack(Collection<DfsPackDescription> desc);
 
 	/**
 	 * List the available pack files.
@@ -532,21 +518,17 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 			DfsPackDescription desc, PackExt ext)
 			throws FileNotFoundException, IOException;
 
-	/**
-	 * Open a pack, pack index, or other related file for writing.
-	 *
-	 * @param desc
-	 *            description of pack related to the data that will be written.
-	 *            This is an instance previously obtained from
-	 *            {@link #newPack(PackSource)}.
-	 * @param ext
-	 *            file extension that will be written i.e "pack" or "idx".
-	 * @return channel to write the file.
-	 * @throws java.io.IOException
-	 *             the file cannot be opened.
-	 */
-	protected abstract DfsOutputStream writeFile(
-			DfsPackDescription desc, PackExt ext) throws IOException;
+  /**
+   * Open a pack, pack index, or other related file for writing.
+   *
+   * @param desc description of pack related to the data that will be written. This is an instance
+   *     previously obtained from {@link #newPack(PackSource)}.
+   * @param ext file extension that will be written i.e "pack" or "idx".
+   * @return channel to write the file.
+   * @throws java.io.IOException the file cannot be opened.
+   */
+  public abstract DfsOutputStream writeFile(DfsPackDescription desc, PackExt ext)
+      throws IOException;
 
 	void addPack(DfsPackFile newPack) throws IOException {
 		PackList o, n;
@@ -773,10 +755,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 				DfsPackDescription.reftableComparator());
 	}
 
-	/**
-	 * Clears the cached list of packs, forcing them to be scanned again.
-	 */
-	protected void clearCache() {
+  /** Clears the cached list of packs, forcing them to be scanned again. */
+  public void clearCache() {
 		packList.set(NO_PACKS);
 	}
 

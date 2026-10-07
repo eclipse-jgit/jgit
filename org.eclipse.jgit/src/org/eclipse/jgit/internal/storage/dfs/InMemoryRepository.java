@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
@@ -137,8 +136,8 @@ public class InMemoryRepository extends DfsRepository {
 			return packs;
 		}
 
-		@Override
-		protected DfsPackDescription newPack(PackSource source) {
+    @Override
+    public DfsPackDescription newPack(PackSource source) {
 			int id = packId.incrementAndGet();
 			return new MemPack(
 					"pack-" + id + "-" + source.name(), //$NON-NLS-1$ //$NON-NLS-2$
@@ -167,10 +166,10 @@ public class InMemoryRepository extends DfsRepository {
 			clearCache();
 		}
 
-		@Override
-		protected void rollbackPack(Collection<DfsPackDescription> desc) {
-			// Do nothing. Pack is not recorded until commitPack.
-		}
+    @Override
+    public void rollbackPack(Collection<DfsPackDescription> desc) {
+      // Do nothing. Pack is not recorded until commitPack.
+    }
 
 		@Override
 		protected ReadableChannel openFile(DfsPackDescription desc, PackExt ext)
@@ -182,9 +181,8 @@ public class InMemoryRepository extends DfsRepository {
 			return new ByteArrayReadableChannel(file, blockSize);
 		}
 
-		@Override
-		protected DfsOutputStream writeFile(DfsPackDescription desc,
-				PackExt ext) throws IOException {
+    @Override
+    public DfsOutputStream writeFile(DfsPackDescription desc, PackExt ext) throws IOException {
 			MemPack memPack = (MemPack) desc;
 			return new Out() {
 				@Override

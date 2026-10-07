@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphWriter;
@@ -488,7 +487,7 @@ public class DfsPackDescription {
 		return packStats;
 	}
 
-	DfsPackDescription setPackStats(PackStatistics stats) {
+  public DfsPackDescription setPackStats(PackStatistics stats) {
 		this.packStats = stats;
 		setFileSize(PACK, stats.getTotalBytes());
 		setObjectCount(stats.getTotalObjects());
@@ -505,7 +504,7 @@ public class DfsPackDescription {
 		return refStats;
 	}
 
-	void setReftableStats(ReftableWriter.Stats stats) {
+  public void setReftableStats(ReftableWriter.Stats stats) {
 		this.refStats = stats;
 		setMinUpdateIndex(stats.minUpdateIndex());
 		setMaxUpdateIndex(stats.maxUpdateIndex());
@@ -522,7 +521,7 @@ public class DfsPackDescription {
 		return commitGraphStats;
 	}
 
-	void setCommitGraphStats(CommitGraphWriter.Stats stats) {
+  public void setCommitGraphStats(CommitGraphWriter.Stats stats) {
 		this.commitGraphStats = stats;
 	}
 
