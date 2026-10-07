@@ -282,17 +282,13 @@ public class DiffToolTest extends ToolTestCase {
 	}
 
 	private Pattern[] getExpectedCachedToolOutputNoPrompt(String[] conflictingFilenames) {
-		String tmpDir = System.getProperty("java.io.tmpdir");
-		if (tmpDir.endsWith(File.separator)) {
-			tmpDir = tmpDir.substring(0, tmpDir.length() - 1);
-		}
 		Pattern emptyPattern = Pattern.compile("");
 		List<Pattern> expectedToolOutput = new ArrayList<>();
 		for (int i = 0; i < conflictingFilenames.length; ++i) {
 			String changedFilename = conflictingFilenames[i];
 			Path fullPath = getFullPath(changedFilename);
 			String filename = fullPath.getFileName().toString();
-			String regexp = tmpDir + File.separatorChar + filename
+			String regexp = ".*" + Pattern.quote(File.separator + filename)
 					+ "_REMOTE_.*";
 			Pattern pattern = Pattern.compile(regexp);
 			expectedToolOutput.add(pattern);
