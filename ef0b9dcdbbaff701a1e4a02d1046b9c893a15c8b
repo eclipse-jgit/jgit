@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35011dca_fb6de999",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-10-07T09:55:48Z",
+      "side": 1,
+      "message": "Did you consider to implement this hook as a subclass of `org.eclipse.jgit.hooks.GitHook\u003cT\u003e` ?\nFor other hooks we use `org.eclipse.jgit.hooks.Hooks` as hook factory.",
+      "revId": "ef0b9dcdbbaff701a1e4a02d1046b9c893a15c8b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
