@@ -30,7 +30,7 @@
 
   <properties>
     <java.version>25</java.version>
-    <tycho-version>4.0.13</tycho-version>
+    <tycho-version>5.0.4</tycho-version>
     <target-platform>jgit-4.34</target-platform>
     <project.build.outputTimestamp>${git.commit.time}</project.build.outputTimestamp>
   </properties>
