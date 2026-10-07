@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e022ae59_9eb6d65f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-07T18:24:24Z",
+      "side": 1,
+      "message": "Leaving the +2 to @matthias.sohn@sap.com",
+      "revId": "a209eb67565f94374097791ccc2d7c8e538cc7f2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65a28295_0c0585f4",
+        "filename": "Jenkinsfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-07T18:24:24Z",
+      "side": 1,
+      "message": "Add a comment explaining where this pipeline is supposed to be evaluated and where the pipeline definition lives.",
+      "revId": "a209eb67565f94374097791ccc2d7c8e538cc7f2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
