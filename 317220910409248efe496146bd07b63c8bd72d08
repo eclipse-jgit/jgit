@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "011d47f2_7ee8e5ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-10-08T16:04:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b65ed710_b029af1b",
+      "revId": "317220910409248efe496146bd07b63c8bd72d08",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f5eb33c6_6a2d1498",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -52,6 +70,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3af6c010_e2fe28d4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-10-08T16:04:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "980c441a_cbd7f968",
+      "revId": "317220910409248efe496146bd07b63c8bd72d08",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6a443f7_e6caa886",
@@ -65,6 +101,24 @@
       "writtenOn": "2026-10-02T08:54:31Z",
       "side": 1,
       "message": "```suggestion\n * Copyright (C) 2009-2026, Google Inc. and others\n```",
+      "revId": "317220910409248efe496146bd07b63c8bd72d08",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "709b50ce_3092e471",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkSortTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-10-08T16:04:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6a443f7_e6caa886",
       "revId": "317220910409248efe496146bd07b63c8bd72d08",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -86,6 +140,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e1445e6_d9f4e46d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkSortTopoTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-10-08T16:04:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50d3a420_5e0d0ee3",
+      "revId": "317220910409248efe496146bd07b63c8bd72d08",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cb996c9_2c508d57",
@@ -99,6 +171,30 @@
       "writtenOn": "2026-10-02T08:54:31Z",
       "side": 1,
       "message": "`Ctrl + Shift + F` says...\n\n```suggestion\n\tpublic RevWalkWithAndWithoutCommitGraphTestCase(boolean withCommitGraph) {\n```",
+      "range": {
+        "startLine": 20,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 29
+      },
+      "revId": "317220910409248efe496146bd07b63c8bd72d08",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87a55ca2_79508922",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkWithAndWithoutCommitGraphTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-10-08T16:04:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cb996c9_2c508d57",
       "range": {
         "startLine": 20,
         "startChar": 1,
