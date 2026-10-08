@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "691cc58a_ddb0ae89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-10-08T20:57:12Z",
+      "side": 1,
+      "message": "Verification fails due to unrelated problem. Verified locally.\n\nTrigger build",
+      "revId": "6584414eab8a6ce20b85c1d94b6ebe128de172e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06f531ac_e7fe4cdf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-10-08T20:57:12Z",
+      "side": 1,
+      "message": "Verification fails due to unrelated problem. Verified locally.\n\nTrigger build.",
+      "revId": "6584414eab8a6ce20b85c1d94b6ebe128de172e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
