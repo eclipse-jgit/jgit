@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e683fec_013aef53",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/TopoSortPendingGeneratorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-10-08T16:40:24Z",
+      "side": 1,
+      "message": "The Ignore annotation is still correct on the class here, since the TopoSortPendingGenerator is still disabled in this change.",
+      "parentUuid": "043ec6ed_d67c47bf",
+      "range": {
+        "startLine": 57,
+        "startChar": 13,
+        "endLine": 57,
+        "endChar": 51
+      },
+      "revId": "659a1e5ea3137ec0e3d5ceec8f1b216add124145",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e200f538_0cedf950",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-10-02T11:48:27Z",
       "side": 1,
       "message": "```suggestion\n\t\tfinal RevCommit uninteresting \u003d commit(beforeUninteresting);\n```",
+      "range": {
+        "startLine": 60,
+        "startChar": 18,
+        "endLine": 60,
+        "endChar": 31
+      },
+      "revId": "659a1e5ea3137ec0e3d5ceec8f1b216add124145",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5e264b1_b9e3c2e6",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/TopoSortPendingGeneratorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-10-08T16:40:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e200f538_0cedf950",
       "range": {
         "startLine": 60,
         "startChar": 18,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bb7b46d2_57450016",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoPhase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-10-08T16:40:24Z",
+      "side": 1,
+      "message": "Theoretically, it should not contain a very large amount of commits, since it only grows in size when encountering merge commits. In very complex repositories, this queue can contain quite a few commits (The maxmimum size I saw when testing against the linux kernel was 1364). This is also only checked when encountering an UNINTERESTING commit in the Explore Phase.",
+      "parentUuid": "ff57050a_1b7c62c7",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 2
+      },
+      "revId": "659a1e5ea3137ec0e3d5ceec8f1b216add124145",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6dbc7909_513e7e1e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoPhase.java",
         "patchSetId": 1
@@ -83,6 +155,30 @@
       "writtenOn": "2026-10-02T11:58:15Z",
       "side": 1,
       "message": "Since the method is called `allQueuedCommitsHaveFlag` (emphasis in `all`), why not this instead, it reads more naturally:\n\n```suggestion\n\tfinal boolean allQueuedCommitsHaveFlag(int flag) {\n\t\treturn queue.stream().allMatch(c -\u003e (c.flags \u0026 flag) !\u003d 0);\n\t}\n```",
+      "range": {
+        "startLine": 80,
+        "startChar": 1,
+        "endLine": 82,
+        "endChar": 2
+      },
+      "revId": "659a1e5ea3137ec0e3d5ceec8f1b216add124145",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79e9a2e9_172cda37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoPhase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-10-08T16:40:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6dbc7909_513e7e1e",
       "range": {
         "startLine": 80,
         "startChar": 1,
