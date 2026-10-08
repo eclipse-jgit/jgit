@@ -23,6 +23,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.List;
@@ -384,7 +385,11 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 			Instant actTime = fs.lastModifiedInstant(tmp);
 			while (actTime.compareTo(startTime) <= 0) {
 				TimeUnit.NANOSECONDS.sleep(sleepTime);
-				FileUtils.touch(tmp.toPath());
+				// advance the clock with a real write. Setting the mtime
+				// explicitly (as FileUtils.touch does) can report an advance
+				// the next ordinary write does not honor on coarse-granularity
+				// filesystems, breaking fsTick's "strictly newer" contract.
+				Files.write(tmp.toPath(), new byte[] { 1 });
 				actTime = fs.lastModifiedInstant(tmp);
 			}
 			return actTime;
