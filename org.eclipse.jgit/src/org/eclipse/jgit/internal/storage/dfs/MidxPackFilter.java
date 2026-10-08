@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 
@@ -123,6 +122,10 @@ public class MidxPackFilter {
 			Set<DfsPackDescription> packs) {
 		DfsPackDescription tip = midx;
 		while (tip != null) {
+      if (tip.getCoveredPacks().isEmpty()) {
+        return false;
+      }
+
 			if (!packs.containsAll(tip.getCoveredPacks())) {
 				return false;
 			}
