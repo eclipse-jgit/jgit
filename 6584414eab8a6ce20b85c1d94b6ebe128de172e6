@@ -33,6 +33,23 @@
       "message": "Verification fails due to unrelated problem. Verified locally.\n\nTrigger build.",
       "revId": "6584414eab8a6ce20b85c1d94b6ebe128de172e6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb76fda1_09132c08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-10-08T21:02:19Z",
+      "side": 1,
+      "message": "trigger build",
+      "revId": "6584414eab8a6ce20b85c1d94b6ebe128de172e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
