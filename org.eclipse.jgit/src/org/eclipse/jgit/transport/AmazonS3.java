@@ -177,6 +177,9 @@ public class AmazonS3 {
 	/** S3 Region. */
 	private final String region;
 
+	/** Whether to put the bucket name in the request path instead of the host. */
+	private final boolean pathStyleAccess;
+
 	/** Property names used in amazon connection configuration file. */
 	interface Keys {
 		String AWS_API_SIGNATURE_VERSION = "aws.api.signature.version"; //$NON-NLS-1$
@@ -188,6 +191,7 @@ public class AmazonS3 {
 		String ACL = "acl"; //$NON-NLS-1$
 		String PROTOCOL = "protocol"; //$NON-NLS-1$
 		String DOMAIN = "domain"; //$NON-NLS-1$
+		String PATH_STYLE_ACCESS = "path.style.access"; //$NON-NLS-1$
 		String REGION = "region"; //$NON-NLS-1$
 		String HTTP_RETRY = "httpclient.retry-max"; //$NON-NLS-1$
 		String TMP_DIR = "tmpdir"; //$NON-NLS-1$
@@ -218,6 +222,10 @@ public class AmazonS3 {
 	 * # S3 Domain
 	 * # AWS S3 Region Domain (defaults to s3.amazonaws.com)
 	 * domain: s3.amazonaws.com
+	 *
+	 * # Use path-style addressing instead of bucket.domain addressing.
+	 * # Defaults to false.
+	 * path.style.access: false
 	 *
 	 * # AWS S3 Region (required if aws.api.signature.version = 4)
 	 * region: us-west-2
@@ -253,6 +261,9 @@ public class AmazonS3 {
 		protocol = props.getProperty(Keys.PROTOCOL, "http"); //$NON-NLS-1$
 
 		domain = props.getProperty(Keys.DOMAIN, "s3.amazonaws.com"); //$NON-NLS-1$
+
+		pathStyleAccess = StringUtils.toBoolean(
+				props.getProperty(Keys.PATH_STYLE_ACCESS, "false")); //$NON-NLS-1$
 
 		publicKey = props.getProperty(Keys.ACCESS_KEY);
 		if (publicKey == null)
@@ -598,10 +609,17 @@ public class AmazonS3 {
 		final StringBuilder urlstr = new StringBuilder();
 		urlstr.append(protocol);
 		urlstr.append("://"); //$NON-NLS-1$
-		urlstr.append(bucket);
-		urlstr.append('.');
-		urlstr.append(domain);
-		urlstr.append('/');
+		if (pathStyleAccess) {
+			urlstr.append(domain);
+			urlstr.append('/');
+			urlstr.append(bucket);
+			urlstr.append('/');
+		} else {
+			urlstr.append(bucket);
+			urlstr.append('.');
+			urlstr.append(domain);
+			urlstr.append('/');
+		}
 		if (key.length() > 0) {
 			if (awsApiSignatureVersion.equals(AWS_API_V2)) {
 				HttpSupport.encode(urlstr, key);
@@ -675,10 +693,14 @@ public class AmazonS3 {
 			s.append('\n');
 		}
 
-		final String host = c.getURL().getHost();
-		s.append('/');
-		s.append(host.substring(0, host.length() - domain.length() - 1));
-		s.append(c.getURL().getPath());
+		if (pathStyleAccess) {
+			s.append(c.getURL().getPath());
+		} else {
+			final String host = c.getURL().getHost();
+			s.append('/');
+			s.append(host.substring(0, host.length() - domain.length() - 1));
+			s.append(c.getURL().getPath());
+		}
 
 		final String sec;
 		try {
