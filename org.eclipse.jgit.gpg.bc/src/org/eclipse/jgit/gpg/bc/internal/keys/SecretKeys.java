@@ -21,6 +21,7 @@ import org.bouncycastle.gpg.PGPSecretKeyParser;
 import org.bouncycastle.gpg.SExprParser;
 import org.bouncycastle.openpgp.OpenedPGPKeyData;
 import org.bouncycastle.openpgp.PGPException;
+import org.bouncycastle.openpgp.PGPPrivateKey;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPSecretKey;
 import org.bouncycastle.openpgp.operator.PBEProtectionRemoverFactory;
@@ -137,7 +138,15 @@ public final class SecretKeys {
 								ec1.getCurveOID(), ec1.getEncodedPoint(),
 								ec2.getCurveOID(), ec2.getEncodedPoint()));
 			}
-			return secret;
+			// Keep the original OpenPGP identity: the reconstructed public
+			// key has a new creation time and may use a different curve OID.
+			// Both affect the fingerprint, even when the key material matches.
+			PGPPrivateKey privateKey = secret.extractPrivateKey(null);
+			PGPPrivateKey rebound = new PGPPrivateKey(publicKey.getKeyID(),
+					publicKey.getPublicKeyPacket(),
+					privateKey.getPrivateKeyDataPacket());
+			return new PGPSecretKey(rebound, publicKey, null,
+					publicKey.isMasterKey(), null);
 		default:
 			// For other key types let Bouncy Castle do the check.
 			return data.getKeyData(publicKey, calculatorProvider, decryptor,

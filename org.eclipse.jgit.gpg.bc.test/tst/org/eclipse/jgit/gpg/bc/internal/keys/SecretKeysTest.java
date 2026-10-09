@@ -9,23 +9,35 @@
  */
 package org.eclipse.jgit.gpg.bc.internal.keys;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.security.Security;
 import java.util.Iterator;
 
+import org.bouncycastle.bcpg.HashAlgorithmTags;
+import org.bouncycastle.bcpg.PublicKeyAlgorithmTags;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openpgp.PGPException;
+import org.bouncycastle.openpgp.PGPPrivateKey;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPSecretKey;
+import org.bouncycastle.openpgp.PGPSignature;
+import org.bouncycastle.openpgp.PGPSignatureGenerator;
+import org.bouncycastle.openpgp.PGPSignatureSubpacketGenerator;
 import org.bouncycastle.openpgp.PGPUtil;
 import org.bouncycastle.openpgp.operator.PGPDigestCalculatorProvider;
 import org.bouncycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
+import org.bouncycastle.openpgp.operator.jcajce.JcaPGPContentSignerBuilder;
+import org.bouncycastle.openpgp.operator.jcajce.JcaPGPContentVerifierBuilderProvider;
 import org.bouncycastle.openpgp.operator.jcajce.JcaPGPDigestCalculatorProviderBuilder;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -110,9 +122,45 @@ public class SecretKeysTest {
 									: null,
 							publicKey);
 					assertNotNull(secretKey);
+					assertArrayEquals(publicKey.getFingerprint(),
+							secretKey.getPublicKey().getFingerprint());
+					assertEquals(publicKey.getKeyID(), secretKey.getKeyID());
+					assertArrayEquals(
+							publicKey.getPublicKeyPacket().getEncoded(), secretKey
+									.getPublicKey().getPublicKeyPacket().getEncoded());
+					if (publicKey
+							.getAlgorithm() == PublicKeyAlgorithmTags.EDDSA_LEGACY) {
+						assertEd25519Signature(publicKey, secretKey);
+					}
 				}
 			}
 		}
+	}
+
+	private static void assertEd25519Signature(PGPPublicKey publicKey,
+			PGPSecretKey secretKey) throws Exception {
+		PGPPrivateKey privateKey = secretKey.extractPrivateKey(null);
+		assertEquals(publicKey.getKeyID(), privateKey.getKeyID());
+		assertArrayEquals(publicKey.getPublicKeyPacket().getEncoded(),
+				privateKey.getPublicKeyPacket().getEncoded());
+		byte[] message = "Ed25519 signing regression" //$NON-NLS-1$
+				.getBytes(StandardCharsets.UTF_8);
+		PGPPublicKey loadedPublicKey = secretKey.getPublicKey();
+		PGPSignatureGenerator generator = new PGPSignatureGenerator(
+				new JcaPGPContentSignerBuilder(loadedPublicKey.getAlgorithm(),
+						HashAlgorithmTags.SHA256), loadedPublicKey);
+		generator.init(PGPSignature.BINARY_DOCUMENT, privateKey);
+		PGPSignatureSubpacketGenerator packets = new PGPSignatureSubpacketGenerator();
+		packets.setIssuerFingerprint(false, loadedPublicKey);
+		generator.setHashedSubpackets(packets.generate());
+		generator.update(message);
+		PGPSignature signature = generator.generate();
+		assertEquals(publicKey.getKeyID(), signature.getKeyID());
+		assertArrayEquals(publicKey.getFingerprint(), signature
+				.getHashedSubPackets().getIssuerFingerprint().getFingerprint());
+		signature.init(new JcaPGPContentVerifierBuilderProvider(), publicKey);
+		signature.update(message);
+		assertTrue(signature.verify());
 	}
 
 }
