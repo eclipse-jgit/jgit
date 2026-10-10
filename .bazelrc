@@ -1,3 +1,7 @@
+# TODO(davido): On Bazel 10.x the --experimental_use_compact_object_headers
+# startup option is on by default; drop this manual host_jvm_args then.
+startup --host_jvm_args=-XX:+UseCompactObjectHeaders
+
 common --lockfile_mode=error
 
 build --workspace_status_command="python3 ./tools/workspace_status.py"
@@ -19,6 +23,8 @@ build:remote25 --tool_java_language_version=25
 build:remote25 --tool_java_runtime_version=remotejdk_25
 build:remote25 --config=remote
 
+# TODO(davido): Remove after upgrade to JDK 27 (on by default).
+test --jvmopt=-XX:+UseCompactObjectHeaders
 test --build_tests_only
 test --test_output=errors
 test --flaky_test_attempts=3
