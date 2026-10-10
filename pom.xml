@@ -663,13 +663,13 @@
           <dependency>
             <groupId>org.apache.groovy</groupId>
             <artifactId>groovy</artifactId>
-            <version>4.0.32</version>
+            <version>5.1.3</version>
             <scope>runtime</scope>
           </dependency>
           <dependency>
             <groupId>org.apache.groovy</groupId>
             <artifactId>groovy-ant</artifactId>
-            <version>4.0.32</version>
+            <version>5.1.3</version>
             <scope>runtime</scope>
           </dependency>
           <dependency>
@@ -1183,6 +1183,29 @@
       <id>build-server</id>
       <properties>
         <jgit.website.url>file:///home/data/httpd/download.eclipse.org/jgit/site/${project.version}/</jgit.website.url>
+      </properties>
+    </profile>
+    <!--
+      Experimental: build and target JDK 27 (class-file major version 71),
+      the Maven analogue of Bazel's java27 config. The default build
+      targets JDK 25 (java.version above); activate this with -Pjava27.
+      Run Maven on a JDK 27 JVM (e.g. JAVA_HOME=<zulu-27>) because the
+      27 release requires a JDK 27 compiler.
+    -->
+    <profile>
+      <id>java27</id>
+      <properties>
+        <java.version>27</java.version>
+        <!--
+          Activating -Pjava27 disables the activeByDefault `ecj` profile
+          and does not activate `javac`, so neither compiler profile is
+          active and compilation falls back to the base
+          maven-compiler-plugin. Set the release on it here; it compiles
+          with the launching JDK's plain javac (run Maven on JDK 27).
+          This also avoids ErrorProne 2.9.0 and ECJ, neither of which
+          supports JDK 27 yet.
+        -->
+        <maven.compiler.release>${java.version}</maven.compiler.release>
       </properties>
     </profile>
   </profiles>
