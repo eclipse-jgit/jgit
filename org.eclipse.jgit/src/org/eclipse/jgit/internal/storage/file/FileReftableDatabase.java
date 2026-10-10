@@ -627,11 +627,23 @@ public class FileReftableDatabase extends RefDatabase {
 		}
 	}
 
+	static List<Ref> getRefsForConversion(RefDatabase refDb) throws IOException {
+		List<Ref> refs = new ArrayList<>(refDb.getRefs());
+		// getRefs() omits an unresolved symbolic HEAD. Include it first so
+		// reflogs (written in list order) keep "HEAD" before "refs/".
+		Ref head = refDb.exactRef(Constants.HEAD);
+		if (head != null && head.isSymbolic() && refs.stream()
+				.noneMatch(r -> r.getName().equals(Constants.HEAD))) {
+			refs.add(0, head);
+		}
+		return refs;
+	}
+
 	private static void writeConvertTable(Repository repo, ReftableWriter w,
 			boolean writeLogs) throws IOException {
 		int size = 0;
-		List<Ref> refs = repo.getRefDatabase().getRefs();
 		RefDatabase refDb = repo.getRefDatabase();
+		List<Ref> refs = getRefsForConversion(refDb);
 		if (writeLogs) {
 			for (Ref r : refs) {
 				ReflogReader rlr = refDb.getReflogReader(r);
