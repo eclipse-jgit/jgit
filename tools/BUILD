@@ -4,18 +4,26 @@ load(
 )
 load("@rules_java//java:defs.bzl", "java_package_configuration")
 
-default_java_toolchain(
-    name = "error_prone_warnings_toolchain_java25",
+# JDK version -> Bazel module providing its remote JDK runtime.
+# rules_java ships only LTS runtimes (<= 25); non-LTS (27) comes from
+# rules_java_toolchains.
+JDK_RUNTIME_MODULE = {
+    "25": "@rules_java",
+    "27": "@rules_java_toolchains",
+}
+
+[default_java_toolchain(
+    name = "error_prone_warnings_toolchain_java" + version,
     configuration = dict(),
-    java_runtime = "@rules_java//toolchains:remotejdk_25",
+    java_runtime = module + "//toolchains:remotejdk_" + version,
     package_configuration = [
         ":error_prone",
         ":error_prone_tests",
     ],
-    source_version = "25",
-    target_version = "25",
+    source_version = version,
+    target_version = version,
     visibility = ["//visibility:public"],
-)
+) for version, module in JDK_RUNTIME_MODULE.items()]
 
 # Error Prone errors enabled by default; see ../.bazelrc for how this is
 # enabled. This warnings list is originally based on:
