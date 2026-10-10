@@ -300,6 +300,12 @@ public class FileRepository extends Repository {
 		head.disableRefLog();
 		head.link(Constants.R_HEADS + getInitialBranch());
 
+		// The active backend, not the config, decides the layout.
+		final boolean reftable = refs instanceof FileReftableDatabase;
+		if (reftable) {
+			createReftableCompatLayout();
+		}
+
 		final boolean fileMode;
 		if (getFS().supportsExecute()) {
 			File tmp = File.createTempFile("try", "execute", getDirectory()); //$NON-NLS-1$ //$NON-NLS-2$
@@ -332,7 +338,13 @@ public class FileRepository extends Repository {
 					ConfigConstants.CONFIG_KEY_SYMLINKS, symLinks.name()
 							.toLowerCase(Locale.ROOT));
 		cfg.setInt(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 0);
+				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION,
+				reftable ? 1 : 0);
+		if (reftable) {
+			cfg.setString(ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
+					ConfigConstants.CONFIG_KEY_REF_STORAGE,
+					ConfigConstants.CONFIG_REF_STORAGE_REFTABLE);
+		}
 		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_FILEMODE, fileMode);
 		if (bare)
@@ -819,17 +831,7 @@ public class FileRepository extends Repository {
 			}
 		}
 
-		FileUtils.mkdir(refsFile, true);
-
-		// By putting in a dummy HEAD, old versions of Git still detect a repo
-		// (that they can't read)
-		try (OutputStream os = new FileOutputStream(headFile)) {
-			os.write(Constants.encodeASCII("ref: refs/heads/.invalid"));
-		}
-
-		// Some tools might write directly into .git/refs/heads/BRANCH. By
-		// putting a file here, this fails spectacularly.
-		FileUtils.createNewFile(new File(refsFile, Constants.HEADS));
+		createReftableCompatLayout();
 
 		repoConfig.setString(ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
 				ConfigConstants.CONFIG_KEY_REF_STORAGE,
@@ -839,6 +841,34 @@ public class FileRepository extends Repository {
 		repoConfig.save();
 		refs.close();
 		refs = new FileReftableDatabase(this);
+	}
+
+	/**
+	 * Writes the backward-compatibility layout for a reftable repository: a
+	 * {@code refs/} directory, a dummy {@code HEAD}, and a {@code refs/heads}
+	 * blocker file. The real HEAD and refs live in the reftable.
+	 *
+	 * @throws IOException
+	 *             on IO problem
+	 */
+	@SuppressWarnings("nls")
+	private void createReftableCompatLayout() throws IOException {
+		File commonDirectory = getCommonDirectory();
+		File refsFile = new File(commonDirectory, "refs");
+		File headFile = new File(getDirectory(), Constants.HEAD);
+		FileUtils.mkdir(refsFile, true);
+		// By putting in a dummy HEAD, old versions of Git still detect a repo
+		// (that they can't read).
+		try (OutputStream os = new FileOutputStream(headFile)) {
+			os.write(Constants.encodeASCII("ref: refs/heads/.invalid\n"));
+		}
+		// Some tools might write directly into .git/refs/heads/BRANCH. By
+		// putting a file here, this fails spectacularly.
+		try (OutputStream os = new FileOutputStream(
+				new File(refsFile, Constants.HEADS))) {
+			os.write(Constants.encodeASCII(
+					"this repository uses the reftable format\n"));
+		}
 	}
 
 	/**
