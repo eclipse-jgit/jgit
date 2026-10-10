@@ -138,6 +138,9 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	/** True only if the caller wants to force bare behavior. */
 	private boolean bare;
 
+	/** Ref storage format for a repository being created, e.g. reftable. */
+	private String refStorageFormat;
+
 	/** True if the caller requires the repository to exist. */
 	private boolean mustExist;
 
@@ -434,6 +437,50 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 */
 	public @NonNull String getInitialBranch() {
 		return initialBranch;
+	}
+
+	/**
+	 * Set the ref storage format for a repository being created.
+	 * <p>
+	 * An explicit format takes precedence over any configured default when
+	 * creating a repository. When opening an existing repository, an explicit
+	 * format must match its stored format. This setting never converts it.
+	 *
+	 * @param format
+	 *            {@code files}, {@code reftable}, or {@code null} to use the
+	 *            default or inherited format.
+	 * @return {@code this} (for chaining calls).
+	 * @since 7.9
+	 */
+	public B setRefStorageFormat(String format) {
+		this.refStorageFormat = format;
+		return self();
+	}
+
+	/**
+	 * Set the ref storage format for a repository being created.
+	 * <p>
+	 * Type-safe variant of {@link #setRefStorageFormat(String)}.
+	 *
+	 * @param format
+	 *            the ref storage format, or {@code null} to use the default or
+	 *            inherited format.
+	 * @return {@code this} (for chaining calls).
+	 * @since 7.9
+	 */
+	public B setRefStorageFormat(RefStorageFormat format) {
+		return setRefStorageFormat(
+				format != null ? format.toConfigValue() : null);
+	}
+
+	/**
+	 * Get the ref storage format requested for a repository being created.
+	 *
+	 * @return the requested ref storage format, or {@code null} if none.
+	 * @since 7.9
+	 */
+	public String getRefStorageFormat() {
+		return refStorageFormat;
 	}
 
 	/**

@@ -52,6 +52,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
+import org.eclipse.jgit.lib.RefStorageFormat;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.ReflogReader;
@@ -177,13 +178,30 @@ public class FileRepository extends Repository {
 		String reftype = repoConfig.getString(
 				ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
 				ConfigConstants.CONFIG_KEY_REF_STORAGE);
-		if (repositoryFormatVersion >= 1 && reftype != null) {
+		boolean creating = !repoConfig.getFile().exists();
+		String requestedFormat = options.getRefStorageFormat();
+		boolean reftableRequested = requestedFormat != null
+				&& isReftableFormat(requestedFormat);
+		boolean reftable;
+		if (creating && requestedFormat != null) {
+			reftable = reftableRequested;
+		} else if (!creating && repositoryFormatVersion >= 1
+				&& reftype != null) {
 			if (StringUtils.equalsIgnoreCase(reftype,
 					ConfigConstants.CONFIG_REF_STORAGE_REFTABLE)) {
-				refs = new FileReftableDatabase(this);
+				reftable = true;
 			} else {
 				throw new IOException(JGitText.get().unknownRepositoryFormat);
 			}
+		} else {
+			reftable = false;
+		}
+		if (!creating && requestedFormat != null
+				&& reftableRequested != reftable) {
+			throw new IOException(JGitText.get().cannotChangeRefStorageFormat);
+		}
+		if (reftable) {
+			refs = new FileReftableDatabase(this);
 		} else {
 			refs = new RefDirectory(this);
 		}
@@ -204,6 +222,17 @@ public class FileRepository extends Repository {
 		if (!isBare()) {
 			snapshot = FileSnapshot.save(getIndexFile());
 		}
+	}
+
+	private static boolean isReftableFormat(String format) throws IOException {
+		if (ConfigConstants.CONFIG_REF_STORAGE_REFTABLE.equals(format)) {
+			return true;
+		}
+		if (ConfigConstants.CONFIG_REF_STORAGE_FILES.equals(format)) {
+			return false;
+		}
+		throw new IOException(MessageFormat.format(
+				JGitText.get().unknownRefStorageFormat, format));
 	}
 
 	private void loadRepoConfig() throws IOException {
@@ -838,5 +867,26 @@ public class FileRepository extends Repository {
 			throw new IOException(MessageFormat
 					.format(JGitText.get().unknownRefStorageFormat, format));
 		}
+	}
+
+	/**
+	 * Convert the ref storage of this repository to the given format.
+	 * <p>
+	 * Type-safe variant of
+	 * {@link #convertRefStorage(String, boolean, boolean)}.
+	 *
+	 * @param format
+	 *            target ref storage format.
+	 * @param writeLogs
+	 *            whether to write reflogs to the new storage.
+	 * @param backup
+	 *            whether to keep a backup of the old ref storage.
+	 * @throws IOException
+	 *             on I/O problems.
+	 * @since 7.9
+	 */
+	public void convertRefStorage(RefStorageFormat format, boolean writeLogs,
+			boolean backup) throws IOException {
+		convertRefStorage(format.toConfigValue(), writeLogs, backup);
 	}
 }
