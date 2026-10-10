@@ -20,6 +20,7 @@ import java.util.List;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.RefStorageFormat;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.Repository;
@@ -195,5 +196,36 @@ public class ReftableConversionTest extends LocalDiskRepositoryTestCase {
 				FS.DETECTED).open(true)) {
 			assertTrue(reopened.getRefDatabase() instanceof RefDirectory);
 		}
+	}
+
+	@Test
+	public void convertRefStorageAcceptsEnum() throws Exception {
+		File dir = new File(testRoot.getRoot(), "enum-convert.git");
+		try (FileRepository repo = new FileRepository(dir)) {
+			repo.create(true);
+			new TestRepository<>(repo).branch("refs/heads/prototype").commit()
+					.create();
+			repo.convertRefStorage(RefStorageFormat.REFTABLE, true, false);
+		}
+		try (FileRepository repo = (FileRepository) RepositoryCache.FileKey
+				.exact(dir, FS.DETECTED).open(true)) {
+			assertTrue(repo.getRefDatabase() instanceof FileReftableDatabase);
+			repo.convertRefStorage(RefStorageFormat.FILES, true, false);
+		}
+		try (Repository reopened = RepositoryCache.FileKey.exact(dir,
+				FS.DETECTED).open(true)) {
+			assertTrue(reopened.getRefDatabase() instanceof RefDirectory);
+		}
+	}
+
+	@Test
+	public void refStorageFormatConfigEnumRoundTrips() {
+		assertEquals("reftable", RefStorageFormat.REFTABLE.toConfigValue());
+		assertEquals("files", RefStorageFormat.FILES.toConfigValue());
+		assertTrue(RefStorageFormat.FILES.matchConfigValue("files"));
+		assertEquals(RefStorageFormat.REFTABLE,
+				RefStorageFormat.fromConfigValue("reftable"));
+		assertNull(RefStorageFormat.fromConfigValue("refdir"));
+		assertNull(RefStorageFormat.fromConfigValue(null));
 	}
 }
