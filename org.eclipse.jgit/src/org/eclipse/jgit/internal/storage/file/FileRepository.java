@@ -675,7 +675,7 @@ public class FileRepository extends Repository {
 	 */
 	void convertToPackedRefs(boolean writeLogs, boolean backup) throws IOException {
 		File commonDirectory = getCommonDirectory();
-		List<Ref> all = refs.getRefs();
+		List<Ref> all = FileReftableDatabase.getRefsForConversion(refs);
 		File packedRefs = new File(commonDirectory, Constants.PACKED_REFS);
 		if (packedRefs.exists()) {
 			throw new IOException(MessageFormat.format(JGitText.get().fileAlreadyExists,
@@ -744,6 +744,7 @@ public class FileRepository extends Repository {
 
 		for (Ref s : symrefs) {
 			RefUpdate up = refs.newUpdate(s.getName(), false);
+			up.disableRefLog();
 			up.setForceUpdate(true);
 			RefUpdate.Result res = up.link(s.getTarget().getName());
 			if (res != RefUpdate.Result.NEW
@@ -875,7 +876,8 @@ public class FileRepository extends Repository {
 	 * Converts between ref storage formats.
 	 *
 	 * @param format
-	 *            the format to convert to, either "reftable" or "refdir"
+	 *            the format to convert to, either "reftable" or "files".
+	 *            "refdir" is accepted as a legacy alias for "files".
 	 * @param writeLogs
 	 *            whether to write reflogs
 	 * @param backup
@@ -889,7 +891,8 @@ public class FileRepository extends Repository {
 			if (refs instanceof RefDirectory) {
 				convertToReftable(writeLogs, backup);
 			}
-		} else if (format.equals("refdir")) {//$NON-NLS-1$
+		} else if (ConfigConstants.CONFIG_REF_STORAGE_FILES.equals(format)
+				|| format.equals("refdir")) {//$NON-NLS-1$
 			if (refs instanceof FileReftableDatabase) {
 				convertToPackedRefs(writeLogs, backup);
 			}
