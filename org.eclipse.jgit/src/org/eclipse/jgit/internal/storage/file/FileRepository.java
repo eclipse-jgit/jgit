@@ -180,6 +180,9 @@ public class FileRepository extends Repository {
 				ConfigConstants.CONFIG_KEY_REF_STORAGE);
 		boolean creating = !repoConfig.getFile().exists();
 		String requestedFormat = options.getRefStorageFormat();
+		if (creating && requestedFormat == null) {
+			requestedFormat = defaultRefStorageFormat(userConfig);
+		}
 		boolean reftableRequested = requestedFormat != null
 				&& isReftableFormat(requestedFormat);
 		boolean reftable;
@@ -222,6 +225,23 @@ public class FileRepository extends Repository {
 		if (!isBare()) {
 			snapshot = FileSnapshot.save(getIndexFile());
 		}
+	}
+
+	private static String defaultRefStorageFormat(StoredConfig config) {
+		String format = SystemReader.getInstance()
+				.getenv(Constants.GIT_DEFAULT_REF_FORMAT_KEY);
+		if (format != null) {
+			return format;
+		}
+		format = config.getString(ConfigConstants.CONFIG_INIT_SECTION, null,
+				ConfigConstants.CONFIG_KEY_DEFAULT_REF_FORMAT);
+		if (format != null && RefStorageFormat.fromConfigValue(format) == null) {
+			// Like git init, warn and fall back for an unknown config default.
+			LOG.warn(MessageFormat.format(
+					JGitText.get().unknownRefStorageFormat, format));
+			return null;
+		}
+		return format;
 	}
 
 	private static boolean isReftableFormat(String format) throws IOException {
