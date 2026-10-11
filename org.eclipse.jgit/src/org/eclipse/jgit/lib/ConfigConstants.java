@@ -984,6 +984,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_DEFAULT_BRANCH = "defaultbranch";
 
 	/**
+	 * The "init.defaultRefFormat" key.
+	 *
+	 * @since 7.9
+	 */
+	public static final String CONFIG_KEY_DEFAULT_REF_FORMAT = "defaultRefFormat";
+
+	/**
 	 * The "pack.searchForReuseTimeout" key
 	 *
 	 * @since 5.13

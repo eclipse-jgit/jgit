@@ -336,6 +336,14 @@ public final class Constants {
 	public static final String GIT_CONFIG_NOSYSTEM_KEY = "GIT_CONFIG_NOSYSTEM";
 
 	/**
+	 * Environment variable selecting the default ref storage format for new
+	 * repositories: {@code files} or {@code reftable}.
+	 *
+	 * @since 7.9
+	 */
+	public static final String GIT_DEFAULT_REF_FORMAT_KEY = "GIT_DEFAULT_REF_FORMAT";
+
+	/**
 	 * The key of the XDG_CONFIG_HOME directory defined in the
 	 * <a href="https://wiki.archlinux.org/index.php/XDG_Base_Directory">
 	 * XDG Base Directory specification</a>.
