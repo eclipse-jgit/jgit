@@ -106,6 +106,27 @@ All `http.*` options can also be specified in a URL-specific way using the forma
 
 Proxy configuration uses the standard Java mechanisms via class `java.net.ProxySelector`.
 
+## __init__ options
+
+| option | default | git option | description |
+|--------|---------|------------|-------------|
+| `init.defaultRefFormat` | `files` | &#x2705; | Default reference storage format for new file-based repositories: `files` or `reftable`. Overridden by `GIT_DEFAULT_REF_FORMAT` and an explicit `BaseRepositoryBuilder.setRefStorageFormat(...)` request. Unknown values produce a warning and fall back to the existing default. |
+
+The selection order for new repositories is:
+
+1. An explicit `BaseRepositoryBuilder.setRefStorageFormat(...)` request.
+2. The `GIT_DEFAULT_REF_FORMAT` environment variable.
+3. `init.defaultRefFormat` from user, system, or JGit configuration.
+4. Otherwise `files`.
+
+Values are case-sensitive. These defaults also apply to repositories created
+through `Git.init()`. They do not change the format of an existing repository,
+which is determined by its own persisted `core.repositoryformatversion` and
+`extensions.refStorage`. A new repository never inherits these from user,
+system, or global configuration. An explicit builder format that conflicts
+with an existing repository's format is rejected. Conversion must be requested
+separately.
+
 ## __pack__ options
 
 |  option | default | git option | description |
@@ -162,6 +183,15 @@ Proxy configuration uses the standard Java mechanisms via class `java.net.ProxyS
 |---------|---------|------------|-------------|
 | `repack.packKeptObjects` | `true` when `pack.buildBitmaps` is set, `false` otherwise | &#x2705; | Include objects in packs locked by a `.keep` file when repacking. |
 
+
+## Environment Variables
+
+| variable | default | description |
+|----------|---------|-------------|
+| `GIT_DEFAULT_REF_FORMAT` | unset | Selects `files` or `reftable` for new file-based repositories. Overrides `init.defaultRefFormat`, but not an explicit builder request. An unknown or empty value fails creation unless an explicit format overrides it. Ignored when opening existing repositories. |
+
+For example, `GIT_DEFAULT_REF_FORMAT=reftable jgit init repo` creates a reftable
+repository without changing user or system configuration.
 
 ## Java System Properties
 
