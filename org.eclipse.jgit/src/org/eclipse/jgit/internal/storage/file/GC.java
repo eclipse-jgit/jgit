@@ -974,9 +974,12 @@ public class GC {
 		}
 		File tmpFile = null;
 		try (RevWalk walk = new RevWalk(repo)) {
+			int maxNewFilters = repo.getConfig().getInt(
+					ConfigConstants.CONFIG_COMMIT_GRAPH_SECTION, null,
+					ConfigConstants.CONFIG_KEY_MAX_NEW_FILTERS, -1);
 			CommitGraphWriter writer = new CommitGraphWriter(
 					GraphCommits.fromWalk(pm, wants, walk),
-					shouldWriteBloomFilter());
+					shouldWriteBloomFilter(), maxNewFilters);
 			tmpFile = File.createTempFile("commit_", //$NON-NLS-1$
 					COMMIT_GRAPH.getTmpExtension(),
 					repo.getObjectDatabase().getInfoDirectory());

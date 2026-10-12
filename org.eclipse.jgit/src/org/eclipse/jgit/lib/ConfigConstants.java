@@ -1089,6 +1089,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_CHANGED_PATHS_VERSION = "changedPathsVersion";
 
 	/**
+	 * The "maxNewFilters" key
+	 *
+	 * @since 7.7
+	 */
+	public static final String CONFIG_KEY_MAX_NEW_FILTERS = "maxNewFilters";
+
+	/**
 	 * The "readChangedPaths" key
 	 *
 	 * @since 6.7

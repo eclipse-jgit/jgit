@@ -81,6 +81,8 @@ public class CommitGraphWriter {
 
 	private final boolean generateChangedPathFilters;
 
+	private final int maxNewFilters;
+
 	/**
 	 * Create commit-graph writer for these commits.
 	 *
@@ -101,9 +103,29 @@ public class CommitGraphWriter {
 	 */
 	public CommitGraphWriter(@NonNull GraphCommits graphCommits,
 			boolean generateChangedPathFilters) {
+		this(graphCommits, generateChangedPathFilters, -1);
+	}
+
+	/**
+	 * Create commit-graph writer for these commits.
+	 *
+	 * @param graphCommits
+	 *            the commits which will be writen to the commit-graph.
+	 * @param generateChangedPathFilters
+	 *            whether changed path filters are generated
+	 * @param maxNewFilters
+	 *            maximum number of new bloom filters to compute per run.
+	 *            Commits exceeding this limit get a {@code FULL} filter entry
+	 *            and will be computed in subsequent runs. A value &lt;= 0 means
+	 *            no limit, matching the behavior of
+	 *            {@code commitGraph.maxNewFilters} in git.
+	 */
+	public CommitGraphWriter(@NonNull GraphCommits graphCommits,
+			boolean generateChangedPathFilters, int maxNewFilters) {
 		this.graphCommits = graphCommits;
 		this.hashsz = OBJECT_ID_LENGTH;
 		this.generateChangedPathFilters = generateChangedPathFilters;
+		this.maxNewFilters = maxNewFilters;
 	}
 
 	/**
@@ -403,11 +425,13 @@ public class CommitGraphWriter {
 		try (RevWalk rw = new RevWalk(graphCommits.getObjectReader())) {
 			monitor.beginTask(JGitText.get().computingPathBloomFilters,
 					graphCommits.size());
+			int effectiveMaxNewFilters = maxNewFilters > 0
+					? maxNewFilters : graphCommits.size();
 			for (RevCommit cmit : graphCommits) {
 				ChangedPathFilter cpf = cmit.getChangedPathFilter(rw);
 				if (cpf != null) {
 					filtersReused++;
-				} else {
+				} else if (filtersComputed < effectiveMaxNewFilters) {
 					filtersComputed++;
 					Optional<HashSet<ByteBuffer>> paths = PATH_DIFF_CALCULATOR
 							.changedPaths(graphCommits.getObjectReader(), cmit);
@@ -416,6 +440,8 @@ public class CommitGraphWriter {
 					} else {
 						cpf = ChangedPathFilter.fromPaths(paths.get());
 					}
+				} else {
+					cpf = ChangedPathFilter.FULL;
 				}
 				cpf.writeTo(data);
 				NB.encodeInt32(scratch, 0, data.size() - dataHeaderSize);

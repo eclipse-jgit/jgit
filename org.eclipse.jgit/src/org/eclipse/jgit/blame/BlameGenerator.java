@@ -998,7 +998,7 @@ public class BlameGenerator implements AutoCloseable {
 				if (n instanceof ReverseCandidate) {
 					if (ids == null)
 						ids = new ObjectId[pCnt];
-					ids[pCnt] = r.getOldId().toObjectId();
+					ids[pIdx] = r.getOldId().toObjectId();
 				} else if (0 == r.getOldId().prefixCompare(n.sourceBlob)) {
 					// A 100% rename without any content change can also
 					// skip directly to the parent. Note this bypasses an
