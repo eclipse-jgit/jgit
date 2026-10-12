@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b56e986f_649f5220",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-12T10:44:00Z",
+      "side": 1,
+      "message": "Doesn\u0027t this (partially) belong in the super class? Or is it specific to this test class?",
+      "range": {
+        "startLine": 81,
+        "startChar": 1,
+        "endLine": 90,
+        "endChar": 4
+      },
+      "revId": "245d0dad235f1bc3bc95cc42e86d00fe74e2c18d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59cb5c6d_215635f1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-12T10:44:00Z",
+      "side": 1,
+      "message": "Doesn\u0027t this (partially) belong in the super class? Or is it specific to this test class?",
+      "range": {
+        "startLine": 96,
+        "startChar": 1,
+        "endLine": 105,
+        "endChar": 4
+      },
+      "revId": "245d0dad235f1bc3bc95cc42e86d00fe74e2c18d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e02ecec6_60ef6e9c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-12T10:44:00Z",
+      "side": 1,
+      "message": "Why is this necessary now? Was it because any of the comments I made in other commits in the chain?",
+      "range": {
+        "startLine": 138,
+        "startChar": 1,
+        "endLine": 143,
+        "endChar": 3
+      },
+      "revId": "245d0dad235f1bc3bc95cc42e86d00fe74e2c18d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fa8aa39_7cad3750",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-12T10:44:00Z",
+      "side": 1,
+      "message": "This change doesn\u0027t seem to belong here. Why do you need it?",
+      "range": {
+        "startLine": 174,
+        "startChar": 28,
+        "endLine": 174,
+        "endChar": 39
+      },
+      "revId": "245d0dad235f1bc3bc95cc42e86d00fe74e2c18d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b661119_29988ea5",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-12T10:44:00Z",
+      "side": 1,
+      "message": "```suggestion\n\n```",
+      "range": {
+        "startLine": 183,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 1
+      },
+      "revId": "245d0dad235f1bc3bc95cc42e86d00fe74e2c18d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79a90db0_071950f8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-12T10:44:00Z",
+      "side": 1,
+      "message": "```suggestion\n\n```",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 1
+      },
+      "revId": "245d0dad235f1bc3bc95cc42e86d00fe74e2c18d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6e265c2_cca521dc",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-12T10:44:00Z",
+      "side": 1,
+      "message": "```suggestion\n\n```",
+      "range": {
+        "startLine": 191,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 1
+      },
+      "revId": "245d0dad235f1bc3bc95cc42e86d00fe74e2c18d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d915424_69cc3317",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-12T10:44:00Z",
+      "side": 1,
+      "message": "```suggestion\n\t/**\n\t * Mock JGit config that returns {@code true} for\n\t * {@code commitGraph.readChangedPaths} if this test instance is running\n\t * with an enabled commit graph and a default value otherwise.\n\t */\n```",
+      "range": {
+        "startLine": 235,
+        "startChar": 1,
+        "endLine": 239,
+        "endChar": 4
+      },
+      "revId": "245d0dad235f1bc3bc95cc42e86d00fe74e2c18d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
