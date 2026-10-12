@@ -212,6 +212,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "836584fe_15422c50",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-12T13:28:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b661119_29988ea5",
+      "range": {
+        "startLine": 183,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 1
+      },
+      "revId": "245d0dad235f1bc3bc95cc42e86d00fe74e2c18d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79a90db0_071950f8",
@@ -235,6 +259,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75540faa_37794265",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-12T13:28:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79a90db0_071950f8",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 1
+      },
+      "revId": "245d0dad235f1bc3bc95cc42e86d00fe74e2c18d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6e265c2_cca521dc",
@@ -248,6 +296,30 @@
       "writtenOn": "2026-10-12T10:44:00Z",
       "side": 1,
       "message": "```suggestion\n\n```",
+      "range": {
+        "startLine": 191,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 1
+      },
+      "revId": "245d0dad235f1bc3bc95cc42e86d00fe74e2c18d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d3b2a9a_5fe17204",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-12T13:28:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6e265c2_cca521dc",
       "range": {
         "startLine": 191,
         "startChar": 0,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ca93ce4_333bcea9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-12T13:28:26Z",
+      "side": 1,
+      "message": "You didn\u0027t introduce the spaces (I compared it wrong in Gerrit!) and you answered my other questions, therefore I approve ✅\n\nThank you!",
+      "revId": "17df6926a3e2c65bef4ebb8dda24fc5210e945e0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
