@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c113d023_24bab8d1",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-10-12T11:43:08Z",
+      "side": 1,
+      "message": "This is specific to instances of this testclass (and subtypes). This testclass uses a different RevWalk instance for setting up the repository and for perfoming the walk.",
+      "parentUuid": "b56e986f_649f5220",
+      "range": {
+        "startLine": 81,
+        "startChar": 1,
+        "endLine": 90,
+        "endChar": 4
+      },
+      "revId": "245d0dad235f1bc3bc95cc42e86d00fe74e2c18d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59cb5c6d_215635f1",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-10-12T10:44:00Z",
       "side": 1,
       "message": "Doesn\u0027t this (partially) belong in the super class? Or is it specific to this test class?",
+      "range": {
+        "startLine": 96,
+        "startChar": 1,
+        "endLine": 105,
+        "endChar": 4
+      },
+      "revId": "245d0dad235f1bc3bc95cc42e86d00fe74e2c18d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c4c83c3_25bab9c7",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-10-12T11:43:08Z",
+      "side": 1,
+      "message": "See comment on the other method",
+      "parentUuid": "59cb5c6d_215635f1",
       "range": {
         "startLine": 96,
         "startChar": 1,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "028e9a87_3ab93a59",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-10-12T11:43:08Z",
+      "side": 1,
+      "message": "Yes, this asserts that the RevWalk instance under test uses the generated commit graph",
+      "parentUuid": "e02ecec6_60ef6e9c",
+      "range": {
+        "startLine": 138,
+        "startChar": 1,
+        "endLine": 143,
+        "endChar": 3
+      },
+      "revId": "245d0dad235f1bc3bc95cc42e86d00fe74e2c18d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9fa8aa39_7cad3750",
@@ -83,6 +155,30 @@
       "writtenOn": "2026-10-12T10:44:00Z",
       "side": 1,
       "message": "This change doesn\u0027t seem to belong here. Why do you need it?",
+      "range": {
+        "startLine": 174,
+        "startChar": 28,
+        "endLine": 174,
+        "endChar": 39
+      },
+      "revId": "245d0dad235f1bc3bc95cc42e86d00fe74e2c18d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb353a42_c206d05e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-10-12T11:43:08Z",
+      "side": 1,
+      "message": "Done. Moved it to the change where this is needed",
+      "parentUuid": "9fa8aa39_7cad3750",
       "range": {
         "startLine": 174,
         "startChar": 28,
@@ -175,6 +271,30 @@
       "writtenOn": "2026-10-12T10:44:00Z",
       "side": 1,
       "message": "```suggestion\n\t/**\n\t * Mock JGit config that returns {@code true} for\n\t * {@code commitGraph.readChangedPaths} if this test instance is running\n\t * with an enabled commit graph and a default value otherwise.\n\t */\n```",
+      "range": {
+        "startLine": 235,
+        "startChar": 1,
+        "endLine": 239,
+        "endChar": 4
+      },
+      "revId": "245d0dad235f1bc3bc95cc42e86d00fe74e2c18d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fd7512f_c63209d8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-10-12T11:43:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d915424_69cc3317",
       "range": {
         "startLine": 235,
         "startChar": 1,
