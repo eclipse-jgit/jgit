@@ -16,6 +16,29 @@
       "message": "I see this in the failing CI build:\n\n```\n14:07:10  [ERROR] Cannot invoke \"java.util.Set.add(Object)\" because \"this.artifacts\" is null\n14:07:10  java.lang.NullPointerException: Cannot invoke \"java.util.Set.add(Object)\" because \"this.artifacts\" is null\n14:07:10      at org.apache.maven.project.MavenProject.getArtifacts (MavenProject.java:683)\n14:07:10      at org.apache.maven.project.MavenProject.deepCopy (MavenProject.java:1105)\n14:07:10      at org.apache.maven.project.MavenProject.clone (MavenProject.java:1063)\n14:07:10      at org.apache.maven.lifecycle.internal.MojoExecutor.executeForkedExecutions (MojoExecutor.java:431)\n14:07:10      at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:311)\n14:07:10      at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)\n14:07:10      at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)\n14:07:10      at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)\n14:07:10      at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)\n14:07:10      at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)\n14:07:10      at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)\n14:07:10      at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)\n14:07:10      at org.apache.maven.lifecycle.internal.builder.multithreaded.MultiThreadedBuilder$1.call (MultiThreadedBuilder.java:193)\n14:07:10      at org.apache.maven.lifecycle.internal.builder.multithreaded.MultiThreadedBuilder$1.call (MultiThreadedBuilder.java:180)\n14:07:10      at java.util.concurrent.FutureTask.run (FutureTask.java:328)\n14:07:10      at java.util.concurrent.Executors$RunnableAdapter.call (Executors.java:545)\n14:07:10      at java.util.concurrent.FutureTask.run (FutureTask.java:328)\n14:07:10      at java.util.concurrent.ThreadPoolExecutor.runWorker (ThreadPoolExecutor.java:1090)\n14:07:10      at java.util.concurrent.ThreadPoolExecutor$Worker.run (ThreadPoolExecutor.java:614)\n14:07:10      at java.lang.Thread.run (Thread.java:1474)\n```\n\nWhich fails for this project:\n\n```\n14:07:10  [INFO] JGit - HTTP Server ................................. FAILURE [ 19.444 s]\n```\n\ni.e. it looks totally unrelated.",
       "revId": "ebbd4bb1818cd9baf8ae6373b17bfe4d1714e9cd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d291fd7_fbc0bf6f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-12T14:30:29Z",
+      "side": 1,
+      "message": "Why this change? I see calls passing only `RevCommit` and `ObjectId` to this method in this commit. `ObjectId` should suffice.",
+      "range": {
+        "startLine": 174,
+        "startChar": 28,
+        "endLine": 174,
+        "endChar": 40
+      },
+      "revId": "ebbd4bb1818cd9baf8ae6373b17bfe4d1714e9cd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
