@@ -11,6 +11,7 @@ package org.eclipse.jgit.revwalk;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -24,8 +25,12 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.treewalk.filter.ChangedPathTreeFilter;
 import org.junit.Test;
 
-public class RevWalkSortTopoWithCommitGraphTest
-		extends AbstractRevWalkWithCommitGraphTest {
+public class RevWalkSortTopoWithTreeFilterTest
+		extends RevWalkWithAndWithoutCommitGraphTestCase {
+
+	public RevWalkSortTopoWithTreeFilterTest(boolean withCommitGraph) {
+		super(withCommitGraph);
+	}
 
 	@Test
 	public void testSort_TOPO_WithTreeFilter() throws Exception {
@@ -112,32 +117,27 @@ public class RevWalkSortTopoWithCommitGraphTest
 		);
 	}
 
-	// Test the RevWalk behavior with and without enabled commit graph
 	private void testWalkBehavior(ThrowingConsumer<RevWalk> configureWalker,
 			Consumer<List<RevCommit>> assertResult) throws Exception {
+		initializeRevWalk();
 		configureWalker.accept(rw);
 		List<RevCommit> actual = new ArrayList<>();
 		rw.forEach(actual::add);
 
-		assertEquals(CommitGraph.EMPTY, rw.commitGraph());
-		for (RevCommit c : actual) {
-			assertEquals(Constants.COMMIT_GENERATION_UNKNOWN,
-					c.getGeneration());
-		}
+		if (commitGraphEnabled()) {
+			assertNotEquals(0, rw.commitGraph().getCommitCnt());
 
-		assertResult.accept(actual);
+			for (RevCommit c : actual) {
+				assertNotEquals(Constants.COMMIT_GENERATION_UNKNOWN,
+						c.getGeneration());
+			}
+		} else {
+			assertSame(CommitGraph.EMPTY, rw.commitGraph());
 
-		enableAndWriteCommitGraph();
-		reinitializeRevWalk();
-
-		configureWalker.accept(rw);
-		actual.clear();
-		rw.forEach(actual::add);
-
-		assertNotEquals(0, rw.commitGraph().getCommitCnt());
-		for (RevCommit c : actual) {
-			assertNotEquals(Constants.COMMIT_GENERATION_UNKNOWN,
-					c.getGeneration());
+			for (RevCommit c : actual) {
+				assertEquals(Constants.COMMIT_GENERATION_UNKNOWN,
+						c.getGeneration());
+			}
 		}
 
 		assertResult.accept(actual);

@@ -73,8 +73,9 @@ def tests(tests, srcprefix = "tst/", extra_tags = []):
                 "//lib:xz",
                 "//org.eclipse.jgit.archive:jgit-archive",
             ]
-        if src.endswith("RevWalkSortTest.java") or \
-           src.endswith("RevWalkSortTopoWithCommitGraphTest.java"):
+        if src.endswith("RevWalkSortTopoWithTreeFilterTest.java") or \
+           src.endswith("RevWalkSortTopoTest.java") or \
+           src.endswith("TopoSortPendingGeneratorTest.java"):
             additional_deps = [
                 "//lib:assertj-core",
             ]
