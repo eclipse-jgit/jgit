@@ -52,6 +52,24 @@
       "parentUuid": "e38ec273_97763fcf",
       "revId": "410f1e671fcb991de3e16eb50216fde5cc367dc5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbef2cb2_ab802f57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-12T07:11:54Z",
+      "side": 1,
+      "message": "Have you tried running those performance tests with my proposal instead of your changes? Could you please share those tests and exactly what you ran in the command line so that I can also run them locally? Did you use WSL?\n\nThe reason I ask is because using lambdas means that the JVM needs to load a new class in runtime and in this very specific case, it seems that lambdas _might_ be an overkill since only 2 use-cases actually defer calculation and 1 of them seems rather cheap. I would like to test this theory by running the same tests you ran before jumping into conclusions though.",
+      "parentUuid": "c33e1b8d_3d549e75",
+      "revId": "410f1e671fcb991de3e16eb50216fde5cc367dc5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
