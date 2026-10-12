@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd3bd6cb_5c5c8346",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/TopoSortPendingGeneratorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-12T13:11:56Z",
+      "side": 1,
+      "message": "Ah, I see: `testSort_TOPO_ExplorePhase_earlyReturn` tests the early return but needs the `TopoSortPendingGenerator`. Then it\u0027s fine as it is, thank you!",
+      "parentUuid": "1e683fec_013aef53",
+      "range": {
+        "startLine": 57,
+        "startChar": 13,
+        "endLine": 57,
+        "endChar": 51
+      },
+      "revId": "659a1e5ea3137ec0e3d5ceec8f1b216add124145",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e200f538_0cedf950",
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "Theoretically, it should not contain a very large amount of commits, since it only grows in size when encountering merge commits. In very complex repositories, this queue can contain quite a few commits (The maxmimum size I saw when testing against the linux kernel was 1364). This is also only checked when encountering an UNINTERESTING commit in the Explore Phase.",
       "parentUuid": "ff57050a_1b7c62c7",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 2
+      },
+      "revId": "659a1e5ea3137ec0e3d5ceec8f1b216add124145",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb48d3c6_b9cb8767",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/TopoPhase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-12T13:11:56Z",
+      "side": 1,
+      "message": "Ok, so the list is pretty small, no performance degradation expected and since I know you tested it with the Linux Kernel too and noticed no performance degradation, it\u0027s fine by me 👍",
+      "parentUuid": "bb7b46d2_57450016",
       "range": {
         "startLine": 81,
         "startChar": 0,
