@@ -79,6 +79,11 @@ public abstract class RevWalkTestCase extends RepositoryTestCase {
 		return util.commit(parents);
 	}
 
+	protected RevCommit commit(String branch, RevCommit... parents)
+			throws Exception {
+		return util.branch(branch).update(commit(parents));
+	}
+
 	protected RevCommit commit(RevTree tree, RevCommit... parents)
 			throws Exception {
 		return util.commit(tree, parents);
