@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fc03b56_29aadd00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-12T13:22:53Z",
+      "side": 1,
+      "message": "Thank you, Florian! It looks good now that I understood your comment about the Linux Kernel :",
+      "revId": "6245644615a611da125bb74662c8c51cd9bfe865",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2839afe5_fedcb0ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-12T13:22:53Z",
+      "side": 1,
+      "message": "Thank you, Florian! It looks good now that I understood your comment about the Linux Kernel 😄",
+      "revId": "6245644615a611da125bb74662c8c51cd9bfe865",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
