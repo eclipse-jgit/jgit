@@ -39,6 +39,30 @@
       },
       "revId": "ebbd4bb1818cd9baf8ae6373b17bfe4d1714e9cd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50335f19_d8b19843",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/AbstractRevWalkWithCommitGraphTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-10-13T09:54:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d291fd7_fbc0bf6f",
+      "range": {
+        "startLine": 174,
+        "startChar": 28,
+        "endLine": 174,
+        "endChar": 40
+      },
+      "revId": "ebbd4bb1818cd9baf8ae6373b17bfe4d1714e9cd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
