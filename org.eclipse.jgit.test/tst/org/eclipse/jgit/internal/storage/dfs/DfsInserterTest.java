@@ -87,9 +87,8 @@ public class DfsInserterTest {
 	@Test
 	public void testReadFromInserterLargerObjects() throws IOException {
 		db.getObjectDatabase().getReaderOptions().setStreamFileThreshold(512);
-		DfsBlockCache.reconfigure(new DfsBlockCacheConfig()
-			.setBlockSize(512)
-			.setBlockLimit(2048));
+		DfsBlockCache.reconfigure(new DfsBlockCacheConfig().setBlockSize(512)
+				.setBlockLimit(2048));
 
 		byte[] data = new TestRng(JGitTestUtil.getName()).nextBytes(8192);
 		try (DfsInserter ins = (DfsInserter) db.newObjectInserter()) {
@@ -167,9 +166,11 @@ public class DfsInserterTest {
 		assertEquals(1, db.getObjectDatabase().listPacks().size());
 
 		// Make pack 0 garbage.
-		db.getObjectDatabase().listPacks().get(0).setPackSource(PackSource.UNREACHABLE_GARBAGE);
+		db.getObjectDatabase().listPacks().get(0)
+				.setPackSource(PackSource.UNREACHABLE_GARBAGE);
 
-		// Default behavior should be that the database has foo, because we allow garbage objects.
+		// Default behavior should be that the database has foo, because we
+		// allow garbage objects.
 		assertTrue(db.getObjectDatabase().has(fooId));
 		// But we should not be able to see it if we pass the right args.
 		assertFalse(db.getObjectDatabase().has(fooId, true));
@@ -311,6 +312,44 @@ public class DfsInserterTest {
 		assertTrue(insertPack.hasObjectSizeIndex(reader));
 		assertEquals(contents.length, insertPack.getIndexedObjectSize(reader,
 				insertPack.findIdxPosition(reader, fooId)));
+	}
+
+	@Test
+	public void testInserterReusesReader() throws IOException {
+		int[] newReaderCalls = new int[1];
+		int[] closeReaderCalls = new int[1];
+		try (InMemoryRepository repo = new InMemoryRepository(
+				new DfsRepositoryDescription("test")) {
+			private final MemObjDatabase odb = new MemObjDatabase(this) {
+				@Override
+				public DfsReader newReader() {
+					newReaderCalls[0]++;
+					return new DfsReader(this) {
+						@Override
+						public void close() {
+							closeReaderCalls[0]++;
+							super.close();
+						}
+					};
+				}
+			};
+
+			@Override
+			public MemObjDatabase getObjectDatabase() {
+				return odb;
+			}
+		}) {
+			try (ObjectInserter ins = repo.newObjectInserter()) {
+				ins.insert(Constants.OBJ_BLOB, Constants.encode("foo"));
+				ins.insert(Constants.OBJ_BLOB, Constants.encode("bar"));
+				ins.insert(Constants.OBJ_BLOB, Constants.encode("baz"));
+				ins.flush();
+				assertEquals(1, newReaderCalls[0]);
+				assertEquals(0, closeReaderCalls[0]);
+			}
+			assertEquals(1, newReaderCalls[0]);
+			assertEquals(1, closeReaderCalls[0]);
+		}
 	}
 
 	private static String readString(ObjectLoader loader) throws IOException {

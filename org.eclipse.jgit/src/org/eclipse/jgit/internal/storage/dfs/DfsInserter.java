@@ -73,16 +73,24 @@ public class DfsInserter extends ObjectInserter {
 	final DfsObjDatabase db;
 
 	private final int minBytesForObjectSizeIndex;
+
 	int compression = Deflater.BEST_COMPRESSION;
 
 	List<PackedObjectInfo> objectList;
+
 	ObjectIdOwnerMap<PackedObjectInfo> objectMap;
 
 	DfsBlockCache cache;
+
 	DfsStreamKey packKey;
+
 	DfsPackDescription packDsc;
+
 	PackStream packOut;
+
 	private boolean rollback;
+
+	private ObjectReader reader;
 
 	/**
 	 * Initialize a new inserter.
@@ -100,6 +108,7 @@ public class DfsInserter extends ObjectInserter {
 	void setCompressionLevel(int compression) {
 		this.compression = compression;
 	}
+
 	@Override
 	public DfsPackParser newPackParser(InputStream in) throws IOException {
 		return new DfsPackParser(db, this, in);
@@ -117,7 +126,7 @@ public class DfsInserter extends ObjectInserter {
 		if (objectMap != null && objectMap.contains(id))
 			return id;
 		// Ignore unreachable (garbage) objects here.
-		if (db.has(id, true)) {
+		if (has(id)) {
 			return id;
 		}
 
@@ -125,6 +134,14 @@ public class DfsInserter extends ObjectInserter {
 		packOut.compress.write(data, off, len);
 		packOut.compress.finish();
 		return endObject(id, offset, len, type);
+	}
+
+	private boolean has(AnyObjectId id) throws IOException {
+		if (reader == null) {
+			reader = db.newReader();
+			reader.setAvoidUnreachableObjects(true);
+		}
+		return reader.has(id);
 	}
 
 	@Override
@@ -217,6 +234,13 @@ public class DfsInserter extends ObjectInserter {
 				rollback = false;
 			}
 		}
+		if (reader != null) {
+			try {
+				reader.close();
+			} finally {
+				reader = null;
+			}
+		}
 		clear();
 	}
 
@@ -235,7 +259,8 @@ public class DfsInserter extends ObjectInserter {
 		return offset;
 	}
 
-	private ObjectId endObject(ObjectId id, long offset, long inflatedSize, int type) {
+	private ObjectId endObject(ObjectId id, long offset, long inflatedSize,
+			int type) {
 		PackedObjectInfo obj = new PackedObjectInfo(id);
 		obj.setType(type);
 		obj.setOffset(offset);
@@ -307,7 +332,8 @@ public class DfsInserter extends ObjectInserter {
 
 	private static void index(OutputStream out, byte[] packHash,
 			List<PackedObjectInfo> list) throws IOException {
-		BasePackIndexWriter.createVersion(out, INDEX_VERSION).write(list, packHash);
+		BasePackIndexWriter.createVersion(out, INDEX_VERSION).write(list,
+				packHash);
 	}
 
 	void writeObjectSizeIndex(DfsPackDescription pack,
@@ -328,16 +354,23 @@ public class DfsInserter extends ObjectInserter {
 
 	private class PackStream extends OutputStream {
 		private final DfsOutputStream out;
+
 		private final MessageDigest md;
+
 		final byte[] hdrBuf;
+
 		private final Deflater deflater;
+
 		private final int blockSize;
 
 		private long currPos; // Position of currBuf[0] in the output stream.
+
 		private int currPtr; // Number of bytes in currBuf.
+
 		private byte[] currBuf;
 
 		final CRC32 crc32;
+
 		final DeflaterOutputStream compress;
 
 		PackStream(DfsOutputStream out) {
@@ -370,12 +403,14 @@ public class DfsInserter extends ObjectInserter {
 
 		private int encodeTypeSize(int type, long rawLength) {
 			long nextLength = rawLength >>> 4;
-			hdrBuf[0] = (byte) ((nextLength > 0 ? 0x80 : 0x00) | (type << 4) | (rawLength & 0x0F));
+			hdrBuf[0] = (byte) ((nextLength > 0 ? 0x80 : 0x00) | (type << 4)
+					| (rawLength & 0x0F));
 			rawLength = nextLength;
 			int n = 1;
 			while (rawLength > 0) {
 				nextLength >>>= 7;
-				hdrBuf[n++] = (byte) ((nextLength > 0 ? 0x80 : 0x00) | (rawLength & 0x7F));
+				hdrBuf[n++] = (byte) ((nextLength > 0 ? 0x80 : 0x00)
+						| (rawLength & 0x7F));
 				rawLength = nextLength;
 			}
 			return n;
@@ -457,8 +492,8 @@ public class DfsInserter extends ObjectInserter {
 			return r;
 		}
 
-		byte[] inflate(DfsReader ctx, long pos, int len) throws IOException,
-				DataFormatException {
+		byte[] inflate(DfsReader ctx, long pos, int len)
+				throws IOException, DataFormatException {
 			byte[] dstbuf;
 			try {
 				dstbuf = new byte[len];
@@ -559,15 +594,17 @@ public class DfsInserter extends ObjectInserter {
 			byte[] buf = buffer();
 			int cnt = packOut.read(obj.getOffset(), buf, 0, 20);
 			if (cnt <= 0)
-					throw new EOFException(JGitText.get().unexpectedEofInPack);
+				throw new EOFException(JGitText.get().unexpectedEofInPack);
 
 			int c = buf[0] & 0xff;
 			int type = (c >> 4) & 7;
 			if (type == OBJ_OFS_DELTA || type == OBJ_REF_DELTA)
-				throw new IOException(MessageFormat.format(
-						JGitText.get().cannotReadBackDelta, Integer.toString(type)));
+				throw new IOException(
+						MessageFormat.format(JGitText.get().cannotReadBackDelta,
+								Integer.toString(type)));
 			if (typeHint != OBJ_ANY && type != typeHint) {
-				throw new IncorrectObjectTypeException(objectId.copy(), typeHint);
+				throw new IncorrectObjectTypeException(objectId.copy(),
+						typeHint);
 			}
 
 			long sz = c & 0x0f;
@@ -595,12 +632,10 @@ public class DfsInserter extends ObjectInserter {
 			try {
 				return packOut.inflate(ctx, zpos, sz);
 			} catch (DataFormatException dfe) {
-				throw new CorruptObjectException(
-						MessageFormat.format(
-								JGitText.get().objectAtHasBadZlibStream,
-								Long.valueOf(obj.getOffset()),
-								packDsc.getFileName(PackExt.PACK)),
-						dfe);
+				throw new CorruptObjectException(MessageFormat.format(
+						JGitText.get().objectAtHasBadZlibStream,
+						Long.valueOf(obj.getOffset()),
+						packDsc.getFileName(PackExt.PACK)), dfe);
 			}
 		}
 
@@ -628,14 +663,17 @@ public class DfsInserter extends ObjectInserter {
 
 	private class StreamLoader extends ObjectLoader {
 		private final ObjectId id;
+
 		private final int type;
+
 		private final long size;
 
 		private final DfsStreamKey srcPack;
+
 		private final long pos;
 
-		StreamLoader(ObjectId id, int type, long sz,
-				DfsStreamKey key, long pos) {
+		StreamLoader(ObjectId id, int type, long sz, DfsStreamKey key,
+				long pos) {
 			this.id = id;
 			this.type = type;
 			this.size = sz;
@@ -659,8 +697,8 @@ public class DfsInserter extends ObjectInserter {
 
 			int bufsz = 8192;
 			final Inflater inf = ctx.inflater();
-			return new ObjectStream.Filter(type,
-					size, new BufferedInputStream(new InflaterInputStream(
+			return new ObjectStream.Filter(type, size,
+					new BufferedInputStream(new InflaterInputStream(
 							new ReadBackStream(pos), inf, bufsz), bufsz)) {
 				@Override
 				public void close() throws IOException {
