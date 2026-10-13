@@ -19,6 +19,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACKED_GIT_WINDOWS
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_FILE_THRESHOLD;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACKED_GIT_USE_STRONGREFS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACKED_INDEX_GIT_USE_STRONGREFS;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACKED_INDEX_GIT_LIMIT;
 
 import org.eclipse.jgit.internal.storage.file.WindowCache;
 import org.eclipse.jgit.lib.Config;
@@ -41,6 +42,8 @@ public class WindowCacheConfig {
 	private boolean useStrongRefs;
 
 	private boolean useStrongIndexRefs;
+
+	private long packedIndexGitLimit;
 
 	private int packedGitWindowSize;
 
@@ -159,6 +162,37 @@ public class WindowCacheConfig {
 	 */
 	public void setPackedIndexGitUseStrongRefs(boolean useStrongRefs) {
 		this.useStrongIndexRefs = useStrongRefs;
+	}
+
+	/**
+	 * Get maximum number of bytes of heap memory to dedicate to the indexes
+	 * (pack index, reverse index and bitmap index) of pack files.
+	 *
+	 * @return maximum number of bytes of heap memory for pack file indexes.
+	 *         When exceeded, the indexes of the least recently used pack files
+	 *         are dropped and reloaded on next use. The limit is approximate:
+	 *         index sizes are estimated and indexes still referenced by a
+	 *         reader stay in memory. {@code 0} means no limit.
+	 *         <b>Default is 0.</b>
+	 * @since 8.0
+	 */
+	public long getPackedIndexGitLimit() {
+		return packedIndexGitLimit;
+	}
+
+	/**
+	 * Set maximum number of bytes of heap memory to dedicate to the indexes
+	 * (pack index, reverse index and bitmap index) of pack files.
+	 *
+	 * @param newLimit
+	 *            maximum number of bytes of heap memory for pack file indexes,
+	 *            {@code 0} means no limit. Should be set before repositories
+	 *            are opened, indexes loaded while no limit is in effect are
+	 *            not accounted.
+	 * @since 8.0
+	 */
+	public void setPackedIndexGitLimit(long newLimit) {
+		packedIndexGitLimit = newLimit;
 	}
 
 	/**
@@ -301,6 +335,8 @@ public class WindowCacheConfig {
 				isPackedGitUseStrongRefs()));
 		setPackedIndexGitUseStrongRefs(rc.getBoolean(CONFIG_CORE_SECTION,
 				CONFIG_KEY_PACKED_INDEX_GIT_USE_STRONGREFS, isPackedIndexGitUseStrongRefs()));
+		setPackedIndexGitLimit(rc.getLong(CONFIG_CORE_SECTION, null,
+				CONFIG_KEY_PACKED_INDEX_GIT_LIMIT, getPackedIndexGitLimit()));
 		setPackedGitOpenFiles(rc.getInt(CONFIG_CORE_SECTION, null,
 				CONFIG_KEY_PACKED_GIT_OPENFILES, getPackedGitOpenFiles()));
 		setPackedGitLimit(rc.getLong(CONFIG_CORE_SECTION, null,

@@ -136,6 +136,20 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 
 	private volatile Optionally<PackBitmapIndex> bitmapIdx = Optionally.empty();
 
+	/** Estimated heap bytes of {@link #loadedIdx}, see {@link PackIndexCache}. */
+	private volatile long idxBytes;
+
+	/** Estimated heap bytes of {@link #reverseIdx}. */
+	private volatile long reverseIdxBytes;
+
+	/** Estimated heap bytes of {@link #bitmapIdx}. */
+	private volatile long bitmapIdxBytes;
+
+	/** CLOCK reference bit used by {@link PackIndexCache}. */
+	private volatile boolean indexReferenced;
+
+	/** Number of index loads in progress, see {@link #beginIndexLoad()}. */
+	private final AtomicInteger indexLoads = new AtomicInteger();
 
 	/**
 	 * Objects we have tried to read, and discovered to be corrupt.
@@ -194,6 +208,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	private PackIndex idx() throws IOException {
+		markIndexReferenced();
 		Optional<PackIndex> optional = loadedIdx.getOptional();
 		if (optional.isPresent()) {
 			return optional.get();
@@ -209,6 +224,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		if (invalid) {
 			throw new PackInvalidException(packFile, invalidatingCause);
 		}
+		beginIndexLoad();
 		try {
 			long start = System.currentTimeMillis();
 			PackFile idxFile = packFile.create(INDEX);
@@ -235,7 +251,10 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 								PackExt.INDEX.getExtension(),
 							Hex.toHexString(idx.getChecksum())));
 			}
+			// PackIndexV1/V2 keep (nearly) the whole file in memory.
+			idxBytes = idxFile.length();
 			loadedIdx = optionally(idx);
+			PackIndexCache.getInstance().charge(this);
 			return idx;
 		} catch (InterruptedIOException e) {
 			// don't invalidate the pack, we are interrupted from
@@ -245,6 +264,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 			invalid = true;
 			invalidatingCause = e;
 			throw e;
+		} finally {
+			endIndexLoad();
 		}
 	}
 
@@ -462,6 +483,91 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		loadedIdx = Optionally.empty();
 		reverseIdx = Optionally.empty();
 		bitmapIdx = Optionally.empty();
+		PackIndexCache.getInstance().remove(this);
+	}
+
+	/**
+	 * Drop the indexes of this pack to free memory; they are reloaded on next
+	 * use.
+	 * <p>
+	 * Called by {@link PackIndexCache} while holding its lock, so this must not
+	 * acquire the lock of this pack. Subclasses override this method to also
+	 * drop any index they add.
+	 */
+	void evictIndices() {
+		loadedIdx = Optionally.empty();
+		reverseIdx = Optionally.empty();
+		bitmapIdx = Optionally.empty();
+	}
+
+	/**
+	 * Get the estimated number of heap bytes used by the indexes currently
+	 * loaded for this pack.
+	 * <p>
+	 * Must not acquire the lock of this pack, see {@link #evictIndices()}.
+	 *
+	 * @return estimated heap bytes of the loaded indexes
+	 */
+	long getIndexWeight() {
+		long w = 0;
+		if (loadedIdx.getOptional().isPresent()) {
+			w += idxBytes;
+		}
+		if (reverseIdx.getOptional().isPresent()) {
+			w += reverseIdxBytes;
+		}
+		if (bitmapIdx.getOptional().isPresent()) {
+			w += bitmapIdxBytes;
+		}
+		return w;
+	}
+
+	/**
+	 * Protect the indexes of this pack from eviction while an index is loaded
+	 * or derived from other indexes, so that it doesn't combine or publish
+	 * indexes of different load generations. Must be paired with
+	 * {@link #endIndexLoad()}.
+	 */
+	void beginIndexLoad() {
+		PackIndexCache.getInstance().pin(this);
+	}
+
+	void endIndexLoad() {
+		indexLoads.decrementAndGet();
+	}
+
+	/**
+	 * Called by {@link PackIndexCache} while holding the lock used by
+	 * {@link #beginIndexLoad()}.
+	 *
+	 * @return the number of index loads in progress after incrementing it
+	 */
+	int incrementIndexLoads() {
+		return indexLoads.incrementAndGet();
+	}
+
+	boolean isIndexLoading() {
+		return indexLoads.get() > 0;
+	}
+
+	/** Record that an index of this pack was used, see {@link PackIndexCache}. */
+	void markIndexReferenced() {
+		if (!indexReferenced) {
+			indexReferenced = true;
+		}
+	}
+
+	/**
+	 * Clear the CLOCK reference bit.
+	 *
+	 * @return whether an index of this pack was used since the last call
+	 */
+	boolean clearIndexReferenced() {
+		if (indexReferenced) {
+			indexReferenced = false;
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -1331,6 +1437,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	PackBitmapIndex getBitmapIndex() throws IOException {
+		markIndexReferenced();
 		Optional<PackBitmapIndex> optional = bitmapIdx.getOptional();
 		if (optional.isPresent()) {
 			return optional.get();
@@ -1346,12 +1453,16 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		if (optional.isPresent()) {
 			return optional.get();
 		}
+		beginIndexLoad();
 		try {
-			PackBitmapIndex idx = PackBitmapIndex.open(bitmapIdxFile,
+			PackFile bitmapFile = bitmapIdxFile;
+			PackBitmapIndex idx = PackBitmapIndex.open(bitmapFile,
 					getIndex(), getReverseIdx());
 			// At this point, idx() will have set packChecksum.
 			if (Arrays.equals(packChecksum, idx.getPackChecksum())) {
+				bitmapIdxBytes = estimateBitmapIndexBytes(bitmapFile, idx);
 				bitmapIdx = optionally(idx);
+				PackIndexCache.getInstance().charge(this);
 				return idx;
 			}
 		} catch (FileNotFoundException e) {
@@ -1364,6 +1475,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 			}
 			// Ignore NFS stale handle exception the same way as
 			// FileNotFoundException above.
+		} finally {
+			endIndexLoad();
 		}
 		bitmapIdxFile = null;
 		return null;
@@ -1401,6 +1514,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 *             an error loading or calculating the reverse index.
 	 */
 	protected PackReverseIndex getReverseIdx() throws IOException {
+		markIndexReferenced();
 		Optional<PackReverseIndex> optional = reverseIdx.getOptional();
 		if (optional.isPresent()) {
 			return optional.get();
@@ -1416,12 +1530,37 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		if (optional.isPresent()) {
 			return optional.get();
 		}
-		PackFile reverseIndexFile = packFile.create(REVERSE_INDEX);
-		PackReverseIndex revIdx = PackReverseIndexFactory.openOrCompute(reverseIndexFile,
-					getObjectCount(), () -> getIndex());
-		revIdx.verifyPackChecksum(getPackFile().getPath());
-		reverseIdx = optionally(revIdx);
-		return revIdx;
+		beginIndexLoad();
+		try {
+			PackFile reverseIndexFile = packFile.create(REVERSE_INDEX);
+			PackReverseIndex revIdx = PackReverseIndexFactory.openOrCompute(
+					reverseIndexFile, getObjectCount(), () -> getIndex());
+			revIdx.verifyPackChecksum(getPackFile().getPath());
+			reverseIdxBytes = estimateReverseIndexBytes(revIdx,
+					getObjectCount());
+			reverseIdx = optionally(revIdx);
+			PackIndexCache.getInstance().charge(this);
+			return revIdx;
+		} finally {
+			endIndexLoad();
+		}
+	}
+
+	private static long estimateReverseIndexBytes(PackReverseIndex revIdx,
+			long objectCount) {
+		// The computed index keeps two int[objectCount] arrays, the one read
+		// from a .rev file keeps one.
+		int intsPerObject = revIdx instanceof PackReverseIndexComputed ? 2 : 1;
+		return objectCount * Integer.BYTES * intsPerObject;
+	}
+
+	private static long estimateBitmapIndexBytes(PackFile bitmapFile,
+			PackBitmapIndex idx) {
+		// Bitmaps are kept as read from the file, plus a StoredBitmap and an
+		// EWAH bitmap object per entry.
+		final int perEntryOverhead = 128;
+		return bitmapFile.length()
+				+ (long) idx.getBitmapCount() * perEntryOverhead;
 	}
 
 	private boolean isCorrupt(long offset) {

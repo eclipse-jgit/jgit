@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -254,7 +255,7 @@ public class BitmapIndexImpl implements BitmapIndex {
 
 		@Override
 		public boolean removeAllOrNone(PackBitmapIndex index) {
-			if (!bitmapIndex.packIndex.equals(index))
+			if (!sameBitPositions(bitmapIndex.packIndex, index))
 				return false;
 
 			EWAHCompressedBitmap curr = bitset.combine()
@@ -495,5 +496,26 @@ public class BitmapIndexImpl implements BitmapIndex {
 		if (remaining > 0)
 			mask.addWord((1L << remaining) - 1, remaining);
 		return mask;
+	}
+
+	/**
+	 * Whether bitmaps of both indexes use the same bit position for each
+	 * object.
+	 * <p>
+	 * A pack's bitmap index may be dropped and reloaded (see
+	 * {@link PackIndexCache}), so two different instances can describe the
+	 * same pack; they are recognized by the pack checksum.
+	 */
+	private static boolean sameBitPositions(PackBitmapIndex a,
+			PackBitmapIndex b) {
+		if (a == b) {
+			return true;
+		}
+		if (a == null || b == null || a.getClass() != b.getClass()) {
+			return false;
+		}
+		byte[] ac = a.getPackChecksum();
+		return ac != null && Arrays.equals(ac, b.getPackChecksum())
+				&& a.getObjectCount() == b.getObjectCount();
 	}
 }

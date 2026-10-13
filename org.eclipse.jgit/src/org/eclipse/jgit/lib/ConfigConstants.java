@@ -423,6 +423,12 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_PACKED_INDEX_GIT_USE_STRONGREFS = "packedindexgitusestrongrefs";
 
+	/**
+	 * The "packedIndexGitLimit" key
+	 * @since 8.0
+	 */
+	public static final String CONFIG_KEY_PACKED_INDEX_GIT_LIMIT = "packedindexgitlimit";
+
 	/** The "remote" key */
 	public static final String CONFIG_KEY_REMOTE = "remote";
 
