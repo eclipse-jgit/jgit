@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd8600c6_32459137",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-13T21:00:50Z",
+      "side": 1,
+      "message": "Mention jgit-307 issue.",
+      "revId": "03b3547edf560a0f982b6714bed4ec7cb3e40266",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e67e2f21_b8998523",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-13T21:00:50Z",
+      "side": 1,
+      "message": "This looks like a code smell: why don\u0027t you simply keep the refType where it is detected?\nThe need to keep the refType is clear from the other points where you\u0027re currently using the `instanceof FileReftableDatabase`",
+      "range": {
+        "startLine": 274,
+        "startChar": 6,
+        "endLine": 274,
+        "endChar": 42
+      },
+      "revId": "03b3547edf560a0f982b6714bed4ec7cb3e40266",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
