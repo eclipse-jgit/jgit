@@ -80,6 +80,39 @@ public class PackMidxTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
+	public void midx_evictedIndexesAreReloaded() throws Exception {
+		TestRepoObjects objs = createThreePacks();
+		PackMidx midx = writeAndOpenMidxAllPacks();
+		WindowCacheConfig cfg = new WindowCacheConfig();
+		cfg.setStreamFileThreshold(streamThreshold);
+		cfg.setPackedIndexGitLimit(Long.MAX_VALUE);
+		cfg.install();
+		PackIndexCache cache = PackIndexCache.getInstance();
+		try {
+			String contentsOfB = midxGet(midx, objs.contentsOfB);
+			String commitC = midxLoad(midx,
+					objs.midxOffsets().get(objs.commitC).intValue());
+			assertEquals(midx.getPackFile().length(), midx.getIndexWeight());
+			assertEquals(midx.getIndexWeight(), cache.getUsedBytes());
+
+			midx.evictIndices();
+			assertEquals(0, midx.getIndexWeight());
+
+			assertTrue(midx.hasObject(objs.commitA));
+			assertEquals(contentsOfB, midxGet(midx, objs.contentsOfB));
+			assertEquals(commitC, midxLoad(midx,
+					objs.midxOffsets().get(objs.commitC).intValue()));
+			assertEquals(midx.getPackFile().length(), midx.getIndexWeight());
+
+			midx.close();
+			assertEquals(0, cache.getUsedBytes());
+		} finally {
+			cfg.setPackedIndexGitLimit(0);
+			cfg.install();
+		}
+	}
+
+	@Test
 	public void midx_getObjectCount() throws Exception {
 		createThreePacks();
 		PackMidx midx = writeAndOpenMidxAllPacks();

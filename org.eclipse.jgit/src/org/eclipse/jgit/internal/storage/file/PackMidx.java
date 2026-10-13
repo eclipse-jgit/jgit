@@ -53,7 +53,9 @@ public class PackMidx extends Pack {
 
 	private final OffsetCalculator offsetCalculator;
 
-	private Optionally<MultiPackIndex> midx = Optionally.empty();
+	private volatile Optionally<MultiPackIndex> midx = Optionally.empty();
+
+	private volatile long midxBytes;
 
 	private volatile PackIndex idx;
 
@@ -126,35 +128,49 @@ public class PackMidx extends Pack {
 
 	@Override
 	public PackIndex getIndex() {
-		if (idx == null) {
+		markIndexReferenced();
+		PackIndex i = idx;
+		if (i == null) {
 			synchronized (this) {
-				if (idx == null) {
+				i = idx;
+				if (i == null) {
+					beginIndexLoad();
 					try {
-						idx = new MidxPackIndex(getMidx(), offsetCalculator);
+						i = new MidxPackIndex(getMidx(), offsetCalculator);
+						idx = i;
 					} catch (IOException e) {
 						throw new UncheckedIOException(e);
+					} finally {
+						endIndexLoad();
 					}
 				}
 			}
 		}
-		return idx;
+		return i;
 	}
 
 	@Override
 	public PackReverseIndex getReverseIdx() {
-		if (ridx == null) {
+		markIndexReferenced();
+		PackReverseIndex r = ridx;
+		if (r == null) {
 			synchronized (this) {
-				if (ridx == null) {
+				r = ridx;
+				if (r == null) {
+					beginIndexLoad();
 					try {
-						ridx = new MidxPackReverseIndex(getMidx(),
+						r = new MidxPackReverseIndex(getMidx(),
 								offsetCalculator);
+						ridx = r;
 					} catch (IOException e) {
 						throw new UncheckedIOException(e);
+					} finally {
+						endIndexLoad();
 					}
 				}
 			}
 		}
-		return ridx;
+		return r;
 	}
 
 	@Override
@@ -204,7 +220,27 @@ public class PackMidx extends Pack {
 			p.closeIndices();
 		}
 		midx = Optionally.empty();
+		idx = null;
+		ridx = null;
 		super.closeIndices();
+	}
+
+	@Override
+	void evictIndices() {
+		// idx and ridx wrap the midx, drop them so it can be collected.
+		midx = Optionally.empty();
+		idx = null;
+		ridx = null;
+		super.evictIndices();
+	}
+
+	@Override
+	long getIndexWeight() {
+		long w = super.getIndexWeight();
+		if (midx.getOptional().isPresent()) {
+			w += midxBytes;
+		}
+		return w;
 	}
 
 	@Override
@@ -350,6 +386,7 @@ public class PackMidx extends Pack {
 	}
 
 	private MultiPackIndex getMidx() throws IOException {
+		markIndexReferenced();
 		Optional<MultiPackIndex> optional = midx.getOptional();
 		if (optional.isPresent()) {
 			return optional.get();
@@ -367,15 +404,20 @@ public class PackMidx extends Pack {
 			return optional.get();
 		}
 
+		beginIndexLoad();
 		try {
 			MultiPackIndex loadedMidx = MultiPackIndexLoader
 					.open(getPackFile());
+			midxBytes = getPackFile().length();
 			midx = optionally(loadedMidx);
+			PackIndexCache.getInstance().charge(this);
 			return loadedMidx;
 		} catch (IOException e) {
 			setInvalid();
 			invalidatingCause = e;
 			throw e;
+		} finally {
+			endIndexLoad();
 		}
 	}
 

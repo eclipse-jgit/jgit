@@ -368,6 +368,7 @@ public class WindowCache {
 		cache = nc;
 		streamFileThreshold = cfg.getStreamFileThreshold();
 		DeltaBaseCache.reconfigure(cfg);
+		PackIndexCache.reconfigure(cfg);
 	}
 
 	static int getStreamFileThreshold() {
