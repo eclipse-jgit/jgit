@@ -214,8 +214,10 @@ class Candidate {
 					bTail = add(bTail, b, r);
 				}
 				r = next;
-				if (rEnd == e.getEndB())
+				if (rEnd == e.getEndB()
+						&& (r == null || e.getEndB() <= r.sourceStart)) {
 					eIdx++;
+				}
 				continue;
 			}
 
