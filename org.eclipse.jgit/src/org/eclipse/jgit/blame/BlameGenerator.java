@@ -342,7 +342,6 @@ public class BlameGenerator implements AutoCloseable {
 	 * Revisions to ignore are applied during forward blame traversal. When an
 	 * ignored commit is encountered, modified lines are transferred to the
 	 * parent commit without attributing blame to the ignored revision.
-	 * Specifying revisions to ignore disables using cached blame results.
 	 *
 	 * @param ids
 	 *            a {@link java.util.Collection} of
@@ -353,7 +352,6 @@ public class BlameGenerator implements AutoCloseable {
 	public BlameGenerator setIgnoreRevs(Collection<? extends ObjectId> ids) {
 		if (ids != null && !ids.isEmpty()) {
 			this.ignoreIds = Collections.unmodifiableSet(new HashSet<>(ids));
-			this.useCache = false;
 		} else {
 			this.ignoreIds = Collections.emptySet();
 		}
@@ -822,7 +820,7 @@ public class BlameGenerator implements AutoCloseable {
 
 	@Nullable
 	private Candidate blameFromCache(Candidate n) throws IOException {
-		if (blameCache == null || !useCache || !ignoreIds.isEmpty()) {
+		if (blameCache == null || !useCache || n.sourceCommit == null) {
 			return null;
 		}
 
@@ -832,13 +830,13 @@ public class BlameGenerator implements AutoCloseable {
 			return null;
 		}
 		BlameRegionMerger rb = new BlameRegionMerger(repository, revPool,
-				cachedBlame);
-		Candidate fullyBlamed = rb.mergeCandidate(n);
-		if (fullyBlamed == null) {
+				cachedBlame, ignoreIds);
+		Candidate blamed = rb.mergeCandidate(n);
+		if (blamed == null) {
 			return null;
 		}
 		stats.cacheHit = true;
-		return fullyBlamed;
+		return blamed;
 	}
 
 	private boolean processOne(Candidate n) throws IOException {
@@ -895,12 +893,14 @@ public class BlameGenerator implements AutoCloseable {
 			// A 100% rename without any content change can also
 			// skip directly to the parent.
 			Candidate cached = blameFromCache(n);
+			if (n.regionList != null) {
+				n.sourceCommit = parent;
+				n.sourcePath = PathFilter.create(r.getOldPath());
+				push(n);
+			}
 			if (cached != null) {
 				return result(cached);
 			}
-			n.sourceCommit = parent;
-			n.sourcePath = PathFilter.create(r.getOldPath());
-			push(n);
 			return false;
 		}
 
@@ -948,7 +948,7 @@ public class BlameGenerator implements AutoCloseable {
 		}
 
 		Candidate cached = blameFromCache(source);
-		if (cached != null) {
+		if (cached != null && source.regionList == null) {
 			return result(cached);
 		}
 
@@ -959,9 +959,24 @@ public class BlameGenerator implements AutoCloseable {
 		if (source.regionList != null) {
 			if (source instanceof ReverseCandidate)
 				return reverseResult(parent, source);
+			if (cached != null) {
+				appendCandidate(cached, source);
+				return result(cached);
+			}
 			return result(source);
 		}
+		if (cached != null) {
+			return result(cached);
+		}
 		return false;
+	}
+
+	private static void appendCandidate(Candidate head, Candidate tail) {
+		Candidate c = head;
+		while (c.queueNext != null) {
+			c = c.queueNext;
+		}
+		c.queueNext = tail;
 	}
 
 	private boolean processMerge(Candidate n) throws IOException {
@@ -1016,6 +1031,9 @@ public class BlameGenerator implements AutoCloseable {
 
 		// Construct the candidate for each parent.
 		Candidate[] parents = new Candidate[pCnt];
+		Candidate firstParent = null;
+		int firstParentIdx = -1;
+		EditList firstEditList = null;
 		for (int pIdx = 0; pIdx < pCnt; pIdx++) {
 			RevCommit parent = n.getParent(pIdx);
 
@@ -1043,6 +1061,12 @@ public class BlameGenerator implements AutoCloseable {
 				stats.blobsParsed++;
 				editList = diffAlgorithm.diff(textComparator, p.sourceText,
 						n.sourceText);
+			}
+
+			if (firstParent == null) {
+				firstParent = p;
+				firstParentIdx = pIdx;
+				firstEditList = editList;
 			}
 
 			if (editList.isEmpty()) {
@@ -1112,43 +1136,19 @@ public class BlameGenerator implements AutoCloseable {
 			return false;
 		}
 
-		if (n.regionList != null && isIgnored(n)) {
+		if (n.regionList != null && isIgnored(n) && firstParent != null) {
 			// Any remaining regions represent conflict resolutions or new
 			// edits authored directly in the merge commit itself (which did
 			// not match any parent). Since this merge commit is ignored, we
 			// must not blame it. Instead, transfer the leftover regions to
-			// an active parent candidate so traversal continues upstream.
-			Candidate target = null;
-			for (int pIdx = 0; pIdx < pCnt; pIdx++) {
-				if (parents[pIdx] != null) {
-					target = parents[pIdx];
-					break;
-				}
-			}
-			if (target != null) {
-				// Clamp residual coordinates within target's line bounds
-				int maxTarget = (target.sourceText != null
-						&& target.sourceText.size() > 0)
-								? target.sourceText.size() - 1
-								: 0;
-				for (Region r = n.regionList; r != null; r = r.next) {
-					if (r.sourceStart > maxTarget) {
-						r.sourceStart = maxTarget;
-					}
-				}
-				target.mergeRegions(n);
-			} else if (pCnt > 0) {
-				RevCommit p0 = n.getParent(0);
-				PathFilter p0Path = (renames != null && renames[0] != null)
-						? PathFilter.create(renames[0].getOldPath())
-						: n.sourcePath;
-				if (find(p0, p0Path)) {
-					Candidate p = n.create(getRepository(), p0, p0Path);
-					p.sourceBlob = idBuf.toObjectId();
-					p.loadText(reader);
-					p.regionList = n.regionList;
-					parents[0] = p;
-				}
+			// the first parent candidate that has the file so traversal
+			// continues upstream deterministically.
+			Candidate temp = firstParent.copy(firstParent.sourceCommit);
+			temp.regionList = null;
+			temp.takeBlame(firstEditList, n, true);
+			if (temp.regionList != null) {
+				firstParent.mergeRegions(temp);
+				parents[firstParentIdx] = firstParent;
 			}
 			n.regionList = null;
 		}
