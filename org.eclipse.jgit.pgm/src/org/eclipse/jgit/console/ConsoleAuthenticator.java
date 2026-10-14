@@ -14,6 +14,7 @@ package org.eclipse.jgit.console;
 import java.io.Console;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
+import java.net.URL;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.pgm.internal.CLIText;
@@ -54,17 +55,23 @@ public class ConsoleAuthenticator extends CachedAuthenticator {
 	}
 
 	private String formatRealm() {
+		return formatRealm(getRequestorType(), getRequestingHost(),
+				getRequestingPort(), getRequestingURL());
+	}
+
+	static String formatRealm(RequestorType requestorType,
+			String requestingHost, int requestingPort, URL requestingUrl) {
 		final StringBuilder realm = new StringBuilder();
-		if (getRequestorType() == RequestorType.PROXY) {
-			realm.append(getRequestorType());
+		if (requestorType == RequestorType.PROXY) {
+			realm.append(requestorType);
 			realm.append(" "); //$NON-NLS-1$
-			realm.append(getRequestingHost());
-			if (getRequestingPort() > 0) {
+			realm.append(requestingHost);
+			if (requestingPort > 0) {
 				realm.append(":"); //$NON-NLS-1$
-				realm.append(getRequestingPort());
+				realm.append(requestingPort);
 			}
 		} else {
-			realm.append(getRequestingURL());
+			realm.append(requestingUrl != null ? requestingUrl : requestingHost);
 		}
 		return realm.toString();
 	}
