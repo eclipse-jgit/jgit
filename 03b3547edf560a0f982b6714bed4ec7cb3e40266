@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ab5440c_e4f9cd97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-14T19:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd8600c6_32459137",
+      "revId": "03b3547edf560a0f982b6714bed4ec7cb3e40266",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e67e2f21_b8998523",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-10-13T21:00:50Z",
       "side": 1,
       "message": "This looks like a code smell: why don\u0027t you simply keep the refType where it is detected?\nThe need to keep the refType is clear from the other points where you\u0027re currently using the `instanceof FileReftableDatabase`",
+      "range": {
+        "startLine": 274,
+        "startChar": 6,
+        "endLine": 274,
+        "endChar": 42
+      },
+      "revId": "03b3547edf560a0f982b6714bed4ec7cb3e40266",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17ddf989_806bc0f0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-14T19:53:51Z",
+      "side": 1,
+      "message": "The selected backend is already retained in refs. Since conversion can replace it after construction, keeping a separate `refType` would introduce duplicate mutable state that must remain synchronized with the backend, including on failure paths. \n\nI’d prefer to derive the type from refs and reuse a single local boolean in `create()`, keeping this change focused on jgit-307.",
+      "parentUuid": "e67e2f21_b8998523",
       "range": {
         "startLine": 274,
         "startChar": 6,
