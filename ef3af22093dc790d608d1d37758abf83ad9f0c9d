@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa334907_461d7105",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/SnapshottingRefDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-10-15T18:36:45Z",
+      "side": 1,
+      "message": "I don\u0027t know if it affects the outcome of the test, but to match `getPackedRefsRefresher()`, this `set()` should come before `refresher.run()`",
+      "revId": "ef3af22093dc790d608d1d37758abf83ad9f0c9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
