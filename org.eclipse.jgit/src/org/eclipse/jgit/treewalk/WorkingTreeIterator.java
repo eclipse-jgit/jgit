@@ -784,13 +784,17 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				continue;
 			if (Constants.DOT_GIT.equals(name))
 				continue;
-			if (Constants.DOT_GIT_IGNORE.equals(name))
+			if (Constants.DOT_GIT_IGNORE.equals(name)
+					&& !FileMode.TREE.equals(e.getMode())) {
 				ignoreNode = new PerDirectoryIgnoreNode(
 						TreeWalk.pathOf(path, 0, pathOffset)
 								+ Constants.DOT_GIT_IGNORE,
 						e);
-			if (Constants.DOT_GIT_ATTRIBUTES.equals(name))
+			}
+			if (Constants.DOT_GIT_ATTRIBUTES.equals(name)
+					&& !FileMode.TREE.equals(e.getMode())) {
 				attributesNode = new PerDirectoryAttributesNode(e);
+			}
 			if (i != o)
 				entries[o] = e;
 			e.encodeName(nameEncoder);
