@@ -16,6 +16,40 @@
       "message": "It\u0027s strange that we don\u0027t have a test for this regression. \n\nIdeally, we should have a test that checks for \"if the commit has a cg position and the walk has \"retainBody(false)\", parseHeaders must not read from pack and must still produce correct headers (parents, tree, commit time, generation, etc).",
       "revId": "38c4f8ccb51037f2652f10e3d5e5d1a614cd93b6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "532f1baf_0124a967",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2026-10-15T22:05:14Z",
+      "side": 1,
+      "message": "nit:\n\nthe order of loading in RevCommitCG was:\n\n1. if isRetainBody, fill buffer via cached byte, aka getCachedBytes, then read the rest from graph or buffer. if !isRetainBody, read from graph directly.\n2. marked as PARSED.\n\nThe reason this isRetainBody-first decision making works for RevCommitCG is because RevCommitCG is only introduced by CG object so it\u0027s implied that it has a position in the CG.\n\nthe order of loading in RevCommit of this change is:\n\n1. read header specific data from CG if the position \u003e 0.\n2. handle the retainBody logic and getCachedByte within the parseInGraph or parseCanonical methods independently. \n3. marked as PARSED.\n\nI believe the IO cost is the same comparing the pre-regression code path and the code change in this change, but it\u0027s worth disclosing.",
+      "revId": "38c4f8ccb51037f2652f10e3d5e5d1a614cd93b6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20fafba1_1e397e71",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2026-10-15T22:05:14Z",
+      "side": 1,
+      "message": "I assume there are cases that parseCanonical getting called without coming from parseHeaders? Thus you need to account for graph position in parseCanonical? \n\nIf so, why not just have parseHeaders calling parseCanonical directly? Isn\u0027t it redundant to have \"graphPosition \u003e\u003d 0\" check in both parseHeaders and parseCanonical?",
+      "revId": "38c4f8ccb51037f2652f10e3d5e5d1a614cd93b6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
