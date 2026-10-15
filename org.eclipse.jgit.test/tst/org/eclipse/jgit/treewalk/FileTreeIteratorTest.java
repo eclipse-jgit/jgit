@@ -340,8 +340,8 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			fs.setLastModified(db.getIndexFile().toPath(), lastModified);
 		}
 		DirCacheEntry dce = db.readDirCache().getEntry("file");
-		FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(), db
-				.getConfig().get(WorkingTreeOptions.KEY));
+		FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(),
+				db.getConfig().get(WorkingTreeOptions.KEY));
 		while (!fti.getEntryPathString().equals("file"))
 			fti.next(1);
 		// If the rounding trick does not work we could skip the compareMetaData
@@ -354,8 +354,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void submoduleHeadMatchesIndex() throws Exception {
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
+		try (Git git = new Git(db); TreeWalk walk = new TreeWalk(db)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			final RevCommit id = git.commit().setMessage("create file").call();
@@ -376,7 +375,8 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 					.setDirectory(new File(db.getWorkTree(), path)).call()
 					.getRepository().close();
 
-			DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
+			DirCacheIterator indexIter = new DirCacheIterator(
+					db.readDirCache());
 			FileTreeIterator workTreeIter = new FileTreeIterator(db);
 			walk.addTree(indexIter);
 			walk.addTree(workTreeIter);
@@ -389,8 +389,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void submoduleWithNoGitDirectory() throws Exception {
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
+		try (Git git = new Git(db); TreeWalk walk = new TreeWalk(db)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			final RevCommit id = git.commit().setMessage("create file").call();
@@ -411,7 +410,8 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			assertTrue(submoduleRoot.mkdir());
 			assertTrue(new File(submoduleRoot, Constants.DOT_GIT).mkdir());
 
-			DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
+			DirCacheIterator indexIter = new DirCacheIterator(
+					db.readDirCache());
 			FileTreeIterator workTreeIter = new FileTreeIterator(db);
 			walk.addTree(indexIter);
 			walk.addTree(workTreeIter);
@@ -425,8 +425,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void submoduleWithNoHead() throws Exception {
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
+		try (Git git = new Git(db); TreeWalk walk = new TreeWalk(db)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			final RevCommit id = git.commit().setMessage("create file").call();
@@ -443,10 +442,12 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			});
 			editor.commit();
 
-			assertNotNull(Git.init().setDirectory(new File(db.getWorkTree(), path))
-					.call().getRepository());
+			assertNotNull(
+					Git.init().setDirectory(new File(db.getWorkTree(), path))
+							.call().getRepository());
 
-			DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
+			DirCacheIterator indexIter = new DirCacheIterator(
+					db.readDirCache());
 			FileTreeIterator workTreeIter = new FileTreeIterator(db);
 			walk.addTree(indexIter);
 			walk.addTree(workTreeIter);
@@ -460,8 +461,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void submoduleDirectoryIterator() throws Exception {
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
+		try (Git git = new Git(db); TreeWalk walk = new TreeWalk(db)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			final RevCommit id = git.commit().setMessage("create file").call();
@@ -482,9 +482,11 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 					.setDirectory(new File(db.getWorkTree(), path)).call()
 					.getRepository().close();
 
-			DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
-			FileTreeIterator workTreeIter = new FileTreeIterator(db.getWorkTree(),
-					db.getFS(), db.getConfig().get(WorkingTreeOptions.KEY));
+			DirCacheIterator indexIter = new DirCacheIterator(
+					db.readDirCache());
+			FileTreeIterator workTreeIter = new FileTreeIterator(
+					db.getWorkTree(), db.getFS(),
+					db.getConfig().get(WorkingTreeOptions.KEY));
 			walk.addTree(indexIter);
 			walk.addTree(workTreeIter);
 			walk.setFilter(PathFilter.create(path));
@@ -496,8 +498,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void submoduleNestedWithHeadMatchingIndex() throws Exception {
-		try (Git git = new Git(db);
-				TreeWalk walk = new TreeWalk(db)) {
+		try (Git git = new Git(db); TreeWalk walk = new TreeWalk(db)) {
 			writeTrashFile("file.txt", "content");
 			git.add().addFilepattern("file.txt").call();
 			final RevCommit id = git.commit().setMessage("create file").call();
@@ -518,7 +519,8 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 					.setDirectory(new File(db.getWorkTree(), path)).call()
 					.getRepository().close();
 
-			DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
+			DirCacheIterator indexIter = new DirCacheIterator(
+					db.readDirCache());
 			FileTreeIterator workTreeIter = new FileTreeIterator(db);
 			walk.addTree(indexIter);
 			walk.addTree(workTreeIter);
@@ -531,14 +533,14 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	@Test
 	public void idOffset() throws Exception {
-		try (Git git = new Git(db);
-				TreeWalk tw = new TreeWalk(db)) {
+		try (Git git = new Git(db); TreeWalk tw = new TreeWalk(db)) {
 			writeTrashFile("fileAinfsonly", "A");
 			File fileBinindex = writeTrashFile("fileBinindex", "B");
 			fsTick(fileBinindex);
 			git.add().addFilepattern("fileBinindex").call();
 			writeTrashFile("fileCinfsonly", "C");
-			DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
+			DirCacheIterator indexIter = new DirCacheIterator(
+					db.readDirCache());
 			FileTreeIterator workTreeIter = new FileTreeIterator(db);
 			tw.addTree(indexIter);
 			tw.addTree(workTreeIter);
@@ -551,8 +553,8 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 			// mixed
 			assertEntry("8c7e5a667f1b771847fe88c01c3de34413a1b220",
 					"fileAinfsonly", tw);
-			assertEntry("7371f47a6f8bd23a8fa1a8b2a9479cdd76380e54", "fileBinindex",
-					tw);
+			assertEntry("7371f47a6f8bd23a8fa1a8b2a9479cdd76380e54",
+					"fileBinindex", tw);
 			assertEntry("96d80cd6c4e7158dbebd0849f4fb7ce513e5828c",
 					"fileCinfsonly", tw);
 			assertFalse(tw.next());
@@ -606,15 +608,15 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 					nestedRepo, NO_GITLINKS_STRATEGY);
 			git.add().setWorkingTreeIterator(customIterator).addFilepattern(".")
 					.call();
-			assertEquals(
-					"[sub/a.txt, mode:100644, content:content]"
-							+ "[sub/nested/b.txt, mode:100644, content:content b]",
+			assertEquals("[sub/a.txt, mode:100644, content:content]"
+					+ "[sub/nested/b.txt, mode:100644, content:content b]",
 					indexState(nestedRepo, CONTENT));
 		}
 	}
 
 	@Test
-	public void testCustomFileModeStrategyFromParentIterator() throws Exception {
+	public void testCustomFileModeStrategyFromParentIterator()
+			throws Exception {
 		try (Repository nestedRepo = createNestedRepo();
 				Git git = new Git(nestedRepo)) {
 			FileTreeIterator customIterator = new FileTreeIterator(nestedRepo,
@@ -629,9 +631,8 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 					customIterator, r, nestedRepo.getFS());
 			git.add().setWorkingTreeIterator(childIterator).addFilepattern(".")
 					.call();
-			assertEquals(
-					"[sub/a.txt, mode:100644, content:content]"
-							+ "[sub/nested/b.txt, mode:100644, content:content b]",
+			assertEquals("[sub/a.txt, mode:100644, content:content]"
+					+ "[sub/nested/b.txt, mode:100644, content:content b]",
 					indexState(nestedRepo, CONTENT));
 		}
 	}
@@ -802,12 +803,71 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void testGitignoreAndGitattributesAsDirectories() throws Exception {
+		writeTrashFile(".gitignore/rules", "*.tmp\n");
+		writeTrashFile(".gitattributes/attrs", "* text=auto\n");
+		writeTrashFile("sub/file.tmp", "content");
+
+		// Those are regular files, nothing ignored
+		try (TreeWalk tw = new TreeWalk(db)) {
+			FileTreeIterator fti = new FileTreeIterator(db);
+			tw.addTree(fti);
+			tw.setRecursive(true);
+
+			assertTrue(tw.next());
+			assertEquals(".gitattributes/attrs", tw.getPathString());
+			assertTrue(tw.next());
+			assertEquals(".gitignore/rules", tw.getPathString());
+			for (String p : paths) {
+				assertTrue(tw.next());
+				assertEquals(p, tw.getPathString());
+			}
+			assertTrue(tw.next());
+			assertEquals("sub/file.tmp", tw.getPathString());
+			assertFalse(
+					tw.getTree(0, WorkingTreeIterator.class).isEntryIgnored());
+			assertFalse(tw.next());
+		}
+	}
+
+	@Test
+	public void testGitignoreAndGitattributes() throws Exception {
+		writeTrashFile(".gitignore", "*.tmp\n");
+		writeTrashFile(".gitattributes", "* text=auto\n");
+		writeTrashFile("sub/file.tmp", "content");
+
+		try (TreeWalk tw = new TreeWalk(db)) {
+			FileTreeIterator fti = new FileTreeIterator(db);
+			tw.addTree(fti);
+			tw.setRecursive(true);
+
+			assertTrue(tw.next());
+			assertEquals(".gitattributes", tw.getPathString());
+			assertNotNull(tw.getTree(0, WorkingTreeIterator.class)
+					.getEntryAttributesNode());
+
+			assertTrue(tw.next());
+			assertEquals(".gitignore", tw.getPathString());
+			for (String p : paths) {
+				assertTrue(tw.next());
+				assertEquals(p, tw.getPathString());
+			}
+			assertTrue(tw.next());
+			assertEquals("sub/file.tmp", tw.getPathString());
+			assertTrue(
+					tw.getTree(0, WorkingTreeIterator.class).isEntryIgnored());
+			assertFalse(tw.next());
+		}
+	}
+
 	private static void assertEntry(String sha1string, String path, TreeWalk tw)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			CorruptObjectException, IOException {
 		assertTrue(tw.next());
 		assertEquals(path, tw.getPathString());
-		assertEquals(sha1string, tw.getObjectId(1).getName() /* 1=filetree here */);
+		assertEquals(sha1string,
+				tw.getObjectId(1).getName() /* 1=filetree here */);
 	}
 
 	private static String nameOf(AbstractTreeIterator i) {
