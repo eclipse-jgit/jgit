@@ -34,6 +34,24 @@
       "parentUuid": "f6bf2d41_fdab35b2",
       "revId": "5ac266a5bc9c54824c81825989efa32561b56fb2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08598bf4_3ea46bcb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-15T11:25:27Z",
+      "side": 1,
+      "message": "You\u0027re right, I got confused about the ouput showing stuff like `[main] ERROR org.eclipse.jgit.ignore.FastIgnoreRule - Cannot parse .gitignore pattern` but the actual failure was in `ArchiveCommandTest`. \n\nThank you",
+      "parentUuid": "0494cca6_490ec2cc",
+      "revId": "5ac266a5bc9c54824c81825989efa32561b56fb2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
