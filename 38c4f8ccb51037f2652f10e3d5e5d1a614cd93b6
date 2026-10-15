@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7da3ef12_af9088c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-10-15T22:23:03Z",
+      "side": 1,
+      "message": "That is an internal optimization hard to test from the API. I\u0027ll try to add some tests in a follow up.",
+      "parentUuid": "2478ae4d_71d83045",
+      "revId": "38c4f8ccb51037f2652f10e3d5e5d1a614cd93b6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "532f1baf_0124a967",
@@ -53,6 +71,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7750c6cc_2cf86211",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-10-15T22:23:03Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "532f1baf_0124a967",
+      "revId": "38c4f8ccb51037f2652f10e3d5e5d1a614cd93b6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20fafba1_1e397e71",
@@ -66,6 +102,24 @@
       "writtenOn": "2026-10-15T22:05:14Z",
       "side": 1,
       "message": "I assume there are cases that parseCanonical getting called without coming from parseHeaders? Thus you need to account for graph position in parseCanonical? \n\nIf so, why not just have parseHeaders calling parseCanonical directly? Isn\u0027t it redundant to have \"graphPosition \u003e\u003d 0\" check in both parseHeaders and parseCanonical?",
+      "revId": "38c4f8ccb51037f2652f10e3d5e5d1a614cd93b6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac017194_5228d187",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-10-15T22:23:03Z",
+      "side": 1,
+      "message": "Yes, unfortunately there are external callers for parseCanonical. This hack for parseInGraph is for them.\n\nCalling parseCanonical from parseHeaders directly is what we are fixing here. We would need to call it with a null parameter and confuse even more the meaning of this method.",
+      "parentUuid": "20fafba1_1e397e71",
       "revId": "38c4f8ccb51037f2652f10e3d5e5d1a614cd93b6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
