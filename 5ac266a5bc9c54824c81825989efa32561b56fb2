@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6bf2d41_fdab35b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-15T08:59:13Z",
+      "side": 1,
+      "message": "The failing check is unrelated, it seems like a flaky test: https://github.com/eclipse-jgit/jgit/issues/207",
+      "revId": "5ac266a5bc9c54824c81825989efa32561b56fb2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
