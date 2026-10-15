@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2478ae4d_71d83045",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037694
+      },
+      "writtenOn": "2026-10-15T21:08:39Z",
+      "side": 1,
+      "message": "It\u0027s strange that we don\u0027t have a test for this regression. \n\nIdeally, we should have a test that checks for \"if the commit has a cg position and the walk has \"retainBody(false)\", parseHeaders must not read from pack and must still produce correct headers (parents, tree, commit time, generation, etc).",
+      "revId": "38c4f8ccb51037f2652f10e3d5e5d1a614cd93b6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
