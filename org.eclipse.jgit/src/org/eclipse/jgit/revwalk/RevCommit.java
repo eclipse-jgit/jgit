@@ -166,7 +166,16 @@ public class RevCommit extends RevObject {
 	@Override
 	final void parseHeaders(RevWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		parseCanonical(walk, walk.getCachedBytes(this));
+		if (walk.isRetainBody()) {
+			parseBody(walk);
+			return;
+		}
+
+		if (graphPosition < 0) {
+			parseCanonical(walk, walk.getCachedBytes(this));
+		} else {
+			parseInGraph(walk);
+		}
 	}
 
 	@Override
@@ -180,27 +189,13 @@ public class RevCommit extends RevObject {
 	}
 
 	final void parseCanonical(RevWalk walk, byte[] raw) throws IOException {
-		if (!walk.shallowCommitsInitialized) {
-			walk.initializeShallowCommits(this);
-		}
-
-		if (graphPosition >= 0) {
-			if (walk.isRetainBody()) {
-				buffer = raw;
-			}
-
-			parseInGraph(walk);
-		} else {
-			parseFromObject(walk, raw);
-		}
-
-		flags |= PARSED;
-	}
-
-	final void parseFromObject(RevWalk walk, byte[] raw) {
 		final MutableObjectId idBuffer = walk.idBuffer;
 		idBuffer.fromString(raw, 5);
 		tree = walk.lookupTree(idBuffer);
+
+		if (!walk.shallowCommitsInitialized) {
+			walk.initializeShallowCommits(this);
+		}
 
 		int ptr = 46;
 		if (getParents() == null) {
@@ -251,9 +246,11 @@ public class RevCommit extends RevObject {
 		if (walk.isRetainBody()) {
 			buffer = raw;
 		}
+
+		flags |= PARSED;
 	}
 
-	final void parseInGraph(RevWalk walk) {
+	final void parseInGraph(RevWalk walk) throws IOException {
 		CommitGraph graph = walk.commitGraph();
 		CommitGraph.CommitData data = graph.getCommitData(graphPosition);
 		if (data == null) {
@@ -261,6 +258,10 @@ public class RevCommit extends RevObject {
 			// position in the commit graph. If now the commit-graph doesn't
 			// know about it, something went wrong.
 			throw new IllegalStateException();
+		}
+
+		if (!walk.shallowCommitsInitialized) {
+			walk.initializeShallowCommits(this);
 		}
 
 		this.tree = walk.lookupTree(data.getTree());
@@ -281,6 +282,8 @@ public class RevCommit extends RevObject {
 				this.parents = pList;
 			}
 		}
+
+		flags |= PARSED;
 	}
 
 	@Override
