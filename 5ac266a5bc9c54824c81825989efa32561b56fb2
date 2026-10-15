@@ -16,6 +16,24 @@
       "message": "The failing check is unrelated, it seems like a flaky test: https://github.com/eclipse-jgit/jgit/issues/207",
       "revId": "5ac266a5bc9c54824c81825989efa32561b56fb2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0494cca6_490ec2cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-10-15T09:20:48Z",
+      "side": 1,
+      "message": "It fails in\n```\n12:06:41  [ERROR] Failures: \n12:06:41  [ERROR]   ArchiveCommandTest.archiveHeadAllFilesTbz2WithCompressionReducesArchiveSize:220-\u003earchiveHeadAllFilesWithCompression:270 Expected sizeCompression1 \u003d 98016 \u003e sizeCompression9 \u003d 98037\n12:06:41  [INFO] \n12:06:41  [ERROR] Tests run: 6411, Failures: 1, Errors: 0, Skipped: 120\n```\n\nin org.eclipse.jgit.pgm.test.",
+      "parentUuid": "f6bf2d41_fdab35b2",
+      "revId": "5ac266a5bc9c54824c81825989efa32561b56fb2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
