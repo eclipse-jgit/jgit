@@ -42,6 +42,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
@@ -73,6 +75,26 @@ public class HttpAuthTest {
 	private static String DIGEST = "Digest";
 
 	private static String NEGOTIATE = "Negotiate";
+
+	@Test
+	public void testSupportedAuthenticationSchemes() {
+		assertTrue(HttpTransport.isAuthenticationSchemeSupported(BASIC));
+		assertTrue(HttpTransport.isAuthenticationSchemeSupported(DIGEST));
+		assertTrue(HttpTransport.isAuthenticationSchemeSupported(NEGOTIATE));
+		assertTrue(HttpTransport.isAuthenticationSchemeSupported("bAsIc"));
+		assertTrue(HttpTransport.isAuthenticationSchemeSupported("dIgEsT"));
+		assertTrue(HttpTransport.isAuthenticationSchemeSupported("nEgOtIaTe"));
+	}
+
+	@Test
+	public void testUnsupportedAuthenticationSchemes() {
+		assertFalse(HttpTransport.isAuthenticationSchemeSupported("NTLM"));
+		assertFalse(HttpTransport.isAuthenticationSchemeSupported("Bearer"));
+		assertFalse(HttpTransport.isAuthenticationSchemeSupported("None"));
+		assertFalse(HttpTransport.isAuthenticationSchemeSupported("nOnE"));
+		assertFalse(HttpTransport.isAuthenticationSchemeSupported(""));
+		assertFalse(HttpTransport.isAuthenticationSchemeSupported(null));
+	}
 
 	@Test
 	public void testHttpAuthScanResponse() {

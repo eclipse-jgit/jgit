@@ -53,6 +53,28 @@ public abstract class HttpTransport extends Transport {
 	}
 
 	/**
+	 * Whether JGit supports the given HTTP authentication scheme.
+	 * <p>
+	 * The internal {@code NONE} sentinel denotes no selected authentication
+	 * method, not a supported scheme.
+	 *
+	 * @param scheme
+	 *            authentication scheme name, matched case-insensitively
+	 * @return {@code true} if JGit supports the scheme; {@code false} for
+	 *         {@code null}, unknown schemes, or the {@code NONE} sentinel name
+	 * @since 8.0
+	 */
+	public static boolean isAuthenticationSchemeSupported(String scheme) {
+		for (HttpAuthMethod.Type type : HttpAuthMethod.Type.values()) {
+			if (type != HttpAuthMethod.Type.NONE
+					&& type.getSchemeName().equalsIgnoreCase(scheme)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Create a new transport instance.
 	 *
 	 * @param local

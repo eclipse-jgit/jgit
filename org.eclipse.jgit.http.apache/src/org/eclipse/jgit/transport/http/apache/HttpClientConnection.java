@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.transport.http.apache;
 
+import static org.eclipse.jgit.util.HttpSupport.HDR_WWW_AUTHENTICATE;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_GET;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_HEAD;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_POST;
@@ -61,9 +62,12 @@ import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.SystemDefaultCredentialsProvider;
+import org.apache.http.impl.client.TargetAuthenticationStrategy;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
+import org.apache.http.protocol.HttpContext;
 import org.apache.http.ssl.SSLContexts;
 import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.http.HttpConnection;
 import org.eclipse.jgit.transport.http.apache.internal.HttpApacheText;
 import org.eclipse.jgit.util.HttpSupport;
@@ -148,12 +152,42 @@ public class HttpClientConnection implements HttpConnection {
 						new BasicHttpClientConnectionManager(registry));
 			}
 			clientBuilder.setDefaultRequestConfig(configBuilder.build());
+			// TransportHttp handles Basic, Digest and Negotiate through JGit's
+			// CredentialsProvider. Keep HttpClient's target handling for
+			// NTLM-only challenges, which JGit does not support.
+			clientBuilder.setTargetAuthenticationStrategy(
+					new TargetAuthenticationStrategy() {
+						@Override
+						public boolean isAuthenticationRequested(HttpHost host,
+								HttpResponse response, HttpContext context) {
+							if (supportsJGitAuthentication(response)) {
+								return false;
+							}
+							return super.isAuthenticationRequested(host, response,
+									context);
+						}
+					});
 			clientBuilder.setDefaultCredentialsProvider(
 					new SystemDefaultCredentialsProvider());
 			client = clientBuilder.build();
 		}
 
 		return client;
+	}
+
+	static boolean supportsJGitAuthentication(HttpResponse response) {
+		// Keep this in sync with HttpAuthMethod.scanResponse() scheme detection:
+		// getHeaderFields() expands each HeaderElement, then scanResponse()
+		// splits its string at the first space.
+		for (Header header : response.getHeaders(HDR_WWW_AUTHENTICATE)) {
+			for (HeaderElement element : header.getElements()) {
+				String scheme = element.toString().split(" ", 2)[0]; //$NON-NLS-1$
+				if (HttpTransport.isAuthenticationSchemeSupported(scheme)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	void setSSLSocketFactory(@NonNull SSLConnectionSocketFactory factory,
