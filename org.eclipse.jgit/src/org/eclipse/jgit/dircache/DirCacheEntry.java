@@ -454,7 +454,9 @@ public class DirCacheEntry {
 	 */
 	public final boolean isSmudged() {
 		final int base = infoOffset + P_OBJECTID;
-		return (getLength() == 0) && (Constants.EMPTY_BLOB_ID.compareTo(info, base) != 0);
+		return (getLength() == 0)
+				&& !FileMode.GITLINK.equals(getFileMode())
+				&& (Constants.EMPTY_BLOB_ID.compareTo(info, base) != 0);
 	}
 
 	final byte[] idBuffer() {
