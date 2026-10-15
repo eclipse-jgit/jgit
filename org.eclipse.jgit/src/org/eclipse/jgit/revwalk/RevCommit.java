@@ -166,7 +166,11 @@ public class RevCommit extends RevObject {
 	@Override
 	final void parseHeaders(RevWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		parseCanonical(walk, walk.getCachedBytes(this));
+		if (graphPosition >= 0) {
+			parseInGraph(walk);
+		} else {
+			parseCanonical(walk, walk.getCachedBytes(this));
+		}
 	}
 
 	@Override
@@ -184,20 +188,13 @@ public class RevCommit extends RevObject {
 			walk.initializeShallowCommits(this);
 		}
 
+		// Caller already loaded the object, but if we can, we want the commit
+		// graph data (e.g. generation number)
 		if (graphPosition >= 0) {
-			if (walk.isRetainBody()) {
-				buffer = raw;
-			}
-
 			parseInGraph(walk);
-		} else {
-			parseFromObject(walk, raw);
+			return;
 		}
 
-		flags |= PARSED;
-	}
-
-	final void parseFromObject(RevWalk walk, byte[] raw) {
 		final MutableObjectId idBuffer = walk.idBuffer;
 		idBuffer.fromString(raw, 5);
 		tree = walk.lookupTree(idBuffer);
@@ -251,9 +248,15 @@ public class RevCommit extends RevObject {
 		if (walk.isRetainBody()) {
 			buffer = raw;
 		}
+
+		flags |= PARSED;
 	}
 
-	final void parseInGraph(RevWalk walk) {
+	final void parseInGraph(RevWalk walk) throws IOException {
+		if (!walk.shallowCommitsInitialized) {
+			walk.initializeShallowCommits(this);
+		}
+
 		CommitGraph graph = walk.commitGraph();
 		CommitGraph.CommitData data = graph.getCommitData(graphPosition);
 		if (data == null) {
@@ -262,6 +265,7 @@ public class RevCommit extends RevObject {
 			// know about it, something went wrong.
 			throw new IllegalStateException();
 		}
+
 
 		this.tree = walk.lookupTree(data.getTree());
 		this.commitTime = (int) data.getCommitTime();
@@ -281,6 +285,12 @@ public class RevCommit extends RevObject {
 				this.parents = pList;
 			}
 		}
+
+		if (walk.isRetainBody() && buffer == null) {
+			buffer = walk.getCachedBytes(this);
+		}
+
+		flags |= PARSED;
 	}
 
 	@Override
