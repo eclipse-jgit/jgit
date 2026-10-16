@@ -16,6 +16,24 @@
       "message": "I don\u0027t know if it affects the outcome of the test, but to match `getPackedRefsRefresher()`, this `set()` should come before `refresher.run()`",
       "revId": "ef3af22093dc790d608d1d37758abf83ad9f0c9d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f368c329_80e07d1a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/SnapshottingRefDirectoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1037808
+      },
+      "writtenOn": "2026-10-16T04:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa334907_461d7105",
+      "revId": "ef3af22093dc790d608d1d37758abf83ad9f0c9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
