@@ -114,7 +114,7 @@ public abstract class AbstractRevWalkWithCommitGraphTest extends RevWalkTestCase
 
 	protected final void reinitializeRevWalk() {
 		rw.close();
-		rw = new RevWalk(db);
+		rw = createRevWalk();
 	}
 
 	private static final class MockConfig extends FileBasedConfig {
