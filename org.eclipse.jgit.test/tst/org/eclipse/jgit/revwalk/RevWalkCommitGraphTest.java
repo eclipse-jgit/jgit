@@ -24,9 +24,12 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.jgit.diff.DiffConfig;
+import org.eclipse.jgit.errors.LargeObjectException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.filter.MessageRevFilter;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
@@ -35,78 +38,212 @@ import org.eclipse.jgit.treewalk.filter.ChangedPathTreeFilter;
 import org.eclipse.jgit.treewalk.filter.OrTreeFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.References;
 import org.junit.Test;
 
 public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 
+	private int getCachedBytesCalls;
+
+	@Override
+	protected RevWalk createRevWalk() {
+		getCachedBytesCalls = 0;
+		return new RevWalk(db) {
+			@Override
+			byte[] getCachedBytes(RevObject obj, ObjectLoader ldr)
+					throws LargeObjectException, MissingObjectException,
+					IOException {
+				if (References.isSameObject(this, rw)) {
+					getCachedBytesCalls++;
+				}
+				return super.getCachedBytes(obj, ldr);
+			}
+		};
+	}
+
+	private void assertParsedCommit(RevCommit expected, RevCommit actual,
+			int expectedGeneration, boolean expectBody) {
+		assertTrue((actual.flags & RevWalk.PARSED) != 0);
+		assertTrue(rw.shallowCommitsInitialized);
+		assertEquals(expectedGeneration, actual.getGeneration());
+		assertEquals(expected.getId(), actual.getId());
+		assertEquals(expected.getTree(), actual.getTree());
+		assertEquals(expected.getCommitTime(), actual.getCommitTime());
+		assertArrayEquals(expected.getParents(), actual.getParents());
+		if (expectBody) {
+			assertNotNull(actual.getRawBuffer());
+			assertArrayEquals(expected.getRawBuffer(), actual.getRawBuffer());
+			assertEquals(expected.getFullMessage(), actual.getFullMessage());
+		} else {
+			assertNull(actual.getRawBuffer());
+		}
+	}
+
 	@Test
 	public void testParseHeaders() throws Exception {
-		RevCommit c1 = commitFile("file1", "1", "master");
+		commitFile("file1", "1", "master");
+		RevCommit c2 = commitFile("file2", "2", "master");
 
-		RevCommit notParseInGraph = rw.lookupCommit(c1);
-		rw.parseHeaders(notParseInGraph);
-		assertNotNull(notParseInGraph.getRawBuffer());
-		assertEquals(Constants.COMMIT_GENERATION_UNKNOWN,
-				notParseInGraph.getGeneration());
+		// No commit-graph, retainBody = true (default)
+		reinitializeRevWalk();
+		assertTrue(rw.isRetainBody());
+		RevCommit noGraphWithBody = rw.lookupCommit(c2);
+		rw.parseHeaders(noGraphWithBody);
+		assertEquals(1, getCachedBytesCalls);
+		assertParsedCommit(c2, noGraphWithBody,
+				Constants.COMMIT_GENERATION_UNKNOWN, true);
+
+		// No commit-graph, retainBody = false
+		reinitializeRevWalk();
+		rw.setRetainBody(false);
+		assertFalse(rw.isRetainBody());
+		RevCommit noGraphNoBody = rw.lookupCommit(c2);
+		rw.parseHeaders(noGraphNoBody);
+		assertEquals(1, getCachedBytesCalls);
+		assertParsedCommit(c2, noGraphNoBody,
+				Constants.COMMIT_GENERATION_UNKNOWN, false);
 
 		enableAndWriteCommitGraph();
 
+		// With commit-graph, retainBody = true (default)
 		reinitializeRevWalk();
-		RevCommit parseInGraph = rw.lookupCommit(c1);
-		parseInGraph.parseHeaders(rw);
+		assertTrue(rw.isRetainBody());
+		RevCommit inGraphWithBody = rw.lookupCommit(c2);
+		rw.parseHeaders(inGraphWithBody);
+		assertEquals(1, getCachedBytesCalls);
+		assertParsedCommit(c2, inGraphWithBody, 2, true);
 
-		assertNotNull(parseInGraph.getRawBuffer());
-		assertEquals(1, parseInGraph.getGeneration());
-		assertEquals(notParseInGraph.getId(), parseInGraph.getId());
-		assertEquals(notParseInGraph.getTree(), parseInGraph.getTree());
-		assertEquals(notParseInGraph.getCommitTime(), parseInGraph.getCommitTime());
-		assertArrayEquals(notParseInGraph.getParents(), parseInGraph.getParents());
-
+		// With commit-graph, retainBody = false
 		reinitializeRevWalk();
 		rw.setRetainBody(false);
-		RevCommit noBody = rw.lookupCommit(c1);
-		noBody.parseHeaders(rw);
+		assertFalse(rw.isRetainBody());
+		RevCommit inGraphNoBody = rw.lookupCommit(c2);
+		rw.parseHeaders(inGraphNoBody);
+		assertEquals(0, getCachedBytesCalls);
+		assertParsedCommit(c2, inGraphNoBody, 2, false);
+	}
 
-		assertNull(noBody.getRawBuffer());
-		assertEquals(1, noBody.getGeneration());
-		assertEquals(notParseInGraph.getId(), noBody.getId());
-		assertEquals(notParseInGraph.getTree(), noBody.getTree());
-		assertEquals(notParseInGraph.getCommitTime(), noBody.getCommitTime());
-		assertArrayEquals(notParseInGraph.getParents(), noBody.getParents());
+	@Test
+	public void testParseBody() throws Exception {
+		commitFile("file1", "1", "master");
+		RevCommit c2 = commitFile("file2", "2", "master");
+
+		// No commit-graph, retainBody = true (default)
+		reinitializeRevWalk();
+		assertTrue(rw.isRetainBody());
+		RevCommit noGraphWithBody = rw.lookupCommit(c2);
+		rw.parseBody(noGraphWithBody);
+		assertEquals(1, getCachedBytesCalls);
+		assertParsedCommit(c2, noGraphWithBody,
+				Constants.COMMIT_GENERATION_UNKNOWN, true);
+
+		// No commit-graph, retainBody = false
+		reinitializeRevWalk();
+		rw.setRetainBody(false);
+		assertFalse(rw.isRetainBody());
+		RevCommit noGraphNoBody = rw.lookupCommit(c2);
+		rw.parseBody(noGraphNoBody);
+		assertEquals(1, getCachedBytesCalls);
+		assertParsedCommit(c2, noGraphNoBody,
+				Constants.COMMIT_GENERATION_UNKNOWN, true);
+
+		enableAndWriteCommitGraph();
+
+		// With commit-graph, retainBody = true (default)
+		reinitializeRevWalk();
+		assertTrue(rw.isRetainBody());
+		RevCommit inGraphWithBody = rw.lookupCommit(c2);
+		rw.parseBody(inGraphWithBody);
+		assertEquals(1, getCachedBytesCalls);
+		assertParsedCommit(c2, inGraphWithBody, 2, true);
+
+		// With commit-graph, retainBody = false
+		reinitializeRevWalk();
+		rw.setRetainBody(false);
+		assertFalse(rw.isRetainBody());
+		RevCommit inGraphNoBody = rw.lookupCommit(c2);
+		rw.parseBody(inGraphNoBody);
+		assertEquals(1, getCachedBytesCalls);
+		assertParsedCommit(c2, inGraphNoBody, 2, true);
 	}
 
 	@Test
 	public void testParseCanonical() throws Exception {
-		RevCommit c1 = commitFile("file1", "1", "master");
-		enableAndWriteCommitGraph();
+		commitFile("file1", "1", "master");
+		RevCommit c2 = commitFile("file2", "2", "master");
+		byte[] rawBytes = c2.getRawBuffer();
 
-		RevCommit notParseInGraph = rw.lookupCommit(c1);
-		rw.parseHeaders(notParseInGraph);
-
+		// No commit-graph, retainBody = true (default)
 		reinitializeRevWalk();
-		RevCommit parseInGraph = rw.lookupCommit(c1);
-		parseInGraph.parseCanonical(rw, rw.getCachedBytes(c1));
+		assertTrue(rw.isRetainBody());
+		RevCommit noGraphWithBody = rw.lookupCommit(c2);
+		noGraphWithBody.parseCanonical(rw, rawBytes);
+		assertEquals(0, getCachedBytesCalls);
+		assertParsedCommit(c2, noGraphWithBody,
+				Constants.COMMIT_GENERATION_UNKNOWN, true);
 
-		assertNotNull(parseInGraph.getRawBuffer());
-		assertEquals(1, parseInGraph.getGeneration());
-		assertEquals(notParseInGraph.getId(), parseInGraph.getId());
-		assertEquals(notParseInGraph.getTree(), parseInGraph.getTree());
-		assertEquals(notParseInGraph.getCommitTime(),
-				parseInGraph.getCommitTime());
-		assertArrayEquals(notParseInGraph.getParents(),
-				parseInGraph.getParents());
-
+		// No commit-graph, retainBody = false
 		reinitializeRevWalk();
 		rw.setRetainBody(false);
-		RevCommit noBody = rw.lookupCommit(c1);
-		noBody.parseCanonical(rw, rw.getCachedBytes(c1));
+		assertFalse(rw.isRetainBody());
+		RevCommit noGraphNoBody = rw.lookupCommit(c2);
+		noGraphNoBody.parseCanonical(rw, rawBytes);
+		assertEquals(0, getCachedBytesCalls);
+		assertParsedCommit(c2, noGraphNoBody,
+				Constants.COMMIT_GENERATION_UNKNOWN, false);
 
-		assertNull(noBody.getRawBuffer());
-		assertEquals(1, noBody.getGeneration());
-		assertEquals(notParseInGraph.getId(), noBody.getId());
-		assertEquals(notParseInGraph.getTree(), noBody.getTree());
-		assertEquals(notParseInGraph.getCommitTime(), noBody.getCommitTime());
-		assertArrayEquals(notParseInGraph.getParents(), noBody.getParents());
+		enableAndWriteCommitGraph();
+
+		// With commit-graph, retainBody = true (default)
+		reinitializeRevWalk();
+		assertTrue(rw.isRetainBody());
+		RevCommit inGraphWithBody = rw.lookupCommit(c2);
+		inGraphWithBody.parseCanonical(rw, rawBytes);
+		assertEquals(0, getCachedBytesCalls);
+		assertParsedCommit(c2, inGraphWithBody, 2, true);
+
+		// With commit-graph, retainBody = false
+		reinitializeRevWalk();
+		rw.setRetainBody(false);
+		assertFalse(rw.isRetainBody());
+		RevCommit inGraphNoBody = rw.lookupCommit(c2);
+		inGraphNoBody.parseCanonical(rw, rawBytes);
+		assertEquals(0, getCachedBytesCalls);
+		assertParsedCommit(c2, inGraphNoBody, 2, false);
+	}
+
+	@Test
+	public void testParseHeadersThenParseBody() throws Exception {
+		commitFile("file1", "1", "master");
+		RevCommit c2 = commitFile("file2", "2", "master");
+
+		// No commit-graph, retainBody = false
+		reinitializeRevWalk();
+		rw.setRetainBody(false);
+		RevCommit noGraphCommit = rw.lookupCommit(c2);
+		rw.parseHeaders(noGraphCommit);
+		assertEquals(1, getCachedBytesCalls);
+		assertParsedCommit(c2, noGraphCommit,
+				Constants.COMMIT_GENERATION_UNKNOWN, false);
+
+		rw.parseBody(noGraphCommit);
+		assertEquals(2, getCachedBytesCalls);
+		assertParsedCommit(c2, noGraphCommit,
+				Constants.COMMIT_GENERATION_UNKNOWN, true);
+
+		enableAndWriteCommitGraph();
+
+		// With commit-graph, retainBody = false
+		reinitializeRevWalk();
+		rw.setRetainBody(false);
+		RevCommit inGraphCommit = rw.lookupCommit(c2);
+		rw.parseHeaders(inGraphCommit);
+		assertEquals(0, getCachedBytesCalls);
+		assertParsedCommit(c2, inGraphCommit, 2, false);
+
+		rw.parseBody(inGraphCommit);
+		assertEquals(1, getCachedBytesCalls);
+		assertParsedCommit(c2, inGraphCommit, 2, true);
 	}
 
 	@Test
@@ -117,12 +254,35 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 		assertCommitCntInGraph(2);
 
 		db.getObjectDatabase().setShallowCommits(Collections.singleton(c1));
+		reinitializeRevWalk();
 		RevCommit parseInGraph = rw.lookupCommit(c1);
 		parseInGraph.parseHeaders(rw);
 
 		assertNotNull(parseInGraph.getRawBuffer());
 		assertEquals(2, parseInGraph.getGeneration());
 		assertEquals(0, parseInGraph.getParentCount());
+
+		reinitializeRevWalk();
+		rw.setRetainBody(false);
+		RevCommit parseHeadersNoBodyInGraph = rw.lookupCommit(c1);
+		parseHeadersNoBodyInGraph.parseHeaders(rw);
+		assertNull(parseHeadersNoBodyInGraph.getRawBuffer());
+		assertEquals(2, parseHeadersNoBodyInGraph.getGeneration());
+		assertEquals(0, parseHeadersNoBodyInGraph.getParentCount());
+
+		reinitializeRevWalk();
+		RevCommit parseBodyInGraph = rw.lookupCommit(c1);
+		parseBodyInGraph.parseBody(rw);
+		assertNotNull(parseBodyInGraph.getRawBuffer());
+		assertEquals(2, parseBodyInGraph.getGeneration());
+		assertEquals(0, parseBodyInGraph.getParentCount());
+
+		reinitializeRevWalk();
+		RevCommit parseCanonicalInGraph = rw.lookupCommit(c1);
+		parseCanonicalInGraph.parseCanonical(rw, c1.getRawBuffer());
+		assertNotNull(parseCanonicalInGraph.getRawBuffer());
+		assertEquals(2, parseCanonicalInGraph.getGeneration());
+		assertEquals(0, parseCanonicalInGraph.getParentCount());
 	}
 
 	@Test
