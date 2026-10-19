@@ -785,14 +785,14 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			if (Constants.DOT_GIT.equals(name))
 				continue;
 			if (Constants.DOT_GIT_IGNORE.equals(name)
-					&& FileMode.REGULAR_FILE.equals(e.getMode())) {
+					&& isAcceptableFile(e.getMode())) {
 				ignoreNode = new PerDirectoryIgnoreNode(
 						TreeWalk.pathOf(path, 0, pathOffset)
 								+ Constants.DOT_GIT_IGNORE,
 						e);
 			}
 			if (Constants.DOT_GIT_ATTRIBUTES.equals(name)
-					&& FileMode.REGULAR_FILE.equals(e.getMode())) {
+					&& isAcceptableFile(e.getMode())) {
 				attributesNode = new PerDirectoryAttributesNode(e);
 			}
 			if (i != o)
@@ -809,6 +809,13 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			parseEntry();
 		else if (pathLen == 0) // see bug 445363
 			pathLen = pathOffset;
+	}
+
+	private static boolean isAcceptableFile(FileMode mode) {
+		// An executable .gitignore doesn't make much sense but we accepted
+		// it before. Keep it for backwards compatibility.
+		return FileMode.REGULAR_FILE.equals(mode)
+				|| FileMode.EXECUTABLE_FILE.equals(mode);
 	}
 
 	/**

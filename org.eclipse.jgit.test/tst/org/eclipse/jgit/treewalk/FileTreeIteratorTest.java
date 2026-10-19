@@ -16,6 +16,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeNoException;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -849,6 +850,41 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 			assertTrue(tw.next());
 			assertEquals(".gitignore", tw.getPathString());
+			for (String p : paths) {
+				assertTrue(tw.next());
+				assertEquals(p, tw.getPathString());
+			}
+			assertTrue(tw.next());
+			assertEquals("sub/file.tmp", tw.getPathString());
+			assertTrue(
+					tw.getTree(0, WorkingTreeIterator.class).isEntryIgnored());
+			assertFalse(tw.next());
+		}
+	}
+
+	@Test
+	public void testExecutableGitignoreAndGitattributes() throws Exception {
+		assumeTrue(db.getFS().supportsExecute());
+		File gitignore = writeTrashFile(".gitignore", "*.tmp\n");
+		File gitattributes = writeTrashFile(".gitattributes", "* text=auto\n");
+		assertTrue(db.getFS().setExecute(gitignore, true));
+		assertTrue(db.getFS().setExecute(gitattributes, true));
+		writeTrashFile("sub/file.tmp", "content");
+
+		try (TreeWalk tw = new TreeWalk(db)) {
+			FileTreeIterator fti = new FileTreeIterator(db);
+			tw.addTree(fti);
+			tw.setRecursive(true);
+
+			assertTrue(tw.next());
+			assertEquals(".gitattributes", tw.getPathString());
+			assertEquals(FileMode.EXECUTABLE_FILE, tw.getFileMode(0));
+			assertNotNull(tw.getTree(0, WorkingTreeIterator.class)
+					.getEntryAttributesNode());
+
+			assertTrue(tw.next());
+			assertEquals(".gitignore", tw.getPathString());
+			assertEquals(FileMode.EXECUTABLE_FILE, tw.getFileMode(0));
 			for (String p : paths) {
 				assertTrue(tw.next());
 				assertEquals(p, tw.getPathString());
