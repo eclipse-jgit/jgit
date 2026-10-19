@@ -81,6 +81,30 @@
       },
       "revId": "03b3547edf560a0f982b6714bed4ec7cb3e40266",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e22de39_5b0edcc1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-19T07:23:54Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "17ddf989_806bc0f0",
+      "range": {
+        "startLine": 274,
+        "startChar": 6,
+        "endLine": 274,
+        "endChar": 42
+      },
+      "revId": "03b3547edf560a0f982b6714bed4ec7cb3e40266",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
