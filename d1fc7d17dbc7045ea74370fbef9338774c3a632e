@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01837981_74966128",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-10-19T06:02:27Z",
+      "side": 1,
+      "message": "With a commit graph this still hits the case from the revert: old 2000-commit branch + recent 3-commit branch off root, both tips uninteresting, start at the branch point. TOPO parses ~1999 commits, the old path parses 4.  target  is gen 2 so it stays interesting at the back of the queue and the early exit never kicks in. Can you add that as a test?",
+      "range": {
+        "startLine": 130,
+        "startChar": 3,
+        "endLine": 135,
+        "endChar": 5
+      },
+      "revId": "d1fc7d17dbc7045ea74370fbef9338774c3a632e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
