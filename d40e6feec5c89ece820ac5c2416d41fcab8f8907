@@ -16,6 +16,24 @@
       "message": "What about the merge to stable-7.9?",
       "revId": "d40e6feec5c89ece820ac5c2416d41fcab8f8907",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f71a3fc_6092fb9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-10-20T20:05:16Z",
+      "side": 1,
+      "message": "From what I understand, master will merge into 7.9 (like in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1252563) while it\u0027s being used for milestone releases. See Matthias\u0027s comment about it in discord when I asked about 7.8 previously: https://discord.com/channels/775374026587373568/1019942141725790248/1534494713845907598\n\nCopied here:\n(Matthias)\n\u003e 7.7 -\u003e master -\u003e 7.8\n\u003e \n\u003e During development we use the latest stable branch only to create milestones and release candidates.\n\u003e When the next minor (or major) release is created we start using this branch to maintain the last release.\n\u003e We do service releases only rarely when really necessary.\n\n(me)\n\u003e When do you typically do the master-\u003e7.8 merge? Is that just when you\u0027re going to create a milestone/rc?\n\n(Matthias)\n\u003e yes, exactly, since that\u0027s the only purpose of this branch until the release has been cut there is no need to continuosly merge changes to this branch\n\u003e Creating milestones not on master has the advantage that creating milestons doesn\u0027t interfere with any other changes in flight for master",
+      "parentUuid": "cd53ef4f_c890072b",
+      "revId": "d40e6feec5c89ece820ac5c2416d41fcab8f8907",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
