@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ab31253_33636c55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038550
+      },
+      "writtenOn": "2026-10-20T11:50:05Z",
+      "side": 1,
+      "message": "Hi,\n\nThis patch adds a maxNewFilters parameter to CommitGraphWriter, matching\ngit-core\u0027s commitGraph.maxNewFilters config key.\n\nWithout a limit, writing a commit-graph for a large repository where\nmost commits lack bloom filters (e.g. first-time generation) can spend\na very long time computing tree diffs, causing GC to time out or block.\n\nWith this change, once the limit is reached, remaining commits get a\nFULL filter entry and will be computed in subsequent runs, keeping each\nGC cycle bounded.\n\nAlso included is a one-line fix for BlameGenerator.processMerge():\nids[pCnt] is always out of bounds since ids has length pCnt; changed\nto ids[pIdx].",
+      "revId": "91e16eccf69190012ac6af2bdcc0a16c427358f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
