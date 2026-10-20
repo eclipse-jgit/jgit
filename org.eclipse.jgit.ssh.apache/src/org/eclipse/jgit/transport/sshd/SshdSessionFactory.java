@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.security.KeyPair;
+import java.text.MessageFormat;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +24,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalInt;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -42,6 +44,7 @@ import org.apache.sshd.common.config.keys.loader.openssh.kdf.BCryptKdfOptions;
 import org.apache.sshd.common.keyprovider.KeyIdentityProvider;
 import org.apache.sshd.common.signature.BuiltinSignatures;
 import org.apache.sshd.common.signature.Signature;
+import org.apache.sshd.core.CoreModuleProperties;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.transport.ssh.OpenSshConfigFile;
@@ -252,6 +255,17 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 					// Ignore
 					}
 				}
+				OptionalInt nioWorkers = getNioWorkers();
+				if (nioWorkers.isPresent()) {
+					int n = nioWorkers.getAsInt();
+					if (n <= 0) {
+						throw new IllegalArgumentException(MessageFormat.format(
+								SshdText.get().invalidNioWorkers,
+								Integer.valueOf(n)));
+					}
+					CoreModuleProperties.NIO_WORKERS.set(client,
+							Integer.valueOf(n));
+				}
 				// Other things?
 				return client;
 			});
@@ -266,6 +280,17 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 			}
 			throw new TransportException(uri, e.getMessage(), e);
 		}
+	}
+
+	/**
+	 * Gets the number of I/O worker threads for each session. If empty is
+	 * returned, the Apache MINA sshd default will be in effect.
+	 *
+	 * @return a positive number of I/O worker threads, or empty if none
+	 * @since 8.0
+	 */
+	protected OptionalInt getNioWorkers() {
+		return OptionalInt.empty();
 	}
 
 	@Override
