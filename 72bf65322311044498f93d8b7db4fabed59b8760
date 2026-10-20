@@ -16,6 +16,24 @@
       "message": "Adding HEAD at the end breaks `writeConvertTable`\u0027s reflog loop. The refs get sorted by `sortAndWriteRefs`, but the logs are written in list order and \"HEAD\" sorts before \"refs/\". So any repo with an unborn HEAD where another ref has a reflog now fails with \"records must be increasing: last refs/heads/master, this HEAD\". Before this change, the same conversion just lost HEAD.\n\n```suggestion\n\t\t\trefs.add(0, head);\n```\n\nAlso, could the test also cover a branch that has a reflog? In `roundTripPreservesUnbornHeadAndReflog` the bare repo doesn\u0027t write one for `populated`.",
       "revId": "72bf65322311044498f93d8b7db4fabed59b8760",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57554aca_3c773c6c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-20T06:08:54Z",
+      "side": 1,
+      "message": "Good catch, thanks. Changed to refs.add(0, head) so HEAD is written first and the reflog records stay strictly increasing.\n\nAlso extended roundTripPreservesUnbornHeadAndReflog to give refs/heads/populated its own reflog and assert it round-trips.\n\nDone.",
+      "parentUuid": "c6ff8ee1_0878ae20",
+      "revId": "72bf65322311044498f93d8b7db4fabed59b8760",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
