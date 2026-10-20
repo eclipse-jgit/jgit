@@ -155,7 +155,7 @@ public class RefDirectory extends RefDatabase {
 	/** Immutable sorted list of packed references. */
 	final AtomicReference<PackedRefList> packedRefs = new AtomicReference<>();
 
-	private final AtomicReference<PackedRefsRefresher> packedRefsRefresher;
+	final AtomicReference<PackedRefsRefresher> packedRefsRefresher;
 
 	/**
 	 * Lock for coordinating operations within a single process that may contend
@@ -998,7 +998,12 @@ public class RefDirectory extends RefDatabase {
 		if (!curList.shouldRefresh()) {
 			return curList;
 		}
-		return getPackedRefsRefresher(curList).getOrThrowIOException();
+		PackedRefList newList = getPackedRefsRefresher(curList)
+				.getOrThrowIOException();
+		// The refresher may belong to another instance sharing it, in which
+		// case it only updated that instance's packedRefs.
+		compareAndSetPackedRefs(curList, newList);
+		return newList;
 	}
 
 	private PackedRefsRefresher getPackedRefsRefresher(PackedRefList curList)
@@ -1461,7 +1466,7 @@ public class RefDirectory extends RefDatabase {
 		deleteEmptyParentDirs(file, depth);
 	}
 
-	private static void deleteEmptyParentDirs(File file, int depth) {
+	static void deleteEmptyParentDirs(File file, int depth) {
 		File dir = file.getParentFile();
 		for (int i = 0; i < depth; ++i) {
 			try {
@@ -1569,7 +1574,7 @@ public class RefDirectory extends RefDatabase {
 		}
 	}
 
-	private class PackedRefsRefresher extends FutureTask<PackedRefList> {
+	class PackedRefsRefresher extends FutureTask<PackedRefList> {
 		private final FileSnapshot snapshot = FileSnapshot.save(packedRefsFile);
 
 		public PackedRefsRefresher(PackedRefList curList) {
