@@ -253,6 +253,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 					}
 				}
 				// Other things?
+				configureClient(client);
 				return client;
 			});
 			session.addCloseListener(s -> unregister(s));
@@ -266,6 +267,18 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 			}
 			throw new TransportException(uri, e.getMessage(), e);
 		}
+	}
+
+	/**
+	 * Configures a newly created {@link SshClient} before it is started. This
+	 * is called once for each session, after JGit has configured the client.
+	 *
+	 * @param client
+	 *            the {@link SshClient} to configure
+	 * @since 8.0
+	 */
+	protected void configureClient(@NonNull SshClient client) {
+		// Do nothing by default.
 	}
 
 	@Override

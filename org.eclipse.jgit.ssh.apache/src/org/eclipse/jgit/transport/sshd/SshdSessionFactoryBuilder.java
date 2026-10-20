@@ -15,8 +15,10 @@ import java.security.KeyPair;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
+import org.apache.sshd.client.SshClient;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshConfigStore;
@@ -269,6 +271,22 @@ public final class SshdSessionFactoryBuilder {
 	}
 
 	/**
+	 * Sets a function that configures each newly created {@link SshClient}.
+	 * It is called after
+	 * {@link SshdSessionFactory#configureClient(SshClient)}.
+	 *
+	 * @param configurator
+	 *            to configure the {@link SshClient}
+	 * @return this {@link SshdSessionFactoryBuilder}
+	 * @since 8.0
+	 */
+	public SshdSessionFactoryBuilder setClientConfigurator(
+			Consumer<SshClient> configurator) {
+		this.state.clientConfigurator = configurator;
+		return this;
+	}
+
+	/**
 	 * Builds a {@link SshdSessionFactory} as configured, using the given
 	 * {@link KeyCache} for caching keys.
 	 * <p>
@@ -317,6 +335,8 @@ public final class SshdSessionFactoryBuilder {
 
 		boolean connectorFactorySet;
 
+		Consumer<SshClient> clientConfigurator;
+
 		State copy() {
 			State c = new State();
 			c.proxyDataFactory = proxyDataFactory;
@@ -332,6 +352,7 @@ public final class SshdSessionFactoryBuilder {
 			c.serverKeyDatabaseCreator = serverKeyDatabaseCreator;
 			c.connectorFactory = connectorFactory;
 			c.connectorFactorySet = connectorFactorySet;
+			c.clientConfigurator = clientConfigurator;
 			return c;
 		}
 
@@ -438,6 +459,14 @@ public final class SshdSessionFactoryBuilder {
 				}
 				// Use default via ServiceLoader
 				return super.getConnectorFactory();
+			}
+
+			@Override
+			protected void configureClient(SshClient client) {
+				super.configureClient(client);
+				if (clientConfigurator != null) {
+					clientConfigurator.accept(client);
+				}
 			}
 		}
 	}
