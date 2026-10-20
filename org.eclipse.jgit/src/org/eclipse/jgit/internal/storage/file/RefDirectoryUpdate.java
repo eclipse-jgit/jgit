@@ -27,6 +27,10 @@ class RefDirectoryUpdate extends RefUpdate {
 	private boolean shouldDeref;
 	private LockFile lock;
 
+	private String lockedName;
+
+	private boolean lockedRefIsLoose;
+
 	RefDirectoryUpdate(RefDirectory r, Ref ref) {
 		super(ref);
 		database = r;
@@ -50,9 +54,11 @@ class RefDirectoryUpdate extends RefUpdate {
 			dst = dst.getLeaf();
 		String name = dst.getName();
 		lock = new LockFile(database.fileFor(name));
+		lockedName = name;
 		if (lock.lock()) {
 			doAfterLocking(name);
 			dst = database.findRef(name);
+			lockedRefIsLoose = dst != null && dst.getStorage().isLoose();
 			setOldObjectId(dst != null ? dst.getObjectId() : null);
 			return true;
 		}
@@ -62,8 +68,17 @@ class RefDirectoryUpdate extends RefUpdate {
 	@Override
 	protected void unlock() {
 		if (lock != null) {
+			boolean abandoned = lock.isLocked() && !lockedRefIsLoose;
 			lock.unlock();
 			lock = null;
+			if (abandoned) {
+				// Nothing was committed, e.g. when deleting a ref that does
+				// not exist or when the update was rejected. Remove the
+				// parent directories created to hold the lock file.
+				RefDirectory.deleteEmptyParentDirs(
+						database.fileFor(lockedName),
+						RefDirectory.levelsIn(lockedName) - 2);
+			}
 		}
 	}
 
