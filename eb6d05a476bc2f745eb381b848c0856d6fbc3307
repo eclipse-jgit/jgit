@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f03209ed_1a683e29",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-20T19:38:20Z",
+      "side": 1,
+      "message": "7.2",
+      "range": {
+        "startLine": 8,
+        "startChar": 50,
+        "endLine": 8,
+        "endChar": 53
+      },
+      "revId": "eb6d05a476bc2f745eb381b848c0856d6fbc3307",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
