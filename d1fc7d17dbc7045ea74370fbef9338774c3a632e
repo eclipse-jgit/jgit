@@ -46,6 +46,30 @@
       },
       "revId": "d1fc7d17dbc7045ea74370fbef9338774c3a632e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fbb20fb_90f55fcb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-10-20T03:07:33Z",
+      "side": 1,
+      "message": "Thanks for the detailed analysis. Your understanding is correct. Could you share before/after numbers for this scenario, i.e. the number of commits parsed and the walk time with and without this change? Please run it with a commit graph present and Ivan\u0027s change 1254689 applied, and include a longer old branch (for example 50k commits) to show how it scales.",
+      "parentUuid": "30de0f45_e3c59839",
+      "range": {
+        "startLine": 130,
+        "startChar": 3,
+        "endLine": 135,
+        "endChar": 5
+      },
+      "revId": "d1fc7d17dbc7045ea74370fbef9338774c3a632e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
