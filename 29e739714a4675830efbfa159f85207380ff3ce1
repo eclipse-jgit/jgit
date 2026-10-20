@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c5e2b26_63b03e2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-10-20T23:14:08Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem to fix it. Latest CI job still failed:\n```\n13:07:56  [ERROR] Failures: \n13:07:56  [ERROR]   InterruptTimerTest.testRepeatedShortThanTooLong:169 Was Not Interrupted Early expected:\u003c1\u003e but was:\u003c0\u003e\n```",
+      "revId": "29e739714a4675830efbfa159f85207380ff3ce1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
