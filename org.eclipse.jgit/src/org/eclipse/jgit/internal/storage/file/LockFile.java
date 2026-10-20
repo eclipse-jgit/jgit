@@ -192,7 +192,6 @@ public class LockFile {
 		return true;
 	}
 
-	// For tests only
 	boolean isLocked() {
 		return haveLck;
 	}
