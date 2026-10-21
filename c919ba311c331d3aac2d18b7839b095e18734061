@@ -33,6 +33,24 @@
       "message": "Nit: can you invert this as it is a bit hard to read, I think this feels more natural:\n\n```\nif (commands \u003d\u003d null || commands.isEmpty()) {\n  return null;\n```",
       "revId": "c919ba311c331d3aac2d18b7839b095e18734061",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff924a50_e93fc542",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/hooks/PostReceiveHook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1039310
+      },
+      "writtenOn": "2026-10-21T18:23:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f5082b8_d531d5d4",
+      "revId": "c919ba311c331d3aac2d18b7839b095e18734061",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
