@@ -31,7 +31,7 @@
   <properties>
     <java.version>25</java.version>
     <tycho-version>5.0.4</tycho-version>
-    <target-platform>jgit-4.34</target-platform>
+    <target-platform>jgit-4.41</target-platform>
     <project.build.outputTimestamp>${git.commit.time}</project.build.outputTimestamp>
   </properties>
 
@@ -190,7 +190,7 @@
             <configuration>
               <rules>
                 <requireJavaVersion>
-                  <version>17</version>
+                  <version>25</version>
                 </requireJavaVersion>
               </rules>
             </configuration>

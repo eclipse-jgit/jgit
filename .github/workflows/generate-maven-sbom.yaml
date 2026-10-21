@@ -16,7 +16,7 @@ on:
         required: true
 
 env:
-  JAVA_VERSION: '17'
+  JAVA_VERSION: '25'
   JAVA_DISTRO: 'temurin'
   PLUGIN_VERSION: '2.9.1'
   SBOM_TYPE: 'makeAggregateBom'
