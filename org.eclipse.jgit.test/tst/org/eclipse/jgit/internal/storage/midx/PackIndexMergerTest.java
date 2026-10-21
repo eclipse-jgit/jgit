@@ -362,6 +362,65 @@ public class PackIndexMergerTest {
 				.toObjectsToPack(NullProgressMonitor.INSTANCE, byId));
 	}
 
+	@Test
+	public void addPackWithObjectsToPack_mergesAndConvertsToObjectsToPack()
+			throws IOException {
+		PackIndex idxOne = indexOf(
+				oidOffset("0000000000000000000000000000000000000001", 500),
+				oidOffset("0000000000000000000000000000000000000003", 12));
+		List<ObjectToPack> inMemoryPack = List.of(
+				objectToPack("0000000000000000000000000000000000000002",
+						Constants.OBJ_BLOB, 100),
+				objectToPack("0000000000000000000000000000000000000003",
+						Constants.OBJ_TAG, 20),
+				objectToPack("0000000000000000000000000000000000000005",
+						Constants.OBJ_TREE, 300));
+
+		PackIndexMerger merger = PackIndexMerger.builder()
+				.addPack("p1", idxOne,
+						offset -> offset == 500 ? Constants.OBJ_COMMIT
+								: Constants.OBJ_TREE)
+				.addPack("p2", inMemoryPack).build();
+
+		assertEquals(4, merger.getUniqueObjectCount());
+		assertArrayEquals(new int[] { 2, 2 }, merger.getObjectsPerPack());
+
+		ObjectIdOwnerMap<ObjectToPack> byId = new ObjectIdOwnerMap<>();
+		List<ObjectToPack> otps = merger
+				.toObjectsToPack(NullProgressMonitor.INSTANCE, byId);
+
+		assertEquals(4, otps.size());
+		assertEquals("0000000000000000000000000000000000000001",
+				otps.get(0).name());
+		assertEquals(Constants.OBJ_COMMIT, otps.get(0).getType());
+
+		assertEquals("0000000000000000000000000000000000000002",
+				otps.get(1).name());
+		assertEquals(Constants.OBJ_BLOB, otps.get(1).getType());
+
+		// Duplicate 0003 comes from p1 (pack 0)
+		assertEquals("0000000000000000000000000000000000000003",
+				otps.get(2).name());
+		assertEquals(Constants.OBJ_TREE, otps.get(2).getType());
+
+		assertEquals("0000000000000000000000000000000000000005",
+				otps.get(3).name());
+		assertEquals(Constants.OBJ_TREE, otps.get(3).getType());
+
+		// Verify synthetic offsets preserve (packId, offset) order:
+		// p1@12 (0003) < p1@500 (0001) < p2@100 (0002) < p2@300 (0005)
+		assertTrue(otps.get(2).getOffset() < otps.get(0).getOffset());
+		assertTrue(otps.get(0).getOffset() < otps.get(1).getOffset());
+		assertTrue(otps.get(1).getOffset() < otps.get(3).getOffset());
+	}
+
+	private static ObjectToPack objectToPack(String oid, int type,
+			long offset) {
+		ObjectToPack otp = new ObjectToPack(ObjectId.fromString(oid), type);
+		otp.setOffset(offset);
+		return otp;
+	}
+
 	private static void assertNextEntry(Iterator<MutableEntry> it, String oid,
 			int packId, long offset) {
 		assertTrue(it.hasNext());

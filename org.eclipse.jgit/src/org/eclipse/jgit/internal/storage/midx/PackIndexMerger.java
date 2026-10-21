@@ -22,6 +22,7 @@ import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.transport.PackedObjectInfo;
 
 /**
  * Collect the stats and offers an iterator over the union of n-pack indexes.
@@ -119,6 +120,24 @@ public class PackIndexMerger {
 				@Nullable ObjectTypeLookup objectTypeLookup) {
 			packIndexes.add(MidxIterators.fromPackIndexIterator(name, idx));
 			objectTypeLookups.add(objectTypeLookup);
+			return this;
+		}
+
+		/**
+		 * Add an in-memory pack (represented by its SHA-1 sorted objects) to
+		 * the midx.
+		 *
+		 * @param name
+		 *            name of the pack
+		 * @param objects
+		 *            objects in the pack, sorted in SHA-1 order, with offsets
+		 *            and types populated
+		 * @return this builder
+		 */
+		public Builder addPack(String name,
+				List<? extends PackedObjectInfo> objects) {
+			packIndexes.add(MidxIterators.fromObjectsToPack(name, objects));
+			objectTypeLookups.add(new PackedObjectTypeLookup(objects));
 			return this;
 		}
 
@@ -353,5 +372,35 @@ public class PackIndexMerger {
 		}
 		pm.endTask();
 		return result;
+	}
+
+	private static class PackedObjectTypeLookup implements ObjectTypeLookup {
+		private final List<? extends PackedObjectInfo> objects;
+
+		private final int size;
+
+		private int cursor;
+
+		PackedObjectTypeLookup(List<? extends PackedObjectInfo> objects) {
+			this.objects = objects;
+			this.size = objects.size();
+		}
+
+		@Override
+		public int getObjectType(long offset) {
+			// Offsets are looked up in SHA-1 order (the same order as objects),
+			// so start searching right after the last matched position and wrap
+			// around just in case.
+			for (int i = 0; i < size; i++) {
+				int idx = (cursor + i) % size;
+				PackedObjectInfo obj = objects.get(idx);
+				if (obj.getOffset() == offset) {
+					cursor = (idx + 1) % size;
+					return obj.getType();
+				}
+			}
+			throw new IllegalArgumentException(
+					"No object found at offset " + offset); //$NON-NLS-1$
+		}
 	}
 }
