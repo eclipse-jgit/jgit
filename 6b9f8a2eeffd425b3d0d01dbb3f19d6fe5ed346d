@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f16baef_e2e0d12d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-21T13:04:22Z",
+      "side": 1,
+      "message": "I tested the `cherry-pick` by using this small program, I put it in the bundle `org.eclipse.jgit`:\n\n```java\npackage org.eclipse.jgit.api;\n\nimport java.io.File;\n\nimport org.eclipse.jgit.lib.Repository;\n\n/**\n * Main program to test the multi-cherry-pick in JGit\n */\npublic class MainMultiCherryPick {\n\t/**\n\t * @param params\n\t *            \u003crepo-full-path\u003e \u003csha-1\u003e \u003csha-2\u003e ... \u003csha-n\u003e\n\t * @throws Exception\n\t *             If something goes wrong\n\t */\n\tpublic static void main(String[] params) throws Exception {\n\t\ttry (Git git \u003d Git.open(new File(params[0]))) {\n\t\t\tRepository r \u003d git.getRepository();\n\t\t\tCherryPickCommand cmd \u003d git.cherryPick();\n\t\t\tfor (int i \u003d 1; i \u003c params.length; i++)\n\t\t\t\tcmd.include(r.resolve(params[i]));\n\t\t\tCherryPickResult res \u003d cmd.call();\n\t\t\tSystem.out.println(res.getStatus() + \" \" + res.getFailingPaths()); //$NON-NLS-1$\n\t\t}\n\t}\n}\n```\n\nI ran it with the following program arguments in the launch configuration:\n```\nD:\\dev\\repos\\repo-c 6090adf7621145382ed147090498f395f3faf05f c01fa8e82183f68ae31faa518259a2c7d420f740\n```\n\nThen I ran the usual operations to continue/skip/revert/abort for the `cherry-pick` and the `revert` scenarios with git and everything behaved as expected.\n\nI also let my agent do the testing and it reported back that all scenarios behaved as expected when starting a `cherry-pick` / `revert` that generates conflicts with JGit and jumping into the CMD-Line to continue with git.",
+      "parentUuid": "5a690802_90c680dd",
+      "revId": "6b9f8a2eeffd425b3d0d01dbb3f19d6fe5ed346d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dffab686_ffa943d2",
