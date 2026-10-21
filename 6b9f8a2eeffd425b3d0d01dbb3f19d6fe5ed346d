@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26509f9e_7206c751",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-10-21T13:06:33Z",
+      "side": 1,
+      "message": "Sorry, a correction: I tested the `cherry-pick` and then let my agent use **this** program to test both the `cherry-pick` and the `revert`:\n\n```java\npackage org.eclipse.jgit.api;\n\nimport java.io.File;\n\nimport org.eclipse.jgit.lib.Repository;\n\n/**\n * Main program to test the multi-cherry-pick and multi-revert in JGit\n */\npublic class MainSequencer {\n\t/**\n\t * @param params\n\t *            \u003crepo-full-path\u003e \u003csha-1\u003e \u003csha-2\u003e ... \u003csha-n\u003e\n\t * @throws Exception\n\t *             If something goes wrong\n\t */\n\t@SuppressWarnings(\"nls\")\n\tpublic static void main(String[] params) throws Exception {\n\t\ttry (Git git \u003d Git.open(new File(params[0]))) {\n\t\t\tRepository r \u003d git.getRepository();\n\t\t\tif (params[1].equals(\"pick\")) {\n\t\t\t\tCherryPickCommand cmd \u003d git.cherryPick();\n\t\t\t\tfor (int i \u003d 1; i \u003c params.length; i++) {\n\t\t\t\t\tString sha \u003d params[i];\n\t\t\t\t\tSystem.out.println(\n\t\t\t\t\t\t\t\"Cherry-pick will include commit \u0027\" + sha + \"\u0027\");\n\t\t\t\t\tcmd.include(r.resolve(sha));\n\t\t\t\t\tCherryPickResult res \u003d cmd.call();\n\t\t\t\t\tSystem.out.println(\n\t\t\t\t\t\t\tres.getStatus() + \" \" + res.getFailingPaths()); //$NON-NLS-1$\n\t\t\t\t}\n\t\t\t} else if (params[1].equals(\"revert\")) {\n\t\t\t\tRevertCommand cmd \u003d git.revert();\n\t\t\t\tfor (int i \u003d 1; i \u003c params.length; i++) {\n\t\t\t\t\tString sha \u003d params[i];\n\t\t\t\t\tSystem.out.println(\n\t\t\t\t\t\t\t\"Revert will include commit \u0027\" + sha + \"\u0027\");\n\t\t\t\t\tcmd.include(r.resolve(sha));\n\t\t\t\t}\n\t\t\t\tvar head \u003d cmd.call();\n\t\t\t\tSystem.out.println(head !\u003d null ? \"OK \" + head.name()\n\t\t\t\t\t\t: \"STOPPED \" + cmd.getFailingResult());\n\t\t\t}\n\t\t}\n\t}\n}\n```",
+      "parentUuid": "7f16baef_e2e0d12d",
+      "revId": "6b9f8a2eeffd425b3d0d01dbb3f19d6fe5ed346d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dffab686_ffa943d2",
