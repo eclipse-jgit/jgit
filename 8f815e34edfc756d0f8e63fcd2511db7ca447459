@@ -16,6 +16,23 @@
       "message": "Trigger Build",
       "revId": "8f815e34edfc756d0f8e63fcd2511db7ca447459",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6851d7bf_68f1726c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-10-21T18:02:11Z",
+      "side": 1,
+      "message": "FYI, we have been running this again in production for a week now, and it seems to be running well. We have no longer seen the rewinds which this change seemed to make much more prevalent since that bug was in https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1245200.",
+      "revId": "8f815e34edfc756d0f8e63fcd2511db7ca447459",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
