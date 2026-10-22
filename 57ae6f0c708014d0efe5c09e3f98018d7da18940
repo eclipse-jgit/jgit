@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "676f8a5c_8221c03f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-22T19:59:26Z",
+      "side": 1,
+      "message": "Is this really a fix? The global settings were not supposed to change the default format.",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "57ae6f0c708014d0efe5c09e3f98018d7da18940",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab1ac4c2_2c9cbbff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-22T19:59:26Z",
+      "side": 1,
+      "message": "This needs to be passed as a parameter to the creation IMHO.",
+      "range": {
+        "startLine": 18,
+        "startChar": 36,
+        "endLine": 18,
+        "endChar": 64
+      },
+      "revId": "57ae6f0c708014d0efe5c09e3f98018d7da18940",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f211e86d_6f46bab4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ReftableCreationTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-22T19:59:26Z",
+      "side": 1,
+      "message": "I don\u0027t believe this is the right place: the settings have a meaning inside a Git repository, not at global level.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 16
+      },
+      "revId": "57ae6f0c708014d0efe5c09e3f98018d7da18940",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5093436_9ff4e481",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ReftableCreationTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-22T19:59:26Z",
+      "side": 1,
+      "message": "I don\u0027t believe this is the correct expectation: if you don\u0027t explicitly ask for the `reftable` format, the default is `files` (packed-refs).\n\nThe global config of `extensions.refStorage \u003d reftable` isn\u0027t documented and isn\u0027t supported by Git or JGit so far.\n\nI believe the correct way would be to have an explicit `refFormat` parameter in the `FileRepository` object.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 60
+      },
+      "revId": "57ae6f0c708014d0efe5c09e3f98018d7da18940",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
