@@ -34,6 +34,24 @@
       "parentUuid": "6b05fd71_a4a2e6cf",
       "revId": "3b597a9230a4178c2275c29007716513dffb7db7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c35e6191_09c85493",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1040020
+      },
+      "writtenOn": "2026-10-22T12:30:41Z",
+      "side": 1,
+      "message": "If i remember correctly, the bouncy castle locator was added a counter measure to some sort of condition where it couldn\u0027t find a testing key to sign a commit.\n\nI can try to remove it by hand but i am not confident.\n\nA course plan the coding agent followed was to,\n a) parse and create necessary logic to detect and create valid repos wiht SHA256 object format\n b) Everywhere the SHA1 is used replacing it with a generic object hashing class\n c) Adjusting the array boundaries where necessary\n \nIn the end i took the compiled library and just plucked it in to my hobby project.\n\nI understand that it does not match the quality standards which are expected from a project by Eclipse but it\u0027s a starting point.\n\nIt needs thorough testing as this has a wide impact on other projects (e.g. EGit, Apache Netbeans)",
+      "parentUuid": "40adec7c_c70b3e2d",
+      "revId": "3b597a9230a4178c2275c29007716513dffb7db7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
