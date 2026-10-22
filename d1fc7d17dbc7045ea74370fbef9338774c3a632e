@@ -70,6 +70,30 @@
       },
       "revId": "d1fc7d17dbc7045ea74370fbef9338774c3a632e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29087ab0_199ffb43",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1039306
+      },
+      "writtenOn": "2026-10-22T14:39:12Z",
+      "side": 1,
+      "message": "I measured the performance (and the amount of commits parsed / getCachedBytes() Calls) of this reachability check in four scenarios (with an \"old\" branch length of 10000): \n * Without commit + New Topo (No longer possible)\n * Without commit graph + Old Topo\n * With commit graph and Ibf7a698 reverted locally, and \n * With commit graph and Ibf7a698 applied\n \nResults added to commit message. The only case, that had bad performance (over 1 Minute wall clock time) was the No commit graph + New Topo Case, which is no longer possible with this Change. All other cases ran the reachability check in under one second (Not counting setup time like creating the commits and GC). For 50k commits, I only measured the \"Without commit graph + Old Topo\" and \"With commit graph + Ibf7a698 applied\" cases, there was no performance degradation. They still ran in under one second.\n\nI also added this scenario as a testcase in ReachabilityCheckerTestCase",
+      "parentUuid": "1fbb20fb_90f55fcb",
+      "range": {
+        "startLine": 130,
+        "startChar": 3,
+        "endLine": 135,
+        "endChar": 5
+      },
+      "revId": "d1fc7d17dbc7045ea74370fbef9338774c3a632e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
