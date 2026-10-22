@@ -365,4 +365,14 @@ public class DirCacheEntryTest {
 		final Instant smudge = entryTime.plus(Duration.ofNanos(1));
 		assertFalse(entry.mightBeRacilyClean(smudge));
 	}
+
+	@Test
+	public void testGitlinkIsNotSmudged() {
+		DirCacheEntry entry = new DirCacheEntry("submodule");
+		entry.setFileMode(FileMode.GITLINK);
+		entry.setObjectId(ObjectId
+				.fromString("0123456789012345678901234567890123456789"));
+		assertEquals(0, entry.getLength());
+		assertFalse(entry.isSmudged());
+	}
 }
