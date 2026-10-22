@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b05fd71_a4a2e6cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-10-22T11:22:17Z",
+      "side": 1,
+      "message": "This looks like AI slop.\n\nContributors dumping the output of an LLM into review without having reviewed it themselves and understanding it is nothing we are looking for.\n\nWhy are you adding a bouncycastle gpg key locator test in this change ?\nThere are many more unrelated changes in this commit.",
+      "revId": "3b597a9230a4178c2275c29007716513dffb7db7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
