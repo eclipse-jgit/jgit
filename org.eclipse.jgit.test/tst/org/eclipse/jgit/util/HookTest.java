@@ -18,17 +18,22 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.List;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.hooks.CommitMsgHook;
+import org.eclipse.jgit.hooks.Hooks;
 import org.eclipse.jgit.hooks.PostCommitHook;
+import org.eclipse.jgit.hooks.PostReceiveHook;
 import org.eclipse.jgit.hooks.PreCommitHook;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.Assume;
 import org.junit.Test;
 
@@ -313,6 +318,41 @@ public class HookTest extends RepositoryTestCase {
 			assertEquals("unexpected output from pre-commit hook", "test\n",
 					out.toString(UTF_8));
 		}
+	}
+
+	@Test
+	public void testPostReceiveHookReceivesCommands() throws Exception {
+		assumeSupportedPlatform();
+
+		writeHookFile(PostReceiveHook.NAME,
+				"#!/bin/sh\ncat\necho 1>&2 \"stderr\"\nexit 1");
+		RevCommit commit = Git.wrap(db).commit().setMessage("commit").call();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ByteArrayOutputStream err = new ByteArrayOutputStream();
+		PostReceiveHook hook = Hooks.postReceive(db, new PrintStream(out),
+				new PrintStream(err));
+		hook.setCommands(List.of(new ReceiveCommand(ObjectId.zeroId(),
+				commit, "refs/heads/new")));
+		hook.call();
+
+		assertEquals("unexpected hook output", ObjectId.zeroId().name() + " "
+				+ commit.name() + " refs/heads/new\n", out.toString(UTF_8));
+		assertEquals("unexpected output on stderr stream", "stderr\n",
+				err.toString(UTF_8));
+	}
+
+	@Test
+	public void testPostReceiveHookNotRunWithoutCommands() throws Exception {
+		assumeSupportedPlatform();
+
+		writeHookFile(PostReceiveHook.NAME, "#!/bin/sh\necho \"ran\"");
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		PostReceiveHook hook = Hooks.postReceive(db, new PrintStream(out),
+				null);
+		hook.setCommands(List.of());
+		hook.call();
+
+		assertEquals("hook should not have run", "", out.toString(UTF_8));
 	}
 
 	private File writeHookFile(String name, String data)

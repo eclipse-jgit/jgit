@@ -11,13 +11,22 @@
 
 package org.eclipse.jgit.pgm;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.text.MessageFormat;
+import java.util.Collection;
 
+import org.eclipse.jgit.api.errors.AbortedByHookException;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.hooks.Hooks;
+import org.eclipse.jgit.hooks.PostReceiveHook;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.pgm.internal.CLIText;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.FS;
 import org.kohsuke.args4j.Argument;
 
@@ -46,10 +55,25 @@ class ReceivePack extends TextBuiltin {
 		}
 
 		rp = new org.eclipse.jgit.transport.ReceivePack(db);
+		rp.setPostReceiveHook(this::runPostReceiveHook);
 		try {
 			rp.receive(ins, outs, errs);
 		} catch (IOException e) {
 			throw die(e.getMessage(), e);
+		}
+	}
+
+	private void runPostReceiveHook(
+			org.eclipse.jgit.transport.ReceivePack receivePack,
+			Collection<ReceiveCommand> commands) {
+		PrintStream hookOutput = new PrintStream(errs, true, UTF_8);
+		PostReceiveHook hook = Hooks.postReceive(db, hookOutput, hookOutput);
+		hook.setCommands(commands);
+		try {
+			hook.call();
+		} catch (IOException | AbortedByHookException
+				| JGitInternalException e) {
+			receivePack.sendMessage(e.getMessage());
 		}
 	}
 }
