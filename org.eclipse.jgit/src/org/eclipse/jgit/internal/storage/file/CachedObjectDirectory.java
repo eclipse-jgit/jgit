@@ -60,6 +60,11 @@ class CachedObjectDirectory extends FileObjectDatabase {
 		this.unpackedObjects = scanLoose();
 	}
 
+	@Override
+	PromisedObjectSupport getPromisedObjectSupport() {
+		return wrapped.getPromisedObjectSupport();
+	}
+
 	private ObjectIdOwnerMap<UnpackedObjectId> scanLoose() {
 		ObjectIdOwnerMap<UnpackedObjectId> m = new ObjectIdOwnerMap<>();
 		File objects = wrapped.getDirectory();
