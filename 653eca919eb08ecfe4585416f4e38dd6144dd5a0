@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04044bd1_c752d125",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-23T18:36:58Z",
+      "side": 1,
+      "message": "Both are in the child changes of this chain: creation tests in FileRepository: fix direct reftable repository creation, conversion tests in the new ReftableConversionTest. This change wires format selection only.",
+      "parentUuid": "fc6daf72_335696fb",
+      "revId": "653eca919eb08ecfe4585416f4e38dd6144dd5a0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70e5ca38_5e1da795",
@@ -48,6 +66,30 @@
       "writtenOn": "2026-10-23T16:22:23Z",
       "side": 1,
       "message": "This can be dried out with L34-36 as\n\n```\n\tprivate static void gitInitRepository(File dir, Class\u003c? extends RefDatabase\u003e expectedRefDbType) throws IOException {\n\t\ttry (FileRepository repo \u003d new FileRepository(dir)) {\n\t\t\trepo.create(true);\n\t\t\tassertEquals(expectedRefDbType, repo.getRefDatabase().getClass());\n\t\t}\n\t}\n```",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 3
+      },
+      "revId": "653eca919eb08ecfe4585416f4e38dd6144dd5a0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60a471fe_31722a46",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ReftableCreationTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-23T18:36:58Z",
+      "side": 1,
+      "message": "Added a createRepository(dir, REFTABLE) helper in the creation-fix child, where the repeated sites are. Kept instanceof over getClass() to match JGit convention.",
+      "parentUuid": "70e5ca38_5e1da795",
       "range": {
         "startLine": 52,
         "startChar": 0,
