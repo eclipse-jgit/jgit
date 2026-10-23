@@ -16,6 +16,24 @@
       "message": "The errors on the Eclipse CI seem unrelated:\nhttps://ci.eclipse.org/jgit/job/jgit.gerrit/204/consoleFull\n\nI ran a local build with Bazel + tests, and it all works for me.\n\n@matthias.sohn@sap.com, could you investigate why this is failing on the Eclipse CI? 🙏",
       "revId": "33ea4ed1fd6edbe4d08866f8562f6efbdc0bf7f3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3a2aa91_da703fab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-10-23T20:27:33Z",
+      "side": 1,
+      "message": "```\n...\n20:47:08  [INFO] -------------------------------------------------------------\n20:47:08  [ERROR] COMPILATION ERROR : \n20:47:08  [INFO] -------------------------------------------------------------\n20:47:08  [ERROR] /home/jenkins/agent/workspace/jgit.gerrit/repo/org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ReftableCreationTest.java:[66,19] The value of the local variable repo is not used\n20:47:08  [ERROR] /home/jenkins/agent/workspace/jgit.gerrit/repo/org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ReftableCreationTest.java:[158,19] The value of the local variable repo is not used\n...\n```\n\nAs a committer you should be able to login to the JGit CI.",
+      "parentUuid": "fbbdc52e_7c59fd9f",
+      "revId": "33ea4ed1fd6edbe4d08866f8562f6efbdc0bf7f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
