@@ -20,9 +20,9 @@ git_repository(
 
 BOUNCYCASTLE_VERSION = "1.86"
 
-BYTE_BUDDY_VERSION = "1.18.14"
+BYTE_BUDDY_VERSION = "1.18.15"
 
-JETTY_VERSION = "12.1.13"
+JETTY_VERSION = "12.1.14"
 
 JMH_VERSION = "1.37"
 
@@ -40,7 +40,7 @@ maven.install(
         "com.google.code.gson:gson:2.14.0",
         "com.google.errorprone:error_prone_type_annotations:2.46.0",
         "com.googlecode.javaewah:JavaEWAH:1.2.3",
-        "commons-codec:commons-codec:1.22.1",
+        "commons-codec:commons-codec:1.23.0",
         "commons-io:commons-io:2.22.0",
         "commons-logging:commons-logging:1.4.0",
         "jakarta.servlet:jakarta.servlet-api:6.1.0",
