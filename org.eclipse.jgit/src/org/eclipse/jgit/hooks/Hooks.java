@@ -181,4 +181,21 @@ public class Hooks {
 		}
 		return new PrePushHook(repo, outputStream, errorStream);
 	}
+
+	/**
+	 * Create post-receive hook for the given repository
+	 *
+	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
+	 * @param outputStream
+	 *            The output stream, or {@code null} to use {@code System.out}
+	 * @param errorStream
+	 *            The error stream, or {@code null} to use {@code System.err}
+	 * @return The post-receive hook for the given repository.
+	 * @since 8.0
+	 */
+	public static PostReceiveHook postReceive(Repository repo,
+			PrintStream outputStream, PrintStream errorStream) {
+		return new PostReceiveHook(repo, outputStream, errorStream);
+	}
 }
