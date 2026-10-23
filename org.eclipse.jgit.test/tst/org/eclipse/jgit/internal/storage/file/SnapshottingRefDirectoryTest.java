@@ -11,7 +11,9 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import org.eclipse.jgit.internal.storage.file.RefDirectory.PackedRefsRefresher;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.Before;
 import org.junit.Test;
@@ -83,5 +85,45 @@ public class SnapshottingRefDirectoryTest extends RefDirectoryTest {
 		assertEquals(B, refdir.exactRef(refA).getObjectId());
 		assertEquals(B, originalRefDirectory.exactRef(refB).getObjectId());
 		assertEquals(B, refdir.exactRef(refB).getObjectId());
+	}
+
+	@Test
+	public void testSnapshot_WriteThroughWithRefresherOfAnotherInstance()
+			throws IOException {
+		String refA = "refs/heads/refA";
+		String refB = "refs/heads/refB";
+		String refC = "refs/heads/refC";
+		writePackedRef(refA, A);
+		assertEquals(A, refdir.exactRef(refA).getObjectId());
+
+		// Another process updates packed-refs, so the snapshot is stale. The
+		// file is fully peeled as JGit writes it, so pack() leaves it alone
+		// during the update below.
+		writePackedRefs("# pack-refs with: peeled fully-peeled sorted \n" + //
+				A.name() + " " + refA + "\n" + //
+				A.name() + " " + refB + "\n");
+
+		// Another instance sharing the refresher is refreshing packed-refs,
+		// so the snapshot reuses that refresher instead of creating its own.
+		RefDirectory parent = originalRefDirectory;
+		PackedRefsRefresher refresher = parent.new PackedRefsRefresher(
+				parent.packedRefs.get());
+		parent.packedRefsRefresher.set(refresher);
+		refresher.run();
+
+		// More than one command so the update goes to packed-refs only
+		PackedBatchRefUpdate update = refdir.newBatchUpdate();
+		update.setAtomic(true);
+		update.addCommand(new ReceiveCommand(A, B, refB),
+				new ReceiveCommand(ObjectId.zeroId(), B, refC));
+		update.execute(repo.getRevWalk(), NullProgressMonitor.INSTANCE);
+
+		for (ReceiveCommand cmd : update.getCommands()) {
+			assertEquals(ReceiveCommand.Result.OK, cmd.getResult());
+		}
+		assertEquals(B, originalRefDirectory.exactRef(refB).getObjectId());
+		assertEquals(B, originalRefDirectory.exactRef(refC).getObjectId());
+		assertEquals(B, refdir.exactRef(refB).getObjectId());
+		assertEquals(B, refdir.exactRef(refC).getObjectId());
 	}
 }
