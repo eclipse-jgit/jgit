@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5ebb0ee_bfd7b795",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039095
+      },
+      "writtenOn": "2026-10-23T06:50:32Z",
+      "side": 1,
+      "message": "What is the expectation for this fix to be considered for review? Unfortunately, I don\u0027t have access to https://ci.eclipse.org/jgit/job/jgit.gerrit-java25/19/ to troubleshoot the failure.",
+      "revId": "0c011662130e514b91289bb0509d366da4048eeb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
