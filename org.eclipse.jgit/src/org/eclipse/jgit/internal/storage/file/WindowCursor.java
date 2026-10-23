@@ -140,19 +140,29 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 
 	@Override
 	public boolean has(AnyObjectId objectId) throws IOException {
-		return db.has(objectId);
+		if (db.has(objectId)) {
+			return true;
+		}
+		PromisedObjectSupport promisor = db.getPromisedObjectSupport();
+		return promisor != null && promisor.isPromisedBlob(objectId);
 	}
 
 	@Override
 	public ObjectLoader open(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
-		final ObjectLoader ldr = db.openObject(this, objectId);
+		ObjectLoader ldr = db.openObject(this, objectId);
 		if (ldr == null) {
-			if (typeHint == OBJ_ANY)
-				throw new MissingObjectException(objectId.copy(),
-						JGitText.get().unknownObjectType2);
-			throw new MissingObjectException(objectId.copy(), typeHint);
+			PromisedObjectSupport promisor = db.getPromisedObjectSupport();
+			if (promisor != null && promisor.canResolve(objectId, typeHint)) {
+				ldr = promisor.resolve(this, objectId);
+			}
+			if (ldr == null) {
+					if (typeHint == OBJ_ANY)
+						throw new MissingObjectException(objectId.copy(),
+									JGitText.get().unknownObjectType2);
+					throw new MissingObjectException(objectId.copy(), typeHint);
+			}
 		}
 		if (typeHint != OBJ_ANY && ldr.getType() != typeHint)
 			throw new IncorrectObjectTypeException(objectId.copy(), typeHint);
@@ -169,9 +179,13 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 			IOException {
 		long sz = db.getObjectSize(this, objectId);
 		if (sz < 0) {
+			PromisedObjectSupport promisor = db.getPromisedObjectSupport();
+			if (promisor != null && promisor.canResolve(objectId, typeHint)) {
+				return promisor.resolveSize(this, objectId);
+			}
 			if (typeHint == OBJ_ANY)
 				throw new MissingObjectException(objectId.copy(),
-						JGitText.get().unknownObjectType2);
+							JGitText.get().unknownObjectType2);
 			throw new MissingObjectException(objectId.copy(), typeHint);
 		}
 		return sz;

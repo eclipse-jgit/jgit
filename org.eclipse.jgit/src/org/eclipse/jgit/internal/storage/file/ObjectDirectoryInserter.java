@@ -26,11 +26,13 @@ import java.util.zip.DeflaterOutputStream;
 
 import org.eclipse.jgit.errors.ObjectWritingException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.PromisedObjectException;
 import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
@@ -141,6 +143,50 @@ class ObjectDirectoryInserter extends ObjectInserter {
 		final File dst = db.fileFor(id);
 		throw new ObjectWritingException(MessageFormat
 				.format(JGitText.get().unableToCreateNewObject, dst));
+	}
+
+	/**
+	 * Writes the content to a temporary file and installs it as a loose object
+	 * only when its computed object id matches {@code expectedId}.
+	 *
+	 * <p>
+	 * When the streamed content does not hash to {@code expectedId}, the
+	 * temporary file is deleted, a
+	 * {@link org.eclipse.jgit.lib.PromisedObjectException} with reason
+	 * {@link org.eclipse.jgit.lib.PromisedObjectException.Reason#INTEGRITY} is
+	 * thrown and the object database is unchanged.
+	 *
+	 * @param type
+	 *            object type, one of the
+	 *            {@link org.eclipse.jgit.lib.Constants} {@code OBJ_*}
+	 *            constants.
+	 * @param len
+	 *            content length in bytes.
+	 * @param is
+	 *            stream over the raw content, without any Git object header.
+	 * @param expectedId
+	 *            complete object id the content must hash to.
+	 * @throws IOException
+	 *             if the content cannot be read or written, or the computed
+	 *             object id does not match {@code expectedId}.
+	 */
+	void insertVerified(int type, long len, InputStream is,
+			AnyObjectId expectedId) throws IOException {
+		if (db.has(expectedId)) {
+			return;
+		}
+		SHA1 md = digest();
+		File tmp = toTemp(md, type, len, is);
+		ObjectId id = md.toObjectId();
+		if (!id.equals(expectedId)) {
+			FileUtils.delete(tmp, FileUtils.RETRY | FileUtils.SKIP_MISSING);
+			throw new PromisedObjectException(
+					PromisedObjectException.Reason.INTEGRITY,
+					MessageFormat.format(
+							JGitText.get().promisedObjectIntegrityMismatch,
+							expectedId.name(), id.name()));
+		}
+		insertOneObject(tmp, id, false);
 	}
 
 	@Override
