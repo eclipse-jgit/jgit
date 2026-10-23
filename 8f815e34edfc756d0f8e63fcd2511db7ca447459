@@ -33,6 +33,24 @@
       "message": "FYI, we have been running this again in production for a week now, and it seems to be running well. We have no longer seen the rewinds which this change seemed to make much more prevalent since that bug was in https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1245200.",
       "revId": "8f815e34edfc756d0f8e63fcd2511db7ca447459",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f8fc75f_1d63ff41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-10-23T17:39:06Z",
+      "side": 1,
+      "message": "I\u0027m guessing then you aren\u0027t running exactly this commit? Do you have it cherry-picked onto stable-6.10 tip?",
+      "parentUuid": "6851d7bf_68f1726c",
+      "revId": "8f815e34edfc756d0f8e63fcd2511db7ca447459",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
