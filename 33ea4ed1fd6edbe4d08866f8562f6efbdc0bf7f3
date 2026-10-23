@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbbdc52e_7c59fd9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-23T20:06:44Z",
+      "side": 1,
+      "message": "The errors on the Eclipse CI seem unrelated:\nhttps://ci.eclipse.org/jgit/job/jgit.gerrit/204/consoleFull\n\nI ran a local build with Bazel + tests, and it all works for me.\n\n@matthias.sohn@sap.com, could you investigate why this is failing on the Eclipse CI? 🙏",
+      "revId": "33ea4ed1fd6edbe4d08866f8562f6efbdc0bf7f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
