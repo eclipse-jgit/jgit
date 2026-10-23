@@ -43,6 +43,21 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 		return new ObjectDirectoryInserter(this, getConfig());
 	}
 
+	/**
+	 * Get the promised-object support registered for this database.
+	 *
+	 * <p>
+	 * The base file database has none; {@link ObjectDirectory} overrides
+	 * this to expose the support registered through
+	 * {@link ObjectDirectory#setPromisedObjects}.
+	 *
+	 * @return the registered support, or {@code null} when nothing is
+	 *         registered.
+	 */
+	PromisedObjectSupport getPromisedObjectSupport() {
+		return null;
+	}
+
 	abstract void resolve(Set<ObjectId> matches, AbbreviatedObjectId id)
 			throws IOException;
 
