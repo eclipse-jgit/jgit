@@ -16,6 +16,23 @@
       "message": "What is the expectation for this fix to be considered for review? Unfortunately, I don\u0027t have access to https://ci.eclipse.org/jgit/job/jgit.gerrit-java25/19/ to troubleshoot the failure.",
       "revId": "0c011662130e514b91289bb0509d366da4048eeb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "559bce04_cc8d28c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-10-23T06:54:02Z",
+      "side": 1,
+      "message": "trigger build",
+      "revId": "0c011662130e514b91289bb0509d366da4048eeb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
