@@ -6,6 +6,7 @@ bazel_dep(name = "rules_android", version = "0.7.1")
 bazel_dep(name = "rules_go", version = "0.60.0")
 bazel_dep(name = "rules_java", version = "9.9.0")
 bazel_dep(name = "rules_jvm_external", version = "6.10")
+bazel_dep(name = "rules_python", version = "2.4.5")
 bazel_dep(name = "rules_shell", version = "0.6.1")
 
 register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
