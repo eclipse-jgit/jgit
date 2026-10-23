@@ -327,7 +327,7 @@ class OpenSshBinaryKrl {
 			sectionLength -= keyLength;
 		}
 		CertificateRevocation rev = certs.computeIfAbsent(key,
-				k -> new CertificateRevocation());
+				_ -> new CertificateRevocation());
 		long reservedLength = getUInt(in);
 		sectionLength -= Integer.BYTES;
 		if (reservedLength > sectionLength) {

@@ -291,7 +291,7 @@ final class AllowedSigners extends ModifiableFileWatcher {
 					AllowedEntry entry = parseLine(line);
 					if (entry != null) {
 						entries.computeIfAbsent(entry.key(),
-								k -> new ArrayList<>()).add(entry);
+								_ -> new ArrayList<>()).add(entry);
 					}
 				} catch (IOException | RuntimeException e) {
 					throw new IOException(MessageFormat.format(

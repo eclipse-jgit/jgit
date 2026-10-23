@@ -125,7 +125,7 @@ public class Pkcs11Provider {
 		int slotIndex = slotListIndex < 0 ? 0 : slotListIndex;
 		Path libPath = library.toAbsolutePath();
 		String key = libPath.toString() + '/' + slotIndex;
-		return PROVIDERS.computeIfAbsent(key, sharedLib -> {
+		return PROVIDERS.computeIfAbsent(key, _ -> {
 			Provider pkcs11 = Security.getProvider("SunPKCS11"); //$NON-NLS-1$
 			if (pkcs11 == null) {
 				throw new UnsupportedOperationException();

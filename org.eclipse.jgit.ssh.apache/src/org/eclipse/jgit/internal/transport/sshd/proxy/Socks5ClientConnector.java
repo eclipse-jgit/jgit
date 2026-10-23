@@ -304,13 +304,13 @@ public class Socks5ClientConnector extends AbstractClientProxyConnector {
 	private void doPasswordAuth(IoSession session) throws Exception {
 		GssApiMechanisms.closeContextSilently(context);
 		authenticator = new SocksBasicAuthentication();
-		session.addCloseFutureListener(f -> close());
+		session.addCloseFutureListener(_ -> close());
 		startAuth(session);
 	}
 
 	private void doGssApiAuth(IoSession session) throws Exception {
 		authenticator = new SocksGssApiAuthentication();
-		session.addCloseFutureListener(f -> close());
+		session.addCloseFutureListener(_ -> close());
 		startAuth(session);
 	}
 

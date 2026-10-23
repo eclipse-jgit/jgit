@@ -111,7 +111,7 @@ public class HttpClientConnector extends AbstractClientProxyConnector {
 			throws Exception {
 		init(sshSession);
 		IoSession session = sshSession.getIoSession();
-		session.addCloseFutureListener(f -> close());
+		session.addCloseFutureListener(_ -> close());
 		StringBuilder msg = connect();
 		if ((proxyUser != null && !proxyUser.isEmpty())
 				|| (proxyPassword != null && proxyPassword.length > 0)) {

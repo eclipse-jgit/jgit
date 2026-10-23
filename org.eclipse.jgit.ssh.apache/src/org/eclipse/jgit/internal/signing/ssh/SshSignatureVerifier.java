@@ -74,8 +74,8 @@ public class SshSignatureVerifier implements SignatureVerifier {
 		Date signatureDate = null;
 		Instant signatureInstant = null;
 		if (gitIdentity != null) {
-			signatureDate = gitIdentity.getWhen();
 			signatureInstant = gitIdentity.getWhenAsInstant();
+			signatureDate = Date.from(signatureInstant);
 		}
 
 		TrustLevel trust = TrustLevel.NEVER;

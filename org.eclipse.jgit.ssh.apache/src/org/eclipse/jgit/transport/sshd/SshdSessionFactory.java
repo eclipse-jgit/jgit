@@ -370,7 +370,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 			@NonNull File homeDir, @NonNull File sshDir) {
 		return defaultHostConfigEntryResolver.computeIfAbsent(
 				new Tuple(new Object[] { homeDir, sshDir }),
-				t -> new JGitSshConfig(createSshConfigStore(homeDir,
+				_ -> new JGitSshConfig(createSshConfigStore(homeDir,
 						getSshConfig(sshDir), getLocalUserName())));
 	}
 
@@ -430,7 +430,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 			@NonNull File sshDir) {
 		return defaultServerKeyDatabase.computeIfAbsent(
 				new Tuple(new Object[] { homeDir, sshDir }),
-				t -> createServerKeyDatabase(homeDir, sshDir));
+				_ -> createServerKeyDatabase(homeDir, sshDir));
 
 	}
 
@@ -520,7 +520,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 		List<Path> defaultIdentities = getDefaultIdentities(sshDir);
 		return defaultKeys.computeIfAbsent(
 				new Tuple(defaultIdentities.toArray(new Path[0])),
-				t -> new CachingKeyPairProvider(defaultIdentities,
+				_ -> new CachingKeyPairProvider(defaultIdentities,
 						getKeyCache()));
 	}
 
@@ -537,7 +537,7 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 		if (keys instanceof KeyIdentityProvider) {
 			return (KeyIdentityProvider) keys;
 		}
-		return (session) -> keys;
+		return _ -> keys;
 	}
 
 	/**

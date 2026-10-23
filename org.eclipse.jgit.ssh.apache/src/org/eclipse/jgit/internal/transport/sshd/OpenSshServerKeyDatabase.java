@@ -405,7 +405,7 @@ public class OpenSshServerKeyDatabase
 			try {
 				Path path = Paths.get(name);
 				HostKeyFile file = knownHostsFiles.computeIfAbsent(path,
-						p -> new HostKeyFile(path));
+						p -> new HostKeyFile(p));
 				userFiles.add(file);
 			} catch (InvalidPathException e) {
 				LOG.warn(format(SshdText.get().knownHostsInvalidPath,
