@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "496f4431_f9c03c6a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-23T16:06:45Z",
+      "side": 1,
+      "message": "@david.ostrovsky@gmail.com I\u0027ve rebased on top of I7034a56f6 otherwise I won\u0027t be able to even build locally JGit with Bazel",
+      "revId": "653eca919eb08ecfe4585416f4e38dd6144dd5a0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
