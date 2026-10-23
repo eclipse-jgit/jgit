@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15f117c9_effebea9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-23T12:15:57Z",
+      "side": 1,
+      "message": "Yes. For a reftable backend create() wrote repositoryformatversion\u003d0 and no extensions.refStorage, so the repo reopened as RefDirectory, disagreeing with its on-disk storage. \n\nSeparately, a new repo\u0027s format is no longer taken from global config: it comes only from an explicit request (builder / init.defaultRefFormat / GIT_DEFAULT_REF_FORMAT), else files.\n\nDone.",
+      "parentUuid": "676f8a5c_8221c03f",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "57ae6f0c708014d0efe5c09e3f98018d7da18940",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab1ac4c2_2c9cbbff",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-10-22T19:59:26Z",
       "side": 1,
       "message": "This needs to be passed as a parameter to the creation IMHO.",
+      "range": {
+        "startLine": 18,
+        "startChar": 36,
+        "endLine": 18,
+        "endChar": 64
+      },
+      "revId": "57ae6f0c708014d0efe5c09e3f98018d7da18940",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64f1616f_f7365208",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-23T12:15:57Z",
+      "side": 1,
+      "message": "I have re-order the whole series.\n\nThe preceding change adds BaseRepositoryBuilder.setRefStorageFormat(...). This fix triggers off the selected backend, and the tests request reftable through that parameter instead of global config.\n\nDone.",
+      "parentUuid": "ab1ac4c2_2c9cbbff",
       "range": {
         "startLine": 18,
         "startChar": 36,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d46ab2f_0050cde8",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ReftableCreationTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-23T12:15:57Z",
+      "side": 1,
+      "message": "Agreed, removed now. The enableGlobalReftable() helper is gone: tests select reftable via setRefStorageFormat(\"reftable\").\n\nextensions.refStorage is read only from an existing repo\u0027s own config, as specified in the spec.\n\nDone.",
+      "parentUuid": "f211e86d_6f46bab4",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 16
+      },
+      "revId": "57ae6f0c708014d0efe5c09e3f98018d7da18940",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5093436_9ff4e481",
@@ -83,6 +155,30 @@
       "writtenOn": "2026-10-22T19:59:26Z",
       "side": 1,
       "message": "I don\u0027t believe this is the correct expectation: if you don\u0027t explicitly ask for the `reftable` format, the default is `files` (packed-refs).\n\nThe global config of `extensions.refStorage \u003d reftable` isn\u0027t documented and isn\u0027t supported by Git or JGit so far.\n\nI believe the correct way would be to have an explicit `refFormat` parameter in the `FileRepository` object.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 60
+      },
+      "revId": "57ae6f0c708014d0efe5c09e3f98018d7da18940",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b411afd5_90bb4b46",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ReftableCreationTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-23T12:15:57Z",
+      "side": 1,
+      "message": "Agreed on all three.\n\nNew repos default to files unless explicitly requested, the global extensions.refStorage path is gated out (!creating), and selection goes through the explicit RefStorageFormat parameter. \n\nAdded a test asserting a global marker is ignored at creation.\n\nDone.",
+      "parentUuid": "e5093436_9ff4e481",
       "range": {
         "startLine": 52,
         "startChar": 0,
