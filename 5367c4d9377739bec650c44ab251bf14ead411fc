@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a338d88_84da89c1",
+        "filename": "MODULE.bazel",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-23T16:31:26Z",
+      "side": 1,
+      "message": "2.4.5 is the current version, use it?",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "5367c4d9377739bec650c44ab251bf14ead411fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce72acd0_abf37c70",
+        "filename": "MODULE.bazel",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-23T16:31:26Z",
+      "side": 1,
+      "message": "Can you sort it alphabetically?",
+      "revId": "5367c4d9377739bec650c44ab251bf14ead411fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
