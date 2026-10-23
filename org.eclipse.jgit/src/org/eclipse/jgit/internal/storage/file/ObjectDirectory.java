@@ -103,6 +103,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private final File shallowFile;
 
+	private volatile PromisedObjectSupport promisedObjectSupport;
 	private FileSnapshot shallowFileSnapshot = FileSnapshot.DIRTY;
 
 	private Set<ObjectId> shallowCommitsIds;
@@ -190,6 +191,39 @@ public class ObjectDirectory extends FileObjectDatabase {
 	public ObjectDirectoryInserter newInserter() {
 		return new ObjectDirectoryInserter(this, config);
 	}
+
+	/**
+	 * Registers or clears a resolver for objects promised by an external
+	 * store.
+	 *
+	 * <p>
+	 * Only inventory-listed objects are ever fetched. The resolver is called
+	 * outside pack and index locks, for blob reads only, and only after a
+	 * local miss. SHA-1 repositories only in this prototype.
+	 *
+	 * @param resolver
+	 *            resolver to register, or {@code null} to clear a previous
+	 *            registration. Must be set together with the inventory.
+	 * @param inventory
+	 *            explicit inventory of the objects the resolver can fetch, or
+	 *            {@code null} to clear a previous registration.
+	 */
+	public void setPromisedObjects(
+			org.eclipse.jgit.lib.PromisedObjectResolver resolver,
+			org.eclipse.jgit.lib.PromisedObjectInventory inventory) {
+		if ((resolver == null) != (inventory == null)) {
+			throw new IllegalArgumentException(
+					JGitText.get().promisedObjectResolverAndInventoryRequired);
+		}
+		this.promisedObjectSupport = resolver == null ? null
+				: new PromisedObjectSupport(this, resolver, inventory);
+	}
+
+	@Override
+	PromisedObjectSupport getPromisedObjectSupport() {
+		return promisedObjectSupport;
+	}
+
 
 	/**
 	 * Create a new inserter that inserts all objects as pack files, not loose

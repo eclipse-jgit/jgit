@@ -664,6 +664,10 @@ public class JGitText extends TranslationBundle {
 	/***/ public String prefixRemote;
 	/***/ public String problemWithResolvingPushRefSpecsLocally;
 	/***/ public String progressMonUploading;
+	/***/ public String promisedObjectContentLengthMismatch;
+	/***/ public String promisedObjectIntegrityMismatch;
+	/***/ public String promisedObjectNotInstalled;
+	/***/ public String promisedObjectResolverAndInventoryRequired;
 	/***/ public String propertyIsAlreadyNonNull;
 	/***/ public String pruneLoosePackedObjects;
 	/***/ public String pruneLooseUnreferencedObjects;
