@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa5f2cb4_437d88f0",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1039310
+      },
+      "writtenOn": "2026-10-23T18:00:47Z",
+      "side": 1,
+      "message": "I updated this change to be a bit more generic, as I also wanted to configure a few more things (for example, a heartbeat interval) besides the number of NIO workers.",
+      "parentUuid": "c639ef7c_04c4f0e1",
+      "revId": "4101afc167e26df7dfc465e0f1659a66649f13f4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8c17f87_922194a4",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-10-23T14:06:59Z",
       "side": 1,
       "message": "Please also make this configurable via the `SshdSessionFactoryBuilder`.",
+      "revId": "4101afc167e26df7dfc465e0f1659a66649f13f4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f511ec3_33e2f149",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1039310
+      },
+      "writtenOn": "2026-10-23T18:00:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8c17f87_922194a4",
       "revId": "4101afc167e26df7dfc465e0f1659a66649f13f4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
