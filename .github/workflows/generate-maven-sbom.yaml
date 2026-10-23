@@ -20,13 +20,14 @@ env:
   JAVA_DISTRO: 'temurin'
   PLUGIN_VERSION: '2.9.1'
   SBOM_TYPE: 'makeAggregateBom'
-  PROJECT_VERSION: "${{ github.event_name == 'release' && github.event.release.tag_name || github.event.inputs.version }}"
+  PROJECT_VERSION: "${{ github.event_name == 'push' && github.ref_name || github.event.inputs.version }}"
 
 permissions:
   contents: read
 
 jobs:
   generate-sbom:
+    if: github.repository == 'eclipse-jgit/jgit'
     runs-on: ubuntu-latest
     permissions:
       contents: read
