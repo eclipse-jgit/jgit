@@ -52,6 +52,63 @@
       "parentUuid": "f3a2aa91_da703fab",
       "revId": "33ea4ed1fd6edbe4d08866f8562f6efbdc0bf7f3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a03201d8_8ad8f230",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-23T21:00:43Z",
+      "side": 1,
+      "message": "Two unused variables in `ReftableCreationTest` are breaking the build.",
+      "revId": "33ea4ed1fd6edbe4d08866f8562f6efbdc0bf7f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "865e1988_a92a2689",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ReftableCreationTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-23T21:00:43Z",
+      "side": 1,
+      "message": "```suggestion\n\t\ttry (Repository _ \u003d createRepository(dir, REFTABLE)) {\n```",
+      "revId": "33ea4ed1fd6edbe4d08866f8562f6efbdc0bf7f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "382ec5d4_97c5b850",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ReftableCreationTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-23T21:00:43Z",
+      "side": 1,
+      "message": "```suggestion\n\t\ttry (Repository _ \u003d createRepository(dir, REFTABLE)) {\n```",
+      "range": {
+        "startLine": 158,
+        "startChar": 18,
+        "endLine": 158,
+        "endChar": 22
+      },
+      "revId": "33ea4ed1fd6edbe4d08866f8562f6efbdc0bf7f3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
