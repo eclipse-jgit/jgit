@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c639ef7c_04c4f0e1",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-10-23T14:06:59Z",
+      "side": 1,
+      "message": "I think this can become simply\n```\ngetNioWorkers().ifPresent(n -\u003e CoreModuleProperties.NIO_WORKERS.set(client, Integer.valueOf(n)));\n```\nApache MINA SSHD checks already that the value is \u003e 0 and throws if not.",
+      "revId": "4101afc167e26df7dfc465e0f1659a66649f13f4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8c17f87_922194a4",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-10-23T14:06:59Z",
+      "side": 1,
+      "message": "Please also make this configurable via the `SshdSessionFactoryBuilder`.",
+      "revId": "4101afc167e26df7dfc465e0f1659a66649f13f4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
