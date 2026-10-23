@@ -39,6 +39,48 @@
       "message": "Can you sort it alphabetically?",
       "revId": "5367c4d9377739bec650c44ab251bf14ead411fc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c96e173_be012e0a",
+        "filename": "MODULE.bazel",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-23T20:07:25Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "1a338d88_84da89c1",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "5367c4d9377739bec650c44ab251bf14ead411fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a80cafc7_de366c4c",
+        "filename": "MODULE.bazel",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-23T20:07:25Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "ce72acd0_abf37c70",
+      "revId": "5367c4d9377739bec650c44ab251bf14ead411fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
