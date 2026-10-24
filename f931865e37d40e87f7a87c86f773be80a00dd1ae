@@ -16,6 +16,23 @@
       "message": "The focused HTTP suites passed 240 tests in the main checkout, with no\nfailures or skips.\n\nI also ran both CLI builds in an interactive terminal against a\ndisposable local Git repository protected by HTTP Basic auth.\nThe unpatched CLI showed \"Username for null\", \"Username for PROXY\n127.0.0.1:18474\", then \"Username\". The patched CLI showed only\n\"Username\". Both clones completed after the same test credentials.\nThis was local HTTP, not a private GitHub repository over HTTPS.\n\nThe full NTLM handshake and Kerberos exchange weren\u0027t exercised. The\nNTLM-only local test checks the Java authenticator lookup and first\nAuthorization header; an NTLM-only server still uses that path as before.\n\nThe target challenge check in HttpClientConnection must follow\nHttpAuthMethod\u0027s scheme parsing. It expands comma-separated header\nelements the same way before deciding whether JGit can answer the 401.\nHttpAuthMethod is package-private in the core bundle, and its scanner\nreads a JGit HttpConnection after the response is exposed. Apache has\nto decide on its HttpResponse first. Sharing this small scheme check\nwould need a new cross-bundle API; the comment and mixed-header tests\nkeep the two paths aligned without expanding that API.\n\nIn a clean worktree with only the #274 patch, targeted Maven verify\npassed for core and the Apache bundle, including both japicmp checks.\nThe built Apache JAR includes the new org.apache.http.protocol import\nwith the same version range as sibling Apache imports. The same verify\npassed on an unpatched worktree at the same commit; its Apache report\nsays \"No changes.\" Japicmp compares 8.0.0-SNAPSHOT with\norg.eclipse.jgit:org.eclipse.jgit.http.apache:7.8.0.202609011348-r.\nBoth local builds produce HttpClientConnection at class-file major\nversion 69 (Java 25), while that comparison artifact is major version\n61 (Java 17). The patched report displays this format difference for\nthe modified class, with no public method or compatibility break.\nTests, Javadoc, SBOM generation and the dependency license scan were\nskipped in these verify runs.",
       "revId": "f931865e37d40e87f7a87c86f773be80a00dd1ae",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bbad4f8_c13f3965",
+        "filename": "org.eclipse.jgit.http.apache/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-10-24T21:43:57Z",
+      "side": 1,
+      "message": "Perhaps better don\u0027t hardcode these. Use the known HttpAuthMethod.Type values, get their names via `getSchemeName()`.",
+      "revId": "f931865e37d40e87f7a87c86f773be80a00dd1ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
