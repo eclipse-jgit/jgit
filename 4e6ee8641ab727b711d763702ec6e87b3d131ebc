@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb4d71ab_4965c20d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-24T20:59:57Z",
+      "side": 1,
+      "message": "Can you raise a JGit issue for this problem and refer to it in the commit footer? 🙏",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "4e6ee8641ab727b711d763702ec6e87b3d131ebc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
