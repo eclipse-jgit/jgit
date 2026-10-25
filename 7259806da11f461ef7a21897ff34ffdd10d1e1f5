@@ -88,6 +88,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b208f20_fc889479",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2066,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-10-25T12:16:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe75207e_3108e5da",
+      "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ea34e72_7bf553cd",
@@ -101,6 +119,24 @@
       "writtenOn": "2026-04-13T17:41:31Z",
       "side": 1,
       "message": "[1] says\n\n\u003e The default mailmap, located in the root of the repository, is loaded first, then the mailmap file pointed to by this variable.\n\nApparently that means that entries from mailmap.file override the default mailmap if the \"old\" part is identical or more specific.\n\nIf I have multiple matching lines: if later lines have identical or more specific old parts, those later lines override an earlier line. If the earlier line\u0027s old part is more specific, the earlier line wins.\n\n\n[1] https://git-scm.com/docs/git-config#Documentation/git-config.txt-mailmapfile",
+      "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63971040_1dbd87d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2105,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-10-25T12:16:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ea34e72_7bf553cd",
       "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -206,6 +242,24 @@
       "writtenOn": "2026-04-13T17:41:31Z",
       "side": 1,
       "message": "I presume at least one of name or email _must_ be set, for both old and new. Enforce that here. (And if throwing in the constructor is problematic use a factory method.)\n\nCould this become a record?",
+      "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57be7d78_eec5fa39",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/mailmap/MailmapEntry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-10-25T12:16:21Z",
+      "side": 1,
+      "message": "Done; oldEmail marked `@NonNull`.",
+      "parentUuid": "0b68ad19_c58773b5",
       "revId": "7259806da11f461ef7a21897ff34ffdd10d1e1f5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
