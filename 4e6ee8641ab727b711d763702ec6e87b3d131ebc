@@ -22,6 +22,30 @@
       },
       "revId": "4e6ee8641ab727b711d763702ec6e87b3d131ebc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66b76e0c_91cc6484",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-25T06:39:16Z",
+      "side": 1,
+      "message": "Filed [jgit-312]. Done.\n\n[jgit-312]: https://github.com/eclipse-jgit/jgit/issues/312",
+      "parentUuid": "bb4d71ab_4965c20d",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "4e6ee8641ab727b711d763702ec6e87b3d131ebc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
