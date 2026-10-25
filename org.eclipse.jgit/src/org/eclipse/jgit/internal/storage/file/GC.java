@@ -359,6 +359,145 @@ public class GC {
 		}
 	}
 
+	private boolean isCruftPacks() {
+		return repo.getConfig().getBoolean(ConfigConstants.CONFIG_GC_SECTION,
+				null, ConfigConstants.CONFIG_KEY_CRUFTPACKS, false);
+	}
+
+	/**
+	 * Pack all unreachable objects into a single cruft pack file. This is an
+	 * alternative to loosening unreachable objects: the objects remain packed
+	 * and will be pruned once the pack file itself expires according to
+	 * {@code gc.prunePackExpire}.
+	 *
+	 * @param unreachableIds
+	 *            object IDs of all unreachable objects to pack
+	 * @return the newly created cruft pack, or {@code null} if there were no
+	 *         objects to pack
+	 * @throws IOException
+	 *             if an IO error occurred
+	 */
+	private Pack writeCruftPack(Set<ObjectId> unreachableIds)
+			throws IOException {
+		checkCancelled();
+		if (unreachableIds.isEmpty()) {
+			return null;
+		}
+		File tmpPack = null;
+		Map<PackExt, File> tmpExts = new TreeMap<>((o1, o2) -> {
+			if (o1 == o2) {
+				return 0;
+			}
+			if (o1 == PackExt.INDEX) {
+				return 1;
+			}
+			if (o2 == PackExt.INDEX) {
+				return -1;
+			}
+			return Integer.signum(o1.hashCode() - o2.hashCode());
+		});
+		try (PackWriter pw = new PackWriter(pconfig, repo.newObjectReader());
+				ObjectWalk ow = new ObjectWalk(repo)) {
+			pw.setDeltaBaseAsOffset(true);
+			pw.setReuseDeltaCommits(false);
+			pw.setCreateBitmaps(false);
+
+			List<RevObject> revObjects = new ArrayList<>(unreachableIds.size());
+			for (ObjectId id : unreachableIds) {
+				revObjects.add(ow.parseAny(id));
+			}
+			pw.preparePack(revObjects.iterator());
+			if (pw.getObjectCount() == 0) {
+				return null;
+			}
+			checkCancelled();
+
+			ObjectId id = pw.computeName();
+			File packdir = repo.getObjectDatabase().getPackDirectory();
+			packdir.mkdirs();
+			tmpPack = File.createTempFile("gc_cruft_", //$NON-NLS-1$
+					PACK.getTmpExtension(), packdir);
+			String tmpBase = tmpPack.getName().substring(0,
+					tmpPack.getName().lastIndexOf('.'));
+			File tmpIdx = new File(packdir, tmpBase + INDEX.getTmpExtension());
+			tmpExts.put(INDEX, tmpIdx);
+
+			if (!tmpIdx.createNewFile()) {
+				throw new IOException(MessageFormat.format(
+						JGitText.get().cannotCreateIndexfile, tmpIdx.getPath()));
+			}
+
+			try (FileOutputStream fos = new FileOutputStream(tmpPack);
+					FileChannel channel = fos.getChannel();
+					OutputStream channelStream = Channels
+							.newOutputStream(channel)) {
+				pw.writePack(pm, pm, channelStream);
+				channel.force(true);
+			}
+
+			try (FileOutputStream fos = new FileOutputStream(tmpIdx);
+					FileChannel idxChannel = fos.getChannel();
+					OutputStream idxStream = Channels
+							.newOutputStream(idxChannel)) {
+				pw.writeIndex(idxStream);
+				idxChannel.force(true);
+			}
+
+			File packDir = repo.getObjectDatabase().getPackDirectory();
+			PackFile realPack = new PackFile(packDir, id, PackExt.PACK);
+			repo.getObjectDatabase().closeAllPackHandles(realPack);
+			tmpPack.setReadOnly();
+			FileUtils.rename(tmpPack, realPack, StandardCopyOption.ATOMIC_MOVE);
+			for (Map.Entry<PackExt, File> tmpEntry : tmpExts.entrySet()) {
+				File tmpExt = tmpEntry.getValue();
+				tmpExt.setReadOnly();
+				PackFile realExt = new PackFile(packDir, id, tmpEntry.getKey());
+				try {
+					FileUtils.rename(tmpExt, realExt,
+							StandardCopyOption.ATOMIC_MOVE);
+				} catch (IOException e) {
+					File newExt = new File(realExt.getParentFile(),
+							realExt.getName() + ".new"); //$NON-NLS-1$
+					try {
+						FileUtils.rename(tmpExt, newExt,
+								StandardCopyOption.ATOMIC_MOVE);
+					} catch (IOException e2) {
+						newExt = tmpExt;
+						e = e2;
+					}
+					throw new IOException(MessageFormat.format(
+							JGitText.get().panicCantRenameIndexFile, newExt,
+							realExt), e);
+				}
+			}
+			boolean interrupted = false;
+			try {
+				FileSnapshot snapshot = FileSnapshot.save(realPack);
+				if (pconfig.doWaitPreventRacyPack(snapshot.size())) {
+					snapshot.waitUntilNotRacy();
+				}
+			} catch (InterruptedException e) {
+				interrupted = true;
+			}
+			try {
+				return repo.getObjectDatabase().openPack(realPack);
+			} finally {
+				if (interrupted) {
+					Thread.currentThread().interrupt();
+				}
+			}
+		} finally {
+			if (tmpPack != null && tmpPack.exists()) {
+				tmpPack.delete();
+			}
+			for (File tmpExt : tmpExts.values()) {
+				if (tmpExt.exists()) {
+					tmpExt.delete();
+				}
+			}
+		}
+	}
+
 	/**
 	 * Delete old pack files. What is 'old' is defined by specifying a set of
 	 * old pack files and a set of new pack files. Each pack file contained in
@@ -368,18 +507,22 @@ public class GC {
 	 * than the expirationDate will not be deleted nor preserved.
 	 * <p>
 	 * If we're not immediately expiring loose objects, loosen any objects in
-	 * the old pack files which aren't in the new pack files.
+	 * the old pack files which aren't in the new pack files. If
+	 * {@code gc.cruftpacks} is enabled, pack unreachable objects into a cruft
+	 * pack instead.
 	 *
 	 * @param oldPacks
 	 *            old pack files
 	 * @param newPacks
 	 *            new pack files
+	 * @return the newly created cruft pack if {@code gc.cruftpacks} is enabled
+	 *         and there were unreachable objects, otherwise empty
 	 * @throws ParseException
 	 *             if an error occurred during parsing
 	 * @throws IOException
 	 *             if an IO error occurred
 	 */
-	private void deleteOldPacks(Collection<Pack> oldPacks,
+	private Optional<Pack> deleteOldPacks(Collection<Pack> oldPacks,
 			Collection<Pack> newPacks) throws ParseException, IOException {
 		HashSet<ObjectId> ids = new HashSet<>();
 		for (Pack pack : newPacks) {
@@ -390,8 +533,11 @@ public class GC {
 		ObjectReader reader = repo.newObjectReader();
 		ObjectDirectory dir = repo.getObjectDatabase();
 		ObjectDirectoryInserter inserter = dir.newInserter();
-		boolean shouldLoosen = !"now".equals(getPruneExpireStr()) && //$NON-NLS-1$
-			getExpireDate() < Long.MAX_VALUE;
+		boolean cruftPacks = isCruftPacks();
+		boolean shouldLoosen = !cruftPacks
+				&& !"now".equals(getPruneExpireStr()) //$NON-NLS-1$
+				&& getExpireDate() < Long.MAX_VALUE;
+		HashSet<ObjectId> unreachableIds = new HashSet<>();
 
 		prunePreserved();
 		long packExpireDate = getPackExpireDate();
@@ -411,16 +557,32 @@ public class GC {
 							.toEpochMilli() < packExpireDate) {
 				if (shouldLoosen) {
 					loosen(inserter, reader, oldPack, ids);
+				} else if (cruftPacks) {
+					for (PackIndex.MutableEntry entry : oldPack) {
+						ObjectId oid = entry.toObjectId();
+						if (!ids.contains(oid) && unreachableIds.add(oid)) {
+							ids.add(oid);
+						}
+					}
 				}
 				oldPack.close();
 				packFilesToPrune.add(oldPack.getPackFile());
 			}
 		}
+
+		// Write the cruft pack while old packs are still on disk so their
+		// objects can be read.
+		Optional<Pack> cruftPack = Optional.empty();
+		if (cruftPacks && !unreachableIds.isEmpty()) {
+			cruftPack = Optional.ofNullable(writeCruftPack(unreachableIds));
+		}
+
 		packFilesToPrune.forEach(this::prunePack);
 
 		// close the complete object database. That's my only chance to force
 		// rescanning and to detect that certain pack files are now deleted.
 		repo.getObjectDatabase().close();
+		return cruftPack;
 	}
 
 	/**
@@ -903,7 +1065,7 @@ public class GC {
 				ret.add(rest);
 		}
 		try {
-			deleteOldPacks(toBeDeleted, ret);
+			deleteOldPacks(toBeDeleted, ret).ifPresent(ret::add);
 		} catch (ParseException e) {
 			// TODO: the exception has to be wrapped into an IOException because
 			// throwing the ParseException directly would break the API, instead
