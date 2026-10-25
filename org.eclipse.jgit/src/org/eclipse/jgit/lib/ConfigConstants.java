@@ -547,6 +547,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_PRUNEPACKEXPIRE = "prunepackexpire";
 
 	/**
+	 * The "cruftpacks" key
+	 *
+	 * @since 8.0
+	 */
+	public static final String CONFIG_KEY_CRUFTPACKS = "cruftpacks";
+
+	/**
 	 * The "logexpiry" key
 	 *
 	 * @since 4.7
