@@ -45,6 +45,30 @@
       },
       "revId": "832273e587ff27b5990b856810c6f2bcdca83f9e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a78a736_423118db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-25T21:25:00Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "f976ca97_674ab6c0",
+      "range": {
+        "startLine": 635,
+        "startChar": 43,
+        "endLine": 636,
+        "endChar": 55
+      },
+      "revId": "832273e587ff27b5990b856810c6f2bcdca83f9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
