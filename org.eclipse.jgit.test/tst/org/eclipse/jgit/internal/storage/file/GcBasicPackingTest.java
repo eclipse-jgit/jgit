@@ -515,6 +515,59 @@ public class GcBasicPackingTest extends GcTestCase {
 		gc = new GC(repo);
 	}
 
+	@Test
+	public void testCruftPack() throws Exception {
+		BranchBuilder bb = tr.branch("refs/heads/master");
+		bb.commit().message("M").add("M", "M").create();
+
+		String tempRef = "refs/heads/soon-to-be-unreferenced";
+		BranchBuilder bb2 = tr.branch(tempRef);
+		RevCommit orphaned = bb2.commit().message("U").add("U", "U").create();
+
+		gc.setExpireAge(Duration.ZERO);
+		gc.gc().get();
+		stats = gc.getStatistics();
+		assertEquals(0, stats.numberOfLooseObjects);
+		assertEquals(1, stats.numberOfPackFiles);
+
+		fsTick();
+
+		// delete the temp ref, orphaning its commit
+		RefUpdate update = tr.getRepository().getRefDatabase()
+				.newUpdate(tempRef, false);
+		update.setForceUpdate(true);
+		update.delete();
+
+		bb.commit().message("B").add("B", "Q").create();
+
+		// enable cruft packs and expire old packs immediately
+		FileBasedConfig config = repo.getConfig();
+		config.setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_CRUFTPACKS, true);
+		config.save();
+		gc.setPackExpireAge(Duration.ZERO);
+
+		gc.gc().get();
+		stats = gc.getStatistics();
+
+		// unreachable objects must be packed, not loose
+		assertEquals(0, stats.numberOfLooseObjects);
+		// two packs: one reachable (GC), one cruft
+		assertEquals(2, stats.numberOfPackFiles);
+
+		// the cruft pack must contain the orphaned commit
+		Collection<Pack> packs = repo.getObjectDatabase().getPacks();
+		Pack cruftPack = null;
+		for (Pack p : packs) {
+			if (p.hasObject(orphaned)) {
+				cruftPack = p;
+				break;
+			}
+		}
+		assertTrue("orphaned commit should be in a cruft pack",
+				cruftPack != null);
+	}
+
 	private static void assertHasLooseRef(FileRepository repository)
 			throws IOException {
 		assertTrue("should have loose ref", hasLooseRef(repository));
