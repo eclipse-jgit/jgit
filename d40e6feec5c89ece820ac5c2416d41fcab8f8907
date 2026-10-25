@@ -70,6 +70,24 @@
       "parentUuid": "b696c46d_0f2428ef",
       "revId": "d40e6feec5c89ece820ac5c2416d41fcab8f8907",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abb3d104_84fa60ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-25T23:06:51Z",
+      "side": 1,
+      "message": "\u003e there will be no 7.9 release, I created stable-7.9 since I didn\u0027t want to bump to 8.0.0 on the last day of 2026-12 M1 which would have broken other projects in Eclipse IDE which depend on JGit. \n\u003e \n\u003e The next release will be 8.0.0 scheduled for 2026-12-09. See https://projects.eclipse.org/projects/technology.jgit\n\nI believe we also need stable-7.9 for Gerrit v3.15, because we do need a JGit version that can still be built with Java 21.\n\nDo we then need also to merge stable-7.8 into stable-7.9 after all?\n\n@david.ostrovsky@gmail.com @matthias.sohn@sap.com WDYT?",
+      "parentUuid": "c4fa7bfb_041dc247",
+      "revId": "d40e6feec5c89ece820ac5c2416d41fcab8f8907",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
