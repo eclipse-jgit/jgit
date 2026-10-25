@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fa315cb_1f8b5ea6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2106,
+      "author": {
+        "id": 1021966
+      },
+      "writtenOn": "2026-10-25T12:23:18Z",
+      "side": 1,
+      "message": "This comes in the next commit in the series: I7c938550c480d5d987f5a0c290bd22053911c825.",
+      "revId": "df374f8aae10ba8d50855d5d678c3f30cdc8680e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
