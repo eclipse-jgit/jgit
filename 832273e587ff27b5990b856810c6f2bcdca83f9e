@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "937c7dee_0cb4002b",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ReftableConversionTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-25T21:05:11Z",
+      "side": 1,
+      "message": "`getReflogReader()` is deprecated: you should use `getRefDatabase().getReflogReader()`.\n\nAlso, the same pattern is used throughout the test code; consider DRYing it out.",
+      "range": {
+        "startLine": 55,
+        "startChar": 28,
+        "endLine": 55,
+        "endChar": 43
+      },
+      "revId": "832273e587ff27b5990b856810c6f2bcdca83f9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f976ca97_674ab6c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableDatabase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-25T21:05:11Z",
+      "side": 1,
+      "message": "This is overly defensive and very slow when converting a repository with a large number of refs.\n\nI know that typically `HEAD` points to an unborn ref only when the repository is empty; however, a repository with millions of refs and `HEAD` still pointing to an unborn ref is possible, and it would be a non-corrupted repo, which would then be eligible for conversion.\n\nA simple check that the target SHA1 is `null` would be enough and avoid the full rescanning of all refs.\n\nThe suggested code would still work and pass all tests.\n\n```suggestion\n\t\tif (head !\u003d null \u0026\u0026 head.isSymbolic() \u0026\u0026 head.getTarget().getObjectId() \u003d\u003d null) {\n```",
+      "range": {
+        "startLine": 635,
+        "startChar": 43,
+        "endLine": 636,
+        "endChar": 55
+      },
+      "revId": "832273e587ff27b5990b856810c6f2bcdca83f9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
