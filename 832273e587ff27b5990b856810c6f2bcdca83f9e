@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8928a6f_007b4e60",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ReftableConversionTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-25T21:33:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "937c7dee_0cb4002b",
+      "range": {
+        "startLine": 55,
+        "startChar": 28,
+        "endLine": 55,
+        "endChar": 43
+      },
+      "revId": "832273e587ff27b5990b856810c6f2bcdca83f9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f976ca97_674ab6c0",
