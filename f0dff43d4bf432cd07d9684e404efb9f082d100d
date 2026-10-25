@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf7bda92_57f36c20",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-10-25T21:11:35Z",
+      "side": 1,
+      "message": "I believe this is redundant: you are already stating that the configuration settings are for the `git init` for *new* repositories, therefore the existing ones are excluded.\n\nIf you would like to keep it anyway, it would make sense to have a separate note, like:\n\n```\n\u003e **NOTE**: The __init__ options are for new repositories only; existing repositories are unaffected by these settings.\n```",
+      "range": {
+        "startLine": 123,
+        "startChar": 22,
+        "endLine": 125,
+        "endChar": 24
+      },
+      "revId": "f0dff43d4bf432cd07d9684e404efb9f082d100d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
