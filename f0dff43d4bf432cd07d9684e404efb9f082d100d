@@ -22,6 +22,30 @@
       },
       "revId": "f0dff43d4bf432cd07d9684e404efb9f082d100d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc449801_975e7ed1",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-25T21:44:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf7bda92_57f36c20",
+      "range": {
+        "startLine": 123,
+        "startChar": 22,
+        "endLine": 125,
+        "endChar": 24
+      },
+      "revId": "f0dff43d4bf432cd07d9684e404efb9f082d100d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
