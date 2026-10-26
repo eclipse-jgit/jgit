@@ -38,8 +38,6 @@ class MultiPackIndexV1 implements MultiPackIndex {
 
 	private final OffsetLookup offsets;
 
-	private final PackOffset result = new PackOffset();
-
 	private final ReverseIndex ridx;
 
 	private final byte[] checksum;
@@ -99,8 +97,9 @@ class MultiPackIndexV1 implements MultiPackIndex {
 		if (position == -1) {
 			return null;
 		}
-		offsets.getObjectOffset(position, result);
-		return result;
+		PackOffset po = new PackOffset();
+		offsets.getObjectOffset(position, po);
+		return po;
 	}
 
 	@Override

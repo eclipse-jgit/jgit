@@ -380,8 +380,6 @@ public class PackMidx extends Pack {
 	}
 
 	private static class OffsetCalculator {
-		private final MultiPackIndex.PackOffset mutablePo = new MultiPackIndex.PackOffset();
-
 		private final long[] accSizes;
 
 		OffsetCalculator(long[] packSizes) {
@@ -411,7 +409,8 @@ public class PackMidx extends Pack {
 
 			for (int i = accSizes.length - 1; i >= 0; i--) {
 				if (totalOffset >= accSizes[i]) {
-					return mutablePo.setValues(i, totalOffset - accSizes[i]);
+					return new MultiPackIndex.PackOffset()
+							.setValues(i, totalOffset - accSizes[i]);
 				}
 			}
 			return null;
