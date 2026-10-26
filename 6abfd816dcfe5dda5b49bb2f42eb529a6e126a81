@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6046eb0_b4c8f25d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-10-26T18:41:24Z",
+      "side": 1,
+      "message": "Does this just work now that we\u0027re non-stamped by default[1]?\n\n[1] 1249788: Bazel: Make JGit non-stamped by default | https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1249788",
+      "revId": "6abfd816dcfe5dda5b49bb2f42eb529a6e126a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
