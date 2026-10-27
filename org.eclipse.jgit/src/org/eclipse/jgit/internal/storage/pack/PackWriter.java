@@ -1104,6 +1104,22 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/**
+	 * Get the checksum of the pack data written by
+	 * {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)}.
+	 *
+	 * @return the SHA-1 checksum of the pack file (its trailing 20 bytes)
+	 * @throws IllegalStateException
+	 *             if called before {@code writePack}
+	 */
+	public ObjectId getPackChecksum() {
+		if (packcsum == null) {
+			throw new IllegalStateException(
+					"writePack has not been called yet"); //$NON-NLS-1$
+		}
+		return ObjectId.fromRaw(packcsum);
+	}
+
+	/**
 	 * Create an index file to match the pack file just written.
 	 * <p>
 	 * Called after
