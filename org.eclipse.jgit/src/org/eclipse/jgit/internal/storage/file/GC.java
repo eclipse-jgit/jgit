@@ -1693,7 +1693,7 @@ public class GC {
 	 */
 	public void setPackExpireAgeMillis(long packExpireAgeMillis) {
 		this.packExpireAgeMillis = packExpireAgeMillis;
-		expire = null;
+		packExpire = null;
 	}
 
 	/**
