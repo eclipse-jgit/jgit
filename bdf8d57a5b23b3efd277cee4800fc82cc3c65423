@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07f0e87c_a2098201",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-27T13:02:51Z",
+      "side": 1,
+      "message": "May be improve the wording, e.g.:\n\n```suggestion\nFix setPackExpireAgeMillis clearing the wrong expire field\n\nIt reset expire (the loose object expire) instead of packExpire, so\nchanging the pack expire age had no effect and silently cleared the\nloose object expiration.\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "bdf8d57a5b23b3efd277cee4800fc82cc3c65423",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
