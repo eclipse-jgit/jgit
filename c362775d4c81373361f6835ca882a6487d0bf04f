@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "954ec356_5fec2f4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-27T06:45:01Z",
+      "side": 1,
+      "message": "The previous implementation already calculated System.currentTimeMillis() - age inside both getters, so relative expiry was already evaluated lazily. Could we describe this as a Duration refactoring and mention the pack-expiry reset correction separately?",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "c362775d4c81373361f6835ca882a6487d0bf04f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "091b26ea_045bc2cc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1687,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-27T06:45:01Z",
+      "side": 1,
+      "message": "Add @since 8.0 to this method and the new setPackExpireAge(Duration) method.",
+      "revId": "c362775d4c81373361f6835ca882a6487d0bf04f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "061e632f_742b6261",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1706,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-27T06:45:01Z",
+      "side": 1,
+      "message": "This also corrects a separate behavior: the old setter cleared the loose-object expire field instead of packExpire. Could we add regression tests confirming that changing pack expiry preserves an explicit loose-object expiry, and that resetting pack age restores the configured pack-expiry default? The current test migration does not directly cover these interactions.",
+      "revId": "c362775d4c81373361f6835ca882a6487d0bf04f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
