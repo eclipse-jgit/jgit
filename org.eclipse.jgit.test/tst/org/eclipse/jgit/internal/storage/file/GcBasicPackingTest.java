@@ -547,6 +547,11 @@ public class GcBasicPackingTest extends GcTestCase {
 		config.save();
 		gc.setPackExpireAge(Duration.ZERO);
 
+		Pack oldPack = repo.getObjectDatabase().getPacks().iterator().next();
+		long oldPackMtimeSecs = repo.getFS()
+				.lastModifiedInstant(oldPack.getPackFile())
+				.getEpochSecond();
+
 		gc.gc().get();
 		stats = gc.getStatistics();
 
@@ -566,6 +571,10 @@ public class GcBasicPackingTest extends GcTestCase {
 		}
 		assertTrue("orphaned commit should be in a cruft pack",
 				cruftPack != null);
+		assertTrue("cruft pack must have a .mtimes file",
+				cruftPack.hasCruftMtimes());
+		assertEquals("cruft mtime of orphaned commit must match old pack mtime",
+				oldPackMtimeSecs, cruftPack.getCruftMtime(orphaned));
 	}
 
 	private static void assertHasLooseRef(FileRepository repository)

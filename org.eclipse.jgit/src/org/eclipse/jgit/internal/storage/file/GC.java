@@ -14,6 +14,7 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.COMMIT_GRAPH;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.MTIMES;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
@@ -135,7 +136,7 @@ public class GC {
 	private static final Set<PackExt> PARENT_EXTS = Set.of(PACK, KEEP);
 
 	private static final Set<PackExt> CHILD_EXTS = Set.of(BITMAP_INDEX, INDEX,
-            REVERSE_INDEX, OBJECT_SIZE_INDEX);
+            MTIMES, REVERSE_INDEX, OBJECT_SIZE_INDEX);
 
 	private static final int DEFAULT_AUTOPACKLIMIT = 50;
 
@@ -370,17 +371,19 @@ public class GC {
 	 * and will be pruned once the pack file itself expires according to
 	 * {@code gc.prunePackExpire}.
 	 *
-	 * @param unreachableIds
-	 *            object IDs of all unreachable objects to pack
+	 * @param unreachableMtimes
+	 *            map from each unreachable object ID to its mtime in seconds
+	 *            since the Unix epoch (typically the mtime of the pack file
+	 *            the object was last found in)
 	 * @return the newly created cruft pack, or {@code null} if there were no
 	 *         objects to pack
 	 * @throws IOException
 	 *             if an IO error occurred
 	 */
-	private Pack writeCruftPack(Set<ObjectId> unreachableIds)
+	private Pack writeCruftPack(Map<ObjectId, Long> unreachableMtimes)
 			throws IOException {
 		checkCancelled();
-		if (unreachableIds.isEmpty()) {
+		if (unreachableMtimes.isEmpty()) {
 			return null;
 		}
 		File tmpPack = null;
@@ -402,8 +405,9 @@ public class GC {
 			pw.setReuseDeltaCommits(false);
 			pw.setCreateBitmaps(false);
 
-			List<RevObject> revObjects = new ArrayList<>(unreachableIds.size());
-			for (ObjectId id : unreachableIds) {
+			List<RevObject> revObjects = new ArrayList<>(
+					unreachableMtimes.size());
+			for (ObjectId id : unreachableMtimes.keySet()) {
 				revObjects.add(ow.parseAny(id));
 			}
 			pw.preparePack(revObjects.iterator());
@@ -441,6 +445,23 @@ public class GC {
 							.newOutputStream(idxChannel)) {
 				pw.writeIndex(idxStream);
 				idxChannel.force(true);
+			}
+
+			// Write the .mtimes file: objects sorted in SHA-1 order (= pack
+			// index order) with their per-object mtime in seconds.
+			File tmpMtimes = new File(packdir,
+					tmpBase + MTIMES.getTmpExtension());
+			tmpExts.put(MTIMES, tmpMtimes);
+			List<ObjectId> sortedIds = new ArrayList<>(
+					unreachableMtimes.keySet());
+			Collections.sort(sortedIds);
+			try (FileOutputStream fos = new FileOutputStream(tmpMtimes);
+					FileChannel mtChannel = fos.getChannel();
+					OutputStream mtStream = Channels
+							.newOutputStream(mtChannel)) {
+				PackCruftMtimesWriter.write(mtStream, sortedIds,
+						unreachableMtimes);
+				mtChannel.force(true);
 			}
 
 			File packDir = repo.getObjectDatabase().getPackDirectory();
@@ -537,7 +558,7 @@ public class GC {
 		boolean shouldLoosen = !cruftPacks
 				&& !"now".equals(getPruneExpireStr()) //$NON-NLS-1$
 				&& getExpireDate() < Long.MAX_VALUE;
-		HashSet<ObjectId> unreachableIds = new HashSet<>();
+		Map<ObjectId, Long> unreachableMtimes = new HashMap<>();
 
 		prunePreserved();
 		long packExpireDate = getPackExpireDate();
@@ -558,9 +579,14 @@ public class GC {
 				if (shouldLoosen) {
 					loosen(inserter, reader, oldPack, ids);
 				} else if (cruftPacks) {
+					long packMtimeSecs = repo.getFS()
+							.lastModifiedInstant(oldPack.getPackFile())
+							.getEpochSecond();
 					for (PackIndex.MutableEntry entry : oldPack) {
 						ObjectId oid = entry.toObjectId();
-						if (!ids.contains(oid) && unreachableIds.add(oid)) {
+						if (!ids.contains(oid)
+								&& unreachableMtimes.putIfAbsent(oid,
+										Long.valueOf(packMtimeSecs)) == null) {
 							ids.add(oid);
 						}
 					}
@@ -573,8 +599,9 @@ public class GC {
 		// Write the cruft pack while old packs are still on disk so their
 		// objects can be read.
 		Optional<Pack> cruftPack = Optional.empty();
-		if (cruftPacks && !unreachableIds.isEmpty()) {
-			cruftPack = Optional.ofNullable(writeCruftPack(unreachableIds));
+		if (cruftPacks && !unreachableMtimes.isEmpty()) {
+			cruftPack = Optional.ofNullable(
+					writeCruftPack(unreachableMtimes));
 		}
 
 		packFilesToPrune.forEach(this::prunePack);

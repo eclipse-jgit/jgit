@@ -14,6 +14,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.MTIMES;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
@@ -133,6 +134,10 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	private volatile PackObjectSizeIndex loadedObjSizeIdx;
 
 	private volatile boolean attemptLoadObjSizeIdx;
+
+	private volatile PackCruftMtimes loadedMtimes;
+
+	private volatile boolean attemptLoadMtimes;
 
 	private volatile Optionally<PackBitmapIndex> bitmapIdx = Optionally.empty();
 
@@ -294,6 +299,38 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		return loadedObjSizeIdx;
 	}
 
+	private PackCruftMtimes mtimesIndex() throws IOException {
+		if (loadedMtimes != null) {
+			return loadedMtimes;
+		}
+
+		if (attemptLoadMtimes) {
+			return null;
+		}
+
+		synchronized (this) {
+			if (loadedMtimes != null) {
+				return loadedMtimes;
+			}
+
+			try {
+				PackFile mtimesFile = packFile.create(MTIMES);
+				if (attemptLoadMtimes || !mtimesFile.exists()) {
+					attemptLoadMtimes = true;
+					return null;
+				}
+				loadedMtimes = PackCruftMtimesLoader
+						.load(new FileInputStream(mtimesFile.getAbsoluteFile()));
+			} catch (InterruptedIOException e) {
+				return null;
+			} finally {
+				attemptLoadMtimes = true;
+			}
+		}
+
+		return loadedMtimes;
+	}
+
 	/**
 	 * Get the File object which locates this pack on disk.
 	 *
@@ -377,6 +414,44 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 */
 	public String getPackName() {
 		return packFile.getId();
+	}
+
+	/**
+	 * Whether this pack has a {@code .mtimes} cruft pack mtimes file.
+	 *
+	 * @return {@code true} if a readable {@code .mtimes} file exists for this
+	 *         pack
+	 * @throws IOException
+	 *             if an IO error occurred reading the file
+	 */
+	public boolean hasCruftMtimes() throws IOException {
+		return mtimesIndex() != null;
+	}
+
+	/**
+	 * Get the cruft mtime (seconds since epoch) for an object in this pack.
+	 *
+	 * <p>
+	 * Caller MUST verify {@link #hasCruftMtimes()} before calling this method.
+	 *
+	 * @param id
+	 *            object id of an object in the pack
+	 * @return mtime in seconds since the Unix epoch, or {@code -1} if the
+	 *         object is not in this pack
+	 * @throws IOException
+	 *             if an IO error occurred reading the index or mtimes file
+	 */
+	public long getCruftMtime(AnyObjectId id) throws IOException {
+		int idxPos = idx().findPosition(id);
+		if (idxPos < 0) {
+			return -1;
+		}
+		PackCruftMtimes mt = mtimesIndex();
+		if (mt == null) {
+			throw new IllegalStateException(
+					"Asking cruft mtime from a pack without .mtimes file"); //$NON-NLS-1$
+		}
+		return mt.getMtime(idxPos);
 	}
 
 	/**
