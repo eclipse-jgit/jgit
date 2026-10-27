@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78a8bddf_519bbfa4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ReftableCreationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-10-27T09:30:37Z",
+      "side": 1,
+      "message": "unnamed variables are not supported on Java 21\n\n```\n00:29:12  [ERROR] COMPILATION ERROR : \n00:29:12  [INFO] -------------------------------------------------------------\n00:29:12  [ERROR] /home/jenkins/agent/workspace/stable/jgit-stable.gerrit/repo/org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ReftableCreationTest.java:[66,19] \u0027_\u0027 is a keyword from source level 9 onwards, cannot be used as identifier\n00:29:12  [ERROR] /home/jenkins/agent/workspace/stable/jgit-stable.gerrit/repo/org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/ReftableCreationTest.java:[158,19] \u0027_\u0027 is a keyword from source level 9 onwards, cannot be used as identifier\n```",
+      "range": {
+        "startLine": 66,
+        "startChar": 18,
+        "endLine": 66,
+        "endChar": 20
+      },
+      "revId": "dc9142fd51de8229188c9fd818d27d86cd9ed448",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
