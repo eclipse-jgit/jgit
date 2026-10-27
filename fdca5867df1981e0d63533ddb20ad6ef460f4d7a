@@ -73,6 +73,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0cbace6f_2814b645",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-27T07:36:55Z",
+      "side": 1,
+      "message": "It was never a java_library at that point — the stamped jgit was a genrule. Bazel coverage only instruments java_* rules: they carry InstrumentedFilesInfo and emit the baseline *-class-paths-for-coverage.txt. A genrule output is an opaque jar with no sources and no coverage metadata, so --instrumentation_filter\u003djgit has nothing to instrument and the jgit classes never show up in the report.\n\nMaking :jgit the java_library again (and moving stamping to :jgit-stamped) puts a coverage-aware target back in the test graph, so bazel coverage --combined_report\u003dlcov --instrumentation_filter\u003djgit //org.eclipse.jgit.test:all instruments the sources.",
+      "parentUuid": "90457e19_a1f118a1",
+      "revId": "fdca5867df1981e0d63533ddb20ad6ef460f4d7a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "41e8b33e_5a635ad2",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

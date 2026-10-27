@@ -16,6 +16,24 @@
       "message": "Does this just work now that we\u0027re non-stamped by default[1]?\n\n[1] 1249788: Bazel: Make JGit non-stamped by default | https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1249788",
       "revId": "6abfd816dcfe5dda5b49bb2f42eb529a6e126a81",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e800f7c_dfb42115",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-10-27T07:36:55Z",
+      "side": 1,
+      "message": "Yes. Superseded by [1], which makes :jgit non-stamped by default, so bazel coverage works on the test targets with no per-target change.\n\nI uploaded a follow-up, I4ba55c502f24c, to remove the now-unused jgit_non_stamped alias. Abandoning this one.",
+      "parentUuid": "c6046eb0_b4c8f25d",
+      "revId": "6abfd816dcfe5dda5b49bb2f42eb529a6e126a81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
