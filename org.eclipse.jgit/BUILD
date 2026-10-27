@@ -32,12 +32,6 @@ java_library(
     ],
 )
 
-alias(
-    name = "jgit_non_stamped",
-    actual = ":jgit",
-    visibility = ["//visibility:public"],
-)
-
 genrule(
     name = "jgit-stamped",
     srcs = [":jgit"],
