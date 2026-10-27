@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c6f0496_5e8cf100",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-10-27T12:05:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02cad04c_4947ce25",
+      "revId": "d6604934209c15839c9744af4ebb3f7f25625242",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b7b85a1_6686119e",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-10-27T06:45:33Z",
       "side": 1,
       "message": "This call still uses setExpireAgeMillis(0). Could we finish the migration with setExpireAge(Duration.ZERO) here and at the remaining locations?",
+      "range": {
+        "startLine": 113,
+        "startChar": 2,
+        "endLine": 113,
+        "endChar": 27
+      },
+      "revId": "d6604934209c15839c9744af4ebb3f7f25625242",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fe3475b_616ce724",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/pack/GcCommitSelectionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-10-27T12:05:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b7b85a1_6686119e",
       "range": {
         "startLine": 113,
         "startChar": 2,
