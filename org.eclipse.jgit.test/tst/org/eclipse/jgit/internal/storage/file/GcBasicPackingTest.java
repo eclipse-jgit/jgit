@@ -170,7 +170,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		assertEquals(11, stats.numberOfLooseObjects);
 		assertEquals(0, stats.numberOfPackedObjects);
 
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		fsTick();
 		configureGc(gc, aggressive);
 		gc.gc().get();
@@ -191,7 +191,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		BranchBuilder bb2 = tr.branch(tempRef);
 		bb2.commit().message("M").add("M", "M").create();
 
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		gc.gc().get();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
@@ -222,7 +222,7 @@ public class GcBasicPackingTest extends GcTestCase {
 
 		// repack again but now without a grace period for loose objects. Since
 		// we don't have loose objects anymore this shouldn't change anything
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		gc.gc().get();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
@@ -233,10 +233,10 @@ public class GcBasicPackingTest extends GcTestCase {
 
 		// repack again but now without a grace period for packfiles. We should
 		// end up with one packfile
-		gc.setPackExpireAgeMillis(0);
+		gc.setPackExpireAge(Duration.ZERO);
 
 		// we want to keep newly-loosened objects though
-		gc.setExpireAgeMillis(-1);
+		gc.setExpireAge(null);
 
 		gc.gc().get();
 		stats = gc.getStatistics();
@@ -256,7 +256,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		BranchBuilder bb2 = tr.branch(tempRef);
 		bb2.commit().message("M").add("M", "M").create();
 
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		gc.gc().get();
 		stats = gc.getStatistics();
 
@@ -276,7 +276,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		config.save();
 
 		//And we don't want to keep packs full of dead objects
-		gc.setPackExpireAgeMillis(0);
+		gc.setPackExpireAge(Duration.ZERO);
 
 		gc.gc().get();
 		stats = gc.getStatistics();
@@ -299,7 +299,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		bb.commit().message("P").add("P", "P").create();
 
 		// pack loose object into packfile
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		gc.gc().get();
 		PackFile oldPackfile = tr.getRepository().getObjectDatabase().getPacks()
 				.iterator().next().getPackFile();
@@ -311,7 +311,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		// repack again but now without a grace period for packfiles. We should
 		// end up with a new packfile and the old one should be placed in the
 		// preserved directory
-		gc.setPackExpireAgeMillis(0);
+		gc.setPackExpireAge(Duration.ZERO);
 		configureGc(gc, false).setPreserveOldPacks(true);
 		gc.gc().get();
 
@@ -333,8 +333,8 @@ public class GcBasicPackingTest extends GcTestCase {
 
 		// Force all referenced objects into packs (to avoid having loose objects)
 		configureGc(gc, false);
-		gc.setExpireAgeMillis(0);
-		gc.setPackExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
+		gc.setPackExpireAge(Duration.ZERO);
 		gc.gc().get();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);

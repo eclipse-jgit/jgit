@@ -59,6 +59,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
+import java.time.Duration;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
@@ -114,8 +115,8 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 		ObjectId unknownID = ObjectId
 				.fromString("c0ffee09d0b63d694bf49bc1e6847473f42d4a8c");
 		GC gc = new GC(db);
-		gc.setExpireAgeMillis(0);
-		gc.setPackExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
+		gc.setPackExpireAge(Duration.ZERO);
 
 		// the default repo db is used to create the objects. The receivingDB
 		// repo is used to trigger gc's
