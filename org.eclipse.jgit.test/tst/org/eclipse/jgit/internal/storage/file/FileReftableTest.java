@@ -173,15 +173,22 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 						.submit(new UpdateRef(repo1, branchName));
 				Future<RefUpdate.Result> ru2 = pool
 						.submit(new UpdateRef(repo2, branchName));
-				assertTrue((ru1.get() == Result.NEW
-						&& ru2.get() == Result.LOCK_FAILURE)
-						|| (ru1.get() == Result.LOCK_FAILURE
-								&& ru2.get() == Result.NEW));
+				Result r1 = ru1.get();
+				Result r2 = ru2.get();
+				assertTrue(r1 + " " + r2,
+						(r1 == Result.NEW && isLoser(r2))
+								|| (isLoser(r1) && r2 == Result.NEW));
 			}
 		} finally {
 			pool.shutdown();
 			pool.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
 		}
+	}
+
+	// The losing update either hits the stale stack, or reads the ref only
+	// after the winner committed it and finds nothing to change.
+	private static boolean isLoser(Result r) {
+		return r == Result.LOCK_FAILURE || r == Result.NO_CHANGE;
 	}
 
 	/**
