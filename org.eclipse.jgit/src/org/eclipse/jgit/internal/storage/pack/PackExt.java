@@ -39,7 +39,10 @@ public enum PackExt {
 	OBJECT_SIZE_INDEX("objsize"), //$NON-NLS-1$
 
 	/** Multi pack index */
-	MULTI_PACK_INDEX("midx"); //$NON-NLS-1$
+	MULTI_PACK_INDEX("midx"), //$NON-NLS-1$
+
+	/** A cruft pack modification times index file extension. */
+	MTIMES("mtimes"); //$NON-NLS-1$
 
 	private final String ext;
 
