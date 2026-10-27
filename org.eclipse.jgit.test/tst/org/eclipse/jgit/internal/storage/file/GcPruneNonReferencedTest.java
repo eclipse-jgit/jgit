@@ -16,6 +16,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Collections;
 
@@ -38,7 +39,7 @@ public class GcPruneNonReferencedTest extends GcTestCase {
 	@Test
 	public void nonReferencedExpiredObject_pruned() throws Exception {
 		RevBlob a = tr.blob("a");
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
 		assertFalse(repo.getObjectDatabase().has(a));
@@ -48,7 +49,7 @@ public class GcPruneNonReferencedTest extends GcTestCase {
 	public void nonReferencedExpiredObjectTree_pruned() throws Exception {
 		RevBlob a = tr.blob("a");
 		RevTree t = tr.tree(tr.file("a", a));
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
 		assertFalse(repo.getObjectDatabase().has(t));
@@ -78,7 +79,7 @@ public class GcPruneNonReferencedTest extends GcTestCase {
 		stats = gc.getStatistics();
 		assertEquals(8, stats.numberOfLooseObjects);
 		assertEquals(0, stats.numberOfPackedObjects);
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		fsTick();
 		gc.gc().get();
 		stats = gc.getStatistics();

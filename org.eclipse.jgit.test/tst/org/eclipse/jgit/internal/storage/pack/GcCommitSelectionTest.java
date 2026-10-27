@@ -14,6 +14,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -72,8 +73,8 @@ public class GcCommitSelectionTest extends GcTestCase {
 			}
 			currentCommits = nextCommitCount;
 
-			gc.setPackExpireAgeMillis(0); // immediately delete old packs
-			gc.setExpireAgeMillis(0);
+			gc.setPackExpireAge(Duration.ZERO); // immediately delete old packs
+			gc.setExpireAge(Duration.ZERO);
 			gc.gc().get();
 			assertEquals(currentCommits * 3, // commit/tree/object
 					gc.getStatistics().numberOfPackedObjects);
@@ -109,7 +110,7 @@ public class GcCommitSelectionTest extends GcTestCase {
 		tr.lightweightTag(tagName, tr.tag(tagName, commit2));
 		tr.branch(mainBranch).update(commit1);
 
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		gc.gc().get();
 
 		// Create only 2 bitmaps, for commit0 and commit1, excluding commit2
@@ -170,8 +171,8 @@ public class GcCommitSelectionTest extends GcTestCase {
 			}
 			currentCommits = nextCommitCount;
 
-			gc.setPackExpireAgeMillis(0); // immediately delete old packs
-			gc.setExpireAgeMillis(0);
+			gc.setPackExpireAge(Duration.ZERO); // immediately delete old packs
+			gc.setExpireAge(Duration.ZERO);
 			gc.gc().get();
 			assertEquals(currentCommits + " commits: ", expectedBitmapCount,
 					gc.getStatistics().numberOfBitmaps);
@@ -211,8 +212,8 @@ public class GcCommitSelectionTest extends GcTestCase {
 		final int commitsForShallowBranches = 100;
 
 		// Excessive branch history pruning, one old branch.
-		gc.setPackExpireAgeMillis(0); // immediately delete old packs
-		gc.setExpireAgeMillis(0);
+		gc.setPackExpireAge(Duration.ZERO); // immediately delete old packs
+		gc.setExpireAge(Duration.ZERO);
 		gc.gc().get();
 		assertEquals(
 				commitsForSparseBranch + commitsForFullBranch

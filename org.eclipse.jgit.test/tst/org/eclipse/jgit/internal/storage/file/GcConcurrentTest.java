@@ -17,6 +17,7 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.nio.channels.ClosedByInterruptException;
+import java.time.Duration;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.BrokenBarrierException;
@@ -109,7 +110,7 @@ public class GcConcurrentTest extends GcTestCase {
 		TestRepository<FileRepository>.BranchBuilder test = tr.branch("test");
 		test.commit().add("a", "a").create();
 		GC gc1 = new GC(tr.getRepository());
-		gc1.setPackExpireAgeMillis(0);
+		gc1.setPackExpireAge(Duration.ZERO);
 		gc1.gc().get();
 		test.commit().add("b", "b").create();
 
@@ -119,7 +120,7 @@ public class GcConcurrentTest extends GcTestCase {
 		FileRepository r2 = new FileRepository(
 				tr.getRepository().getDirectory());
 		GC gc2 = new GC(r2);
-		gc2.setPackExpireAgeMillis(0);
+		gc2.setPackExpireAge(Duration.ZERO);
 		gc2.gc().get();
 
 		new GC(tr.getRepository()).getStatistics();
@@ -132,7 +133,7 @@ public class GcConcurrentTest extends GcTestCase {
 		test.commit().add("a", "a").create();
 
 		GC gc1 = new GC(tr.getRepository());
-		gc1.setPackExpireAgeMillis(0);
+		gc1.setPackExpireAge(Duration.ZERO);
 		gc1.gc().get();
 
 		RevCommit b = test.commit().add("b", "b").create();
@@ -140,7 +141,7 @@ public class GcConcurrentTest extends GcTestCase {
 		FileRepository r2 = new FileRepository(
 				tr.getRepository().getDirectory());
 		GC gc2 = new GC(r2);
-		gc2.setPackExpireAgeMillis(0);
+		gc2.setPackExpireAge(Duration.ZERO);
 		gc2.gc().get();
 
 		// Simulate parts of an UploadPack. This is the situation on
@@ -171,7 +172,7 @@ public class GcConcurrentTest extends GcTestCase {
 		test.commit().add("a", "a").create();
 		FileRepository repository = tr.getRepository();
 		GC gc1 = new GC(repository);
-		gc1.setPackExpireAgeMillis(0);
+		gc1.setPackExpireAge(Duration.ZERO);
 		gc1.gc().get();
 		String oldPackName = getSinglePack(repository).getPackName();
 		RevCommit b = test.commit().add("b", "b").create();
@@ -179,7 +180,7 @@ public class GcConcurrentTest extends GcTestCase {
 		// start the garbage collection on a new repository instance,
 		FileRepository repository2 = new FileRepository(repository.getDirectory());
 		GC gc2 = new GC(repository2);
-		gc2.setPackExpireAgeMillis(0);
+		gc2.setPackExpireAge(Duration.ZERO);
 		gc2.gc().get();
 		String newPackName = getSinglePack(repository2).getPackName();
 		// make sure gc() has caused creation of a new packfile
