@@ -838,7 +838,7 @@ public final class ConfigConstants {
 
 	/**
 	 * The "pack.bitmapRecentCommitSpan" key
-	 * @since 7.8
+	 * @since 8.0
 	 */
 	public static final String CONFIG_KEY_BITMAP_RECENT_COMMIT_SPAN = "bitmaprecentcommitspan";
 
