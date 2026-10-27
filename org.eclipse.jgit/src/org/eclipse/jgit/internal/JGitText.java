@@ -897,6 +897,16 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unmergedPaths;
 	/***/ public String unpackException;
 	/***/ public String unreadableCommitGraph;
+	/***/ public String cruftMtimesBadMagic;
+	/***/ public String cruftMtimesInvalidObjectCount;
+	/***/ public String cruftMtimesUnexpectedTrailingBytes;
+	/***/ public String cruftMtimesPackChecksumMismatch;
+	/***/ public String cruftMtimesSelfChecksumMismatch;
+	/***/ public String cruftMtimesTruncatedHashFunctionId;
+	/***/ public String cruftMtimesTruncatedPackChecksum;
+	/***/ public String cruftMtimesTruncatedSelfChecksum;
+	/***/ public String cruftMtimesTruncatedTable;
+	/***/ public String cruftMtimesTruncatedVersion;
 	/***/ public String unreadableMIDX;
 	/***/ public String unreadableObjectSizeIndex;
 	/***/ public String unreadablePackIndex;
@@ -915,6 +925,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unsupportedObjectIdVersion;
 	/***/ public String unsupportedObjectSizeIndexVersion;
 	/***/ public String unsupportedOperationNotAddAtEnd;
+	/***/ public String unsupportedPackCruftMtimesHashFunctionId;
+	/***/ public String unsupportedPackCruftMtimesVersion;
 	/***/ public String unsupportedPackIndexVersion;
 	/***/ public String unsupportedPackReverseIndexVersion;
 	/***/ public String unsupportedPackVersion;
