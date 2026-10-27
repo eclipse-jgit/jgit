@@ -1,0 +1,7 @@
+Code-Review+2: David Ostrovsky <david.ostrovsky@gmail.com>
+Verified+1: eclipse-jgit-bot <jgit-bot@eclipse.org>
+Submitted-by: David Ostrovsky <david.ostrovsky@gmail.com>
+Submitted-at: Tue, 27 Oct 2026 19:14:34 +0000
+Reviewed-on: https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1256245
+Project: eclipse-jgit/jgit
+Branch: refs/heads/stable-7.9
