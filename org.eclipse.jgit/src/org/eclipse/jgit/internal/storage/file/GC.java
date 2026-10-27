@@ -596,12 +596,37 @@ public class GC {
 			}
 		}
 
-		// Write the cruft pack while old packs are still on disk so their
-		// objects can be read.
+		// Collect unreachable loose objects into the cruft pack too, so that
+		// all unreachable objects end up in one place (matching C git behaviour
+		// when gc.cruftPacks is enabled). prunePacked() will later remove loose
+		// copies of objects that landed in the new reachable packs; the objects
+		// we collect here are those not covered by any new pack.
+		List<File> loosePackedFiles = new ArrayList<>();
+		if (cruftPacks) {
+			long expireDate = getExpireDate();
+			collectLooseUnreachable(ids, expireDate, unreachableMtimes,
+					loosePackedFiles);
+		}
+
+		// Write the cruft pack while old packs and loose files are still on
+		// disk so their objects can be read.
 		Optional<Pack> cruftPack = Optional.empty();
 		if (cruftPacks && !unreachableMtimes.isEmpty()) {
 			cruftPack = Optional.ofNullable(
 					writeCruftPack(unreachableMtimes));
+		}
+
+		// Delete loose files we just packed into the cruft pack.
+		if (cruftPack.isPresent()) {
+			Set<File> touchedFanout = new HashSet<>();
+			for (File f : loosePackedFiles) {
+				f.delete();
+				touchedFanout.add(f.getParentFile());
+			}
+			for (File d : touchedFanout) {
+				FileUtils.delete(d,
+						FileUtils.EMPTY_DIRECTORIES_ONLY | FileUtils.IGNORE_ERRORS);
+			}
 		}
 
 		packFilesToPrune.forEach(this::prunePack);
@@ -610,6 +635,76 @@ public class GC {
 		// rescanning and to detect that certain pack files are now deleted.
 		repo.getObjectDatabase().close();
 		return cruftPack;
+	}
+
+	/**
+	 * Enumerate loose objects that are not in any of the given pack IDs and are
+	 * older than {@code expireDate}. For each such object, record its mtime
+	 * (seconds since epoch) in {@code mtimes} and its {@link File} in
+	 * {@code files}, so the caller can pack them and then delete the loose
+	 * copies.
+	 *
+	 * <p>
+	 * Objects still within the grace period (mtime &ge; expireDate) are left
+	 * loose; a future GC run will sweep them once they age out.
+	 *
+	 * @param packedIds
+	 *            object IDs already covered by the new reachable packs
+	 * @param expireDate
+	 *            epoch-millis cutoff; loose objects modified at or after this
+	 *            time are left alone
+	 * @param mtimes
+	 *            map to populate: objectId &rarr; mtime in seconds since epoch
+	 * @param files
+	 *            list to populate with the loose {@link File} for each object
+	 *            added to {@code mtimes}
+	 * @throws IOException
+	 *             if an IO error occurred
+	 */
+	private void collectLooseUnreachable(Set<ObjectId> packedIds,
+			long expireDate, Map<ObjectId, Long> mtimes, List<File> files)
+			throws IOException {
+		File objects = repo.getObjectsDirectory();
+		String[] fanout = objects.list();
+		if (fanout == null || fanout.length == 0) {
+			return;
+		}
+		for (String d : fanout) {
+			checkCancelled();
+			if (d.length() != 2) {
+				continue;
+			}
+			File dir = new File(objects, d);
+			File[] entries = dir.listFiles();
+			if (entries == null) {
+				continue;
+			}
+			for (File f : entries) {
+				checkCancelled();
+				if (f.getName().length() != Constants.OBJECT_ID_STRING_LENGTH - 2) {
+					continue;
+				}
+				Instant lastModified = repo.getFS().lastModifiedInstant(f);
+				if (lastModified.toEpochMilli() >= expireDate) {
+					// Still within grace period — leave it loose.
+					continue;
+				}
+				ObjectId id;
+				try {
+					id = ObjectId.fromString(d + f.getName());
+				} catch (IllegalArgumentException notAnObject) {
+					continue;
+				}
+				if (packedIds.contains(id)) {
+					// Already in a reachable pack; prunePacked() will clean it up.
+					continue;
+				}
+				if (mtimes.putIfAbsent(id, Long.valueOf(lastModified.getEpochSecond())) == null) {
+					packedIds.add(id);
+					files.add(f);
+				}
+			}
+		}
 	}
 
 	/**
