@@ -16,6 +16,23 @@
       "message": "Hi,\n\nMultiPackIndexV1.find() and OffsetCalculator.decode() each reuse a\nshared mutable PackOffset field to avoid allocation. These are\ninstance fields on repository-level singletons, so concurrent\nupload-pack threads performing bitmap walks on the same repo race on\nthe same PackOffset, corrupting packId/offset mid-read.\n\nDepending on the corrupted value this causes either:\n- ArrayIndexOutOfBoundsException in findBitmapPosition (packId out of\n  BTMP range), crashing the request\n- A silently wrong bitmap position that makes BitmapObjectFilter skip\n  objects, so the client receives an incomplete pack (\"missing blob\",\n  \"bad tree object\" errors)\n\nWe hit both in production after enabling midx bitmap support: CI\npipelines cloning the same repo concurrently would intermittently fail\nwith missing objects or AIOOB; retries always succeeded. MIDX files\non disk verified clean — the corruption is purely in-memory.\n\nFix: allocate a fresh PackOffset per call in find() and decode().",
       "revId": "4ac295799870f31408b042b96eb21f0ad0c02353",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca34ac62_61a97a66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-10-27T19:05:45Z",
+      "side": 1,
+      "message": "With the mutable object we save allocating and freeing many objects in the walk. \n\nPrimary index also uses MutableEntry and that is not a problem between threads. Maybe you can check why that works and do something similar for midx.",
+      "revId": "4ac295799870f31408b042b96eb21f0ad0c02353",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
