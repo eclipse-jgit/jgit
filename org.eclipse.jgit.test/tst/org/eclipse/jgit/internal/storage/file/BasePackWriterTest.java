@@ -982,8 +982,8 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 			// Creates 2 objects (C1 = commit, T1 = tree)
 			git.commit().setMessage("First commit").call();
 			GC gc = new GC(fileRepository);
-			gc.setPackExpireAgeMillis(Long.MAX_VALUE);
-			gc.setExpireAgeMillis(Long.MAX_VALUE);
+			gc.setPackExpireAge(Duration.ofMillis(Long.MAX_VALUE));
+			gc.setExpireAge(Duration.ofMillis(Long.MAX_VALUE));
 			// Creates packfile P1 (containing C1, T1)
 			gc.gc().get();
 			// Creates 1 object (C2 commit)
