@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -566,6 +567,119 @@ public class GcBasicPackingTest extends GcTestCase {
 		}
 		assertTrue("orphaned commit should be in a cruft pack",
 				cruftPack != null);
+	}
+
+	@Test
+	public void testCruftPackIncludesUnreachableLooseObjects() throws Exception {
+		BranchBuilder bb = tr.branch("refs/heads/master");
+		bb.commit().message("M").add("M", "M").create();
+
+		// Pack all current objects, leaving nothing loose.
+		gc.setExpireAge(Duration.ZERO);
+		gc.gc().get();
+		stats = gc.getStatistics();
+		assertEquals(0, stats.numberOfLooseObjects);
+		assertEquals(1, stats.numberOfPackFiles);
+
+		fsTick();
+
+		// Create a loose object that will be unreachable (no ref points to it).
+		RevBlob looseOrphaned = tr.blob("orphaned-loose");
+		long looseFileMtimeSecs = lastModified(looseOrphaned) / 1000;
+		stats = gc.getStatistics();
+		assertEquals(1, stats.numberOfLooseObjects);
+
+		// Create a new reachable commit so that GC has reason to repack.
+		bb.commit().message("B").add("B", "Q").create();
+
+		fsTick();
+
+		// Enable cruft packs and expire both old packs and loose objects.
+		FileBasedConfig config = repo.getConfig();
+		config.setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
+				ConfigConstants.CONFIG_KEY_CRUFTPACKS, true);
+		config.save();
+		gc.setExpireAge(Duration.ZERO);
+		gc.setPackExpireAge(Duration.ZERO);
+
+		gc.gc().get();
+		stats = gc.getStatistics();
+
+		// The loose orphan must have been swept into the cruft pack, not deleted
+		// and not left as a loose file.
+		assertEquals(0, stats.numberOfLooseObjects);
+		assertEquals(2, stats.numberOfPackFiles);
+
+		// The cruft pack must contain the formerly-loose orphaned blob.
+		Collection<Pack> packs = repo.getObjectDatabase().getPacks();
+		Pack cruftPack = null;
+		for (Pack p : packs) {
+			if (p.hasObject(looseOrphaned)) {
+				cruftPack = p;
+				break;
+			}
+		}
+		assertNotNull("loose orphaned blob should be in the cruft pack",
+				cruftPack);
+		// The .mtimes sidecar must exist and record the loose file's mtime.
+		assertTrue("cruft pack must have a .mtimes file",
+				cruftPack.hasCruftMtimes());
+		assertEquals("mtime of loose orphan must match the loose file mtime",
+				looseFileMtimeSecs, cruftPack.getCruftMtime(looseOrphaned));
+	}
+
+	@Test
+	public void testCruftPackCollectsUnreachableFromNonExpiredPack()
+			throws Exception {
+		// Regression test: unreachable objects in a non-expired old pack must
+		// still be collected into the new cruft pack. Previously only expired
+		// packs were harvested, so the cruft pack was never written when the
+		// old packs were younger than packExpireAge.
+		BranchBuilder bb = tr.branch("refs/heads/master");
+		bb.commit().message("M").add("M", "M").create();
+
+		String tempRef = "refs/heads/soon-to-be-unreferenced";
+		BranchBuilder bb2 = tr.branch(tempRef);
+		RevCommit orphaned = bb2.commit().message("U").add("U", "U").create();
+
+		gc.setExpireAge(Duration.ZERO);
+		gc.gc().get();
+		assertEquals(0, gc.getStatistics().numberOfLooseObjects);
+		assertEquals(1, gc.getStatistics().numberOfPackFiles);
+
+		fsTick();
+
+		// delete the temp ref, orphaning its commit
+		RefUpdate update = tr.getRepository().getRefDatabase()
+				.newUpdate(tempRef, false);
+		update.setForceUpdate(true);
+		update.delete();
+
+		bb.commit().message("B").add("B", "Q").create();
+
+		// Enable cruft packs but do NOT expire old packs — they must still be
+		// harvested into the cruft pack even though they haven't expired yet.
+		gc.setGcConfig(gc.getGcConfig().withCruftPacks(true));
+		// packExpireAge left at default (1 hour) — old packs are not expired
+
+		gc.gc().get();
+		stats = gc.getStatistics();
+
+		// Unreachable objects must be packed into the cruft pack, not loose.
+		assertEquals(0, stats.numberOfLooseObjects);
+		// Three packs: new reachable GC pack + new cruft pack + old unexpired pack.
+		assertEquals(3, stats.numberOfPackFiles);
+
+		// The orphaned commit must be in the cruft pack (not lost).
+		Collection<Pack> packs = repo.getObjectDatabase().getPacks();
+		Pack cruftPack = null;
+		for (Pack p : packs) {
+			if (p.hasCruftMtimes() && p.hasObject(orphaned)) {
+				cruftPack = p;
+				break;
+			}
+		}
+		assertNotNull("orphaned commit should be in the cruft pack", cruftPack);
 	}
 
 	private static void assertHasLooseRef(FileRepository repository)

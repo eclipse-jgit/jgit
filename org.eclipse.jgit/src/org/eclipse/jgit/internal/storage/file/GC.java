@@ -572,36 +572,53 @@ public class GC {
 				if (oldName.equals(newPack.getPackName()))
 					continue oldPackLoop;
 
-			if (!oldPack.shouldBeKept()
-					&& repo.getFS()
-							.lastModifiedInstant(oldPack.getPackFile())
-							.toEpochMilli() < packExpireDate) {
-				if (shouldLoosen) {
-					loosen(inserter, reader, oldPack, ids);
-				} else if (cruftPacks) {
-					long packMtimeSecs = repo.getFS()
-							.lastModifiedInstant(oldPack.getPackFile())
-							.getEpochSecond();
-					for (PackIndex.MutableEntry entry : oldPack) {
-						ObjectId oid = entry.toObjectId();
-						if (!ids.contains(oid)
-								&& unreachableMtimes.putIfAbsent(oid,
-										Long.valueOf(packMtimeSecs)) == null) {
-							ids.add(oid);
-						}
-					}
+			if (oldPack.shouldBeKept()) {
+				continue;
+			}
+
+			boolean isExistingCruftPack = cruftPacks && oldPack.hasCruftMtimes();
+			boolean expired = repo.getFS()
+					.lastModifiedInstant(oldPack.getPackFile())
+					.toEpochMilli() < packExpireDate;
+
+			if (isExistingCruftPack) {
+				consolidateExistingCruftPack(oldPack, ids, unreachableMtimes,
+						packFilesToPrune);
+			} else {
+				if (cruftPacks) {
+					// Collect unreachable objects into the cruft pack regardless
+					// of pack expiry. The old pack is only deleted once expired;
+					// but we must record all unreachable objects now so the new
+					// cruft pack is always complete (matching C git behaviour).
+					collectUnreachableFromPack(oldPack, ids, unreachableMtimes);
 				}
-				oldPack.close();
-				packFilesToPrune.add(oldPack.getPackFile());
+				if (expired) {
+					if (shouldLoosen) {
+						loosen(inserter, reader, oldPack, ids);
+					}
+					oldPack.close();
+					packFilesToPrune.add(oldPack.getPackFile());
+				}
 			}
 		}
 
-		// Write the cruft pack while old packs are still on disk so their
-		// objects can be read.
+		List<File> loosePackedFiles = new ArrayList<>();
+		if (cruftPacks) {
+			long expireDate = getExpireDate();
+			collectLooseUnreachable(ids, expireDate, unreachableMtimes,
+					loosePackedFiles);
+		}
+
+		// Write the cruft pack while old packs and loose files are still on
+		// disk so their objects can be read.
 		Optional<Pack> cruftPack = Optional.empty();
 		if (cruftPacks && !unreachableMtimes.isEmpty()) {
 			cruftPack = Optional.ofNullable(
 					writeCruftPack(unreachableMtimes));
+		}
+
+		if (cruftPack.isPresent()) {
+			deletePackedLooseObjects(loosePackedFiles);
 		}
 
 		packFilesToPrune.forEach(this::prunePack);
@@ -610,6 +627,93 @@ public class GC {
 		// rescanning and to detect that certain pack files are now deleted.
 		repo.getObjectDatabase().close();
 		return cruftPack;
+	}
+
+	private void consolidateExistingCruftPack(Pack oldPack, Set<ObjectId> ids,
+			Map<ObjectId, Long> unreachableMtimes, List<PackFile> packFilesToPrune)
+			throws IOException {
+		for (PackIndex.MutableEntry entry : oldPack) {
+			ObjectId oid = entry.toObjectId();
+			if (!ids.contains(oid)) {
+				long mtime = oldPack.getCruftMtime(oid);
+				unreachableMtimes.putIfAbsent(oid, Long.valueOf(mtime));
+				ids.add(oid);
+			}
+		}
+		oldPack.close();
+		packFilesToPrune.add(oldPack.getPackFile());
+	}
+
+	private void collectUnreachableFromPack(Pack oldPack, Set<ObjectId> ids,
+			Map<ObjectId, Long> unreachableMtimes) {
+		long packMtimeSecs = repo.getFS()
+				.lastModifiedInstant(oldPack.getPackFile())
+				.getEpochSecond();
+		for (PackIndex.MutableEntry entry : oldPack) {
+			ObjectId oid = entry.toObjectId();
+			if (!ids.contains(oid)
+					&& unreachableMtimes.putIfAbsent(oid,
+							Long.valueOf(packMtimeSecs)) == null) {
+				ids.add(oid);
+			}
+		}
+	}
+
+	private void deletePackedLooseObjects(List<File> loosePackedFiles)
+			throws IOException {
+		Set<File> touchedFanout = new HashSet<>();
+		for (File f : loosePackedFiles) {
+			f.delete();
+			touchedFanout.add(f.getParentFile());
+		}
+		for (File d : touchedFanout) {
+			FileUtils.delete(d,
+					FileUtils.EMPTY_DIRECTORIES_ONLY | FileUtils.IGNORE_ERRORS);
+		}
+	}
+
+	private void collectLooseUnreachable(Set<ObjectId> packedIds,
+			long expireDate, Map<ObjectId, Long> mtimes, List<File> files)
+			throws IOException {
+		File objects = repo.getObjectsDirectory();
+		String[] fanout = objects.list();
+		if (fanout == null || fanout.length == 0) {
+			return;
+		}
+		for (String d : fanout) {
+			checkCancelled();
+			if (d.length() != 2) {
+				continue;
+			}
+			File dir = new File(objects, d);
+			File[] entries = dir.listFiles();
+			if (entries == null) {
+				continue;
+			}
+			for (File f : entries) {
+				checkCancelled();
+				if (f.getName().length() != Constants.OBJECT_ID_STRING_LENGTH - 2) {
+					continue;
+				}
+				Instant lastModified = repo.getFS().lastModifiedInstant(f);
+				if (lastModified.toEpochMilli() >= expireDate) {
+					continue;
+				}
+				ObjectId id;
+				try {
+					id = ObjectId.fromString(d + f.getName());
+				} catch (IllegalArgumentException notAnObject) {
+					continue;
+				}
+				if (packedIds.contains(id)) {
+					continue;
+				}
+				if (mtimes.putIfAbsent(id, Long.valueOf(lastModified.getEpochSecond())) == null) {
+					packedIds.add(id);
+					files.add(f);
+				}
+			}
+		}
 	}
 
 	/**
@@ -1309,6 +1413,9 @@ public class GC {
 			childFiles = files.map(GC::toPackFileWithValidExt)
 					.filter(Optional::isPresent).map(Optional::get)
 					.filter(packFile -> {
+						if (!packFile.getName().startsWith("pack-")) { //$NON-NLS-1$
+							return false;
+						}
 						PackExt ext = packFile.getPackExt();
 						if (PARENT_EXTS.contains(ext)) {
 							seenParentIds.add(packFile.getId());
