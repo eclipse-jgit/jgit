@@ -90,6 +90,7 @@ public class GcReflogTest extends GcTestCase {
 	@Test
 	public void testPackCommitsAndLooseOneWithPruneNowNoReflog()
 			throws Exception {
+		gc.setGcConfig(gc.getGcConfig().withCruftPacks(false));
 		BranchBuilder bb = tr.branch("refs/heads/master");
 		RevCommit first = bb.commit().add("A", "A").add("B", "B").create();
 		bb.commit().add("A", "A2").add("B", "B2").create();

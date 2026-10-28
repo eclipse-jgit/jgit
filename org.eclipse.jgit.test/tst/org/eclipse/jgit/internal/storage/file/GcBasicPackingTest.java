@@ -191,6 +191,7 @@ public class GcBasicPackingTest extends GcTestCase {
 
 	@Test
 	public void testDonePruneTooYoungPacks() throws Exception {
+		gc.setGcConfig(gc.getGcConfig().withCruftPacks(false));
 		BranchBuilder bb = tr.branch("refs/heads/master");
 		bb.commit().message("M").add("M", "M").create();
 
@@ -256,6 +257,7 @@ public class GcBasicPackingTest extends GcTestCase {
 
 	@Test
 	public void testImmediatePruning() throws Exception {
+		gc.setGcConfig(gc.getGcConfig().withCruftPacks(false));
 		BranchBuilder bb = tr.branch("refs/heads/master");
 		bb.commit().message("M").add("M", "M").create();
 
