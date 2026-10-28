@@ -52,7 +52,7 @@ public class GcConfig {
 		this.packRefs = rc.getEnum(ConfigConstants.CONFIG_GC_SECTION, null,
 				ConfigConstants.CONFIG_KEY_PACK_REFS, PackRefsMode.TRUE);
 		this.cruftPacks = rc.getBoolean(ConfigConstants.CONFIG_GC_SECTION,
-				null, ConfigConstants.CONFIG_KEY_CRUFTPACKS, false);
+				null, ConfigConstants.CONFIG_KEY_CRUFTPACKS, true);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class GcConfig {
 	 */
 	public GcConfig(PackRefsMode packRefs) {
 		this.packRefs = packRefs;
-		this.cruftPacks = false;
+		this.cruftPacks = true;
 	}
 
 	private GcConfig(PackRefsMode packRefs, boolean cruftPacks) {
