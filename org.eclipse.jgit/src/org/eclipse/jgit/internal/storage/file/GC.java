@@ -1403,6 +1403,9 @@ public class GC {
 			childFiles = files.map(GC::toPackFileWithValidExt)
 					.filter(Optional::isPresent).map(Optional::get)
 					.filter(packFile -> {
+						if (!packFile.getName().startsWith("pack-")) { //$NON-NLS-1$
+							return false;
+						}
 						PackExt ext = packFile.getPackExt();
 						if (PARENT_EXTS.contains(ext)) {
 							seenParentIds.add(packFile.getId());
