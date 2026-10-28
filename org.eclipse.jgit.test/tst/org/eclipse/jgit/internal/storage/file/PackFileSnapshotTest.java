@@ -25,6 +25,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Iterator;
@@ -316,8 +317,8 @@ public class PackFileSnapshotTest extends RepositoryTestCase {
 		pc.setReuseObjects(false);
 
 		gc.setPackConfig(pc);
-		gc.setExpireAgeMillis(0);
-		gc.setPackExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
+		gc.setPackExpireAge(Duration.ZERO);
 		return gc.gc().get();
 	}
 

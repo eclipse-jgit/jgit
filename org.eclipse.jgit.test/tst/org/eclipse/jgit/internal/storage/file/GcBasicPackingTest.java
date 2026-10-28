@@ -16,6 +16,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,6 +29,7 @@ import org.eclipse.jgit.lib.GcConfig;
 import org.eclipse.jgit.lib.GcConfig.PackRefsMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.pack.PackConfig;
@@ -168,7 +170,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		assertEquals(11, stats.numberOfLooseObjects);
 		assertEquals(0, stats.numberOfPackedObjects);
 
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		fsTick();
 		configureGc(gc, aggressive);
 		gc.gc().get();
@@ -189,7 +191,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		BranchBuilder bb2 = tr.branch(tempRef);
 		bb2.commit().message("M").add("M", "M").create();
 
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		gc.gc().get();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
@@ -220,7 +222,7 @@ public class GcBasicPackingTest extends GcTestCase {
 
 		// repack again but now without a grace period for loose objects. Since
 		// we don't have loose objects anymore this shouldn't change anything
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		gc.gc().get();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
@@ -231,10 +233,10 @@ public class GcBasicPackingTest extends GcTestCase {
 
 		// repack again but now without a grace period for packfiles. We should
 		// end up with one packfile
-		gc.setPackExpireAgeMillis(0);
+		gc.setPackExpireAge(Duration.ZERO);
 
 		// we want to keep newly-loosened objects though
-		gc.setExpireAgeMillis(-1);
+		gc.setExpireAge(null);
 
 		gc.gc().get();
 		stats = gc.getStatistics();
@@ -254,7 +256,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		BranchBuilder bb2 = tr.branch(tempRef);
 		bb2.commit().message("M").add("M", "M").create();
 
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		gc.gc().get();
 		stats = gc.getStatistics();
 
@@ -274,7 +276,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		config.save();
 
 		//And we don't want to keep packs full of dead objects
-		gc.setPackExpireAgeMillis(0);
+		gc.setPackExpireAge(Duration.ZERO);
 
 		gc.gc().get();
 		stats = gc.getStatistics();
@@ -297,7 +299,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		bb.commit().message("P").add("P", "P").create();
 
 		// pack loose object into packfile
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		gc.gc().get();
 		PackFile oldPackfile = tr.getRepository().getObjectDatabase().getPacks()
 				.iterator().next().getPackFile();
@@ -309,7 +311,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		// repack again but now without a grace period for packfiles. We should
 		// end up with a new packfile and the old one should be placed in the
 		// preserved directory
-		gc.setPackExpireAgeMillis(0);
+		gc.setPackExpireAge(Duration.ZERO);
 		configureGc(gc, false).setPreserveOldPacks(true);
 		gc.gc().get();
 
@@ -331,8 +333,8 @@ public class GcBasicPackingTest extends GcTestCase {
 
 		// Force all referenced objects into packs (to avoid having loose objects)
 		configureGc(gc, false);
-		gc.setExpireAgeMillis(0);
-		gc.setPackExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
+		gc.setPackExpireAge(Duration.ZERO);
 		gc.gc().get();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);
@@ -366,6 +368,47 @@ public class GcBasicPackingTest extends GcTestCase {
 		stats = gc.getStatistics();
 		assertEquals(4, stats.numberOfPackedObjects);
 		assertEquals(1, stats.numberOfPackFiles);
+	}
+
+	@Test
+	public void testSetPackExpireAgePreservesExpire() throws Exception {
+		// Create a loose object, advance time, then set expire to Instant.now()
+		// so the object's mtime is before the cutoff (eligible for pruning).
+		// Then call setPackExpireAgeMillis. The bug nulled out expire instead
+		// of packExpire, causing prune to fall back to the config default
+		// ("2.weeks.ago") which spares the just-created object.
+		RevBlob a = tr.blob("a");
+		fsTick(); // ensure object mtime < Instant.now() set below
+		gc.setExpire(Instant.now());
+		gc.setPackExpireAge(Duration.ZERO);
+		gc.prune(java.util.Collections.emptySet());
+		assertFalse(
+				"object must be pruned: expire=now was preserved by setPackExpireAge",
+				repo.getObjectDatabase().has(a));
+	}
+
+	@Test
+	public void testSetPackExpireAgeNullRestoresDefault() throws Exception {
+		BranchBuilder bb = tr.branch("refs/heads/master");
+		bb.commit().message("M").add("M", "M").create();
+
+		// Pack and immediately delete old packs
+		gc.setExpireAge(Duration.ZERO);
+		gc.setPackExpireAge(Duration.ZERO);
+		gc.gc().get();
+		stats = gc.getStatistics();
+		assertEquals(1, stats.numberOfPackFiles);
+
+		fsTick();
+		bb.commit().message("B").add("B", "Q").create();
+
+		// Passing null resets pack expiry to the configured default
+		// ("1.hour.ago"), so the pack created moments ago must be kept.
+		gc.setExpireAge(Duration.ZERO);
+		gc.setPackExpireAge(null);
+		gc.gc().get();
+		stats = gc.getStatistics();
+		assertEquals(2, stats.numberOfPackFiles);
 	}
 
 	private PackConfig configureGc(GC myGc, boolean aggressive) {
