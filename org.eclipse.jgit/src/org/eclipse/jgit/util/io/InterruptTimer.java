@@ -154,6 +154,9 @@ public final class InterruptTimer {
 		private int lastTimeout;
 		private long deadline;
 
+		// Absolute time when the current idle wait will expire; 0 when not idle.
+		private long idleWakeAt;
+
 		private boolean terminated;
 
 		AlarmState() {
@@ -174,8 +177,14 @@ public final class InterruptTimer {
 						}
 					} else {
 						// When the timer is not running, avoid waking up more than once a second
-						wait(lastTimeout == 0 ? 1000 : lastTimeout);
-						lastTimeout = 0;
+						long idleMs = lastTimeout == 0 ? 1000 : lastTimeout;
+						idleWakeAt = now() + idleMs;
+						try {
+							wait(idleMs);
+						} finally {
+							idleWakeAt = 0;
+							lastTimeout = 0;
+						}
 					}
 				} catch (InterruptedException e) {
 					// Treat an interrupt as notice to examine state.
@@ -194,6 +203,11 @@ public final class InterruptTimer {
 				if (isNotify) {
 					notifyAll();
 				} // else avoid the expensive notify when the runloop will already timeout in time
+			} else if (idleWakeAt > 0 && idleWakeAt >= deadline) {
+				// Same timeout as before, but the idle wait could expire at or
+				// after the new deadline — wake the thread so it re-arms with
+				// the correct deadline.
+				notifyAll();
 			}
 		}
 
