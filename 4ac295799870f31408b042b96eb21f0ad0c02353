@@ -33,6 +33,24 @@
       "message": "With the mutable object we save allocating and freeing many objects in the walk. \n\nPrimary index also uses MutableEntry and that is not a problem between threads. Maybe you can check why that works and do something similar for midx.",
       "revId": "4ac295799870f31408b042b96eb21f0ad0c02353",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6d38d96_cba7b6cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038550
+      },
+      "writtenOn": "2026-10-28T02:42:31Z",
+      "side": 1,
+      "message": "Thanks for the pointer to MutableEntry!\n\nThe difference is the ownership scope:\n\n- EntriesIterator holds its own MutableEntry per iterator instance, so each thread gets its own copy.\n\n- PackOffset result is a field of MultiPackIndexV1 itself — a singleton per repository — so every concurrent find() writes to the same object. Same for OffsetCalculator.mutablePo.\n\nThere is no per-call scope for find()/decode() like there is for iterator(), so allocating a fresh PackOffset per call is the most straightforward fix. PackOffset is just two primitives (int + long), so the allocation cost should be negligible.",
+      "parentUuid": "ca34ac62_61a97a66",
+      "revId": "4ac295799870f31408b042b96eb21f0ad0c02353",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
