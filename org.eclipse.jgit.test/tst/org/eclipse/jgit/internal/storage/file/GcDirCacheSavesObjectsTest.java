@@ -36,6 +36,7 @@ public class GcDirCacheSavesObjectsTest extends GcTestCase {
 
 	@Test
 	public void testDirCacheSavesObjectsWithPruneNow() throws Exception {
+		gc.setGcConfig(gc.getGcConfig().withCruftPacks(false));
 		BranchBuilder bb = tr.branch("refs/heads/master");
 		bb.commit().add("A", "A").add("B", "B").create();
 		bb.commit().add("A", "A2").add("B", "B2").create();
