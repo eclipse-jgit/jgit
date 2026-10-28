@@ -42,6 +42,16 @@ class Gc extends TextBuiltin {
 		packRefs = Boolean.FALSE;
 	}
 
+	@Option(name = "--cruft", forbids = {
+			"--no-cruft" }, usage = "usage_GcCruft")
+	private Boolean cruftPacks;
+
+	@Option(name = "--no-cruft", forbids = {
+			"--cruft" }, usage = "usage_GcNoCruft")
+	void noCruft(@SuppressWarnings("unused") final boolean ignored) {
+		cruftPacks = Boolean.FALSE;
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	protected void run() {
@@ -62,6 +72,9 @@ class Gc extends TextBuiltin {
 				command.setGcConfig(
 						new GcConfig(packRefs.booleanValue() ? PackRefsMode.TRUE
 								: PackRefsMode.FALSE));
+			}
+			if (cruftPacks != null) {
+				command.setCruftPacks(cruftPacks.booleanValue());
 			}
 			command.call();
 		} catch (GitAPIException e) {
