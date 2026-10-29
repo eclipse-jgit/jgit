@@ -33,6 +33,24 @@
       "message": "Perhaps better don\u0027t hardcode these. Use the known HttpAuthMethod.Type values, get their names via `getSchemeName()`.",
       "revId": "f931865e37d40e87f7a87c86f773be80a00dd1ae",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7af5c9c8_ebdce8c4",
+        "filename": "org.eclipse.jgit.http.apache/src/org/eclipse/jgit/transport/http/apache/HttpClientConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1040060
+      },
+      "writtenOn": "2026-10-29T03:08:24Z",
+      "side": 1,
+      "message": "Updated in PS2. Since HttpAuthMethod is package-private, Apache now uses HttpTransport.isAuthenticationSchemeSupported(String) to derive the names from Type.values() and getSchemeName(), excluding NONE.\n\nThe query lives on HttpTransport because entering through a static declared on TransportHttp can expose the existing Transport/TransportHttp initialization cycle and leave HTTP/HTTPS/FTP unregistered. Separate-JVM checks pass with HttpTransport, and the new isolated-classloader test fails with the TransportHttp alternative and passes with this placement.\n\nIf you\u0027d rather avoid a new public method, I can retain the literals with a comment pointing to HttpAuthMethod.Type.\n\nThe focused HTTP and core authentication tests pass, along with the targeted core/Apache build, Javadoc generation, and API comparisons.",
+      "parentUuid": "9bbad4f8_c13f3965",
+      "revId": "f931865e37d40e87f7a87c86f773be80a00dd1ae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
