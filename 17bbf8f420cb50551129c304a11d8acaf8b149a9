@@ -122,6 +122,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f0aaba8_0f5f6e34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-10-29T19:24:49Z",
+      "side": 1,
+      "message": "I don\u0027t think we should accept usernames like \"user\\name\", much less things like \"user|name\" or \"user\u003cname\".",
+      "parentUuid": "80344340_787f400a",
+      "revId": "17bbf8f420cb50551129c304a11d8acaf8b149a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a80543e8_5292a82c",
