@@ -107,6 +107,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80344340_787f400a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037863
+      },
+      "writtenOn": "2026-10-29T18:51:52Z",
+      "side": 1,
+      "message": "Tested with current jgit master and the problem demonstrated in the sample code is still there.",
+      "revId": "17bbf8f420cb50551129c304a11d8acaf8b149a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a80543e8_5292a82c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 2
