@@ -541,10 +541,7 @@ public class GcBasicPackingTest extends GcTestCase {
 		bb.commit().message("B").add("B", "Q").create();
 
 		// enable cruft packs and expire old packs immediately
-		FileBasedConfig config = repo.getConfig();
-		config.setBoolean(ConfigConstants.CONFIG_GC_SECTION, null,
-				ConfigConstants.CONFIG_KEY_CRUFTPACKS, true);
-		config.save();
+		gc.setGcConfig(gc.getGcConfig().withCruftPacks(true));
 		gc.setPackExpireAge(Duration.ZERO);
 
 		Pack oldPack = repo.getObjectDatabase().getPacks().iterator().next();

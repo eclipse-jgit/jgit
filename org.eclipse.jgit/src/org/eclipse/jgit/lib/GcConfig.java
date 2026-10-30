@@ -40,6 +40,8 @@ public class GcConfig {
 
 	private final PackRefsMode packRefs;
 
+	private final boolean cruftPacks;
+
 	/**
 	 * Create a new gc configuration from the passed configuration.
 	 *
@@ -49,6 +51,8 @@ public class GcConfig {
 	public GcConfig(Config rc) {
 		this.packRefs = rc.getEnum(ConfigConstants.CONFIG_GC_SECTION, null,
 				ConfigConstants.CONFIG_KEY_PACK_REFS, PackRefsMode.TRUE);
+		this.cruftPacks = rc.getBoolean(ConfigConstants.CONFIG_GC_SECTION,
+				null, ConfigConstants.CONFIG_KEY_CRUFTPACKS, false);
 	}
 
 	/**
@@ -59,6 +63,12 @@ public class GcConfig {
 	 */
 	public GcConfig(PackRefsMode packRefs) {
 		this.packRefs = packRefs;
+		this.cruftPacks = false;
+	}
+
+	private GcConfig(PackRefsMode packRefs, boolean cruftPacks) {
+		this.packRefs = packRefs;
+		this.cruftPacks = cruftPacks;
 	}
 
 	/**
@@ -68,6 +78,29 @@ public class GcConfig {
 	 */
 	public PackRefsMode getPackRefs() {
 		return packRefs;
+	}
+
+	/**
+	 * Whether to pack unreachable objects into a cruft pack.
+	 *
+	 * @return {@code true} if unreachable objects should be packed into a cruft
+	 *         pack instead of being loosened
+	 * @since 8.0
+	 */
+	public boolean isCruftPacks() {
+		return cruftPacks;
+	}
+
+	/**
+	 * Return a copy of this configuration with {@code cruftPacks} overridden.
+	 *
+	 * @param value
+	 *            the new value for the cruft packs setting
+	 * @return a new {@link GcConfig} with the given cruft packs setting
+	 * @since 8.0
+	 */
+	public GcConfig withCruftPacks(boolean value) {
+		return new GcConfig(packRefs, value);
 	}
 
 }
