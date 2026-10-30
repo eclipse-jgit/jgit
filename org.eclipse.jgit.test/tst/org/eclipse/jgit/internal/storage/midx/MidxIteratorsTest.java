@@ -21,6 +21,7 @@ import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.MidxIterator;
 import org.eclipse.jgit.junit.FakeIndexFactory;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.junit.Test;
 
 public class MidxIteratorsTest {
@@ -87,6 +88,44 @@ public class MidxIteratorsTest {
 	public void fromPackIndexIterator_empty() {
 		MidxIterator it = MidxIterators.fromPackIndexIterator("index1",
 				indexOf());
+		assertFalse(it.hasNext());
+	}
+
+	@Test
+	public void fromObjectsToPack_basicIteration() {
+		List<PackedObjectInfo> objs = List.of(packedObject("000001", 500),
+				packedObject("000003", 3000), packedObject("000005", 1500));
+
+		MidxIterator it = MidxIterators.fromObjectsToPack("pack1", objs);
+		assertEquals(List.of("pack1"), it.getPackNames());
+		assertNextEntry(it, "000001", 0, 500);
+		assertNextEntry(it, "000003", 0, 3000);
+		assertNextEntry(it, "000005", 0, 1500);
+		assertFalse(it.hasNext());
+	}
+
+	@Test
+	public void fromObjectsToPack_peekAndReset() {
+		List<PackedObjectInfo> objs = List.of(packedObject("000001", 500),
+				packedObject("000003", 3000));
+
+		MidxIterator it = MidxIterators.fromObjectsToPack("pack1", objs);
+		assertPeekEntry(it, "000001", 0, 500);
+		assertPeekEntry(it, "000001", 0, 500);
+		assertNextEntry(it, "000001", 0, 500);
+
+		assertPeekEntry(it, "000003", 0, 3000);
+		assertNextEntry(it, "000003", 0, 3000);
+		assertFalse(it.hasNext());
+
+		it.reset();
+		assertPeekEntry(it, "000001", 0, 500);
+		assertNextEntry(it, "000001", 0, 500);
+	}
+
+	@Test
+	public void fromObjectsToPack_empty() {
+		MidxIterator it = MidxIterators.fromObjectsToPack("pack1", List.of());
 		assertFalse(it.hasNext());
 	}
 
@@ -375,6 +414,13 @@ public class MidxIteratorsTest {
 	private static FakeIndexFactory.IndexObject object(String name,
 			long offset) {
 		return new FakeIndexFactory.IndexObject(OID_PREFIX + name, offset);
+	}
+
+	private static PackedObjectInfo packedObject(String name, long offset) {
+		PackedObjectInfo info = new PackedObjectInfo(
+				ObjectId.fromString(OID_PREFIX + name));
+		info.setOffset(offset);
+		return info;
 	}
 
 	private static class FakeMidxIterator implements MidxIterator {

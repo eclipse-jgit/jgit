@@ -17,6 +17,7 @@ import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.MidxIterator;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.MutableEntry;
 import org.eclipse.jgit.lib.MutableObjectId;
+import org.eclipse.jgit.transport.PackedObjectInfo;
 
 /**
  * Helpers for midx iterators
@@ -37,6 +38,21 @@ public final class MidxIterators {
 	public static MidxIterator fromPackIndexIterator(String packName,
 			PackIndex idx) {
 		return new MidxIteratorOverPackIndex(packName, idx);
+	}
+
+	/**
+	 * Wrap a SHA-1 sorted list of {@link PackedObjectInfo} so it looks like a
+	 * midx iterator with a fixed packId.
+	 *
+	 * @param packName
+	 *            pack name this iterator is going over
+	 * @param objects
+	 *            objects in the pack, sorted in SHA-1 order
+	 * @return a midx iterator that returns the objects in list order
+	 */
+	public static MidxIterator fromObjectsToPack(String packName,
+			List<? extends PackedObjectInfo> objects) {
+		return new MidxIteratorOverObjectsToPack(packName, objects);
 	}
 
 	/**
@@ -140,6 +156,65 @@ public final class MidxIterators {
 			this.idxIt = idx.iterator();
 			this.entry.clear();
 			peeked = false;
+		}
+	}
+
+	/**
+	 * Convert a SHA-1 sorted list of PackedObjectInfo into a MidxIterator
+	 */
+	private static class MidxIteratorOverObjectsToPack implements MidxIterator {
+
+		private final List<String> packNames;
+
+		private final List<? extends PackedObjectInfo> objects;
+
+		private int position;
+
+		private final MutableEntry entry = new MutableEntry();
+
+		MidxIteratorOverObjectsToPack(String packName,
+				List<? extends PackedObjectInfo> objects) {
+			this.packNames = List.of(packName);
+			this.objects = objects;
+		}
+
+		@Override
+		public MutableEntry peek() {
+			if (position >= objects.size()) {
+				throw new NoSuchElementException();
+			}
+			fillEntry(objects.get(position));
+			return entry;
+		}
+
+		@Override
+		public List<String> getPackNames() {
+			return packNames;
+		}
+
+		@Override
+		public boolean hasNext() {
+			return position < objects.size();
+		}
+
+		@Override
+		public MutableEntry next() {
+			if (position >= objects.size()) {
+				throw new NoSuchElementException();
+			}
+			fillEntry(objects.get(position++));
+			return entry;
+		}
+
+		private void fillEntry(PackedObjectInfo obj) {
+			entry.oid.fromObjectId(obj);
+			entry.packOffset.setValues(0, obj.getOffset());
+		}
+
+		@Override
+		public void reset() {
+			position = 0;
+			entry.clear();
 		}
 	}
 

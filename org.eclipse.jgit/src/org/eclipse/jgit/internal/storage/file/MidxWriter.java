@@ -26,7 +26,6 @@ import java.util.Set;
 
 import org.eclipse.jgit.internal.revwalk.RefAdvancerWalk;
 import org.eclipse.jgit.internal.storage.midx.MidxMetadataReader;
-import org.eclipse.jgit.internal.storage.midx.MultiPackIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndexWriter;
 import org.eclipse.jgit.internal.storage.midx.PackIndexMerger;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
@@ -80,76 +79,79 @@ public class MidxWriter {
 		if (packList.size() < MIN_PACKS_FOR_MIDX) {
 			return;
 		}
-		PackIndexMerger.Builder builder = PackIndexMerger.builder();
-		builder.setProgressMonitor(pm);
-		pm.beginTask("Adding packs to midx", packList.size()); //$NON-NLS-1$
-		for (Pack pack : packList) {
-			if (pack instanceof PackMidx) {
-				throw new IllegalArgumentException(
-						"Building midx from other midx not supported yet");
+		try (WindowCursor ctx = (WindowCursor) repo.newObjectReader()) {
+			PackIndexMerger.Builder builder = PackIndexMerger.builder();
+			builder.setProgressMonitor(pm);
+			pm.beginTask("Adding packs to midx", packList.size()); //$NON-NLS-1$
+			for (Pack pack : packList) {
+				if (pack instanceof PackMidx) {
+					throw new IllegalArgumentException(
+							"Building midx from other midx not supported yet");
+				}
+				PackFile packFile = pack.getPackFile().create(PackExt.INDEX);
+				builder.addPack(packFile.getName(), pack.getIndex(),
+						offset -> pack.getObjectType(ctx, offset));
+
+				pm.update(1);
 			}
-			PackFile packFile = pack.getPackFile().create(PackExt.INDEX);
-			builder.addPack(packFile.getName(), pack.getIndex());
+			PackIndexMerger data = builder.build();
+			pm.endTask();
 
-			pm.update(1);
-		}
-		PackIndexMerger data = builder.build();
-		pm.endTask();
-
-		File oldMidxBitmaps = null;
-		if (midxOut.exists()) {
-			MidxMetadataReader.MidxMetadata midxMetadata = MidxMetadataReader
-					.read(midxOut);
-			byte[] checksum = midxMetadata.checksum();
-			String midxBitmapsPath = midxOut.getAbsoluteFile() + "-" //$NON-NLS-1$
-					+ ObjectId.fromRaw(checksum).name() + "." //$NON-NLS-1$
-					+ BITMAP_INDEX.getExtension();
-			File previousBitmaps = new File(midxBitmapsPath);
-			if (previousBitmaps.exists()) {
-				oldMidxBitmaps = previousBitmaps;
+			File oldMidxBitmaps = null;
+			if (midxOut.exists()) {
+				MidxMetadataReader.MidxMetadata midxMetadata = MidxMetadataReader
+						.read(midxOut);
+				byte[] checksum = midxMetadata.checksum();
+				String midxBitmapsPath = midxOut.getAbsoluteFile() + "-" //$NON-NLS-1$
+						+ ObjectId.fromRaw(checksum).name() + "." //$NON-NLS-1$
+						+ BITMAP_INDEX.getExtension();
+				File previousBitmaps = new File(midxBitmapsPath);
+				if (previousBitmaps.exists()) {
+					oldMidxBitmaps = previousBitmaps;
+				}
 			}
-		}
 
-		String midxFilename = midxOut.getAbsolutePath();
-		File midxOutTmp = new File(
-				midxFilename + BITMAP_INDEX.getTmpExtension());
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
-		MultiPackIndexWriter.Result result;
-		try (FileOutputStream out = new FileOutputStream(
-				midxOutTmp.getAbsolutePath())) {
-			result = writer.write(pm, out, data);
-		}
+			String midxFilename = midxOut.getAbsolutePath();
+			File midxOutTmp = new File(
+					midxFilename + BITMAP_INDEX.getTmpExtension());
+			MultiPackIndexWriter writer = new MultiPackIndexWriter();
+			MultiPackIndexWriter.Result result;
+			try (FileOutputStream out = new FileOutputStream(
+					midxOutTmp.getAbsolutePath())) {
+				result = writer.write(pm, out, data);
+			}
 
-		File midxOutBitmaps = new File(midxOut.getAbsoluteFile() + "-" //$NON-NLS-1$
-				+ ObjectId.fromRaw(Base64.decode(result.checksum())).name()
-				+ "." + BITMAP_INDEX.getExtension());
-		File midxOutBitmapsTmp = null;
-		if (packConfig != null) {
-			midxOutBitmapsTmp = new File(midxOut.getAbsolutePath() + "-" //$NON-NLS-1$
+			File midxOutBitmaps = new File(midxOut.getAbsoluteFile() + "-" //$NON-NLS-1$
 					+ ObjectId.fromRaw(Base64.decode(result.checksum())).name()
-					+ BITMAP_INDEX.getTmpExtension());
-			createAndAttachBitmaps(pm, repo, midxOutBitmapsTmp,
-					Base64.decode(result.checksum()), data, packList,
-					new PackConfig(repo));
-		}
+					+ "." + BITMAP_INDEX.getExtension());
+			File midxOutBitmapsTmp = null;
+			if (packConfig != null) {
+				midxOutBitmapsTmp = new File(midxOut.getAbsolutePath() + "-" //$NON-NLS-1$
+						+ ObjectId.fromRaw(Base64.decode(result.checksum()))
+								.name()
+						+ BITMAP_INDEX.getTmpExtension());
+				createAndAttachBitmaps(pm, repo, midxOutBitmapsTmp,
+						Base64.decode(result.checksum()), data,
+						new PackConfig(repo));
+			}
 
-		FileUtils.rename(midxOutTmp.getAbsoluteFile(),
-				midxOut.getAbsoluteFile(), StandardCopyOption.ATOMIC_MOVE);
-		if (midxOutBitmapsTmp != null) {
-			FileUtils.rename(midxOutBitmapsTmp.getAbsoluteFile(),
-					midxOutBitmaps.getAbsoluteFile(),
-					StandardCopyOption.ATOMIC_MOVE);
-		}
+			FileUtils.rename(midxOutTmp.getAbsoluteFile(),
+					midxOut.getAbsoluteFile(), StandardCopyOption.ATOMIC_MOVE);
+			if (midxOutBitmapsTmp != null) {
+				FileUtils.rename(midxOutBitmapsTmp.getAbsoluteFile(),
+						midxOutBitmaps.getAbsoluteFile(),
+						StandardCopyOption.ATOMIC_MOVE);
+			}
 
-		if (oldMidxBitmaps != null && !oldMidxBitmaps.equals(midxOutBitmaps)) {
-			FileUtils.delete(oldMidxBitmaps);
+			if (oldMidxBitmaps != null && !oldMidxBitmaps.equals(midxOutBitmaps)) {
+				FileUtils.delete(oldMidxBitmaps);
+			}
 		}
 	}
 
 	private static void createAndAttachBitmaps(ProgressMonitor pm,
 			Repository repo, File midxBitmapsOut, byte[] checksum,
-			PackIndexMerger data, Collection<Pack> packs, PackConfig cfg)
-			throws IOException {
+			PackIndexMerger data, PackConfig cfg) throws IOException {
 
 		// TODO(ifrade): Verify we duplicate the behaviour about tags of regular
 		// bitmapping
@@ -161,9 +163,7 @@ public class MidxWriter {
 		}
 
 		ObjectIdOwnerMap<ObjectToPack> byId = new ObjectIdOwnerMap<>();
-		List<ObjectToPack> otps = asObjectsToPack(pm,
-				(WindowCursor) repo.newObjectReader(), data,
-				new ArrayList<>(packs), byId);
+		List<ObjectToPack> otps = data.toObjectsToPack(pm, byId);
 
 		RefAdvancerWalk adv = new RefAdvancerWalk(repo, byId::contains);
 		Set<RevCommit> inPack = adv.advance(allHeads);
@@ -181,36 +181,6 @@ public class MidxWriter {
 			PackBitmapIndexWriter pbiWriter = new PackBitmapIndexWriterV1(out);
 			pbiWriter.write(writeBitmaps, checksum);
 		}
-	}
-
-	private static List<ObjectToPack> asObjectsToPack(ProgressMonitor pm,
-			WindowCursor ctx, PackIndexMerger data, List<Pack> packs,
-			ObjectIdOwnerMap<ObjectToPack> byId) throws IOException {
-		long[] accPackSize = new long[packs.size()];
-		for (int i = 1; i < packs.size(); i++) {
-			long prevValue = accPackSize[i - 1];
-			accPackSize[i] = prevValue
-					+ packs.get(i - 1).getPackFile().length();
-		}
-
-		pm.beginTask("Converting midx to ObjectsToPack", //$NON-NLS-1$
-				data.getUniqueObjectCount());
-		List<ObjectToPack> result = new ArrayList<>(
-				data.getUniqueObjectCount());
-		MultiPackIndex.MidxIterator it = data.bySha1Iterator();
-		while (it.hasNext()) {
-			MultiPackIndex.MutableEntry entry = it.next();
-			int objectType = packs.get(entry.getPackId()).getObjectType(ctx,
-					entry.getOffset());
-			ObjectToPack o = new ObjectToPack(entry.getObjectId().toObjectId(),
-					objectType);
-			o.setOffset(accPackSize[entry.getPackId()] + entry.getOffset());
-			result.add(o);
-			byId.add(o);
-			pm.update(1);
-		}
-		pm.endTask();
-		return result;
 	}
 
 	static List<Pack> flattenMidxPackList(Collection<Pack> packs) {

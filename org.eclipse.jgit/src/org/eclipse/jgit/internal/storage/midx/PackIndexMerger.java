@@ -9,15 +9,20 @@
  */
 package org.eclipse.jgit.internal.storage.midx;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.MidxIterator;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.MutableEntry;
+import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.transport.PackedObjectInfo;
 
 /**
  * Collect the stats and offers an iterator over the union of n-pack indexes.
@@ -48,7 +53,29 @@ public class PackIndexMerger {
 
 	private final int[] objectsPerPack;
 
+	private final long[] maxOffsetPerPack;
+
 	private final List<String> packnames;
+
+	private final List<ObjectTypeLookup> objectTypeLookups;
+
+	/**
+	 * Lookup for the git object type of an entry at a given offset in a pack.
+	 */
+	@FunctionalInterface
+	public interface ObjectTypeLookup {
+		/**
+		 * Return the git object type (e.g. {@code OBJ_COMMIT}) for the object
+		 * at {@code offset}.
+		 *
+		 * @param offset
+		 *            offset within the pack
+		 * @return object type constant
+		 * @throws IOException
+		 *             an error reading the object type
+		 */
+		int getObjectType(long offset) throws IOException;
+	}
 
 	/**
 	 * Builder collecting the inputs for the merger.
@@ -59,6 +86,8 @@ public class PackIndexMerger {
 	public static class Builder {
 
 		private final List<MidxIterator> packIndexes = new ArrayList<>();
+
+		private final List<ObjectTypeLookup> objectTypeLookups = new ArrayList<>();
 
 		private ProgressMonitor pm = NullProgressMonitor.INSTANCE;
 
@@ -72,7 +101,43 @@ public class PackIndexMerger {
 		 * @return this builder
 		 */
 		public Builder addPack(String name, PackIndex idx) {
+			return addPack(name, idx, null);
+		}
+
+		/**
+		 * Add a regular pack to the midx with object type lookup
+		 *
+		 * @param name
+		 *            name of the pack
+		 * @param idx
+		 *            primary index of the pack
+		 * @param objectTypeLookup
+		 *            lookup function for object types by offset (needed for
+		 *            {@link #toObjectsToPack})
+		 * @return this builder
+		 */
+		public Builder addPack(String name, PackIndex idx,
+				@Nullable ObjectTypeLookup objectTypeLookup) {
 			packIndexes.add(MidxIterators.fromPackIndexIterator(name, idx));
+			objectTypeLookups.add(objectTypeLookup);
+			return this;
+		}
+
+		/**
+		 * Add an in-memory pack (represented by its SHA-1 sorted objects) to
+		 * the midx.
+		 *
+		 * @param name
+		 *            name of the pack
+		 * @param objects
+		 *            objects in the pack, sorted in SHA-1 order, with offsets
+		 *            and types populated
+		 * @return this builder
+		 */
+		public Builder addPack(String name,
+				List<? extends PackedObjectInfo> objects) {
+			packIndexes.add(MidxIterators.fromObjectsToPack(name, objects));
+			objectTypeLookups.add(new PackedObjectTypeLookup(objects));
 			return this;
 		}
 
@@ -87,6 +152,9 @@ public class PackIndexMerger {
 		 */
 		public Builder addMidx(MidxIterator midx) {
 			packIndexes.add(midx);
+			for (int i = 0; i < midx.getPackNames().size(); i++) {
+				objectTypeLookups.add(null);
+			}
 			return this;
 		}
 
@@ -113,7 +181,8 @@ public class PackIndexMerger {
 		 */
 		public PackIndexMerger build() {
 			return new PackIndexMerger(
-					MidxIterators.dedup(MidxIterators.join(packIndexes)), pm);
+					MidxIterators.dedup(MidxIterators.join(packIndexes)),
+					objectTypeLookups, pm);
 		}
 	}
 
@@ -131,14 +200,19 @@ public class PackIndexMerger {
 	 *
 	 * @param midxIterator
 	 *            MidxIterator built by deduping union of all pack indexes
+	 * @param objectTypeLookups
+	 *            lookup functions for object types per pack
 	 * @param pm
 	 *            a progress monitor
 	 */
-	private PackIndexMerger(MidxIterator midxIterator, ProgressMonitor pm) {
+	private PackIndexMerger(MidxIterator midxIterator,
+			List<ObjectTypeLookup> objectTypeLookups, ProgressMonitor pm) {
 		this.midxIterator = midxIterator;
 		this.packnames = midxIterator.getPackNames();
+		this.objectTypeLookups = objectTypeLookups;
 
 		objectsPerPack = new int[packnames.size()];
+		maxOffsetPerPack = new long[packnames.size()];
 		pm.beginTask("Iterating objects for midx headers",
 				ProgressMonitor.UNKNOWN);
 		// Iterate for duplicates and counts that we need to build the chunk
@@ -163,7 +237,11 @@ public class PackIndexMerger {
 			objectCount++;
 			// TODO(ifrade): we can calculate the fanout table already here.
 			// It saves an iteration over all objects for only 1Kb of memory
-			objectsPerPack[entry.getPackId()]++;
+			int packId = entry.getPackId();
+			objectsPerPack[packId]++;
+			if (entry.getOffset() > maxOffsetPerPack[packId]) {
+				maxOffsetPerPack[packId] = entry.getOffset();
+			}
 			pm.update(1);
 		}
 		uniqueObjectCount = objectCount;
@@ -248,5 +326,81 @@ public class PackIndexMerger {
 	public MidxIterator bySha1Iterator() {
 		midxIterator.reset();
 		return midxIterator;
+	}
+
+	/**
+	 * Convert the merged index entries into a list of {@link ObjectToPack} in
+	 * SHA-1 order.
+	 * <p>
+	 * Each returned {@link ObjectToPack} has a synthetic offset assigned so
+	 * that sorting by offset orders objects by {@code (packId, offset)}.
+	 *
+	 * @param pm
+	 *            progress monitor
+	 * @param byId
+	 *            map populated with the created {@link ObjectToPack} instances
+	 * @return list of {@link ObjectToPack} in SHA-1 order
+	 * @throws IOException
+	 *             an error reading object types
+	 */
+	public List<ObjectToPack> toObjectsToPack(ProgressMonitor pm,
+			ObjectIdOwnerMap<ObjectToPack> byId) throws IOException {
+		long[] accPackSize = new long[packnames.size()];
+		for (int i = 1; i < packnames.size(); i++) {
+			accPackSize[i] = accPackSize[i - 1] + maxOffsetPerPack[i - 1] + 1;
+		}
+
+		pm.beginTask("Converting midx to ObjectsToPack", //$NON-NLS-1$
+				getUniqueObjectCount());
+		List<ObjectToPack> result = new ArrayList<>(getUniqueObjectCount());
+		MidxIterator it = bySha1Iterator();
+		while (it.hasNext()) {
+			MutableEntry entry = it.next();
+			ObjectTypeLookup lookup = objectTypeLookups.get(entry.getPackId());
+			if (lookup == null) {
+				throw new IllegalStateException(
+						"No ObjectTypeLookup provided for pack " //$NON-NLS-1$
+								+ packnames.get(entry.getPackId()));
+			}
+			int objectType = lookup.getObjectType(entry.getOffset());
+			ObjectToPack o = new ObjectToPack(entry.getObjectId().toObjectId(),
+					objectType);
+			o.setOffset(accPackSize[entry.getPackId()] + entry.getOffset());
+			result.add(o);
+			byId.add(o);
+			pm.update(1);
+		}
+		pm.endTask();
+		return result;
+	}
+
+	private static class PackedObjectTypeLookup implements ObjectTypeLookup {
+		private final List<? extends PackedObjectInfo> objects;
+
+		private final int size;
+
+		private int cursor;
+
+		PackedObjectTypeLookup(List<? extends PackedObjectInfo> objects) {
+			this.objects = objects;
+			this.size = objects.size();
+		}
+
+		@Override
+		public int getObjectType(long offset) {
+			// Offsets are looked up in SHA-1 order (the same order as objects),
+			// so start searching right after the last matched position and wrap
+			// around just in case.
+			for (int i = 0; i < size; i++) {
+				int idx = (cursor + i) % size;
+				PackedObjectInfo obj = objects.get(idx);
+				if (obj.getOffset() == offset) {
+					cursor = (idx + 1) % size;
+					return obj.getType();
+				}
+			}
+			throw new IllegalArgumentException(
+					"No object found at offset " + offset); //$NON-NLS-1$
+		}
 	}
 }
