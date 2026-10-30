@@ -160,6 +160,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "99882a8b_ec8bfdd1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-10-30T16:07:50Z",
+      "side": 1,
+      "message": "From the [user comment](https://github.com/apache/netbeans/issues/6407#issuecomment-1988579793) on that issue:\n\u003e ... We are using our client local gitlab repository which using username as LDAP login so we have logins like ex...\n\nIs that a configuration (still) supported/recommended by gitlab? It seems like we would have seen this issue before if that was a common thing.",
+      "parentUuid": "4a8d2bac_bf2e2abb",
+      "revId": "17bbf8f420cb50551129c304a11d8acaf8b149a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a80543e8_5292a82c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 2
