@@ -16,6 +16,24 @@
       "message": "Thanks for the review and approval! Could you please merge this when you get a chance? (I do not have submit permissions on this repo)",
       "revId": "528b32a2aaa397742a3ab113a55ecc3ce611a5e6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99e06760_2fca634d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-10-30T16:09:44Z",
+      "side": 1,
+      "message": "I retriggered CI and we can submit when it passes.",
+      "parentUuid": "175c7a62_41a758de",
+      "revId": "528b32a2aaa397742a3ab113a55ecc3ce611a5e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
