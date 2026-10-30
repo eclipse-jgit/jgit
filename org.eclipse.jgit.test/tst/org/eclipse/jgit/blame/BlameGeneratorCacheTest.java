@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.blame.cache.BlameCache;
 import org.eclipse.jgit.blame.cache.CacheRegion;
@@ -393,6 +394,62 @@ public class BlameGeneratorCacheTest extends RepositoryTestCase {
 		assertCacheUsage(c3, blameAndCache(c3, FILE), true, 1);
 		assertCacheUsage(c3, blameAndCache(c2, OTHER), true, 2);
 		assertCacheUsage(c3, blameAndCache(c1, OTHER), false, 3);
+	}
+
+	@Test
+	public void blame_withIgnoreRevs_fullCacheHitWhenIgnoredNotInCachedRegions()
+			throws Exception {
+		RevCommit c1, c2, c3, c4;
+		try (TestRepository<FileRepository> r = new TestRepository<>(db)) {
+			c1 = commit(r, lines("L1C1", "L2C1", "L3C1"));
+			c2 = commit(r, lines("L1C1", "L2C2", "L3C1"), c1);
+			c3 = commit(r, lines("L1C1", "L2C2", "L3C3"), c2);
+			c4 = commit(r, lines("L1C1", "L2C4", "L3C3"), c3);
+		}
+
+		// Plain blame at c4 blames L1 on c1, L2 on c4, L3 on c3 (c2 was overwritten).
+		// Ignoring c2 should still resolve 100% of lines from c4's plain cache in 1 step.
+		InMemoryBlameCache c4Cached = blameAndCache(c4);
+		try (BlameGenerator gen = new BlameGenerator(db, FILE, c4Cached)) {
+			gen.setIgnoreRevs(Set.of(c2));
+			gen.push(null, db.parseCommit(c4));
+			BlameResult result = gen.computeBlameResult();
+			assertEquals(c1, result.getSourceCommit(0));
+			assertEquals(c4, result.getSourceCommit(1));
+			assertEquals(c3, result.getSourceCommit(2));
+			assertEquals(true, gen.getStats().isCacheHit());
+			assertEquals(1, gen.getStats().getCandidatesVisited());
+		}
+	}
+
+	@Test
+	public void blame_withIgnoreRevs_partialCacheHitResolvesNonIgnoredRegions()
+			throws Exception {
+		String readme = "README";
+		RevCommit c1, c2, c3, c4, ni;
+		try (TestRepository<FileRepository> r = new TestRepository<>(db)) {
+			c1 = r.commit().add(FILE, lines("L1C1", "L2C1", "L3C1", "L4C1")).create();
+			c2 = r.commit().parent(c1).add(FILE, lines("L1C1", "L2C1", "L3C1", "L4C2")).create();
+			ni = c2;
+			for (int i = 0; i < 20; i++) {
+				ni = r.commit().parent(ni).add(readme, "readme " + i).create();
+			}
+			// c3 is a formatting commit that touches L2
+			c3 = r.commit().parent(ni).add(FILE, lines("L1C1", "L2C3_fmt", "L3C1", "L4C2")).create();
+			c4 = r.commit().parent(c3).add(FILE, lines("L1C1", "L2C3_fmt", "L3C4", "L4C2")).create();
+		}
+
+		InMemoryBlameCache cache = blameAndCache(c4, FILE);
+		try (BlameGenerator gen = new BlameGenerator(db, FILE, cache)) {
+			gen.setIgnoreRevs(Set.of(c3));
+			gen.push(null, db.parseCommit(c4));
+			BlameResult result = gen.computeBlameResult();
+			assertEquals(c1, result.getSourceCommit(0));
+			assertEquals(c1, result.getSourceCommit(1));
+			assertEquals(c4, result.getSourceCommit(2));
+			assertEquals(c2, result.getSourceCommit(3));
+			assertEquals(true, gen.getStats().isCacheHit());
+		}
 	}
 
 	private void assertRegions(RevCommit commit, InMemoryBlameCache cache,

@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jgit.blame.cache.CacheRegion;
 import org.eclipse.jgit.internal.JGitText;
@@ -37,40 +38,71 @@ class BlameRegionMerger {
 
 	private final RevWalk rw;
 
+	private final Set<ObjectId> ignoreIds;
+
 	BlameRegionMerger(Repository repo, RevWalk rw,
 			List<CacheRegion> cachedRegions) {
+		this(repo, rw, cachedRegions, Collections.emptySet());
+	}
+
+	BlameRegionMerger(Repository repo, RevWalk rw,
+			List<CacheRegion> cachedRegions, Set<ObjectId> ignoreIds) {
 		this.repo = repo;
 		List<CacheRegion> sorted = new ArrayList<>(cachedRegions);
 		Collections.sort(sorted);
 		this.cachedRegions = sorted;
 		this.rw = rw;
+		this.ignoreIds = ignoreIds != null ? ignoreIds
+				: Collections.emptySet();
 	}
 
 	/**
-	 * Return one or more candidates blaming all the regions of the "unblamed"
-	 * incoming candidate.
+	 * Return one or more candidates blaming the regions of the "unblamed"
+	 * incoming candidate that are not in {@code ignoreIds}, updating
+	 * {@code candidate.regionList} to hold only any remaining regions whose
+	 * cached source commits are in {@code ignoreIds}.
 	 *
 	 * @param candidate
 	 *            a candidate with a list of unblamed regions
 	 * @return A linked list of Candidates with their blamed regions, null if
-	 *         there was any error.
+	 *         there was any error or no regions could be resolved from cache.
 	 */
 	Candidate mergeCandidate(Candidate candidate) {
 		List<Candidate> newCandidates = new ArrayList<>();
+		Region remainingHead = null;
+		Region remainingTail = null;
 		Region r = candidate.regionList;
 		while (r != null) {
+			List<Region> unblamed = new ArrayList<>();
 			try {
-				newCandidates.addAll(mergeOneRegion(r));
+				newCandidates.addAll(mergeOneRegion(r, unblamed));
 			} catch (IOException e) {
 				return null;
 			}
+			for (Region u : unblamed) {
+				if (remainingTail == null) {
+					remainingHead = u;
+				} else {
+					remainingTail.next = u;
+				}
+				remainingTail = u;
+			}
 			r = r.next;
 		}
+		if (newCandidates.isEmpty()) {
+			return null;
+		}
+		candidate.regionList = remainingHead;
 		return asLinkedCandidate(newCandidates);
 	}
 
 	// Visible for testing
 	List<Candidate> mergeOneRegion(Region region) throws IOException {
+		return mergeOneRegion(region, new ArrayList<>());
+	}
+
+	private List<Candidate> mergeOneRegion(Region region,
+			List<Region> unblamedOut) throws IOException {
 		List<CacheRegion> overlaps = findOverlaps(region);
 		if (overlaps.isEmpty()) {
 			throw new IOException(JGitText.get().blameRegionCoverAllLines);
@@ -83,6 +115,10 @@ class BlameRegionMerger {
 		List<Candidate> candidates = new ArrayList<>();
 		for (CacheRegion overlap : overlaps) {
 			Region blamedRegions = intersectRegions(region, overlap);
+			if (ignoreIds.contains(overlap.getSourceCommit())) {
+				unblamedOut.add(blamedRegions);
+				continue;
+			}
 			Candidate c = new Candidate(repo, parse(overlap.getSourceCommit()),
 					PathFilter.create(overlap.getSourcePath()));
 			c.regionList = blamedRegions;
