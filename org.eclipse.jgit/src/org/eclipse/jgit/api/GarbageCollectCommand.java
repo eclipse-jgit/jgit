@@ -67,6 +67,8 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 
 	private Boolean packKeptObjects;
 
+	private Boolean cruftPacks;
+
 	private GcConfig gcConfig;
 
 	/**
@@ -173,6 +175,21 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 	}
 
 	/**
+	 * Whether to pack unreachable objects into a cruft pack instead of
+	 * loosening them. When set, this overrides the {@code gc.cruftPacks}
+	 * configuration for this invocation.
+	 *
+	 * @param cruftPacks
+	 *            whether to pack unreachable objects into a cruft pack
+	 * @return this instance
+	 * @since 8.0
+	 */
+	public GarbageCollectCommand setCruftPacks(boolean cruftPacks) {
+		this.cruftPacks = Boolean.valueOf(cruftPacks);
+		return this;
+	}
+
+	/**
 	 * Whether to preserve old pack files instead of deleting them.
 	 *
 	 * @since 4.7
@@ -231,7 +248,10 @@ public class GarbageCollectCommand extends GitCommand<Properties> {
 				if (this.packKeptObjects != null) {
 					gc.setPackKeptObjects(packKeptObjects.booleanValue());
 				}
-				gc.setGcConfig(gcConfig);
+				GcConfig effectiveGcConfig = cruftPacks != null
+						? gcConfig.withCruftPacks(cruftPacks.booleanValue())
+						: gcConfig;
+				gc.setGcConfig(effectiveGcConfig);
 				try {
 					gc.gc().get();
 					return toProperties(gc.getStatistics());

@@ -361,8 +361,7 @@ public class GC {
 	}
 
 	private boolean isCruftPacks() {
-		return repo.getConfig().getBoolean(ConfigConstants.CONFIG_GC_SECTION,
-				null, ConfigConstants.CONFIG_KEY_CRUFTPACKS, false);
+		return gcConfig.isCruftPacks();
 	}
 
 	/**
