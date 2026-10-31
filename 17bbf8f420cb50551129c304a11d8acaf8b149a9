@@ -176,6 +176,23 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09cdebaa_d67ae493",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037863
+      },
+      "writtenOn": "2026-10-31T20:27:01Z",
+      "side": 1,
+      "message": "To my understanding windows still uses the convention DOMAIN\\username for the logon name (sAMAccountName). So I would not be to surprised if products authenticate against that.\n\nFor gitlab the documentation explicitly lists `sAMAccountName` as a supported field: https://docs.gitlab.com/administration/auth/ldap/#basic-configuration-settings",
+      "revId": "17bbf8f420cb50551129c304a11d8acaf8b149a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a80543e8_5292a82c",
