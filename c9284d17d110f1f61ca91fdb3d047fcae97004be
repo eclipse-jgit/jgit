@@ -16,6 +16,24 @@
       "message": "we could also add this option to java_args in `org.eclipse.jgit.pgm/jgit.sh`",
       "revId": "c9284d17d110f1f61ca91fdb3d047fcae97004be",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e89b4eb7_08546540",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-01T11:18:39Z",
+      "side": 1,
+      "message": "Done in follow-up change, also for Bazel CLI.",
+      "parentUuid": "a73b768b_2c720b77",
+      "revId": "c9284d17d110f1f61ca91fdb3d047fcae97004be",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
