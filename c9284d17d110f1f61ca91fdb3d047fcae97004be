@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a73b768b_2c720b77",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-11-01T08:40:31Z",
+      "side": 1,
+      "message": "we could also add this option to java_args in `org.eclipse.jgit.pgm/jgit.sh`",
+      "revId": "c9284d17d110f1f61ca91fdb3d047fcae97004be",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
