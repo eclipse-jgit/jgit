@@ -39,6 +39,7 @@ java_library(
 
 java_binary(
     name = "jgit",
+    jvm_flags = ["-XX:+UseCompactObjectHeaders"],
     main_class = "org.eclipse.jgit.pgm.Main",
     runtime_deps = [":pgm-stamped"],
 )
