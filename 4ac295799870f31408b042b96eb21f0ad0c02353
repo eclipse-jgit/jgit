@@ -51,6 +51,24 @@
       "parentUuid": "ca34ac62_61a97a66",
       "revId": "4ac295799870f31408b042b96eb21f0ad0c02353",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5880c090_090323d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-02T20:18:20Z",
+      "side": 1,
+      "message": "\u003e PackOffset is just two primitives (int + long), so the allocation cost should be negligible.\n\nIt would be an allocation per lookup in the index, and those are a lot of objects to alloc/gc.\n\nI think we can remove the PackOffset and rely only on position to find out the rest of the data. Those are o(1) lookups once we know the position and everything in the midx becomes immutable. Please see https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1257731",
+      "parentUuid": "b6d38d96_cba7b6cd",
+      "revId": "4ac295799870f31408b042b96eb21f0ad0c02353",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
