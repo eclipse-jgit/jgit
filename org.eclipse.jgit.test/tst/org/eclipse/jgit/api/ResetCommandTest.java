@@ -23,8 +23,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.FileTime;
 import java.time.Instant;
+import java.util.Arrays;
 
 import org.eclipse.jgit.api.ResetCommand.ResetType;
+import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.dircache.DirCache;
@@ -37,6 +39,7 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
+import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -579,6 +582,481 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertEquals(commit.getId(), ref.getObjectId());
 		assertFalse(db.getFS().canExecute(a));
 		assertTrue(db.getFS().canExecute(b));
+	}
+
+	@Test
+	public void testMergeResetFileMode() throws Exception {
+		Assume.assumeTrue("Test must be able to set executable bit",
+				db.getFS().supportsExecute());
+		git = new Git(db);
+		File a = writeTrashFile("a.txt", "aaa");
+		File b = writeTrashFile("b.txt", "bbb");
+		db.getFS().setExecute(b, true);
+		assertFalse(db.getFS().canExecute(a));
+		assertTrue(db.getFS().canExecute(b));
+		git.add().addFilepattern("a.txt").addFilepattern("b.txt").call();
+		RevCommit commit = git.commit().setMessage("files created").call();
+		db.getFS().setExecute(a, true);
+		db.getFS().setExecute(b, false);
+		assertTrue(db.getFS().canExecute(a));
+		assertFalse(db.getFS().canExecute(b));
+		git.add().addFilepattern("a.txt").addFilepattern("b.txt").call();
+		Ref ref = git.reset().setMode(ResetType.MERGE).call();
+		assertEquals(commit.getId(), ref.getObjectId());
+		assertFalse(db.getFS().canExecute(a));
+		assertTrue(db.getFS().canExecute(b));
+	}
+
+	private RevCommit setupMergeReset() throws Exception {
+		git = new Git(db);
+		writeTrashFile("a.txt", "a1");
+		writeTrashFile("b.txt", "b1");
+		git.add().addFilepattern("a.txt").addFilepattern("b.txt").call();
+		RevCommit first = git.commit().setMessage("first").call();
+		writeTrashFile("a.txt", "a2");
+		git.add().addFilepattern("a.txt").call();
+		git.commit().setMessage("second").call();
+		return first;
+	}
+
+	private void assertMergeResetConflict(String ref, String... conflictingPaths)
+			throws Exception {
+		ObjectId head = db.resolve(Constants.HEAD);
+		String index = indexState(CONTENT);
+		try {
+			git.reset().setMode(ResetType.MERGE).setRef(ref).call();
+			fail("Expected CheckoutConflictException didn't occur");
+		} catch (CheckoutConflictException e) {
+			assertEquals(Arrays.asList(conflictingPaths), e.getConflictingPaths());
+		}
+		assertEquals(head, db.resolve(Constants.HEAD));
+		assertEquals(index, indexState(CONTENT));
+	}
+
+	@Test
+	public void testMergeReset() throws Exception {
+		RevCommit first = setupMergeReset();
+		ObjectId prevHead = db.resolve(Constants.HEAD);
+
+		assertSameAsHead(git.reset().setMode(ResetType.MERGE)
+				.setRef(first.getName()).call());
+
+		assertEquals(first, db.resolve(Constants.HEAD));
+		assertEquals(prevHead, db.readOrigHead());
+		assertReflog(prevHead, first);
+		assertEquals("[a.txt, mode:100644, content:a1]"
+				+ "[b.txt, mode:100644, content:b1]", indexState(CONTENT));
+		assertEquals("a1", read("a.txt"));
+		assertEquals("b1", read("b.txt"));
+	}
+
+	@Test
+	public void testMergeResetKeepsUnstagedChangesOfUnchangedFile()
+			throws Exception {
+		RevCommit first = setupMergeReset();
+		writeTrashFile("b.txt", "b-local");
+
+		git.reset().setMode(ResetType.MERGE).setRef(first.getName()).call();
+
+		assertEquals(first, db.resolve(Constants.HEAD));
+		assertEquals("[a.txt, mode:100644, content:a1]"
+				+ "[b.txt, mode:100644, content:b1]", indexState(CONTENT));
+		assertEquals("a1", read("a.txt"));
+		assertEquals("b-local", read("b.txt"));
+	}
+
+	@Test
+	public void testMergeResetDiscardsStagedChanges() throws Exception {
+		RevCommit first = setupMergeReset();
+		writeTrashFile("a.txt", "a3");
+		writeTrashFile("b.txt", "b3");
+		git.add().addFilepattern("a.txt").addFilepattern("b.txt").call();
+
+		git.reset().setMode(ResetType.MERGE).setRef(first.getName()).call();
+
+		assertEquals("[a.txt, mode:100644, content:a1]"
+				+ "[b.txt, mode:100644, content:b1]", indexState(CONTENT));
+		assertEquals("a1", read("a.txt"));
+		assertEquals("b1", read("b.txt"));
+	}
+
+	@Test
+	public void testMergeResetConflictUnstagedChangesOfChangedFile()
+			throws Exception {
+		RevCommit first = setupMergeReset();
+		writeTrashFile("a.txt", "a-local");
+		writeTrashFile("b.txt", "b-local");
+
+		assertMergeResetConflict(first.getName(), "a.txt");
+
+		assertEquals("a-local", read("a.txt"));
+		assertEquals("b-local", read("b.txt"));
+	}
+
+	@Test
+	public void testMergeResetConflictUnstagedChangesOfStagedFile()
+			throws Exception {
+		setupMergeReset();
+		writeTrashFile("a.txt", "a3");
+		git.add().addFilepattern("a.txt").call();
+		writeTrashFile("a.txt", "a4");
+
+		assertMergeResetConflict(Constants.HEAD, "a.txt");
+
+		assertEquals("a4", read("a.txt"));
+	}
+
+	@Test
+	public void testMergeResetConflictUntrackedFile() throws Exception {
+		setupMergeReset();
+		writeTrashFile("c.txt", "c1");
+		git.add().addFilepattern("c.txt").call();
+		RevCommit withC = git.commit().setMessage("add c.txt").call();
+		git.rm().addFilepattern("c.txt").call();
+		git.commit().setMessage("remove c.txt").call();
+		writeTrashFile("c.txt", "untracked");
+
+		assertMergeResetConflict(withC.getName(), "c.txt");
+
+		assertEquals("untracked", read("c.txt"));
+	}
+
+	@Test
+	public void testMergeResetOverwritesIgnoredFile() throws Exception {
+		git = new Git(db);
+		writeTrashFile("c.txt", "c1");
+		git.add().addFilepattern("c.txt").call();
+		RevCommit withC = git.commit().setMessage("add c.txt").call();
+		git.rm().addFilepattern("c.txt").call();
+		writeTrashFile(".gitignore", "c.txt\n");
+		git.add().addFilepattern(".gitignore").call();
+		git.commit().setMessage("ignore c.txt").call();
+		writeTrashFile("c.txt", "ignored");
+
+		git.reset().setMode(ResetType.MERGE).setRef(withC.getName()).call();
+
+		assertEquals("[c.txt, mode:100644, content:c1]", indexState(CONTENT));
+		assertEquals("c1", read("c.txt"));
+		assertFalse(new File(db.getWorkTree(), ".gitignore").exists());
+	}
+
+	@Test
+	public void testMergeResetFileToDirectory() throws Exception {
+		git = new Git(db);
+		writeTrashFile("d/x.txt", "x");
+		git.add().addFilepattern("d/x.txt").call();
+		RevCommit withDir = git.commit().setMessage("add d/x.txt").call();
+		git.rm().addFilepattern("d/x.txt").call();
+		writeTrashFile("d", "file");
+		git.add().addFilepattern("d").call();
+		git.commit().setMessage("replace d/ by d").call();
+
+		git.reset().setMode(ResetType.MERGE).setRef(withDir.getName()).call();
+
+		assertEquals("[d/x.txt, mode:100644, content:x]", indexState(CONTENT));
+		assertEquals("x", read("d/x.txt"));
+	}
+
+	@Test
+	public void testMergeResetDirectoryToFile() throws Exception {
+		git = new Git(db);
+		writeTrashFile("d", "file");
+		git.add().addFilepattern("d").call();
+		RevCommit withFile = git.commit().setMessage("add d").call();
+		git.rm().addFilepattern("d").call();
+		writeTrashFile("d/x.txt", "x");
+		git.add().addFilepattern("d/x.txt").call();
+		git.commit().setMessage("replace d by d/").call();
+
+		git.reset().setMode(ResetType.MERGE).setRef(withFile.getName())
+				.call();
+
+		assertEquals("[d, mode:100644, content:file]", indexState(CONTENT));
+		assertTrue(new File(db.getWorkTree(), "d").isFile());
+		assertEquals("file", read("d"));
+	}
+
+	@Test
+	public void testMergeResetConflictUntrackedFileInReplacedDirectory()
+			throws Exception {
+		git = new Git(db);
+		writeTrashFile("d", "file");
+		git.add().addFilepattern("d").call();
+		RevCommit withFile = git.commit().setMessage("add d").call();
+		git.rm().addFilepattern("d").call();
+		writeTrashFile("d/x.txt", "x");
+		git.add().addFilepattern("d/x.txt").call();
+		git.commit().setMessage("replace d by d/").call();
+		writeTrashFile("d/y.txt", "untracked");
+
+		assertMergeResetConflict(withFile.getName(), "d/y.txt");
+
+		assertEquals("x", read("d/x.txt"));
+		assertEquals("untracked", read("d/y.txt"));
+	}
+
+	@Test
+	public void testMergeResetAbortsMerge() throws Exception {
+		git = new Git(db);
+		writeTrashFile("a.txt", "base");
+		git.add().addFilepattern("a.txt").call();
+		RevCommit base = git.commit().setMessage("base").call();
+		createBranch(base, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+		writeTrashFile("a.txt", "side");
+		git.add().addFilepattern("a.txt").call();
+		RevCommit side = git.commit().setMessage("side").call();
+		checkoutBranch("refs/heads/master");
+		writeTrashFile("a.txt", "master");
+		git.add().addFilepattern("a.txt").call();
+		RevCommit master = git.commit().setMessage("master").call();
+		MergeResult result = git.merge().include(side).call();
+		assertEquals(MergeResult.MergeStatus.CONFLICTING,
+				result.getMergeStatus());
+		assertEquals(RepositoryState.MERGING, db.getRepositoryState());
+
+		git.reset().setMode(ResetType.MERGE).call();
+
+		assertEquals(master, db.resolve(Constants.HEAD));
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+		assertNull(db.readMergeHeads());
+		assertEquals("[a.txt, mode:100644, content:master]",
+				indexState(CONTENT));
+		assertEquals("master", read("a.txt"));
+	}
+
+	@Test
+	public void testMergeResetFileToGitlink() throws Exception {
+		git = new Git(db);
+		File sub = new File(db.getWorkTree(), "sub");
+		RevCommit subCommit;
+		try (Git subGit = Git.init().setDirectory(sub).call()) {
+			write(new File(sub, "s.txt"), "s1");
+			subGit.add().addFilepattern("s.txt").call();
+			subCommit = subGit.commit().setMessage("s1").call();
+		}
+		git.add().addFilepattern("sub").call();
+		RevCommit gitlinkCommit = git.commit().setMessage("add gitlink").call();
+
+		git.rm().setCached(true).addFilepattern("sub").call();
+		FileUtils.delete(sub, FileUtils.RECURSIVE);
+		writeTrashFile("sub", "content");
+		git.add().addFilepattern("sub").call();
+		git.commit().setMessage("replace gitlink with file").call();
+
+		Ref ref = git.reset().setRef(gitlinkCommit.getName())
+				.setMode(ResetType.MERGE).call();
+		assertSameAsHead(ref);
+		assertEquals(gitlinkCommit, ref.getObjectId());
+		assertTrue(sub.isDirectory());
+		DirCacheEntry entry = db.readDirCache().getEntry("sub");
+		assertNotNull(entry);
+		assertEquals(FileMode.GITLINK, entry.getFileMode());
+		assertEquals(subCommit, entry.getObjectId());
+	}
+
+	@Test
+	public void testMergeResetGitlinkToFile() throws Exception {
+		git = new Git(db);
+		File sub = new File(db.getWorkTree(), "sub");
+		writeTrashFile("sub", "content");
+		git.add().addFilepattern("sub").call();
+		RevCommit fileCommit = git.commit().setMessage("add file").call();
+
+		// Replace file with gitlink
+		git.rm().setCached(true).addFilepattern("sub").call();
+		FileUtils.delete(sub, FileUtils.RECURSIVE);
+		try (Git subGit = Git.init().setDirectory(sub).call()) {
+			write(new File(sub, "s.txt"), "s1");
+			subGit.add().addFilepattern("s.txt").call();
+			subGit.commit().setMessage("s1").call();
+		}
+
+		assertMergeResetConflict(fileCommit.getName(), "sub");
+
+		assertEquals("s1", read("sub/s.txt"));
+	}
+
+	@Test
+	public void testMergeResetIgnoresSubmoduleWorkingTree() throws Exception {
+		git = new Git(db);
+		File subDir = new File(db.getWorkTree(), "sub");
+		try (Git sub = Git.init().setDirectory(subDir).call()) {
+			write(new File(subDir, "s.txt"), "s1");
+			sub.add().addFilepattern("s.txt").call();
+			RevCommit s1 = sub.commit().setMessage("s1").call();
+			git.add().addFilepattern("sub").call();
+			RevCommit first = git.commit().setMessage("sub at s1").call();
+
+			write(new File(subDir, "s.txt"), "s2");
+			sub.add().addFilepattern("s.txt").call();
+			RevCommit s2 = sub.commit().setMessage("s2").call();
+			git.add().addFilepattern("sub").call();
+			git.commit().setMessage("sub at s2").call();
+			assertEquals(s2, db.readDirCache().getEntry("sub").getObjectId());
+
+			// check out a submodule commit that differs from the index
+			write(new File(subDir, "s.txt"), "s3");
+			sub.add().addFilepattern("s.txt").call();
+			RevCommit s3 = sub.commit().setMessage("s3").call();
+
+			Ref ref = git.reset().setMode(ResetType.MERGE)
+					.setRef(first.getName()).call();
+
+			assertSameAsHead(ref);
+			assertEquals(first, ref.getObjectId());
+			DirCacheEntry entry = db.readDirCache().getEntry("sub");
+			assertNotNull(entry);
+			assertEquals(FileMode.GITLINK, entry.getFileMode());
+			assertEquals(s1, entry.getObjectId());
+			assertEquals(s3, sub.getRepository().resolve(Constants.HEAD));
+			assertEquals("s3", read(new File(subDir, "s.txt")));
+		}
+	}
+
+	private void setupConflictingCherryPick() throws Exception {
+		git = new Git(db);
+		writeTrashFile("a.txt", "base");
+		writeTrashFile("b.txt", "b1");
+		writeTrashFile("del.txt", "to be deleted");
+		git.add().addFilepattern(".").call();
+		RevCommit base = git.commit().setMessage("base").call();
+		createBranch(base, "refs/heads/topic");
+		checkoutBranch("refs/heads/topic");
+		writeTrashFile("a.txt", "topic");
+		writeTrashFile("new.txt", "new in topic");
+		writeTrashFile("del.txt", "modified in topic");
+		git.add().addFilepattern(".").call();
+		RevCommit topic = git.commit().setMessage("topic").call();
+		checkoutBranch("refs/heads/master");
+		writeTrashFile("a.txt", "master");
+		git.add().addFilepattern("a.txt").call();
+		git.rm().addFilepattern("del.txt").call();
+		git.commit().setMessage("master").call();
+		writeTrashFile("b.txt", "unstaged local change");
+
+		CherryPickResult result = git.cherryPick().include(topic).call();
+		assertEquals(CherryPickResult.CherryPickStatus.CONFLICTING,
+				result.getStatus());
+		assertEquals(RepositoryState.CHERRY_PICKING, db.getRepositoryState());
+		assertEquals("[a.txt, mode:100644, stage:1, content:base]"
+				+ "[a.txt, mode:100644, stage:2, content:master]"
+				+ "[a.txt, mode:100644, stage:3, content:topic]"
+				+ "[b.txt, mode:100644, content:b1]"
+				+ "[del.txt, mode:100644, stage:1, content:to be deleted]"
+				+ "[del.txt, mode:100644, stage:3, content:modified in topic]"
+				+ "[new.txt, mode:100644, content:new in topic]",
+				indexState(CONTENT));
+		assertEquals("modified in topic", read("del.txt"));
+		assertEquals("new in topic", read("new.txt"));
+	}
+
+	@Test
+	public void testMergeResetAbortsCherryPick() throws Exception {
+		setupConflictingCherryPick();
+		ObjectId head = db.resolve(Constants.HEAD);
+
+		git.reset().setMode(ResetType.MERGE).call();
+
+		assertEquals(head, db.resolve(Constants.HEAD));
+		assertEquals(head, db.readOrigHead());
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+		assertNull(db.readCherryPickHead());
+		assertEquals(
+				"[a.txt, mode:100644, content:master]"
+						+ "[b.txt, mode:100644, content:b1]",
+				indexState(CONTENT));
+		assertEquals("master", read("a.txt"));
+		assertEquals("unstaged local change", read("b.txt"));
+		// added by the cherry-pick
+		assertFalse(new File(db.getWorkTree(), "new.txt").exists());
+		// modify/delete conflict, not in HEAD
+		assertFalse(new File(db.getWorkTree(), "del.txt").exists());
+	}
+
+	@Test
+	public void testMergeResetConflictUnstagedChangesOfAddedFile()
+			throws Exception {
+		setupConflictingCherryPick();
+		writeTrashFile("new.txt", "local edit of new.txt");
+
+		ObjectId head = db.resolve(Constants.HEAD);
+		String index = indexState(CONTENT);
+		try {
+			git.reset().setMode(ResetType.MERGE).call();
+			fail("Expected CheckoutConflictException didn't occur");
+		} catch (CheckoutConflictException e) {
+			assertEquals(Arrays.asList("new.txt"), e.getConflictingPaths());
+		}
+		assertEquals(head, db.resolve(Constants.HEAD));
+		assertEquals(index, indexState(CONTENT));
+
+		assertEquals(RepositoryState.CHERRY_PICKING, db.getRepositoryState());
+		assertEquals("local edit of new.txt", read("new.txt"));
+		assertEquals("modified in topic", read("del.txt"));
+	}
+
+	// Commits sub/s.txt, then replaces sub by an embedded repository
+	// containing fileInSubmodule. Returns the commit with the directory.
+	private RevCommit setupSubmoduleReplacingDirectory(String fileInSubmodule)
+			throws Exception {
+		git = new Git(db);
+		writeTrashFile("sub/s.txt", "from directory");
+		git.add().addFilepattern("sub").call();
+		RevCommit withDir = git.commit().setMessage("sub as directory").call();
+		git.rm().addFilepattern("sub").call();
+		File sub = new File(db.getWorkTree(), "sub");
+		FileUtils.delete(sub, FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);
+		try (Git subGit = Git.init().setDirectory(sub).call()) {
+			write(new File(sub, fileInSubmodule), "from submodule");
+			subGit.add().addFilepattern(fileInSubmodule).call();
+			subGit.commit().setMessage("submodule content").call();
+		}
+		git.add().addFilepattern("sub").call();
+		git.commit().setMessage("sub as submodule").call();
+		assertEquals(FileMode.GITLINK,
+				db.readDirCache().getEntry("sub").getFileMode());
+		return withDir;
+	}
+
+	@Test
+	public void testMergeResetConflictSubmoduleReplacedByDirectory()
+			throws Exception {
+		RevCommit withDir = setupSubmoduleReplacingDirectory("s.txt");
+		File sub = new File(db.getWorkTree(), "sub");
+		ObjectId head = db.resolve(Constants.HEAD);
+		ObjectId gitlink = db.readDirCache().getEntry("sub").getObjectId();
+
+		try {
+			git.reset().setMode(ResetType.MERGE).setRef(withDir.getName())
+					.call();
+			fail("Expected CheckoutConflictException didn't occur");
+		} catch (CheckoutConflictException e) {
+			assertEquals(Arrays.asList("sub/s.txt"), e.getConflictingPaths());
+		}
+
+		assertEquals(head, db.resolve(Constants.HEAD));
+		DirCache dc = db.readDirCache();
+		assertEquals(1, dc.getEntryCount());
+		assertEquals(FileMode.GITLINK, dc.getEntry("sub").getFileMode());
+		assertEquals(gitlink, dc.getEntry("sub").getObjectId());
+		assertEquals("from submodule", read(new File(sub, "s.txt")));
+	}
+
+	@Test
+	public void testMergeResetSubmoduleReplacedByDirectory() throws Exception {
+		RevCommit withDir = setupSubmoduleReplacingDirectory("other.txt");
+		File sub = new File(db.getWorkTree(), "sub");
+
+		git.reset().setMode(ResetType.MERGE).setRef(withDir.getName()).call();
+
+		assertEquals(withDir, db.resolve(Constants.HEAD));
+		assertEquals("[sub/s.txt, mode:100644, content:from directory]",
+				indexState(CONTENT));
+		assertEquals("from directory", read(new File(sub, "s.txt")));
+		// the embedded repository is kept, like native git does
+		assertEquals("from submodule", read(new File(sub, "other.txt")));
+		assertTrue(new File(sub, Constants.DOT_GIT).isDirectory());
 	}
 
 	private void assertReflog(ObjectId prevHead, ObjectId head)

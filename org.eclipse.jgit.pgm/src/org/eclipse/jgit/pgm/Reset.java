@@ -34,6 +34,9 @@ class Reset extends TextBuiltin {
 	@Option(name = "--hard", usage = "usage_resetHard")
 	private boolean hard = false;
 
+	@Option(name = "--merge", usage = "usage_resetMerge")
+	private boolean merge = false;
+
 	@Argument(required = false, index = 0, metaVar = "metaVar_commitish", usage = "usage_resetReference")
 	private String commit;
 
@@ -60,6 +63,9 @@ class Reset extends TextBuiltin {
 				}
 				if (hard) {
 					mode = selectMode(mode, ResetType.HARD);
+				}
+				if (merge) {
+					mode = selectMode(mode, ResetType.MERGE);
 				}
 				if (mode == null) {
 					throw die(CLIText.get().resetNoMode);

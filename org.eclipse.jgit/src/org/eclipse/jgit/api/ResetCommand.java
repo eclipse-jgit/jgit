@@ -9,22 +9,34 @@
  */
 package org.eclipse.jgit.api;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.dircache.Checkout;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuildIterator;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
+import org.eclipse.jgit.dircache.DirCacheCheckout.CheckoutMetadata;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.errors.IndexWriteException;
+import org.eclipse.jgit.events.WorkingTreeModifiedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -37,8 +49,13 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.EmptyTreeIterator;
+import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FileUtils;
 
 /**
  * A class used to execute a {@code Reset} command. It has setters for all
@@ -73,9 +90,14 @@ public class ResetCommand extends GitCommand<Ref> {
 		/**
 		 * Resets the index and updates the files in the working tree that are
 		 * different between respective commit and HEAD, but keeps those which
-		 * are different between the index and working tree
+		 * are different between the index and working tree. If a file that is
+		 * different between the commit and the index has unstaged changes, the
+		 * reset is aborted with a
+		 * {@link org.eclipse.jgit.api.errors.CheckoutConflictException}. The
+		 * reset is also aborted if it would overwrite an untracked file that is
+		 * not ignored. Unmerged index entries are reset unconditionally.
 		 */
-		MERGE, // TODO not implemented yet
+		MERGE,
 
 		/**
 		 * Change the ref, the index and the workdir that are different between
@@ -151,6 +173,12 @@ public class ResetCommand extends GitCommand<Ref> {
 				return repo.exactRef(Constants.HEAD);
 			}
 
+			if (mode == ResetType.MERGE) {
+				// Update index and working tree before moving HEAD so that HEAD
+				// is untouched if the reset fails.
+				mergeIndex(commitTree);
+			}
+
 			final Ref result;
 			if (commitId != null) {
 				// write the ref
@@ -186,8 +214,9 @@ public class ResetCommand extends GitCommand<Ref> {
 					break;
 				case SOFT: // do nothing, only the ref was changed
 					break;
+				case MERGE: // handled earlier
+					break;
 				case KEEP: // TODO
-				case MERGE: // TODO
 					throw new UnsupportedOperationException();
 
 			}
@@ -254,7 +283,7 @@ public class ResetCommand extends GitCommand<Ref> {
 		if (!filepaths.isEmpty())
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().illegalCombinationOfArguments,
-					"[--mixed | --soft | --hard]", "<paths>...")); //$NON-NLS-1$ //$NON-NLS-2$
+					"[--mixed | --soft | --hard | --merge]", "<paths>...")); //$NON-NLS-1$ //$NON-NLS-2$
 		this.mode = mode;
 		return this;
 	}
@@ -271,7 +300,7 @@ public class ResetCommand extends GitCommand<Ref> {
 		if (mode != null)
 			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().illegalCombinationOfArguments, "<paths>...", //$NON-NLS-1$
-					"[--mixed | --soft | --hard]")); //$NON-NLS-1$
+					"[--mixed | --soft | --hard | --merge]")); //$NON-NLS-1$
 		filepaths.add(path);
 		return this;
 	}
@@ -399,6 +428,191 @@ public class ResetCommand extends GitCommand<Ref> {
 			builder.commit();
 		} finally {
 			dc.unlock();
+		}
+	}
+
+	private void mergeIndex(ObjectId commitTree)
+			throws IOException, CheckoutConflictException {
+		DirCache dc = repo.lockDirCache();
+		List<String> modified = new ArrayList<>();
+		List<String> removed = new ArrayList<>();
+		try (NameConflictTreeWalk walk = new NameConflictTreeWalk(repo)) {
+			DirCacheBuilder builder = dc.builder();
+			if (commitTree != null) {
+				walk.addTree(commitTree);
+			} else {
+				walk.addTree(new EmptyTreeIterator());
+			}
+			walk.addTree(new DirCacheIterator(dc));
+			FileTreeIterator workingTree = new FileTreeIterator(repo);
+			walk.addTree(workingTree);
+			workingTree.setDirCacheIterator(walk, 1);
+
+			List<String> conflicts = new ArrayList<>();
+			Map<DirCacheEntry, CheckoutMetadata> toCheckout = new LinkedHashMap<>();
+			List<String> toDelete = new ArrayList<>();
+			String previousPath = null;
+			// Depth of a working tree directory that will be replaced by a
+			// file, or -1 if the walk is not inside such a directory.
+			int replacedDirDepth = -1;
+			while (walk.next()) {
+				if (replacedDirDepth >= 0
+						&& walk.getDepth() <= replacedDirDepth) {
+					replacedDirDepth = -1;
+				}
+				boolean insideReplacedDir = replacedDirDepth >= 0;
+
+				String path = walk.getPathString();
+				if (path.equals(previousPath)) {
+					// further stage of an unmerged path
+					continue;
+				}
+				previousPath = path;
+
+				AbstractTreeIterator cIter = walk.getTree(0,
+						AbstractTreeIterator.class);
+				DirCacheIterator dcIter = walk.getTree(1,
+						DirCacheIterator.class);
+				WorkingTreeIterator wtIter = walk.getTree(2,
+						WorkingTreeIterator.class);
+				boolean cIsTree = isTree(cIter);
+				boolean dcIsTree = isTree(dcIter);
+				boolean wtIsTree = isTree(wtIter);
+				AbstractTreeIterator cFileIter = cIsTree ? null : cIter;
+				DirCacheEntry dce = dcIter != null && !dcIsTree
+						? dcIter.getDirCacheEntry()
+						: null;
+				WorkingTreeIterator wtFileIter = wtIsTree ? null : wtIter;
+
+				boolean replacesDir = false;
+				if (dce != null && dce.isMerged() && cFileIter != null
+						&& cFileIter.idEqual(dcIter)
+						&& cFileIter.getEntryRawMode() == dce.getRawMode()) {
+					// unchanged, keep unstaged changes
+					builder.add(dce);
+				} else if (dce != null && dce.isMerged() && wtFileIter != null
+						&& !(isGitlink(dce) && isGitlink(wtFileIter))
+						&& wtFileIter.isModified(dce, true,
+								walk.getObjectReader())) {
+					// unstaged changes would be lost
+					conflicts.add(path);
+				} else if (dce == null && wtFileIter != null
+						&& !wtFileIter.isEntryIgnored() && (cFileIter != null
+								|| cIsTree || insideReplacedDir)) {
+					// untracked file would be overwritten or removed
+					conflicts.add(path);
+				} else if (cFileIter != null && wtFileIter != null
+						&& isGitlink(wtFileIter) && !isGitlink(cFileIter)) {
+					// don't delete a submodule repository
+					conflicts.add(path);
+				} else if (cFileIter != null) {
+					DirCacheEntry newEntry = new DirCacheEntry(
+							walk.getRawPath());
+					newEntry.setFileMode(cFileIter.getEntryFileMode());
+					newEntry.setObjectIdFromRaw(cFileIter.idBuffer(),
+							cFileIter.idOffset());
+					builder.add(newEntry);
+					toCheckout.put(newEntry,
+							new CheckoutMetadata(
+									walk.getCheckoutEolStreamType(0),
+									walk.getSmudgeCommand(0)));
+					replacesDir = wtIsTree && !isGitlink(cFileIter);
+				} else if (wtFileIter != null && (dce != null || cIsTree)) {
+					// tracked file not in the commit, or ignored file in the
+					// way of a directory
+					toDelete.add(path);
+				}
+				if (replacesDir) {
+					replacedDirDepth = walk.getDepth();
+				}
+				if (cIsTree || dcIsTree
+						|| (wtIsTree && (replacesDir || insideReplacedDir)
+								&& !wtIter.isEntryIgnored())) {
+					walk.enterSubtree();
+				}
+			}
+
+			if (!conflicts.isEmpty()) {
+				throw new CheckoutConflictException(conflicts,
+						new org.eclipse.jgit.errors.CheckoutConflictException(
+								conflicts.toArray(
+										new String[conflicts.size()])));
+			}
+
+			FS fs = repo.getFS();
+			for (String path : toDelete) {
+				File file = new File(repo.getWorkTree(), path);
+				if (!file.delete() && fs.exists(file)) {
+					// a non-empty submodule directory is kept
+					if (!fs.isDirectory(file)) {
+						throw new IOException(MessageFormat.format(
+								JGitText.get().deleteFileFailed,
+								file.getAbsolutePath()));
+					}
+					continue;
+				}
+				removeEmptyParents(file);
+				removed.add(path);
+			}
+
+			// Directories in the way of files have been verified above to
+			// contain only content that may be deleted.
+			Checkout checkout = new Checkout(repo).setRecursiveDeletion(true);
+			for (Map.Entry<DirCacheEntry, CheckoutMetadata> entry : toCheckout
+					.entrySet()) {
+				DirCacheEntry dce = entry.getKey();
+				if (isGitlink(dce)) {
+					// A file in the way has been verified above to be
+					// deletable.
+					Path target = new File(repo.getWorkTree(),
+							dce.getPathString()).toPath();
+					if (Files.exists(target, LinkOption.NOFOLLOW_LINKS)
+							&& !Files.isDirectory(target,
+									LinkOption.NOFOLLOW_LINKS)) {
+						FileUtils.delete(target.toFile());
+					}
+					checkout.checkoutGitlink(dce, null);
+				} else {
+					checkout.checkout(dce, entry.getValue(),
+							walk.getObjectReader(), null);
+				}
+				modified.add(dce.getPathString());
+			}
+			if (!builder.commit()) {
+				throw new IndexWriteException();
+			}
+		} finally {
+			try {
+				dc.unlock();
+			} finally {
+				WorkingTreeModifiedEvent event = new WorkingTreeModifiedEvent(
+						modified, removed);
+				if (!event.isEmpty()) {
+					repo.fireEvent(event);
+				}
+			}
+		}
+	}
+
+	private static boolean isTree(AbstractTreeIterator iter) {
+		return iter != null && FileMode.TREE.equals(iter.getEntryRawMode());
+	}
+
+	private static boolean isGitlink(DirCacheEntry entry) {
+		return FileMode.GITLINK.equals(entry.getRawMode());
+	}
+
+	private static boolean isGitlink(AbstractTreeIterator iter) {
+		return FileMode.GITLINK.equals(iter.getEntryRawMode());
+	}
+
+	private void removeEmptyParents(File file) {
+		File parent = file.getParentFile();
+		while (parent != null && !parent.equals(repo.getWorkTree())) {
+			if (!parent.delete()) {
+				break;
+			}
+			parent = parent.getParentFile();
 		}
 	}
 
