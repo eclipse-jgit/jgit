@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d09112b1_9d053b6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-02T14:47:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db78a20e_6f7f8ad5",
+      "revId": "8985ef472ab01c215adc8319c462057d18c47fef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90d1657f_e40a1f25",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-11-02T14:10:08Z",
       "side": 1,
       "message": "```suggestion\n  $ bazel build --config\u003dremote27 all  # RBE on GCP\n```",
+      "revId": "8985ef472ab01c215adc8319c462057d18c47fef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "940a73a9_752702c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-02T14:47:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90d1657f_e40a1f25",
       "revId": "8985ef472ab01c215adc8319c462057d18c47fef",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
