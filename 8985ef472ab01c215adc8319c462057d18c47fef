@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db78a20e_6f7f8ad5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-11-02T14:10:08Z",
+      "side": 1,
+      "message": "jgit has no `release` target\n\n```suggestion\n  $ bazel build --config\u003djava27 all    # local JDK 27\n```",
+      "revId": "8985ef472ab01c215adc8319c462057d18c47fef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90d1657f_e40a1f25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-11-02T14:10:08Z",
+      "side": 1,
+      "message": "```suggestion\n  $ bazel build --config\u003dremote27 all  # RBE on GCP\n```",
+      "revId": "8985ef472ab01c215adc8319c462057d18c47fef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
