@@ -195,6 +195,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e3b312c7_69e6d600",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-02T19:35:51Z",
+      "side": 1,
+      "message": "Matthias B responded to my question in this comment https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1183413/comments/09cdebaa_d67ae493",
+      "parentUuid": "99882a8b_ec8bfdd1",
+      "revId": "17bbf8f420cb50551129c304a11d8acaf8b149a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c05fcb0b_2d4baf54",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-02T19:35:51Z",
+      "side": 1,
+      "message": "I think this was intended to be in reply to https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1183413/comments/80344340_787f400a ?",
+      "parentUuid": "09cdebaa_d67ae493",
+      "revId": "17bbf8f420cb50551129c304a11d8acaf8b149a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a80543e8_5292a82c",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 2
