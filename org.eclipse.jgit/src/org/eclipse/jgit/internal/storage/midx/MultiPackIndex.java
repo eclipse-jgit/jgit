@@ -43,18 +43,6 @@ public interface MultiPackIndex extends Iterable<MultiPackIndex.MutableEntry> {
 	boolean hasObject(AnyObjectId oid);
 
 	/**
-	 * Obtain the location of the object.
-	 * <p>
-	 * The returned object can be reused by the implementations. Callers must
-	 * create a #copy() if they want to keep a reference.
-	 *
-	 * @param objectId
-	 *            objectId to read.
-	 * @return mutable instance with the location or null if not found.
-	 */
-	PackOffset find(AnyObjectId objectId);
-
-	/**
 	 * Position of the object in this midx, when all covered objects are ordered
 	 * by SHA1.
 	 * <p>
@@ -96,6 +84,24 @@ public interface MultiPackIndex extends Iterable<MultiPackIndex.MutableEntry> {
 	 * @return the object id at that position
 	 */
 	ObjectId getObjectAt(int position);
+
+	/**
+	 * Pack id of the object at the specified position in this midx.
+	 *
+	 * @param position
+	 *            position inside this midx in sha1 order
+	 * @return the pack id of the object at that position
+	 */
+	int getPackId(int position);
+
+	/**
+	 * Offset of the object in its pack at the specified position in this midx.
+	 *
+	 * @param position
+	 *            position inside this midx in sha1 order
+	 * @return the offset of the object in its pack
+	 */
+	long getOffset(int position);
 
 	/**
 	 * Number of objects in this midx
