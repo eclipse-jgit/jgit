@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b30e289f_6c83dc6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-02T19:51:52Z",
+      "side": 1,
+      "message": "Verification fails for an unrelated test in LFS\n\n[ERROR] org.eclipse.jgit.lfs.server.fs.PushTest.testPushSimple\n...\n11:43:07  [ERROR] Failures: \n11:43:07  [ERROR]   PushTest.testPushSimple:128 expected:\u003c...370476383ea776df414 [20]0]\u003e but was:\u003c...370476383ea776df414 []0]\u003e",
+      "revId": "48e3b34171d850059f364ef1a472b06cd0c165dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
