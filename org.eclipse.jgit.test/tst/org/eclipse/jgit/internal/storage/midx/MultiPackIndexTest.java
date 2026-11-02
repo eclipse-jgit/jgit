@@ -13,7 +13,6 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
@@ -73,11 +72,11 @@ public class MultiPackIndexTest {
 		assertNotNull(midx);
 		assertArrayEquals(packNames, midx.getPackNames());
 
-		MultiPackIndex.PackOffset oo = midx.find(ObjectId.fromString(knownOid));
-
-		assertEquals(knowOffset, oo.getOffset());
-		assertEquals(knownPackId, oo.getPackId());
-		assertEquals(knownPackName, midx.getPackNames()[oo.getPackId()]);
+		int pos = midx.findPosition(ObjectId.fromString(knownOid));
+		assertTrue(pos >= 0);
+		assertEquals(knowOffset, midx.getOffset(pos));
+		assertEquals(knownPackId, midx.getPackId(pos));
+		assertEquals(knownPackName, midx.getPackNames()[midx.getPackId(pos)]);
 	}
 
 	@Test
@@ -97,8 +96,22 @@ public class MultiPackIndexTest {
 		assertInIndex(midx, 2, "0000000000000000000000000000000000000012",
 				1502);
 
-		assertNull(midx.find(ObjectId.zeroId()));
+		assertEquals(-1, midx.findPosition(ObjectId.zeroId()));
 		assertNotNull(midx.getChecksum());
+	}
+
+	@Test
+	public void findPositionLookups() throws IOException {
+		MultiPackIndex midx = createMultiPackIndex();
+		ObjectId knownId = ObjectId
+				.fromString("0000000000000000000000000000000000000001");
+
+		int pos = midx.findPosition(knownId);
+		assertTrue(pos >= 0);
+		assertEquals(0, midx.getPackId(pos));
+		assertEquals(500, midx.getOffset(pos));
+
+		assertEquals(-1, midx.findPosition(ObjectId.zeroId()));
 	}
 
 	@Test
@@ -350,7 +363,7 @@ public class MultiPackIndexTest {
 		assertEquals(8, midx.findPosition(oid("015")));
 		assertEquals(oid("015"), midx.getObjectAt(8));
 
-		assertNull(midx.find(ObjectId.zeroId()));
+		assertEquals(-1, midx.findPosition(ObjectId.zeroId()));
 	}
 
 	private static MultiPackIndex createMultiPackIndex() throws IOException {
@@ -440,34 +453,34 @@ public class MultiPackIndexTest {
 
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
-		MultiPackIndex.PackOffset packOffset;
-		packOffset = midx.find(ObjectId
-				.fromString("0000000000000000000000000000000000000005"));
-		assertEquals(0, midx.findBitmapPosition(packOffset));
-		packOffset = midx.find(ObjectId
-				.fromString("0000000000000000000000000000000000000001"));
-		assertEquals(1, midx.findBitmapPosition(packOffset));
-		packOffset = midx.find(ObjectId
-				.fromString("0000000000000000000000000000000000000010"));
-		assertEquals(2, midx.findBitmapPosition(packOffset));
-		packOffset = midx.find(ObjectId
-				.fromString("0000000000000000000000000000000000000003"));
-		assertEquals(3, midx.findBitmapPosition(packOffset));
-		packOffset = midx.find(ObjectId
-				.fromString("0000000000000000000000000000000000000002"));
-		assertEquals(4, midx.findBitmapPosition(packOffset));
-		packOffset = midx.find(ObjectId
-				.fromString("0000000000000000000000000000000000000015"));
-		assertEquals(5, midx.findBitmapPosition(packOffset));
-		packOffset = midx.find(ObjectId
-				.fromString("0000000000000000000000000000000000000007"));
-		assertEquals(6, midx.findBitmapPosition(packOffset));
-		packOffset = midx.find(ObjectId
-				.fromString("0000000000000000000000000000000000000004"));
-		assertEquals(7, midx.findBitmapPosition(packOffset));
-		packOffset = midx.find(ObjectId
-				.fromString("0000000000000000000000000000000000000012"));
-		assertEquals(8, midx.findBitmapPosition(packOffset));
+		MultiPackIndex.PackOffset packOffset = new MultiPackIndex.PackOffset();
+		assertBitmapPosition(midx, packOffset,
+				"0000000000000000000000000000000000000005", 0);
+		assertBitmapPosition(midx, packOffset,
+				"0000000000000000000000000000000000000001", 1);
+		assertBitmapPosition(midx, packOffset,
+				"0000000000000000000000000000000000000010", 2);
+		assertBitmapPosition(midx, packOffset,
+				"0000000000000000000000000000000000000003", 3);
+		assertBitmapPosition(midx, packOffset,
+				"0000000000000000000000000000000000000002", 4);
+		assertBitmapPosition(midx, packOffset,
+				"0000000000000000000000000000000000000015", 5);
+		assertBitmapPosition(midx, packOffset,
+				"0000000000000000000000000000000000000007", 6);
+		assertBitmapPosition(midx, packOffset,
+				"0000000000000000000000000000000000000004", 7);
+		assertBitmapPosition(midx, packOffset,
+				"0000000000000000000000000000000000000012", 8);
+	}
+
+	private static void assertBitmapPosition(MultiPackIndex midx,
+			MultiPackIndex.PackOffset buffer, String oid,
+			int expectedBitmapPos) {
+		int pos = midx.findPosition(ObjectId.fromString(oid));
+		assertTrue(pos >= 0);
+		buffer.setValues(midx.getPackId(pos), midx.getOffset(pos));
+		assertEquals(expectedBitmapPos, midx.findBitmapPosition(buffer));
 	}
 
 	@Test
@@ -639,12 +652,11 @@ public class MultiPackIndexTest {
 
 	private static void assertInIndex(MultiPackIndex midx, int expectedPackId,
 			String oid, long expectedOffset) {
-		MultiPackIndex.PackOffset packOffset = midx
-				.find(ObjectId.fromString(oid));
-		assertNotNull(packOffset);
+		int pos = midx.findPosition(ObjectId.fromString(oid));
+		assertTrue("Object not in index: " + oid, pos >= 0);
 		assertEquals("Wrong packId for " + oid, expectedPackId,
-				packOffset.getPackId());
-		assertEquals(expectedOffset, packOffset.getOffset());
+				midx.getPackId(pos));
+		assertEquals(expectedOffset, midx.getOffset(pos));
 	}
 
 	private static void assertNextEntry(
