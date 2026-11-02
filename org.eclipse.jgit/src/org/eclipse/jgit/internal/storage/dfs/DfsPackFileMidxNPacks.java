@@ -215,8 +215,8 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 		List<ObjectToPack> otps = new ArrayList<>(localObjCount);
 		for (int idxPosition = 0; idxPosition < localObjCount; idxPosition++) {
 			ObjectId oid = midx.getObjectAt(idxPosition);
-			PackOffset packOffset = midx.find(oid);
-			long offset = offsetCalculator.encode(packOffset);
+			long offset = offsetCalculator.encode(midx.getPackId(idxPosition),
+					midx.getOffset(idxPosition));
 			int objectType = getObjectType(ctx, offset);
 			ObjectToPack otp = new ObjectToPack(oid, objectType);
 			otp.setOffset(offset);
@@ -324,9 +324,9 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 
 	@Override
 	ObjectLoader get(DfsReader ctx, AnyObjectId id) throws IOException {
-		PackOffset location = midx(ctx).find(id);
-		if (location != null) {
-			return packsInIdOrder[location.getPackId()].get(ctx, id);
+		int pos = midx(ctx).findPosition(id);
+		if (pos >= 0) {
+			return packsInIdOrder[midx(ctx).getPackId(pos)].get(ctx, id);
 		}
 
 		if (base == null) {
@@ -338,9 +338,10 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 
 	@Override
 	long findOffset(DfsReader ctx, AnyObjectId id) throws IOException {
-		PackOffset location = midx(ctx).find(id);
-		if (location != null) {
-			return offsetCalculator.encode(location);
+		int pos = midx(ctx).findPosition(id);
+		if (pos >= 0) {
+			return offsetCalculator.encode(midx(ctx).getPackId(pos),
+					midx(ctx).getOffset(pos));
 		}
 
 		if (base == null) {
@@ -373,9 +374,9 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 
 	@Override
 	long getObjectSize(DfsReader ctx, AnyObjectId id) throws IOException {
-		PackOffset local = midx(ctx).find(id);
-		if (local != null) {
-			return packsInIdOrder[local.getPackId()].getObjectSize(ctx, id);
+		int pos = midx(ctx).findPosition(id);
+		if (pos >= 0) {
+			return packsInIdOrder[midx(ctx).getPackId(pos)].getObjectSize(ctx, id);
 		}
 
 		if (base == null) {
@@ -412,11 +413,13 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 			if (skipFound && otp.isFound()) {
 				continue;
 			}
-			long p = offsetCalculator.encode(midx(ctx).find(otp));
-			if (p < 0) {
+			int pos = midx(ctx).findPosition(otp);
+			if (pos < 0) {
 				notFoundHere.add(otp);
 				continue;
 			}
+			long p = offsetCalculator.encode(midx(ctx).getPackId(pos),
+					midx(ctx).getOffset(pos));
 			otp.setOffset(p);
 			tmp.add(otp);
 		}
@@ -442,8 +445,6 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 
 		private final DfsPackOffset poBuffer = new DfsPackOffset();
 
-		private final PackOffset localPoBuffer = new PackOffset();
-
 		static VOffsetCalculatorNPacks fromPacks(DfsPackFile[] packsInIdOrder,
 				VOffsetCalculator baseOffsetCalculator) {
 			long[] accSizes = new long[packsInIdOrder.length + 1];
@@ -466,15 +467,19 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 			accSizes = packSizes;
 		}
 
+		long encode(int packId, long offset) {
+			return offset + accSizes[packId] + baseMaxOffset;
+		}
+
 		long encode(MultiPackIndex.PackOffset location) {
 			if (location == null) {
 				return -1;
 			}
-			return location.getOffset() + accSizes[location.getPackId()]
-					+ baseMaxOffset;
+			return encode(location.getPackId(), location.getOffset());
 		}
 
-		MultiPackIndex.PackOffset decodeLocal(long voffset) {
+		MultiPackIndex.PackOffset decodeLocal(long voffset,
+				MultiPackIndex.PackOffset out) {
 			if (voffset == -1 || voffset < baseMaxOffset
 					|| voffset > getMaxOffset()) {
 				return null;
@@ -483,11 +488,15 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 			long localOffset = voffset - baseMaxOffset;
 			for (int i = 1; i < accSizes.length; i++) {
 				if (localOffset <= accSizes[i]) {
-					return localPoBuffer.setValues(i - 1,
+					return out.setValues(i - 1,
 							localOffset - accSizes[i - 1]);
 				}
 			}
 			return null;
+		}
+
+		MultiPackIndex.PackOffset decodeLocal(long voffset) {
+			return decodeLocal(voffset, new MultiPackIndex.PackOffset());
 		}
 
 		@Override

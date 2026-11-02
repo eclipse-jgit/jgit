@@ -185,11 +185,11 @@ public class PackMidx extends Pack {
 	@Override
 	@Nullable
 	ObjectLoader get(WindowCursor curs, AnyObjectId id) throws IOException {
-		MultiPackIndex.PackOffset packOffset = getMidx().find(id);
-		if (packOffset == null) {
+		int pos = getMidx().findPosition(id);
+		if (pos < 0) {
 			return null;
 		}
-		return packsInIdOrder.get(packOffset.getPackId()).get(curs, id);
+		return packsInIdOrder.get(getMidx().getPackId(pos)).get(curs, id);
 	}
 
 	@Override
@@ -319,12 +319,12 @@ public class PackMidx extends Pack {
 
 	@Override
 	long getObjectSize(WindowCursor curs, AnyObjectId id) throws IOException {
-		MultiPackIndex.PackOffset po = getMidx().find(id);
-		if (po == null) {
+		int pos = getMidx().findPosition(id);
+		if (pos < 0) {
 			return -1;
 		}
-		return packsInIdOrder.get(po.getPackId()).getObjectSize(curs,
-				po.getOffset());
+		return packsInIdOrder.get(getMidx().getPackId(pos)).getObjectSize(curs,
+				getMidx().getOffset(pos));
 	}
 
 	@Override
@@ -341,11 +341,11 @@ public class PackMidx extends Pack {
 	@Nullable
 	LocalObjectRepresentation representation(WindowCursor curs,
 			AnyObjectId objectId) throws IOException {
-		MultiPackIndex.PackOffset po = getMidx().find(objectId);
-		if (po == null) {
+		int pos = getMidx().findPosition(objectId);
+		if (pos < 0) {
 			return null;
 		}
-		return packsInIdOrder.get(po.getPackId()).representation(curs,
+		return packsInIdOrder.get(getMidx().getPackId(pos)).representation(curs,
 				objectId);
 	}
 
@@ -380,8 +380,6 @@ public class PackMidx extends Pack {
 	}
 
 	private static class OffsetCalculator {
-		private final MultiPackIndex.PackOffset mutablePo = new MultiPackIndex.PackOffset();
-
 		private final long[] accSizes;
 
 		OffsetCalculator(long[] packSizes) {
@@ -404,17 +402,23 @@ public class PackMidx extends Pack {
 		}
 
 		@Nullable
-		MultiPackIndex.PackOffset decode(long totalOffset) {
+		MultiPackIndex.PackOffset decode(long totalOffset,
+				MultiPackIndex.PackOffset out) {
 			if (totalOffset < 0) {
 				return null;
 			}
 
 			for (int i = accSizes.length - 1; i >= 0; i--) {
 				if (totalOffset >= accSizes[i]) {
-					return mutablePo.setValues(i, totalOffset - accSizes[i]);
+					return out.setValues(i, totalOffset - accSizes[i]);
 				}
 			}
 			return null;
+		}
+
+		@Nullable
+		MultiPackIndex.PackOffset decode(long totalOffset) {
+			return decode(totalOffset, new MultiPackIndex.PackOffset());
 		}
 	}
 
@@ -472,15 +476,18 @@ public class PackMidx extends Pack {
 
 		@Override
 		public long getOffset(long nthPosition) {
-			ObjectId objectAt = midx.getObjectAt((int) nthPosition);
-			MultiPackIndex.PackOffset packOffset = midx.find(objectAt);
-			return offsetCalculator.encode(packOffset);
+			return offsetCalculator.encode(midx.getPackId((int) nthPosition),
+					midx.getOffset((int) nthPosition));
 		}
 
 		@Override
 		public long findOffset(AnyObjectId objId) {
-			MultiPackIndex.PackOffset packOffset = midx.find(objId);
-			return offsetCalculator.encode(packOffset);
+			int pos = midx.findPosition(objId);
+			if (pos < 0) {
+				return -1;
+			}
+			return offsetCalculator.encode(midx.getPackId(pos),
+					midx.getOffset(pos));
 		}
 
 		@Override

@@ -38,8 +38,6 @@ class MultiPackIndexV1 implements MultiPackIndex {
 
 	private final OffsetLookup offsets;
 
-	private final PackOffset result = new PackOffset();
-
 	private final ReverseIndex ridx;
 
 	private final byte[] checksum;
@@ -88,19 +86,18 @@ class MultiPackIndexV1 implements MultiPackIndex {
 	}
 
 	@Override
-	public int getObjectCount() {
-		return idx.getObjectCount();
+	public int getPackId(int position) {
+		return offsets.getPackId(position);
 	}
 
 	@Override
-	@Nullable
-	public PackOffset find(AnyObjectId objectId) {
-		int position = idx.findMultiPackIndexPosition(objectId);
-		if (position == -1) {
-			return null;
-		}
-		offsets.getObjectOffset(position, result);
-		return result;
+	public long getOffset(int position) {
+		return offsets.getOffset(position);
+	}
+
+	@Override
+	public int getObjectCount() {
+		return idx.getObjectCount();
 	}
 
 	@Override
@@ -167,6 +164,24 @@ class MultiPackIndexV1 implements MultiPackIndex {
 			this.largeOffsets = largeOffsets;
 		}
 
+		int getPackId(int position) {
+			int offsetInChunk = position * OBJECT_OFFSETS_DATA_WIDTH;
+			return NB.decodeInt32(offsets, offsetInChunk);
+		}
+
+		long getOffset(int position) {
+			int offsetInChunk = position * OBJECT_OFFSETS_DATA_WIDTH;
+			int offset = NB.decodeInt32(offsets, offsetInChunk + 4);
+			if ((offset & BIT_31_ON) != 0) {
+				if (largeOffsets == null) {
+					return NB.decodeUInt32(offsets, offsetInChunk + 4);
+				}
+				int bigOffsetPos = (offset & TOGGLE_BIT_31);
+				return NB.decodeInt64(largeOffsets, bigOffsetPos * 8);
+			}
+			return offset;
+		}
+
 		/**
 		 * Get the metadata of a commit。
 		 *
@@ -176,21 +191,7 @@ class MultiPackIndexV1 implements MultiPackIndex {
 		 *            an instance of PackOffset to populate with the result.
 		 */
 		void getObjectOffset(int position, PackOffset result) {
-			int offsetInChunk = position * OBJECT_OFFSETS_DATA_WIDTH;
-			int packId = NB.decodeInt32(offsets, offsetInChunk);
-			int offset = NB.decodeInt32(offsets, offsetInChunk + 4);
-			if ((offset & BIT_31_ON) != 0) {
-				long bigOffset;
-				if (largeOffsets == null) {
-					bigOffset = NB.decodeUInt32(offsets, offsetInChunk + 4);
-				} else {
-					int bigOffsetPos = (offset & TOGGLE_BIT_31);
-					bigOffset = NB.decodeInt64(largeOffsets, bigOffsetPos * 8);
-				}
-				result.setValues(packId, bigOffset);
-				return;
-			}
-			result.setValues(packId, offset);
+			result.setValues(getPackId(position), getOffset(position));
 		}
 
 		long getMemorySize() {
