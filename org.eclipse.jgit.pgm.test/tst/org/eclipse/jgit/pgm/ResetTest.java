@@ -14,6 +14,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -127,6 +129,25 @@ public class ResetTest extends CLIRepositoryTestCase {
 		// assert that file b is still staged
 		assertArrayEquals(new String[] { "b" },
 				status.getChanged().toArray());
+	}
+
+	@Test
+	public void testResetMerge() throws Exception {
+		File a = writeTrashFile("a.txt", "a1");
+		File b = writeTrashFile("b.txt", "b1");
+		git.add().addFilepattern(".").call();
+		RevCommit commit = git.commit().setMessage("initial commit").call();
+		writeTrashFile("a.txt", "a2");
+		git.add().addFilepattern("a.txt").call();
+		git.commit().setMessage("second commit").call();
+		// unstaged change of a file that is the same in both commits
+		writeTrashFile("b.txt", "b2");
+		assertStringArrayEquals("",
+				execute("git reset --merge " + commit.getId().name()));
+		assertEquals(commit.getId(),
+				git.getRepository().exactRef("HEAD").getObjectId());
+		assertEquals("a1", read(a));
+		assertEquals("b2", read(b));
 	}
 
 }
