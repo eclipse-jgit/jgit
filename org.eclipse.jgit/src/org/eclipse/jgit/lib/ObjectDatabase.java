@@ -133,6 +133,29 @@ public abstract class ObjectDatabase implements AutoCloseable {
 	}
 
 	/**
+	 * Does the requested object exist in the live storage of this database?
+	 * <p>
+	 * Unlike {@link #has(AnyObjectId)}, this may return {@code false} for an
+	 * object that the database only keeps to recover from concurrent removal,
+	 * such as an object in a preserved pack, and it does not recover such an
+	 * object. Use it where a false negative is harmless, for example to skip
+	 * writing an object that already exists.
+	 * <p>
+	 * The default implementation calls {@link #has(AnyObjectId)}.
+	 *
+	 * @param objectId
+	 *            identity of the object to test for existence of.
+	 * @return true if the specified object is in the live storage of this
+	 *         database.
+	 * @throws java.io.IOException
+	 *             the object store cannot be accessed.
+	 * @since 8.0
+	 */
+	public boolean hasLive(AnyObjectId objectId) throws IOException {
+		return has(objectId);
+	}
+
+	/**
 	 * Open an object from this database.
 	 * <p>
 	 * This is a one-shot call interface which may be faster than allocating a

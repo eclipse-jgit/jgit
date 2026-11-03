@@ -284,6 +284,12 @@ public class ObjectDirectory extends FileObjectDatabase {
 						&& hasPackedOrLooseInSelfOrAlternate(objectId));
 	}
 
+	@Override
+	public boolean hasLive(AnyObjectId objectId) {
+		return loose.hasCached(objectId)
+				|| hasPackedOrLooseInSelfOrAlternate(objectId);
+	}
+
 	private boolean hasPackedOrLooseInSelfOrAlternate(AnyObjectId objectId) {
 		return hasPackedInSelfOrAlternate(objectId, null)
 				|| hasLooseInSelfOrAlternate(objectId, null);
@@ -589,7 +595,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			FileUtils.delete(tmp, FileUtils.RETRY | FileUtils.SKIP_MISSING);
 			return InsertLooseObjectResult.EXISTS_LOOSE;
 		}
-		if (!createDuplicate && has(id)) {
+		if (!createDuplicate && hasLive(id)) {
 			FileUtils.delete(tmp, FileUtils.RETRY | FileUtils.SKIP_MISSING);
 			return InsertLooseObjectResult.EXISTS_PACKED;
 		}

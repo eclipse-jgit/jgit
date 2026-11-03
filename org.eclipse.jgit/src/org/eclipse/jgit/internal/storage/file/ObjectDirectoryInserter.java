@@ -79,7 +79,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 			int type, byte[] data, int off, int len, boolean createDuplicate)
 			throws IOException {
 		ObjectId id = idFor(type, data, off, len);
-		if (!createDuplicate && db.has(id)) {
+		if (!createDuplicate && db.hasLive(id)) {
 			return id;
 		}
 		File tmp = toTemp(type, data, off, len);

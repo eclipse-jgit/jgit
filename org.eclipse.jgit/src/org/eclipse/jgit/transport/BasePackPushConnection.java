@@ -326,7 +326,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 			for (Ref r : getRefs()) {
 				// only add objects that we actually have
 				ObjectId oid = r.getObjectId();
-				if (local.getObjectDatabase().has(oid))
+				if (local.getObjectDatabase().hasLive(oid))
 					remoteObjects.add(oid);
 			}
 			remoteObjects.addAll(additionalHaves);

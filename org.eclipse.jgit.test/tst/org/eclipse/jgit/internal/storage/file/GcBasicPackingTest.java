@@ -25,14 +25,17 @@ import java.util.List;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.GcConfig;
 import org.eclipse.jgit.lib.GcConfig.PackRefsMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
@@ -368,6 +371,83 @@ public class GcBasicPackingTest extends GcTestCase {
 		stats = gc.getStatistics();
 		assertEquals(4, stats.numberOfPackedObjects);
 		assertEquals(1, stats.numberOfPackFiles);
+	}
+
+	@Test
+	public void testHasLiveDoesNotRestoreOldPacks() throws Exception {
+		String tempRef = "refs/heads/soon-to-be-unreferenced";
+		RevCommit commit = tr.branch(tempRef).commit().add("A", "A").create();
+		orphanIntoPreservedPack(tempRef);
+
+		assertFalse(repo.getObjectDatabase().hasLive(commit));
+		assertEquals(0, gc.getStatistics().numberOfPackFiles);
+
+		assertTrue(repo.getObjectDatabase().has(commit));
+		assertEquals(1, gc.getStatistics().numberOfPackFiles);
+	}
+
+	@Test
+	public void testInsertDoesNotRestoreOldPacks() throws Exception {
+		String tempRef = "refs/heads/soon-to-be-unreferenced";
+		RevBlob blob = tr.blob("A");
+		tr.branch(tempRef).commit().add("A", blob).create();
+		orphanIntoPreservedPack(tempRef);
+
+		try (ObjectInserter ins = repo.newObjectInserter()) {
+			assertEquals(blob,
+					ins.insert(Constants.OBJ_BLOB, Constants.encode("A")));
+			ins.flush();
+		}
+
+		stats = gc.getStatistics();
+		assertEquals(0, stats.numberOfPackFiles);
+		assertEquals(1, stats.numberOfLooseObjects);
+	}
+
+	@Test
+	public void testPushDoesNotRestoreOldPacks() throws Exception {
+		String tempRef = "refs/heads/soon-to-be-unreferenced";
+		tr.branch(tempRef).commit().add("A", "A").create();
+		FileRepository remote = createBareRepository();
+		String url = remote.getDirectory().toURI().toString();
+		try (Git git = new Git(repo)) {
+			// The remote keeps advertising the commit after it is orphaned
+			// here.
+			git.push().setRemote(url).setRefSpecs(new RefSpec(tempRef))
+					.call();
+			orphanIntoPreservedPack(tempRef);
+
+			tr.branch("refs/heads/master").commit().add("B", "B").create();
+			git.push().setRemote(url)
+					.setRefSpecs(new RefSpec("refs/heads/master")).call();
+		}
+
+		assertEquals(0, gc.getStatistics().numberOfPackFiles);
+		assertTrue(remote.getObjectDatabase()
+				.has(repo.resolve("refs/heads/master")));
+	}
+
+	private void orphanIntoPreservedPack(String ref) throws Exception {
+		configureGc(gc, false);
+		gc.setExpireAge(Duration.ZERO);
+		gc.setPackExpireAge(Duration.ZERO);
+		gc.gc().get();
+		assertEquals(1, gc.getStatistics().numberOfPackFiles);
+
+		RefUpdate update = repo.getRefDatabase().newUpdate(ref, false);
+		update.setForceUpdate(true);
+		assertEquals(RefUpdate.Result.FORCED, update.delete());
+		fsTick();
+
+		// Only the orphaned objects are packed, so the pack is removed
+		// and kept in the preserved directory.
+		configureGc(gc, false).setPreserveOldPacks(true);
+		gc.gc().get();
+		stats = gc.getStatistics();
+		assertEquals(0, stats.numberOfLooseObjects);
+		assertEquals(0, stats.numberOfPackFiles);
+		assertEquals(1, repo.getObjectDatabase().getPreservedDirectory()
+				.list((_, name) -> name.endsWith(".old-pack")).length);
 	}
 
 	@Test
