@@ -16,6 +16,23 @@
       "message": "Hi,\n\nCompressedBitmap.iterator() can yield the same OID twice during a\nbitmap walk with index misses: once from the mutableIndex range and\nonce from the ofObjectType range. PackWriter.addObject() does not\ndeduplicate, so the object is written to the pack twice.\n\nThe client rejects it with:\n  fatal: The same object \u003coid\u003e appears twice in the pack\n\nWe hit this in production on repos with low bitmap coverage (e.g. old\nrepos where only ~11% of commits have precomputed bitmaps) and midx\nenabled. It is 100% reproducible, not a race condition.\n\nFix: use addIfAbsent() in addObject() — one line change, no\nallocation overhead.",
       "revId": "f4ba16dfa85fee11361e82afdcc7fdf347513f4a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0abc0b89_de82adc3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-11-03T06:13:39Z",
+      "side": 1,
+      "message": "Thanks for the fix. Are you also able to write a test for it?",
+      "revId": "f4ba16dfa85fee11361e82afdcc7fdf347513f4a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
