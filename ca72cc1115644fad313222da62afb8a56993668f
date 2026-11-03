@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3ad99b5_ca5e2bcd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-11-03T08:35:25Z",
+      "side": 1,
+      "message": "Git doesn\u0027t treat submodules checked out at a different commits as unstaged work unless `--recurse-submodules` is passed. Since this isn\u0027t supported in JGit yet, submodules are skipped in this check unconditionally.",
+      "range": {
+        "startLine": 494,
+        "startChar": 6,
+        "endLine": 494,
+        "endChar": 51
+      },
+      "revId": "ca72cc1115644fad313222da62afb8a56993668f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "354ed727_e7ebac32",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-11-03T08:35:25Z",
+      "side": 1,
+      "message": "If the commit could not be commited, an exception needs to be thrown here to ensure HEAD isn\u0027t updated",
+      "range": {
+        "startLine": 581,
+        "startChar": 3,
+        "endLine": 583,
+        "endChar": 4
+      },
+      "revId": "ca72cc1115644fad313222da62afb8a56993668f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
