@@ -69,6 +69,24 @@
       "parentUuid": "b6d38d96_cba7b6cd",
       "revId": "4ac295799870f31408b042b96eb21f0ad0c02353",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1aa7d1d_49e3e6ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038550
+      },
+      "writtenOn": "2026-11-03T02:28:48Z",
+      "side": 1,
+      "message": "Thanks for the improved fix! Using position-based primitive lookups\n(getPackId/getOffset) is a cleaner approach — avoids the allocation\nentirely on the primary path.\n\nAbandoning this change in favor of yours.",
+      "parentUuid": "5880c090_090323d6",
+      "revId": "4ac295799870f31408b042b96eb21f0ad0c02353",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
