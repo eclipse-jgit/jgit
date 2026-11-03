@@ -860,7 +860,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unableToCreateNewObject;
 	/***/ public String unableToReadFullInt;
 	/***/ public String unableToReadFullArray;
-	/***/ public String unableToReadPackfile;
 	/***/ public String unableToRemovePath;
 	/***/ public String unableToWrite;
 	/***/ public String unableToSignCommitNoSecretKey;
