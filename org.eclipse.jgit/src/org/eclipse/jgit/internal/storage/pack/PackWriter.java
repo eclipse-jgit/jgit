@@ -2312,8 +2312,9 @@ public class PackWriter implements AutoCloseable {
 		else
 			otp = new ObjectToPack(src, type);
 		otp.setPathHash(pathHashCode);
-		objectsLists[type].add(otp);
-		objectsMap.add(otp);
+		if (objectsMap.addIfAbsent(otp) == otp) {
+			objectsLists[type].add(otp);
+		}
 	}
 
 	/**
