@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdbc984b_1a86cd9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037863
+      },
+      "writtenOn": "2026-11-03T19:28:15Z",
+      "side": 1,
+      "message": "This was manually tested, survived a CI run, so from my POV review should continue to humans.",
+      "revId": "74322606540ec8f503076e59ef68b61a7ec70767",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
