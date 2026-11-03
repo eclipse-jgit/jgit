@@ -963,6 +963,39 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 				any());
 	}
 
+	@Test
+	public void addObjectDeduplicates() throws Exception {
+		RevBlob blob;
+		try (TestRepository<FileRepository> tr = new TestRepository<>(db)) {
+			blob = tr.blob("duplicate me");
+		}
+
+		try (PackWriter pw = new PackWriter(db)) {
+			pw.addObject(blob);
+			pw.addObject(blob);
+
+			assertEquals(1, pw.getObjectCount());
+
+			ByteArrayOutputStream packBytes = new ByteArrayOutputStream();
+			ByteArrayOutputStream idxBytes = new ByteArrayOutputStream();
+			NullProgressMonitor m = NullProgressMonitor.INSTANCE;
+			pw.writePack(m, m, packBytes);
+			pw.writeIndex(idxBytes);
+
+			PackIndex idx = PackIndex.read(
+					new ByteArrayInputStream(idxBytes.toByteArray()));
+			assertEquals(1, idx.getObjectCount());
+
+			Set<ObjectId> seen = new HashSet<>();
+			for (PackIndex.MutableEntry entry : idx) {
+				assertTrue(
+						"duplicate object in pack: "
+								+ entry.toObjectId().name(),
+						seen.add(entry.toObjectId()));
+			}
+		}
+	}
+
 	/**
 	 * Creates objects and packfiles in the following order:
 	 * <ul>
