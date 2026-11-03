@@ -776,6 +776,9 @@ public abstract class Transport implements AutoCloseable {
 	/** Should push use bitmaps? */
 	private boolean pushUseBitmaps = DEFAULT_PUSH_USE_BITMAPS;
 
+	/** Filter for the advertised refs used as haves when pushing. */
+	private RefFilter pushHaveRefFilter = RefFilter.DEFAULT;
+
 	/** Should push just check for operation result, not really push. */
 	private boolean dryRun;
 
@@ -1092,6 +1095,37 @@ public abstract class Transport implements AutoCloseable {
 	 */
 	public void setPushUseBitmaps(boolean useBitmaps) {
 		this.pushUseBitmaps = useBitmaps;
+	}
+
+	/**
+	 * Get the filter selecting which refs advertised by the remote are used as
+	 * haves when packing objects for push.
+	 *
+	 * @return the filter, {@link RefFilter#DEFAULT} if none was set.
+	 * @since 8.0
+	 */
+	public RefFilter getPushHaveRefFilter() {
+		return pushHaveRefFilter;
+	}
+
+	/**
+	 * Set the filter selecting which refs advertised by the remote are used as
+	 * haves when packing objects for push.
+	 * <p>
+	 * Objects reachable from the haves are assumed to be present on the
+	 * remote and are not included in the pack. By default all advertised refs
+	 * are used as haves. If the remote advertises many refs, using only those
+	 * relevant to the pushed updates can reduce the cost of preparing the
+	 * pack, at the risk of sending objects the remote already has.
+	 *
+	 * @param refFilter
+	 *            the filter; if null, the filter is reset to
+	 *            {@link RefFilter#DEFAULT}.
+	 * @since 8.0
+	 */
+	public void setPushHaveRefFilter(@Nullable RefFilter refFilter) {
+		this.pushHaveRefFilter = refFilter != null ? refFilter
+				: RefFilter.DEFAULT;
 	}
 
 	/**

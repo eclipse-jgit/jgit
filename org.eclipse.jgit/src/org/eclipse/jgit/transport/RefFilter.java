@@ -23,6 +23,10 @@ import org.eclipse.jgit.lib.Ref;
  * <p>
  * This can be used by applications to control visibility of certain refs based
  * on a custom set of rules.
+ * <p>
+ * On the client side, {@link Transport#setPushHaveRefFilter(RefFilter)} uses
+ * a filter to select which refs advertised by the remote are used as haves
+ * when packing objects for push.
  */
 public interface RefFilter {
 	/**

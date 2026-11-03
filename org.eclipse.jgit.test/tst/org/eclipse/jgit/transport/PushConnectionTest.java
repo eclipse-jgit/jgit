@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,8 +36,10 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,6 +51,7 @@ public class PushConnectionTest {
 	private InMemoryRepository server;
 	private InMemoryRepository client;
 	private List<String> processedRefs;
+	private ReceivedPackStatistics receivedPackStatistics;
 	private ObjectId obj1;
 	private ObjectId obj2;
 	private ObjectId obj3;
@@ -68,6 +72,8 @@ public class PushConnectionTest {
 			}
 			rp.setPreReceiveHook((ReceivePack receivePack,
 					Collection<ReceiveCommand> cmds) -> {
+				receivedPackStatistics = receivePack
+						.getReceivedPackStatistics();
 				for (ReceiveCommand cmd : cmds) {
 					processedRefs.add(cmd.getRefName());
 				}
@@ -250,6 +256,47 @@ public class PushConnectionTest {
 		assertEquals(
 				"remote ref names should match input ref names in order",
 				expected, remoteRefNames(result.getRemoteUpdates()));
+	}
+
+	@Test
+	public void pushHaveRefFilter() throws Exception {
+		RevCommit base;
+		RevCommit a;
+		RevCommit b;
+		RevCommit c;
+		try (TestRepository<?> tr = new TestRepository<>(client)) {
+			base = tr.commit().add("base", "base").create();
+			a = tr.commit().parent(base).add("a", "a").create();
+			b = tr.commit().parent(base).add("b", "b").create();
+			c = tr.commit().parent(base).add("c", "c").create();
+		}
+		assertEquals(1, pushAndCountCommits(base, "refs/heads/master", null));
+
+		assertEquals(1, pushAndCountCommits(a, "refs/heads/a", null));
+
+		Map<String, Ref> advertised = new HashMap<>();
+		RefFilter keepMaster = (Map<String, Ref> refs) -> {
+			advertised.putAll(refs);
+			return Map.of("refs/heads/master", refs.get("refs/heads/master"));
+		};
+		assertEquals(1, pushAndCountCommits(b, "refs/heads/b", keepMaster));
+		assertTrue(advertised.containsKey("refs/heads/master"));
+		assertTrue(advertised.containsKey("refs/heads/a"));
+
+		RefFilter keepNone = (Map<String, Ref> refs) -> Collections.emptyMap();
+		assertEquals(2, pushAndCountCommits(c, "refs/heads/c", keepNone));
+	}
+
+	private long pushAndCountCommits(ObjectId id, String name,
+			RefFilter filter) throws IOException {
+		RemoteRefUpdate rru = new RemoteRefUpdate(client, null, id, name, false,
+				null, ObjectId.zeroId());
+		try (Transport tn = testProtocol.open(uri, client, "server")) {
+			tn.setPushHaveRefFilter(filter);
+			tn.push(NullProgressMonitor.INSTANCE, List.of(rru));
+		}
+		assertEquals(RemoteRefUpdate.Status.OK, rru.getStatus());
+		return receivedPackStatistics.getNumWholeCommit();
 	}
 
 	private static List<String> remoteRefNames(Collection<RemoteRefUpdate> updates) {

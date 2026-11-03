@@ -90,6 +90,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 	private final boolean thinPack;
 	private final boolean atomic;
 	private final boolean useBitmaps;
+	private final RefFilter haveRefFilter;
 
 	/** A list of option strings associated with this push. */
 	private List<String> pushOptions;
@@ -119,6 +120,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		atomic = transport.isPushAtomic();
 		pushOptions = transport.getPushOptions();
 		useBitmaps = transport.isPushUseBitmaps();
+		haveRefFilter = transport.getPushHaveRefFilter();
 	}
 
 	@Override
@@ -323,7 +325,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 		try (PackWriter writer = new PackWriter(transport.getPackConfig(),
 				local.newObjectReader())) {
 
-			for (Ref r : getRefs()) {
+			for (Ref r : haveRefFilter.filter(getRefsMap()).values()) {
 				// only add objects that we actually have
 				ObjectId oid = r.getObjectId();
 				if (local.getObjectDatabase().has(oid))
