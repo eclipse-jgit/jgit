@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba479f07_e325ac02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1038550
+      },
+      "writtenOn": "2026-11-03T07:27:59Z",
+      "side": 1,
+      "message": "Done, filed as https://github.com/eclipse-jgit/jgit/issues/314",
+      "parentUuid": "b68c8eb8_ed46a9b4",
+      "revId": "f4ba16dfa85fee11361e82afdcc7fdf347513f4a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ba4f5e44_4d0cb003",
@@ -48,6 +66,24 @@
       "writtenOn": "2026-11-03T06:13:39Z",
       "side": 1,
       "message": "Thanks for the fix. Are you also able to write a test for it?",
+      "revId": "f4ba16dfa85fee11361e82afdcc7fdf347513f4a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42a8ac1b_f899bd75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038550
+      },
+      "writtenOn": "2026-11-03T07:27:59Z",
+      "side": 1,
+      "message": "Sure, added a test in patchset 2.",
+      "parentUuid": "0abc0b89_de82adc3",
       "revId": "f4ba16dfa85fee11361e82afdcc7fdf347513f4a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
