@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b68c8eb8_ed46a9b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-11-03T06:13:45Z",
+      "side": 1,
+      "message": "Can you create an issue on the JGit issue tracker (https://github.com/eclipse-jgit/jgit/issues) and add a reference here as `jgit-NNN`?",
+      "revId": "f4ba16dfa85fee11361e82afdcc7fdf347513f4a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ba4f5e44_4d0cb003",
