@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e1f1a3e_38c8c964",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1040060
+      },
+      "writtenOn": "2026-11-04T10:55:17Z",
+      "side": 1,
+      "message": "Gentle ping for review when someone has time. CI is passing, and I’m happy to address any feedback.",
+      "revId": "fba294f746b87de4d6fe7b1e9b1fc505bbcf03b2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
