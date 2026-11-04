@@ -15,21 +15,30 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevBlob;
@@ -37,6 +46,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.eclipse.jgit.util.NB;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -326,6 +336,91 @@ public class PackMidxTest extends LocalDiskRepositoryTestCase {
 			assertEquals(entry.obj(), ridx
 					.findObjectByPosition(ridx.findPosition(entry.offset())));
 		}
+	}
+
+	/**
+	 * jgit-314: BranchBuilder preserves bitmap-covered blobs in the uncovered
+	 * tip's tree. A missing BTMP chunk must not cause duplicate packing.
+	 */
+	@Test
+	public void midxBitmapWithoutBtmpChunkDoesNotDuplicate() throws Exception {
+		TestRepository<Repository>.BranchBuilder branch = tr
+				.branch("refs/heads/main");
+		// Two packs covered by the midx bitmap. "shared" lives in pack 1 and,
+		// via BranchBuilder tree inheritance, stays in every later tree.
+		branch.commit().add("shared", "shared").create();
+		tr.packAndPrune();
+		branch.commit().add("b", "b").create();
+		tr.packAndPrune();
+
+		File midxFile = new File(
+				repo.getObjectDatabase().getPackDirectory(),
+				Constants.MIDX_FILE);
+		NullProgressMonitor pm = NullProgressMonitor.INSTANCE;
+		MidxWriter.writeMidx(pm, repo, repo.getObjectDatabase().getPacks(),
+				midxFile, new PackConfig(repo));
+		// Drop BTMP so the midx looks bitmap-less, reproducing jgit-314.
+		stripBtmpChunk(midxFile);
+
+		// The tip is in no pack or bitmap, so packing it forces the walk
+		// fallback (where the duplicate surfaced); its tree still reaches the
+		// covered "shared" blob.
+		RevCommit tip = branch.commit().add("d", "d").create();
+		try (FileRepository fresh = new FileRepository(repo.getDirectory());
+				ObjectReader reader = fresh.newObjectReader();
+				PackWriter pw = new PackWriter(new PackConfig(fresh), reader)) {
+			ByteArrayOutputStream idxOut = new ByteArrayOutputStream();
+			pw.setUseBitmaps(true);
+			pw.preparePack(pm, Set.of(tip), Set.of());
+			pw.writePack(pm, pm, OutputStream.nullOutputStream());
+			pw.writeIndex(idxOut);
+			// Proves the walk fallback ran; otherwise the no-duplicate check
+			// below would pass vacuously.
+			assertTrue("walk fallback must fire",
+					pw.getStatistics().getBitmapIndexMisses() > 0);
+
+			PackIndex idx = PackIndex
+					.read(new ByteArrayInputStream(idxOut.toByteArray()));
+			Set<ObjectId> seen = new HashSet<>();
+			for (PackIndex.MutableEntry e : idx) {
+				assertTrue("duplicate object: " + e.toObjectId().name(),
+						seen.add(e.toObjectId()));
+			}
+		}
+	}
+
+	// Mirrors MultiPackIndexConstants.MIDX_CHUNKID_BITMAPPEDPACKS, not visible
+	// from this package.
+	private static final int MIDX_CHUNKID_BITMAPPEDPACKS = 0x42544D50;
+
+	// Any id the reader does not know; it logs and skips the chunk.
+	private static final int UNKNOWN_CHUNK_ID = 0x58585858;
+
+	// MIDX header is 12 bytes; a 12-byte {id, offset} chunk-lookup entry
+	// follows per chunk, and numChunks is header byte 6.
+	private static final int MIDX_HEADER_SIZE = 12;
+
+	private static final int CHUNK_LOOKUP_WIDTH = 12;
+
+	private static final int NUM_CHUNKS_OFFSET = 6;
+
+	/**
+	 * Make a JGit-written midx look like one without a BTMP chunk by renaming
+	 * BTMP to an unknown chunk id, which the loader logs and skips. The trailing
+	 * checksum is left stale. The loader does not verify it, and the attached
+	 * bitmap stays linked by it.
+	 */
+	private static void stripBtmpChunk(File midxFile) throws IOException {
+		byte[] in = Files.readAllBytes(midxFile.toPath());
+		int numChunks = in[NUM_CHUNKS_OFFSET] & 0xff;
+		for (int i = 0; i < numChunks; i++) {
+			int entryStart = MIDX_HEADER_SIZE + i * CHUNK_LOOKUP_WIDTH;
+			if (NB.decodeInt32(in, entryStart) == MIDX_CHUNKID_BITMAPPEDPACKS) {
+				NB.encodeInt32(in, entryStart, UNKNOWN_CHUNK_ID);
+				break;
+			}
+		}
+		Files.write(midxFile.toPath(), in);
 	}
 
 	private PackMidx writeAndOpenMidxAllPacks() throws IOException {
