@@ -417,8 +417,16 @@ class MultiPackIndexV1 implements MultiPackIndex {
 		}
 
 		public int findBitmapPosition(PackOffset po) {
-			if (bitmapPackOrder == null || bitmappedPackfiles == null) {
+			if (bitmapPackOrder == null || bitmapPackOrder.length < 4) {
 				return -1;
+			}
+			if (bitmappedPackfiles == null) {
+				// Native Git can prefer any pack, whereas JGit's writer orders
+				// packs by ID. RIDX entry zero identifies the preferred pack.
+				int preferredPack = offsets
+						.getPackId(NB.decodeInt32(bitmapPackOrder, 0));
+				return binarySearch(0, bitmapPackOrder.length / 4, po,
+						preferredPack);
 			}
 
 			/*
@@ -434,10 +442,12 @@ class MultiPackIndexV1 implements MultiPackIndex {
 					po.getPackId() * 8);
 			int packBitLength = NB.decodeInt32(bitmappedPackfiles,
 					(po.getPackId() * 8) + 4);
-			return binarySearch(packStartBit, packStartBit + packBitLength, po);
+			return binarySearch(packStartBit, packStartBit + packBitLength, po,
+					-1);
 		}
 
-		private int binarySearch(int start, int end, PackOffset needle) {
+		private int binarySearch(int start, int end, PackOffset needle,
+				int preferredPack) {
 			PackOffset result = new PackOffset();
 			int low = start;
 			int high = end;
@@ -446,6 +456,15 @@ class MultiPackIndexV1 implements MultiPackIndex {
 				int midxPosition = NB.decodeInt32(bitmapPackOrder, mid * 4);
 				offsets.getObjectOffset(midxPosition, result);
 				int cmp = needle.compareTo(result);
+				// A BTMP range needs no preferred-pack comparison (-1), nor
+				// does a whole RIDX whose preferred pack already has ID 0.
+				if (preferredPack > 0) {
+					boolean needlePreferred = needle.getPackId() == preferredPack;
+					boolean resultPreferred = result.getPackId() == preferredPack;
+					if (needlePreferred != resultPreferred) {
+						cmp = needlePreferred ? -1 : 1;
+					}
+				}
 				if (cmp < 0) {
 					high = mid;
 				} else if (cmp == 0) {

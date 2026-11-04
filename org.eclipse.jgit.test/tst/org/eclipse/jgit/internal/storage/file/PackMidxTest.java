@@ -10,33 +10,49 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BitmapIndex;
+import org.eclipse.jgit.lib.BitmapObject;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.eclipse.jgit.util.NB;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -326,6 +342,181 @@ public class PackMidxTest extends LocalDiskRepositoryTestCase {
 			assertEquals(entry.obj(), ridx
 					.findObjectByPosition(ridx.findPosition(entry.offset())));
 		}
+	}
+
+	/**
+	 * A missing BTMP chunk must not cause a bitmap-covered object to be packed
+	 * again when an uncovered tip requires a walk.
+	 */
+	@Test
+	public void midxBitmapWithoutBtmpChunkDoesNotDuplicate() throws Exception {
+		assertMidxBitmapIsUsed(false);
+	}
+
+	@Test
+	public void midxBitmapWithBtmpChunkDoesNotDuplicate() throws Exception {
+		assertMidxBitmapIsUsed(true);
+	}
+
+	private void assertMidxBitmapIsUsed(boolean withBtmp) throws Exception {
+		TestRepository<Repository>.BranchBuilder branch = tr
+				.branch("refs/heads/main");
+		branch.commit().add("shared", "shared").create();
+		tr.packAndPrune();
+		RevCommit covered = branch.commit().add("b", "b").create();
+		tr.packAndPrune();
+
+		File midxFile = new File(
+				repo.getObjectDatabase().getPackDirectory(),
+				Constants.MIDX_FILE);
+		NullProgressMonitor pm = NullProgressMonitor.INSTANCE;
+		MidxWriter.writeMidx(pm, repo, repo.getObjectDatabase().getPacks(),
+				midxFile, new PackConfig(repo));
+		if (!withBtmp) {
+			stripBtmpChunk(midxFile);
+		}
+
+		// BranchBuilder keeps the shared blob in the uncovered tip's tree.
+		RevCommit tip = branch.commit().add("d", "d").create();
+		try (FileRepository fresh = new FileRepository(repo.getDirectory());
+				ObjectReader reader = fresh.newObjectReader();
+				PackWriter pw = new PackWriter(new PackConfig(fresh), reader)) {
+			BitmapIndex bitmap = reader.getBitmapIndex();
+			assertNotNull("midx bitmap must be loaded", bitmap);
+			assertNull("tip must require a walk", bitmap.getBitmap(tip));
+			BitmapIndex.Bitmap parentBitmap = bitmap.getBitmap(covered);
+			assertNotNull("parent must have a precomputed bitmap", parentBitmap);
+			ObjectId shared = fresh.resolve("refs/heads/main:shared");
+			boolean sharedCovered = false;
+			for (BitmapObject object : parentBitmap) {
+				sharedCovered |= object.getObjectId().equals(shared);
+			}
+			assertTrue("shared blob must be in the parent bitmap", sharedCovered);
+
+			Set<ObjectId> expected = reachableObjects(fresh, tip);
+			ByteArrayOutputStream idxOut = new ByteArrayOutputStream();
+			pw.setUseBitmaps(true);
+			pw.preparePack(pm, Set.of(tip), Set.of());
+			pw.writePack(pm, pm, OutputStream.nullOutputStream());
+			pw.writeIndex(idxOut);
+			// Only the tip needs walking. Without parent bitmap reuse the
+			// walk would also count misses for its ancestors.
+			assertEquals(1, pw.getStatistics().getBitmapIndexMisses());
+			assertPackedObjects(expected, pw, idxOut);
+		}
+	}
+
+	private static Set<ObjectId> reachableObjects(Repository repository,
+			ObjectId tip) throws IOException {
+		Set<ObjectId> objects = new HashSet<>();
+		try (ObjectWalk walk = new ObjectWalk(repository)) {
+			walk.markStart(walk.parseCommit(tip));
+			for (RevCommit commit : walk) {
+				objects.add(commit.copy());
+			}
+			RevObject object;
+			while ((object = walk.nextObject()) != null) {
+				objects.add(object.copy());
+			}
+		}
+		return objects;
+	}
+
+	private static void assertPackedObjects(Set<ObjectId> expected,
+			PackWriter writer, ByteArrayOutputStream index) throws IOException {
+		PackIndex packed = PackIndex
+				.read(new ByteArrayInputStream(index.toByteArray()));
+		Set<ObjectId> actual = new HashSet<>();
+		for (PackIndex.MutableEntry entry : packed) {
+			assertTrue("duplicate object: " + entry.toObjectId().name(),
+					actual.add(entry.toObjectId()));
+		}
+		assertEquals(expected.size(), writer.getObjectCount());
+		assertEquals(expected.size(), packed.getObjectCount());
+		assertEquals(expected, actual);
+	}
+
+	// Mirror MultiPackIndexConstants chunk ids, not visible from this package.
+	private static final int MIDX_CHUNKID_BITMAPPEDPACKS = 0x42544D50;
+
+	private static final int MIDX_HEADER_SIZE = 12;
+
+	private static final int CHUNK_LOOKUP_WIDTH = 12;
+
+	private static final int NUM_CHUNKS_OFFSET = 6;
+
+	private static final int BITMAP_CHECKSUM_OFFSET = 12;
+
+	private static void stripBtmpChunk(File midxFile) throws IOException {
+		stripChunk(midxFile, MIDX_CHUNKID_BITMAPPEDPACKS);
+	}
+
+	/** Remove a chunk and update both checksums and the bitmap's MIDX binding. */
+	private static void stripChunk(File midxFile, int chunkId)
+			throws IOException {
+		byte[] in = Files.readAllBytes(midxFile.toPath());
+		int checksumOffset = in.length - Constants.OBJECT_ID_LENGTH;
+		byte[] oldChecksum = Arrays.copyOfRange(in, checksumOffset, in.length);
+		assertArrayEquals(oldChecksum, Constants.newMessageDigest()
+				.digest(Arrays.copyOf(in, checksumOffset)));
+		int numChunks = in[NUM_CHUNKS_OFFSET] & 0xff;
+		byte[] header = Arrays.copyOf(in, MIDX_HEADER_SIZE);
+		header[NUM_CHUNKS_OFFSET] = (byte) (numChunks - 1);
+		// There is one terminator after the remaining chunk entries.
+		byte[] table = new byte[numChunks * CHUNK_LOOKUP_WIDTH];
+		ByteArrayOutputStream data = new ByteArrayOutputStream();
+		int entry = 0;
+		int removed = 0;
+		int offset = header.length + table.length;
+		for (int i = 0; i < numChunks; i++) {
+			int lookup = MIDX_HEADER_SIZE + i * CHUNK_LOOKUP_WIDTH;
+			int id = NB.decodeInt32(in, lookup);
+			int start = Math.toIntExact(NB.decodeInt64(in, lookup + 4));
+			int end = Math.toIntExact(NB.decodeInt64(in,
+					lookup + CHUNK_LOOKUP_WIDTH + 4));
+			if (id == chunkId) {
+				removed++;
+				continue;
+			}
+			NB.encodeInt32(table, entry, id);
+			NB.encodeInt64(table, entry + 4, offset);
+			entry += CHUNK_LOOKUP_WIDTH;
+			data.write(in, start, end - start);
+			offset += end - start;
+		}
+		assertEquals("chunk to remove must occur exactly once", 1, removed);
+		NB.encodeInt64(table, entry + 4, offset);
+		ByteArrayOutputStream rewritten = new ByteArrayOutputStream();
+		rewritten.write(header);
+		rewritten.write(table);
+		data.writeTo(rewritten);
+		byte[] checksum = Constants.newMessageDigest()
+				.digest(rewritten.toByteArray());
+		rewritten.write(checksum);
+
+		File oldBitmap = new File(midxFile.getParentFile(), String.format(
+				"%s-%s.bitmap", Constants.MIDX_FILE,
+				ObjectId.fromRaw(oldChecksum).name()));
+		byte[] bitmap = Files.readAllBytes(oldBitmap.toPath());
+		int bitmapChecksumOffset = bitmap.length - Constants.OBJECT_ID_LENGTH;
+		assertArrayEquals(Arrays.copyOfRange(bitmap, bitmapChecksumOffset,
+				bitmap.length), Constants.newMessageDigest()
+						.digest(Arrays.copyOf(bitmap, bitmapChecksumOffset)));
+		assertArrayEquals(oldChecksum, Arrays.copyOfRange(bitmap,
+				BITMAP_CHECKSUM_OFFSET,
+				BITMAP_CHECKSUM_OFFSET + Constants.OBJECT_ID_LENGTH));
+		System.arraycopy(checksum, 0, bitmap, BITMAP_CHECKSUM_OFFSET,
+				checksum.length);
+		byte[] bitmapChecksum = Constants.newMessageDigest()
+				.digest(Arrays.copyOf(bitmap, bitmapChecksumOffset));
+		System.arraycopy(bitmapChecksum, 0, bitmap, bitmapChecksumOffset,
+				bitmapChecksum.length);
+		File newBitmap = new File(midxFile.getParentFile(), String.format(
+				"%s-%s.bitmap", Constants.MIDX_FILE,
+				ObjectId.fromRaw(checksum).name()));
+		Files.write(newBitmap.toPath(), bitmap);
+		Files.write(midxFile.toPath(), rewritten.toByteArray());
+		Files.delete(oldBitmap.toPath());
 	}
 
 	private PackMidx writeAndOpenMidxAllPacks() throws IOException {
