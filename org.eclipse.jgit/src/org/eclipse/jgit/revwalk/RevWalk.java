@@ -25,7 +25,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CancelledException;
@@ -1220,10 +1219,19 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	public RevObject parseAny(AnyObjectId id)
 			throws MissingObjectException, IOException {
 		RevObject r = objects.get(id);
-		if (r == null)
-			r = parseNew(id, reader.open(id));
-		else
+		if (r != null) {
 			parseHeaders(r);
+			return r;
+		}
+
+		int graphPos = commitGraph().findGraphPosition(id);
+		if (graphPos >= 0) {
+			r = lookupCommit(id, graphPos);
+			parseHeaders(r);
+		} else {
+			r = parseNew(id, reader.open(id));
+		}
+
 		return r;
 	}
 
