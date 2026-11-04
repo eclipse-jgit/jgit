@@ -400,6 +400,9 @@ class MultiPackIndexV1 implements MultiPackIndex {
 	}
 
 	private static class ReverseIndex {
+		/** Each reverse-index entry is a 4-byte big-endian midx position. */
+		private static final int PACK_ORDER_ENTRY_WIDTH = 4;
+
 		private final byte[] bitmappedPackfiles;
 
 		private final byte[] bitmapPackOrder;
@@ -417,35 +420,24 @@ class MultiPackIndexV1 implements MultiPackIndex {
 		}
 
 		public int findBitmapPosition(PackOffset po) {
-			if (bitmapPackOrder == null || bitmappedPackfiles == null) {
+			if (bitmapPackOrder == null
+					|| bitmapPackOrder.length < PACK_ORDER_ENTRY_WIDTH) {
 				return -1;
 			}
-
-			/*
-			 * Bitmapped Packfiles (ID: {'B', 'T', 'M', 'P'}) Stores a table of
-			 * two 4-byte unsigned integers in network order. Each table entry
-			 * corresponds to a single pack (in the order that they appear above
-			 * in the `PNAM` chunk). The values for each table entry are as
-			 * follows: - The first bit position (in pseudo-pack order, see
-			 * below) to contain an object from that pack. - The number of bits
-			 * whose objects are selected from that pack.
-			 */
-			int packStartBit = NB.decodeInt32(bitmappedPackfiles,
-					po.getPackId() * 8);
-			int packBitLength = NB.decodeInt32(bitmappedPackfiles,
-					(po.getPackId() * 8) + 4);
-			return binarySearch(packStartBit, packStartBit + packBitLength, po);
-		}
-
-		private int binarySearch(int start, int end, PackOffset needle) {
+			// Binary search the whole reverse index, which is in midx
+			// pseudo-pack order (native git's midx_to_pack_pos). BTMP is not
+			// consulted.
+			int preferredPack = offsets
+					.getPackId(NB.decodeInt32(bitmapPackOrder, 0));
 			PackOffset result = new PackOffset();
-			int low = start;
-			int high = end;
+			int low = 0;
+			int high = bitmapPackOrder.length / PACK_ORDER_ENTRY_WIDTH;
 			while (low < high) {
 				int mid = (low + high) >>> 1;
-				int midxPosition = NB.decodeInt32(bitmapPackOrder, mid * 4);
+				int midxPosition = NB.decodeInt32(bitmapPackOrder,
+						mid * PACK_ORDER_ENTRY_WIDTH);
 				offsets.getObjectOffset(midxPosition, result);
-				int cmp = needle.compareTo(result);
+				int cmp = comparePseudoPackOrder(po, result, preferredPack);
 				if (cmp < 0) {
 					high = mid;
 				} else if (cmp == 0) {
@@ -457,12 +449,25 @@ class MultiPackIndexV1 implements MultiPackIndex {
 			return -1;
 		}
 
+		// Compare two locations in midx pseudo-pack order (native git's
+		// midx_pack_order_cmp): the preferred pack sorts first, then pack id,
+		// then offset.
+		private static int comparePseudoPackOrder(PackOffset a, PackOffset b,
+				int preferredPack) {
+			boolean aPreferred = a.getPackId() == preferredPack;
+			boolean bPreferred = b.getPackId() == preferredPack;
+			if (aPreferred != bPreferred) {
+				return aPreferred ? -1 : 1;
+			}
+			return a.compareTo(b);
+		}
+
 		public ObjectId getObjectId(int bitmapPosition) {
 			if (bitmapPackOrder == null) {
 				return null;
 			}
 			int midxPosition = NB.decodeInt32(bitmapPackOrder,
-					bitmapPosition * 4);
+					bitmapPosition * PACK_ORDER_ENTRY_WIDTH);
 			return oids.getObjectAt(midxPosition);
 		}
 

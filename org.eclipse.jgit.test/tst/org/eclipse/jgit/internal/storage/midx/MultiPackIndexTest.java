@@ -9,6 +9,8 @@
  */
 package org.eclipse.jgit.internal.storage.midx;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -30,6 +32,7 @@ import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.util.NB;
 import org.junit.Test;
 
 public class MultiPackIndexTest {
@@ -542,6 +545,94 @@ public class MultiPackIndexTest {
 		assertEquals(
 				ObjectId.fromString("0000000000000000000000000000000000000012"),
 				midx.getObjectAtBitmapPosition(8));
+	}
+
+	@Test
+	public void jgit_findBitmapPosition_nonLowestPreferredPack()
+			throws Exception {
+		// midx position = sorted-OID order. The preferred pack is pack 2 (not
+		// the lowest id), one object has a 64-bit offset (the LOFF path), and
+		// there is no BTMP chunk.
+		int[] packId = { 0, 2, 1, 2, 0, 1 };
+		long[] offset = { 100, 50, 200, 0x123456789L, 300, 10 };
+		// Reverse index (bitmap position -> midx position) in pseudo-pack
+		// order: preferred pack 2 by offset, then pack 0 by offset, then pack
+		// 1 by offset.
+		int[] bitmapToMidx = { 1, 3, 0, 4, 5, 2 };
+
+		MultiPackIndex midx = craftMidx(packId, offset, bitmapToMidx, 3);
+
+		// RIDX entry 0 belongs to the non-lowest preferred pack.
+		assertEquals(2, midx.getPackId(bitmapToMidx[0]));
+
+		MultiPackIndex.PackOffset po = new MultiPackIndex.PackOffset();
+		for (int bitmapPos = 0; bitmapPos < bitmapToMidx.length; bitmapPos++) {
+			int midxPos = bitmapToMidx[bitmapPos];
+			po.setValues(packId[midxPos], offset[midxPos]);
+			assertEquals(bitmapPos, midx.findBitmapPosition(po));
+			assertEquals(oidAt(midxPos),
+					midx.getObjectAtBitmapPosition(bitmapPos));
+		}
+	}
+
+	// OID whose sort order equals its midx position.
+	private static ObjectId oidAt(int midxPos) {
+		return ObjectId.fromString(String.format("%040x", midxPos + 1));
+	}
+
+	// Build a MultiPackIndex directly from crafted chunks, so a non-lowest
+	// pack can be preferred (MultiPackIndexWriter always prefers the lowest).
+	// bitmapToMidx is the reverse index in pseudo-pack order.
+	private static MultiPackIndex craftMidx(int[] packId, long[] offset,
+			int[] bitmapToMidx, int packCount) throws Exception {
+		int n = packId.length;
+
+		byte[] oidFanout = new byte[256 * Integer.BYTES];
+		for (int b = 0; b < 256; b++) {
+			// Every OID starts with 0x00, so all fanout buckets hold n.
+			NB.encodeInt32(oidFanout, b * Integer.BYTES, n);
+		}
+
+		byte[] oidLookup = new byte[n * OBJECT_ID_LENGTH];
+		for (int pos = 0; pos < n; pos++) {
+			oidAt(pos).copyRawTo(oidLookup, pos * OBJECT_ID_LENGTH);
+		}
+
+		byte[] objectOffsets = new byte[n * 8];
+		ByteArrayOutputStream largeOffsets = new ByteArrayOutputStream();
+		int largeCount = 0;
+		for (int pos = 0; pos < n; pos++) {
+			NB.encodeInt32(objectOffsets, pos * 8, packId[pos]);
+			if (offset[pos] > Integer.MAX_VALUE) {
+				NB.encodeInt32(objectOffsets, pos * 8 + 4,
+						largeCount | (1 << 31));
+				byte[] big = new byte[8];
+				NB.encodeInt64(big, 0, offset[pos]);
+				largeOffsets.write(big);
+				largeCount++;
+			} else {
+				NB.encodeInt32(objectOffsets, pos * 8 + 4, (int) offset[pos]);
+			}
+		}
+
+		byte[] reverseIndex = new byte[n * Integer.BYTES];
+		for (int bitmapPos = 0; bitmapPos < n; bitmapPos++) {
+			NB.encodeInt32(reverseIndex, bitmapPos * Integer.BYTES,
+					bitmapToMidx[bitmapPos]);
+		}
+
+		StringBuilder names = new StringBuilder();
+		for (int p = 0; p < packCount; p++) {
+			names.append("pack-").append(p).append('\u0000');
+		}
+
+		return MultiPackIndexLoader.MultiPackIndexBuilder.builder()
+				.setPackCount(packCount).addOidFanout(oidFanout)
+				.addOidLookUp(oidLookup)
+				.addPackNames(names.toString().getBytes(UTF_8))
+				.addObjectOffsets(objectOffsets)
+				.addObjectLargeOffsets(largeOffsets.toByteArray())
+				.addReverseIndex(reverseIndex).build();
 	}
 
 	@Test
