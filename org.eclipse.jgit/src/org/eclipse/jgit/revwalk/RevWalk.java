@@ -25,7 +25,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CancelledException;
@@ -1220,11 +1219,25 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 	public RevObject parseAny(AnyObjectId id)
 			throws MissingObjectException, IOException {
 		RevObject r = objects.get(id);
-		if (r == null)
-			r = parseNew(id, reader.open(id));
-		else
+		if (r != null) {
 			parseHeaders(r);
-		return r;
+			return r;
+		}
+
+		// TODO(ifrade): Move to createCommit(id, graphPos) once the
+		// 1-arg variant is hidden for subclassing.
+		if (commitGraph().findGraphPosition(id) >= 0) {
+			// Use 1-arg createCommit(id) so subclasses still overriding
+			// createCommit(AnyObjectId) receive their custom RevCommit subtype.
+			// For subclasses with createCommit(id, graphPos), two commit-graph
+			// lookups are still better than reading from disk.
+			r = createCommit(id);
+			parseHeaders(r);
+			objects.add(r);
+			return r;
+		}
+
+		return parseNew(id, reader.open(id));
 	}
 
 	private RevObject parseNew(AnyObjectId id, ObjectLoader ldr)

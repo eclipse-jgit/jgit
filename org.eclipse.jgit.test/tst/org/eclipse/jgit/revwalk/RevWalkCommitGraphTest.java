@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -123,8 +122,88 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 		assertParsedCommit(c2, inGraphNoBody, 2, false);
 	}
 
-	@Test
-	public void testParseBody() throws Exception {
+  @Test
+  public void testParseCommit() throws Exception {
+    commitFile("file1", "1", "master");
+    RevCommit c2 = commitFile("file2", "2", "master");
+
+    // No commit-graph, retainBody = true (default)
+    reinitializeRevWalk();
+    assertTrue(rw.isRetainBody());
+    RevCommit noGraphWithBody = rw.parseCommit(c2);
+    assertEquals(1, getCachedBytesCalls);
+    assertParsedCommit(c2, noGraphWithBody, Constants.COMMIT_GENERATION_UNKNOWN, true);
+
+    // No commit-graph, retainBody = false
+    reinitializeRevWalk();
+    rw.setRetainBody(false);
+    assertFalse(rw.isRetainBody());
+    RevCommit noGraphNoBody = rw.parseCommit(c2);
+    assertEquals(1, getCachedBytesCalls);
+    assertParsedCommit(c2, noGraphNoBody, Constants.COMMIT_GENERATION_UNKNOWN, false);
+
+    enableAndWriteCommitGraph();
+
+    // With commit-graph, retainBody = true (default)
+    reinitializeRevWalk();
+    assertTrue(rw.isRetainBody());
+    RevCommit inGraphWithBody = rw.parseCommit(c2);
+    assertEquals(1, getCachedBytesCalls);
+    assertParsedCommit(c2, inGraphWithBody, 2, true);
+
+    // With commit-graph, retainBody = false
+    reinitializeRevWalk();
+    rw.setRetainBody(false);
+    assertFalse(rw.isRetainBody());
+    RevCommit inGraphNoBody = rw.parseCommit(c2);
+    assertEquals(0, getCachedBytesCalls);
+    assertParsedCommit(c2, inGraphNoBody, 2, false);
+  }
+
+  @Test
+  public void testParseAny() throws Exception {
+    commitFile("file1", "1", "master");
+    RevCommit c2 = commitFile("file2", "2", "master");
+
+    // No commit-graph, retainBody = true (default)
+    reinitializeRevWalk();
+    assertTrue(rw.isRetainBody());
+    RevObject noGraphWithBody = rw.parseAny(c2);
+    assertTrue(noGraphWithBody instanceof RevCommit);
+    assertEquals(1, getCachedBytesCalls);
+    assertParsedCommit(c2, (RevCommit) noGraphWithBody, Constants.COMMIT_GENERATION_UNKNOWN, true);
+
+    // No commit-graph, retainBody = false
+    reinitializeRevWalk();
+    rw.setRetainBody(false);
+    assertFalse(rw.isRetainBody());
+    RevObject noGraphNoBody = rw.parseAny(c2);
+    assertTrue(noGraphNoBody instanceof RevCommit);
+    assertEquals(1, getCachedBytesCalls);
+    assertParsedCommit(c2, (RevCommit) noGraphNoBody, Constants.COMMIT_GENERATION_UNKNOWN, false);
+
+    enableAndWriteCommitGraph();
+
+    // With commit-graph, retainBody = true (default)
+    reinitializeRevWalk();
+    assertTrue(rw.isRetainBody());
+    RevObject inGraphWithBody = rw.parseAny(c2);
+    assertTrue(inGraphWithBody instanceof RevCommit);
+    assertEquals(1, getCachedBytesCalls);
+    assertParsedCommit(c2, (RevCommit) inGraphWithBody, 2, true);
+
+    // With commit-graph, retainBody = false
+    reinitializeRevWalk();
+    rw.setRetainBody(false);
+    assertFalse(rw.isRetainBody());
+    RevObject inGraphNoBody = rw.parseAny(c2);
+    assertTrue(inGraphNoBody instanceof RevCommit);
+    assertEquals(0, getCachedBytesCalls);
+    assertParsedCommit(c2, (RevCommit) inGraphNoBody, 2, false);
+  }
+
+  @Test
+  public void testParseBody() throws Exception {
 		commitFile("file1", "1", "master");
 		RevCommit c2 = commitFile("file2", "2", "master");
 
