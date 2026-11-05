@@ -534,6 +534,13 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_DIRNOGITLINKS = "dirNoGitLinks";
 
+	/**
+	 * The "ignorecase" key
+	 *
+	 * @since 8.0
+	 */
+	public static final String CONFIG_KEY_IGNORECASE = "ignorecase";
+
 	/** The "precomposeunicode" key */
 	public static final String CONFIG_KEY_PRECOMPOSEUNICODE = "precomposeunicode";
 

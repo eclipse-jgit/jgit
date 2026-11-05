@@ -22,6 +22,7 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,6 +37,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectDatabase;
@@ -55,6 +57,7 @@ import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.Test;
 
 public class T0003_BasicTest extends SampleDataRepositoryTestCase {
@@ -82,6 +85,44 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		assertTrue("Exists " + refs_tags, refs_tags.isDirectory());
 		assertTrue("Exists " + HEAD, HEAD.isFile());
 		assertEquals(23, HEAD.length());
+	}
+
+	@Test
+	public void test001_ignoreCaseMatchesFileSystem() throws IOException {
+		assertIgnoreCaseMatchesFileSystem(createWorkRepository());
+	}
+
+	@Test
+	public void test001_ignoreCaseMatchesFileSystemBare() throws IOException {
+		assertIgnoreCaseMatchesFileSystem(createBareRepository());
+	}
+
+	@Test
+	public void test001_ignoreCaseOnWindows() throws IOException {
+		assumeTrue(SystemReader.getInstance().isWindows());
+		assertTrue(createWorkRepository().getConfig().getBoolean(
+				ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_IGNORECASE, false));
+	}
+
+	private static void assertIgnoreCaseMatchesFileSystem(Repository repo)
+			throws IOException {
+		File probe = new File(repo.getDirectory(), "probe");
+		FileUtils.createNewFile(probe);
+		boolean caseInsensitive = new File(repo.getDirectory(), "PROBE")
+				.exists();
+		FileUtils.delete(probe);
+
+		FileBasedConfig cfg = new FileBasedConfig(
+				new File(repo.getDirectory(), Constants.CONFIG), FS.DETECTED);
+		try {
+			cfg.load();
+		} catch (ConfigInvalidException e) {
+			throw new IOException(e);
+		}
+		assertEquals(caseInsensitive ? "true" : null,
+				cfg.getString(ConfigConstants.CONFIG_CORE_SECTION, null,
+						ConfigConstants.CONFIG_KEY_IGNORECASE));
 	}
 
 	@Test

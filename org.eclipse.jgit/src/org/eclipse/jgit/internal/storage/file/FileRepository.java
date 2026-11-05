@@ -372,6 +372,11 @@ public class FileRepository extends Repository {
 					ConfigConstants.CONFIG_KEY_BARE, true);
 		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, !bare);
+		// Like C git: on a case-insensitive file system "head" finds HEAD
+		if (new File(getDirectory(), Constants.HEAD.toLowerCase(Locale.ROOT))
+				.exists())
+			cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_IGNORECASE, true);
 		if (SystemReader.getInstance().isMacOS())
 			// Java has no other way
 			cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
