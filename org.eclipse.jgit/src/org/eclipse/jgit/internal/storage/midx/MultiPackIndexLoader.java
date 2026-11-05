@@ -166,6 +166,15 @@ public class MultiPackIndexLoader {
 								chunkId, len));
 			}
 
+			if (chunkId == MIDX_CHUNKID_BITMAPPEDPACKS) {
+				// Not retained: JGit resolves bitmap positions from the reverse
+				// index alone and never reads this chunk. Skip it without
+				// allocating a buffer. skipNBytes (not IO.skipFully) tolerates
+				// a stream whose skip() returns zero while data remains.
+				fd.skipNBytes(len);
+				continue;
+			}
+
 			byte[] buffer = new byte[(int) len];
 			IO.readFully(fd, buffer, 0, buffer.length);
 
@@ -178,9 +187,6 @@ public class MultiPackIndexLoader {
 				break;
 			case MIDX_CHUNKID_PACKNAMES:
 				builder.addPackNames(buffer);
-				break;
-			case MIDX_CHUNKID_BITMAPPEDPACKS:
-				builder.addBitmappedPacks(buffer);
 				break;
 			case MIDX_CHUNKID_OBJECTOFFSETS:
 				builder.addObjectOffsets(buffer);
@@ -219,8 +225,6 @@ public class MultiPackIndexLoader {
 		private byte[] oidLookup;
 
 		private String[] packNames;
-
-		private byte[] bitmappedPackfiles;
 
 		private byte[] objectOffsets;
 
@@ -271,14 +275,6 @@ public class MultiPackIndexLoader {
 			return this;
 		}
 
-		MultiPackIndexBuilder addBitmappedPacks(byte[] buffer)
-				throws MultiPackIndexFormatException {
-			assertChunkNotSeenYet(bitmappedPackfiles,
-					MIDX_CHUNKID_BITMAPPEDPACKS);
-			bitmappedPackfiles = buffer;
-			return this;
-		}
-
 		MultiPackIndexBuilder addObjectOffsets(byte[] buffer)
 				throws MultiPackIndexFormatException {
 			assertChunkNotSeenYet(objectOffsets, MIDX_CHUNKID_OBJECTOFFSETS);
@@ -309,8 +305,8 @@ public class MultiPackIndexLoader {
 
 			assertPackCounts(packCount, packNames.length);
 			return new MultiPackIndexV1(hashLength, oidFanout, oidLookup,
-					packNames, bitmappedPackfiles, objectOffsets,
-					largeObjectOffsets, bitmapPackOrder, checksum);
+					packNames, objectOffsets, largeObjectOffsets,
+					bitmapPackOrder, checksum);
 		}
 
 		private static void assertChunkNotNull(Object object, int chunkId)
