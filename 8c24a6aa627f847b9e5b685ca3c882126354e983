@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63ba950b_1f6b23c6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1040076
+      },
+      "writtenOn": "2026-11-05T00:45:40Z",
+      "side": 0,
+      "message": "nit: restore newline\n\n```suggestion\n\nimport org.eclipse.jgit.annotations.NonNull;\n```",
+      "revId": "8c24a6aa627f847b9e5b685ca3c882126354e983",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

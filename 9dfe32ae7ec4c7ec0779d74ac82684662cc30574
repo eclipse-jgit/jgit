@@ -16,6 +16,23 @@
       "message": "This is good for efficiency (walks can use more commit-graph when available) but break subclasses of RevWalk that do not override createCommit(AnyObjectId, int).\n\njavadoc warns to stop subclassing the old createCommit(AnyObjectId) and move to createCommit(AnyObjectId) since 7.8. I guess in the next release we can make it package private. At teh moment we cannot submit this becuase it would break valid subclasses.",
       "revId": "9dfe32ae7ec4c7ec0779d74ac82684662cc30574",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf4d14a9_c26695cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1040076
+      },
+      "writtenOn": "2026-11-05T00:45:40Z",
+      "side": 1,
+      "message": "olding with -1 on PS1 mainly for two functional issues in RevWalk.parseAny:\n\n2. Calling lookupCommit(id, graphPos) bypasses 1-arg createCommit(AnyObjectId) and causes ClassCastException for existing RevWalk subclasses (such as Gerrit\u0027s CodeReviewRevWalk, ChangeNotesRevWalk, and TagSet.TagWalk) when a commit-graph is present.\n\n2. lookupCommit inserts the unparsed RevCommit into objects before parseHeaders(r) runs, leaving an unparsed entry in objects if loading the body fails when isRetainBody() is true.",
+      "revId": "9dfe32ae7ec4c7ec0779d74ac82684662cc30574",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
