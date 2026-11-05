@@ -269,4 +269,50 @@ public class InitCommandTest extends RepositoryTestCase {
 		command.setDirectory(gitDir);
 		command.call().getRepository();
 	}
+
+	@Test
+	public void testInitSetsIgnoreCaseOnCaseInsensitiveFileSystem()
+			throws Exception {
+		File directory = createTempDirectory("testInitIgnoreCase");
+		try (Git git = Git.init().setDirectory(directory)
+				.setFs(IgnoreCaseTestHelper.caseInsensitiveFs()).call()) {
+			assertEquals("true",
+					IgnoreCaseTestHelper.readIgnoreCase(git.getRepository()));
+		}
+	}
+
+	@Test
+	public void testInitBareSetsIgnoreCaseOnCaseInsensitiveFileSystem()
+			throws Exception {
+		File directory = createTempDirectory("testInitBareIgnoreCase.git");
+		try (Git git = Git.init().setDirectory(directory).setBare(true)
+				.setFs(IgnoreCaseTestHelper.caseInsensitiveFs()).call()) {
+			assertEquals("true",
+					IgnoreCaseTestHelper.readIgnoreCase(git.getRepository()));
+		}
+	}
+
+	@Test
+	public void testInitOmitsIgnoreCaseOnCaseSensitiveFileSystem()
+			throws Exception {
+		File directory = createTempDirectory("testInitNoIgnoreCase");
+		try (Git git = Git.init().setDirectory(directory)
+				.setFs(IgnoreCaseTestHelper.caseSensitiveFs()).call()) {
+			assertNull(
+					IgnoreCaseTestHelper.readIgnoreCase(git.getRepository()));
+		}
+	}
+
+	@Test
+	public void testInitIgnoreCaseMatchesRealFileSystem() throws Exception {
+		File directory = createTempDirectory("testInitIgnoreCaseRealFs");
+		File probe = new File(directory, "probe");
+		assertTrue(probe.createNewFile());
+		boolean caseInsensitive = new File(directory, "PROBE").exists();
+		assertTrue(probe.delete());
+		try (Git git = Git.init().setDirectory(directory).call()) {
+			assertEquals(caseInsensitive ? "true" : null,
+					IgnoreCaseTestHelper.readIgnoreCase(git.getRepository()));
+		}
+	}
 }

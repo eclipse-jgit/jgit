@@ -372,6 +372,19 @@ public class FileRepository extends Repository {
 					ConfigConstants.CONFIG_KEY_BARE, true);
 		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, !bare);
+		// Like C git, probe the file system instead of guessing from the OS
+		File caseProbe = File.createTempFile("try", "case", getDirectory()); //$NON-NLS-1$ //$NON-NLS-2$
+		boolean ignoreCase;
+		try {
+			ignoreCase = getFS().exists(new File(getDirectory(),
+					caseProbe.getName().toUpperCase(Locale.ROOT)));
+		} finally {
+			FileUtils.delete(caseProbe, FileUtils.RETRY);
+		}
+		if (ignoreCase) {
+			cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_IGNORECASE, true);
+		}
 		if (SystemReader.getInstance().isMacOS())
 			// Java has no other way
 			cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,

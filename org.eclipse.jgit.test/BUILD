@@ -12,6 +12,7 @@ HELPERS = glob(
     exclude = ["src/org/eclipse/jgit/transport/ssh/*.java"],
 ) + [PKG + c for c in [
     "api/AbstractRemoteCommandTest.java",
+    "api/IgnoreCaseTestHelper.java",
     "diff/AbstractDiffTestCase.java",
     "diff/AbstractRenameDetectionTestCase.java",
     "internal/diffmergetool/ExternalToolTestCase.java",
