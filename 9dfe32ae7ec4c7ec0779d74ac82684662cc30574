@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15c00f17_13af1948",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-05T00:29:11Z",
+      "side": 1,
+      "message": "This is good for efficiency (walks can use more commit-graph when available) but break subclasses of RevWalk that do not override createCommit(AnyObjectId, int).\n\njavadoc warns to stop subclassing the old createCommit(AnyObjectId) and move to createCommit(AnyObjectId) since 7.8. I guess in the next release we can make it package private. At teh moment we cannot submit this becuase it would break valid subclasses.",
+      "revId": "9dfe32ae7ec4c7ec0779d74ac82684662cc30574",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
