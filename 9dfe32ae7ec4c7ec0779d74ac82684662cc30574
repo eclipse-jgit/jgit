@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c285dfb2_ae951ef0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-05T18:25:40Z",
+      "side": 1,
+      "message": "As discussed in the other comment, we can do this with the 1-arg call at the moment.\n\nWe need to make createCommit 1-arg package-private at some point. How do we do that? Right now is @nooverride. Can we just hide it in 8.0?",
+      "parentUuid": "92329e0b_88497249",
+      "revId": "9dfe32ae7ec4c7ec0779d74ac82684662cc30574",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2cdbed03_fe679eb2",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 1
@@ -173,6 +191,30 @@
       "side": 1,
       "message": "Yes, both of those are true, and the suggestion is fine to land as-is despite them:\n\n1. **The second `findGraphPosition(id)` lookup is negligible:**\n   It only happens once per uncached entry-point `parseAny(id)` / `parseCommit(id)` call — not per walked commit, since `RevCommit.parseInGraph` resolves parents directly by integer `graphPos` via `lookupCommit(objId, graphPos)`. And `GraphObjectIndex.findGraphPosition` is purely an in-memory fanout + binary search over `oidLookup` (~13 comparisons for 2M commits, on cache lines already warmed by the `if` check right above), which is nanoseconds compared to opening and inflating a pack entry.\n\n2. **Falling back to disk for legacy 1-arg `createCommit(AnyObjectId)` subclasses is the desired behavior:**\n   Subclasses overriding the supported 2-arg `createCommit(AnyObjectId, int)` hook inherit `RevWalk.createCommit(id)` and **do** get `graphPosition \u003e\u003d 0` and use the commit-graph. Legacy subclasses that still only override 1-arg `createCommit(AnyObjectId)` cannot safely use `parseInGraph` anyway (they don\u0027t pass `graphPos` to `RevCommit`, and `RevCommit.parseInGraph` creates parent commits via 2-arg `createCommit(objId, graphPos)`, which would return plain `RevCommit` parents instead of the subclass\u0027s commit type). Having them fall back to `parseCanonical` preserves their existing behavior instead of throwing `ClassCastException`, so we can land this optimization now without blocking on a breaking API change.",
       "parentUuid": "3d8d590c_e5ee5711",
+      "range": {
+        "startLine": 1221,
+        "startChar": 0,
+        "endLine": 1235,
+        "endChar": 11
+      },
+      "revId": "9dfe32ae7ec4c7ec0779d74ac82684662cc30574",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10f95c6f_5f9debc8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-05T18:25:40Z",
+      "side": 1,
+      "message": "Thanks! This is a good point. a commit-graph lookup is still better than reading from disk. We can use the 1-arg version of createCommit without breaking anything and move to the 2-arg when we can fix that API.\n\n i applied this suggestion with a bit of code massaging for early returns.",
+      "parentUuid": "de23efcc_9a58d580",
       "range": {
         "startLine": 1221,
         "startChar": 0,
