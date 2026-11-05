@@ -68,6 +68,47 @@
       "message": "```suggestion\n\t\tRevObject r \u003d objects.get(id);\n\t\tif (r \u003d\u003d null) {\n\t\t\tif (commitGraph().findGraphPosition(id) \u003e\u003d 0) {\n\t\t\t\t// Use 1-arg createCommit(id) so subclasses still overriding\n\t\t\t\t// createCommit(AnyObjectId) receive their custom RevCommit\n\t\t\t\t// subtype, and add to objects only after parseHeaders succeeds.\n\t\t\t\tRevCommit c \u003d createCommit(id);\n\t\t\t\tparseHeaders(c);\n\t\t\t\tobjects.add(c);\n\t\t\t\treturn c;\n\t\t\t}\n\t\t\tr \u003d parseNew(id, reader.open(id));\n\t\t} else {\n\t\t\tparseHeaders(r);\n\t\t}\n\t\treturn r;\n```",
       "revId": "9dfe32ae7ec4c7ec0779d74ac82684662cc30574",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39b102eb_5589d607",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1222,
+      "author": {
+        "id": 1040076
+      },
+      "writtenOn": "2026-11-05T01:01:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cdbed03_fe679eb2",
+      "revId": "9dfe32ae7ec4c7ec0779d74ac82684662cc30574",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "578207e4_0efea553",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 1040076
+      },
+      "writtenOn": "2026-11-05T01:01:55Z",
+      "side": 1,
+      "message": "```suggestion\n\t\tRevObject r \u003d objects.get(id);\n\t\tif (r \u003d\u003d null) {\n\t\t\tif (commitGraph().findGraphPosition(id) \u003e\u003d 0) {\n\t\t\t\t// Use 1-arg createCommit(id) so subclasses still overriding\n\t\t\t\t// createCommit(AnyObjectId) receive their custom RevCommit\n\t\t\t\t// subtype, and add to objects only after parseHeaders succeeds.\n\t\t\t\tRevCommit c \u003d createCommit(id);\n\t\t\t\tparseHeaders(c);\n\t\t\t\tobjects.add(c);\n\t\t\t\treturn c;\n\t\t\t}\n\t\t\tr \u003d parseNew(id, reader.open(id));\n\t\t} else {\n\t\t\tparseHeaders(r);\n\t\t}\n\t\treturn r;\n```",
+      "range": {
+        "startLine": 1221,
+        "startChar": 0,
+        "endLine": 1235,
+        "endChar": 11
+      },
+      "revId": "9dfe32ae7ec4c7ec0779d74ac82684662cc30574",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
