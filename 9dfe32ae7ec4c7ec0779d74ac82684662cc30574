@@ -133,6 +133,30 @@
       },
       "revId": "9dfe32ae7ec4c7ec0779d74ac82684662cc30574",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d8d590c_e5ee5711",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-05T01:07:52Z",
+      "side": 1,
+      "message": "IIUC:\n\n1. for this RevWalk createCommit(id) would do a second lookup in the commit graph (two lookups per object).\n\n2. for subclasses overriding createCommit(id), the RevCommit returned won\u0027t have commit-graph position. parseHeaders won\u0027t use the commit-graph and it reads from disk.",
+      "parentUuid": "578207e4_0efea553",
+      "range": {
+        "startLine": 1221,
+        "startChar": 0,
+        "endLine": 1235,
+        "endChar": 11
+      },
+      "revId": "9dfe32ae7ec4c7ec0779d74ac82684662cc30574",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
