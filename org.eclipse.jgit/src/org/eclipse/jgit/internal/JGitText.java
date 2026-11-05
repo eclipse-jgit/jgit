@@ -413,6 +413,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String hunkBelongsToAnotherFile;
 	/***/ public String hunkDisconnectedFromFile;
 	/***/ public String hunkHeaderDoesNotMatchBodyLineCountOf;
+	/***/ public String ignoringFunnyRefLocally;
 	/***/ public String illegalArgumentNotA;
 	/***/ public String illegalCombinationOfArguments;
 	/***/ public String illegalHookName;
