@@ -55,14 +55,6 @@ public class MultiPackIndexBuilderTest {
 		assertEquals("midx chunk id 0x504e414d appears multiple times",
 				e4.getMessage());
 
-		MultiPackIndexBuilder builder5 = MultiPackIndexBuilder.builder();
-		builder5.addBitmappedPacks(buffer);
-		Exception e5 = assertThrows(MultiPackIndexFormatException.class, () -> {
-			builder5.addBitmappedPacks(buffer);
-		});
-		assertEquals("midx chunk id 0x42544d50 appears multiple times",
-				e5.getMessage());
-
 		MultiPackIndexBuilder builder6 = MultiPackIndexBuilder.builder();
 		builder6.addObjectLargeOffsets(buffer);
 		Exception e6 = assertThrows(MultiPackIndexFormatException.class, () -> {

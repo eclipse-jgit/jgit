@@ -22,7 +22,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FilterInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -85,6 +87,33 @@ public class MultiPackIndexLoaderTest {
 
 		MultiPackIndex midx = MultiPackIndexLoader
 				.read(new ByteArrayInputStream(out.toByteArray()));
+		assertNotNull(midx);
+	}
+
+	@Test
+	public void load_streamWhoseSkipReturnsZero() throws Exception {
+		// A JGit-written midx carries a BITMAPPEDPACKS chunk that the loader
+		// skips. skip() legally returns zero on some streams (e.g. buffered)
+		// while data remains, and loading must not treat that as EOF.
+		PackIndex idx = FakeIndexFactory.indexOf(List.of(
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000001", 12),
+				new FakeIndexFactory.IndexObject(
+						"0000000000000000000000000000000000000002", 500)));
+		PackIndexMerger data = PackIndexMerger.builder().addPack("p1", idx)
+				.build();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		writer.write(NullProgressMonitor.INSTANCE, out, data);
+
+		InputStream neverSkips = new FilterInputStream(
+				new ByteArrayInputStream(out.toByteArray())) {
+			@Override
+			public long skip(long n) {
+				return 0; // force skipNBytes to fall back to read()
+			}
+		};
+		MultiPackIndex midx = MultiPackIndexLoader.read(neverSkips);
 		assertNotNull(midx);
 	}
 
