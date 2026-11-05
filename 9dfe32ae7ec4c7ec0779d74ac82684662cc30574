@@ -157,6 +157,30 @@
       },
       "revId": "9dfe32ae7ec4c7ec0779d74ac82684662cc30574",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de23efcc_9a58d580",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 1040076
+      },
+      "writtenOn": "2026-11-05T01:40:11Z",
+      "side": 1,
+      "message": "Yes, both of those are true, and the suggestion is fine to land as-is despite them:\n\n1. **The second `findGraphPosition(id)` lookup is negligible:**\n   It only happens once per uncached entry-point `parseAny(id)` / `parseCommit(id)` call — not per walked commit, since `RevCommit.parseInGraph` resolves parents directly by integer `graphPos` via `lookupCommit(objId, graphPos)`. And `GraphObjectIndex.findGraphPosition` is purely an in-memory fanout + binary search over `oidLookup` (~13 comparisons for 2M commits, on cache lines already warmed by the `if` check right above), which is nanoseconds compared to opening and inflating a pack entry.\n\n2. **Falling back to disk for legacy 1-arg `createCommit(AnyObjectId)` subclasses is the desired behavior:**\n   Subclasses overriding the supported 2-arg `createCommit(AnyObjectId, int)` hook inherit `RevWalk.createCommit(id)` and **do** get `graphPosition \u003e\u003d 0` and use the commit-graph. Legacy subclasses that still only override 1-arg `createCommit(AnyObjectId)` cannot safely use `parseInGraph` anyway (they don\u0027t pass `graphPos` to `RevCommit`, and `RevCommit.parseInGraph` creates parent commits via 2-arg `createCommit(objId, graphPos)`, which would return plain `RevCommit` parents instead of the subclass\u0027s commit type). Having them fall back to `parseCanonical` preserves their existing behavior instead of throwing `ClassCastException`, so we can land this optimization now without blocking on a breaking API change.",
+      "parentUuid": "3d8d590c_e5ee5711",
+      "range": {
+        "startLine": 1221,
+        "startChar": 0,
+        "endLine": 1235,
+        "endChar": 11
+      },
+      "revId": "9dfe32ae7ec4c7ec0779d74ac82684662cc30574",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
