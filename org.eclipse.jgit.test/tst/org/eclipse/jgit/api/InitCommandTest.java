@@ -16,6 +16,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.function.Predicate;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -26,6 +28,10 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FS_POSIX;
+import org.eclipse.jgit.util.FS_Win32;
 import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
 import org.junit.Test;
@@ -268,5 +274,122 @@ public class InitCommandTest extends RepositoryTestCase {
 		command.setGitDir(gitDir);
 		command.setDirectory(gitDir);
 		command.call().getRepository();
+	}
+
+	@Test
+	public void testInitSetsIgnoreCaseOnCaseInsensitiveFileSystem()
+			throws Exception {
+		File directory = createTempDirectory("testInitIgnoreCase");
+		try (Git git = Git.init().setDirectory(directory)
+				.setFs(caseInsensitiveFs()).call()) {
+			assertEquals("true", readIgnoreCase(git.getRepository()));
+		}
+	}
+
+	@Test
+	public void testInitBareSetsIgnoreCaseOnCaseInsensitiveFileSystem()
+			throws Exception {
+		File directory = createTempDirectory("testInitBareIgnoreCase.git");
+		try (Git git = Git.init().setDirectory(directory).setBare(true)
+				.setFs(caseInsensitiveFs()).call()) {
+			assertEquals("true", readIgnoreCase(git.getRepository()));
+		}
+	}
+
+	@Test
+	public void testInitOmitsIgnoreCaseOnCaseSensitiveFileSystem()
+			throws Exception {
+		File directory = createTempDirectory("testInitNoIgnoreCase");
+		try (Git git = Git.init().setDirectory(directory)
+				.setFs(caseSensitiveFs()).call()) {
+			assertNull(readIgnoreCase(git.getRepository()));
+		}
+	}
+
+	@Test
+	public void testInitIgnoreCaseMatchesRealFileSystem() throws Exception {
+		File directory = createTempDirectory("testInitIgnoreCaseRealFs");
+		File probe = new File(directory, "probe");
+		assertTrue(probe.createNewFile());
+		boolean caseInsensitive = new File(directory, "PROBE").exists();
+		assertTrue(probe.delete());
+		try (Git git = Git.init().setDirectory(directory).call()) {
+			assertEquals(caseInsensitive ? "true" : null,
+					readIgnoreCase(git.getRepository()));
+		}
+	}
+
+	/**
+	 * Reads {@code core.ignorecase} from the repository's config file.
+	 *
+	 * @param repo
+	 *            the repository
+	 * @return the value as written, or {@code null} if not set
+	 * @throws Exception
+	 *             if the config file cannot be read
+	 */
+	static String readIgnoreCase(Repository repo) throws Exception {
+		FileBasedConfig cfg = new FileBasedConfig(
+				new File(repo.getDirectory(), Constants.CONFIG), FS.DETECTED);
+		cfg.load();
+		return cfg.getString(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_IGNORECASE);
+	}
+
+	/**
+	 * Creates a file system that finds files regardless of the case of their
+	 * names, like a case-insensitive file system, on any platform.
+	 *
+	 * @return the file system
+	 */
+	static FS caseInsensitiveFs() {
+		return testFs(
+				path -> containsName(path, path.getName()::equalsIgnoreCase));
+	}
+
+	/**
+	 * Creates a file system that finds files only by their exact name, like a
+	 * case-sensitive file system, on any platform.
+	 *
+	 * @return the file system
+	 */
+	static FS caseSensitiveFs() {
+		return testFs(path -> containsName(path, path.getName()::equals));
+	}
+
+	private static boolean containsName(File path, Predicate<String> matches) {
+		File parent = path.getParentFile();
+		String[] names = parent == null ? null : parent.list();
+		if (names == null) {
+			return path.exists();
+		}
+		return Arrays.stream(names).anyMatch(matches);
+	}
+
+	/**
+	 * Creates the platform's file system with a different notion of which files
+	 * exist; everything else behaves like the platform's default file system.
+	 *
+	 * @param exists
+	 *            decides whether a file exists
+	 * @return the file system
+	 */
+	private static FS testFs(Predicate<File> exists) {
+		if (FS.DETECTED instanceof FS_Win32) {
+			return new FS_Win32() {
+
+				@Override
+				public boolean exists(File path) {
+					return exists.test(path);
+				}
+			};
+		}
+		return new FS_POSIX() {
+
+			@Override
+			public boolean exists(File path) {
+				return exists.test(path);
+			}
+		};
 	}
 }

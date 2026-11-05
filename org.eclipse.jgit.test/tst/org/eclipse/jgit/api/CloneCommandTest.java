@@ -123,6 +123,18 @@ public class CloneCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testCloneSetsIgnoreCaseOnCaseInsensitiveFileSystem()
+			throws Exception {
+		File directory = createTempDirectory("testCloneIgnoreCase");
+		try (Git git2 = Git.cloneRepository().setDirectory(directory)
+				.setURI(fileUri()).setFs(InitCommandTest.caseInsensitiveFs())
+				.call()) {
+			assertEquals("true",
+					InitCommandTest.readIgnoreCase(git2.getRepository()));
+		}
+	}
+
+	@Test
 	public void testCloneRepositoryNoCheckout()
 			throws IOException, JGitInternalException, GitAPIException {
 		File directory = createTempDirectory("testCloneRepositoryNoCheckout");
