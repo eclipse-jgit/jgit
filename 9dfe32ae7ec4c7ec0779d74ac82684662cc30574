@@ -109,6 +109,30 @@
       },
       "revId": "9dfe32ae7ec4c7ec0779d74ac82684662cc30574",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae120246_7cd80d7b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 1040076
+      },
+      "writtenOn": "2026-11-05T01:06:28Z",
+      "side": 1,
+      "message": "Calling `lookupCommit(id, graphPos)` here introduces two regressions:\n\n1. **`ClassCastException` for `RevWalk` subclasses overriding `createCommit(AnyObjectId)`:**\n   As noted in `lookupCommit(AnyObjectId, int)`\u0027s Javadoc (lines 1022-1025), it is intended only for `RevCommit#parseInGraph(RevWalk)`. It calls 2-arg `createCommit(id, graphPos)` (`@since 7.8`), bypassing 1-arg `createCommit(AnyObjectId)` (which was marked `@nooverride` in 7.8, not `@Deprecated`). Existing downstream subclasses that still override `createCommit(AnyObjectId)` and cast `(SubCommit) super.parseCommit(id)` (e.g., Gerrit\u0027s `CodeReviewRevWalk`, `ChangeNotesRevWalk`, `TagSet.TagWalk`, and external JGit 7.x consumers) will get back a plain `RevCommit` and throw `ClassCastException` whenever the commit is in the commit-graph.\n2. **Unparsed `RevCommit` left in `objects` if `parseHeaders` throws when `isRetainBody() \u003d\u003d true`:**\n   `lookupCommit` adds `r` to `objects` before `parseHeaders(r)` runs. When `retainBody` is `true` (the `RevWalk` default), `parseInGraph` calls `walk.getCachedBytes(this)`. If that throws `LargeObjectException`, `MissingObjectException`, or `IOException`, `objects` retains an unparsed `RevCommit` instead of remaining `null` -- unlike `parseNew` (line 1269), which calls `objects.add(r)` only after parsing succeeds (cf. `ObjectWalk` lines 177-178).\n\nKeeping the existing `if (r \u003d\u003d null)` structure and instantiating via 1-arg `createCommit(id)` avoids both issues with a minimal diff.",
+      "parentUuid": "578207e4_0efea553",
+      "range": {
+        "startLine": 1221,
+        "startChar": 0,
+        "endLine": 1235,
+        "endChar": 11
+      },
+      "revId": "9dfe32ae7ec4c7ec0779d74ac82684662cc30574",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
