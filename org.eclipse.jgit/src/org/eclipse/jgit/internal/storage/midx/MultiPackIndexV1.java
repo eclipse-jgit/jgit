@@ -43,14 +43,13 @@ class MultiPackIndexV1 implements MultiPackIndex {
 
 	MultiPackIndexV1(int hashLength, @NonNull byte[] oidFanout,
 			@NonNull byte[] oidLookup, String[] packNames,
-			byte[] bitmappedPackfiles, byte[] objectOffsets,
-			byte[] largeObjectOffsets, byte[] bitmapPackOrder, byte[] checksum)
+			byte[] objectOffsets, byte[] largeObjectOffsets,
+			byte[] bitmapPackOrder, byte[] checksum)
 			throws MultiPackIndexFormatException {
 		this.idx = new OidLookup(hashLength, oidFanout, oidLookup);
 		this.offsets = new OffsetLookup(objectOffsets, largeObjectOffsets);
 		this.packNames = packNames;
-		this.ridx = new ReverseIndex(bitmapPackOrder, idx, offsets,
-				bitmappedPackfiles);
+		this.ridx = new ReverseIndex(bitmapPackOrder, idx, offsets);
 		this.checksum = checksum;
 	}
 
@@ -403,8 +402,6 @@ class MultiPackIndexV1 implements MultiPackIndex {
 		/** Each reverse-index entry is a 4-byte big-endian midx position. */
 		private static final int PACK_ORDER_ENTRY_WIDTH = 4;
 
-		private final byte[] bitmappedPackfiles;
-
 		private final byte[] bitmapPackOrder;
 
 		private final OffsetLookup offsets;
@@ -412,8 +409,7 @@ class MultiPackIndexV1 implements MultiPackIndex {
 		private final OidLookup oids;
 
 		ReverseIndex(byte[] bitmapPackOrder, OidLookup oids,
-				OffsetLookup offsets, byte[] bitmappedPackfiles) {
-			this.bitmappedPackfiles = bitmappedPackfiles;
+				OffsetLookup offsets) {
 			this.bitmapPackOrder = bitmapPackOrder;
 			this.oids = oids;
 			this.offsets = offsets;
@@ -474,8 +470,7 @@ class MultiPackIndexV1 implements MultiPackIndex {
 		}
 
 		public long getMemorySize() {
-			return (long) byteArrayLengh(bitmapPackOrder)
-					+ byteArrayLengh(bitmappedPackfiles);
+			return byteArrayLengh(bitmapPackOrder);
 		}
 	}
 }
