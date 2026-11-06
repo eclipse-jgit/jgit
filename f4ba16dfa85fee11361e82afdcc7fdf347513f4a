@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c6cb43a6_b51d0d95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1038550
+      },
+      "writtenOn": "2026-11-06T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba479f07_e325ac02",
+      "revId": "f4ba16dfa85fee11361e82afdcc7fdf347513f4a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ba4f5e44_4d0cb003",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "Sorry about the broken test in patchset 2 — it didn\u0027t actually\ntrigger the duplicate. Fixed in patchset 5: calls addObject twice\nwith the same blob and asserts the pack contains it once. Let me\nknow if you\u0027d prefer a different approach.",
       "parentUuid": "42a8ac1b_f899bd75",
+      "revId": "f4ba16dfa85fee11361e82afdcc7fdf347513f4a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f087fca_1a8e4de5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038550
+      },
+      "writtenOn": "2026-11-06T08:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8b27f25_c57db2c5",
       "revId": "f4ba16dfa85fee11361e82afdcc7fdf347513f4a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

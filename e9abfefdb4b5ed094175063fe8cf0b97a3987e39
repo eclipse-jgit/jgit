@@ -22,6 +22,30 @@
       },
       "revId": "e9abfefdb4b5ed094175063fe8cf0b97a3987e39",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "febc6edf_9deddaf1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2317,
+      "author": {
+        "id": 1038550
+      },
+      "writtenOn": "2026-11-06T08:15:10Z",
+      "side": 1,
+      "message": "Thanks for digging into the root cause. I\u0027ve updated the commit message to reflect the root cause you found.",
+      "parentUuid": "e37831c6_7687483c",
+      "range": {
+        "startLine": 2315,
+        "startChar": 2,
+        "endLine": 2317,
+        "endChar": 3
+      },
+      "revId": "e9abfefdb4b5ed094175063fe8cf0b97a3987e39",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
