@@ -22,6 +22,30 @@
       },
       "revId": "2b1bfff40a1e534d51c5678c5b1b71a5d31be36a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45b4c8dd_38bc8edd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1038550
+      },
+      "writtenOn": "2026-11-06T13:21:48Z",
+      "side": 1,
+      "message": "Thanks, good point. I measured it and added the results to the commit\nmessage.\n\nEnd to end, serving a clone of linux.git (12M objects, 6.6 GB, with\nbitmap) from a JGit HTTP server, the counting phase got about 0.4 s\nslower (+4%), roughly 1% of the 41 s total. Total time and CPU stayed\nwithin run-to-run noise.\n\nI also ran a JMH benchmark of the addObject() bookkeeping alone. The\nextra hash bucket scan costs about 15% of that step, 0.4 s for 20M\nobjects, with no extra allocation.\n\nI didn\u0027t set up 1M refs: addObject() runs once per object in the pack,\nso the number of refs doesn\u0027t change this cost. Happy to run it if you\nstill want that data point.",
+      "parentUuid": "4e955a1c_83624234",
+      "range": {
+        "startLine": 17,
+        "startChar": 62,
+        "endLine": 19,
+        "endChar": 34
+      },
+      "revId": "2b1bfff40a1e534d51c5678c5b1b71a5d31be36a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
