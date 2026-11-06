@@ -171,6 +171,13 @@ public class SubmoduleAddCommand extends
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
+		try {
+			SubmoduleValidator.assertValidCheckoutPath(repo.getWorkTree(), path);
+		} catch (SubmoduleValidator.SubmoduleValidationException e) {
+			throw new IllegalArgumentException(e.getMessage());
+		} catch (IOException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		}
 		// Clone submodule repository
 		File moduleDirectory = SubmoduleWalk.getSubmoduleDirectory(repo, path);
 		CloneCommand clone = Git.cloneRepository();

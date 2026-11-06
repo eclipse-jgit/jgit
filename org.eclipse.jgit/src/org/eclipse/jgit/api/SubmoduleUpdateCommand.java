@@ -29,6 +29,7 @@ import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.file.LockFile;
+import org.eclipse.jgit.internal.submodule.SubmoduleValidator;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -229,6 +230,12 @@ public class SubmoduleUpdateCommand extends
 				String url = generator.getConfigUrl();
 				if (url == null) {
 					continue;
+				}
+				try {
+					SubmoduleValidator.assertValidCheckoutPath(
+							repo.getWorkTree(), generator.getPath());
+				} catch (SubmoduleValidator.SubmoduleValidationException e) {
+					throw new JGitInternalException(e.getMessage(), e);
 				}
 				clonedRestored = false;
 				try (Repository submoduleRepo = getOrCloneSubmodule(generator,
