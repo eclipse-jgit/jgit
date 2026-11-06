@@ -307,6 +307,9 @@ public class DirCache {
 	/** Cache tree for this index; null if the cache tree is not available. */
 	private DirCacheTree tree;
 
+	/** Ids for building {@link #tree}, from the last builder; may be null. */
+	private DirCacheTree.KnownIds knownTreeIds;
+
 	/** Our active lock (if we hold it); null if we don't have it locked. */
 	private LockFile myLock;
 
@@ -382,6 +385,20 @@ public class DirCache {
 		sortedEntries = e;
 		entryCnt = cnt;
 		tree = null;
+		knownTreeIds = null;
+	}
+
+	/**
+	 * Set ids of trees whose entries the last {@link #replace} added
+	 * unchanged, for the next build of the cache tree.
+	 *
+	 * @param known
+	 *            the ids, or null.
+	 */
+	void setKnownTreeIds(DirCacheTree.KnownIds known) {
+		if (tree == null) {
+			knownTreeIds = known;
+		}
 	}
 
 	/**
@@ -445,6 +462,7 @@ public class DirCache {
 		sortedEntries = NO_ENTRIES;
 		entryCnt = 0;
 		tree = null;
+		knownTreeIds = null;
 		readIndexChecksum = NO_CHECKSUM;
 	}
 
@@ -951,7 +969,8 @@ public class DirCache {
 		if (build) {
 			if (tree == null)
 				tree = new DirCacheTree();
-			tree.validate(sortedEntries, entryCnt, 0, 0);
+			tree.validateRoot(sortedEntries, entryCnt, knownTreeIds);
+			knownTreeIds = null;
 		}
 		return tree;
 	}

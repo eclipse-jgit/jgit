@@ -402,9 +402,11 @@ public class DirCacheTree {
 	 *            matches this tree's path. The value at array position
 	 *            <code>cache[cacheIdx].path[pathOff-1]</code> is always '/' if
 	 *            <code>pathOff</code> is &gt; 0.
+	 * @param known
+	 *            ids of trees whose entries were added unchanged, or null.
 	 */
 	void validate(final DirCacheEntry[] cache, final int cCnt, int cIdx,
-			final int pathOff) {
+			final int pathOff, KnownIds known) {
 		if (entrySpan >= 0 && cIdx + entrySpan <= cCnt) {
 			// If we are valid, our children are also valid.
 			// We have no need to validate them.
@@ -459,7 +461,12 @@ public class DirCacheTree {
 			// The entry is contained in this subtree.
 			//
 			assert(st != null);
-			st.validate(cache, cCnt, cIdx, pathOff + st.nameLength() + 1);
+			st.validate(cache, cCnt, cIdx, pathOff + st.nameLength() + 1,
+					known);
+			if (known != null && st.id == null) {
+				st.id = known.get(cache[cIdx].path,
+						pathOff + st.nameLength(), st.entrySpan);
+			}
 			cIdx += st.entrySpan;
 			entrySpan += st.entrySpan;
 			stIdx++;
@@ -470,6 +477,24 @@ public class DirCacheTree {
 		//
 		while (stIdx < childCnt)
 			removeChild(childCnt - 1);
+	}
+
+	/**
+	 * Update (if necessary) the entry spans of this root tree and its
+	 * children, taking tree ids from {@code known}.
+	 *
+	 * @param cache
+	 *            the complete cache from DirCache.
+	 * @param cCnt
+	 *            number of valid entries in the cache.
+	 * @param known
+	 *            ids of trees whose entries were added unchanged, or null.
+	 */
+	void validateRoot(DirCacheEntry[] cache, int cCnt, KnownIds known) {
+		validate(cache, cCnt, 0, 0, known);
+		if (known != null && id == null) {
+			id = known.get(null, 0, entrySpan);
+		}
 	}
 
 	private void insertChild(int stIdx, DirCacheTree st) {
@@ -537,5 +562,130 @@ public class DirCacheTree {
 	@Override
 	public String toString() {
 		return getNameString();
+	}
+
+	/**
+	 * Ids of trees whose entries were added to a cache unchanged, keyed by the
+	 * tree's path.
+	 * <p>
+	 * A tree whose span holds as many entries as were added for it holds
+	 * exactly those entries, so it can use the id instead of formatting and
+	 * hashing the tree again. Records are reserved in tree order (parents
+	 * before children); {@link #get} may miss a record if trees were added
+	 * out of order, which only costs writing that tree.
+	 */
+	static final class KnownIds {
+		private byte[][] paths = new byte[16][];
+
+		private int[] pathLen = new int[16];
+
+		private int[] span = new int[16];
+
+		private ObjectId[] ids = new ObjectId[16];
+
+		private int cnt;
+
+		/**
+		 * Reserve a record for a tree whose entries are about to be added.
+		 *
+		 * @param len
+		 *            length of the tree's path, 0 for the root.
+		 * @return the record to complete with {@link #set} or
+		 *         {@link #truncate}.
+		 */
+		int reserve(int len) {
+			if (cnt == ids.length) {
+				int n = 2 * cnt;
+				paths = Arrays.copyOf(paths, n);
+				pathLen = Arrays.copyOf(pathLen, n);
+				span = Arrays.copyOf(span, n);
+				ids = Arrays.copyOf(ids, n);
+			}
+			pathLen[cnt] = len;
+			return cnt++;
+		}
+
+		/**
+		 * Complete a record.
+		 *
+		 * @param rec
+		 *            the record.
+		 * @param path
+		 *            path of an entry in the tree; its first
+		 *            {@code pathLen} bytes are the tree's path.
+		 * @param entries
+		 *            number of entries added for the tree.
+		 * @param id
+		 *            the tree's id, or null if it cannot be used.
+		 */
+		void set(int rec, byte[] path, int entries, ObjectId id) {
+			paths[rec] = path;
+			span[rec] = entries;
+			ids[rec] = id;
+		}
+
+		/** @return number of records reserved. */
+		int size() {
+			return cnt;
+		}
+
+		/**
+		 * Drop a record and all records reserved after it.
+		 *
+		 * @param rec
+		 *            the record to drop.
+		 */
+		void truncate(int rec) {
+			Arrays.fill(paths, rec, cnt, null);
+			Arrays.fill(ids, rec, cnt, null);
+			cnt = rec;
+		}
+
+		ObjectId get(byte[] path, int len, int entries) {
+			int lo = 0;
+			int hi = cnt;
+			while (lo < hi) {
+				int mid = (lo + hi) >>> 1;
+				int c = cmp(paths[mid], pathLen[mid], path, len);
+				if (c < 0) {
+					lo = mid + 1;
+				} else if (c > 0) {
+					hi = mid;
+				} else {
+					return span[mid] == entries ? ids[mid] : null;
+				}
+			}
+			return null;
+		}
+
+		/**
+		 * Compare tree paths in tree order, parents first.
+		 *
+		 * @param a
+		 *            first path.
+		 * @param aLen
+		 *            length of the first path.
+		 * @param b
+		 *            second path.
+		 * @param bLen
+		 *            length of the second path.
+		 * @return &lt;0, 0 or &gt;0 if {@code a} sorts before, the same as or
+		 *         after {@code b}.
+		 */
+		private static int cmp(byte[] a, int aLen, byte[] b, int bLen) {
+			for (int i = 0; i < aLen && i < bLen; i++) {
+				int c = (a[i] & 0xff) - (b[i] & 0xff);
+				if (c != 0) {
+					return c;
+				}
+			}
+			if (aLen == bLen) {
+				return 0;
+			}
+			if (aLen < bLen) {
+				return aLen == 0 || (b[aLen] & 0xff) >= '/' ? -1 : 1;
+			}
+			return bLen == 0 || (a[bLen] & 0xff) >= '/' ? 1 : -1;
+		}
 	}
 }

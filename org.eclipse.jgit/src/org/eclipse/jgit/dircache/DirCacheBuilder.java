@@ -11,6 +11,7 @@
 
 package org.eclipse.jgit.dircache;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import static org.eclipse.jgit.lib.FileMode.TYPE_MASK;
 import static org.eclipse.jgit.lib.FileMode.TYPE_TREE;
 
@@ -20,8 +21,12 @@ import java.util.Arrays;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.TreeFormatter;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.eclipse.jgit.util.Paths;
 
 /**
  * Updates a {@link org.eclipse.jgit.dircache.DirCache} by adding individual
@@ -40,6 +45,9 @@ import org.eclipse.jgit.treewalk.CanonicalTreeParser;
  */
 public class DirCacheBuilder extends BaseDirCacheEditor {
 	private boolean sorted;
+
+	/** Trees added by {@link #addTree}, for {@link DirCache#writeTree}. */
+	private DirCacheTree.KnownIds knownTrees;
 
 	/**
 	 * Construct a new builder.
@@ -135,43 +143,128 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 	public void addTree(byte[] pathPrefix, int stage, ObjectReader reader,
 			AnyObjectId tree) throws IOException {
 		CanonicalTreeParser p = createTreeParser(pathPrefix, reader, tree);
-		while (!p.eof()) {
-			if (isTree(p)) {
-				p = enterTree(p, reader);
-				continue;
+		int first = entryCnt;
+		int len = 0;
+		if (pathPrefix != null) {
+			len = pathPrefix.length;
+			if (len > 0 && pathPrefix[len - 1] == '/') {
+				len--;
 			}
-
-			DirCacheEntry first = toEntry(stage, p);
-			beforeAdd(first);
-			fastAdd(first);
-			p = p.next();
-			break;
 		}
-
-		// Rest of tree entries are correctly sorted; use fastAdd().
-		while (!p.eof()) {
-			if (isTree(p)) {
-				p = enterTree(p, reader);
-			} else {
-				fastAdd(toEntry(stage, p));
-				p = p.next();
+		boolean root = pathPrefix == null || pathPrefix.length == 0;
+		int mark = knownTrees == null ? 0 : knownTrees.size();
+		int rec = root || len > 0 ? reserve(stage, len) : -1;
+		boolean canonical;
+		try {
+			canonical = addEntries(p, stage, reader, first,
+					new MutableObjectId());
+		} catch (IOException | RuntimeException e) {
+			// Drop the incomplete records of this tree.
+			if (knownTrees != null) {
+				knownTrees.truncate(mark);
 			}
+			throw e;
+		}
+		known(rec, first, canonical, tree);
+	}
+
+	/**
+	 * Add the entries of a tree and its subtrees.
+	 *
+	 * @param p
+	 *            parser at the first entry of the tree.
+	 * @param stage
+	 *            stage of the entries.
+	 * @param reader
+	 *            reader to load subtrees with.
+	 * @param first
+	 *            index of the first entry added by this addTree call.
+	 * @param idBuf
+	 *            scratch buffer for subtree ids.
+	 * @return whether the tree is in the form writeTree would write it, so
+	 *         that its id can be reused for the added entries.
+	 * @throws IOException
+	 *             a subtree cannot be read.
+	 */
+	private boolean addEntries(CanonicalTreeParser p, int stage,
+			ObjectReader reader, int first, MutableObjectId idBuf)
+			throws IOException {
+		boolean canonical = true;
+		byte[] raw = p.idBuffer();
+		int end = 0;
+		int prevStart = 0;
+		int prevEnd = -1;
+		int prevMode = 0;
+		for (; !p.eof(); p.next(1)) {
+			int mode = p.getEntryRawMode();
+			FileMode m = FileMode.fromBits(mode);
+			int nameEnd = p.idOffset() - 1;
+			int nameStart = nameEnd - p.getNameLength();
+			canonical &= m.getBits() == mode && p.idOffset() == end
+					+ TreeFormatter.entrySize(m, p.getNameLength())
+					- OBJECT_ID_LENGTH;
+			// writeTree splits names at '/' into subtrees.
+			for (int i = nameStart; i < nameEnd; i++) {
+				if (raw[i] == '/') {
+					canonical = false;
+				}
+			}
+			// Siblings must be strictly sorted, without duplicate names.
+			if (prevEnd >= 0 && (Paths.compare(raw, prevStart, prevEnd,
+					prevMode, raw, nameStart, nameEnd, mode) >= 0
+					|| Paths.compareSameName(raw, prevStart, prevEnd, raw,
+							nameStart, nameEnd, mode) == 0)) {
+				canonical = false;
+			}
+			end = p.idOffset() + OBJECT_ID_LENGTH;
+			prevStart = nameStart;
+			prevEnd = nameEnd;
+			prevMode = mode;
+			if ((mode & TYPE_MASK) == TYPE_TREE) {
+				int start = entryCnt;
+				int rec = reserve(stage, p.getEntryPathLength());
+				boolean sub = addEntries(p.createSubtreeIterator(reader, idBuf),
+						stage, reader, first, idBuf);
+				// writeTree drops empty trees.
+				canonical &= sub && entryCnt > start;
+				known(rec, start, sub, p.getEntryObjectId());
+			} else {
+				DirCacheEntry e = toEntry(stage, p);
+				if (entryCnt == first) {
+					beforeAdd(e);
+				}
+				fastAdd(e);
+			}
+		}
+		return canonical;
+	}
+
+	private int reserve(int stage, int pathLen) {
+		if (stage != DirCacheEntry.STAGE_0) {
+			return -1;
+		}
+		if (knownTrees == null) {
+			knownTrees = new DirCacheTree.KnownIds();
+		}
+		return knownTrees.reserve(pathLen);
+	}
+
+	private void known(int rec, int start, boolean canonical,
+			AnyObjectId id) {
+		if (rec < 0) {
+			return;
+		}
+		if (entryCnt == start) {
+			knownTrees.truncate(rec);
+		} else {
+			knownTrees.set(rec, entries[start].path, entryCnt - start,
+					canonical ? id.copy() : null);
 		}
 	}
 
 	private static CanonicalTreeParser createTreeParser(byte[] pathPrefix,
 			ObjectReader reader, AnyObjectId tree) throws IOException {
 		return new CanonicalTreeParser(pathPrefix, reader, tree);
-	}
-
-	private static boolean isTree(CanonicalTreeParser p) {
-		return (p.getEntryRawMode() & TYPE_MASK) == TYPE_TREE;
-	}
-
-	private static CanonicalTreeParser enterTree(CanonicalTreeParser p,
-			ObjectReader reader) throws IOException {
-		p = p.createSubtreeIterator(reader);
-		return p.eof() ? p.next() : p;
 	}
 
 	private static DirCacheEntry toEntry(int stage, CanonicalTreeParser i) {
@@ -191,6 +284,8 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 		if (!sorted)
 			resort();
 		replace();
+		cache.setKnownTreeIds(knownTrees);
+		knownTrees = null;
 	}
 
 	private void beforeAdd(DirCacheEntry newEntry) {
