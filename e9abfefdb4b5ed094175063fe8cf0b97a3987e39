@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e37831c6_7687483c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/pack/PackWriter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2317,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-06T07:40:51Z",
+      "side": 1,
+      "message": "I pushed a reader-side fix for the same bug: change 1258372.\n\nIt removes the cause — findBitmapPosition() returned -1 on a BTMP-less midx, so the object was double-yielded. Not a replacement for this: native git keeps both a correct reader and the writer-side have_duplicate_entry dedup, so addIfAbsent is good to keep as defense-in-depth.",
+      "range": {
+        "startLine": 2315,
+        "startChar": 2,
+        "endLine": 2317,
+        "endChar": 3
+      },
+      "revId": "e9abfefdb4b5ed094175063fe8cf0b97a3987e39",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
