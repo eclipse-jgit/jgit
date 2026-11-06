@@ -17,9 +17,14 @@ import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.GITMODULES_PARSE;
 import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.GITMODULES_PATH;
 import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.GITMODULES_URL;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectChecker;
@@ -133,6 +138,53 @@ public class SubmoduleValidator {
 					MessageFormat.format(
 							JGitText.get().submodulePathInvalid, path),
 					GITMODULES_PATH);
+		}
+	}
+
+	/**
+	 * Validate a path that will be materialized inside {@code workTree} by a
+	 * checkout or copy. Separate from {@link #assertValidSubmodulePath(String)}
+	 * so its stricter platform checks are not applied to {@code .gitmodules}
+	 * validation on the receive path.
+	 * <p>
+	 * This is a point-in-time check, not race-free confinement. A path
+	 * component could be replaced with a symlink between the check and the
+	 * write, so call it immediately before the write.
+	 *
+	 * @param workTree
+	 *            work tree the path is resolved under
+	 * @param path
+	 *            manifest- or config-controlled path, slash-separated
+	 * @throws SubmoduleValidationException
+	 *             the path is not confined to {@code workTree}
+	 * @throws IOException
+	 *             the filesystem could not be inspected
+	 */
+	public static void assertValidCheckoutPath(File workTree, String path)
+			throws SubmoduleValidationException, IOException {
+		try {
+			new ObjectChecker().setSafeForMacOS(true).setSafeForWindows(true)
+					.checkPath(path);
+		} catch (CorruptObjectException e) {
+			SubmoduleValidationException sve = new SubmoduleValidationException(
+					MessageFormat.format(
+							JGitText.get().submodulePathInvalid, path),
+					GITMODULES_PATH);
+			sve.initCause(e);
+			throw sve;
+		}
+		Path current = workTree.toPath();
+		for (String segment : path.split("/")) { //$NON-NLS-1$
+			if (segment.isEmpty()) {
+				continue;
+			}
+			current = current.resolve(segment);
+			if (Files.isSymbolicLink(current)) {
+				throw new SubmoduleValidationException(
+						MessageFormat.format(
+								JGitText.get().submodulePathInvalid, path),
+						GITMODULES_PATH);
+			}
 		}
 	}
 

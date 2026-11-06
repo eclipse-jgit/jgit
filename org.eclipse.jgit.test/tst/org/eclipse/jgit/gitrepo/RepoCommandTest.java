@@ -27,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.api.Git;
@@ -49,8 +50,10 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.junit.Assume;
 import org.junit.Test;
 
 public class RepoCommandTest extends RepositoryTestCase {
@@ -1545,6 +1548,112 @@ public class RepoCommandTest extends RepositoryTestCase {
 				tempDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
 				.setURI(rootUri).setRecommendShallow(true);
 		assertThrows(ManifestErrorException.class, () -> command.call());
+	}
+
+	private static String manifest(String projectsXml) {
+		return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+				+ "<manifest>"
+				+ "<remote name=\"remote1\" fetch=\".\" />"
+				+ "<default revision=\"master\" remote=\"remote1\" />"
+				+ projectsXml
+				+ "</manifest>";
+	}
+
+	private RepoCommand manifestCommand(Repository superproject,
+			String projectsXml) throws Exception {
+		JGitTestUtil.writeTrashFile(superproject, "manifest.xml",
+				manifest(projectsXml));
+		return new RepoCommand(superproject)
+				.setPath(superproject.getWorkTree().getAbsolutePath()
+						+ "/manifest.xml")
+				.setURI(rootUri);
+	}
+
+	@Test
+	public void testNonBareManifestPathEscapingWorkTreeRejected()
+			throws Exception {
+		// Non-bare route (RegularSuperprojectWriter).
+		for (String badPath : List.of(".git/hooks", ".git/config",
+				".git/modules/x", "../evil", ".GIT/x")) {
+			Repository superproject = createWorkRepository();
+			RepoCommand command = manifestCommand(superproject,
+					"<project path=\"" + badPath + "\" name=\"" + defaultUri
+							+ "\" />");
+			assertThrows("manifest path " + badPath + " must be rejected",
+					ManifestErrorException.class, () -> command.call());
+			assertFalse(badPath + " must not be checked out",
+					new File(superproject.getWorkTree(), badPath + "/hello.txt")
+							.exists());
+		}
+	}
+
+	@Test
+	public void testNonBareManifestPathThroughSymlinkRejected()
+			throws Exception {
+		Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+		Repository superproject = createWorkRepository();
+		// "a" is a symlink to the superproject's .git, so the lexically clean
+		// path "a/hooks" resolves into .git/hooks without any ".git" segment.
+		FileUtils.createSymLink(new File(superproject.getWorkTree(), "a"),
+				superproject.getDirectory().getAbsolutePath());
+		RepoCommand command = manifestCommand(superproject,
+				"<project path=\"a/hooks\" name=\"" + defaultUri + "\" />");
+		assertThrows(ManifestErrorException.class, () -> command.call());
+		assertFalse("must not write through the symlink into .git",
+				new File(superproject.getDirectory(), "hooks/hello.txt")
+						.exists());
+	}
+
+	@Test
+	public void testNonBareManifestCopyFileIntoDotGitRejected()
+			throws Exception {
+		Repository superproject = createWorkRepository();
+		// Mimic the empty-hooks precondition the attack relies on.
+		new File(superproject.getDirectory(), "hooks").mkdirs();
+		RepoCommand command = manifestCommand(superproject,
+				"<project path=\"foo\" name=\"" + defaultUri + "\">"
+						+ "<copyfile src=\"hello.txt\" dest=\".git/hooks/pre-commit\" />"
+						+ "</project>");
+		assertThrows(ManifestErrorException.class, () -> command.call());
+		assertFalse("copyfile must not write into .git/hooks",
+				new File(superproject.getDirectory(), "hooks/pre-commit")
+						.exists());
+	}
+
+	@Test
+	public void testNonBareManifestCopyFileSourceEscapeRejected()
+			throws Exception {
+		Repository superproject = createWorkRepository();
+		// An out-of-tree file the manifest must not be able to read.
+		File secret = new File(superproject.getWorkTree().getParentFile(),
+				"secret.txt");
+		JGitTestUtil.write(secret, "top secret");
+		RepoCommand command = manifestCommand(superproject,
+				"<project path=\"foo\" name=\"" + defaultUri + "\">"
+						+ "<copyfile src=\"../../secret.txt\" dest=\"leaked.txt\" />"
+						+ "</project>");
+		assertThrows(ManifestErrorException.class, () -> command.call());
+		assertFalse("out-of-tree source must not be copied",
+				new File(superproject.getWorkTree(), "leaked.txt").exists());
+	}
+
+	@Test
+	public void testNonBareManifestPreflightRejectsBeforeEarlierProjectWritten()
+			throws Exception {
+		Assume.assumeTrue(FS.DETECTED.supportsSymlinks());
+		Repository superproject = createWorkRepository();
+		// "zzz" is a symlink to .git. It sorts after the benign "aaa"
+		// (projects are processed path-sorted), so without the preflight
+		// "aaa" would be checked out before "zzz/hooks" is rejected.
+		FileUtils.createSymLink(new File(superproject.getWorkTree(), "zzz"),
+				superproject.getDirectory().getAbsolutePath());
+		RepoCommand command = manifestCommand(superproject,
+				"<project path=\"aaa\" name=\"" + defaultUri + "\" />"
+						+ "<project path=\"zzz/hooks\" name=\"" + notDefaultUri
+						+ "\" />");
+		assertThrows(ManifestErrorException.class, () -> command.call());
+		assertFalse("earlier project must not be written before rejection",
+				new File(superproject.getWorkTree(), "aaa/hello.txt").exists());
 	}
 
 	private void resolveRelativeUris() {

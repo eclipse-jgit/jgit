@@ -12,6 +12,7 @@ package org.eclipse.jgit.gitrepo;
 import static org.eclipse.jgit.lib.Constants.DEFAULT_REMOTE_NAME;
 import static org.eclipse.jgit.lib.Constants.R_REMOTES;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -23,6 +24,8 @@ import org.eclipse.jgit.gitrepo.RepoProject.CopyFile;
 import org.eclipse.jgit.gitrepo.RepoProject.LinkFile;
 import org.eclipse.jgit.gitrepo.internal.RepoText;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.submodule.SubmoduleValidator;
+import org.eclipse.jgit.internal.submodule.SubmoduleValidator.SubmoduleValidationException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -49,6 +52,9 @@ class RegularSuperprojectWriter {
 	RevCommit write(List<RepoProject> repoProjects)
 			throws GitAPIException {
 		try (Git git = new Git(repo)) {
+			// Validate the whole plan first: projects are path-sorted, so a
+			// benign one could be written before a later unsafe path is rejected.
+			assertManifestPathsSafe(repoProjects);
 			for (RepoProject proj : repoProjects) {
 				addSubmodule(proj.getName(), proj.getUrl(), proj.getPath(),
 						proj.getRevision(), proj.getCopyFiles(),
@@ -61,6 +67,26 @@ class RegularSuperprojectWriter {
 		}
 	}
 
+	private void assertManifestPathsSafe(List<RepoProject> repoProjects)
+			throws IOException, ManifestErrorException {
+		File workTree = repo.getWorkTree();
+		for (RepoProject proj : repoProjects) {
+			try {
+				SubmoduleValidator.assertValidCheckoutPath(workTree,
+						proj.getPath());
+				File projectDir = new File(workTree, proj.getPath());
+				for (CopyFile copyfile : proj.getCopyFiles()) {
+					SubmoduleValidator.assertValidCheckoutPath(workTree,
+							copyfile.dest);
+					SubmoduleValidator.assertValidCheckoutPath(projectDir,
+							copyfile.src);
+				}
+			} catch (SubmoduleValidationException e) {
+				throw new ManifestErrorException(e);
+			}
+		}
+	}
+
 	private void addSubmodule(String name, String url, String path,
 			String revision, List<CopyFile> copyfiles, List<LinkFile> linkfiles,
 			Git git) throws GitAPIException, IOException {
@@ -69,6 +95,12 @@ class RegularSuperprojectWriter {
 		if (!linkfiles.isEmpty()) {
 			throw new UnsupportedOperationException(
 					JGitText.get().nonBareLinkFilesNotSupported);
+		}
+
+		try {
+			SubmoduleValidator.assertValidCheckoutPath(repo.getWorkTree(), path);
+		} catch (SubmoduleValidationException e) {
+			throw new ManifestErrorException(e);
 		}
 
 		SubmoduleAddCommand add = git.submoduleAdd().setName(name).setPath(path)
@@ -86,6 +118,14 @@ class RegularSuperprojectWriter {
 			git.add().addFilepattern(path).call();
 		}
 		for (CopyFile copyfile : copyfiles) {
+			try {
+				SubmoduleValidator.assertValidCheckoutPath(repo.getWorkTree(),
+						copyfile.dest);
+				SubmoduleValidator.assertValidCheckoutPath(
+						new File(repo.getWorkTree(), path), copyfile.src);
+			} catch (SubmoduleValidationException e) {
+				throw new ManifestErrorException(e);
+			}
 			copyfile.copy();
 			git.add().addFilepattern(copyfile.dest).call();
 		}
