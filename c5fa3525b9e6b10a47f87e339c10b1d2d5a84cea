@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ce1d76d_e605a6b7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackPushConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-11-06T10:07:24Z",
+      "side": 1,
+      "message": "The filter only gets the advertised map, not the updates. So if it drops the ref being pushed, a plain fast-forward of `refs/heads/master` sends master\u0027s whole history. That old id is always the most useful have and costs just one entry. Should we always add the advertised id of each `RemoteRefUpdate`\u0027s remote ref here, whatever the filter returns? Callers could then filter aggressively (e.g. keep nothing) without that trap.\n\n```suggestion\n\t\t\tfor (RemoteRefUpdate r : refUpdates.values()) {\n\t\t\t\tif (!ObjectId.zeroId().equals(r.getNewObjectId()))\n\t\t\t\t\tnewObjects.add(r.getNewObjectId());\n\t\t\t\tRef adv \u003d getRef(r.getRemoteName());\n\t\t\t\tif (adv !\u003d null \u0026\u0026 adv.getObjectId() !\u003d null\n\t\t\t\t\t\t\u0026\u0026 local.getObjectDatabase().has(adv.getObjectId()))\n\t\t\t\t\tremoteObjects.add(adv.getObjectId());\n\t\t\t}\n```",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 338,
+        "endChar": 4
+      },
+      "revId": "c5fa3525b9e6b10a47f87e339c10b1d2d5a84cea",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
