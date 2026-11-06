@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e955a1c_83624234",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-11-06T09:58:28Z",
+      "side": 1,
+      "message": "Have you assessed and measured the implications on latency and CPU utilisation?\n\nCan you share the before-and-after with a substantial repo (e.g., 20M objects, 1M refs) and include the results in the commit message?",
+      "range": {
+        "startLine": 17,
+        "startChar": 62,
+        "endLine": 19,
+        "endChar": 34
+      },
+      "revId": "2b1bfff40a1e534d51c5678c5b1b71a5d31be36a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
