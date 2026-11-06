@@ -620,6 +620,15 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 				needle.parseHeaders(this);
 			}
 			int cutoff = needle.getGeneration();
+			// Without generation bounds, stop at merge bases.
+			// Keep walk limits and flag-starved walks intact.
+			if ((cutoff == Constants.COMMIT_GENERATION_UNKNOWN
+					|| cutoff == Constants.COMMIT_GENERATION_NOT_COMPUTED)
+					&& !firstParent && !(this instanceof DepthWalk)
+					&& Integer.bitCount(freeFlags) >= 3) {
+				return getCommitsMergedIntoUsingMergeBase(needle, haystacks,
+						returnStrategy, monitor);
+			}
 			for (RevCommit c : haystacks) {
 				if (monitor.isCancelled()) {
 					return result;
@@ -663,6 +672,74 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			}
 		}
 		return result;
+	}
+
+	private Set<RevCommit> getCommitsMergedIntoUsingMergeBase(RevCommit needle,
+			Collection<RevCommit> haystacks, Enum returnStrategy,
+			ProgressMonitor monitor) throws IOException {
+		Set<RevCommit> result = new HashSet<>();
+		for (RevCommit tip : haystacks) {
+			if (monitor.isCancelled()) {
+				return result;
+			}
+			monitor.update(1);
+			// Free merge-base flags before retaining caller flags.
+			finishDelayedFreeFlags();
+			reset(~freeFlags & APP_FLAGS);
+			markStart(tip);
+			markStart(needle);
+			AbstractRevQueue starts = queue;
+			MergeBaseGenerator mergeBases = new MergeBaseGenerator(this);
+			pending = mergeBases;
+			queue = AbstractRevQueue.EMPTY_QUEUE;
+			boolean found = false;
+			try {
+				mergeBases.init(starts, monitor);
+				RevCommit mergeBase;
+				while ((mergeBase = next()) != null) {
+					if (References.isSameObject(mergeBase, needle)) {
+						found = true;
+						break;
+					}
+				}
+			} catch (CancelledException cancelled) {
+				throw cancelled;
+			} catch (IOException failure) {
+				// Needle history may be irrelevant to this query.
+				// Retry from the tip for the original errors.
+				found = isMergedIntoByWalking(needle, tip, monitor);
+			}
+			if (monitor.isCancelled()) {
+				return result;
+			}
+			if (found) {
+				result.add(tip);
+				if (returnStrategy == GetMergedIntoStrategy.RETURN_ON_FIRST_FOUND) {
+					return result;
+				}
+			} else if (returnStrategy == GetMergedIntoStrategy.RETURN_ON_FIRST_NOT_FOUND) {
+				return result;
+			}
+		}
+		return result;
+	}
+
+	private boolean isMergedIntoByWalking(RevCommit needle, RevCommit tip,
+			ProgressMonitor monitor) throws IOException {
+		finishDelayedFreeFlags();
+		reset(~freeFlags & APP_FLAGS);
+		markStart(tip);
+		int cutoff = needle.getGeneration();
+		RevCommit commit;
+		while ((commit = next()) != null && !monitor.isCancelled()) {
+			if (commit.getGeneration() < cutoff) {
+				markUninteresting(commit);
+			}
+			if (References.isSameObject(commit, needle)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

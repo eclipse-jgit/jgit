@@ -14,9 +14,13 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayDeque;
 
+import org.eclipse.jgit.errors.CancelledException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ProgressMonitor;
 
 /**
  * Computes the merge base(s) of the starting commits.
@@ -52,6 +56,8 @@ class MergeBaseGenerator extends Generator {
 
 	private CarryStack stack;
 
+	private ProgressMonitor monitor;
+
 	MergeBaseGenerator(RevWalk w) {
 		super(w.isFirstParent());
 		walker = w;
@@ -59,6 +65,12 @@ class MergeBaseGenerator extends Generator {
 	}
 
 	void init(AbstractRevQueue p) throws IOException {
+		init(p, NullProgressMonitor.INSTANCE);
+	}
+
+	void init(AbstractRevQueue p, ProgressMonitor progressMonitor)
+			throws IOException {
+		monitor = progressMonitor;
 		try {
 			for (;;) {
 				final RevCommit c = p.next();
@@ -80,6 +92,9 @@ class MergeBaseGenerator extends Generator {
 				}
 				ret.add(c);
 			}
+		} catch (StopWalkException cancelled) {
+			// Do not expose merge bases computed by an incomplete walk.
+			ret.clear();
 		} finally {
 			// Always free the flags immediately. This ensures the flags
 			// will be available for reuse when the walk resets.
@@ -110,6 +125,7 @@ class MergeBaseGenerator extends Generator {
 	private RevCommit _next() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		for (;;) {
+			checkCancelled();
 			final RevCommit c = pending.next();
 			if (c == null) {
 				return null;
@@ -166,7 +182,15 @@ class MergeBaseGenerator extends Generator {
 		return null;
 	}
 
-	private void carryOntoHistory(RevCommit c, int carry) {
+	private void checkCancelled() throws CancelledException {
+		walker.checkCancelled();
+		if (monitor.isCancelled()) {
+			throw StopWalkException.INSTANCE;
+		}
+	}
+
+	private void carryOntoHistory(RevCommit c, int carry)
+			throws CancelledException {
 		stack = null;
 		for (;;) {
 			carryOntoHistoryInnerLoop(c, carry);
@@ -179,8 +203,10 @@ class MergeBaseGenerator extends Generator {
 		}
 	}
 
-	private void carryOntoHistoryInnerLoop(RevCommit c, int carry) {
+	private void carryOntoHistoryInnerLoop(RevCommit c, int carry)
+			throws CancelledException {
 		for (;;) {
+			checkCancelled();
 			RevCommit[] parents = c.getParents();
 			if (parents == null || parents.length == 0) {
 				break;

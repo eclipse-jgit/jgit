@@ -9,11 +9,26 @@
  */
 package org.eclipse.jgit.revwalk;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.eclipse.jgit.errors.CancelledException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.junit.Test;
 
 public class RevWalkMergedIntoTest extends RevWalkTestCase {
@@ -144,4 +159,281 @@ public class RevWalkMergedIntoTest extends RevWalkTestCase {
 
 		assertTrue(rw.isMergedIntoAll(a, getRefs()));
 	}
+
+	@Test
+	public void testUnmergedWithoutGraphDoesNotWalkSharedHistory()
+			throws Exception {
+		RevCommit shared = commit();
+		for (int i = 0; i < 128; i++) {
+			shared = commit(shared);
+		}
+		RevCommit base = commit(shared);
+		RevCommit tip = commit(shared);
+		createBranch(tip, "refs/heads/tip");
+
+		try (RevWalk walk = new RevWalk(db)) {
+			assertTrue(walk.getMergedInto(walk.lookupCommit(base), getRefs())
+					.isEmpty());
+			assertTrue(
+					"Should stop at the shared ancestor, not walk its history",
+					parsedCommits(walk) < 16);
+		}
+	}
+
+	@Test
+	public void testUnmergedWithoutGraphIgnoresMissingBaseAncestor()
+			throws Exception {
+		ObjectId missing = ObjectId
+				.fromString("0123456789012345678901234567890123456789");
+		ObjectId base = unparsedCommit(missing);
+		RevCommit tip = commit();
+		try (RevWalk walk = new RevWalk(db)) {
+			assertFalse(walk.isMergedIntoAnyCommit(walk.lookupCommit(base),
+					Collections.singleton(walk.lookupCommit(tip))));
+		}
+	}
+
+	@Test
+	public void testUnmergedWithoutGraphReportsMissingTipAncestor()
+			throws Exception {
+		ObjectId missing = ObjectId
+				.fromString("0123456789012345678901234567890123456789");
+		RevCommit base = commit();
+		ObjectId tip = unparsedCommit(missing);
+		try (RevWalk walk = new RevWalk(db)) {
+			assertThrows(MissingObjectException.class,
+					() -> walk.isMergedIntoAnyCommit(walk.lookupCommit(base),
+							Collections.singleton(walk.lookupCommit(tip))));
+		}
+	}
+
+	@Test
+	public void testMergedIntoWithoutGraphPreservesFirstParent()
+			throws Exception {
+		RevCommit root = commit();
+		RevCommit base = commit(root);
+		RevCommit other = commit(root);
+		RevCommit tip = commit(other, base);
+		createBranch(tip, "refs/heads/tip");
+
+		try (RevWalk walk = new RevWalk(db)) {
+			walk.setFirstParent(true);
+			assertFalse(
+					walk.isMergedIntoAny(walk.lookupCommit(base), getRefs()));
+			assertTrue(
+					walk.isMergedIntoAny(walk.lookupCommit(other), getRefs()));
+			assertTrue(walk.isFirstParent());
+		}
+	}
+
+	@Test
+	public void testMergedIntoWithoutGraphPreservesDepth() throws Exception {
+		RevCommit base = commit();
+		RevCommit tip = commit(commit(base));
+		try (DepthWalk.RevWalk walk = new DepthWalk.RevWalk(db, 1)) {
+			RevCommit localTip = walk.parseCommit(tip);
+			walk.markRoot(localTip);
+			assertFalse(walk.isMergedIntoAnyCommit(walk.lookupCommit(base),
+					Collections.singleton(localTip)));
+		}
+	}
+
+	@Test
+	public void testMergedIntoWithoutGraphWithNoFreeFlags() throws Exception {
+		RevCommit root = commit();
+		RevCommit base = commit(root);
+		RevCommit tip = commit(base);
+		RevCommit other = commit(root);
+
+		try (RevWalk walk = new RevWalk(db)) {
+			List<RevFlag> flags = new ArrayList<>();
+			while (walk.freeFlags != 0) {
+				flags.add(walk.newFlag("caller"));
+			}
+			walk.retainOnReset(flags);
+			RevCommit localTip = walk.parseCommit(tip);
+			for (RevFlag flag : flags) {
+				localTip.add(flag);
+			}
+			assertTrue(walk.isMergedIntoAnyCommit(walk.lookupCommit(base),
+					Collections.singleton(localTip)));
+			assertFalse(walk.isMergedIntoAnyCommit(walk.lookupCommit(other),
+					Collections.singleton(localTip)));
+			for (RevFlag flag : flags) {
+				assertTrue(localTip.has(flag));
+			}
+			assertEquals(0, walk.freeFlags);
+		}
+	}
+
+	@Test
+	public void testMergedIntoWithoutGraphWithTwoOrThreeFreeFlags()
+			throws Exception {
+		RevCommit root = commit();
+		RevCommit base = commit(root);
+		RevCommit tip = commit(base);
+		RevCommit other = commit(root);
+		for (int available : new int[] { 2, 3 }) {
+			try (RevWalk walk = new RevWalk(db)) {
+				while (Integer.bitCount(walk.freeFlags) > available) {
+					walk.newFlag("caller");
+				}
+				assertTrue(walk.isMergedIntoAnyCommit(walk.lookupCommit(base),
+						Collections.singleton(walk.lookupCommit(tip))));
+				assertFalse(walk.isMergedIntoAnyCommit(walk.lookupCommit(other),
+						Collections.singleton(walk.lookupCommit(tip))));
+				walk.reset();
+				assertEquals(available, Integer.bitCount(walk.freeFlags));
+			}
+		}
+	}
+
+	@Test
+	public void testMergedIntoCancellationRetainsCompletedResults()
+			throws Exception {
+		RevCommit base = commit();
+		createBranch(commit(base), "refs/heads/one");
+		createBranch(commit(base), "refs/heads/two");
+		try (RevWalk walk = new RevWalk(db)) {
+			ProgressMonitor monitor = new CancelAfterCommits(walk,
+					Integer.MAX_VALUE) {
+				@Override
+				public boolean isCancelled() {
+					return completed >= 3;
+				}
+			};
+			assertEquals(1, walk
+					.getMergedInto(walk.lookupCommit(base), getRefs(), monitor)
+					.size());
+		}
+	}
+
+	@Test
+	public void testMergedIntoWithoutGraphRestoresFiltersAndRetainsBodies()
+			throws Exception {
+		RevCommit root = commit();
+		RevCommit base = commit(root);
+		RevCommit tip = commit(base);
+		createBranch(tip, "refs/heads/tip");
+
+		try (RevWalk walk = new RevWalk(db)) {
+			TreeFilter treeFilter = PathFilter.create("missing");
+			walk.setTreeFilter(treeFilter);
+			walk.setRevFilter(RevFilter.NONE);
+			RevFlag flag = walk.newFlag("caller");
+			walk.retainOnReset(flag);
+			RevCommit localBase = walk.parseCommit(base);
+			localBase.add(flag);
+			assertEquals(1, walk.getMergedInto(localBase, getRefs()).size());
+			assertSame(RevFilter.NONE, walk.getRevFilter());
+			assertSame(treeFilter, walk.getTreeFilter());
+			assertTrue(localBase.has(flag));
+			assertTrue(walk.isRetainBody());
+			assertNotNull(localBase.getRawBuffer());
+			assertNotNull(walk.lookupCommit(tip).getRawBuffer());
+			walk.reset();
+			walk.setRevFilter(RevFilter.ALL);
+			walk.setTreeFilter(TreeFilter.ALL);
+			walk.markStart(walk.lookupCommit(tip));
+			assertEquals(tip, walk.next());
+			assertEquals(base, walk.next());
+			assertEquals(root, walk.next());
+		}
+	}
+
+	@Test
+	public void testMergedIntoWithoutGraphCancellation() throws Exception {
+		RevCommit base = commit();
+		RevCommit tip = commit();
+		for (int i = 0; i < 64; i++) {
+			base = commit(base);
+			tip = commit(tip);
+		}
+		createBranch(tip, "refs/heads/tip");
+
+		try (RevWalk walk = new RevWalk(db)) {
+			assertTrue(walk.getMergedInto(walk.lookupCommit(base), getRefs(),
+					new CancelAfterCommits(walk, 8)).isEmpty());
+			assertTrue("Cancellation must interrupt the ancestry search",
+					parsedCommits(walk) < 16);
+			assertTrue(walk.isMergedIntoAnyCommit(walk.lookupCommit(tip),
+					Collections.singleton(walk.lookupCommit(tip))));
+		}
+	}
+
+	@Test
+	public void testMergeBaseCancellationDuringInitialization()
+			throws Exception {
+		RevCommit base = commit();
+		RevCommit tip = commit();
+		for (int i = 0; i < 64; i++) {
+			base = commit(base);
+			tip = commit(tip);
+		}
+
+		try (RevWalk walk = new RevWalk(db)) {
+			RevCommit localBase = walk.lookupCommit(base);
+			RevCommit localTip = walk.lookupCommit(tip);
+			walk.setProgressMonitor(new CancelAfterCommits(walk, 8));
+			assertThrows(CancelledException.class,
+					() -> walk.isMergedInto(localBase, localTip));
+			assertTrue("Cancellation must interrupt merge-base initialization",
+					parsedCommits(walk) < 16);
+		}
+	}
+
+	private static int parsedCommits(RevWalk walk) {
+		int parsed = 0;
+		for (RevObject object : walk.objects) {
+			if (object instanceof RevCommit
+					&& (object.flags & RevWalk.PARSED) != 0) {
+				parsed++;
+			}
+		}
+		return parsed;
+	}
+
+	private static class CancelAfterCommits implements ProgressMonitor {
+		private final RevWalk walk;
+
+		private final int limit;
+
+		int completed;
+
+		CancelAfterCommits(RevWalk walk, int limit) {
+			this.walk = walk;
+			this.limit = limit;
+		}
+
+		@Override
+		public void start(int totalTasks) {
+			// No progress display.
+		}
+
+		@Override
+		public void beginTask(String title, int totalWork) {
+			// No progress display.
+		}
+
+		@Override
+		public void update(int completed) {
+			this.completed += completed;
+		}
+
+		@Override
+		public void endTask() {
+			// No progress display.
+		}
+
+		@Override
+		public boolean isCancelled() {
+			return parsedCommits(walk) >= limit;
+		}
+
+		@Override
+		public void showDuration(boolean enabled) {
+			// No progress display.
+		}
+	}
+
 }

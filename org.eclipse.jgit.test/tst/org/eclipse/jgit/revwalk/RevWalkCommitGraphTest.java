@@ -18,18 +18,27 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.jgit.diff.DiffConfig;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
+import org.eclipse.jgit.internal.storage.commitgraph.CommitGraphLoader;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.filter.MessageRevFilter;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
@@ -38,6 +47,7 @@ import org.eclipse.jgit.treewalk.filter.ChangedPathTreeFilter;
 import org.eclipse.jgit.treewalk.filter.OrTreeFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.References;
 import org.junit.Test;
 
@@ -1117,6 +1127,105 @@ public class RevWalkCommitGraphTest extends AbstractRevWalkWithCommitGraphTest {
 		assertTrue(isObjectIdInGraph(c1));
 		assertRefsEquals(asList(branch1, branch2, branch3, branch4, branch5,
 				branch6, branch7, branch8, branch9), allMergedInto(c1));
+	}
+
+	@Test
+	public void testMergedIntoRetryPrunesCoveredHistory() throws Exception {
+		RevCommit unavailable = commit();
+		RevCommit shared = unavailable;
+		for (int i = 0; i < 128; i++) {
+			shared = commit(shared);
+		}
+		branch(shared, "shared");
+		enableAndWriteCommitGraph();
+		ObjectId missing = ObjectId
+				.fromString("0123456789012345678901234567890123456789");
+		ObjectId base = unparsedCommit(missing);
+		RevCommit tip = commit(shared);
+		ObjectReader delegate = db.newObjectReader();
+		try (ObjectReader reader = new ObjectReader.Filter() {
+			@Override
+			protected ObjectReader delegate() {
+				return delegate;
+			}
+
+			@Override
+			public ObjectLoader open(AnyObjectId id, int typeHint)
+					throws IOException {
+				if (id.equals(unavailable)) {
+					throw new MissingObjectException(id.copy(),
+							Constants.OBJ_COMMIT);
+				}
+				return delegate.open(id, typeHint);
+			}
+		}; RevWalk walk = new RevWalk(reader)) {
+			assertFalse(walk.isMergedIntoAnyCommit(walk.lookupCommit(base),
+					Collections.singleton(walk.lookupCommit(tip))));
+		}
+	}
+
+	@Test
+	public void testMergedIntoWithUncomputedGenerations() throws Exception {
+		RevCommit shared = commit();
+		for (int i = 0; i < 128; i++) {
+			shared = commit(shared);
+		}
+		RevCommit base = commit(shared);
+		branch(base, "base");
+		Ref tip = branch(commit(shared), "tip");
+		enableAndWriteCommitGraph();
+		Path path = db.getDirectory().toPath()
+				.resolve("objects/info/commit-graph");
+		byte[] bytes = Files.readAllBytes(path);
+		int commitCount = (int) CommitGraphLoader
+				.read(new ByteArrayInputStream(bytes)).getCommitCnt();
+		for (int chunk = 0; chunk < (bytes[6] & 0xff); chunk++) {
+			int entry = 8 + 12 * chunk;
+			if (NB.decodeInt32(bytes, entry) == 0x43444154) { // CDAT
+				int offset = (int) NB.decodeInt64(bytes, entry + 4);
+				for (int i = 0; i < commitCount; i++) {
+					int packedDate = offset + 36 * i + 28;
+					// Keep the timestamp's two high bits.
+					NB.encodeInt32(bytes, packedDate,
+							NB.decodeInt32(bytes, packedDate) & 3);
+				}
+			}
+		}
+		byte[] checksum = Constants.newMessageDigest().digest(Arrays
+				.copyOf(bytes, bytes.length - Constants.OBJECT_ID_LENGTH));
+		System.arraycopy(checksum, 0, bytes,
+				bytes.length - Constants.OBJECT_ID_LENGTH, checksum.length);
+		CommitGraph graph = CommitGraphLoader
+				.read(new ByteArrayInputStream(bytes));
+		ObjectReader delegate = db.newObjectReader();
+		try (ObjectReader reader = new ObjectReader.Filter() {
+			@Override
+			protected ObjectReader delegate() {
+				return delegate;
+			}
+
+			@Override
+			public Optional<CommitGraph> getCommitGraph() {
+				return Optional.of(graph);
+			}
+		}; RevWalk walk = new RevWalk(reader)) {
+			walk.setRetainBody(false);
+			RevCommit needle = walk.parseCommit(base);
+			assertEquals(Constants.COMMIT_GENERATION_NOT_COMPUTED,
+					needle.getGeneration());
+			assertTrue(walk.getMergedInto(needle, Collections.singleton(tip))
+					.isEmpty());
+			int parsed = 0;
+			for (RevObject object : walk.objects) {
+				if (object instanceof RevCommit
+						&& (object.flags & RevWalk.PARSED) != 0) {
+					parsed++;
+				}
+			}
+			assertTrue("Should stop at the shared ancestor", parsed < 16);
+			assertTrue(walk.isMergedIntoAnyCommit(needle,
+					Collections.singleton(needle)));
+		}
 	}
 
 	boolean isObjectIdInGraph(AnyObjectId id) {
