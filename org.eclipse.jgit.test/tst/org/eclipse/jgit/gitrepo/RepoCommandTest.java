@@ -37,6 +37,7 @@ import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.gitrepo.RepoCommand.ManifestErrorException;
 import org.eclipse.jgit.gitrepo.RepoCommand.RemoteFile;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.submodule.SubmoduleValidator.SubmoduleValidationException;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.BlobBasedConfig;
@@ -1654,6 +1655,25 @@ public class RepoCommandTest extends RepositoryTestCase {
 		assertThrows(ManifestErrorException.class, () -> command.call());
 		assertFalse("earlier project must not be written before rejection",
 				new File(superproject.getWorkTree(), "aaa/hello.txt").exists());
+	}
+
+	@Test
+	public void testBareManifestUrlOptionInjectionRejected()
+			throws Exception {
+		Repository remoteDb = createBareRepository();
+		Repository tempDb = createWorkRepository();
+		// Empty base URI and fetch "." make a project name the submodule URL
+		// verbatim, so "-evil" yields a "-"-prefixed URL that must be rejected.
+		JGitTestUtil.writeTrashFile(tempDb, "manifest.xml",
+				manifest("<project path=\"foo\" name=\"-evil\" />"));
+		RepoCommand command = new RepoCommand(remoteDb);
+		command.setPath(
+				tempDb.getWorkTree().getAbsolutePath() + "/manifest.xml")
+				.setURI("");
+		ManifestErrorException e = assertThrows(ManifestErrorException.class,
+				() -> command.call());
+		assertTrue("rejection must come from submodule URL validation",
+				e.getCause() instanceof SubmoduleValidationException);
 	}
 
 	private void resolveRelativeUris() {
