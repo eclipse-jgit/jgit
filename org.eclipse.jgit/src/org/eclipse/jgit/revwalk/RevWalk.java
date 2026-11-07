@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 import org.eclipse.jgit.annotations.NonNull;
@@ -462,6 +463,26 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			treeFilter = TreeFilter.ALL;
 			markStart(tip);
 			markStart(base);
+			// Without a usable bound, keep the bidirectional merge-base search.
+			// DepthWalk also keeps its existing merge-base behavior.
+			int cutoff = base.getEffectiveGeneration();
+			if (!firstParent && !(this instanceof DepthWalk)
+					&& cutoff != Constants.COMMIT_GENERATION_UNKNOWN) {
+				// Keep next() hooks in subclasses, e.g. ObjectWalk visitation.
+				pending = new Generator(false) {
+					@Override
+					int outputType() {
+						return 0;
+					}
+
+					@Override
+					RevCommit next() throws IOException {
+						return isMergedIntoUsingGenerations(base, tip, cutoff)
+								? base
+								: null;
+					}
+				};
+			}
 			RevCommit mergeBase;
 			while ((mergeBase = next()) != null) {
 				if (References.isSameObject(mergeBase, base)) {
@@ -473,6 +494,42 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			filter = oldRF;
 			treeFilter = oldTF;
 		}
+	}
+
+	private boolean isMergedIntoUsingGenerations(RevCommit base, RevCommit tip,
+			int cutoff) throws IOException {
+		// The roots registered by markStart keep SEEN reachable for reset.
+		// This search replaces the generator pipeline, including sort modes.
+		queue = AbstractRevQueue.EMPTY_QUEUE;
+		pending = AbstractRevQueue.EMPTY_QUEUE;
+		PriorityQueue<RevCommit> commits = new PriorityQueue<>(
+				(a, b) -> Integer.compare(b.getEffectiveGeneration(),
+						a.getEffectiveGeneration()));
+		commits.add(tip);
+		while (!commits.isEmpty()) {
+			checkCancelled();
+			RevCommit c = commits.remove();
+			if (References.isSameObject(c, base)) {
+				return true;
+			}
+			// Unknown generations sort above known ones. Equal generations
+			// must be explored: v1 generations can saturate at their maximum.
+			if (c.getEffectiveGeneration() < cutoff) {
+				return false;
+			}
+			for (RevCommit parent : c.getParents()) {
+				checkCancelled();
+				if (References.isSameObject(parent, base)) {
+					return true;
+				}
+				if ((parent.flags & SEEN) == 0) {
+					parent.flags |= SEEN;
+					parseHeaders(parent);
+					commits.add(parent);
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
