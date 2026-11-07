@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64638d17_e734f807",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-07T00:54:32Z",
+      "side": 1,
+      "message": "I added couple comments for things I noticed that I think could be improved, but feel free to add more thoughts on the overall approach too.",
+      "revId": "d30dbefdb66f98fd6b31fabaa3b006087bb74298",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce0f0b02_d75f8ac2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/MergeBaseGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-07T00:54:32Z",
+      "side": 1,
+      "message": "Maybe I can add this in a precursor change?",
+      "revId": "d30dbefdb66f98fd6b31fabaa3b006087bb74298",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "257efd24_6d410533",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-07T00:54:32Z",
+      "side": 1,
+      "message": "This might benefit from a small `shouldUseMergeBase()` helper so that we can explain the \u0026\u0026ed checks.",
+      "range": {
+        "startLine": 625,
+        "startChar": 0,
+        "endLine": 628,
+        "endChar": 43
+      },
+      "revId": "d30dbefdb66f98fd6b31fabaa3b006087bb74298",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
