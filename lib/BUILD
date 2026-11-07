@@ -14,6 +14,7 @@ java_library(
     visibility = [
         "//org.eclipse.jgit.pgm:__pkg__",
         "//org.eclipse.jgit.pgm.test:__pkg__",
+        "//tools/formatter:__pkg__",
     ],
     exports = ["@external_deps//:args4j_args4j"],
 )

@@ -106,3 +106,16 @@ maven.install(
     strict_visibility = True,
 )
 use_repo(maven, "external_deps")
+
+maven.install(
+    name = "formatter_deps",
+    artifacts = [
+        "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0",
+        "org.eclipse.platform:org.eclipse.text:3.14.800",
+    ],
+    fail_on_missing_checksum = True,
+    fetch_sources = False,
+    repositories = ["https://repo1.maven.org/maven2"],
+    strict_visibility = True,
+)
+use_repo(maven, "formatter_deps")
