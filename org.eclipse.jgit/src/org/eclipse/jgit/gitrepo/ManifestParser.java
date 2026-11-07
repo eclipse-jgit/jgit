@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.gitrepo;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -226,6 +227,7 @@ public class ManifestParser extends DefaultHandler {
 			break;
 		case "include":
 			String name = attributes.getValue("name");
+			assertIncludeWithinManifestDir(name);
 			if (includedReader != null) {
 				try (InputStream is = includedReader.readIncludeFile(name)) {
 					if (is == null) {
@@ -255,6 +257,21 @@ public class ManifestParser extends DefaultHandler {
 		}
 		default:
 			break;
+		}
+	}
+
+	private static void assertIncludeWithinManifestDir(String name)
+			throws SAXException {
+		if (name == null || name.isEmpty() || name.startsWith("/") //$NON-NLS-1$
+				|| new File(name).isAbsolute()) {
+			throw new SAXException(MessageFormat
+					.format(RepoText.get().invalidManifestInclude, name));
+		}
+		for (String segment : name.replace('\\', '/').split("/")) { //$NON-NLS-1$
+			if (segment.equals("..")) { //$NON-NLS-1$
+				throw new SAXException(MessageFormat.format(
+						RepoText.get().invalidManifestInclude, name));
+			}
 		}
 	}
 
