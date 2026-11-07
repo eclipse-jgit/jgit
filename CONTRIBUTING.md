@@ -33,3 +33,29 @@ people coming from the bug report can find it.
 corrected, amend your commit and push it again.
 
 Have fun :).
+
+## Java formatting
+
+The standalone JDT formatter uses the checked-in Eclipse profile at
+`tools/eclipse-JGit-Format.xml`. From the repository root, pass the Java files
+to check or format explicitly:
+
+```bash
+tools/format-java --check org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java
+tools/format-java --write org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java
+```
+
+`--check` never modifies files and exits with status 1 if a selected file needs
+formatting. `--write` updates only the explicitly named files. To limit the
+formatter to lines changed against a Git base, add `--changed-lines <base>`:
+
+```bash
+tools/format-java --check --changed-lines origin/master \
+  org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java
+```
+
+The changed-line mode uses Git's zero-context diff ranges (including staged and
+unstaged changes); an explicitly named untracked Java file is treated as
+entirely new. The JDT formatter may adjust nearby lines to preserve valid
+formatting. The formatter dependencies are isolated from the product build, and
+ordinary Bazel builds and tests never rewrite source files.
