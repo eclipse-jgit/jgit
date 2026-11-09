@@ -145,22 +145,7 @@ public class Socks5ClientConnector extends AbstractClientProxyConnector {
 			@Override
 			public void handleMessage(Socks5ClientConnector connector,
 					IoSession session, Buffer data) throws Exception {
-				// Special case: when GSS-API authentication completes, the
-				// client moves into CONNECTING as soon as the GSS context is
-				// established and sends the connect request. This is per RFC
-				// 1961. But for the server, RFC 1961 says it _should_ send an
-				// empty token even if none generated when its server side
-				// context is established. That means we may actually get an
-				// empty token here. That message is 4 bytes long (and has
-				// content 0x01, 0x01, 0x00, 0x00). We simply skip this message
-				// if we get it here. If the server for whatever reason sends
-				// back a "GSS failed" message (it shouldn't, at this point)
-				// it will be two bytes 0x01 0xFF, which will fail the version
-				// check.
-				if (data.available() != 4) {
-					connector.versionCheck(data.getByte());
-					connector.establishConnection(data);
-				}
+				connector.receiveConnectReply(data);
 			}
 		},
 
@@ -185,6 +170,13 @@ public class Socks5ClientConnector extends AbstractClientProxyConnector {
 	private GSSContext context;
 
 	private byte[] authenticationProposals;
+
+	// Part of the connect reply received so far, while it is incomplete
+	private Buffer pendingReply;
+
+	// True while an empty GSS-API token may still precede the connect reply
+	// (only after GSS-API authentication, RFC 1961)
+	private boolean emptyGssTokenPossible;
 
 	/**
 	 * Creates a new {@link Socks5ClientConnector}. The connector supports
@@ -309,6 +301,7 @@ public class Socks5ClientConnector extends AbstractClientProxyConnector {
 	}
 
 	private void doGssApiAuth(IoSession session) throws Exception {
+		emptyGssTokenPossible = true;
 		authenticator = new SocksGssApiAuthentication();
 		session.addCloseFutureListener(f -> close());
 		startAuth(session);
@@ -362,10 +355,119 @@ public class Socks5ClientConnector extends AbstractClientProxyConnector {
 		}
 	}
 
+	// Accumulates the connect reply until it is complete, then hands only the
+	// data following it (typically the server's SSH identification) to the
+	// SSH session.
+	//
+	// Package-visible for a unit test.
+	void receiveConnectReply(Buffer data) throws Exception {
+		Buffer reply = data;
+		if (pendingReply != null) {
+			pendingReply.putBuffer(data);
+			reply = pendingReply;
+		}
+		if (emptyGssTokenPossible && reply.available() > 0) {
+			int pos = reply.rpos();
+			if (reply.rawByte(pos) == 1) {
+				if (reply.available() < 4) {
+					keepReply(reply);
+					return;
+				}
+				// Special case: when GSS-API authentication completes, the
+				// client moves into CONNECTING as soon as the GSS context is
+				// established and sends the connect request. This is per RFC
+				// 1961. But for the server, RFC 1961 says it _should_ send an
+				// empty token even if none generated when its server side
+				// context is established. That means we may actually get an
+				// empty token here. That message is 4 bytes long (and has
+				// content 0x01, 0x01, 0x00, 0x00). We simply skip this message
+				// if we get it here. If the server for whatever reason sends
+				// back a "GSS failed" message (it shouldn't, at this point)
+				// it will be two bytes 0x01 0xFF, which will fail the version
+				// check.
+				if (reply.rawByte(pos + 1) == 1 && reply.rawByte(pos + 2) == 0
+						&& reply.rawByte(pos + 3) == 0) {
+					reply.rpos(pos + 4);
+				}
+			}
+			emptyGssTokenPossible = false;
+		}
+		if (reply.available() == 0) {
+			pendingReply = null;
+			return;
+		}
+		versionCheck(reply.rawByte(reply.rpos()));
+		if (reply.available() >= 2
+				&& reply.rawByte(reply.rpos() + 1) != SOCKS_REPLY_SUCCESS) {
+			// Fail at once; don't wait for the rest of a failure reply
+			pendingReply = null;
+			reply.getByte();
+			establishConnection(reply);
+			return;
+		}
+		int length = getReplyLength(reply);
+		if (length < 0 || reply.available() < length) {
+			keepReply(reply);
+			return;
+		}
+		pendingReply = null;
+		reply.getByte();
+		establishConnection(reply);
+	}
+
+	private void keepReply(Buffer reply) {
+		if (pendingReply == null) {
+			pendingReply = new ByteArrayBuffer(reply.available() + 64, false);
+			pendingReply.putBuffer(reply);
+		}
+	}
+
+	// Length of the whole connect reply, or -1 if not enough of it has been
+	// received yet to tell
+	private int getReplyLength(Buffer reply) throws IOException {
+		if (reply.available() < 4) {
+			return -1;
+		}
+		int pos = reply.rpos();
+		byte type = reply.rawByte(pos + 3);
+		switch (type) {
+		case SOCKS_ADDRESS_IPv4:
+			return 4 + 4 + 2;
+		case SOCKS_ADDRESS_IPv6:
+			return 4 + 16 + 2;
+		case SOCKS_ADDRESS_FQDN:
+			if (reply.available() < 5) {
+				return -1;
+			}
+			return 4 + 1 + (reply.rawByte(pos + 4) & 0xFF) + 2;
+		default:
+			// Internal error, no translation.
+			throw new IOException(format(
+					"Unexpected address type {0} in SOCKS connect reply from {1}", //$NON-NLS-1$
+					Integer.toString(type & 0xFF), proxyAddress));
+		}
+	}
+
+	// Skips RSV, ATYP, BND.ADDR and BND.PORT of a complete connect reply
+	private static void skipBoundAddress(Buffer data) {
+		data.getByte(); // RSV
+		byte type = data.getByte();
+		int length;
+		if (type == SOCKS_ADDRESS_IPv4) {
+			length = 4;
+		} else if (type == SOCKS_ADDRESS_IPv6) {
+			length = 16;
+		} else {
+			length = data.getUByte();
+		}
+		data.rpos(data.rpos() + length + 2);
+	}
+
 	private void establishConnection(Buffer data) throws Exception {
 		byte reply = data.getByte();
 		switch (reply) {
 		case SOCKS_REPLY_SUCCESS:
+			skipBoundAddress(data);
 			state = ProtocolState.CONNECTED;
 			setDone(true, data);
 			return;
@@ -417,6 +519,7 @@ public class Socks5ClientConnector extends AbstractClientProxyConnector {
 			state.handleMessage(this, session, data);
 		} catch (Exception e) {
 			state = ProtocolState.FAILED;
+			pendingReply = null;
 			if (authenticator != null) {
 				authenticator.close();
 				authenticator = null;
