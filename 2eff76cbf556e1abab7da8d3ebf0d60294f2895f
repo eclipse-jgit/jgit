@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12dbc848_3bd6ace0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexV1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-11-09T11:48:49Z",
+      "side": 1,
+      "message": "Same family of problem, but RIDX can be missing too. git 2.34/2.35 write `multi-pack-index-\u003chash\u003e.bitmap` plus a separate `.rev` file and no RIDX chunk. `PackMidx` still loads the bitmap (`PackMidx.java:102`), this returns -1, and `preparePack` with bitmaps then fails with an `IllegalArgumentException` from `PackBitmapIndexV1.getObject`. Maybe ignore the midx bitmap when there\u0027s no RIDX? Could be a follow-up, but then the commit message shouldn\u0027t say the cause is removed.",
+      "range": {
+        "startLine": 423,
+        "startChar": 0,
+        "endLine": 426,
+        "endChar": 4
+      },
+      "revId": "2eff76cbf556e1abab7da8d3ebf0d60294f2895f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1177a22_5ddcde24",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexV1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-11-09T11:48:49Z",
+      "side": 1,
+      "message": "JGit\u0027s writer always puts RIDX in plain (packId, offset) order, so RIDX[0] is always from the lowest pack and the `aPreferred !\u003d bPreferred` branch never runs in the tests. That branch is the part that matters for native git files (`--preferred-pack` on, say, pack 2). Could you add a case to `MultiPackIndexTest.jgit_findBitmapPosition` that rewrites RIDX with pack 2\u0027s entries first and checks every position resolves?",
+      "range": {
+        "startLine": 455,
+        "startChar": 0,
+        "endLine": 463,
+        "endChar": 3
+      },
+      "revId": "2eff76cbf556e1abab7da8d3ebf0d60294f2895f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
