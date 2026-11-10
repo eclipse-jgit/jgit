@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1da241b_9ab4984c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-10T18:31:33Z",
+      "side": 1,
+      "message": "Nit about the naming. +2 otherwise.",
+      "revId": "f8623e5faff7490b9c6a1f0b3fc0a157a5c56fae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5ebeb00_69441ca3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RegularSuperprojectWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-10T18:31:33Z",
+      "side": 1,
+      "message": "Nit: checking that the source is valid for checkout looks rather weird.\n\nWould it make sense to call the function \"assertPathInTree\"? \"assertPathInTree(projectDir, src)\" looks like a very sensible check",
+      "range": {
+        "startLine": 81,
+        "startChar": 24,
+        "endLine": 82,
+        "endChar": 20
+      },
+      "revId": "f8623e5faff7490b9c6a1f0b3fc0a157a5c56fae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
