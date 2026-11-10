@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec3af130_1ad07195",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SequencerState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-11-10T12:14:04Z",
+      "side": 1,
+      "message": "Like in RebaseTodo, we always write the full 40-character length commit ID here",
+      "range": {
+        "startLine": 205,
+        "startChar": 13,
+        "endLine": 205,
+        "endChar": 55
+      },
+      "revId": "45fb72392f9f51b76a5f8bbf09ab9d8d637a6521",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
