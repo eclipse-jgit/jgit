@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b84e559_cace6e78",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/CruftPackBenchmark.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-10T06:13:50Z",
+      "side": 1,
+      "message": "This deletion returns REJECTED and leaves temp reachable, so the intended packed-cruft half never becomes cruft. delete() delegates to updateImpl(), whose non-forced, non-fast-forward check rejects it (RefUpdate.java:759) even though temp !\u003d HEAD. Verified after setupTrial(): delete result without force \u003d REJECTED, temp still exists \u003d true; forced delete succeeds. Please set force, check the result, and assert the packed-cruft objects are unreachable before snapshotting.",
+      "isAi": true,
+      "revId": "0ba24aaf91fe25231278a98a461cb85f13addea9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc310dde_93fc6578",
+        "filename": "org.eclipse.jgit.benchmarks/src/org/eclipse/jgit/benchmarks/CruftPackBenchmark.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-10T06:13:50Z",
+      "side": 1,
+      "message": "These arms measure different operations: full JGit gc() (repack + pack-refs + prune) vs native repack -d --cruft --cruft-expiration\u003dnow. With the current expiry they also retain different object sets. Please compare equivalent GC/repack operations and verify both sides keep/remove the same objects before reading any timing. (Launching native Git has a fixed cost that belongs to end-to-end, not packing-only, comparisons.)",
+      "isAi": true,
+      "revId": "0ba24aaf91fe25231278a98a461cb85f13addea9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
