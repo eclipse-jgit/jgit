@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7c475fc_95503dce",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GcConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-10T06:14:03Z",
+      "side": 1,
+      "message": "This changes default maintenance behavior. Please document gc.cruftPacks (default, --cruft/--no-cruft overrides, pruning interaction) in Documentation/config-options.md. The default flip should land after the lifecycle and interop fixes and their regression tests.",
+      "isAi": true,
+      "revId": "feeaf45bcaaebddf1e91359b1773a9a703890ba3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5f2b902_fc9e3d41",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GcConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-10T06:14:03Z",
+      "side": 1,
+      "message": "The GcConfig(PackRefsMode) constructor used by the CLI\u0027s --pack-refs / --no-pack-refs path hardcodes the cruftPacks default, replacing the repository\u0027s configured value. After the default flip, even an explicit gc.cruftPacks\u003dfalse is silently re-enabled by either flag. Please preserve the repository\u0027s other GC settings when overriding pack-refs, and test the config x CLI combination.",
+      "isAi": true,
+      "revId": "feeaf45bcaaebddf1e91359b1773a9a703890ba3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
