@@ -1,0 +1,76 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea26f957_7816fe37",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-10T06:13:09Z",
+      "side": 1,
+      "message": "This FileInputStream is not closed by the loader or Pack.close(). Verified: 20 load/close cycles leaked 20 descriptors. Please wrap the load in try-with-resources (including the failure path) so GC over many cruft packs doesn\u0027t depend on the cleaner to release files.",
+      "isAi": true,
+      "revId": "805a9eb9f30942d3c10afb060277afdf6c1add27",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "892beece_f66b94c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackCruftMtimesLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-10T06:13:09Z",
+      "side": 1,
+      "message": "Please validate the full header read and the expected table length before decoding/allocating. count * 4 can overflow (a count of 2^30 with no table is accepted); negative counts and truncated headers throw unchecked IllegalArgumentException / ArrayIndexOutOfBoundsException where the javadoc promises IOException. When adopting the native layout, derive N from the .idx, use checked arithmetic, and report malformed input as IOException.",
+      "isAi": true,
+      "revId": "805a9eb9f30942d3c10afb060277afdf6c1add27",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5639f84_64a07de0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackCruftMtimesWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-10T06:13:09Z",
+      "side": 1,
+      "message": "This is not native Git\u0027s .mtimes format: the magic must be MTME (not MTIM), the third word is the hash-function id (N comes from the companion .idx, not a stored count), and a pack-checksum + file-checksum trailer is required. Verified both ways: native repack rejects this output (exit 128, \"unknown signature\"); this loader throws IOException on native output. Please implement the native layout in writer and reader and add round-trip interop tests. Changing only the magic is not sufficient.",
+      "isAi": true,
+      "revId": "805a9eb9f30942d3c10afb060277afdf6c1add27",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0ff44ba_2bc7ea5b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackCruftMtimesWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-10T06:13:09Z",
+      "side": 1,
+      "message": "This writes one 4-byte chunk per object to the unbuffered channel stream from GC.java:459 -- about 10,003 tiny writes for a 10,000-object table. This should be optimized: batch the timestamp table into a single buffer (or wrap the stream in a BufferedOutputStream flushed before the channel is forced) so large cruft packs do not incur one channel write per object.",
+      "isAi": true,
+      "revId": "805a9eb9f30942d3c10afb060277afdf6c1add27",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
