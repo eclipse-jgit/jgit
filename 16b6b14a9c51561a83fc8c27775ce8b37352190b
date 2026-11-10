@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc181584_33d4a3c9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackMidx.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-11-10T08:16:14Z",
+      "side": 1,
+      "message": "Could we log something (warn or info) when the `.bitmap` exists but there\u0027s no RIDX? Otherwise an operator with a git 2.34/2.35 midx only sees fetches getting slow, with nothing pointing at the midx. A rewrite with newer git would fix it. `MultiPackIndexLoader` already warns for unknown chunks, so a similar message here would fit.",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 3
+      },
+      "revId": "16b6b14a9c51561a83fc8c27775ce8b37352190b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
