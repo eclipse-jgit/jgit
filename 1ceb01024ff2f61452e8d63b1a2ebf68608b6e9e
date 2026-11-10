@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "749d5d8d_9bfc9047",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-10T06:12:51Z",
+      "side": 1,
+      "message": "This lifecycle note is accurate at this change, but it is superseded by the child change 1256256 (GC: pack unreachable loose objects into the cruft pack): consolidateExistingCruftPack rewrites the cruft pack on every GC, refreshing the pack file mtime, so it never expires via gc.prunePackExpire and these objects are not pruned this way. Please keep this javadoc in sync with the series final behavior -- once real cruft expiry is implemented, objects should age out by their recorded per-object .mtimes, not by the pack file own mtime.",
+      "isAi": true,
+      "revId": "1ceb01024ff2f61452e8d63b1a2ebf68608b6e9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
