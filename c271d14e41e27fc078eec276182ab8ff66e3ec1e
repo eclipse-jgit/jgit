@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62a66f5c_e159d9d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-10T12:44:48Z",
+      "side": 1,
+      "message": "🟡 The main motivation of jgit-315 is to recover from a conflicted cherry-pick, but the tests only abort a conflicted *merge*. No test removes an index entry that is in neither `HEAD` nor the target (a file that the pick added), or an unmerged entry that is not in the target (a modify/delete conflict). No test checks that `CHERRY_PICK_HEAD` is removed.\n\nJGit already behaves correctly here. These tests pass on this patch set; add them after `testMergeResetIgnoresSubmoduleWorkingTree()`:\n\n```java\n\tprivate void setupConflictingCherryPick() throws Exception {\n\t\tgit \u003d new Git(db);\n\t\twriteTrashFile(\"a.txt\", \"base\");\n\t\twriteTrashFile(\"b.txt\", \"b1\");\n\t\twriteTrashFile(\"del.txt\", \"to be deleted\");\n\t\tgit.add().addFilepattern(\".\").call();\n\t\tRevCommit base \u003d git.commit().setMessage(\"base\").call();\n\t\tcreateBranch(base, \"refs/heads/topic\");\n\t\tcheckoutBranch(\"refs/heads/topic\");\n\t\twriteTrashFile(\"a.txt\", \"topic\");\n\t\twriteTrashFile(\"new.txt\", \"new in topic\");\n\t\twriteTrashFile(\"del.txt\", \"modified in topic\");\n\t\tgit.add().addFilepattern(\".\").call();\n\t\tRevCommit topic \u003d git.commit().setMessage(\"topic\").call();\n\t\tcheckoutBranch(\"refs/heads/master\");\n\t\twriteTrashFile(\"a.txt\", \"master\");\n\t\tgit.add().addFilepattern(\"a.txt\").call();\n\t\tgit.rm().addFilepattern(\"del.txt\").call();\n\t\tgit.commit().setMessage(\"master\").call();\n\t\twriteTrashFile(\"b.txt\", \"unstaged local change\");\n\n\t\tCherryPickResult result \u003d git.cherryPick().include(topic).call();\n\t\tassertEquals(CherryPickResult.CherryPickStatus.CONFLICTING,\n\t\t\t\tresult.getStatus());\n\t\tassertEquals(RepositoryState.CHERRY_PICKING, db.getRepositoryState());\n\t\tassertEquals(\"[a.txt, mode:100644, stage:1, content:base]\"\n\t\t\t\t+ \"[a.txt, mode:100644, stage:2, content:master]\"\n\t\t\t\t+ \"[a.txt, mode:100644, stage:3, content:topic]\"\n\t\t\t\t+ \"[b.txt, mode:100644, content:b1]\"\n\t\t\t\t+ \"[del.txt, mode:100644, stage:1, content:to be deleted]\"\n\t\t\t\t+ \"[del.txt, mode:100644, stage:3, content:modified in topic]\"\n\t\t\t\t+ \"[new.txt, mode:100644, content:new in topic]\",\n\t\t\t\tindexState(CONTENT));\n\t\tassertEquals(\"modified in topic\", read(\"del.txt\"));\n\t\tassertEquals(\"new in topic\", read(\"new.txt\"));\n\t}\n\n\t@Test\n\tpublic void testMergeResetAbortsCherryPick() throws Exception {\n\t\tsetupConflictingCherryPick();\n\t\tObjectId head \u003d db.resolve(Constants.HEAD);\n\n\t\tgit.reset().setMode(ResetType.MERGE).call();\n\n\t\tassertEquals(head, db.resolve(Constants.HEAD));\n\t\tassertEquals(head, db.readOrigHead());\n\t\tassertEquals(RepositoryState.SAFE, db.getRepositoryState());\n\t\tassertNull(db.readCherryPickHead());\n\t\tassertEquals(\"[a.txt, mode:100644, content:master]\"\n\t\t\t\t+ \"[b.txt, mode:100644, content:b1]\", indexState(CONTENT));\n\t\tassertEquals(\"master\", read(\"a.txt\"));\n\t\tassertEquals(\"unstaged local change\", read(\"b.txt\"));\n\t\t// added by the cherry-pick\n\t\tassertFalse(new File(db.getWorkTree(), \"new.txt\").exists());\n\t\t// modify/delete conflict, not in HEAD\n\t\tassertFalse(new File(db.getWorkTree(), \"del.txt\").exists());\n\t}\n\n\t@Test\n\tpublic void testMergeResetConflictUnstagedChangesOfAddedFile()\n\t\t\tthrows Exception {\n\t\tsetupConflictingCherryPick();\n\t\twriteTrashFile(\"new.txt\", \"local edit of new.txt\");\n\n\t\tObjectId head \u003d db.resolve(Constants.HEAD);\n\t\tString index \u003d indexState(CONTENT);\n\t\ttry {\n\t\t\tgit.reset().setMode(ResetType.MERGE).call();\n\t\t\tfail(\"Expected CheckoutConflictException didn\u0027t occur\");\n\t\t} catch (CheckoutConflictException e) {\n\t\t\tassertEquals(Arrays.asList(\"new.txt\"), e.getConflictingPaths());\n\t\t}\n\t\tassertEquals(head, db.resolve(Constants.HEAD));\n\t\tassertEquals(index, indexState(CONTENT));\n\n\t\tassertEquals(RepositoryState.CHERRY_PICKING, db.getRepositoryState());\n\t\tassertEquals(\"local edit of new.txt\", read(\"new.txt\"));\n\t\tassertEquals(\"modified in topic\", read(\"del.txt\"));\n\t}\n```\n\nFor reference, I compared both cases with native Git 2.55 (the JGit command line gives the same outcome) and it works as expected ✔️:\n\n- `git reset --merge`: exit code 0, `CHERRY_PICK_HEAD` is removed, `git status --porcelain` prints only ` M b.txt`, and `new.txt` and `del.txt` are gone.\n- After `echo local edit \u003e new.txt`, `git reset --merge` prints `error: Entry \u0027new.txt\u0027 not uptodate. Cannot merge.` and `fatal: Could not reset index file to revision \u0027HEAD\u0027.`, exits with 128 and changes nothing. JGit throws the `CheckoutConflictException` for `new.txt`, which `jgit reset --merge` prints as `fatal: Checkout conflict with files: new.txt`.\n\n*(Co-Authored by Claude)*",
+      "revId": "c271d14e41e27fc078eec276182ab8ff66e3ec1e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b68df409_cad78d00",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ResetCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-10T12:44:48Z",
+      "side": 1,
+      "message": "🟢 Optional:\n\n- A checked-out submodule replaced by a file aborts the reset (the commit message names it, but only the reverse, `testMergeResetFileToGitlink`, is tested).\n- A mode-only change (100644 -\u003e 100755) between the index and the target, like `testHardResetFileMode`.\n\n*(Created by Claude)*",
+      "revId": "c271d14e41e27fc078eec276182ab8ff66e3ec1e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a21b31b3_7a16c51b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-10T12:44:48Z",
+      "side": 1,
+      "message": "🟢 Optional: no test reaches this branch. The simplest way to reach it is a reset to a commit that does not have the submodule at all; Git then only warns `unable to rmdir \u0027sub\u0027`. The tests below cover an embedded repository in `HEAD` and a plain directory in the target, in both variants. They pass on this patch set:\n\n```java\n\t// Commits sub/s.txt, then replaces sub by an embedded repository\n\t// containing fileInSubmodule. Returns the commit with the directory.\n\tprivate RevCommit setupSubmoduleReplacingDirectory(String fileInSubmodule)\n\t\t\tthrows Exception {\n\t\tgit \u003d new Git(db);\n\t\twriteTrashFile(\"sub/s.txt\", \"from directory\");\n\t\tgit.add().addFilepattern(\"sub\").call();\n\t\tRevCommit withDir \u003d git.commit().setMessage(\"sub as directory\")\n\t\t\t\t.call();\n\t\tgit.rm().addFilepattern(\"sub\").call();\n\t\tFile sub \u003d new File(db.getWorkTree(), \"sub\");\n\t\tFileUtils.delete(sub, FileUtils.RECURSIVE | FileUtils.SKIP_MISSING);\n\t\ttry (Git subGit \u003d Git.init().setDirectory(sub).call()) {\n\t\t\twrite(new File(sub, fileInSubmodule), \"from submodule\");\n\t\t\tsubGit.add().addFilepattern(fileInSubmodule).call();\n\t\t\tsubGit.commit().setMessage(\"submodule content\").call();\n\t\t}\n\t\tgit.add().addFilepattern(\"sub\").call();\n\t\tgit.commit().setMessage(\"sub as submodule\").call();\n\t\tassertEquals(FileMode.GITLINK,\n\t\t\t\tdb.readDirCache().getEntry(\"sub\").getFileMode());\n\t\treturn withDir;\n\t}\n\n\t@Test\n\tpublic void testMergeResetConflictSubmoduleReplacedByDirectory()\n\t\t\tthrows Exception {\n\t\tRevCommit withDir \u003d setupSubmoduleReplacingDirectory(\"s.txt\");\n\t\tFile sub \u003d new File(db.getWorkTree(), \"sub\");\n\t\tObjectId head \u003d db.resolve(Constants.HEAD);\n\t\tObjectId gitlink \u003d db.readDirCache().getEntry(\"sub\").getObjectId();\n\n\t\t// no indexState(CONTENT): it can\u0027t read the gitlink, its commit is\n\t\t// only in the embedded repository\n\t\ttry {\n\t\t\tgit.reset().setMode(ResetType.MERGE).setRef(withDir.getName())\n\t\t\t\t\t.call();\n\t\t\tfail(\"Expected CheckoutConflictException didn\u0027t occur\");\n\t\t} catch (CheckoutConflictException e) {\n\t\t\tassertEquals(Arrays.asList(\"sub/s.txt\"),\n\t\t\t\t\te.getConflictingPaths());\n\t\t}\n\n\t\tassertEquals(head, db.resolve(Constants.HEAD));\n\t\tDirCache dc \u003d db.readDirCache();\n\t\tassertEquals(1, dc.getEntryCount());\n\t\tassertEquals(FileMode.GITLINK, dc.getEntry(\"sub\").getFileMode());\n\t\tassertEquals(gitlink, dc.getEntry(\"sub\").getObjectId());\n\t\tassertEquals(\"from submodule\", read(new File(sub, \"s.txt\")));\n\t}\n\n\t@Test\n\tpublic void testMergeResetSubmoduleReplacedByDirectory() throws Exception {\n\t\tRevCommit withDir \u003d setupSubmoduleReplacingDirectory(\"other.txt\");\n\t\tFile sub \u003d new File(db.getWorkTree(), \"sub\");\n\n\t\tgit.reset().setMode(ResetType.MERGE).setRef(withDir.getName()).call();\n\n\t\tassertEquals(withDir, db.resolve(Constants.HEAD));\n\t\tassertEquals(\"[sub/s.txt, mode:100644, content:from directory]\",\n\t\t\t\tindexState(CONTENT));\n\t\tassertEquals(\"from directory\", read(new File(sub, \"s.txt\")));\n\t\t// the embedded repository is kept, like native git does\n\t\tassertEquals(\"from submodule\", read(new File(sub, \"other.txt\")));\n\t\tassertTrue(new File(sub, Constants.DOT_GIT).isDirectory());\n\t}\n```\n\nFor reference, I also checked in the console with native Git 2.55 (and the JGit command line) with the same states and it works as expected ✔️:\n\n- Target file exists in the embedded repository (`git reset --merge dir-version`): `error: Untracked working tree file \u0027sub/s.txt\u0027 would be overwritten by merge.` and `fatal: Could not reset index file to revision \u0027dir-version\u0027.` Exit code 128, nothing changed. JGit prints `fatal: Checkout conflict with files: sub/s.txt`.\n- Target file does not exist in the embedded repository: exit code 0 and `warning: unable to rmdir \u0027sub\u0027: Directory not empty` (Git only). `sub/s.txt` is checked out, `sub/other.txt` and `sub/.git` are kept.\n\n*(Co-Authored by Claude)*",
+      "revId": "c271d14e41e27fc078eec276182ab8ff66e3ec1e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
