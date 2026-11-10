@@ -22,6 +22,30 @@
       },
       "revId": "16b6b14a9c51561a83fc8c27775ce8b37352190b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1155f30c_1aa54d56",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackMidx.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-10T11:46:53Z",
+      "side": 1,
+      "message": "Added. PackMidx now warns via JGitText (same pattern as MultiPackIndexLoader\u0027s unknown-chunk warning) when the .bitmap sidecar exists but the midx has no RIDX chunk. Done.",
+      "parentUuid": "cc181584_33d4a3c9",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 3
+      },
+      "revId": "16b6b14a9c51561a83fc8c27775ce8b37352190b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
