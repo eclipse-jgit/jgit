@@ -406,6 +406,57 @@ public class PackMidxTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	/**
+	 * Git 2.34/2.35 stored the reverse index in a separate .rev file. Ignore
+	 * a bitmap without RIDX and produce the complete pack by a plain walk.
+	 */
+	@Test
+	public void midxBitmapWithoutReverseIndexIsIgnored() throws Exception {
+		assertMidxBitmapWithoutReverseIndexIsIgnored(true);
+	}
+
+	@Test
+	public void midxBitmapWithoutBtmpOrReverseIndexIsIgnored() throws Exception {
+		assertMidxBitmapWithoutReverseIndexIsIgnored(false);
+	}
+
+	private void assertMidxBitmapWithoutReverseIndexIsIgnored(boolean withBtmp)
+			throws Exception {
+		TestRepository<Repository>.BranchBuilder branch = tr
+				.branch("refs/heads/main");
+		branch.commit().add("shared", "shared").create();
+		tr.packAndPrune();
+		branch.commit().add("b", "b").create();
+		tr.packAndPrune();
+
+		File midxFile = new File(
+				repo.getObjectDatabase().getPackDirectory(),
+				Constants.MIDX_FILE);
+		NullProgressMonitor pm = NullProgressMonitor.INSTANCE;
+		MidxWriter.writeMidx(pm, repo, repo.getObjectDatabase().getPacks(),
+				midxFile, new PackConfig(repo));
+		if (!withBtmp) {
+			stripBtmpChunk(midxFile);
+		}
+		stripChunk(midxFile, MIDX_CHUNKID_REVINDEX);
+
+		RevCommit tip = branch.commit().add("d", "d").create();
+		try (FileRepository fresh = new FileRepository(repo.getDirectory());
+				ObjectReader reader = fresh.newObjectReader();
+				PackWriter pw = new PackWriter(new PackConfig(fresh), reader)) {
+			assertNull("bitmap without RIDX must not be loaded",
+					reader.getBitmapIndex());
+			Set<ObjectId> expected = reachableObjects(fresh, tip);
+			ByteArrayOutputStream idxOut = new ByteArrayOutputStream();
+			pw.setUseBitmaps(true);
+			pw.preparePack(pm, Set.of(tip), Set.of());
+			pw.writePack(pm, pm, OutputStream.nullOutputStream());
+			pw.writeIndex(idxOut);
+			assertEquals(-1, pw.getStatistics().getBitmapIndexMisses());
+			assertPackedObjects(expected, pw, idxOut);
+		}
+	}
+
 	private static Set<ObjectId> reachableObjects(Repository repository,
 			ObjectId tip) throws IOException {
 		Set<ObjectId> objects = new HashSet<>();
@@ -438,6 +489,8 @@ public class PackMidxTest extends LocalDiskRepositoryTestCase {
 
 	// Mirror MultiPackIndexConstants chunk ids, not visible from this package.
 	private static final int MIDX_CHUNKID_BITMAPPEDPACKS = 0x42544D50;
+
+	private static final int MIDX_CHUNKID_REVINDEX = 0x52494458;
 
 	private static final int MIDX_HEADER_SIZE = 12;
 
