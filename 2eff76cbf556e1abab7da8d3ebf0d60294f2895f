@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e4a9286_a013c61a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexV1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-10T07:15:58Z",
+      "side": 1,
+      "message": "Confirmed. RIDX landed in git 2.36. 2.34/2.35 wrote the bitmap with a separate .rev and no RIDX chunk.\n\nFixed in a follow-up (change 1258911): MultiPackIndex: ignore a midx bitmap that has no reverse index",
+      "parentUuid": "12dbc848_3bd6ace0",
+      "range": {
+        "startLine": 423,
+        "startChar": 0,
+        "endLine": 426,
+        "endChar": 4
+      },
+      "revId": "2eff76cbf556e1abab7da8d3ebf0d60294f2895f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1177a22_5ddcde24",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-11-09T11:48:49Z",
       "side": 1,
       "message": "JGit\u0027s writer always puts RIDX in plain (packId, offset) order, so RIDX[0] is always from the lowest pack and the `aPreferred !\u003d bPreferred` branch never runs in the tests. That branch is the part that matters for native git files (`--preferred-pack` on, say, pack 2). Could you add a case to `MultiPackIndexTest.jgit_findBitmapPosition` that rewrites RIDX with pack 2\u0027s entries first and checks every position resolves?",
+      "range": {
+        "startLine": 455,
+        "startChar": 0,
+        "endLine": 463,
+        "endChar": 3
+      },
+      "revId": "2eff76cbf556e1abab7da8d3ebf0d60294f2895f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cde4a5e5_a2e4999c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexV1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-10T07:15:58Z",
+      "side": 1,
+      "message": "Done. Added MultiPackIndexTest.jgit_findBitmapPosition_nonLowestPreferredPack: it builds a midx with pack 2 preferred (RIDX[0] in pack 2, so the aPreferred !\u003d bPreferred branch runs), plus a 64-bit offset, and round-trips findBitmapPosition/getObjectAtBitmapPosition for every position.",
+      "parentUuid": "c1177a22_5ddcde24",
       "range": {
         "startLine": 455,
         "startChar": 0,
