@@ -1,0 +1,58 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b5c5f2b_2dafb058",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-10T06:13:34Z",
+      "side": 1,
+      "message": "Consolidation copies every object without applying gc.pruneExpire, so aged cruft is retained whenever the output set changes (and the self-deletion finding can remove it when the set is unchanged). Please mirror native\u0027s traversal from objects newer than the cutoff, keeping their older dependencies and dropping only expired objects outside that closure. A flat per-object age filter would discard older dependencies of retained recent objects. Cover both expiry and dependency preservation in tests.",
+      "isAi": true,
+      "revId": "c30b9540f7827f4abf8a67cfab07802d9ced4452",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "176ed753_7fc4e1d6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-10T06:13:34Z",
+      "side": 1,
+      "message": "This queues the existing cruft pack\u0027s path for deletion, but writeCruftPack() names the replacement from the object set via computeName(). When the unreachable set is unchanged, the replacement gets the same name and is installed over this path, then prunePack() (line 623) deletes it. Verified: object loss on consecutive GCs with default settings and two-hour-old objects, well inside the grace window. Please exclude the newly written cruft pack from cleanup (as the :570-572 guard does for reachable packs) and add a double-GC survival test.",
+      "isAi": true,
+      "revId": "c30b9540f7827f4abf8a67cfab07802d9ced4452",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14bd4115_bd0ff292",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-10T06:13:34Z",
+      "side": 1,
+      "message": "The ids short-circuit plus putIfAbsent (here at line 707, and at lines 638 and 654) are first-writer-wins and discard newer timestamps from other copies of the same object. Verified: a newer loose copy is removed while the replacement cruft pack keeps the older mtime. Native takes the max across copies (builtin/pack-objects.c:4204). Please distinguish reachable IDs from already-collected cruft IDs and merge duplicate cruft mtimes with max -- this must be correct before those timestamps drive expiry.",
+      "isAi": true,
+      "revId": "c30b9540f7827f4abf8a67cfab07802d9ced4452",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
