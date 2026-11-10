@@ -545,6 +545,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String mergeToolNotGivenError;
 	/***/ public String mergeToolNullError;
 	/***/ public String messageAndTaggerNotAllowedInUnannotatedTags;
+	/***/ public String midxBitmapWithoutReverseIndex;
 	/***/ public String midxChunkNeeded;
 	/***/ public String midxChunkRepeated;
     /***/ public String midxChunkTooBig;
