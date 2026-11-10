@@ -99,7 +99,12 @@ public class PackMidx extends Pack {
 		ObjectId checksumHex = ObjectId.fromRaw(midxMeta.checksum());
 		File midxBitmaps = new File(midxFile.getParentFile(), String.format(
 				"%s-%s.bitmap", Constants.MIDX_FILE, checksumHex.name()));
-		if (midxBitmaps.exists()) {
+		// A midx bitmap is resolvable only through the reverse-index (RIDX)
+		// chunk. git 2.34 and 2.35 wrote the bitmap with a separate .rev file
+		// and no RIDX chunk. Ignore the bitmap in that case and fall back to a
+		// plain walk, rather than fail later when a position cannot be
+		// resolved.
+		if (midxMeta.hasReverseIndex() && midxBitmaps.exists()) {
 			setBitmapIndexFile(new PackFile(midxBitmaps));
 		}
 	}
