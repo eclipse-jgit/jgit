@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.midx;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.CHUNK_LOOKUP_WIDTH;
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_PACKNAMES;
+import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_REVINDEX;
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_SIGNATURE;
 
 import java.io.File;
@@ -52,8 +53,12 @@ public class MidxMetadataReader {
 	 *            list of packs in this midx (in midx order).
 	 * @param checksumB64
 	 *            checksum of the midx, encoded in Base64
+	 * @param hasReverseIndex
+	 *            whether the midx carries a reverse-index (RIDX) chunk, which a
+	 *            midx bitmap needs to be resolvable
 	 */
-	public record MidxMetadata(List<String> packNames, String checksumB64) {
+	public record MidxMetadata(List<String> packNames, String checksumB64,
+			boolean hasReverseIndex) {
 		/**
 		 * Return the checksum as byte[]
 		 *
@@ -151,6 +156,7 @@ public class MidxMetadataReader {
 		int packCount = NB.decodeInt32(hdr, 8);
 
 		ChunkIndex chunkIndex = ChunkIndex.read(fd, chunkCount);
+		boolean hasReverseIndex = chunkIndex.hasChunk(MIDX_CHUNKID_REVINDEX);
 		int currentPos = hdr.length + chunkIndex.getBytesRead();
 		long packNamesStart = chunkIndex.getStartOffset(MIDX_CHUNKID_PACKNAMES);
 		long packNamesEnd = chunkIndex.getEndOffset(MIDX_CHUNKID_PACKNAMES);
@@ -173,7 +179,8 @@ public class MidxMetadataReader {
 		byte[] checksum = new byte[20];
 		IO.readFully(fd, checksum, 0, 20);
 
-		return new MidxMetadata(packNames, Base64.encodeBytes(checksum));
+		return new MidxMetadata(packNames, Base64.encodeBytes(checksum),
+				hasReverseIndex);
 	}
 
 	private static final class ChunkIndex {
@@ -212,6 +219,15 @@ public class MidxMetadataReader {
 		 */
 		int getBytesRead() {
 			return byteSize;
+		}
+
+		boolean hasChunk(int chunkId) {
+			for (ChunkSegment c : chunks) {
+				if (c.id() == chunkId) {
+					return true;
+				}
+			}
+			return false;
 		}
 
 		long getStartOffset(int chunkId) {

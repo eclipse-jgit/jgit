@@ -14,6 +14,7 @@ import static java.util.stream.Collectors.toMap;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -28,6 +29,7 @@ import java.util.zip.DataFormatException;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.PackInvalidException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.midx.MidxMetadataReader;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndexLoader;
@@ -41,6 +43,8 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A pack that uses internally a midx
@@ -49,6 +53,9 @@ import org.eclipse.jgit.lib.ObjectLoader;
  * sends to the right pack other calls (e.g. reading the actual object).
  */
 public class PackMidx extends Pack {
+	private static final Logger LOG = LoggerFactory
+			.getLogger(PackMidx.class);
+
 	private final List<Pack> packsInIdOrder;
 
 	private final OffsetCalculator offsetCalculator;
@@ -99,8 +106,16 @@ public class PackMidx extends Pack {
 		ObjectId checksumHex = ObjectId.fromRaw(midxMeta.checksum());
 		File midxBitmaps = new File(midxFile.getParentFile(), String.format(
 				"%s-%s.bitmap", Constants.MIDX_FILE, checksumHex.name()));
+		// git 2.34/2.35 wrote the bitmap with a separate .rev file and no
+		// RIDX chunk, so the positions are unresolvable. Ignore and warn.
 		if (midxBitmaps.exists()) {
-			setBitmapIndexFile(new PackFile(midxBitmaps));
+			if (midxMeta.hasReverseIndex()) {
+				setBitmapIndexFile(new PackFile(midxBitmaps));
+			} else {
+				LOG.warn(MessageFormat.format(
+						JGitText.get().midxBitmapWithoutReverseIndex,
+						midxBitmaps.getName()));
+			}
 		}
 	}
 
