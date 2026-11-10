@@ -389,9 +389,58 @@ public class PackMidxTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	// Mirrors MultiPackIndexConstants.MIDX_CHUNKID_BITMAPPEDPACKS, not visible
-	// from this package.
+	/**
+	 * jgit-314 follow-up: a midx bitmap written by git 2.34/2.35 has a separate
+	 * .rev file and no RIDX chunk, so JGit cannot resolve its positions. The
+	 * bitmap must be ignored and the pack produced by a plain walk, instead of
+	 * failing when a position cannot be resolved.
+	 */
+	@Test
+	public void midxBitmapWithoutReverseIndexIsIgnored() throws Exception {
+		TestRepository<Repository>.BranchBuilder branch = tr
+				.branch("refs/heads/main");
+		branch.commit().add("shared", "shared").create();
+		tr.packAndPrune();
+		branch.commit().add("b", "b").create();
+		tr.packAndPrune();
+
+		File midxFile = new File(
+				repo.getObjectDatabase().getPackDirectory(),
+				Constants.MIDX_FILE);
+		NullProgressMonitor pm = NullProgressMonitor.INSTANCE;
+		MidxWriter.writeMidx(pm, repo, repo.getObjectDatabase().getPacks(),
+				midxFile, new PackConfig(repo));
+		// Drop RIDX to mimic a git 2.34/2.35 midx bitmap (separate .rev file).
+		stripChunk(midxFile, MIDX_CHUNKID_REVINDEX);
+
+		RevCommit tip = branch.commit().add("d", "d").create();
+		try (FileRepository fresh = new FileRepository(repo.getDirectory());
+				ObjectReader reader = fresh.newObjectReader();
+				PackWriter pw = new PackWriter(new PackConfig(fresh), reader)) {
+			ByteArrayOutputStream idxOut = new ByteArrayOutputStream();
+			pw.setUseBitmaps(true);
+			// Must not throw resolving a bitmap position: the midx bitmap is
+			// ignored and the walk runs without it.
+			pw.preparePack(pm, Set.of(tip), Set.of());
+			pw.writePack(pm, pm, OutputStream.nullOutputStream());
+			pw.writeIndex(idxOut);
+			// No reverse index means the midx bitmap was not used at all.
+			assertEquals(-1, pw.getStatistics().getBitmapIndexMisses());
+
+			PackIndex idx = PackIndex
+					.read(new ByteArrayInputStream(idxOut.toByteArray()));
+			Set<ObjectId> seen = new HashSet<>();
+			for (PackIndex.MutableEntry e : idx) {
+				assertTrue("duplicate object: " + e.toObjectId().name(),
+						seen.add(e.toObjectId()));
+			}
+		}
+	}
+
+	// Mirror MultiPackIndexConstants chunk ids, not visible from this package.
 	private static final int MIDX_CHUNKID_BITMAPPEDPACKS = 0x42544D50;
+
+	private static final int MIDX_CHUNKID_REVINDEX = 0x52494458;
 
 	// Any id the reader does not know; it logs and skips the chunk.
 	private static final int UNKNOWN_CHUNK_ID = 0x58585858;
@@ -404,18 +453,23 @@ public class PackMidxTest extends LocalDiskRepositoryTestCase {
 
 	private static final int NUM_CHUNKS_OFFSET = 6;
 
+	private static void stripBtmpChunk(File midxFile) throws IOException {
+		stripChunk(midxFile, MIDX_CHUNKID_BITMAPPEDPACKS);
+	}
+
 	/**
-	 * Make a JGit-written midx look like one without a BTMP chunk by renaming
-	 * BTMP to an unknown chunk id, which the loader logs and skips. The trailing
+	 * Make a JGit-written midx look like one without the given chunk by renaming
+	 * it to an unknown chunk id, which the loader logs and skips. The trailing
 	 * checksum is left stale. The loader does not verify it, and the attached
 	 * bitmap stays linked by it.
 	 */
-	private static void stripBtmpChunk(File midxFile) throws IOException {
+	private static void stripChunk(File midxFile, int chunkId)
+			throws IOException {
 		byte[] in = Files.readAllBytes(midxFile.toPath());
 		int numChunks = in[NUM_CHUNKS_OFFSET] & 0xff;
 		for (int i = 0; i < numChunks; i++) {
 			int entryStart = MIDX_HEADER_SIZE + i * CHUNK_LOOKUP_WIDTH;
-			if (NB.decodeInt32(in, entryStart) == MIDX_CHUNKID_BITMAPPEDPACKS) {
+			if (NB.decodeInt32(in, entryStart) == chunkId) {
 				NB.encodeInt32(in, entryStart, UNKNOWN_CHUNK_ID);
 				break;
 			}
