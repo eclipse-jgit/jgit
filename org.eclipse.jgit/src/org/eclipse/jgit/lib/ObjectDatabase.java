@@ -25,8 +25,6 @@ import org.eclipse.jgit.errors.MissingObjectException;
  */
 public abstract class ObjectDatabase implements AutoCloseable {
 
-	private static final Set<ObjectId> shallowCommits = Collections.emptySet();
-
 	/**
 	 * Initialize a new database instance for access.
 	 */
@@ -80,24 +78,21 @@ public abstract class ObjectDatabase implements AutoCloseable {
 	 * Get the shallow commits of the current repository
 	 *
 	 * @return the shallow commits of the current repository
-	 *
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 *             the database could not be read
-	 *
 	 * @since 6.3
 	 */
 	public Set<ObjectId> getShallowCommits() throws IOException {
-		return shallowCommits;
+		return Collections.emptySet();
 	}
-
 
 	/**
 	 * Update the shallow commits of the current repository
 	 *
-	 * @param shallowCommits the new shallow commits
-	 *
-	 * @throws IOException the database could not be updated
-	 *
+	 * @param shallowCommits
+	 *            the new shallow commits
+	 * @throws java.io.IOException
+	 *             the database could not be updated
 	 * @since 6.3
 	 */
 	public void setShallowCommits(Set<ObjectId> shallowCommits)
@@ -140,14 +135,14 @@ public abstract class ObjectDatabase implements AutoCloseable {
 	 *
 	 * @param objectId
 	 *            identity of the object to open.
-	 * @return a {@link org.eclipse.jgit.lib.ObjectLoader} for accessing the object.
-	 * @throws MissingObjectException
+	 * @return a {@link org.eclipse.jgit.lib.ObjectLoader} for accessing the
+	 *         object.
+	 * @throws org.eclipse.jgit.errors.MissingObjectException
 	 *             the object does not exist.
 	 * @throws java.io.IOException
 	 *             the object store cannot be accessed.
 	 */
-	public ObjectLoader open(AnyObjectId objectId)
-			throws IOException {
+	public ObjectLoader open(AnyObjectId objectId) throws IOException {
 		return open(objectId, ObjectReader.OBJ_ANY);
 	}
 
@@ -183,9 +178,9 @@ public abstract class ObjectDatabase implements AutoCloseable {
 	}
 
 	/**
-	 * Create a new cached database instance over this database. This instance might
-	 * optimize queries by caching some information about database. So some modifications
-	 * done after instance creation might fail to be noticed.
+	 * Create a new cached database instance over this database. This instance
+	 * might optimize queries by caching some information about database. So
+	 * some modifications done after instance creation might fail to be noticed.
 	 *
 	 * @return new cached database instance
 	 */
