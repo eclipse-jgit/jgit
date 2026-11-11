@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  * Copyright (C) 2017, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
@@ -675,6 +676,12 @@ public class PackInserter extends ObjectInserter {
 								tmpPack.getAbsolutePath()),
 						dfe);
 			}
+		}
+
+		@Override
+		public boolean isPromisorObject(AnyObjectId objectId)
+				throws IOException {
+			return ctx.isPromisorObject(objectId);
 		}
 
 		@Override
