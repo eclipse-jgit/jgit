@@ -129,6 +129,42 @@ public class TransferConfigTest {
 	}
 
 	@Test
+	public void testPromisorAdvertisementOptionalFilterFields() {
+		String mandatory = "name=objects,url=https%3A%2F%2Fexample.com%2Fobjects";
+		String filtered = mandatory + ",partialCloneFilter=blob%3Anone";
+		String[][] cases = {
+				{ null, "blob:none", mandatory },
+				{ "", "blob:none", mandatory },
+				{ ", \t\n\r\f,", "blob:none", mandatory },
+				{ "partialCloneFilter", "blob:none", filtered },
+				{ "PARTIALCLONEFILTER", "blob:none", filtered },
+				{ "partialCloneFilter,PartialCloneFilter,pArTiAlClOnEfIlTeR",
+						"blob:none", filtered },
+				{ "\tunknown, token PartialCloneFilter,\nunknown\rPartialCloneFilter\f",
+						"blob:none", filtered },
+				{ "token,unknown", "blob:none", mandatory },
+				{ "partialCloneFilters", "blob:none", mandatory },
+				{ "partialCloneFilter", null, mandatory },
+				{ "partialCloneFilter", "", mandatory },
+				{ "partialCloneFilter", "Blob:NONE +,;%é\t",
+						mandatory + ",partialCloneFilter="
+								+ "Blob%3ANONE%20%2B%2C%3B%25%C3%A9%09" } };
+		for (String[] testCase : cases) {
+			Config rc = new Config();
+			rc.setBoolean("promisor", null, "advertise", true);
+			rc.setString("promisor", null, "sendFields", testCase[0]);
+			rc.setBoolean("remote", "objects", "promisor", true);
+			rc.setString("remote", "objects", "url",
+					"https://example.com/objects");
+			rc.setString("remote", "objects", "partialCloneFilter", testCase[1]);
+			rc.setString("remote", "objects", "token", "secret");
+			assertEquals("sendFields=" + testCase[0] + ", filter=" + testCase[1],
+					testCase[2],
+					new TransferConfig(rc).getPromisorRemotes().getAdvertisement());
+		}
+	}
+
+	@Test
 	public void testPromisorAdvertisementSkipsUnusableNames() {
 		Config rc = new Config();
 		rc.setBoolean("promisor", null, "advertise", true);
@@ -153,7 +189,8 @@ public class TransferConfigTest {
 		assertEquals("name=r%C3%A9sum%C3%A9%2C%2B%3B%25%3Dx,"
 				+ "url=https%3A%2F%2Fexample.com%2Fa%20b%2F%C3%A9"
 				+ "%3Fx%3D1%2B2%2Cy%3Bz%3D%2525%23frag;"
-				+ "name=filtered,url=ssh%3A%2F%2Fexample.com%2Frepo%2Bpack",
+				+ "name=filtered,url=ssh%3A%2F%2Fexample.com%2Frepo%2Bpack,"
+				+ "partialCloneFilter=blob%3Anone",
 				new TransferConfig(rc).getPromisorRemotes().getAdvertisement());
 	}
 
@@ -171,21 +208,36 @@ public class TransferConfigTest {
 	public void testPromisorAdvertisementInheritedConfiguration() {
 		Config global = new Config();
 		global.setBoolean("promisor", null, "advertise", true);
+		global.setString("promisor", null, "sendFields", "partialCloneFilter");
 		global.setString("remote", "global", "partialCloneFilter", "blob:none");
 		global.setString("remote", "global", "url", "https://global/objects");
 		global.setBoolean("remote", "shared", "promisor", true);
 		global.setString("remote", "shared", "url", "https://global/shared");
 		Config repository = new Config(global);
-		assertEquals("name=global,url=https%3A%2F%2Fglobal%2Fobjects;"
+		assertEquals("name=global,url=https%3A%2F%2Fglobal%2Fobjects,"
+				+ "partialCloneFilter=blob%3Anone;"
 				+ "name=shared,url=https%3A%2F%2Fglobal%2Fshared",
 				new TransferConfig(repository).getPromisorRemotes().getAdvertisement());
 
 		repository.setString("remote", "shared", "url", "https://repo/shared");
 		assertEquals("name=shared,url=https%3A%2F%2Frepo%2Fshared;"
-				+ "name=global,url=https%3A%2F%2Fglobal%2Fobjects",
+				+ "name=global,url=https%3A%2F%2Fglobal%2Fobjects,"
+				+ "partialCloneFilter=blob%3Anone",
+				new TransferConfig(repository).getPromisorRemotes().getAdvertisement());
+
+		repository.setString("remote", "global", "partialCloneFilter",
+				"blob:limit=42");
+		assertEquals("name=shared,url=https%3A%2F%2Frepo%2Fshared;"
+				+ "name=global,url=https%3A%2F%2Fglobal%2Fobjects,"
+				+ "partialCloneFilter=blob%3Alimit%3D42",
 				new TransferConfig(repository).getPromisorRemotes().getAdvertisement());
 
 		repository.setBoolean("remote", "shared", "promisor", false);
+		assertEquals("name=global,url=https%3A%2F%2Fglobal%2Fobjects,"
+				+ "partialCloneFilter=blob%3Alimit%3D42",
+				new TransferConfig(repository).getPromisorRemotes().getAdvertisement());
+
+		repository.setString("promisor", null, "sendFields", "token");
 		assertEquals("name=global,url=https%3A%2F%2Fglobal%2Fobjects",
 				new TransferConfig(repository).getPromisorRemotes().getAdvertisement());
 
@@ -197,20 +249,25 @@ public class TransferConfigTest {
 	public void testPromisorAdvertisementSnapshotIsImmutable() {
 		Config global = new Config();
 		global.setBoolean("promisor", null, "advertise", true);
+		global.setString("promisor", null, "sendFields", "partialCloneFilter");
+		global.setString("remote", "objects", "partialCloneFilter", "blob:none");
 		global.setBoolean("remote", "objects", "promisor", true);
 		global.setString("remote", "objects", "url", "https://example/objects");
 		Config repository = new Config(global);
 		TransferConfig tc = new TransferConfig(repository);
 
 		global.setString("remote", "objects", "url", "https://changed/objects");
+		global.setString("remote", "objects", "partialCloneFilter", "blob:limit=42");
+		repository.setString("promisor", null, "sendFields", "token");
 		repository.setBoolean("remote", "other", "promisor", true);
 		repository.setString("remote", "other", "url", "https://example/other");
 		repository.setBoolean("promisor", null, "advertise", false);
 
-		assertEquals("name=objects,url=https%3A%2F%2Fexample%2Fobjects",
+		assertEquals("name=objects,url=https%3A%2F%2Fexample%2Fobjects,"
+				+ "partialCloneFilter=blob%3Anone",
 				tc.getPromisorRemotes().getAdvertisement());
 		assertEquals(List.of(new PromisorRemoteConfig.Remote("objects",
-				"https://example/objects")),
+				"https://example/objects", "blob:none")),
 				tc.getPromisorRemotes().getAdvertisedRemotes());
 		assertThrows(UnsupportedOperationException.class,
 				() -> tc.getPromisorRemotes().getAdvertisedRemotes().clear());

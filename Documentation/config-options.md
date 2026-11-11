@@ -167,10 +167,16 @@ existing repository's format is rejected.
 | option | default | git option | description |
 |--------|---------|------------|-------------|
 | `promisor.advertise` | `false` | &#x2705; | Whether to advertise promisor remote names and URLs using the protocol v2 [`promisor-remote` capability](https://git-scm.com/docs/gitprotocol-v2#_promisor_remotepr_info). |
+| `promisor.sendFields` | empty | &#x2705; | Additional fields to advertise, separated by commas or whitespace. Supported values: `partialCloneFilter` (case-insensitive). Unknown fields are ignored. |
 
 A remote is advertised if `remote.<name>.promisor` is `true` or
 `remote.<name>.partialCloneFilter` is configured, and it has a valid name and a
 nonempty `remote.<name>.url`. If no remotes qualify, the capability is not sent.
+
+Setting `promisor.sendFields=partialCloneFilter` includes each advertised remote's
+non-empty `remote.<name>.partialCloneFilter` value. JGit advertises the value
+without parsing it. This does not enable fetch filtering: the client must request
+a filter, and the server must allow it with `uploadpack.allowFilter=true`.
 
 
 ## __receive__ options
