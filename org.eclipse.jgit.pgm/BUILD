@@ -53,7 +53,18 @@ genrule(
     name = "services_jar",
     srcs = glob(["META-INF/services/*"]),
     outs = ["services_jar.jar"],
-    cmd = "r=$$PWD && cd org.eclipse.jgit.pgm && zip -qr $$r/$@ .",
+    cmd = " && ".join([
+        "set -o pipefail",
+        "ROOT=$$PWD",
+        "TMP=$$(mktemp -d || mktemp -d -t bazel-tmp)",
+        "TZ=UTC",
+        "export TZ",
+        "tar chf - $(SRCS) | tar -C $$TMP --strip-components=1 -xf -",
+        "cd $$TMP",
+        "find . -exec touch -t 198001010000 '{}' +",
+        "find . -mindepth 1 -print | LC_ALL=C sort | zip -Xq $$ROOT/$@ -@",
+        "rm -rf $$TMP",
+    ]),
 )
 
 java_import(
@@ -67,6 +78,7 @@ genrule(
     srcs = [":pgm"],
     outs = ["pgm-stamped.jar"],
     cmd = " && ".join([
+        "set -o pipefail",
         "ROOT=$$PWD",
         "TMP=$$(mktemp -d || mktemp -d -t bazel-tmp)",
         "TZ=UTC",
@@ -75,8 +87,8 @@ genrule(
         "cd $$TMP",
         "unzip -q $$ROOT/$<",
         "echo \"Implementation-Version: $$GEN_VERSION\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF",
-        "find . -exec touch -t 198001010000 '{}' ';'",
-        "zip -Xqr $$ROOT/$@ .",
+        "find . -exec touch -t 198001010000 '{}' +",
+        "find . -mindepth 1 -print | LC_ALL=C sort | zip -Xq $$ROOT/$@ -@",
         "rm -rf $$TMP",
     ]),
     stamp = 1,

@@ -20,10 +20,15 @@ genrule(
     ],
     outs = ["all.zip"],
     cmd = " && ".join([
+        "set -o pipefail",
         "p=$$PWD",
         "t=$$(mktemp -d || mktemp -d -t bazel-tmp)",
+        "TZ=UTC",
+        "export TZ",
         "cp $(SRCS) $$t",
         "cd $$t",
-        "zip -qr $$p/$@ .",
+        "find . -exec touch -t 198001010000 '{}' +",
+        "find . -mindepth 1 -print | LC_ALL=C sort | zip -Xq $$p/$@ -@",
+        "rm -rf $$t",
     ]),
 )

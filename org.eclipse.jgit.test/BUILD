@@ -103,5 +103,13 @@ genrule2(
     name = "tst_rsrc_jar",
     srcs = glob(["tst-rsrc/**"]),
     outs = ["tst_rsrc.jar"],
-    cmd = "o=$$PWD/$@ && tar cf - $(SRCS) | tar -C $$TMP --strip-components=2 -xf - && cd  $$TMP && zip -qr $$o .",
+    cmd = " && ".join([
+        "set -o pipefail",
+        "TZ=UTC",
+        "export TZ",
+        "tar chf - $(SRCS) | tar -C $$TMP --strip-components=2 -xf -",
+        "cd $$TMP",
+        "find . -exec touch -t 198001010000 '{}' +",
+        "find . -mindepth 1 -print | LC_ALL=C sort | zip -Xq $$ROOT/$@ -@",
+    ]),
 )
