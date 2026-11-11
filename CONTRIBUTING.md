@@ -60,3 +60,16 @@ Relative file paths are resolved from the invocation directory. The default
 profile is resolved from Bazel's workspace directory. `tools/format-java` is a
 convenience wrapper; it does not change the working directory, so run it within
 the workspace (using its absolute path from a subdirectory if needed).
+
+To limit formatting to lines changed against a Git base, add
+`--changed-lines <base>`:
+
+```bash
+tools/format-java --check --changed-lines origin/master \
+  org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java
+```
+
+The changed-line mode uses Git's zero-context diff ranges (including staged and
+unstaged changes); an explicitly named untracked Java file is treated as
+entirely new. The JDT formatter may adjust nearby lines to preserve valid
+formatting.

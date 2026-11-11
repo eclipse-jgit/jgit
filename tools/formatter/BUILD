@@ -17,11 +17,13 @@ java_library(
     name = "formatter_lib",
     srcs = [
         "FormatterMain.java",
+        "GitDiff.java",
         "JdtFormatter.java",
         ":formatter_config",
     ],
     deps = [
         "//lib:args4j",
+        "//org.eclipse.jgit:jgit",
         "@formatter_deps//:org_eclipse_jdt_org_eclipse_jdt_core",
         "@formatter_deps//:org_eclipse_platform_org_eclipse_text",
     ],
@@ -43,5 +45,6 @@ java_test(
     deps = [
         ":formatter_lib",
         "//lib:junit",
+        "//org.eclipse.jgit:jgit",
     ],
 )
