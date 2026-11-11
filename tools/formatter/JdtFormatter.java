@@ -13,7 +13,9 @@ package org.eclipse.jgit.format;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
@@ -55,6 +57,48 @@ final class JdtFormatter {
 						| CodeFormatter.F_INCLUDE_COMMENTS,
 				source, 0, source.length(), 0, lineSeparator(document));
 		if (edit != null) {
+			try {
+				edit.apply(document);
+			} catch (BadLocationException | MalformedTreeException e) {
+				throw new IOException("Cannot apply JDT formatter edits", e);
+			}
+		}
+		return document.get();
+	}
+
+	String format(String source, List<GitDiff.LineRange> ranges)
+			throws IOException {
+		Document document = new Document(source);
+		String lineSeparator = lineSeparator(document);
+		List<GitDiff.LineRange> descending = new ArrayList<>(ranges);
+		descending.sort((left, right) -> Integer.compare(right.firstLine(),
+				left.firstLine()));
+		for (GitDiff.LineRange range : descending) {
+			int offset;
+			int end;
+			try {
+				offset = lineStartOffset(document, range.firstLine());
+				if (offset < 0) {
+					continue;
+				}
+				end = lineStartOffset(document,
+						range.firstLine() + range.lineCount());
+			} catch (BadLocationException e) {
+				throw new IOException("Cannot locate JDT formatter range", e);
+			}
+			if (end < 0) {
+				end = document.getLength();
+			}
+			if (end <= offset) {
+				continue;
+			}
+			TextEdit edit = formatter.format(
+					CodeFormatter.K_COMPILATION_UNIT
+							| CodeFormatter.F_INCLUDE_COMMENTS,
+					document.get(), offset, end - offset, 0, lineSeparator);
+			if (edit == null) {
+				continue;
+			}
 			try {
 				edit.apply(document);
 			} catch (BadLocationException | MalformedTreeException e) {
@@ -124,6 +168,14 @@ final class JdtFormatter {
 			return firstFormatterProfile;
 		}
 		throw new IOException("No CodeFormatterProfile element found");
+	}
+
+	private static int lineStartOffset(Document document, int line)
+			throws BadLocationException {
+		if (line < 1 || line > document.getNumberOfLines()) {
+			return -1;
+		}
+		return document.getLineOffset(line - 1);
 	}
 
 	private static String lineSeparator(Document document) throws IOException {

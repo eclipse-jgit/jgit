@@ -20,6 +20,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -82,26 +83,46 @@ public final class FormatterMain {
 			Path workspaceDirectory, PrintStream out) throws IOException {
 		Path profile = resolve(options.profile.toPath(), workspaceDirectory);
 		JdtFormatter formatter = new JdtFormatter(profile);
-		boolean needsFormatting = false;
-		for (File fileArgument : options.files) {
-			Path file = resolve(fileArgument.toPath(), workingDirectory);
-			if (!Files.isRegularFile(file)) {
-				throw new IOException("Not a regular file: " + file);
+		try (Repository repository = options.changedLinesBase == null ? null
+				: GitDiff.openRepository(workspaceDirectory)) {
+			boolean needsFormatting = false;
+			for (File fileArgument : options.files) {
+				Path file = resolve(fileArgument.toPath(), workingDirectory);
+				String formatted = formatFile(file, repository,
+						options.changedLinesBase, formatter);
+				if (formatted == null) {
+					continue;
+				}
+				if (options.write) {
+					Files.writeString(file, formatted, StandardCharsets.UTF_8);
+					out.println("Formatted " + fileArgument);
+				} else {
+					out.println("Needs formatting: " + fileArgument);
+					needsFormatting = true;
+				}
 			}
-			String original = Files.readString(file, StandardCharsets.UTF_8);
-			String formatted = formatter.format(original);
-			if (original.equals(formatted)) {
-				continue;
-			}
-			if (options.write) {
-				Files.writeString(file, formatted, StandardCharsets.UTF_8);
-				out.println("Formatted " + fileArgument);
-			} else {
-				out.println("Needs formatting: " + fileArgument);
-				needsFormatting = true;
-			}
+			return needsFormatting ? 1 : 0;
 		}
-		return needsFormatting ? 1 : 0;
+	}
+
+	private static String formatFile(Path file, Repository repository,
+			String base, JdtFormatter formatter) throws IOException {
+		if (!Files.isRegularFile(file)) {
+			throw new IOException("Not a regular file: " + file);
+		}
+		String original = Files.readString(file, StandardCharsets.UTF_8);
+		String formatted;
+		if (repository == null) {
+			formatted = formatter.format(original);
+		} else {
+			List<GitDiff.LineRange> ranges = GitDiff.changedRanges(repository,
+					base, file);
+			if (ranges.isEmpty()) {
+				return null;
+			}
+			formatted = formatter.format(original, ranges);
+		}
+		return original.equals(formatted) ? null : formatted;
 	}
 
 	private static Path resolve(Path path, Path baseDirectory) {
@@ -137,6 +158,9 @@ public final class FormatterMain {
 		@Option(name = "--profile", metaVar = "FILE", usage = "Formatter profile XML file.")
 		private File profile = DEFAULT_PROFILE.toFile();
 
+		@Option(name = "--changed-lines", metaVar = "BASE", usage = "Format only lines changed since this Git base.")
+		private String changedLinesBase;
+
 		@Argument(index = 0, metaVar = "file.java...", usage = "Java source files to format.", multiValued = true)
 		private List<File> files = new ArrayList<>();
 
@@ -145,6 +169,10 @@ public final class FormatterMain {
 				throw new IllegalArgumentException(
 						check ? "Choose exactly one of --check and --write"
 								: "Specify either --check or --write");
+			}
+			if (changedLinesBase != null && changedLinesBase.isBlank()) {
+				throw new IllegalArgumentException(
+						"--changed-lines requires a non-empty Git base");
 			}
 			if (files.isEmpty()) {
 				throw new IllegalArgumentException(

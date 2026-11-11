@@ -64,3 +64,16 @@ the workspace (using its absolute path from a subdirectory if needed).
 The formatter's Java source level is derived from Bazel's selected Java
 toolchain. Formatter dependencies are isolated from the product build, and
 ordinary Bazel builds and tests never rewrite source files.
+
+To limit formatting to lines changed against a Git base, add
+`--changed-lines <base>`:
+
+```bash
+tools/format-java --check --changed-lines origin/master \
+  org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java
+```
+
+The changed-line mode uses Git's zero-context diff ranges (including staged and
+unstaged changes); an explicitly named untracked Java file is treated as
+entirely new. The JDT formatter may adjust nearby lines to preserve valid
+formatting.
