@@ -28,6 +28,34 @@ public final class ConfigConstants {
 	/** The "remote" section */
 	public static final String CONFIG_REMOTE_SECTION = "remote";
 
+	/**
+	 * The "promisor" section
+	 *
+	 * @since 8.0
+	 */
+	public static final String CONFIG_PROMISOR_SECTION = "promisor";
+
+	/**
+	 * The "advertise" key within the "promisor" section
+	 *
+	 * @since 8.0
+	 */
+	public static final String CONFIG_KEY_ADVERTISE = "advertise";
+
+	/**
+	 * The "promisor" key within a "remote" subsection
+	 *
+	 * @since 8.0
+	 */
+	public static final String CONFIG_KEY_PROMISOR = "promisor";
+
+	/**
+	 * The "partialCloneFilter" key within a "remote" subsection
+	 *
+	 * @since 8.0
+	 */
+	public static final String CONFIG_KEY_PARTIAL_CLONE_FILTER = "partialCloneFilter";
+
 	/** The "diff" section */
 	public static final String CONFIG_DIFF_SECTION = "diff";
 

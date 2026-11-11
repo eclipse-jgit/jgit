@@ -162,6 +162,24 @@ existing repository's format is rejected.
 | `pack.windowMemory` | `0` (unlimited) | &#x2705; | Maximum number of bytes to put into the delta search window. |
 
 
+## __promisor__ options
+
+| option | default | git option | description |
+|--------|---------|------------|-------------|
+| `promisor.advertise` | `false` | &#x2705; | Advertise promisor remote names and URLs using the protocol v2 `promisor-remote` capability. No capability is sent if no eligible remote has a usable name and a nonempty URL. |
+
+A remote is eligible when `remote.<name>.promisor` is `true` or
+`remote.<name>.partialCloneFilter` is configured. Advertisement uses the
+configuration supplied to `TransferConfig`, including inherited remote sections.
+Repository settings can override inherited values or disable advertisement.
+Only names and URLs are sent; optional filter and token fields are not supported.
+
+This is currently advertisement-only support. Client acceptance replies are
+ignored: they do not authorize object omission or cause missing objects to be
+fetched. Explicitly requested fetch filters keep their existing behavior. A
+remote's configured filter is never applied automatically to a client's fetch.
+
+
 ## __receive__ options
 
 | option           | default | git option | description                                                                                |

@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  * Copyright (C) 2008, 2023 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
@@ -30,8 +31,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.SystemReader;
 
 /**
- * The standard "transfer", "fetch", "protocol", "receive", and "uploadpack"
- * configuration parameters.
+ * The standard "transfer", "fetch", "protocol", "receive", "uploadpack", and
+ * "promisor" configuration parameters.
  */
 public class TransferConfig {
 	private static final String FSCK = "fsck"; //$NON-NLS-1$
@@ -130,6 +131,7 @@ public class TransferConfig {
 
 	final @Nullable ProtocolVersion protocolVersion;
 	final String[] hideRefs;
+	final PromisorRemoteConfig promisorRemotes;
 
 	/**
 	 * Create a configuration honoring the repository's settings.
@@ -221,6 +223,7 @@ public class TransferConfig {
 				"advertiseobjectinfo", false);
 		allowReceiveClientSID = rc.getBoolean("transfer", "advertisesid",
 				false);
+		promisorRemotes = new PromisorRemoteConfig(rc);
 	}
 
 	/**
