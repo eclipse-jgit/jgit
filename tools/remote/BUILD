@@ -15,3 +15,11 @@ platform(
     },
     visibility = ["//visibility:public"],
 )
+
+# BuildBuddy supports dockerUser; do not send this property to Google RBE.
+platform(
+    name = "buildbuddy_platform",
+    parents = [":platform"],
+    exec_properties = {"dockerUser": "1000:1000"},
+    visibility = ["//visibility:public"],
+)

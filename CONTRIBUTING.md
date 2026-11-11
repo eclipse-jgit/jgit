@@ -3,6 +3,11 @@
 Please refer to the [contributor guide](https://wiki.eclipse.org/EGit/Contributor_Guide) for all the details.
 Contributions require that you sign the [Eclipse Contributor Agreement](https://www.eclipse.org/legal/ECA.php).
 
+## Building with Bazel
+
+See [the standalone Bazel guide](Documentation/bazel.md) for local builds,
+BuildBuddy reporting, remote caching and remote execution.
+
 ## Reporting bugs
 
 For anything other than small changes, it's a good idea to open a bug

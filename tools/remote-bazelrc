@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Shared remote execution settings.
+# Remote execution settings shared by Google RBE and BuildBuddy.
 common:remote_shared --jobs=200
 common:remote_shared --disk_cache=
 common:remote_shared --remote_download_minimal
@@ -40,3 +40,34 @@ common:diagnostics --profile=bazel-profile.json.gz
 common:diagnostics --experimental_profile_include_target_label
 common:diagnostics --experimental_profile_include_primary_output
 common:diagnostics --noslim_profile
+
+# Reporting only: preserve local execution, platforms and disk cache.
+build:reporting_bb --bes_results_url=https://app.buildbuddy.io/invocation/
+build:reporting_bb --bes_backend=grpcs://remote.buildbuddy.io
+common:reporting_bb --config=diagnostics
+
+# These commands inherit build options but should not publish invocations.
+run:reporting_bb --bes_backend=
+run:reporting_bb --bes_results_url=
+aquery:reporting_bb --bes_backend=
+aquery:reporting_bb --bes_results_url=
+cquery:reporting_bb --bes_backend=
+cquery:reporting_bb --bes_results_url=
+# Plain query does not inherit build-scoped BES options.
+
+# Cache misses still execute locally; neither Google auth nor a remote platform
+# is selected. Compression and chunking reduce large-blob transfer costs.
+common:cache_bb --config=reporting_bb
+common:cache_bb --remote_cache=grpcs://remote.buildbuddy.io
+common:cache_bb --remote_upload_local_results
+common:cache_bb --remote_cache_compression
+common:cache_bb --experimental_remote_cache_chunking
+
+# Remote execution includes reporting and caching, without Google credentials.
+common:remote_bb --config=remote_shared
+common:remote_bb --config=cache_bb
+# Permission-sensitive repository tests must not execute as root.
+common:remote_bb --extra_execution_platforms=//tools/remote:buildbuddy_platform
+common:remote_bb --host_platform=//tools/remote:buildbuddy_platform
+common:remote_bb --platforms=//tools/remote:buildbuddy_platform
+common:remote_bb --remote_executor=grpcs://remote.buildbuddy.io

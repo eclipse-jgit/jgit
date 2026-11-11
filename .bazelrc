@@ -46,5 +46,14 @@ test --test_tag_filters=-ext
 
 import %workspace%/tools/remote-bazelrc
 
+# BuildBuddy execution with explicit application and tool Java versions.
+common:remote25_bb --config=remote_bb
+common:remote25_bb --java_language_version=25
+common:remote25_bb --java_runtime_version=remotejdk_25
+common:remote25_bb --tool_java_language_version=25
+common:remote25_bb --tool_java_runtime_version=remotejdk_25
+common:remote27_bb --config=remote_bb
+common:remote27_bb --config=java27
+
 # Local credentials and endpoint overrides; never commit this file.
 try-import %workspace%/user.bazelrc
