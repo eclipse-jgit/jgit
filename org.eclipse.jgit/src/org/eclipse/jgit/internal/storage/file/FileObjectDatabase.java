@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  * Copyright (C) 2010, 2022 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
@@ -60,6 +61,19 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 	abstract ObjectLoader openObject(WindowCursor curs, AnyObjectId objectId)
 			throws IOException;
 
+	/**
+	 * Fail if physical packed storage cannot prove this object absent.
+	 *
+	 * @param curs
+	 *            cursor for reading packed objects
+	 * @param objectId
+	 *            object whose physical absence must be established
+	 * @throws IOException
+	 *             if the object cannot be proved absent from packed storage
+	 */
+	abstract void checkObjectAbsent(WindowCursor curs, AnyObjectId objectId)
+			throws IOException;
+
 	abstract long getObjectSize(WindowCursor curs, AnyObjectId objectId)
 			throws IOException;
 
@@ -72,6 +86,23 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 	abstract Pack openPack(File pack) throws IOException;
 
 	abstract Collection<Pack> getPacks();
+
+	/**
+	 * Get marked packs, including packs in applicable alternates.
+	 *
+	 * @return marked packs from this database and applicable alternates
+	 */
+	abstract Collection<Pack> getPromisorPacks();
+
+	/**
+	 * Whether physical marked packs exist, independently of cached readers.
+	 *
+	 * @return true if this database or an applicable alternate has a physical
+	 *         marked pack
+	 * @throws IOException
+	 *             if physical packed storage cannot be inspected
+	 */
+	abstract boolean hasPromisorPacks() throws IOException;
 
 	abstract Optional<CommitGraph> getCommitGraph();
 }

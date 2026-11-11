@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  * Copyright (C) 2018, 2022 Google LLC. and others
  *
  * This program and the accompanying materials are made available under the
@@ -24,6 +25,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Set;
 
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -100,6 +102,36 @@ public class ProtocolV2ParserTest {
 		}
 
 		return new PacketLineIn(new ByteArrayInputStream(send.toByteArray()));
+	}
+
+	@Test
+	public void acceptedPromisorsAreDecodedAndDeduplicated() throws Exception {
+		ProtocolV2Parser parser = new ProtocolV2Parser(
+				ConfigBuilder.getDefault());
+		FetchV2Request request = parser.parseFetchRequest(formatAsPacketLine(
+				"promisor-remote=one%3btwo;plus+name;one%3Btwo;%e9%9b%aa;unknown",
+				PacketLineIn.delimiter(), "done", PacketLineIn.end()));
+		assertEquals(Set.of("one;two", "plus+name", "雪", "unknown"),
+				request.getAcceptedPromisorRemotes());
+		assertThrows(UnsupportedOperationException.class,
+				() -> request.getAcceptedPromisorRemotes().add("another"));
+		assertTrue(parser
+				.parseFetchRequest(formatAsPacketLine(PacketLineIn.delimiter(),
+						"done", PacketLineIn.end()))
+				.getAcceptedPromisorRemotes().isEmpty());
+	}
+
+	@Test
+	public void malformedPromisorAcceptanceIsRejected() throws Exception {
+		ProtocolV2Parser parser = new ProtocolV2Parser(
+				ConfigBuilder.getDefault());
+		for (String value : new String[] { "%", "%0", "%xy", "%ff", "%４１" }) {
+			assertThrows(value, PackProtocolException.class,
+					() -> parser.parseFetchRequest(
+							formatAsPacketLine("promisor-remote=" + value,
+									PacketLineIn.delimiter(), "done",
+									PacketLineIn.end())));
+		}
 	}
 
 	/*
