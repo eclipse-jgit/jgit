@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  * Copyright (C) 2008, 2022 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
@@ -1398,6 +1399,10 @@ public class UploadPack implements Closeable {
 			caps.add(COMMAND_OBJECT_INFO);
 		}
 		caps.add(OPTION_AGENT + "=" + UserAgent.get());
+		String promisors = transferConfig.promisorRemotes.advertisement;
+		if (promisors != null) {
+			caps.add("promisor-remote=" + promisors);
+		}
 
 		return caps;
 	}
