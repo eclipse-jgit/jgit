@@ -56,6 +56,13 @@ public final class ConfigConstants {
 	 */
 	public static final String CONFIG_KEY_PARTIAL_CLONE_FILTER = "partialCloneFilter";
 
+	/**
+	 * The "sendFields" key within the "promisor" section
+	 *
+	 * @since 8.0
+	 */
+	public static final String CONFIG_KEY_SEND_FIELDS = "sendFields";
+
 	/** The "diff" section */
 	public static final String CONFIG_DIFF_SECTION = "diff";
 
