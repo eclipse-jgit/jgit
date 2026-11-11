@@ -13,6 +13,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_ADVERTISE;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PARTIAL_CLONE_FILTER;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PROMISOR;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_SEND_FIELDS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_URL;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PROMISOR_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_REMOTE_SECTION;
@@ -26,21 +27,42 @@ import org.eclipse.jgit.lib.Config;
 
 /** Snapshot of the promisor remotes advertised by an upload-pack session. */
 final class PromisorRemoteConfig {
-	record Remote(String name, String url) {
-		public String toWireString() {
-			return "name=" + encode(name) + ",url=" + encode(url); //$NON-NLS-1$ //$NON-NLS-2$
+	record Remote(String name, String url, @Nullable String partialCloneFilter) {
+		@SuppressWarnings("nls")
+		public String toWireString(boolean sendFilter) {
+			String entry = "name=" + encode(name) + ",url=" + encode(url);
+			if (sendFilter && partialCloneFilter != null
+					&& !partialCloneFilter.isEmpty()) {
+				entry += ",partialCloneFilter=" + encode(partialCloneFilter);
+			}
+			return entry;
 		}
 	}
 
 	private final List<Remote> advertisedRemotes;
+	private final boolean sendFilter;
 
 	@SuppressWarnings("nls")
 	PromisorRemoteConfig(Config config) {
 		if (!config.getBoolean(CONFIG_PROMISOR_SECTION, null,
 				CONFIG_KEY_ADVERTISE, false)) {
 			advertisedRemotes = List.of();
+			sendFilter = false;
 			return;
 		}
+
+		boolean includeFilter = false;
+		String fields = config.getString(CONFIG_PROMISOR_SECTION, null,
+				CONFIG_KEY_SEND_FIELDS);
+		if (fields != null) {
+			for (String field : fields.split("[,\\s]+", -1)) {
+				if (CONFIG_KEY_PARTIAL_CLONE_FILTER.equalsIgnoreCase(field)) {
+					includeFilter = true;
+					break;
+				}
+			}
+		}
+		sendFilter = includeFilter;
 
 		List<Remote> remotes = new ArrayList<>();
 		for (String name : config.getSubsections(CONFIG_REMOTE_SECTION)) {
@@ -56,7 +78,9 @@ final class PromisorRemoteConfig {
 			String url = config.getString(CONFIG_REMOTE_SECTION, name,
 					CONFIG_KEY_URL);
 			if (url != null && !url.isEmpty()) {
-				remotes.add(new Remote(name, url));
+				String filter = config.getString(CONFIG_REMOTE_SECTION, name,
+						CONFIG_KEY_PARTIAL_CLONE_FILTER);
+				remotes.add(new Remote(name, url, filter));
 			}
 		}
 		advertisedRemotes = List.copyOf(remotes);
@@ -72,7 +96,7 @@ final class PromisorRemoteConfig {
 		}
 		StringJoiner result = new StringJoiner(";"); //$NON-NLS-1$
 		for (Remote remote : advertisedRemotes) {
-			result.add(remote.toWireString());
+			result.add(remote.toWireString(sendFilter));
 		}
 		return result.toString();
 	}
