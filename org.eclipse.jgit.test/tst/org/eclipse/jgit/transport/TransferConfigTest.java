@@ -130,6 +130,40 @@ public class TransferConfigTest {
 	}
 
 	@Test
+	public void testPromisorAdvertisementOptionalFilterFields() {
+		String mandatory = "name=objects,url=https://example.com/objects";
+		String filtered = mandatory + ",partialCloneFilter=blob:none";
+		String[][] cases = {
+				{ null, "blob:none", mandatory },
+				{ "", "blob:none", mandatory },
+				{ ", \t\n\r\f,", "blob:none", mandatory },
+				{ "partialCloneFilter", "blob:none", filtered },
+				{ "PARTIALCLONEFILTER", "blob:none", filtered },
+				{ "partialCloneFilter,PartialCloneFilter,pArTiAlClOnEfIlTeR",
+						"blob:none", filtered },
+				{ "\tunknown, token PartialCloneFilter,\nunknown\rPartialCloneFilter\f",
+						"blob:none", filtered },
+				{ "token,unknown", "blob:none", mandatory },
+				{ "partialCloneFilters", "blob:none", mandatory },
+				{ "partialCloneFilter", null, mandatory },
+				{ "partialCloneFilter", "", mandatory },
+				{ "partialCloneFilter", "Blob:NONE +,;%é\t",
+						mandatory + ",partialCloneFilter=Blob:NONE%20+%2c%3b%25%c3%a9%09" } };
+		for (String[] testCase : cases) {
+			Config rc = new Config();
+			rc.setBoolean("promisor", null, "advertise", true);
+			rc.setString("promisor", null, "sendFields", testCase[0]);
+			rc.setBoolean("remote", "objects", "promisor", true);
+			rc.setString("remote", "objects", "url",
+					"https://example.com/objects");
+			rc.setString("remote", "objects", "partialCloneFilter", testCase[1]);
+			rc.setString("remote", "objects", "token", "secret");
+			assertEquals("sendFields=" + testCase[0] + ", filter=" + testCase[1],
+					testCase[2], new TransferConfig(rc).promisorRemotes.advertisement);
+		}
+	}
+
+	@Test
 	public void testPromisorAdvertisementSkipsUnusableNames() {
 		Config rc = new Config();
 		rc.setBoolean("promisor", null, "advertise", true);
@@ -153,7 +187,8 @@ public class TransferConfigTest {
 		rc.setString("remote", "filtered", "url", "ssh://example.com/repo+pack");
 		assertEquals("name=r%c3%a9sum%c3%a9%2c+%3b%25=x,"
 				+ "url=https://example.com/a%20b/%c3%a9?x=1+2%2cy%3bz=%2525#frag;"
-				+ "name=filtered,url=ssh://example.com/repo+pack",
+				+ "name=filtered,url=ssh://example.com/repo+pack,"
+				+ "partialCloneFilter=blob:none",
 				new TransferConfig(rc).promisorRemotes.advertisement);
 	}
 
@@ -171,21 +206,36 @@ public class TransferConfigTest {
 	public void testPromisorAdvertisementInheritedConfiguration() {
 		Config global = new Config();
 		global.setBoolean("promisor", null, "advertise", true);
+		global.setString("promisor", null, "sendFields", "partialCloneFilter");
 		global.setString("remote", "global", "partialCloneFilter", "blob:none");
 		global.setString("remote", "global", "url", "https://global/objects");
 		global.setBoolean("remote", "shared", "promisor", true);
 		global.setString("remote", "shared", "url", "https://global/shared");
 		Config repository = new Config(global);
-		assertEquals("name=global,url=https://global/objects;"
+		assertEquals("name=global,url=https://global/objects,"
+				+ "partialCloneFilter=blob:none;"
 				+ "name=shared,url=https://global/shared",
 				new TransferConfig(repository).promisorRemotes.advertisement);
 
 		repository.setString("remote", "shared", "url", "https://repo/shared");
 		assertEquals("name=shared,url=https://repo/shared;"
-				+ "name=global,url=https://global/objects",
+				+ "name=global,url=https://global/objects,"
+				+ "partialCloneFilter=blob:none",
+				new TransferConfig(repository).promisorRemotes.advertisement);
+
+		repository.setString("remote", "global", "partialCloneFilter",
+				"blob:limit=42");
+		assertEquals("name=shared,url=https://repo/shared;"
+				+ "name=global,url=https://global/objects,"
+				+ "partialCloneFilter=blob:limit=42",
 				new TransferConfig(repository).promisorRemotes.advertisement);
 
 		repository.setBoolean("remote", "shared", "promisor", false);
+		assertEquals("name=global,url=https://global/objects,"
+				+ "partialCloneFilter=blob:limit=42",
+				new TransferConfig(repository).promisorRemotes.advertisement);
+
+		repository.setString("promisor", null, "sendFields", "token");
 		assertEquals("name=global,url=https://global/objects",
 				new TransferConfig(repository).promisorRemotes.advertisement);
 

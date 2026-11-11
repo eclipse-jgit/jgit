@@ -167,12 +167,30 @@ existing repository's format is rejected.
 | option | default | git option | description |
 |--------|---------|------------|-------------|
 | `promisor.advertise` | `false` | &#x2705; | Advertise promisor remote names and URLs using the protocol v2 `promisor-remote` capability. No capability is sent if no eligible remote has a usable name and a nonempty URL. |
+| `promisor.sendFields` | empty | &#x2705; | Optional `promisor-remote` fields to send, separated by commas or whitespace. Currently only `partialCloneFilter` is supported. |
 
 A remote is eligible when `remote.<name>.promisor` is `true` or
 `remote.<name>.partialCloneFilter` is configured. Advertisement uses the
-configuration supplied to `TransferConfig`, including inherited remote sections.
-Repository settings can override inherited values or disable advertisement.
-Only names and URLs are sent; optional filter and token fields are not supported.
+configuration supplied to `TransferConfig`, including inherited values and remote
+sections. As with other JGit options, inherited application configuration can
+supply global defaults (for example Gerrit's `etc/jgit.config`). Repository
+settings can override `promisor.advertise`, `promisor.sendFields`, and remote URLs
+and filters, or disable advertisement. This feature does not load a separate
+global configuration file.
+
+Field names in `promisor.sendFields` are recognized case-insensitively; duplicate
+names have no effect. Unsupported fields, including `token`, are ignored. When
+`partialCloneFilter` is selected, a nonempty effective
+`remote.<name>.partialCloneFilter` value is advertised after the required name and
+URL. The value is preserved, with protocol escaping; JGit does not parse or
+normalize it. Missing or empty filters are not sent.
+
+Clients supporting `--filter=auto` resolve the advertised filters themselves when
+they accept an advertised remote. Filtered fetch requests require
+`uploadpack.allowFilter=true`, independently of client acceptance. To use auto
+filtering with JGit, configure and accept only a single filter supported by JGit's
+existing parser: `blob:none`, `blob:limit=<nonnegative integer>`, or
+`tree:<nonnegative integer>`. Combined filter requests are unsupported.
 
 This is currently advertisement-only support. Client acceptance replies are
 ignored: they do not authorize object omission or cause missing objects to be

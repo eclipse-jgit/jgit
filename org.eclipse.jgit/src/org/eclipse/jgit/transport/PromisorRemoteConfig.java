@@ -57,14 +57,35 @@ final class PromisorRemoteConfig {
 		}
 		advertisedRemotes = List.copyOf(remotes);
 		advertisedNames = Set.copyOf(names);
-		advertisement = remotes.isEmpty() ? null : serialize(advertisedRemotes);
+		advertisement = remotes.isEmpty() ? null
+				: serialize(advertisedRemotes, config);
 	}
 
-	private static String serialize(List<Remote> remotes) {
-		StringJoiner result = new StringJoiner(";"); //$NON-NLS-1$
+	@SuppressWarnings("nls")
+	private static String serialize(List<Remote> remotes, Config config) {
+		boolean sendFilter = false;
+		String fields = config.getString("promisor", null, "sendFields");
+		if (fields != null) {
+			for (String field : fields.split("[,\\s]+", -1)) {
+				if ("partialCloneFilter".equalsIgnoreCase(field)) {
+					sendFilter = true;
+					break;
+				}
+			}
+		}
+
+		StringJoiner result = new StringJoiner(";");
 		for (Remote remote : remotes) {
-			result.add("name=" + encode(remote.name()) + ",url=" //$NON-NLS-1$ //$NON-NLS-2$
-					+ encode(remote.url()));
+			String entry = "name=" + encode(remote.name()) + ",url="
+					+ encode(remote.url());
+			if (sendFilter) {
+				String filter = config.getString("remote", remote.name(),
+						"partialCloneFilter");
+				if (filter != null && !filter.isEmpty()) {
+					entry += ",partialCloneFilter=" + encode(filter);
+				}
+			}
+			result.add(entry);
 		}
 		return result.toString();
 	}
