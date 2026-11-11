@@ -12,3 +12,8 @@ CLAUDE.md
 # (macOS). Instead, add them to $XDG_CONFIG_HOME/git/ignore
 # (~/.config/git/ignore if $XDG_CONFIG_HOME is not set) or
 # $GIT_DIR/info/exclude. See "git help gitignore" for details.
+
+# Local Bazel credentials and invocation diagnostics.
+/user.bazelrc
+/bazel-execution.log
+/bazel-profile.json.gz

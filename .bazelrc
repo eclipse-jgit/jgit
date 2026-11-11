@@ -18,11 +18,11 @@ common:java27 --tool_java_language_version=27
 common:java27 --tool_java_runtime_version=remotejdk_27
 
 # Builds and executes on RBE using remotejdk_27
-build:remote27 --java_language_version=27
-build:remote27 --java_runtime_version=remotejdk_27
-build:remote27 --tool_java_language_version=27
-build:remote27 --tool_java_runtime_version=remotejdk_27
-build:remote27 --config=remote
+common:remote27 --java_language_version=27
+common:remote27 --java_runtime_version=remotejdk_27
+common:remote27 --tool_java_language_version=27
+common:remote27 --tool_java_runtime_version=remotejdk_27
+common:remote27 --config=remote
 
 # Builds using remote_jdk25, executes using remote_jdk25 or local_jdk
 common --java_language_version=25
@@ -31,11 +31,11 @@ common --tool_java_language_version=25
 common --tool_java_runtime_version=remotejdk_25
 
 # Builds and executes on RBE using remotejdk_25
-build:remote25 --java_language_version=25
-build:remote25 --java_runtime_version=remotejdk_25
-build:remote25 --tool_java_language_version=25
-build:remote25 --tool_java_runtime_version=remotejdk_25
-build:remote25 --config=remote
+common:remote25 --java_language_version=25
+common:remote25 --java_runtime_version=remotejdk_25
+common:remote25 --tool_java_language_version=25
+common:remote25 --tool_java_runtime_version=remotejdk_25
+common:remote25 --config=remote
 
 # TODO(davido): Remove after upgrade to JDK 27 (on by default).
 test --jvmopt=-XX:+UseCompactObjectHeaders
@@ -45,3 +45,6 @@ test --flaky_test_attempts=3
 test --test_tag_filters=-ext
 
 import %workspace%/tools/remote-bazelrc
+
+# Local credentials and endpoint overrides; never commit this file.
+try-import %workspace%/user.bazelrc
