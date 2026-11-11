@@ -16,6 +16,108 @@
       "message": "LGTM",
       "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38839057_21631485",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-11T22:52:57Z",
+      "side": 1,
+      "message": "Should we do the partialCloneFilter a field of the remote?\n\nIf later we need \"custom fields\", we can add here a Map\u003cString, String\u003e for arbitrary values.",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b30c7c5d_91c43e72",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-11T22:52:57Z",
+      "side": 1,
+      "message": "private and add a getter.",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9a90038_58e3f2f8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-11T22:52:57Z",
+      "side": 1,
+      "message": "Is this field used? At least from the gerrit diffs I don\u0027t see any usage.\n\nIf needed, we can get this information from the \"advertisedRemotes\" field.",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c00fc3d0_a02fd5db",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-11T22:52:57Z",
+      "side": 1,
+      "message": "We can calculate this advertisement when needed. If you decide to keep it, make it private with a getter.",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77c7bfc1_330257ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-11T22:52:57Z",
+      "side": 1,
+      "message": "nit: we can do this a public String toWireString() method and returns a well-formed line.",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "533d7835_1cd7175e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-11T22:52:57Z",
+      "side": 1,
+      "message": "nit: Do we really need this encoding?",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
