@@ -16,11 +16,20 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -97,6 +106,47 @@ public class PackReverseIndexComputedTest extends RepositoryTestCase {
 	public void testVerifyChecksum() throws PackMismatchException {
 		// ComputedReverseIndex doesn't have a file containing a checksum.
 		reverseIdx.verifyPackChecksum(null);
+	}
+
+	@Test
+	public void testNonUniformBucketOffsets() throws Exception {
+		List<PackedObjectInfo> objs = new ArrayList<>();
+		for (int i = 0; i < 100; i++) {
+			byte[] raw = new byte[20];
+			raw[0] = (byte) (i * 37);
+			raw[1] = (byte) i;
+			objs.add(new PackedObjectInfo(ObjectId.fromRaw(raw)));
+		}
+		Collections.sort(objs);
+		// Force 99 small offsets into bucket 0 in scrambled order relative to
+		// SHA-1 order, plus one huge offset in the last bucket.
+		for (int i = 0; i < 99; i++) {
+			objs.get(i).setOffset(((i * 53) % 99 + 1) * 100L);
+		}
+		objs.get(99).setOffset(1L << 33);
+
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		BasePackIndexWriter.createVersion(out, 2).write(objs, new byte[20]);
+		PackIndex skewedIdx = PackIndex
+				.read(new ByteArrayInputStream(out.toByteArray()));
+		PackReverseIndex skewedRev = PackReverseIndexFactory
+				.computeFromIndex(skewedIdx);
+
+		List<PackedObjectInfo> byOffset = new ArrayList<>(objs);
+		byOffset.sort(Comparator.comparingLong(PackedObjectInfo::getOffset));
+		long maxOffset = (1L << 33) + 100;
+		for (int pos = 0; pos < byOffset.size(); pos++) {
+			PackedObjectInfo expected = byOffset.get(pos);
+			long offset = expected.getOffset();
+			assertEquals(expected, skewedRev.findObject(offset));
+			assertEquals(pos, skewedRev.findPosition(offset));
+			assertEquals(expected, skewedRev.findObjectByPosition(pos));
+			long nextExpected = pos + 1 < byOffset.size()
+					? byOffset.get(pos + 1).getOffset()
+					: maxOffset;
+			assertEquals(nextExpected,
+					skewedRev.findNextOffset(offset, maxOffset));
+		}
 	}
 
 	private long findFirstOffset() {
