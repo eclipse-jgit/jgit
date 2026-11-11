@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  * Copyright (C) 2018, 2022 Google LLC. and others
  *
  * This program and the accompanying materials are made available under the
@@ -30,7 +31,12 @@ import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_SHALLOW;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_WANT;
 import static org.eclipse.jgit.transport.GitProtocolConstants.PACKET_WANT_REF;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.CodingErrorAction;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +64,11 @@ final class ProtocolV2Parser {
 		this.transferConfig = transferConfig;
 	}
 
+	@FunctionalInterface
+	private interface PromisorConsumer {
+		void accept(String value) throws PackProtocolException;
+	}
+
 	/*
 	 * Read lines until DELIM or END, calling the appropiate consumer.
 	 *
@@ -67,7 +78,8 @@ final class ProtocolV2Parser {
 	private static String consumeCapabilities(PacketLineIn pckIn,
 			Consumer<String> serverOptionConsumer,
 			Consumer<String> agentConsumer,
-			Consumer<String> clientSIDConsumer) throws IOException {
+			Consumer<String> clientSIDConsumer,
+			PromisorConsumer promisorConsumer) throws IOException {
 
 		String serverOptionPrefix = OPTION_SERVER_OPTION + '=';
 		String agentPrefix = OPTION_AGENT + '=';
@@ -83,6 +95,9 @@ final class ProtocolV2Parser {
 			} else if (line.startsWith(clientSIDPrefix)) {
 				clientSIDConsumer
 						.accept(line.substring(clientSIDPrefix.length()));
+			} else if (line.startsWith("promisor-remote=")) { //$NON-NLS-1$
+				promisorConsumer
+						.accept(line.substring("promisor-remote=".length())); //$NON-NLS-1$
 			} else {
 				// Unrecognized capability. Ignore it.
 			}
@@ -90,6 +105,58 @@ final class ProtocolV2Parser {
 		}
 
 		return line;
+	}
+
+	private static void parseAcceptedPromisors(String value,
+			FetchV2Request.Builder builder) throws PackProtocolException {
+		for (String encoded : value.split(";", -1)) { //$NON-NLS-1$
+			if (encoded.isEmpty()) {
+				continue;
+			}
+			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+			for (int i = 0; i < encoded.length();) {
+				if (encoded.charAt(i) == '%') {
+					if (i + 2 >= encoded.length()) {
+						throw invalidPromisorAcceptance();
+					}
+					int hi = encoded.charAt(i + 1) <= 0x7f
+							? Character.digit(encoded.charAt(i + 1), 16)
+							: -1;
+					int lo = encoded.charAt(i + 2) <= 0x7f
+							? Character.digit(encoded.charAt(i + 2), 16)
+							: -1;
+					if (hi < 0 || lo < 0) {
+						throw invalidPromisorAcceptance();
+					}
+					bytes.write((hi << 4) | lo);
+					i += 3;
+				} else {
+					int next = encoded.indexOf('%', i);
+					if (next < 0) {
+						next = encoded.length();
+					}
+					bytes.writeBytes(encoded.substring(i, next)
+							.getBytes(StandardCharsets.UTF_8));
+					i = next;
+				}
+			}
+			try {
+				String decoded = StandardCharsets.UTF_8.newDecoder()
+						.onMalformedInput(CodingErrorAction.REPORT)
+						.onUnmappableCharacter(CodingErrorAction.REPORT)
+						.decode(ByteBuffer.wrap(bytes.toByteArray()))
+						.toString();
+				builder.acceptedPromisorRemotes.add(decoded);
+			} catch (CharacterCodingException e) {
+				throw new PackProtocolException(
+						JGitText.get().invalidPromisorRemoteAcceptance, e);
+			}
+		}
+	}
+
+	private static PackProtocolException invalidPromisorAcceptance() {
+		return new PackProtocolException(
+				JGitText.get().invalidPromisorRemoteAcceptance);
 	}
 
 	/**
@@ -117,7 +184,8 @@ final class ProtocolV2Parser {
 		String line = consumeCapabilities(pckIn,
 				serverOption -> reqBuilder.addServerOption(serverOption),
 				agent -> reqBuilder.setAgent(agent),
-				clientSID -> reqBuilder.setClientSID(clientSID));
+				clientSID -> reqBuilder.setClientSID(clientSID),
+				value -> parseAcceptedPromisors(value, reqBuilder));
 
 		if (PacketLineIn.isEnd(line)) {
 			return reqBuilder.build();
@@ -249,7 +317,8 @@ final class ProtocolV2Parser {
 		String line = consumeCapabilities(pckIn,
 				serverOption -> builder.addServerOption(serverOption),
 				agent -> builder.setAgent(agent),
-				clientSID -> builder.setClientSID(clientSID));
+				clientSID -> builder.setClientSID(clientSID), value -> {
+				});
 
 		if (PacketLineIn.isEnd(line)) {
 			return builder.build();

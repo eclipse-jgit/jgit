@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  * Copyright (C) 2010, 2013 Sasa Zivkov <sasa.zivkov@sap.com>
  * Copyright (C) 2012, 2021 Research In Motion Limited and others
  *
@@ -105,6 +106,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String bothRefTargetsMustNotBeNull;
 	/***/ public String branchNameInvalid;
 	/***/ public String buildingBitmaps;
+	/***/ public String cachedPacksCannotOmitMissingPromisorObjects;
 	/***/ public String cachedPacksPreventsIndexCreation;
 	/***/ public String cachedPacksPreventsListingObjects;
 	/***/ public String cacheRegionAllOrNoneNull;
@@ -160,6 +162,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotReadFile;
 	/***/ public String cannotReadHEAD;
 	/***/ public String cannotReadIndex;
+	/***/ public String cannotProvePromisorObjectAbsent;
 	/***/ public String cannotReadObject;
 	/***/ public String cannotReadObjectsPath;
 	/***/ public String cannotReadTree;
@@ -480,6 +483,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String invalidOldIdSent;
 	/***/ public String invalidPacketLineHeader;
 	/***/ public String invalidPath;
+	/***/ public String invalidPromisorRemoteAcceptance;
 	/***/ public String invalidPurgeFactor;
 	/***/ public String invalidRedirectLocation;
 	/***/ public String invalidRefAdvertisementLine;

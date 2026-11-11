@@ -178,6 +178,48 @@ non-empty `remote.<name>.partialCloneFilter` value. JGit advertises the value
 without parsing it. This does not enable fetch filtering: the client must request
 a filter, and the server must allow it with `uploadpack.allowFilter=true`.
 
+### Fetching from a repository with missing blobs
+
+A server repository may store commits and trees locally while some referenced
+blobs are available only from a promisor remote: an object source that promises
+to supply missing objects when requested. JGit's `UploadPack` can leave those
+blobs out of the fetch response, so the server need not download them to answer
+the fetch. The client is responsible for obtaining the omitted blobs later;
+JGit does not fetch them on demand on the server.
+
+This requires a file-backed server repository and a protocol v2 fetch. The client
+must accept at least one server-advertised remote in the fetch request's
+`promisor-remote` capability; for example, `promisor-remote=objects` accepts an
+advertised remote named `objects`. Acceptance must be sent in each fetch request
+that relies on missing-blob omission. Unknown or unadvertised names do not enable
+omission. The DFS storage backend does not support this missing-blob omission.
+
+Acceptance alone does not make every missing blob safe to omit. JGit classifies
+objects as promised if they belong to a pack with a matching `.promisor` marker
+file, or are directly referenced by an object in such a pack. For example, a
+missing blob is promised if a tree in a marked pack contains an entry for its
+object id. Packs in alternate object databases and packs covered by a multi-pack
+index are also considered. Remote configuration alone does not classify objects
+as promised.
+
+Only missing, promised blobs encountered while walking the requested history
+may be omitted by this mechanism. It does not excuse missing objects explicitly
+requested with `want`, missing commits, trees or tags, or missing blobs not
+classified as promised. Corrupt objects and repository read failures remain
+errors, not grounds for omission.
+
+Accepting a remote does not apply its `partialCloneFilter` to the fetch. Blobs
+present on the server follow normal fetch filtering: the client's requested
+filter, if any, does not exclude explicitly wanted objects.
+
+### Maintenance limitations
+
+When a `.promisor` pack exists in the repository or an alternate object database,
+JGit's file-backed `GC.repack()` returns without repacking, and `GC.prune()`
+returns without deleting unreferenced loose objects. These operations do not yet
+preserve which objects are promised. The guards leave existing packs and loose
+objects in place; they do not disable all garbage-collection operations.
+
 
 ## __receive__ options
 
