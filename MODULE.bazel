@@ -29,7 +29,7 @@ git_override(
     remote = "https://github.com/davido/java_toolchains.git",
 )
 
-BOUNCYCASTLE_VERSION = "1.86"
+BOUNCYCASTLE_VERSION = "1.87"
 
 BYTE_BUDDY_VERSION = "1.18.17"
 
