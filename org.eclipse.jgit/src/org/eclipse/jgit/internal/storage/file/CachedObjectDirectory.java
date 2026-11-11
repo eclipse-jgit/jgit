@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  * Copyright (C) 2010, Constantine Plotnikov <constantine.plotnikov@gmail.com>
  * Copyright (C) 2010, 2022 JetBrains s.r.o. and others
  *
@@ -205,6 +206,12 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
+	void checkObjectAbsent(WindowCursor curs, AnyObjectId objectId)
+			throws IOException {
+		wrapped.checkObjectAbsent(curs, objectId);
+	}
+
+	@Override
 	long getObjectSize(WindowCursor curs, AnyObjectId objectId)
 			throws IOException {
 		// Object size is unlikely to be requested from contexts using
@@ -256,6 +263,16 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	@Override
 	Collection<Pack> getPacks() {
 		return wrapped.getPacks();
+	}
+
+	@Override
+	Collection<Pack> getPromisorPacks() {
+		return wrapped.getPromisorPacks();
+	}
+
+	@Override
+	boolean hasPromisorPacks() throws IOException {
+		return wrapped.hasPromisorPacks();
 	}
 
 	@Override

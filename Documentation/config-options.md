@@ -192,10 +192,25 @@ filtering with JGit, configure and accept only a single filter supported by JGit
 existing parser: `blob:none`, `blob:limit=<nonnegative integer>`, or
 `tree:<nonnegative integer>`. Combined filter requests are unsupported.
 
-This is currently advertisement-only support. Client acceptance replies are
-ignored: they do not authorize object omission or cause missing objects to be
-fetched. Explicitly requested fetch filters keep their existing behavior. A
-remote's configured filter is never applied automatically to a client's fetch.
+For native Git clients, `promisor.acceptFromServer=knownUrl` accepts only
+preconfigured remotes whose names and URLs match the advertisement. Configure
+`remote.<name>.url` and `remote.<name>.promisor=true` on the client first. JGit does
+not implement this client acceptance policy. To authorize omission, the client
+must send its `promisor-remote` acceptance capability in **each fetch request**;
+acceptance during `ls-refs` alone is insufficient. Native client versions that do
+not send fetch acceptance cannot use this omission support.
+
+File-backed readers recognize `.promisor` sidecars and the direct references of
+objects in marked packs, including packs in alternates and multi-pack indexes.
+A protocol-v2 fetch accepting at least one advertised remote may omit missing
+promised blobs encountered during tree traversal. Missing explicit wants,
+commits, trees, tags, and unclassified blobs remain errors. Present objects still
+obey the explicitly requested filter. No objects are fetched on demand, and a
+remote's configured filter is never automatically applied to a client's fetch.
+DFS object stores do not support this omission.
+
+Until reachability maintenance can preserve promisor provenance, file-backed
+repack and prune are skipped when marked packs exist locally or in alternates.
 
 
 ## __receive__ options
