@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  * Copyright (C) 2009, 2022 Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
@@ -100,6 +101,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 	private final FS fs;
 
 	private final AtomicReference<AlternateHandle[]> alternates;
+
+	private volatile IOException alternatesLoadError;
 
 	private final File shallowFile;
 
@@ -219,6 +222,67 @@ public class ObjectDirectory extends FileObjectDatabase {
 	@Override
 	public Collection<Pack> getPacks() {
 		return packed.getPacks();
+	}
+
+	@Override
+	Collection<Pack> getPromisorPacks() {
+		List<Pack> result = new ArrayList<>();
+		collectPromisorPacks(result, new HashSet<>());
+		return result;
+	}
+
+	private void collectPromisorPacks(List<Pack> result,
+			Set<AlternateHandle.Id> visited) {
+		if (!visited.add(getAlternateId())) {
+			return;
+		}
+		for (Pack p : MidxWriter.flattenMidxPackList(getPacks())) {
+			if (p.isPromisor()) {
+				result.add(p);
+			}
+		}
+		for (AlternateHandle alternate : myAlternates()) {
+			alternate.db.collectPromisorPacks(result, visited);
+		}
+	}
+
+	@Override
+	boolean hasPromisorPacks() throws IOException {
+		return hasPromisorPacks(new HashSet<>());
+	}
+
+	private boolean hasPromisorPacks(Set<AlternateHandle.Id> visited)
+			throws IOException {
+		if (!visited.add(getAlternateId())) {
+			return false;
+		}
+		if (packed.hasPromisorPacks() || preserved.hasPromisorPacks()) {
+			return true;
+		}
+		for (AlternateHandle alternate : myAlternatesStrict()) {
+			if (alternate.db.hasPromisorPacks(visited)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	void checkObjectAbsent(WindowCursor curs, AnyObjectId objectId)
+			throws IOException {
+		checkObjectAbsent(curs, objectId, new HashSet<>());
+	}
+
+	private void checkObjectAbsent(WindowCursor curs, AnyObjectId objectId,
+			Set<AlternateHandle.Id> visited) throws IOException {
+		if (!visited.add(getAlternateId())) {
+			return;
+		}
+		packed.checkObjectAbsent(curs, objectId);
+		preserved.checkObjectAbsent(curs, objectId);
+		for (AlternateHandle alternate : myAlternatesStrict()) {
+			alternate.db.checkObjectAbsent(curs, objectId, visited);
+		}
 	}
 
 	@Override
@@ -708,7 +772,10 @@ public class ObjectDirectory extends FileObjectDatabase {
 				if (alt == null) {
 					try {
 						alt = loadAlternates();
+						alternatesLoadError = null;
 					} catch (IOException e) {
+						alternatesLoadError = Files
+								.notExists(alternatesFile.toPath()) ? null : e;
 						alt = new AlternateHandle[0];
 					}
 					alternates.set(alt);
@@ -716,6 +783,15 @@ public class ObjectDirectory extends FileObjectDatabase {
 			}
 		}
 		return alt;
+	}
+
+	private AlternateHandle[] myAlternatesStrict() throws IOException {
+		AlternateHandle[] result = myAlternates();
+		IOException failure = alternatesLoadError;
+		if (failure != null) {
+			throw failure;
+		}
+		return result;
 	}
 
 	Set<AlternateHandle.Id> addMe(Set<AlternateHandle.Id> skips) {

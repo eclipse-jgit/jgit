@@ -178,8 +178,17 @@ nonempty `remote.<name>.partialCloneFilter` value. JGit advertises the value
 without parsing it. This does not enable fetch filtering: the client must request
 a filter, and the server must allow it with `uploadpack.allowFilter=true`.
 
-Advertisement does not authorize omission of missing objects. JGit ignores
-client acceptance of advertised remotes.
+For file-backed repositories, a protocol v2 fetch that accepts at least one
+advertised remote may omit missing promised blobs during tree traversal. The
+client must send its `promisor-remote` acceptance in each fetch request.
+Promised blobs are identified by `.promisor` pack sidecars and references from
+objects in those packs, including packs in alternates and multi-pack indexes.
+Missing explicitly requested objects and missing commits, trees, tags, or
+unclassified blobs remain errors. JGit does not fetch missing objects on demand.
+DFS repositories do not support this omission.
+
+File-backed repack and prune are skipped when `.promisor` packs exist locally or
+in alternates, to preserve promisor provenance.
 
 
 ## __receive__ options
