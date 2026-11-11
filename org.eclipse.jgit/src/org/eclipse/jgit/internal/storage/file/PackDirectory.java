@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  * Copyright (C) 2009, Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
@@ -19,7 +20,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -249,6 +252,68 @@ class PackDirectory {
 			}
 		} while (searchPacksAgain(pList));
 		return null;
+	}
+
+	/**
+	 * Verify apparent absence independently of the cached pack list. Ordinary
+	 * lookups may have removed an unreadable pack from that list.
+	 *
+	 * @param curs
+	 *            cursor for reading packed objects
+	 * @param objectId
+	 *            object whose physical absence must be established
+	 * @throws IOException
+	 *             if the object cannot be proved absent from packed storage
+	 */
+	void checkObjectAbsent(WindowCursor curs, AnyObjectId objectId)
+			throws IOException {
+		for (PackFile packFile : getPhysicalPackFiles()) {
+			Pack pack = new Pack(config, packFile, null);
+			try {
+				long offset = pack.getIndex().findOffset(objectId);
+				if (offset > 0) {
+					// Preserve a body, delta-base, or I/O failure instead
+					// of treating an indexed object as absent.
+					pack.load(curs, offset);
+					throw new IOException(MessageFormat.format(
+							JGitText.get().cannotProvePromisorObjectAbsent,
+							objectId.name()));
+				}
+			} finally {
+				pack.close();
+			}
+		}
+	}
+
+	boolean hasPromisorPacks() throws IOException {
+		for (PackFile pack : getPhysicalPackFiles()) {
+			if (!Files.notExists(pack.create(PackExt.PROMISOR).toPath())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private List<PackFile> getPhysicalPackFiles() throws IOException {
+		Path dir = directory.toPath();
+		if (Files.notExists(dir)) {
+			return Collections.emptyList();
+		}
+		List<PackFile> packs = new ArrayList<>();
+		try (DirectoryStream<Path> files = Files.newDirectoryStream(dir)) {
+			for (Path file : files) {
+				PackFile pack;
+				try {
+					pack = new PackFile(file.toFile());
+				} catch (IllegalArgumentException e) {
+					continue;
+				}
+				if (pack.getPackExt() == PACK && !pack.isTmpGCFile()) {
+					packs.add(pack);
+				}
+			}
+		}
+		return packs;
 	}
 
 	long getSize(WindowCursor curs, AnyObjectId id)

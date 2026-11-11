@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  * Copyright (C) 2010, Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
@@ -125,6 +126,21 @@ public abstract class ObjectReader implements AutoCloseable {
 				matches = resolve(abbrev);
 		}
 		return abbrev;
+	}
+
+	/**
+	 * Whether an object belongs to a promisor pack or is directly referenced by
+	 * an object in a promisor pack. No object is fetched by this method.
+	 *
+	 * @param objectId
+	 *            the object to classify
+	 * @return true if the object is promised
+	 * @throws IOException
+	 *             if classification cannot read the repository
+	 * @since 8.0
+	 */
+	public boolean isPromisorObject(AnyObjectId objectId) throws IOException {
+		return false;
 	}
 
 	/**
@@ -611,6 +627,12 @@ public abstract class ObjectReader implements AutoCloseable {
 		public Collection<ObjectId> resolve(AbbreviatedObjectId id)
 				throws IOException {
 			return delegate().resolve(id);
+		}
+
+		@Override
+		public boolean isPromisorObject(AnyObjectId objectId)
+				throws IOException {
+			return delegate().isPromisorObject(objectId);
 		}
 
 		@Override
