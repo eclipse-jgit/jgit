@@ -39,6 +39,30 @@
       },
       "revId": "f8623e5faff7490b9c6a1f0b3fc0a157a5c56fae",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fb22fb3_65be64fa",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/RegularSuperprojectWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-11T07:16:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5ebeb00_69441ca3",
+      "range": {
+        "startLine": 81,
+        "startChar": 24,
+        "endLine": 82,
+        "endChar": 20
+      },
+      "revId": "f8623e5faff7490b9c6a1f0b3fc0a157a5c56fae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
