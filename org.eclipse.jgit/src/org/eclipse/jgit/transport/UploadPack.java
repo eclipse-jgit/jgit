@@ -2349,6 +2349,13 @@ public class UploadPack implements Closeable {
 				accumulator);
 		try {
 			pw.setIndexDisabled(true);
+			// Authorization belongs to this fetch, never to the repository or
+			// upload-pack session. Unknown and unadvertised names do not count.
+			boolean allowMissingPromisorObjects = req instanceof FetchV2Request v2
+					&& transferConfig.promisorRemotes.getAdvertisedRemotes().stream()
+							.anyMatch(remote -> v2.getAcceptedPromisorRemotes()
+									.contains(remote.name()));
+			pw.setAllowMissingPromisorObjects(allowMissingPromisorObjects);
 			if (req.getFilterSpec().isNoOp()) {
 				pw.setUseCachedPacks(true);
 			} else {
@@ -2408,7 +2415,24 @@ public class UploadPack implements Closeable {
 			} else {
 				walk.reset();
 
-				ObjectWalk ow = rw.toObjectWalkWithSameObjects();
+				ObjectWalk ow;
+				if (allowMissingPromisorObjects) {
+					// Omitted blobs must not leave SEEN or pending-object flags
+					// in the session's object pool for later, unauthorized
+					// fetches.
+					if (rw instanceof DepthWalk.RevWalk depthWalk) {
+						DepthWalk.RevWalk independent = new DepthWalk.RevWalk(
+								walk.getObjectReader(), depthWalk.getDepth());
+						independent.setDeepenSince(depthWalk.getDeepenSince());
+						independent.setDeepenNots(depthWalk.getDeepenNots());
+						ow = independent.toObjectWalkWithSameObjects();
+					} else {
+						ow = new ObjectWalk(walk.getObjectReader());
+					}
+					ow.assumeShallow(req.getClientShallowCommits());
+				} else {
+					ow = rw.toObjectWalkWithSameObjects();
+				}
 				pw.preparePack(pm, ow, wantAll, commonBase, PackWriter.NONE);
 				rw = ow;
 			}
@@ -2427,8 +2451,7 @@ public class UploadPack implements Closeable {
 						if (wantIds.contains(objectId))
 							continue;
 					} else {
-						RevObject obj = rw.lookupOrNull(objectId);
-						if (obj != null && obj.has(WANT))
+						if (wantAll.contains(objectId))
 							continue;
 					}
 

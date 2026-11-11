@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  * Copyright (C) 2008-2009, Google Inc.
  * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org> and others
  *
@@ -46,6 +47,10 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTag;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 
 /** Active handle to a ByteWindow. */
 final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
@@ -61,6 +66,8 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	private DeltaBaseCache baseCache;
 
 	private Pack lastPack;
+
+	private Set<ObjectId> promisorObjects;
 
 	@Nullable
 	private final ObjectInserter createdFromInserter;
@@ -136,6 +143,60 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		HashSet<ObjectId> matches = new HashSet<>(4);
 		db.resolve(matches, id);
 		return matches;
+	}
+
+	@Override
+	public boolean isPromisorObject(AnyObjectId objectId) throws IOException {
+		if (promisorObjects == null) {
+			Set<ObjectId> objects = new HashSet<>();
+			try (RevWalk walk = new RevWalk(this)) {
+				walk.setRetainBody(false);
+				for (Pack pack : db.getPromisorPacks()) {
+					for (PackIndex.MutableEntry entry : pack.getIndex()) {
+						ObjectId id = entry.toObjectId();
+						objects.add(id);
+						ObjectLoader loader = open(id);
+						switch (loader.getType()) {
+						case Constants.OBJ_COMMIT:
+							RevCommit commit = RevCommit.parse(walk,
+									loader.getCachedBytes());
+							objects.add(commit.getTree().copy());
+							for (RevCommit parent : commit.getParents()) {
+								objects.add(parent.copy());
+							}
+							break;
+						case Constants.OBJ_TREE:
+							CanonicalTreeParser tree = new CanonicalTreeParser();
+							tree.reset(loader.getCachedBytes());
+							while (!tree.eof()) {
+								objects.add(tree.getEntryObjectId());
+								tree.next();
+							}
+							break;
+						case Constants.OBJ_TAG:
+							objects.add(
+									RevTag.parse(walk, loader.getCachedBytes())
+											.getObject().copy());
+							break;
+						default:
+							break;
+						}
+					}
+				}
+			}
+			// Publish only a complete classification, never a partial result
+			// after a missing or corrupt object interrupted the scan.
+			promisorObjects = objects;
+		}
+		if (!promisorObjects.contains(objectId)) {
+			return false;
+		}
+		if (!db.has(objectId)) {
+			// A packed read can report absence after suppressing corruption.
+			// Recheck physical indexes even when classification was cached.
+			db.checkObjectAbsent(this, objectId);
+		}
+		return true;
 	}
 
 	@Override

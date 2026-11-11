@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  * Copyright (C) 2008-2010, Google Inc.
  * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com> and others
  *
@@ -252,6 +253,8 @@ public class PackWriter implements AutoCloseable {
 	private boolean reuseValidate;
 
 	private boolean thin;
+
+	private boolean allowMissingPromisorObjects;
 
 	private boolean useCachedPacks;
 
@@ -508,6 +511,32 @@ public class PackWriter implements AutoCloseable {
 	}
 
 	/**
+	 * Permit omission of missing promised blobs encountered during traversal.
+	 * Explicit wants and other missing objects still fail. Defaults to false.
+	 * Call before preparing the pack. Enabling this disables bitmap
+	 * enumeration, cached packs, and thin-pack base searches. No objects are
+	 * fetched.
+	 *
+	 * @param allow
+	 *            whether the client accepted an advertised promisor remote
+	 * @throws IllegalStateException
+	 *             if cached packs have already been selected
+	 * @since 8.0
+	 */
+	public void setAllowMissingPromisorObjects(boolean allow) {
+		if (allow && !cachedPacks.isEmpty()) {
+			throw new IllegalStateException(
+					JGitText.get().cachedPacksCannotOmitMissingPromisorObjects);
+		}
+		allowMissingPromisorObjects = allow;
+		if (allow) {
+			setThin(false);
+			setUseBitmaps(false);
+			setUseCachedPacks(false);
+		}
+	}
+
+	/**
 	 * Whether writer may pack objects with delta base object not within set of
 	 * objects to pack
 	 *
@@ -519,7 +548,7 @@ public class PackWriter implements AutoCloseable {
 	 *            transport; true - to produce thin pack, false - otherwise.
 	 */
 	public void setThin(boolean packthin) {
-		thin = packthin;
+		thin = packthin && !allowMissingPromisorObjects;
 	}
 
 	/**
@@ -544,7 +573,7 @@ public class PackWriter implements AutoCloseable {
 	 *            network client, where the client will make the index.
 	 */
 	public void setUseCachedPacks(boolean useCached) {
-		useCachedPacks = useCached;
+		useCachedPacks = useCached && !allowMissingPromisorObjects;
 	}
 
 	/**
@@ -563,7 +592,7 @@ public class PackWriter implements AutoCloseable {
 	 *            if set to true, bitmaps will be used when preparing a pack.
 	 */
 	public void setUseBitmaps(boolean useBitmaps) {
-		this.useBitmaps = useBitmaps;
+		this.useBitmaps = useBitmaps && !allowMissingPromisorObjects;
 	}
 
 	/**
@@ -825,6 +854,10 @@ public class PackWriter implements AutoCloseable {
 	 *            cached packs to be written.
 	 */
 	public void preparePack(Collection<? extends CachedPack> c) {
+		if (allowMissingPromisorObjects && !c.isEmpty()) {
+			throw new IllegalStateException(
+					JGitText.get().cachedPacksCannotOmitMissingPromisorObjects);
+		}
 		cachedPacks.addAll(c);
 	}
 
@@ -2022,7 +2055,8 @@ public class PackWriter implements AutoCloseable {
 				.unmodifiableSet(new HashSet<>(have));
 		excludeFromBitmapSelection = noBitmaps;
 
-		canBuildBitmaps = config.isBuildBitmaps()
+		canBuildBitmaps = !allowMissingPromisorObjects
+				&& config.isBuildBitmaps()
 				&& !shallowPack
 				&& have.isEmpty()
 				&& createBitmaps;
@@ -2363,6 +2397,23 @@ public class PackWriter implements AutoCloseable {
 		// Cheaper checks first
 		if (!filterSpec.allowsType(type) && !want.contains(src)) {
 			return;
+		}
+
+		if (allowMissingPromisorObjects && type == OBJ_BLOB
+				&& !want.contains(src)) {
+			boolean present = reader.has(src);
+			try {
+				reader.open(src, OBJ_BLOB);
+			} catch (MissingObjectException missing) {
+				// A missing delta base or a different missing object is not a
+				// license to omit the requested object. A previously present
+				// object whose read failed is not absent either.
+				if (src.equals(missing.getObjectId())
+						&& reader.isPromisorObject(src) && !present) {
+					return;
+				}
+				throw missing;
+			}
 		}
 
 		long blobLimit = filterSpec.getBlobLimit();
