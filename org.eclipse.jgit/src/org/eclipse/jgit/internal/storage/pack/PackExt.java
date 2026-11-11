@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  * Copyright (C) 2013, Google Inc. and others
  *
  * This program and the accompanying materials are made available under the
@@ -39,7 +40,14 @@ public enum PackExt {
 	OBJECT_SIZE_INDEX("objsize"), //$NON-NLS-1$
 
 	/** Multi pack index */
-	MULTI_PACK_INDEX("midx"); //$NON-NLS-1$
+	MULTI_PACK_INDEX("midx"), //$NON-NLS-1$
+
+	/**
+	 * A marker for objects received from a promisor remote.
+	 *
+	 * @since 8.0
+	 */
+	PROMISOR("promisor"); //$NON-NLS-1$
 
 	private final String ext;
 

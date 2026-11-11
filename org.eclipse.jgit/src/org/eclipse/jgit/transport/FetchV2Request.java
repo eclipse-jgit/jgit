@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  * Copyright (C) 2018, 2022 Google LLC. and others
  *
  * This program and the accompanying materials are made available under the
@@ -30,6 +31,8 @@ import org.eclipse.jgit.lib.ObjectId;
  * @since 5.1
  */
 public final class FetchV2Request extends FetchRequest {
+	private final Set<String> acceptedPromisorRemotes;
+
 	private final List<ObjectId> peerHas;
 
 	private final List<String> wantedRefs;
@@ -56,10 +59,12 @@ public final class FetchV2Request extends FetchRequest {
 			@NonNull Set<String> clientCapabilities,
 			@Nullable String agent, @NonNull List<String> serverOptions,
 			boolean sidebandAll, @NonNull List<String> packfileUriProtocols,
-			@Nullable String clientSID) {
+			@Nullable String clientSID,
+			@NonNull Set<String> acceptedPromisorRemotes) {
 		super(wantIds, depth, clientShallowCommits, filterSpec,
 				clientCapabilities, deepenSince,
 				deepenNots, agent, clientSID);
+		this.acceptedPromisorRemotes = Set.copyOf(acceptedPromisorRemotes);
 		this.peerHas = requireNonNull(peerHas);
 		this.wantedRefs = requireNonNull(wantedRefs);
 		this.doneReceived = doneReceived;
@@ -137,6 +142,18 @@ public final class FetchV2Request extends FetchRequest {
 	}
 
 	/**
+	 * Get decoded names of promisor remotes accepted in this request. Names are
+	 * not authorization; the server must check its advertisement.
+	 *
+	 * @return immutable accepted names
+	 * @since 8.0
+	 */
+	@NonNull
+	public Set<String> getAcceptedPromisorRemotes() {
+		return acceptedPromisorRemotes;
+	}
+
+	/**
 	 * Get builder
 	 *
 	 * @return A builder of {@link FetchV2Request}.
@@ -147,6 +164,8 @@ public final class FetchV2Request extends FetchRequest {
 
 	/** A builder for {@link FetchV2Request}. */
 	static final class Builder {
+		final Set<String> acceptedPromisorRemotes = new HashSet<>();
+
 		final List<ObjectId> peerHas = new ArrayList<>();
 
 		final List<String> wantedRefs = new ArrayList<>();
@@ -413,7 +432,7 @@ public final class FetchV2Request extends FetchRequest {
 					agent, Collections.unmodifiableList(serverOptions),
 					sidebandAll,
 					Collections.unmodifiableList(packfileUriProtocols),
-					clientSID);
+					clientSID, acceptedPromisorRemotes);
 		}
 	}
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  * Copyright (C) 2012, Christian Halstrick <christian.halstrick@sap.com>
  * Copyright (C) 2011, Shawn O. Pearce <spearce@spearce.org> and others
  *
@@ -569,6 +570,9 @@ public class GC {
 	 */
 	public void prune(Set<ObjectId> objectsToKeep) throws IOException,
 			ParseException {
+		if (repo.getObjectDatabase().hasPromisorPacks()) {
+			return;
+		}
 		long expireDate = getExpireDate();
 
 		// Collect all loose objects which are old enough, not referenced from
@@ -829,6 +833,12 @@ public class GC {
 	 *             {@link java.io.IOException} occurs
 	 */
 	public Collection<Pack> repack() throws IOException {
+		// Reachability repacking cannot yet preserve promisor provenance.
+		// Leave both local and alternate promised packs and loose objects
+		// intact.
+		if (repo.getObjectDatabase().hasPromisorPacks()) {
+			return Collections.emptyList();
+		}
 		Collection<Pack> toBeDeleted = repo.getObjectDatabase().getPacks();
 
 		Instant time = SystemReader.getInstance().now();
