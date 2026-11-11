@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries and others.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0 which is available at
+ * https://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 package org.eclipse.jgit.transport;
 
 import static java.time.ZoneOffset.UTC;
@@ -514,6 +523,82 @@ public class UploadPackTest {
 				// commands without requiring test changes.
 				hasItems("agent=" + UserAgent.get() ,"ls-refs", "fetch=shallow", "server-option"));
 		assertTrue(PacketLineIn.isEnd(pckIn.readString()));
+	}
+
+	@Test
+	public void testV2CapabilitiesPromisorRemotes() throws Exception {
+		enablePromisorAdvertisement();
+		ByteArrayInputStream recv = uploadPackSetup("2", null,
+				PacketLineIn.end());
+		assertPromisorCapability(recv);
+	}
+
+	@Test
+	public void testV2StatelessCapabilitiesPromisorRemotes() throws Exception {
+		enablePromisorAdvertisement();
+		try (UploadPack up = new UploadPack(server);
+				ByteArrayOutputStream recv = new ByteArrayOutputStream()) {
+			up.setExtraParameters(Sets.of("version=2"));
+			up.setBiDirectionalPipe(false);
+			up.sendAdvertisedRefs(new RefAdvertiser.PacketLineOutRefAdvertiser(
+					new PacketLineOut(recv)), "git-upload-pack");
+			assertPromisorCapability(new ByteArrayInputStream(recv.toByteArray()));
+		}
+	}
+
+	@Test
+	public void testV2PromisorAcceptanceSendsLocallyPresentBlobsWithoutFilter()
+			throws Exception {
+		enablePromisorAdvertisement();
+		server.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+		RevBlob blob = remote.blob("promisor advertisement is not a filter");
+		RevTree tree = remote.tree(remote.file("content", blob));
+		RevCommit commit = remote.commit(tree);
+		remote.update("master", commit);
+
+		ByteArrayInputStream recv = uploadPackSetup("2", null, "command=fetch\n",
+				"promisor-remote=filtered\n", PacketLineIn.delimiter(),
+				"want " + commit.name() + "\n", "done\n", PacketLineIn.end());
+		assertPromisorCapability(recv);
+		assertEquals("packfile", new PacketLineIn(recv).readString());
+		parsePack(recv);
+
+		assertTrue(client.getObjectDatabase().has(commit));
+		assertTrue(client.getObjectDatabase().has(tree));
+		assertTrue(client.getObjectDatabase().has(blob));
+	}
+
+	private void enablePromisorAdvertisement() {
+		server.getConfig().setBoolean("promisor", null, "advertise", true);
+		server.getConfig().setBoolean("remote", "objects,+;%", "promisor", true);
+		// Exercise spaces, UTF-8, wire delimiters, and percent escaping;
+		// literal plus signs must not be confused with form-encoded spaces.
+		server.getConfig().setString("remote", "objects,+;%", "url",
+				"https://example.com/a b/é?x=1+2,y;z=%25");
+		server.getConfig().setString("remote", "filtered", "partialCloneFilter",
+				"blob:none");
+		server.getConfig().setString("remote", "filtered", "url",
+				"ssh://example.com/repo+pack");
+	}
+
+	private static void assertPromisorCapability(InputStream recv)
+			throws IOException {
+		PacketLineIn pckIn = new PacketLineIn(recv);
+		assertEquals("version 2", pckIn.readString());
+		List<String> capabilities = new ArrayList<>();
+		for (String line : pckIn.readStrings()) {
+			if (line.startsWith("promisor-remote=")) {
+				capabilities.add(line);
+			}
+		}
+		// Field values are percent-encoded UTF-8, including delimiters;
+		// spaces use %20 and literal plus signs use %2B.
+		assertEquals(Collections.singletonList(
+				"promisor-remote=name=objects%2C%2B%3B%25,"
+						+ "url=https%3A%2F%2Fexample.com%2Fa%20b%2F%C3%A9"
+						+ "%3Fx%3D1%2B2%2Cy%3Bz%3D%2525;"
+						+ "name=filtered,url=ssh%3A%2F%2Fexample.com%2Frepo%2Bpack"),
+				capabilities);
 	}
 
 	private void checkAdvertisedIfAllowed(String configSection, String configName,
