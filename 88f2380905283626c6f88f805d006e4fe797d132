@@ -16,6 +16,24 @@
       "message": "File is an \"old\" API. I think we can use the newer `Path.of(name).isAbsolute();`",
       "revId": "88f2380905283626c6f88f805d006e4fe797d132",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bf95ae2_6cb314b3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/gitrepo/ManifestParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-11T07:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcafef8b_0a1544c5",
+      "revId": "88f2380905283626c6f88f805d006e4fe797d132",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
