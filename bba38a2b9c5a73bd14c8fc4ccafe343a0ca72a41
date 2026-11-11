@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90190bf4_aaaf900c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-11T23:14:21Z",
+      "side": 1,
+      "message": "I split this into two commits. This change now only does whole files formatting, using args4j; it has no `GitDiff` or `--changed-lines` machinery. Changed-line scoping, its JGit dependency, range handling, tests, and documentation now live in a separate child commit (Change-Id: I27c5a49de68e880470041d6befb7975efdbaab3f). Both commits have been tested with Java 25 and Java 27.",
+      "parentUuid": "fc748741_575a3c08",
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba644350_8969d72d",
@@ -36,6 +54,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ae935f2_f0f96766",
+        "filename": "CONTRIBUTING.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-11T23:14:21Z",
+      "side": 1,
+      "message": "Added the root format alias and documented direct `bazel run`, `bazel run format`, and `bazel run //:format` invocations. Removed the redundant explicit `--profile` from `tools/format-java`. Verified the alias from both the repository root and `tools/formatter` without an explicit profile. The wrapper remains convenience syntax; it does not change cwd and still needs to be invoked within the workspace.",
+      "parentUuid": "ba644350_8969d72d",
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7475c3b0_0ab788c3",
@@ -49,6 +85,30 @@
       "writtenOn": "2026-11-11T21:56:13Z",
       "side": 1,
       "message": "Why not to use the latest version available: 3.47.0?",
+      "range": {
+        "startLine": 110,
+        "startChar": 20,
+        "endLine": 110,
+        "endChar": 26
+      },
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5a63c13_e3568166",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-11T23:14:21Z",
+      "side": 1,
+      "message": "Updated the revised parent to JDT 3.47.0 after verifying Maven Central\u0027s release metadata. Formatter tests pass with Java 25 and Java 27.",
+      "parentUuid": "7475c3b0_0ab788c3",
       "range": {
         "startLine": 110,
         "startChar": 20,
@@ -82,6 +142,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5b6643c_c6be779e",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-11T23:14:21Z",
+      "side": 1,
+      "message": "Updated the revised parent to org.eclipse.text 3.14.800 after verifying Maven Central\u0027s release metadata. Formatter tests pass with Java 25 and Java 27.",
+      "parentUuid": "023ba337_a21b22b3",
+      "range": {
+        "startLine": 111,
+        "startChar": 24,
+        "endLine": 111,
+        "endChar": 32
+      },
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8657b1f0_80895867",
@@ -95,6 +179,30 @@
       "writtenOn": "2026-11-11T21:56:13Z",
       "side": 1,
       "message": "Do we really need constants that used only once, or should we rather inline them, to be consistent with the other versions in this file?",
+      "range": {
+        "startLine": 116,
+        "startChar": 8,
+        "endLine": 117,
+        "endChar": 72
+      },
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81a07077_b9882af5",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-11T23:14:21Z",
+      "side": 1,
+      "message": "Inlined both formatter dependency versions in the artifacts list, consistent with the other dependencies in `MODULE.bazel`.",
+      "parentUuid": "8657b1f0_80895867",
       "range": {
         "startLine": 116,
         "startChar": 8,
@@ -123,6 +231,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "078ab52a_f22313ad",
+        "filename": "tools/formatter/FormatterMain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-11T23:14:21Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "05b30169_00543ee0",
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d55956bf_8fa41afe",
@@ -137,6 +263,24 @@
       "side": 1,
       "message": "This whole file serves only `--changed-lines`. No established JDT-based\nformatter does changed-line scoping: revelc `formatter-maven-plugin`,\n`spring-javaformat`, `algodesigner/eclipse-format`, and the Eclipse headless\napp all format whole files. Dropping `--changed-lines` for v1 removes this\nfile entirely.\n\nIf it is re-added later, the whole file reduces to parsing\n`git diff --unified\u003d0 \u003cbase\u003e -- \u003cfile\u003e` hunk headers (`@@ -a,b +c,d @@`, where\n`+c,d` is the new-side changed range, count defaults to 1):\n\n```java\nrecord LineRange(int start, int count) {}\nvar ranges \u003d new ArrayList\u003cLineRange\u003e();\nvar hunk \u003d Pattern.compile(\"^@@ -\\\\d+(?:,\\\\d+)? \\\\+(\\\\d+)(?:,(\\\\d+))? @@\");\nfor (String line : runGit(\"diff\", \"--unified\u003d0\", base, \"--\", file)) {\n    var m \u003d hunk.matcher(line);\n    if (m.find()) {\n        int start \u003d Integer.parseInt(m.group(1));\n        int count \u003d m.group(2) \u003d\u003d null ? 1 : Integer.parseInt(m.group(2));\n        if (count \u003e 0) ranges.add(new LineRange(start, count));\n    }\n}\n```\n\nAn explicitly named new/untracked file is not shown by `git diff`; treat it as\nentirely changed, as the current code already does.",
       "isAi": true,
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43f9e515_f7c4d221",
+        "filename": "tools/formatter/GitDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-11T23:14:21Z",
+      "side": 1,
+      "message": "Removed `GitDiff.java` and `--changed-lines` from the revised parent. They now live in a separate child commit, allowing the whole-file formatter to be reviewed independently. The child uses JGit rather than invoking native Git, and retains tests for staged/unstaged edits, untracked/ignored files, deletions, and linked worktrees.",
+      "parentUuid": "d55956bf_8fa41afe",
       "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -159,6 +303,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8defe22d_dd7e3ce7",
+        "filename": "tools/formatter/JdtFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-11T23:14:21Z",
+      "side": 1,
+      "message": "Replaced the hardcoded 25 with a generated `FormatterConfig.JAVA_VERSION` derived from the selected Bazel Java toolchain\u0027s source_version. Source, compliance, and target all use it. Verified that the default build generates 25 and `--config\u003djava27` generates 27, with formatter tests passing in both configurations.",
+      "parentUuid": "f64da4e2_e107c025",
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0c823f0_883f9e2c",
@@ -177,6 +339,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb152536_1c94a7a4",
+        "filename": "tools/formatter/JdtFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-11T23:14:21Z",
+      "side": 1,
+      "message": "Confirmed in JDT 3.44.0\u0027s `ToolFactory` source: `createCodeFormatter(Map)` is not deprecated; it delegates to `createCodeFormatter(options, M_FORMAT_NEW)`. The deprecated methods are the no-argument `createCodeFormatter()` and `createDefaultCodeFormatter(Map)`. Kept the existing non-deprecated `Map` overload; the revised parent also upgrades JDT to 3.47.0.",
+      "parentUuid": "d0c823f0_883f9e2c",
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f90b3184_17db9508",
@@ -191,6 +371,24 @@
       "side": 1,
       "message": "The descending range loop plus `lineStartOffset`/`lineSeparator` exist only for\npartial-range formatting. Whole-file is a single\n`formatter.format(K_COMPILATION_UNIT, src, 0, src.length(), 0, sep)` call. About\nhalf this file goes away with `--changed-lines`.",
       "isAi": true,
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c51691f_2ed6fafd",
+        "filename": "tools/formatter/JdtFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-11T23:14:21Z",
+      "side": 1,
+      "message": "The revised parent now formats the whole source with one `formatter.format` call using offset 0 and `source.length()`. Descending range iteration and `lineStartOffset` moved to the separate child commit. Line-delimiter detection remains in the parent to preserve LF, CRLF, and CR, covered by tests.",
+      "parentUuid": "f90b3184_17db9508",
       "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
