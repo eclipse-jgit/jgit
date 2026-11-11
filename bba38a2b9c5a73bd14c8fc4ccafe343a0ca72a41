@@ -1,0 +1,198 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc748741_575a3c08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-11T21:56:13Z",
+      "side": 1,
+      "message": "The approach is right: a small main driving ToolFactory.createCodeFormatter with the checked-in Eclipse profile is the only clean way to format JGit\u0027s style headlessly. Eclipse JDT ships no plain-jar CLI (the org.eclipse.jdt.core.JavaCodeFormatter application needs the Equinox/OSGi runtime and has no check mode), and google-java-format / spring-javaformat enforce their own styles, so neither can apply eclipse-JGit-Format.xml.\n\nMy concern is size. The ~1000 LoC is almost entirely the --changed-lines feature, not JDT formatting: driving the formatter is ~80 LoC. GitDiff.java (187) exists solely for changed-lines, and about half of JdtFormatter.java is the partial-range machinery.\n\nNone does changed-line scoping — revelc formatter-maven-plugin, spring javaformat, algodesigner/eclipse-format, and the Eclipse headless app all format whole files. The minimal ones (revelc, eclipse-format) are thin wrappers over ToolFactory.createCodeFormatter driven by the profile XML. spring-javaformat is Eclipse-based too but customizes the formatter and fixes its conventions, so it can\u0027t apply eclipse-JGit-Format.xml — same disqualifier as google-java-format.\n\nSuggestion: ship v1 as whole-file formatting of explicitly named files (what tools/gjf.sh does in gerrit), drop GitDiff and --changed-lines, and reuse args4j for parsing. Same capability in ~150 LoC. Add changed-line scoping later if it is actually needed.",
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba644350_8969d72d",
+        "filename": "CONTRIBUTING.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-11T21:56:13Z",
+      "side": 1,
+      "message": "`bazel run` already works today. From the repo root:\n\n```\nbazel run //tools/formatter:formatter -- --check \u003cfile\u003e\n```\n\nresolves the relative path (via `BUILD_WORKING_DIRECTORY`) and defaults the\nprofile (via `BUILD_WORKSPACE_DIRECTORY`), so the explicit `--profile` in\n`tools/format-java` is redundant and no wrapper is actually required.\n\nSyntactic sugar: a root alias makes `bazel run format` work:\n\n```python\n# //BUILD\nalias(name \u003d \"format\", actual \u003d \"//tools/formatter:formatter\")\n```\n\n```\nbazel run format -- --check \u003cfile\u003e     # bare label, from repo root\nbazel run //:format -- --write \u003cfile\u003e  # from any directory\n```\n\nWorth documenting both forms here next to `tools/format-java`, and noting the bazel-run entry needs no shim. The shim\u0027s only advantage over the alias is cwd-independence: it locates the repo root itself.",
+      "isAi": true,
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7475c3b0_0ab788c3",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-11T21:56:13Z",
+      "side": 1,
+      "message": "Why not to use the latest version available: 3.47.0?",
+      "range": {
+        "startLine": 110,
+        "startChar": 20,
+        "endLine": 110,
+        "endChar": 26
+      },
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "023ba337_a21b22b3",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-11T21:56:13Z",
+      "side": 1,
+      "message": "Why not to use the latest version available: 3.14.800?",
+      "range": {
+        "startLine": 111,
+        "startChar": 24,
+        "endLine": 111,
+        "endChar": 32
+      },
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8657b1f0_80895867",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-11T21:56:13Z",
+      "side": 1,
+      "message": "Do we really need constants that used only once, or should we rather inline them, to be consistent with the other versions in this file?",
+      "range": {
+        "startLine": 116,
+        "startChar": 8,
+        "endLine": 117,
+        "endChar": 72
+      },
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05b30169_00543ee0",
+        "filename": "tools/formatter/FormatterMain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-11T21:56:13Z",
+      "side": 1,
+      "message": "Hand-rolled parser (~90 LoC). JGit already depends on args4j (used across `org.eclipse.jgit.pgm`); reuse it for consistency and less surface.",
+      "isAi": true,
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d55956bf_8fa41afe",
+        "filename": "tools/formatter/GitDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-11T21:56:13Z",
+      "side": 1,
+      "message": "This whole file serves only `--changed-lines`. No established JDT-based\nformatter does changed-line scoping: revelc `formatter-maven-plugin`,\n`spring-javaformat`, `algodesigner/eclipse-format`, and the Eclipse headless\napp all format whole files. Dropping `--changed-lines` for v1 removes this\nfile entirely.\n\nIf it is re-added later, the whole file reduces to parsing\n`git diff --unified\u003d0 \u003cbase\u003e -- \u003cfile\u003e` hunk headers (`@@ -a,b +c,d @@`, where\n`+c,d` is the new-side changed range, count defaults to 1):\n\n```java\nrecord LineRange(int start, int count) {}\nvar ranges \u003d new ArrayList\u003cLineRange\u003e();\nvar hunk \u003d Pattern.compile(\"^@@ -\\\\d+(?:,\\\\d+)? \\\\+(\\\\d+)(?:,(\\\\d+))? @@\");\nfor (String line : runGit(\"diff\", \"--unified\u003d0\", base, \"--\", file)) {\n    var m \u003d hunk.matcher(line);\n    if (m.find()) {\n        int start \u003d Integer.parseInt(m.group(1));\n        int count \u003d m.group(2) \u003d\u003d null ? 1 : Integer.parseInt(m.group(2));\n        if (count \u003e 0) ranges.add(new LineRange(start, count));\n    }\n}\n```\n\nAn explicitly named new/untracked file is not shown by `git diff`; treat it as\nentirely changed, as the current code already does.",
+      "isAi": true,
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f64da4e2_e107c025",
+        "filename": "tools/formatter/JdtFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-11T21:56:13Z",
+      "side": 1,
+      "message": "`source`/`compliance`/`target` hardcoded to `25` diverges silently from\n`.bazelrc` `--java_language_version` and needs a manual bump each JDK. Centralize\nor derive it.",
+      "isAi": true,
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0c823f0_883f9e2c",
+        "filename": "tools/formatter/JdtFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-11T21:56:13Z",
+      "side": 1,
+      "message": "Confirm `ToolFactory.createCodeFormatter(Map)` is not deprecated in JDT 3.44 in\nfavour of `createCodeFormatter(Map, int)`.",
+      "isAi": true,
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f90b3184_17db9508",
+        "filename": "tools/formatter/JdtFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-11T21:56:13Z",
+      "side": 1,
+      "message": "The descending range loop plus `lineStartOffset`/`lineSeparator` exist only for\npartial-range formatting. Whole-file is a single\n`formatter.format(K_COMPILATION_UNIT, src, 0, src.length(), 0, sep)` call. About\nhalf this file goes away with `--changed-lines`.",
+      "isAi": true,
+      "revId": "bba38a2b9c5a73bd14c8fc4ccafe343a0ca72a41",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
