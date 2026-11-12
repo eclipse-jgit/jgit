@@ -25,6 +25,7 @@ import org.eclipse.jgit.errors.UnsupportedPackIndexVersionException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSet;
@@ -295,6 +296,16 @@ public interface PackIndex
 	 * @since 5.5
 	 */
 	byte[] getChecksum();
+
+	/**
+	 * Estimate the size of the in-memory representation of this index.
+	 *
+	 * @return estimated size of this pack index in memory, in bytes
+	 */
+	default long getMemorySize() {
+		return (Constants.OBJECT_ID_LENGTH + 8L) * getObjectCount()
+				+ 8L * getOffset64Count();
+	}
 
 	/**
 	 * Represent mutable entry of pack index consisting of object id and offset
