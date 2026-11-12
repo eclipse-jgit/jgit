@@ -15,6 +15,7 @@ HELPERS = glob(
     "diff/AbstractDiffTestCase.java",
     "diff/AbstractRenameDetectionTestCase.java",
     "internal/diffmergetool/ExternalToolTestCase.java",
+    "internal/storage/external/FakeS3Server.java",
     "internal/revwalk/ObjectReachabilityTestCase.java",
     "internal/revwalk/ReachabilityCheckerTestCase.java",
     "internal/storage/file/GcTestCase.java",
