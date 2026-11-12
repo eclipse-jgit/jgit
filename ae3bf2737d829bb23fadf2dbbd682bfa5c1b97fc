@@ -1,0 +1,58 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d3547c3_081136f6",
+        "filename": "tools/formatter/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-12T08:01:33Z",
+      "side": 1,
+      "message": "JGit test targets consume junit via `//lib:junit` (e.g. `org.eclipse.jgit.test/BUILD`, `org.eclipse.jgit.http.test/BUILD`), which also bundles hamcrest. `@external_deps//:junit_junit` here bypasses that wrapper and drops hamcrest. Use `//lib:junit`, consistent with the `//lib:args4j` already used by `formatter_lib` above.",
+      "isAi": true,
+      "revId": "ae3bf2737d829bb23fadf2dbbd682bfa5c1b97fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccab8745_d0ed474a",
+        "filename": "tools/formatter/JdtFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-12T08:01:33Z",
+      "side": 1,
+      "message": "The CLI runs the formatter but not the project\u0027s `remove_trailing_whitespaces` save action (`.settings/org.eclipse.jdt.ui.prefs`). Verified against Eclipse on the same fixture: when the formatter inserts a blank line before Javadoc root tags it emits `\\t * ` with a trailing space; Eclipse strips it on save, the CLI does not. So `--write` can introduce trailing whitespace Eclipse wouldn\u0027t, and `--check` accepts both forms.\n\nMirror the save action by stripping trailing horizontal whitespace before returning:\n\n```java\nprivate static final Pattern TRAILING_WS \u003d Pattern.compile(\"[ \\\\t]+(?\u003d\\\\R|\\\\z)\");\n...\nreturn TRAILING_WS.matcher(document.get()).replaceAll(\"\");\n```",
+      "isAi": true,
+      "revId": "ae3bf2737d829bb23fadf2dbbd682bfa5c1b97fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cbfe345_1fbb2153",
+        "filename": "tools/formatter/java_version.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-12T08:01:33Z",
+      "side": 1,
+      "message": "Emit the EDL header (and a \"generated -- do not edit\" line) in the generated `FormatterConfig.java`, so it carries the standard header like every other source file, even though it only lands in bazel-out.",
+      "isAi": true,
+      "revId": "ae3bf2737d829bb23fadf2dbbd682bfa5c1b97fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
