@@ -341,6 +341,8 @@ public class UploadPack implements Closeable {
 
 	private boolean packOutputCacheHit;
 
+	private boolean packfileSectionWritten;
+
 	private boolean packCacheShallowRepository;
 
 	/**
@@ -750,10 +752,17 @@ public class UploadPack implements Closeable {
 	 * permission-filtered refs and tags are included in the key. Callers must use
 	 * separate scopes for repositories or additional pack policies not described
 	 * by those inputs. Pre-upload hooks still run for cache hits.
-	 * Full, incremental, shallow and filtered fetches are eligible. Negotiated
-	 * packfile URI offload, server-side shallow repositories and connections
-	 * that expose their RevWalk bypass the cache. Clients stream raw pack bytes while shared generation proceeds;
-	 * progress during shared generation is suppressed.
+	 * Full, incremental, shallow and filtered fetches are eligible. URI requests
+	 * cache their inline remainders with ordinary v2 framing or sideband-all.
+	 * Requested thin packs remain eligible. URI requests select objects before
+	 * lookup to identify offloaded packs;
+	 * hits share compression and serialization, but repeat selection. Ordinary
+	 * requests look up the cache before selection and retain thin-pack support.
+	 * Server-side shallow repositories and connections that expose their RevWalk
+	 * bypass the cache, including advertisement hooks that obtain the walk.
+	 * Such hooks can customize traversal outside the encoded pack inputs.
+	 * Clients stream raw pack bytes while shared generation proceeds; progress
+	 * during shared generation is suppressed.
 	 *
 	 * @param cache
 	 *            shared cache, or {@code null} to disable caching
@@ -1227,6 +1236,7 @@ public class UploadPack implements Closeable {
 	private void fetchV2(PacketLineOut pckOut) throws IOException {
 		statistics = null;
 		packOutputCacheHit = false;
+		packfileSectionWritten = false;
 		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
 		FetchV2Request req = parser.parseFetchRequest(pckIn);
 		currentRequest = req;
@@ -1350,11 +1360,10 @@ public class UploadPack implements Closeable {
 
 			if (sectionSent)
 				pckOut.writeDelim();
-			if (!pckOut.isUsingSideband()) {
+			if (!pckOut.isUsingSideband() && !usesPackfileUris(req)) {
 				// sendPack will write "packfile\n" for us if sideband-all is used.
 				// But sideband-all is not used, so we have to write it ourselves.
-				pckOut.writeString(
-						GitProtocolConstants.SECTION_PACKFILE + '\n');
+				writePackfileSection(pckOut);
 			}
 
 			accumulator.timeNegotiating = Duration
@@ -2336,29 +2345,42 @@ public class UploadPack implements Closeable {
 		boolean sideband = caps.contains(OPTION_SIDE_BAND)
 				|| caps.contains(OPTION_SIDE_BAND_64K);
 
-		if (sideband) {
-			errOut = new SideBandErrorWriter();
+		try {
+			if (sideband) {
+				errOut = new SideBandErrorWriter();
 
-			int bufsz = SideBandOutputStream.SMALL_BUF;
-			if (req.getClientCapabilities().contains(OPTION_SIDE_BAND_64K)) {
-				bufsz = SideBandOutputStream.MAX_BUF;
+				int bufsz = SideBandOutputStream.SMALL_BUF;
+				if (req.getClientCapabilities().contains(OPTION_SIDE_BAND_64K)) {
+					bufsz = SideBandOutputStream.MAX_BUF;
+				}
+				OutputStream packOut = new SideBandOutputStream(
+						SideBandOutputStream.CH_DATA, bufsz, rawOut);
+
+				ProgressMonitor pm = NullProgressMonitor.INSTANCE;
+				if (!req.getClientCapabilities().contains(OPTION_NO_PROGRESS)) {
+					msgOut = new SideBandOutputStream(
+							SideBandOutputStream.CH_PROGRESS, bufsz, rawOut);
+					pm = new SideBandProgressMonitor(msgOut);
+				}
+
+				sendPack(pm, pckOut, packOut, req, accumulator, allTags,
+						unshallowCommits, deepenNots);
+				pckOut.end();
+			} else {
+				sendPack(NullProgressMonitor.INSTANCE, pckOut, rawOut, req,
+						accumulator, allTags, unshallowCommits, deepenNots);
 			}
-			OutputStream packOut = new SideBandOutputStream(
-					SideBandOutputStream.CH_DATA, bufsz, rawOut);
-
-			ProgressMonitor pm = NullProgressMonitor.INSTANCE;
-			if (!req.getClientCapabilities().contains(OPTION_NO_PROGRESS)) {
-				msgOut = new SideBandOutputStream(
-						SideBandOutputStream.CH_PROGRESS, bufsz, rawOut);
-				pm = new SideBandProgressMonitor(msgOut);
+		} catch (IOException | RuntimeException e) {
+			if (req instanceof FetchV2Request && !pckOut.isUsingSideband()
+					&& !packfileSectionWritten) {
+				try {
+					writePackfileSection(pckOut);
+					packfileSectionWritten = true;
+				} catch (IOException framingFailure) {
+					e.addSuppressed(framingFailure);
+				}
 			}
-
-			sendPack(pm, pckOut, packOut, req, accumulator, allTags,
-					unshallowCommits, deepenNots);
-			pckOut.end();
-		} else {
-			sendPack(NullProgressMonitor.INSTANCE, pckOut, rawOut, req,
-					accumulator, allTags, unshallowCommits, deepenNots);
+			throw e;
 		}
 	}
 
@@ -2404,14 +2426,20 @@ public class UploadPack implements Closeable {
 				: new PackConfig(db);
 		Map<String, Ref> packRefs = refs;
 		try {
-			if (canCachePack(req)) {
+			boolean cacheable = canCachePack();
+			if (cacheable && usesPackfileUris(req) && !packfileSectionWritten) {
+				statistics = writeCachedUriPack(pm, pckOut, packOut, req,
+						accumulator, allTags, unshallowCommits, deepenNots,
+						cfg, packRefs);
+			} else if (cacheable) {
 				Map<String, Ref> cacheRefs = packRefs == null ? null
 						: new TreeMap<>(packRefs);
 				Collection<Ref> cacheTags = snapshotTags(req, allTags);
 				String key = packOutputCacheKey(req, cfg, cacheTags,
-						unshallowCommits, deepenNots);
-				if (pckOut.isUsingSideband()) {
-					pckOut.writeString(GitProtocolConstants.SECTION_PACKFILE + '\n');
+						unshallowCommits, deepenNots,
+						req.getClientCapabilities().contains(OPTION_THIN_PACK));
+				if (req instanceof FetchV2Request) {
+					writePackfileSection(pckOut);
 				}
 				PackStatistics[] produced = new PackStatistics[1];
 				long started = System.nanoTime();
@@ -2447,12 +2475,75 @@ public class UploadPack implements Closeable {
 		}
 	}
 
-	private boolean canCachePack(FetchRequest req) throws IOException {
+	private void writePackfileSection(PacketLineOut out) throws IOException {
+		if (!packfileSectionWritten) {
+			out.writeString(GitProtocolConstants.SECTION_PACKFILE + '\n');
+			packfileSectionWritten = true;
+		}
+	}
+
+	private boolean useThinPack(FetchRequest req) {
+		return req.getClientCapabilities().contains(OPTION_THIN_PACK);
+	}
+
+	private boolean canCachePack() throws IOException {
 		return packOutputCache != null && !revWalkExposed
 				&& !packCacheShallowRepository
-				&& walk.getObjectReader().getShallowCommits().isEmpty()
-				&& !(cachedPackUriProvider != null && req instanceof FetchV2Request
-						&& !((FetchV2Request) req).getPackfileUriProtocols().isEmpty());
+				&& walk.getObjectReader().getShallowCommits().isEmpty();
+	}
+
+	private boolean usesPackfileUris(FetchRequest req) {
+		return cachedPackUriProvider != null && req instanceof FetchV2Request
+				&& !((FetchV2Request) req).getPackfileUriProtocols().isEmpty();
+	}
+
+	private PackStatistics writeCachedUriPack(ProgressMonitor pm,
+			PacketLineOut pckOut, OutputStream packOut, FetchRequest req,
+			PackStatistics.Accumulator accumulator, Collection<Ref> allTags,
+			List<ObjectId> unshallowCommits, List<ObjectId> deepenNots,
+			PackConfig cfg, Map<String, Ref> packRefs) throws IOException {
+		Collection<Ref> tags = snapshotTags(req, allTags);
+		String requestKey = packOutputCacheKey(req, cfg, tags,
+				unshallowCommits, deepenNots, useThinPack(req));
+		ProgressMonitor prepareProgress = pckOut.isUsingSideband()
+				? pm : NullProgressMonitor.INSTANCE;
+		try (PackWriter pw = preparePack(prepareProgress, req, accumulator, tags,
+				unshallowCommits, deepenNots, cfg, packRefs)) {
+			pw.setPackfileUriConfig(new PackWriter.PackfileUriConfig(pckOut,
+					((FetchV2Request) req).getPackfileUriProtocols(),
+					cachedPackUriProvider));
+			List<CachedPackUriProvider.PackInfo> uris = pw.getPackfileUris();
+			StringBuilder key = new StringBuilder();
+			appendCacheKey(key, "jgit-pack-remainder-v1"); //$NON-NLS-1$
+			appendCacheKey(key, requestKey);
+			uris.stream().map(CachedPackUriProvider.PackInfo::getHash).sorted()
+					.forEach(hash -> appendCacheKey(key, hash));
+			pw.writePackfileUriHeader();
+			packfileSectionWritten = true;
+			PackStatistics[] produced = new PackStatistics[1];
+			long started = System.nanoTime();
+			Thread requestThread = Thread.currentThread();
+			PackStatistics result = packOutputCache.write(hashCacheKey(key),
+					packOut, out -> {
+						ProgressMonitor progress = Thread.currentThread() == requestThread
+								? pm : CACHE_PROGRESS;
+						pw.enableSearchForReuseTimeout();
+						pw.writePack(progress, NullProgressMonitor.INSTANCE, out);
+						produced[0] = pw.getStatistics();
+						return produced[0];
+					});
+			packOut.flush();
+			packOutputCacheHit = produced[0] == null;
+			if (packOutputCacheHit) {
+				cachedPackStatistics(result, accumulator,
+						(System.nanoTime() - started) / 1_000_000);
+				accumulator.offloadedPackfiles = uris.size();
+				accumulator.offloadedPackfileSize = uris.stream()
+						.mapToLong(CachedPackUriProvider.PackInfo::getSize).sum();
+				return new PackStatistics(accumulator);
+			}
+			return result;
+		}
 	}
 
 	private Collection<Ref> snapshotTags(FetchRequest req,
@@ -2479,7 +2570,7 @@ public class UploadPack implements Closeable {
 
 	private String packOutputCacheKey(FetchRequest req, PackConfig cfg,
 			Collection<Ref> allTags, List<ObjectId> unshallowCommits,
-			List<ObjectId> deepenNots) {
+			List<ObjectId> deepenNots, boolean thin) {
 		StringBuilder key = new StringBuilder();
 		appendCacheKey(key, "jgit-pack-output-v2"); //$NON-NLS-1$
 		appendCacheKey(key, packOutputCacheScope);
@@ -2487,8 +2578,7 @@ public class UploadPack implements Closeable {
 		appendCacheKey(key, cfg.toString());
 		appendCacheKey(key, Boolean.toString(cfg.getCutDeltaChains()));
 		appendCacheKey(key, Boolean.toString(cfg.isPackKeptObjects()));
-		appendCacheKey(key, Boolean.toString(
-				req.getClientCapabilities().contains(OPTION_THIN_PACK)));
+		appendCacheKey(key, Boolean.toString(thin));
 		appendCacheKey(key, Boolean.toString(
 				req.getClientCapabilities().contains(OPTION_OFS_DELTA)));
 		appendCacheKey(key, Boolean.toString(
@@ -2511,6 +2601,10 @@ public class UploadPack implements Closeable {
 		// Advertised refs only provide ordering hints for already selected objects.
 		// Included tags can add objects, so their effective visibility is keyed.
 		appendRefs(key, allTags);
+		return hashCacheKey(key);
+	}
+
+	private static String hashCacheKey(StringBuilder key) {
 		try {
 			return Hex.toHexString(MessageDigest.getInstance("SHA-256") //$NON-NLS-1$
 					.digest(key.toString().getBytes(StandardCharsets.UTF_8)));
@@ -2620,10 +2714,47 @@ public class UploadPack implements Closeable {
 			List<ObjectId> deepenNots, PackConfig cfg,
 			@Nullable Map<String, Ref> packRefs, boolean writeSectionHeader)
 			throws IOException {
+		ProgressMonitor prepareProgress = req instanceof FetchV2Request
+				&& !packfileSectionWritten && !pckOut.isUsingSideband()
+						? NullProgressMonitor.INSTANCE : pm;
+		try (PackWriter pw = preparePack(prepareProgress, req, accumulator, allTags,
+				unshallowCommits, deepenNots, cfg, packRefs)) {
+			if (writeSectionHeader && req instanceof FetchV2Request
+					&& !packfileSectionWritten) {
+				if (usesPackfileUris(req)) {
+					pw.setPackfileUriConfig(new PackWriter.PackfileUriConfig(
+							pckOut, ((FetchV2Request) req).getPackfileUriProtocols(),
+							cachedPackUriProvider != null ? cachedPackUriProvider
+									: (pack, protocols) -> null));
+				} else {
+					writePackfileSection(pckOut);
+				}
+			}
+			if (writeSectionHeader && usesPackfileUris(req)
+					&& !packfileSectionWritten) {
+				pw.writePackfileUriHeader();
+				packfileSectionWritten = true;
+			}
+			pw.enableSearchForReuseTimeout();
+			try {
+				pw.writePack(pm, NullProgressMonitor.INSTANCE, packOut);
+				return pw.getStatistics();
+			} finally {
+				statistics = pw.getStatistics();
+			}
+		}
+	}
+
+	private PackWriter preparePack(ProgressMonitor pm, FetchRequest req,
+			PackStatistics.Accumulator accumulator,
+			@Nullable Collection<Ref> allTags, List<ObjectId> unshallowCommits,
+			List<ObjectId> deepenNots, PackConfig cfg,
+			@Nullable Map<String, Ref> packRefs) throws IOException {
 		@SuppressWarnings("resource") // PackWriter is referenced in the finally
 										// block, and is closed there
 		final PackWriter pw = new PackWriter(cfg, walk.getObjectReader(),
 				accumulator);
+		boolean prepared = false;
 		try {
 			pw.setIndexDisabled(true);
 			if (req.getFilterSpec().isNoOp()) {
@@ -2640,7 +2771,7 @@ public class UploadPack implements Closeable {
 			pw.setReuseDeltaCommits(true);
 			pw.setDeltaBaseAsOffset(
 					req.getClientCapabilities().contains(OPTION_OFS_DELTA));
-			pw.setThin(req.getClientCapabilities().contains(OPTION_THIN_PACK));
+			pw.setThin(useThinPack(req));
 			pw.setReuseValidatingObjects(false);
 
 			// Objects named directly by references go at the beginning
@@ -2726,32 +2857,13 @@ public class UploadPack implements Closeable {
 				}
 			}
 
-			if (writeSectionHeader && pckOut.isUsingSideband()) {
-				if (req instanceof FetchV2Request &&
-						cachedPackUriProvider != null &&
-						!((FetchV2Request) req).getPackfileUriProtocols().isEmpty()) {
-					FetchV2Request reqV2 = (FetchV2Request) req;
-					pw.setPackfileUriConfig(new PackWriter.PackfileUriConfig(
-							pckOut,
-							reqV2.getPackfileUriProtocols(),
-							cachedPackUriProvider));
-				} else {
-					// PackWriter will write "packfile-uris\n" and "packfile\n"
-					// for us if provided a PackfileUriConfig. In this case, we
-					// are not providing a PackfileUriConfig, so we have to
-					// write this line ourselves.
-					pckOut.writeString(
-							GitProtocolConstants.SECTION_PACKFILE + '\n');
-				}
-			}
-			pw.enableSearchForReuseTimeout();
-			pw.writePack(pm, NullProgressMonitor.INSTANCE, packOut);
-
-			return pw.getStatistics();
-
+			prepared = true;
+			return pw;
 		} finally {
-			statistics = pw.getStatistics();
-			pw.close();
+			if (!prepared) {
+				statistics = pw.getStatistics();
+				pw.close();
+			}
 		}
 	}
 
