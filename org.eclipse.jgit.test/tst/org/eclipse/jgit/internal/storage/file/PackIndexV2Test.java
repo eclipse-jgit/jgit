@@ -15,11 +15,19 @@ package org.eclipse.jgit.internal.storage.file;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.junit.Test;
 
 public class PackIndexV2Test extends PackIndexTestCase {
@@ -67,5 +75,44 @@ public class PackIndexV2Test extends PackIndexTestCase {
 				.fromString("aabf2ffaec9b497f0950352b3e582d73035c2035")));
 		assertEquals(0x000000000B3B5BA6L, smallIdx.findCRC32(ObjectId
 				.fromString("c59759f143fb1fe21c197981df75a7ee00290799")));
+	}
+
+	@Test
+	public void testMemorySizeWithoutOffset64() {
+		assertEquals(8, smallIdx.getObjectCount());
+		assertEquals(0, smallIdx.getOffset64Count());
+		assertEquals(8L * (Constants.OBJECT_ID_LENGTH + 8L),
+				smallIdx.getMemorySize());
+	}
+
+	@Test
+	public void testMemorySizeWithOffset64() throws IOException {
+		List<PackedObjectInfo> entries = new ArrayList<>();
+		entries.add(objectWithOffset("0000000000000000000000000000000000000001",
+				12L));
+		entries.add(objectWithOffset("0000000000000000000000000000000000000002",
+				0x7fffffffL));
+		entries.add(objectWithOffset("8000000000000000000000000000000000000003",
+				0x80000000L));
+		entries.add(objectWithOffset("ff00000000000000000000000000000000000004",
+				10L * (1L << 30)));
+		Collections.sort(entries);
+
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		BasePackIndexWriter.createVersion(out, 2).write(entries,
+				new byte[Constants.OBJECT_ID_LENGTH]);
+		PackIndex idx = PackIndex
+				.read(new ByteArrayInputStream(out.toByteArray()));
+
+		assertEquals(4, idx.getObjectCount());
+		assertEquals(2, idx.getOffset64Count());
+		assertEquals(4L * (Constants.OBJECT_ID_LENGTH + 8L) + 2L * 8L,
+				idx.getMemorySize());
+	}
+
+	private static PackedObjectInfo objectWithOffset(String sha1, long offset) {
+		PackedObjectInfo info = new PackedObjectInfo(ObjectId.fromString(sha1));
+		info.setOffset(offset);
+		return info;
 	}
 }
