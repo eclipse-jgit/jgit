@@ -548,6 +548,25 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	protected abstract DfsOutputStream writeFile(
 			DfsPackDescription desc, PackExt ext) throws IOException;
 
+	/**
+	 * Add a pack to the in-memory pack list without scanning storage.
+	 * <p>
+	 * Inserts {@code newPack} at the front of this instance's cached pack list
+	 * (initializing the cache via {@link #listPacks()} first if needed, and
+	 * skipping insertion if an entry with the same key is already present)
+	 * without invoking {@link #commitPackImpl(Collection, Collection)}. This
+	 * allows subclasses to make a newly written pack visible to readers on this
+	 * database instance before or without committing it to persistent storage.
+	 *
+	 * @param newPack
+	 *            description of the pack to add.
+	 * @throws java.io.IOException
+	 *             if existing packs must be scanned first and cannot be listed.
+	 */
+	protected void addPack(DfsPackDescription newPack) throws IOException {
+		addPack(createDfsPackFile(DfsBlockCache.getInstance(), newPack));
+	}
+
 	void addPack(DfsPackFile newPack) throws IOException {
 		PackList o, n;
 		do {
