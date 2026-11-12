@@ -42,4 +42,11 @@ public interface PackObjectSizeIndex {
 	 * @return size in bytes
 	 */
 	int getThreshold();
+
+	/**
+	 * Size of the largest object in this index
+	 *
+	 * @return size in bytes, -1 if the index is empty
+	 */
+	long getMaxSize();
 }

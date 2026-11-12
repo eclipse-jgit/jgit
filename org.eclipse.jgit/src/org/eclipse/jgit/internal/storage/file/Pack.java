@@ -391,6 +391,28 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	/**
+	 * Whether the object-size index shows that this pack contains no blob
+	 * larger than the given size.
+	 *
+	 * @param size
+	 *            size in bytes
+	 * @return true if the object-size index of this pack shows that no blob in
+	 *         it is larger than {@code size}; false if there is such a blob or
+	 *         if the index cannot tell (e.g. it is missing or unreadable)
+	 */
+	boolean hasNoBlobLargerThan(long size) {
+		try {
+			PackObjectSizeIndex sizeIdx = objectSizeIndex();
+			if (sizeIdx == null || sizeIdx.getThreshold() > size) {
+				return false;
+			}
+			return sizeIdx.getMaxSize() <= size;
+		} catch (IOException | RuntimeException e) {
+			return false;
+		}
+	}
+
+	/**
 	 * Get name extracted from {@code pack-*.pack} pattern.
 	 *
 	 * @return name extracted from {@code pack-*.pack} pattern.

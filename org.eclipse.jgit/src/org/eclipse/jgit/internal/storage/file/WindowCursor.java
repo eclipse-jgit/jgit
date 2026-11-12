@@ -117,8 +117,18 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	@Override
 	public Collection<CachedPack> getCachedPacksAndUpdate(
 			BitmapBuilder needBitmap) throws IOException {
+		return getCachedPacksAndUpdate(needBitmap, 0);
+	}
+
+	@Override
+	public Collection<CachedPack> getCachedPacksAndUpdate(
+			BitmapBuilder needBitmap, long maxBlobSize) throws IOException {
 		List<CachedPack> toUseAsIs = new ArrayList<>();
 		for (Pack pack : db.getPacks()) {
+			if (maxBlobSize > 0 && pack.getBitmapIndex() != null
+					&& !pack.hasNoBlobLargerThan(maxBlobSize)) {
+				continue;
+			}
 			List<Pack> packs = pack.fullyIncludedIn(needBitmap);
 			if (packs.isEmpty()) {
 				continue;

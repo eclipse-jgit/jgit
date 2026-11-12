@@ -185,6 +185,13 @@ existing repository's format is rejected.
 | `repack.packKeptObjects` | `true` when `pack.buildBitmaps` is set, `false` otherwise | &#x2705; | Include objects in packs locked by a `.keep` file when repacking. |
 
 
+## __uploadpack__ options
+
+| option | default | git option | description |
+|---------|---------|------------|-------------|
+| `uploadpack.maxBlobSize` | `0` | &#x20DE; | Maximum size in bytes of a blob that upload-pack sends. A fetch whose pack would contain a larger blob is rejected, whether the client wants the blob directly or reaches it through commits and trees. In file-based repositories, whole packs are still reused for a fetch if their object size index shows that they contain no larger blob, so set `pack.minBytesForObjSizeIndex` to at most this value (and run gc to write the index) to keep clones fast. If set to `0`, there is no limit. An invalid value is logged as a warning and ignored. |
+
+
 ## Environment Variables
 
 | variable | default | description |

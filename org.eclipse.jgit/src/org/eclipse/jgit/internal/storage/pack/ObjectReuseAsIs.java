@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.pack;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -203,4 +204,33 @@ public interface ObjectReuseAsIs {
 	 */
 	Collection<CachedPack> getCachedPacksAndUpdate(
 			BitmapBuilder needBitmap) throws IOException;
+
+	/**
+	 * Obtain the available cached packs that match the bitmap and contain no
+	 * blob larger than a given size, and update the bitmap by removing the
+	 * items that are in the CachedPack.
+	 * <p>
+	 * Packs that may contain a larger blob are not returned and their objects
+	 * stay in the bitmap. The default implementation cannot tell the size of
+	 * the largest blob of a pack, so it returns no cached packs if
+	 * {@code maxBlobSize} is positive.
+	 *
+	 * @param needBitmap
+	 *            the bitmap that contains all of the objects the client wants.
+	 * @param maxBlobSize
+	 *            maximum size in bytes of a blob in a returned pack, 0 or
+	 *            negative for no limit.
+	 * @return the available cached packs.
+	 * @throws java.io.IOException
+	 *             the cached packs cannot be listed from the repository.
+	 *             Callers may choose to ignore this and continue as-if there
+	 *             were no cached packs.
+	 */
+	default Collection<CachedPack> getCachedPacksAndUpdate(
+			BitmapBuilder needBitmap, long maxBlobSize) throws IOException {
+		if (maxBlobSize > 0) {
+			return Collections.emptyList();
+		}
+		return getCachedPacksAndUpdate(needBitmap);
+	}
 }

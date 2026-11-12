@@ -178,6 +178,16 @@ public class PackMidx extends Pack {
 	}
 
 	@Override
+	boolean hasNoBlobLargerThan(long size) {
+		for (Pack p : getCoveredPacks()) {
+			if (!p.hasNoBlobLargerThan(size)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
 	public boolean hasObject(AnyObjectId id) throws IOException {
 		return getMidx().hasObject(id);
 	}

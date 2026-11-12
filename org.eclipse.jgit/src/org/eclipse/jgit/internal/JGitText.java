@@ -533,6 +533,8 @@ public class JGitText extends TranslationBundle {
 
 	/***/ public String logXDGCacheHomeInvalid;
 	/***/ public String looseObjectHandleIsStale;
+	/***/ public String maxBlobSizeExceeded;
+	/***/ public String maxBlobSizeIgnored;
 	/***/ public String maxCountMustBeNonNegative;
 	/***/ public String mergeConflictOnNonNoteEntries;
 	/***/ public String mergeConflictOnNotes;

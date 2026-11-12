@@ -14,11 +14,13 @@ import static org.eclipse.jgit.util.StringUtils.equalsIgnoreCase;
 import static org.eclipse.jgit.util.StringUtils.toLowerCase;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.LazyObjectIdSetFile;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -28,12 +30,17 @@ import org.eclipse.jgit.lib.ObjectIdSet;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.SystemReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The standard "transfer", "fetch", "protocol", "receive", and "uploadpack"
  * configuration parameters.
  */
 public class TransferConfig {
+	private static final Logger LOG = LoggerFactory
+			.getLogger(TransferConfig.class);
+
 	private static final String FSCK = "fsck"; //$NON-NLS-1$
 
 	/** Key for {@link Config#get(SectionParser)}. */
@@ -128,6 +135,8 @@ public class TransferConfig {
 
 	private final boolean allowReceiveClientSID;
 
+	private final long maxBlobSize;
+
 	final @Nullable ProtocolVersion protocolVersion;
 	final String[] hideRefs;
 
@@ -221,6 +230,18 @@ public class TransferConfig {
 				"advertiseobjectinfo", false);
 		allowReceiveClientSID = rc.getBoolean("transfer", "advertisesid",
 				false);
+		maxBlobSize = readMaxBlobSize(rc);
+	}
+
+	private static long readMaxBlobSize(Config rc) {
+		try {
+			long size = rc.getLong("uploadpack", "maxblobsize", 0); //$NON-NLS-1$ //$NON-NLS-2$
+			return Math.max(0, size);
+		} catch (IllegalArgumentException e) {
+			LOG.warn(MessageFormat.format(JGitText.get().maxBlobSizeIgnored,
+					e.getMessage()));
+			return 0;
+		}
 	}
 
 	/**
@@ -355,6 +376,18 @@ public class TransferConfig {
 	 */
 	public boolean isAdvertiseObjectInfo() {
 		return advertiseObjectInfo;
+	}
+
+	/**
+	 * Get the maximum size of a blob that upload-pack may send.
+	 * <p>
+	 * Upload-pack rejects a fetch whose pack would contain a larger blob.
+	 *
+	 * @return the limit in bytes, 0 if there is none
+	 * @since 8.0
+	 */
+	public long getMaxBlobSize() {
+		return maxBlobSize;
 	}
 
 	/**

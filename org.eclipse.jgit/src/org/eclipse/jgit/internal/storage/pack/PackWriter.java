@@ -55,6 +55,7 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.SearchForReuseTimeout;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.internal.JGitText;
@@ -286,6 +287,8 @@ public class PackWriter implements AutoCloseable {
 	private ObjectCountCallback callback;
 
 	private FilterSpec filterSpec = FilterSpec.NO_FILTER;
+
+	private long maxBlobSize;
 
 	private PackfileUriConfig packfileUriConfig;
 
@@ -675,6 +678,21 @@ public class PackWriter implements AutoCloseable {
 	 */
 	public void setFilterSpec(@NonNull FilterSpec filter) {
 		filterSpec = requireNonNull(filter);
+	}
+
+	/**
+	 * Set the maximum size of a blob this writer may include.
+	 * <p>
+	 * If positive, preparing a pack from wanted and uninteresting objects
+	 * fails with a {@link PackProtocolException} when the pack would contain a
+	 * blob larger than this size. Whole cached packs are only reused if their
+	 * object size index shows that they contain no such blob.
+	 *
+	 * @param maxBlobSize
+	 *            maximum size of a blob in bytes, 0 or negative for no limit
+	 */
+	public void setMaxBlobSize(long maxBlobSize) {
+		this.maxBlobSize = maxBlobSize;
 	}
 
 	/**
@@ -2248,8 +2266,8 @@ public class PackWriter implements AutoCloseable {
 
 		if (useCachedPacks && reuseSupport != null && !reuseValidate
 				&& (excludeInPacks == null || excludeInPacks.length == 0))
-			cachedPacks.addAll(
-					reuseSupport.getCachedPacksAndUpdate(needBitmap));
+			cachedPacks.addAll(reuseSupport
+					.getCachedPacksAndUpdate(needBitmap, maxBlobSize));
 
 		for (BitmapObject obj : needBitmap) {
 			ObjectId objectId = obj.getObjectId();
@@ -2369,6 +2387,16 @@ public class PackWriter implements AutoCloseable {
 		if (blobLimit >= 0 && type == OBJ_BLOB && !want.contains(src)
 				&& !reader.isNotLargerThan(src, OBJ_BLOB, blobLimit)) {
 			return;
+		}
+
+		if (maxBlobSize > 0 && type == OBJ_BLOB
+				&& (blobLimit < 0 || blobLimit > maxBlobSize
+						|| want.contains(src))
+				&& !reader.isNotLargerThan(src, OBJ_BLOB, maxBlobSize)) {
+			throw new PackProtocolException(MessageFormat.format(
+					JGitText.get().maxBlobSizeExceeded, src.name(),
+					Long.valueOf(reader.getObjectSize(src, OBJ_BLOB)),
+					Long.valueOf(maxBlobSize)));
 		}
 		addObject(src, type, pathHashCode);
 	}

@@ -49,6 +49,8 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 
 	private final LongArray sizes64;
 
+	private volatile long maxSize = Long.MIN_VALUE;
+
 	static PackObjectSizeIndex parse(InputStream in) throws IOException {
 		/** Header and version already out of the input */
 		byte[] buffer = new byte[8];
@@ -130,6 +132,22 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 	@Override
 	public int getThreshold() {
 		return threshold;
+	}
+
+	@Override
+	public long getMaxSize() {
+		long max = maxSize;
+		if (max == Long.MIN_VALUE) {
+			max = -1;
+			for (int i = 0; i < sizes32.size(); i++) {
+				int objSize = sizes32.get(i);
+				long sz = objSize < 0 ? sizes64.get(Math.abs(objSize) - 1)
+						: objSize;
+				max = Math.max(max, sz);
+			}
+			maxSize = max;
+		}
+		return max;
 	}
 
 	/**
@@ -279,6 +297,11 @@ class PackObjectSizeIndexV1 implements PackObjectSizeIndex {
 		@Override
 		public int getThreshold() {
 			return threshold;
+		}
+
+		@Override
+		public long getMaxSize() {
+			return -1;
 		}
 	}
 }

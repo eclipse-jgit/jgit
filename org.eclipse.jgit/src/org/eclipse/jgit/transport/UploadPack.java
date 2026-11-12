@@ -768,6 +768,8 @@ public class UploadPack implements Closeable {
 			@Nullable OutputStream messages) throws IOException {
 		try {
 			uploadWithExceptionPropagation(input, output, messages);
+		} catch (UploadPackInternalServerErrorException err) {
+			throw err;
 		} catch (ServiceMayNotContinueException err) {
 			if (!err.isOutput() && err.getMessage() != null) {
 				try {
@@ -2344,6 +2346,7 @@ public class UploadPack implements Closeable {
 				accumulator);
 		try {
 			pw.setIndexDisabled(true);
+			pw.setMaxBlobSize(transferConfig.getMaxBlobSize());
 			if (req.getFilterSpec().isNoOp()) {
 				pw.setUseCachedPacks(true);
 			} else {
@@ -2397,15 +2400,21 @@ public class UploadPack implements Closeable {
 				rw = dw;
 			}
 
-			if (wantAll.isEmpty()) {
-				pw.preparePack(pm, wantIds, commonBase,
-						req.getClientShallowCommits());
-			} else {
-				walk.reset();
+			try {
+				if (wantAll.isEmpty()) {
+					pw.preparePack(pm, wantIds, commonBase,
+							req.getClientShallowCommits());
+				} else {
+					walk.reset();
 
-				ObjectWalk ow = rw.toObjectWalkWithSameObjects();
-				pw.preparePack(pm, ow, wantAll, commonBase, PackWriter.NONE);
-				rw = ow;
+					ObjectWalk ow = rw.toObjectWalkWithSameObjects();
+					pw.preparePack(pm, ow, wantAll, commonBase,
+							PackWriter.NONE);
+					rw = ow;
+				}
+			} catch (PackProtocolException e) {
+				errOut.writeError(e.getMessage());
+				throw new UploadPackInternalServerErrorException(e);
 			}
 
 			if (req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
