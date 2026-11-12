@@ -35,6 +35,75 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90df26c9_6d33515c",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T00:36:31Z",
+      "side": 1,
+      "message": "It does for the promisor remote (this change).",
+      "parentUuid": "777cc65a_df8b69ca",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5279674_c382f144",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T00:36:31Z",
+      "side": 1,
+      "message": "Not sure if this test is really needed? Or maybe needs a better name if it\u0027s testing something more.",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b16f935_de73c78a",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T00:36:31Z",
+      "side": 1,
+      "message": "We should have a comment explaining this choice of url string (encoding/decoding coverage)",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4c48de0_cadc9377",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T00:36:31Z",
+      "side": 1,
+      "message": "same here, a comment noting correctly encoded string",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38839057_21631485",
@@ -48,6 +117,24 @@
       "writtenOn": "2026-11-11T22:52:57Z",
       "side": 1,
       "message": "Should we do the partialCloneFilter a field of the remote?\n\nIf later we need \"custom fields\", we can add here a Map\u003cString, String\u003e for arbitrary values.",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d2b938f_52f27fd7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T00:36:31Z",
+      "side": 1,
+      "message": "\u003e Should we do the partialCloneFilter a field of the remote?\n\nYou mean, add it to `org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteConfig.java`? That makes sense to me.\n\n\u003e \n\u003e If later we need \"custom fields\", we can add here a Map\u003cString, String\u003e for arbitrary values.\n\nAck.",
+      "parentUuid": "38839057_21631485",
       "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -88,6 +175,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8d883b37_518d0f6f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T00:36:31Z",
+      "side": 1,
+      "message": "\u003e Is this field used? At least from the gerrit diffs I don\u0027t see any usage.\n\nOnly in tests it seems.\n\n\u003e \n\u003e If needed, we can get this information from the \"advertisedRemotes\" field.\n\nAck, I\u0027ll try to remove.",
+      "parentUuid": "a9a90038_58e3f2f8",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c00fc3d0_a02fd5db",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
         "patchSetId": 1
@@ -99,6 +204,23 @@
       "writtenOn": "2026-11-11T22:52:57Z",
       "side": 1,
       "message": "We can calculate this advertisement when needed. If you decide to keep it, make it private with a getter.",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e165b69_00b96dc2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T00:36:31Z",
+      "side": 1,
+      "message": "We should be using or creating constants for these configs",
       "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -133,6 +255,24 @@
       "writtenOn": "2026-11-11T22:52:57Z",
       "side": 1,
       "message": "nit: Do we really need this encoding?",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e67c8562_7fd1b108",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T00:36:31Z",
+      "side": 1,
+      "message": "It\u0027s in the git protocol as required.",
+      "parentUuid": "533d7835_1cd7175e",
       "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
