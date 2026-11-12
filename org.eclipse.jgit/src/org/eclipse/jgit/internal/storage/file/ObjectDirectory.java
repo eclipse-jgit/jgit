@@ -250,6 +250,75 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return new MirroringObjectInserter(this, destinationAlternate, filter);
 	}
 
+	/**
+	 * Create a receive-only inserter that writes selected received objects
+	 * loose in one explicit alternate, excluding them from its new main pack.
+	 * <p>
+	 * The destination must be a configured direct alternate, matched by
+	 * canonical objects-directory identity. Alternate order never selects a
+	 * target. There is no broadcast or fallback on a write failure.
+	 * <p>
+	 * The callback selects the first reconstructed representation per received
+	 * ID, by resolved type and full byte size. Selected IDs, including bases,
+	 * are not added to the new main pack. Historical copies are not removed.
+	 * Retained objects are emitted whole in at most one self-contained pack;
+	 * empty or all-selected receives produce no main pack.
+	 * <p>
+	 * Parsing validates the unindexed input archive, streams selected whole
+	 * objects and writes resolved deltas without retaining reconstructed data.
+	 * The alternate is flushed before protected main publication. Failure
+	 * discards operation-owned temporaries, not published loose objects.
+	 * The reported pack size includes only the final main pack and index.
+	 * <p>
+	 * The caller owns both database handles and any returned nullable pack lock.
+	 * Keep the databases open throughout receive. The server must configure
+	 * alternate visibility before receive and coordinate alternate GC and
+	 * borrowed-object retention; a main keep does not protect alternate loose
+	 * objects. Loose writes use destination {@code core.compression}; whole
+	 * output uses main {@code pack.compression}, falling back to
+	 * {@code core.compression}. Output may be larger than the incoming pack.
+	 * <p>
+	 * Enable through a
+	 * {@link org.eclipse.jgit.transport.ReceivePack#newObjectInserter()}
+	 * override. Default receives and {@link #newMirroringInserter} retain their
+	 * existing behavior. This inserter supports one pack parser and ordinary
+	 * readers, not individual insertion. Flush and close never publish.
+	 *
+	 * @param destinationAlternate
+	 *            explicitly supplied, preconfigured direct alternate.
+	 * @param filter
+	 *            deterministic ID, resolved type and inflated-size selection.
+	 * @return a new receive-only inserter.
+	 * @throws IOException
+	 *             canonicalization or opening the destination for writes failed.
+	 * @throws IllegalArgumentException
+	 *             the destination is the main or is not a configured direct
+	 *             alternate.
+	 * @throws NullPointerException
+	 *             the destination or filter is null.
+	 * @since 8.0
+	 */
+	public ObjectInserter newRoutingInserter(ObjectDirectory destinationAlternate,
+			ReceivedObjectFilter filter) throws IOException {
+		Objects.requireNonNull(destinationAlternate, "destinationAlternate"); //$NON-NLS-1$
+		Objects.requireNonNull(filter, "filter"); //$NON-NLS-1$
+		validateReceiveObjectDestination(destinationAlternate);
+		File probe = File.createTempFile("routing_probe_", null, //$NON-NLS-1$
+				destinationAlternate.getDirectory());
+		try (TemporaryFileCleanup cleanup = () -> FileUtils.delete(probe,
+				FileUtils.RETRY | FileUtils.SKIP_MISSING);
+				OutputStream stream = Files.newOutputStream(probe.toPath())) {
+			stream.flush();
+		}
+		return new RoutingObjectInserter(this, destinationAlternate, filter);
+	}
+
+	@FunctionalInterface
+	private interface TemporaryFileCleanup extends AutoCloseable {
+		@Override
+		void close() throws IOException;
+	}
+
 	void validateReceiveObjectDestination(ObjectDirectory destination)
 			throws IOException {
 		File target = destination.getDirectory().getCanonicalFile();

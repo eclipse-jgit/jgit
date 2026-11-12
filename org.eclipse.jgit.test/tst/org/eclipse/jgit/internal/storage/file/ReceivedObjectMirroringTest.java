@@ -39,16 +39,27 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.transport.InMemoryPack;
 import org.eclipse.jgit.transport.PackLock;
 import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.transport.PackedObjectInfo;
+import org.eclipse.jgit.transport.ReceivedObjectFilter;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
-/** Tests placement added by mirroring; normal import is covered separately. */
+/** Tests mirroring placement and shared receive-factory contracts. */
 public class ReceivedObjectMirroringTest extends RepositoryTestCase {
+	@FunctionalInterface
+	private interface ReceiveFactory {
+		ObjectInserter create(ObjectDirectory main, ObjectDirectory destination,
+				ReceivedObjectFilter filter) throws IOException;
+	}
+
+	private static final List<ReceiveFactory> RECEIVE_FACTORIES = List.of(
+			ObjectDirectory::newMirroringInserter, ObjectDirectory::newRoutingInserter);
+
 	private static final ObjectId BASE = ObjectId
 			.fromString("ad471007bd7f5983d273b9584e5629230150fd54");
 
@@ -265,32 +276,45 @@ public class ReceivedObjectMirroringTest extends RepositoryTestCase {
 			ObjectDirectory other = indirect.getObjectDatabase();
 			configureAlternates(destination, other);
 			configureAlternates(main, destination);
-			assertThrows(IllegalArgumentException.class,
-					() -> main.newMirroringInserter(main, (id, type, size) -> true));
-			assertThrows(IllegalArgumentException.class,
-					() -> main.newMirroringInserter(other, (id, type, size) -> true));
-			assertThrows(NullPointerException.class,
-					() -> main.newMirroringInserter(null, (id, type, size) -> true));
-			assertThrows(NullPointerException.class,
-					() -> main.newMirroringInserter(destination, null));
+			for (ReceiveFactory factory : RECEIVE_FACTORIES) {
+				assertThrows(IllegalArgumentException.class,
+						() -> factory.create(main, main, (id, type, size) -> true));
+				assertThrows(IllegalArgumentException.class,
+						() -> factory.create(main, other, (id, type, size) -> true));
+				assertThrows(NullPointerException.class,
+						() -> factory.create(main, null, (id, type, size) -> true));
+				assertThrows(NullPointerException.class,
+						() -> factory.create(main, destination, null));
+			}
 			assertTrue(destination.getPacks().isEmpty());
 			assertTrue(other.getPacks().isEmpty());
 		}
 	}
 
 	@Test
-	public void matchesDirectDestinationByCanonicalDirectoryIdentity()
+	public void matchesCanonicalDestinationWithFileAndBuilderAlternates()
 			throws Exception {
 		try (FileRepository alternate = createBareRepository();
+				FileRepository builderOnly = createBareRepository();
 				ObjectDirectory alias = new ObjectDirectory(alternate.getConfig(),
 						new File(alternate.getObjectDatabase().getDirectory(), "."),
-						null, FS.DETECTED, null)) {
-			ObjectDirectory main = db.getObjectDatabase();
-			configureAlternates(main, alternate.getObjectDatabase());
-			try (ObjectInserter inserter = main.newMirroringInserter(alias,
-					(id, type, size) -> true)) {
-				inserter.newPackParser(singleBlob(Constants.encode("0123456789"))
-						.toInputStream()).parse(null);
+						null, FS.DETECTED, null);
+				FileRepository builderConfigured = (FileRepository) new FileRepositoryBuilder()
+						.setGitDir(builderOnly.getDirectory())
+						.addAlternateObjectDirectory(alternate.getObjectsDirectory())
+						.build()) {
+			configureAlternates(db.getObjectDatabase(), alternate.getObjectDatabase());
+			assertFalse(new File(builderOnly.getObjectsDirectory(),
+					Constants.INFO_ALTERNATES).exists());
+			for (ObjectDirectory main : List.of(db.getObjectDatabase(),
+					builderConfigured.getObjectDatabase())) {
+				for (ReceiveFactory factory : RECEIVE_FACTORIES) {
+					try (ObjectInserter inserter = factory.create(main, alias,
+							(id, type, size) -> true)) {
+						inserter.newPackParser(singleBlob(Constants.encode("0123456789"))
+								.toInputStream()).parse(null);
+					}
+				}
 			}
 			assertTrue(alternate.getObjectDatabase().fileFor(BASE).isFile());
 		}
@@ -496,16 +520,18 @@ public class ReceivedObjectMirroringTest extends RepositoryTestCase {
 				TrackingObjectDirectory destination = new TrackingObjectDirectory(
 						alternate)) {
 			configureAlternates(main, destination);
-			try (ObjectInserter inserter = main.newMirroringInserter(destination,
-					(id, type, size) -> true)) {
-				assertThrows(UnsupportedOperationException.class,
-						() -> inserter.insert(Constants.OBJ_BLOB, new byte[0]));
-				try (ObjectReader reader = inserter.newReader()) {
-					assertSame(inserter, reader.getCreatedFromInserter());
+			for (ReceiveFactory factory : RECEIVE_FACTORIES) {
+				try (ObjectInserter inserter = factory.create(main, destination,
+						(id, type, size) -> true)) {
+					assertThrows(UnsupportedOperationException.class,
+							() -> inserter.insert(Constants.OBJ_BLOB, new byte[0]));
+					try (ObjectReader reader = inserter.newReader()) {
+						assertSame(inserter, reader.getCreatedFromInserter());
+					}
+					inserter.newPackParser(singleBlob(Constants.encode("0123456789"))
+							.toInputStream()).parse(null);
+					inserter.flush();
 				}
-				inserter.newPackParser(singleBlob(Constants.encode("0123456789"))
-						.toInputStream()).parse(null);
-				inserter.flush();
 			}
 			assertFalse(main.databaseClosed);
 			assertFalse(destination.databaseClosed);

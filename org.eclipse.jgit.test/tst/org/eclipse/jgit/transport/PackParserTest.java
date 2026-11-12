@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2009, Google Inc.
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  * Copyright (C) 2008, Imran M Yousuf <imyousuf@smartitengineering.com>
  * Copyright (C) 2007-2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
@@ -13,19 +14,26 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.RandomAccessFile;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.zip.CRC32;
 
 import org.eclipse.jgit.errors.TooLargeObjectInPackException;
 import org.eclipse.jgit.internal.JGitText;
@@ -34,12 +42,14 @@ import org.eclipse.jgit.internal.storage.file.Pack;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.io.UnionInputStream;
 import org.junit.After;
 import org.junit.Test;
@@ -544,6 +554,228 @@ public class PackParserTest extends RepositoryTestCase {
 		p.parse(NullProgressMonitor.INSTANCE);
 
 		assertEquals(0x7e, in.read());
+	}
+
+	@Test
+	public void replayWholeObjectStreamsAfterParseWithoutClosingArchive()
+			throws Exception {
+		byte[] content = new byte[512 * 1024];
+		new Random(1).nextBytes(content);
+		InMemoryPack input = wholeBlob(content);
+		try (ArchivalParser parser = new ArchivalParser(input.toInputStream());
+				ObjectInserter.Formatter formatter = new ObjectInserter.Formatter()) {
+			parser.parse(null);
+			PackedObjectInfo object = parser.getObject(0);
+			assertEquals(formatter.idFor(Constants.OBJ_BLOB, content), object);
+			assertFalse(db.getObjectDatabase().has(object));
+			for (int pass = 0; pass < 2; pass++) {
+				ByteArrayOutputStream replayed = new ByteArrayOutputStream();
+				parser.replayWholeObject(object, (type, size, data) -> {
+					assertEquals(Constants.OBJ_BLOB, type);
+					assertEquals(content.length, size);
+					byte[] buffer = new byte[4096];
+					for (int n; (n = data.read(buffer)) != -1;) {
+						replayed.write(buffer, 0, n);
+					}
+					return formatter.idFor(type, replayed.toByteArray());
+				});
+				assertArrayEquals(content, replayed.toByteArray());
+			}
+			assertTrue(parser.largestRead <= 8192);
+			assertEquals(input.toByteArray().length - 20, parser.archive.length());
+		}
+	}
+
+	@Test
+	public void replayRejectsDestinationIdMismatchAndDeltaSource()
+			throws Exception {
+		try (ArchivalParser parser = new ArchivalParser(
+				wholeBlob(Constants.encode("content")).toInputStream())) {
+			parser.parse(null);
+			PackedObjectInfo object = parser.getObject(0);
+			IOException mismatch = assertThrows(IOException.class,
+					() -> parser.replayWholeObject(object, (type, size, data) -> {
+						byte[] buffer = new byte[512];
+						while (data.read(buffer) != -1) {
+							// Consume the complete object, but report the wrong ID.
+						}
+						return ObjectId.zeroId();
+					}));
+			assertTrue(mismatch.getMessage().contains(object.name()));
+			assertTrue(parser.archive.getChannel().isOpen());
+		}
+
+		InMemoryPack input = new InMemoryPack().header(2);
+		input.write(Constants.OBJ_BLOB << 4 | 10);
+		input.deflate(Constants.encode("0123456789"));
+		input.write(Constants.OBJ_OFS_DELTA << 4 | 6);
+		input.write(19);
+		input.deflate(new byte[] { 10, 11, (byte) 0x90, 10, 1, 'b' });
+		input.digest();
+		try (ArchivalParser parser = new ArchivalParser(input.toInputStream())) {
+			parser.parse(null);
+			PackedObjectInfo delta = parser.getObject(1);
+			assertThrows(IOException.class,
+					() -> parser.replayWholeObject(delta, (type, size, data) -> {
+						fail("A delta is not a whole replay source");
+						return null;
+					}));
+		}
+	}
+
+	@Test
+	public void replayChecksOriginalCrcAfterSuccessfulInputValidation()
+			throws Exception {
+		try (ArchivalParser parser = new ArchivalParser(
+				wholeBlob(Constants.encode("content")).toInputStream());
+				ObjectInserter.Formatter formatter = new ObjectInserter.Formatter()) {
+			parser.parse(null);
+			PackedObjectInfo object = parser.getObject(0);
+			// Change only the valid zlib compression-level hint. Content and ID
+			// remain unchanged, so replay's original CRC is the integrity check.
+			parser.archive.seek(object.getOffset() + 2);
+			parser.archive.write(0x01);
+			IOException corruption = assertThrows(IOException.class,
+					() -> parser.replayWholeObject(object,
+							(type, size, data) -> formatter.idFor(type, size, data)));
+			assertEquals(MessageFormat.format(
+					JGitText.get().corruptionDetectedReReadingAt,
+					Long.valueOf(object.getOffset())), corruption.getMessage());
+		}
+	}
+
+	private static InMemoryPack wholeBlob(byte[] content) throws IOException {
+		InMemoryPack input = new InMemoryPack(content.length * 2 + 1024).header(1);
+		int size = content.length;
+		int c = Constants.OBJ_BLOB << 4 | (size & 15);
+		size >>>= 4;
+		while (size != 0) {
+			input.write(c | 0x80);
+			c = size & 0x7f;
+			size >>>= 7;
+		}
+		input.write(c);
+		return input.deflate(content).digest();
+	}
+
+	private class ArchivalParser extends PackParser implements AutoCloseable {
+		final File path;
+
+		final RandomAccessFile archive;
+
+		final CRC32 crc = new CRC32();
+
+		int largestRead;
+
+		ArchivalParser(InputStream input) throws IOException {
+			super(db.getObjectDatabase(), input);
+			path = File.createTempFile("replay_", ".spool", db.getObjectsDirectory());
+			archive = new RandomAccessFile(path, "rw");
+		}
+
+		@Override
+		protected void onStoreStream(byte[] raw, int pos, int len)
+				throws IOException {
+			archive.write(raw, pos, len);
+		}
+
+		@Override
+		protected void onObjectHeader(Source source, byte[] raw, int pos, int len) {
+			crc.update(raw, pos, len);
+		}
+
+		@Override
+		protected void onObjectData(Source source, byte[] raw, int pos, int len) {
+			crc.update(raw, pos, len);
+		}
+
+		@Override
+		protected void onInflatedObjectData(PackedObjectInfo object, int type,
+				byte[] data) {
+			// No object database or reconstructed-data cache is created.
+		}
+
+		@Override
+		protected void onPackHeader(long count) {
+			// The normal parser validates the input header.
+		}
+
+		@Override
+		protected void onPackFooter(byte[] hash) {
+			// The archive excludes the pack checksum.
+		}
+
+		@Override
+		protected boolean onAppendBase(int type, byte[] data, PackedObjectInfo info) {
+			return false;
+		}
+
+		@Override
+		protected void onEndThinPack() {
+			// External bases are not appended to the archive.
+		}
+
+		@Override
+		protected ObjectTypeAndSize seekDatabase(PackedObjectInfo object,
+				ObjectTypeAndSize info) throws IOException {
+			archive.seek(object.getOffset());
+			crc.reset();
+			return readObjectHeader(info);
+		}
+
+		@Override
+		protected ObjectTypeAndSize seekDatabase(UnresolvedDelta delta,
+				ObjectTypeAndSize info) throws IOException {
+			archive.seek(delta.getOffset());
+			crc.reset();
+			return readObjectHeader(info);
+		}
+
+		@Override
+		protected int readDatabase(byte[] data, int offset, int count)
+				throws IOException {
+			assertTrue("Replay must bound archive reads", count <= 8192);
+			largestRead = Math.max(largestRead, count);
+			return archive.read(data, offset, count);
+		}
+
+		@Override
+		protected boolean checkCRC(int expected) {
+			return expected == (int) crc.getValue();
+		}
+
+		@Override
+		protected void onBeginWholeObject(long offset, int type, long size) {
+			crc.reset();
+		}
+
+		@Override
+		protected void onEndWholeObject(PackedObjectInfo object) {
+			object.setCRC((int) crc.getValue());
+		}
+
+		@Override
+		protected void onBeginOfsDelta(long offset, long baseOffset, long size) {
+			crc.reset();
+		}
+
+		@Override
+		protected void onBeginRefDelta(long offset, AnyObjectId base, long size) {
+			crc.reset();
+		}
+
+		@Override
+		protected UnresolvedDelta onEndDelta() {
+			UnresolvedDelta delta = new UnresolvedDelta();
+			delta.setCRC((int) crc.getValue());
+			return delta;
+		}
+
+		@Override
+		public void close() throws IOException {
+			archive.close();
+			FileUtils.delete(path);
+		}
 	}
 
 	private ObjectInserter inserter;

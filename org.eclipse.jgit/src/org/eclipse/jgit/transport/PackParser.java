@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2008-2011, Google Inc.
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  * Copyright (C) 2007-2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org> and others
  *
@@ -523,9 +524,9 @@ public abstract class PackParser {
 		if (resolving == null)
 			resolving = NullProgressMonitor.INSTANCE;
 
-		if (receiving == resolving)
-			receiving.start(2 /* tasks */);
-		try {
+		try (ResourceRelease resources = this::releaseResources) {
+			if (receiving == resolving)
+				receiving.start(2 /* tasks */);
 			readPackHeader();
 
 			entries = new PackedObjectInfo[(int) expectedObjectCount];
@@ -559,21 +560,39 @@ public abstract class PackParser {
 			packDigest = null;
 			baseById = null;
 			baseByPos = null;
-		} finally {
-			try {
-				if (readCurs != null)
-					readCurs.close();
-			} finally {
-				readCurs = null;
-			}
-
-			try {
-				inflater.release();
-			} finally {
-				inflater = null;
-			}
 		}
 		return null; // By default there is no locking.
+	}
+
+	/**
+	 * Release the parser-owned reader and inflater without publishing objects.
+	 * <p>
+	 * Idempotent. A receive-only inserter may use this when an unused parser is
+	 * closed before parsing. Both resources are released even if reader cleanup
+	 * fails. After release, this parser cannot parse an input stream.
+	 *
+	 * @since 8.0
+	 */
+	protected final void releaseResources() {
+		ObjectReader reader = readCurs;
+		InflaterStream stream = inflater;
+		readCurs = null;
+		inflater = null;
+		try (ResourceRelease resources = () -> {
+			if (stream != null) {
+				stream.release();
+			}
+		}) {
+			if (reader != null) {
+				reader.close();
+			}
+		}
+	}
+
+	@FunctionalInterface
+	private interface ResourceRelease extends AutoCloseable {
+		@Override
+		void close();
 	}
 
 	private void processDeltas(ProgressMonitor resolving) throws IOException {
@@ -1193,6 +1212,88 @@ public abstract class PackParser {
 	/** @return current position of the input stream being parsed. */
 	private long streamPosition() {
 		return bBase + bOffset;
+	}
+
+	/**
+	 * A destination for a bounded, inflated whole-object stream.
+	 *
+	 * @since 8.0
+	 */
+	@FunctionalInterface
+	protected interface StreamingObjectSink {
+		/**
+		 * Insert the complete streamed object without closing its input.
+		 *
+		 * @param type
+		 *            object type.
+		 * @param size
+		 *            inflated byte size.
+		 * @param data
+		 *            object contents; owned by the replay operation.
+		 * @return the ID computed from the inserted contents.
+		 * @throws IOException
+		 *             insertion failed.
+		 */
+		ObjectId insert(int type, long size, InputStream data) throws IOException;
+	}
+
+	/**
+	 * Replay a previously archived whole object with bounded storage reads.
+	 * <p>
+	 * May be called after parsing has released its inflater. Replay owns a
+	 * fresh inflater and verifies the original CRC, exact inflated length and
+	 * the destination's returned ID. Its stream does not close the archive.
+	 * This parser and its archive must not be used concurrently with replay.
+	 *
+	 * @param object
+	 *            incoming whole object, including its original offset and CRC.
+	 * @param destination
+	 *            destination that consumes, but does not close, the stream.
+	 * @throws IOException
+	 *             replay or insertion failed, or the recorded entry is a delta.
+	 * @since 8.0
+	 */
+	protected void replayWholeObject(PackedObjectInfo object,
+			StreamingObjectSink destination) throws IOException {
+		InflaterStream replay = new InflaterStream();
+		try {
+			ObjectTypeAndSize info = openDatabase(object,
+					new ObjectTypeAndSize());
+			switch (info.type) {
+			case Constants.OBJ_COMMIT:
+			case Constants.OBJ_TREE:
+			case Constants.OBJ_BLOB:
+			case Constants.OBJ_TAG:
+				break;
+			default:
+				throw new IOException(MessageFormat.format(
+						JGitText.get().unknownObjectType,
+						Integer.valueOf(info.type)));
+			}
+			if (info.type != object.getType()
+					|| info.size != object.getFullSize()) {
+				throw new IOException(MessageFormat.format(
+						JGitText.get().corruptionDetectedReReadingAt,
+						Long.valueOf(object.getOffset())));
+			}
+			replay.open(Source.DATABASE, info.size);
+			ObjectId inserted;
+			try (InputStream data = replay) {
+				inserted = destination.insert(info.type, info.size, data);
+			}
+			if (!checkCRC(object.getCRC())) {
+				throw new IOException(MessageFormat.format(
+						JGitText.get().corruptionDetectedReReadingAt,
+						Long.valueOf(object.getOffset())));
+			}
+			if (!object.equals(inserted)) {
+				throw new IOException(MessageFormat.format(
+						JGitText.get().receivedObjectIdMismatch, object.name(),
+						ObjectId.toString(inserted)));
+			}
+		} finally {
+			replay.release();
+		}
 	}
 
 	private ObjectTypeAndSize openDatabase(PackedObjectInfo obj,
