@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "912d1678_802c229d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-11-12T17:26:01Z",
+      "side": 1,
+      "message": "What is the impact of this to users?",
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3610059f_b5b236d6",
@@ -14,6 +31,23 @@
       "writtenOn": "2026-11-12T02:14:49Z",
       "side": 1,
       "message": "Couple nits. Looks good to me.",
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "813d099e_68fe9dd5",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-11-12T17:26:01Z",
+      "side": 1,
+      "message": "This last sentence may or may not be true, it is not under control of jgit.",
       "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -37,6 +71,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0362c3b4_edcd3757",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-11-12T17:26:01Z",
+      "side": 1,
+      "message": "Why copy here?",
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8ce2405_1213c9ba",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-11-12T17:26:01Z",
+      "side": 1,
+      "message": "Seems like jgit should already have something that does this?",
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d422fd7c_94b95a6e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
         "patchSetId": 2
@@ -48,6 +116,23 @@
       "writtenOn": "2026-11-12T02:14:49Z",
       "side": 1,
       "message": "nit: we have getters for everything else, I would use a getter for this property and make it final.",
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "353c5f44_5f3059a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1402,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-11-12T17:26:01Z",
+      "side": 1,
+      "message": "While I don\u0027t have a great alternate suggestin, toWireSting() doesn\u0027t feel like it matches the style in here.",
       "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
