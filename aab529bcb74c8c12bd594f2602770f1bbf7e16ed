@@ -68,6 +68,24 @@
       "message": "Store this as a field in PromisorRemoteConfig, set in the constructor, then we don\u0027t need to keep the conf aaround and this method is not static anymore.",
       "revId": "aab529bcb74c8c12bd594f2602770f1bbf7e16ed",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00de900c_cdbe3db3",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T01:34:32Z",
+      "side": 1,
+      "message": "Done. Moved `sendFields` parsing into the constructor and stored `sendFilter` as a `private final` field; each nested `Remote` snapshots its filter, so serialization no longer takes or retains `Config`.",
+      "parentUuid": "6ce65e84_e62467ef",
+      "revId": "aab529bcb74c8c12bd594f2602770f1bbf7e16ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
