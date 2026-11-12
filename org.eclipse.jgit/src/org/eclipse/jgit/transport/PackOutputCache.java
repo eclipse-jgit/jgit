@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
@@ -23,6 +24,7 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.time.Duration;
+import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -30,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
@@ -57,8 +60,8 @@ import org.slf4j.LoggerFactory;
  * producer always waits for it to terminate before returning, so its repository
  * resources remain valid throughout generation.
  * <p>
- * The byte budget limits completed retained packs. Active spools and files still
- * being read after eviction can exceed this budget. Provision storage for active
+ * The byte budget limits completed retained packs. Active spools and files pinned by
+ * readers or publishers after eviction can exceed this budget. Provision storage for active
  * transfers as well as retained data. Entry and producer counts are bounded.
  * <p>
  * Callers must authorize every request before lookup and include the repository,
@@ -82,6 +85,28 @@ public final class PackOutputCache implements AutoCloseable {
 		 *             generation or output failed
 		 */
 		PackStatistics write(OutputStream out) throws IOException;
+	}
+
+	/** Publishes a completed, self-contained pack outside the request thread. */
+	@FunctionalInterface
+	public interface PackPublisher {
+		/**
+		 * Publish the bytes before making their URI discoverable. The stream is
+		 * valid only during this callback and is closed by the cache. Callbacks
+		 * must use bounded I/O timeouts and independently owned resources, not a
+		 * request's repository reader, authentication context or output stream.
+		 *
+		 * @param pack
+		 *            completed pack bytes; must not be closed or retained
+		 * @param size
+		 *            byte length
+		 * @param checksum
+		 *            pack trailer, usable as a URI hash only for self-contained packs
+		 * @throws IOException
+		 *             publication failed; the fetch is unaffected
+		 */
+		void publish(InputStream pack, long size, ObjectId checksum)
+				throws IOException;
 	}
 
 	/**
@@ -164,6 +189,10 @@ public final class PackOutputCache implements AutoCloseable {
 
 		boolean cancelled;
 
+		boolean publishing;
+
+		boolean publicationAttempted;
+
 		Thread thread;
 
 		Throwable failure;
@@ -202,6 +231,8 @@ public final class PackOutputCache implements AutoCloseable {
 			16, 0.75f, true);
 
 	private final ThreadPoolExecutor producers;
+
+	private final ThreadPoolExecutor publishers;
 
 	private final ScheduledExecutorService reaper;
 
@@ -289,6 +320,9 @@ public final class PackOutputCache implements AutoCloseable {
 		producers = new ThreadPoolExecutor(maxConcurrentProducers,
 				maxConcurrentProducers, 0, TimeUnit.MILLISECONDS,
 				new SynchronousQueue<>(), r -> daemon(r, "JGit pack producer")); //$NON-NLS-1$
+		publishers = new ThreadPoolExecutor(1, 1, 0, TimeUnit.MILLISECONDS,
+				new ArrayBlockingQueue<>(1),
+				r -> daemon(r, "JGit pack publisher")); //$NON-NLS-1$
 		reaper = Executors.newSingleThreadScheduledExecutor(
 				r -> daemon(r, "JGit pack output cache eviction")); //$NON-NLS-1$
 		long interval = Math.max(TimeUnit.MILLISECONDS.toNanos(10),
@@ -395,6 +429,86 @@ public final class PackOutputCache implements AutoCloseable {
 			}
 			if (leader) {
 				awaitProducer(entry);
+			}
+		}
+	}
+
+	/**
+	 * Schedule best-effort publication of a successfully retained completed pack.
+	 * At most one active and one queued publication pin local files; excess work
+	 * is declined without blocking. Each admitted entry is attempted once, even
+	 * after a callback failure. Expiry, eviction and close preserve pinned files
+	 * until their callbacks finish. Failed or bypassed generations are ineligible.
+	 * The caller must ensure the pack is self-contained before advertising its
+	 * trailer as a URI hash.
+	 *
+	 * @param key
+	 *            exact pack key previously passed to {@link #write}
+	 * @param publisher
+	 *            thread-safe publisher; invoked without cache locks
+	 * @return whether publication was scheduled
+	 * @since 8.0
+	 */
+	public synchronized boolean publish(String key, PackPublisher publisher) {
+		Objects.requireNonNull(publisher);
+		if (closed) {
+			return false;
+		}
+		expire();
+		Entry entry = entries.get(key);
+		if (entry == null || entry.producing || entry.failure != null
+				|| entry.publicationAttempted) {
+			return false;
+		}
+		entry.publishing = true;
+		entry.publicationAttempted = true;
+		try {
+			publishers.execute(() -> publish(entry, publisher));
+			return true;
+		} catch (RejectedExecutionException e) {
+			entry.publishing = false;
+			entry.publicationAttempted = false;
+			cleanup(entry);
+			return false;
+		}
+	}
+
+	private void publish(Entry entry, PackPublisher publisher) {
+		try (FileChannel channel = FileChannel.open(entry.path,
+				StandardOpenOption.READ);
+				InputStream in = Files.newInputStream(entry.path)) {
+			if (entry.bytes < 32) {
+				throw new IOException("Invalid completed pack"); //$NON-NLS-1$
+			}
+			MessageDigest digest = Constants.newMessageDigest();
+			ByteBuffer data = ByteBuffer.allocate(CHUNK_SIZE);
+			long remaining = entry.bytes - Constants.OBJECT_ID_LENGTH;
+			while (remaining > 0) {
+				data.clear();
+				data.limit((int) Math.min(data.capacity(), remaining));
+				int count = channel.read(data);
+				if (count < 0) {
+					throw new IOException("Truncated completed pack"); //$NON-NLS-1$
+				}
+				digest.update(data.array(), 0, count);
+				remaining -= count;
+			}
+			ByteBuffer trailer = ByteBuffer.allocate(Constants.OBJECT_ID_LENGTH);
+			while (trailer.hasRemaining()) {
+				if (channel.read(trailer) < 0) {
+					throw new IOException("Truncated completed pack"); //$NON-NLS-1$
+				}
+			}
+			if (!MessageDigest.isEqual(digest.digest(), trailer.array())) {
+				throw new IOException("Corrupt completed pack"); //$NON-NLS-1$
+			}
+			publisher.publish(in, entry.bytes, ObjectId.fromRaw(trailer.array()));
+		} catch (IOException | RuntimeException e) {
+			LOG.warn("Cannot publish generated pack", e); //$NON-NLS-1$
+		} finally {
+			synchronized (this) {
+				entry.publishing = false;
+				cleanup(entry);
 			}
 		}
 	}
@@ -671,7 +785,8 @@ public final class PackOutputCache implements AutoCloseable {
 	}
 
 	private void cleanup(Entry entry) {
-		if (entry.retained || entry.producing || !entry.readers.isEmpty()) {
+		if (entry.retained || entry.producing || entry.publishing
+				|| !entry.readers.isEmpty()) {
 			return;
 		}
 		try {
@@ -700,7 +815,8 @@ public final class PackOutputCache implements AutoCloseable {
 
 	/**
 	 * Stop admitting requests and retaining packs. Existing readers and their
-	 * producers can finish; ownership is released after all files are removed.
+	 * producers and accepted publications can finish; ownership is released after
+	 * all files are removed. Callbacks must enforce their own I/O timeouts.
 	 */
 	@Override
 	public synchronized void close() {
@@ -708,6 +824,7 @@ public final class PackOutputCache implements AutoCloseable {
 		eviction.cancel(false);
 		reaper.shutdown();
 		producers.shutdown();
+		publishers.shutdown();
 		observations.clear();
 		for (Entry entry : new HashSet<>(files)) {
 			evict(entry);

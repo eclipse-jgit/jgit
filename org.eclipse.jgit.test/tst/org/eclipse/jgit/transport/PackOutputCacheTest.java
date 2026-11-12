@@ -15,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -633,6 +634,74 @@ public class PackOutputCacheTest {
 	}
 
 	@Test
+	public void publicationIsBoundedAndPinsCompletedPacksThroughClose()
+			throws Exception {
+		byte[] pack = new InMemoryPack().header(0).digest().toByteArray();
+		for (String key : List.of("active", "queued", "excess")) {
+			write(key, out -> {
+				out.write(pack);
+				return statistics();
+			});
+		}
+		CountDownLatch started = new CountDownLatch(1);
+		CountDownLatch release = new CountDownLatch(1);
+		CountDownLatch completed = new CountDownLatch(2);
+		AtomicReference<Throwable> failure = new AtomicReference<>();
+		PackOutputCache.PackPublisher publisher = (in, size, checksum) -> {
+			try {
+				started.countDown();
+				await(release);
+				assertEquals(pack.length, size);
+				assertEquals(ObjectId.fromRaw(pack, pack.length - 20), checksum);
+				assertArrayEquals(pack, in.readAllBytes());
+			} catch (Throwable e) {
+				failure.set(e);
+			} finally {
+				completed.countDown();
+			}
+		};
+		try {
+			assertTrue(cache.publish("active", publisher));
+			assertTrue(started.await(5, TimeUnit.SECONDS));
+			assertFalse(cache.publish("active", publisher));
+			assertTrue(cache.publish("queued", publisher));
+			assertFalse(cache.publish("excess", publisher));
+			cache.close();
+			assertEquals(2, cache.getStats().entries());
+			assertFalse(cache.publish("excess", publisher));
+		} finally {
+			release.countDown();
+		}
+		assertTrue(completed.await(5, TimeUnit.SECONDS));
+		long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(5);
+		while (cache.getStats().entries() != 0 && System.nanoTime() < deadline) {
+			Thread.sleep(10);
+		}
+		assertEquals(null, failure.get());
+		assertEquals(0, cache.getStats().entries());
+	}
+
+	@Test
+	public void publicationFailureDoesNotInvalidatePackOrRetryEntry()
+			throws Exception {
+		byte[] pack = new InMemoryPack().header(0).digest().toByteArray();
+		write("failure", out -> {
+			out.write(pack);
+			return statistics();
+		});
+		CountDownLatch attempted = new CountDownLatch(1);
+		assertTrue(cache.publish("failure", (in, size, checksum) -> {
+			attempted.countDown();
+			throw new IOException("storage unavailable");
+		}));
+		assertTrue(attempted.await(5, TimeUnit.SECONDS));
+		assertFalse(cache.publish("failure", (in, size, checksum) -> fail("retry")));
+		assertArrayEquals(pack, write("failure", out -> {
+			throw new AssertionError("completed pack must remain reusable");
+		}));
+	}
+
+	@Test
 	public void scanningPreservesLiveLockAgainstOtherProcesses() throws Exception {
 		Path control = Files.createFile(directory.resolve("unlocked-control"));
 		assertEquals("acquired", probeLock(control));
@@ -674,6 +743,25 @@ public class PackOutputCacheTest {
 				System.out.println(lock == null ? "blocked" : "acquired");
 			}
 		}
+	}
+
+	@Test
+	public void publicationRejectsCorruptCompletedPack() throws Exception {
+		byte[] pack = new InMemoryPack().header(0).digest().toByteArray();
+		pack[8] ^= 1;
+		assertArrayEquals(pack, write("corrupt", out -> {
+			out.write(pack);
+			return statistics();
+		}));
+		AtomicInteger published = new AtomicInteger();
+		assertTrue(cache.publish("corrupt", (in, size, checksum) -> published.incrementAndGet()));
+		cache.close();
+		long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(5);
+		while (cache.getStats().entries() != 0 && System.nanoTime() < deadline) {
+			Thread.sleep(10);
+		}
+		assertEquals(0, cache.getStats().entries());
+		assertEquals(0, published.get());
 	}
 
 	private void awaitHits(long count) throws Exception {

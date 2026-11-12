@@ -459,30 +459,103 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testInvalidPackfileUriMetadataFallsBackInline() throws Exception {
+	public void testGeneratedPackCacheWithSidebandAllUris() throws Exception {
 		RevCommit base = remote.commit().message("base").create();
 		remote.update("master", base);
 		generateBitmaps(server);
 		RevCommit tip = remote.commit().parent(base).message("tip").create();
 		remote.update("master", tip);
 		server.getConfig().setBoolean("uploadpack", null, "allowsidebandall", true);
-		for (PackInfo info : List.of(
-				new PackInfo("invalid", "https://example.com/base", 100),
-				new PackInfo(ObjectId.zeroId().name(), "relative", 100),
-				new PackInfo(ObjectId.zeroId().name(), "http://example.com/base", 100))) {
-			AtomicInteger lookups = new AtomicInteger();
-			try (PackOutputCache cache = newPackOutputCache()) {
-				CachedFetch fetched = cachedFetch(cache, "project", up ->
-						up.setCachedPackUriProvider((pack, protocols) -> {
-							lookups.incrementAndGet();
-							return info;
-						}), tip, "packfile-uris https\n", "sideband-all\n");
-				assertEquals(1, lookups.get());
-				assertEquals(0, fetched.upload().getStatistics().getOffloadedPackfiles());
-				parsePack(cachedPackStream(fetched));
-				assertTrue(client.getObjectDatabase().has(base));
-				assertTrue(client.getObjectDatabase().has(tip));
+		Consumer<UploadPack> setup = up -> up.setCachedPackUriProvider((pack, protocols) ->
+				new PackInfo(ObjectId.zeroId().name(), "https://example.com/base.pack", 100));
+		try (PackOutputCache cache = newPackOutputCache()) {
+			CachedFetch first = cachedFetch(cache, "project", setup, tip,
+					"packfile-uris https\n", "sideband-all\n", "thin-pack\n");
+			CachedFetch second = cachedFetch(cache, "project", setup, tip,
+					"packfile-uris https\n", "sideband-all\n", "thin-pack\n");
+			assertFalse(first.upload().isPackOutputCacheHit());
+			assertTrue(second.upload().isPackOutputCacheHit());
+			assertArrayEquals(rawPackBytes(first), rawPackBytes(second));
+			parsePack(cachedPackStream(second));
+			assertTrue(client.getObjectDatabase().has(tip));
+			assertFalse(client.getObjectDatabase().has(base));
+		}
+	}
+
+	@Test
+	public void testGeneratedPackUriPublicationAndLookupFallback() throws Exception {
+		RevCommit tip = remote.commit().message("tip").create();
+		remote.update("master", remote.commit().parent(tip).message("head").create());
+		AtomicReference<CachedPackUriProvider.PackInfo> published = new AtomicReference<>();
+		AtomicReference<byte[]> bytes = new AtomicReference<>();
+		AtomicReference<String> publishedKey = new AtomicReference<>();
+		AtomicReference<IOException> lookupFailure = new AtomicReference<>();
+		CountDownLatch uploaded = new CountDownLatch(1);
+		GeneratedPackUriProvider provider = new GeneratedPackUriProvider() {
+			@Override
+			public PackInfo getInfo(String key, Collection<String> protocols)
+					throws IOException {
+				if (lookupFailure.get() != null) {
+					throw lookupFailure.get();
+				}
+				assertEquals(publishedKey.get() == null ? key : publishedKey.get(), key);
+				return published.get();
 			}
+
+			@Override
+			public void publish(String key, InputStream in, long size, ObjectId checksum)
+					throws IOException {
+				bytes.set(in.readAllBytes());
+				assertEquals(size, bytes.get().length);
+				publishedKey.set(key);
+				published.set(new CachedPackUriProvider.PackInfo(checksum.name(),
+						"https://example.com/generated.pack", size));
+				uploaded.countDown();
+			}
+		};
+		Consumer<UploadPack> setup = up -> up.setGeneratedPackUriProvider(provider);
+		try (PackOutputCache cache = newPackOutputCache()) {
+			CachedFetch first = cachedFetch(cache, "project", setup, tip,
+					"packfile-uris https\n", "thin-pack\n");
+			assertTrue(first.capabilities().stream().anyMatch(c -> c.contains("packfile-uris")));
+			assertFalse(first.upload().isGeneratedPackUriHit());
+			assertTrue(uploaded.await(5, TimeUnit.SECONDS));
+			assertArrayEquals(rawPackBytes(first), bytes.get());
+			CachedFetch second = cachedFetch(cache, "project", setup, tip,
+					"packfile-uris https\n", "thin-pack\n");
+			assertTrue(second.upload().isGeneratedPackUriHit());
+			assertFalse(second.upload().isPackOutputCacheHit());
+			assertEquals(1, second.upload().getStatistics().getOffloadedPackfiles());
+			assertEquals(0, second.upload().getStatistics().getTotalObjects());
+			parsePack(cachedPackStream(second));
+			assertFalse(client.getObjectDatabase().has(tip));
+			try (ObjectInserter inserter = client.newObjectInserter()) {
+				inserter.newPackParser(new ByteArrayInputStream(bytes.get()))
+						.parse(NullProgressMonitor.INSTANCE);
+				inserter.flush();
+			}
+			assertTrue(client.getObjectDatabase().has(tip));
+
+			published.set(new CachedPackUriProvider.PackInfo(ObjectId.zeroId().name(),
+					"http://example.com/unsupported.pack", 100));
+			CachedFetch fallback = cachedFetch(cache, "project", setup, tip,
+					"packfile-uris https\n", "thin-pack\n");
+			assertFalse(fallback.upload().isGeneratedPackUriHit());
+			assertTrue(fallback.upload().isPackOutputCacheHit());
+			assertArrayEquals(rawPackBytes(first), rawPackBytes(fallback));
+			lookupFailure.set(new IOException("storage unavailable"));
+			CachedFetch unavailable = cachedFetch(cache, "project", setup, tip,
+					"packfile-uris https\n", "thin-pack\n");
+			assertTrue(unavailable.upload().isPackOutputCacheHit());
+			assertFalse(unavailable.upload().isGeneratedPackUriHit());
+			assertArrayEquals(rawPackBytes(first), rawPackBytes(unavailable));
+			lookupFailure.set(null);
+			assertThrows(IOException.class, () -> cachedFetch(cache, "project", up -> {
+				setup.accept(up);
+				up.setRequestValidator((upload, wants) -> {
+					throw new org.eclipse.jgit.errors.PackProtocolException("not permitted");
+				});
+			}, tip, "packfile-uris https\n", "thin-pack\n"));
 		}
 	}
 
@@ -537,6 +610,110 @@ public class UploadPackTest {
 	}
 
 	@Test
+	public void testGeneratedUrisSkipFilteredAndShallowRequests() throws Exception {
+		RevCommit base = remote.commit().message("base").create();
+		RevCommit tip = remote.commit().parent(base).message("tip").create();
+		remote.update("master", tip);
+		server.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+		GeneratedPackUriProvider provider = new GeneratedPackUriProvider() {
+			@Override
+			public PackInfo getInfo(String key, Collection<String> protocols) {
+				throw new AssertionError("ineligible lookup");
+			}
+			@Override
+			public void publish(String key, InputStream in, long size, ObjectId checksum) {
+				throw new AssertionError("ineligible publication");
+			}
+		};
+		try (PackOutputCache cache = newPackOutputCache()) {
+			for (String option : List.of("filter blob:none\n", "deepen 1\n")) {
+				CachedFetch first = cachedFetch(cache, "project",
+						up -> up.setGeneratedPackUriProvider(provider), tip,
+						"packfile-uris https\n", "thin-pack\n", option);
+				assertTrue(first.upload().getStatistics().getTotalObjects() > 0);
+				assertFalse(first.upload().isGeneratedPackUriHit());
+				assertTrue(cachedFetch(cache, "project",
+						up -> up.setGeneratedPackUriProvider(provider), tip,
+						"packfile-uris https\n", "thin-pack\n", option)
+						.upload().isPackOutputCacheHit());
+			}
+		}
+	}
+
+	@Test
+	public void testGeneratedUriWithBaseManifestAndSidebandAll() throws Exception {
+		RevCommit base = remote.commit().message("base").create();
+		remote.update("master", base);
+		generateBitmaps(server);
+		RevCommit tip = remote.commit().parent(base).message("tip").create();
+		remote.update("master", tip);
+		server.getConfig().setBoolean("uploadpack", null, "allowsidebandall", true);
+		AtomicReference<PackInfo> published = new AtomicReference<>();
+		CountDownLatch ready = new CountDownLatch(1);
+		GeneratedPackUriProvider provider = new GeneratedPackUriProvider() {
+			@Override
+			public PackInfo getInfo(String key, Collection<String> protocols) {
+				return published.get();
+			}
+			@Override
+			public void publish(String key, InputStream in, long size, ObjectId checksum)
+					throws IOException {
+				in.transferTo(NullOutputStream.INSTANCE);
+				published.set(new PackInfo(checksum.name(), "https://example.com/generated", size));
+				ready.countDown();
+			}
+		};
+		Consumer<UploadPack> setup = up -> {
+			up.setCachedPackUriProvider((pack, protocols) ->
+					new PackInfo(ObjectId.zeroId().name(), "https://example.com/base", 100));
+			up.setGeneratedPackUriProvider(provider);
+		};
+		try (PackOutputCache cache = newPackOutputCache()) {
+			cachedFetch(cache, "project", setup, tip,
+					"packfile-uris https\n", "sideband-all\n", "thin-pack\n");
+			assertTrue(ready.await(5, TimeUnit.SECONDS));
+			CachedFetch hit = cachedFetch(cache, "project", setup, tip,
+					"packfile-uris https\n", "sideband-all\n");
+			assertTrue(hit.upload().isGeneratedPackUriHit());
+			assertEquals(2, hit.upload().getStatistics().getOffloadedPackfiles());
+			assertThat(new String(hit.response(), StandardCharsets.ISO_8859_1),
+					containsString("https://example.com/base"));
+			assertThat(new String(hit.response(), StandardCharsets.ISO_8859_1),
+					containsString("https://example.com/generated"));
+			parsePack(cachedPackStream(hit));
+			assertFalse(client.getObjectDatabase().has(tip));
+		}
+	}
+
+	@Test
+	public void testInvalidPackfileUriMetadataFallsBackInline() throws Exception {
+		RevCommit base = remote.commit().message("base").create();
+		remote.update("master", base);
+		generateBitmaps(server);
+		RevCommit tip = remote.commit().parent(base).message("tip").create();
+		remote.update("master", tip);
+		server.getConfig().setBoolean("uploadpack", null, "allowsidebandall", true);
+		for (PackInfo info : List.of(
+				new PackInfo("invalid", "https://example.com/base", 100),
+				new PackInfo(ObjectId.zeroId().name(), "relative", 100),
+				new PackInfo(ObjectId.zeroId().name(), "http://example.com/base", 100))) {
+			AtomicInteger lookups = new AtomicInteger();
+			try (PackOutputCache cache = newPackOutputCache()) {
+				CachedFetch fetched = cachedFetch(cache, "project", up ->
+						up.setCachedPackUriProvider((pack, protocols) -> {
+							lookups.incrementAndGet();
+							return info;
+						}), tip, "packfile-uris https\n", "sideband-all\n");
+				assertEquals(1, lookups.get());
+				assertEquals(0, fetched.upload().getStatistics().getOffloadedPackfiles());
+				parsePack(cachedPackStream(fetched));
+				assertTrue(client.getObjectDatabase().has(base));
+				assertTrue(client.getObjectDatabase().has(tip));
+			}
+		}
+	}
+
+	@Test
 	public void testUriPreparationFailureStartsPackfileBeforeSidebandError()
 			throws Exception {
 		RevCommit base = remote.commit().message("base").create();
@@ -557,6 +734,56 @@ public class UploadPackTest {
 			assertThat(response, containsString("packfile\n"));
 			assertTrue(response.indexOf("packfile\n") < response.indexOf('\003'));
 			assertNotNull(up.getStatistics());
+		}
+	}
+
+	@Test
+	public void testUriFallbackAfterSendHookChangesConfiguration() throws Exception {
+		RevCommit tip = remote.commit().message("tip").create();
+		remote.update("master", tip);
+		GeneratedPackUriProvider provider = new GeneratedPackUriProvider() {
+			@Override
+			public PackInfo getInfo(String key, Collection<String> protocols) {
+				throw new AssertionError("fallback must not look up generated packs");
+			}
+			@Override
+			public void publish(String key, InputStream in, long size, ObjectId checksum) {
+				throw new AssertionError("fallback must not publish generated packs");
+			}
+		};
+		List<Consumer<UploadPack>> changes = List.of(
+				up -> up.getRevWalk(),
+				up -> up.setGeneratedPackUriProvider(null));
+		for (Consumer<UploadPack> change : changes) {
+			try (PackOutputCache cache = newPackOutputCache()) {
+				CachedFetch fetched = cachedFetch(cache, "project", up -> {
+					up.setGeneratedPackUriProvider(provider);
+					up.setPreUploadHook(new PreUploadHook() {
+						@Override
+						public void onBeginNegotiateRound(UploadPack upload,
+								Collection<? extends ObjectId> wants, int offered) {
+							// No change before response framing is selected.
+						}
+						@Override
+						public void onEndNegotiateRound(UploadPack upload,
+								Collection<? extends ObjectId> wants, int common,
+								int notFound, boolean ready) {
+							// No change before response framing is selected.
+						}
+						@Override
+						public void onSendPack(UploadPack upload,
+								Collection<? extends ObjectId> wants,
+								Collection<? extends ObjectId> haves) {
+							change.accept(upload);
+						}
+					});
+				}, tip, "packfile-uris https\n", "thin-pack\n");
+				assertEquals("packfile", new PacketLineIn(
+						new ByteArrayInputStream(fetched.response())).readString());
+				parsePack(cachedPackStream(fetched));
+				assertTrue(client.getObjectDatabase().has(tip));
+				assertFalse(fetched.upload().isGeneratedPackUriHit());
+			}
 		}
 	}
 
@@ -851,14 +1078,17 @@ public class UploadPackTest {
 			up.upload(linesAsInputStream(lines.toArray(new String[0])), output, null);
 			ByteArrayInputStream received = new ByteArrayInputStream(output.toByteArray());
 			PacketLineIn packets = new PacketLineIn(received);
-			while (!PacketLineIn.isEnd(packets.readString())) {
-				// Skip the protocol capability advertisement.
+			List<String> capabilities = new ArrayList<>();
+			String capability;
+			while (!PacketLineIn.isEnd(capability = packets.readString())) {
+				capabilities.add(capability);
 			}
-			return new CachedFetch(up, received.readAllBytes());
+			return new CachedFetch(up, received.readAllBytes(), capabilities);
 		}
 	}
 
-	private record CachedFetch(UploadPack upload, byte[] response) {
+	private record CachedFetch(UploadPack upload, byte[] response,
+			List<String> capabilities) {
 	}
 
 	@Test
