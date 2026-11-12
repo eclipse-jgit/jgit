@@ -91,13 +91,14 @@ public class AlternatesTest extends SampleDataRepositoryTestCase {
 		return c;
 	}
 
-	private void assertCommit(RevCommit c) {
+	private void assertCommit(RevCommit c) throws IOException {
 		ObjectDirectory od = db2.getObjectDatabase();
 		assertTrue("can't find expected commit" + c.name(),
 				od.has(c.toObjectId()));
 	}
 
-	private void assertAlternateObjects(FileRepository repo) {
+	private void assertAlternateObjects(FileRepository repo)
+			throws IOException {
 		// check some objects in alternate
 		final ObjectId alternateObjects[] = new ObjectId[] {
 				ObjectId.fromString("49322bb17d3acc9146f98c97d078513228bbf3c0"),

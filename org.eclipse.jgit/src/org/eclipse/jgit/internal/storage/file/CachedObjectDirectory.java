@@ -153,7 +153,7 @@ class CachedObjectDirectory extends FileObjectDatabase {
 
 	@Override
 	public boolean has(AnyObjectId objectId) throws IOException {
-		return has(objectId, null);
+		return has(objectId, null) || wrapped.hasExternal(objectId);
 	}
 
 	private boolean has(AnyObjectId objectId, Set<AlternateHandle.Id> skips)
@@ -178,7 +178,8 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	@Override
 	ObjectLoader openObject(WindowCursor curs, AnyObjectId objectId)
 			throws IOException {
-		return openObject(curs, objectId, null);
+		ObjectLoader ldr = openObject(curs, objectId, null);
+		return ldr != null ? ldr : wrapped.openExternal(objectId);
 	}
 
 	private ObjectLoader openObject(final WindowCursor curs,

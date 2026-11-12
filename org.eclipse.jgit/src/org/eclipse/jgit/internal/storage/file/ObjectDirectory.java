@@ -35,6 +35,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
+import org.eclipse.jgit.internal.storage.external.ExternalObjectDatabase;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
@@ -69,6 +70,12 @@ import org.eclipse.jgit.util.FileUtils;
  * to search (loose objects). When alternates are present the fast half is fully
  * searched (recursively through all alternates) before the slow half is
  * considered.
+ * <p>
+ * Objects not found in this database or its alternates are finally looked up
+ * in the external object databases configured for the repository, see
+ * {@link ExternalObjectDatabase}. Such a lookup may contact a remote store,
+ * and a store that cannot answer makes the lookup throw rather than report
+ * the object as missing.
  */
 public class ObjectDirectory extends FileObjectDatabase {
 	@FunctionalInterface
@@ -101,6 +108,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private final AtomicReference<AlternateHandle[]> alternates;
 
+	private final List<ExternalObjectDatabase> externalDatabases;
+
 	private final File shallowFile;
 
 	private FileSnapshot shallowFileSnapshot = FileSnapshot.DIRTY;
@@ -123,10 +132,17 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 *            file which contains IDs of shallow commits, null if shallow
 	 *            commits handling should be turned off
 	 * @throws java.io.IOException
-	 *             an alternate object cannot be opened.
+	 *             an alternate object cannot be opened, or an external object
+	 *             database is misconfigured.
 	 */
 	public ObjectDirectory(final Config cfg, final File dir,
 			File[] alternatePaths, FS fs, File shallowFile) throws IOException {
+		this(cfg, dir, alternatePaths, fs, shallowFile, true);
+	}
+
+	private ObjectDirectory(Config cfg, File dir, File[] alternatePaths,
+			FS fs, File shallowFile, boolean openExternalDatabases)
+			throws IOException {
 		config = cfg;
 		objects = dir;
 		infoDirectory = new File(objects, "info"); //$NON-NLS-1$
@@ -149,6 +165,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 				alt[i] = openAlternate(alternatePaths[i]);
 			alternates.set(alt);
 		}
+		externalDatabases = openExternalDatabases
+				? ExternalObjectDatabase.fromConfig(cfg, dir)
+				: Collections.emptyList();
 	}
 
 	@Override
@@ -172,6 +191,16 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 */
 	public final File getPreservedDirectory() {
 		return preserved.getDirectory();
+	}
+
+	/**
+	 * Get the external object databases configured for this repository.
+	 *
+	 * @return the external object databases, in configuration order; empty
+	 *         if none is configured
+	 */
+	public List<ExternalObjectDatabase> getExternalObjectDatabases() {
+		return externalDatabases;
 	}
 
 	@Override
@@ -213,6 +242,10 @@ public class ObjectDirectory extends FileObjectDatabase {
 		if (alt != null && alternates.compareAndSet(alt, null)) {
 			for(AlternateHandle od : alt)
 				od.close();
+		}
+
+		for (ExternalObjectDatabase ext : externalDatabases) {
+			ext.close();
 		}
 	}
 
@@ -277,11 +310,21 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
-	public boolean has(AnyObjectId objectId) {
+	public boolean has(AnyObjectId objectId) throws IOException {
 		return loose.hasCached(objectId)
 				|| hasPackedOrLooseInSelfOrAlternate(objectId)
 				|| (restoreFromSelfOrAlternate(objectId, null)
-						&& hasPackedOrLooseInSelfOrAlternate(objectId));
+						&& hasPackedOrLooseInSelfOrAlternate(objectId))
+				|| hasExternal(objectId);
+	}
+
+	boolean hasExternal(AnyObjectId objectId) throws IOException {
+		for (ExternalObjectDatabase ext : externalDatabases) {
+			if (ext.has(objectId)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private boolean hasPackedOrLooseInSelfOrAlternate(AnyObjectId objectId) {
@@ -363,8 +406,21 @@ public class ObjectDirectory extends FileObjectDatabase {
 			if (ldr == null && restoreFromSelfOrAlternate(objectId, null)) {
 				ldr = openObjectWithoutRestoring(curs, objectId);
 			}
+			if (ldr == null) {
+				ldr = openExternal(objectId);
+			}
 		}
 		return ldr;
+	}
+
+	ObjectLoader openExternal(AnyObjectId objectId) throws IOException {
+		for (ExternalObjectDatabase ext : externalDatabases) {
+			ObjectLoader ldr = ext.openObject(objectId);
+			if (ldr != null) {
+				return ldr;
+			}
+		}
+		return null;
 	}
 
 	private ObjectLoader openObjectWithoutRestoring(WindowCursor curs, AnyObjectId objectId)
@@ -442,8 +498,21 @@ public class ObjectDirectory extends FileObjectDatabase {
 			if (sz < 0 && restoreFromSelfOrAlternate(id, null)) {
 				sz = getObjectSizeWithoutRestoring(curs, id);
 			}
+			if (sz < 0) {
+				sz = getExternalObjectSize(id);
+			}
 		}
 		return sz;
+	}
+
+	private long getExternalObjectSize(AnyObjectId id) throws IOException {
+		for (ExternalObjectDatabase ext : externalDatabases) {
+			long sz = ext.getObjectSize(id);
+			if (sz >= 0) {
+				return sz;
+			}
+		}
+		return -1;
 	}
 
 	private long getObjectSizeWithoutRestoring(WindowCursor curs,
@@ -756,7 +825,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 			return new AlternateRepository(db);
 		}
 
-		ObjectDirectory db = new ObjectDirectory(config, objdir, null, fs, null);
+		// A plain alternate object directory has no configuration of its
+		// own; the repository's external object databases are not opened
+		// for it again.
+		ObjectDirectory db = new ObjectDirectory(config, objdir, null, fs,
+				null, false);
 		return new AlternateHandle(db);
 	}
 
