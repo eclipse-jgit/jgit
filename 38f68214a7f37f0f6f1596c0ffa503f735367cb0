@@ -35,6 +35,23 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dbeee2f_22f2fae8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-12T18:42:42Z",
+      "side": 1,
+      "message": "Added a comment about the \"encode\" because we get similar custom encoding in a later change... either we dont do it or move to a function that can be tested and reused.",
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "813d099e_68fe9dd5",
@@ -99,6 +116,24 @@
       "writtenOn": "2026-11-12T17:26:01Z",
       "side": 1,
       "message": "Seems like jgit should already have something that does this?",
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ea00ebe_fa90335c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-12T18:42:42Z",
+      "side": 1,
+      "message": "+1. By the code itself it is no clear what encoding is trying to support. \n\nI don\u0027t think we do this with any other line in the protocol (?). If so, we can assume it is valid  ascii here. If it is a problem, we can fix encoding for the whole incoming request in following CLs.",
+      "parentUuid": "f8ce2405_1213c9ba",
       "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
