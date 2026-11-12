@@ -26,10 +26,12 @@ import java.lang.ref.WeakReference;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.time.Duration;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -208,6 +210,8 @@ public class PackWriter implements AutoCloseable {
 
 	// edge objects for thin packs
 	private List<ObjectToPack> edgeObjects = new BlockList<>();
+
+	private final Deque<ObjectToPack> writeStack = new ArrayDeque<>();
 
 	// Objects the client is known to have already.
 	private BitmapBuilder haveObjects;
@@ -1869,12 +1873,39 @@ public class PackWriter implements AutoCloseable {
 			reselectNonDelta(otp);
 		}
 		otp.markWantWrite();
+		writeStack.push(otp);
+		try {
+			while (!writeStack.isEmpty()) {
+				ObjectToPack cur = writeStack.peek();
+				if (cur.isWritten()) {
+					writeStack.pop();
+					continue;
+				}
 
-		while (otp.isReuseAsIs()) {
-			writeBase(out, otp.getDeltaBase());
-			if (otp.isWritten())
-				return; // Delta chain cycle caused this to write already.
+				ObjectToPack base = cur.getDeltaBase();
+				if (base != null && !base.isWritten() && !base.isEdge()) {
+					if (base.wantWrite()) {
+						// Same cycle recovery as above when traversing the
+						// delta base chain iteratively.
+						reselectNonDelta(base);
+					}
+					base.markWantWrite();
+					writeStack.push(base);
+					continue;
+				}
 
+				if (writeSingleObject(out, cur)) {
+					writeStack.pop();
+				}
+			}
+		} finally {
+			writeStack.clear();
+		}
+	}
+
+	private boolean writeSingleObject(PackOutputStream out, ObjectToPack otp)
+			throws IOException {
+		if (otp.isReuseAsIs()) {
 			crc32.reset();
 			otp.setOffset(out.length());
 			try {
@@ -1886,7 +1917,7 @@ public class PackWriter implements AutoCloseable {
 					typeStats.reusedDeltas++;
 					typeStats.deltaBytes += out.length() - otp.getOffset();
 				}
-				return;
+				return true;
 			} catch (StoredObjectRepresentationNotAvailableException gone) {
 				if (otp.getOffset() == out.length()) {
 					otp.setOffset(0);
@@ -1895,7 +1926,8 @@ public class PackWriter implements AutoCloseable {
 					reuseSupport.selectObjectRepresentation(this,
 							NullProgressMonitor.INSTANCE,
 							Collections.singleton(otp));
-					continue;
+					otp.markWantWrite();
+					return false;
 				}
 				// Object writing already started, we cannot recover.
 				//
@@ -1915,12 +1947,7 @@ public class PackWriter implements AutoCloseable {
 		}
 		out.endObject();
 		otp.setCRC((int) crc32.getValue());
-	}
-
-	private void writeBase(PackOutputStream out, ObjectToPack base)
-			throws IOException {
-		if (base != null && !base.isWritten() && !base.isEdge())
-			writeObjectImpl(out, base);
+		return true;
 	}
 
 	private void writeWholeObjectDeflate(PackOutputStream out,
@@ -1940,8 +1967,6 @@ public class PackWriter implements AutoCloseable {
 
 	private void writeDeltaObjectDeflate(PackOutputStream out,
 			final ObjectToPack otp) throws IOException {
-		writeBase(out, otp.getDeltaBase());
-
 		crc32.reset();
 		otp.setOffset(out.length());
 
