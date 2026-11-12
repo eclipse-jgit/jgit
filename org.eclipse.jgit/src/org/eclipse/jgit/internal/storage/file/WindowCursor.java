@@ -216,7 +216,16 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 			return getObjectSizeStorage(objectId, typeHint) <= size;
 		}
 
-		return pack.getIndexedObjectSize(objectId) <= size;
+		long sz = pack.getIndexedObjectSize(objectId);
+		if (sz >= 0) {
+			return sz <= size;
+		}
+
+		if (pack.getObjectSizeIndexThreshold() <= size) {
+			return true;
+		}
+
+		return getObjectSizeStorage(objectId, typeHint) <= size;
 	}
 
 	private Pack findPack(AnyObjectId objectId) throws IOException {

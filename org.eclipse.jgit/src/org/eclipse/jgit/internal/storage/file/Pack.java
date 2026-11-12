@@ -371,6 +371,26 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	/**
+	 * Minimal size of an object to be included in the object-size index.
+	 *
+	 * Caller MUST check that the pack has object-size index
+	 * ({@link #hasObjectSizeIndex()}).
+	 *
+	 * @return objects of this size (in bytes) or larger are in the index
+	 * @throws IOException
+	 *             if an IO error occurred while reading the index
+	 */
+	public int getObjectSizeIndexThreshold() throws IOException {
+		PackObjectSizeIndex sizeIdx = objectSizeIndex();
+		if (sizeIdx == null) {
+			throw new IllegalStateException(
+					"Asking threshold from a pack without object size index"); //$NON-NLS-1$
+		}
+
+		return sizeIdx.getThreshold();
+	}
+
+	/**
 	 * Get name extracted from {@code pack-*.pack} pattern.
 	 *
 	 * @return name extracted from {@code pack-*.pack} pattern.

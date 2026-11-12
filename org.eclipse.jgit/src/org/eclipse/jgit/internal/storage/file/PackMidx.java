@@ -173,6 +173,11 @@ public class PackMidx extends Pack {
 	}
 
 	@Override
+	public int getObjectSizeIndexThreshold() throws IOException {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public boolean hasObject(AnyObjectId id) throws IOException {
 		return getMidx().hasObject(id);
 	}
