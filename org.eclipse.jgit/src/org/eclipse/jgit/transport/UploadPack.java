@@ -53,6 +53,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -83,6 +86,7 @@ import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -105,6 +109,7 @@ import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.transport.GitProtocolConstants.MultiAck;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 import org.eclipse.jgit.transport.TransferConfig.ProtocolVersion;
+import org.eclipse.jgit.util.Hex;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
@@ -328,6 +333,16 @@ public class UploadPack implements Closeable {
 
 	private CachedPackUriProvider cachedPackUriProvider;
 
+	private PackOutputCache packOutputCache;
+
+	private String packOutputCacheScope;
+
+	private boolean revWalkExposed;
+
+	private boolean packOutputCacheHit;
+
+	private boolean packCacheShallowRepository;
+
 	/**
 	 * Create a new pack upload for an open repository.
 	 *
@@ -369,6 +384,7 @@ public class UploadPack implements Closeable {
 	 * @return the RevWalk instance used by this connection.
 	 */
 	public final RevWalk getRevWalk() {
+		revWalkExposed = true;
 		return walk;
 	}
 
@@ -725,6 +741,47 @@ public class UploadPack implements Closeable {
 		cachedPackUriProvider = p;
 	}
 
+	/**
+	 * Set an optional cache of generated fetch packs.
+	 * <p>
+	 * The scope must identify a stable repository and configuration namespace.
+	 * Every request is validated before lookup, including cache hits. Authorized
+	 * users may share entries when their finalized pack inputs match. Relevant
+	 * permission-filtered refs and tags are included in the key. Callers must use
+	 * separate scopes for repositories or additional pack policies not described
+	 * by those inputs. Pre-upload hooks still run for cache hits.
+	 * Full, incremental, shallow and filtered fetches are eligible. Negotiated
+	 * packfile URI offload, server-side shallow repositories and connections
+	 * that expose their RevWalk bypass the cache. Clients stream raw pack bytes while shared generation proceeds;
+	 * progress during shared generation is suppressed.
+	 *
+	 * @param cache
+	 *            shared cache, or {@code null} to disable caching
+	 * @param scope
+	 *            repository and configuration namespace; must not be empty when
+	 *            caching is enabled
+	 * @since 8.0
+	 */
+	public void setPackOutputCache(@Nullable PackOutputCache cache,
+			@Nullable String scope) {
+		if (cache != null && (scope == null || scope.isEmpty())) {
+			throw new IllegalArgumentException("Pack output cache scope is required"); //$NON-NLS-1$
+		}
+		packOutputCache = cache;
+		packOutputCacheScope = scope;
+	}
+
+	/**
+	 * Whether the most recent fetch reused another request's generated pack.
+	 *
+	 * @return {@code true} for a cache hit, including a concurrent request that
+	 *         waited for the producer; {@code false} for a miss or bypass
+	 * @since 8.0
+	 */
+	public boolean isPackOutputCacheHit() {
+		return packOutputCacheHit;
+	}
+
 	private boolean useProtocolV2() {
 		return (transferConfig.protocolVersion == null
 			|| ProtocolVersion.V2.equals(transferConfig.protocolVersion))
@@ -832,6 +889,10 @@ public class UploadPack implements Closeable {
 			OutputStream output, @Nullable OutputStream messages)
 			throws ServiceMayNotContinueException, IOException {
 		try {
+			if (packOutputCache != null) {
+				packCacheShallowRepository = !walk.getObjectReader()
+						.getShallowCommits().isEmpty();
+			}
 			rawIn = input;
 			if (messages != null) {
 				msgOut = messages;
@@ -1164,6 +1225,8 @@ public class UploadPack implements Closeable {
 	}
 
 	private void fetchV2(PacketLineOut pckOut) throws IOException {
+		statistics = null;
+		packOutputCacheHit = false;
 		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
 		FetchV2Request req = parser.parseFetchRequest(pckIn);
 		currentRequest = req;
@@ -2029,7 +2092,7 @@ public class UploadPack implements Closeable {
 			List<ObjectId> notAdvertisedWants, Collection<Ref> visibleRefs)
 			throws IOException {
 
-		ObjectReader reader = up.getRevWalk().getObjectReader();
+		ObjectReader reader = up.walk.getObjectReader();
 		Set<ObjectId> directlyVisibleObjects = refIdSet(visibleRefs);
 		List<ObjectId> nonTipWants = notAdvertisedWants.stream()
 				.filter(not(directlyVisibleObjects::contains))
@@ -2328,6 +2391,8 @@ public class UploadPack implements Closeable {
 			PackStatistics.Accumulator accumulator,
 			@Nullable Collection<Ref> allTags, List<ObjectId> unshallowCommits,
 			List<ObjectId> deepenNots) throws IOException {
+		statistics = null;
+		packOutputCacheHit = false;
 		if (wantAll.isEmpty()) {
 			preUploadHook.onSendPack(this, wantIds, commonBase);
 		} else {
@@ -2335,9 +2400,226 @@ public class UploadPack implements Closeable {
 		}
 		msgOut.flush();
 
-		PackConfig cfg = packConfig;
-		if (cfg == null)
-			cfg = new PackConfig(db);
+		PackConfig cfg = packConfig != null ? new PackConfig(packConfig)
+				: new PackConfig(db);
+		Map<String, Ref> packRefs = refs;
+		try {
+			if (canCachePack(req)) {
+				Map<String, Ref> cacheRefs = packRefs == null ? null
+						: new TreeMap<>(packRefs);
+				Collection<Ref> cacheTags = snapshotTags(req, allTags);
+				String key = packOutputCacheKey(req, cfg, cacheTags,
+						unshallowCommits, deepenNots);
+				if (pckOut.isUsingSideband()) {
+					pckOut.writeString(GitProtocolConstants.SECTION_PACKFILE + '\n');
+				}
+				PackStatistics[] produced = new PackStatistics[1];
+				long started = System.nanoTime();
+				Thread requestThread = Thread.currentThread();
+				PackStatistics result = packOutputCache.write(key, packOut, out -> {
+					ProgressMonitor progress = Thread.currentThread() == requestThread
+							? pm : CACHE_PROGRESS;
+					produced[0] = writePack(progress, pckOut,
+							out, req, accumulator, cacheTags, unshallowCommits,
+							deepenNots, cfg, cacheRefs, false);
+					return produced[0];
+				});
+				packOut.flush();
+				packOutputCacheHit = produced[0] == null;
+				statistics = produced[0] != null ? result
+						: cachedPackStatistics(result, accumulator,
+								(System.nanoTime() - started) / 1_000_000);
+			} else {
+				statistics = writePack(pm, pckOut, packOut, req, accumulator,
+						allTags, unshallowCommits, deepenNots, cfg, packRefs, true);
+			}
+			if (msgOut != NullOutputStream.INSTANCE) {
+				msgOut.write(Constants.encode(statistics.getMessage() + '\n'));
+				msgOut.flush();
+			}
+		} finally {
+			advertised = null;
+			refs = null;
+			if (statistics == null) {
+				statistics = new PackStatistics(accumulator);
+			}
+			postUploadHook.onPostUpload(statistics);
+		}
+	}
+
+	private boolean canCachePack(FetchRequest req) throws IOException {
+		return packOutputCache != null && !revWalkExposed
+				&& !packCacheShallowRepository
+				&& walk.getObjectReader().getShallowCommits().isEmpty()
+				&& !(cachedPackUriProvider != null && req instanceof FetchV2Request
+						&& !((FetchV2Request) req).getPackfileUriProtocols().isEmpty());
+	}
+
+	private Collection<Ref> snapshotTags(FetchRequest req,
+			@Nullable Collection<Ref> allTags) throws IOException {
+		if (!req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)
+				|| allTags == null) {
+			return Collections.emptyList();
+		}
+		List<Ref> result = new ArrayList<>(allTags.size());
+		for (Ref ref : allTags) {
+			Ref peeled = ref.isPeeled() ? ref : db.getRefDatabase().peel(ref);
+			ObjectId id = peeled.getObjectId();
+			ObjectId target = peeled.getPeeledObjectId();
+			if (target != null) {
+				result.add(new ObjectIdRef.PeeledTag(ref.getStorage(), ref.getName(),
+						id.copy(), target.copy()));
+			} else {
+				result.add(new ObjectIdRef.PeeledNonTag(ref.getStorage(), ref.getName(),
+						id == null ? null : id.copy()));
+			}
+		}
+		return result;
+	}
+
+	private String packOutputCacheKey(FetchRequest req, PackConfig cfg,
+			Collection<Ref> allTags, List<ObjectId> unshallowCommits,
+			List<ObjectId> deepenNots) {
+		StringBuilder key = new StringBuilder();
+		appendCacheKey(key, "jgit-pack-output-v2"); //$NON-NLS-1$
+		appendCacheKey(key, packOutputCacheScope);
+		appendCacheKey(key, db.getIdentifier());
+		appendCacheKey(key, cfg.toString());
+		appendCacheKey(key, Boolean.toString(cfg.getCutDeltaChains()));
+		appendCacheKey(key, Boolean.toString(cfg.isPackKeptObjects()));
+		appendCacheKey(key, Boolean.toString(
+				req.getClientCapabilities().contains(OPTION_THIN_PACK)));
+		appendCacheKey(key, Boolean.toString(
+				req.getClientCapabilities().contains(OPTION_OFS_DELTA)));
+		appendCacheKey(key, Boolean.toString(
+				req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)));
+		appendObjectIds(key, wantAll.isEmpty() ? wantIds : wantAll);
+		appendObjectIds(key, commonBase);
+		appendCacheKey(key, Integer.toString(req.getDepth()));
+		appendCacheKey(key, Integer.toString(req.getDeepenSince()));
+		appendCacheKey(key, Boolean.toString(
+				req.getClientCapabilities().contains(OPTION_DEEPEN_RELATIVE)));
+		appendObjectIds(key, req.getClientShallowCommits());
+		appendObjectIds(key, unshallowCommits);
+		appendObjectIds(key, deepenNots);
+		FilterSpec filter = req.getFilterSpec();
+		for (int type = Constants.OBJ_COMMIT; type <= Constants.OBJ_TAG; type++) {
+			appendCacheKey(key, Boolean.toString(filter.allowsType(type)));
+		}
+		appendCacheKey(key, Long.toString(filter.getBlobLimit()));
+		appendCacheKey(key, Long.toString(filter.getTreeDepthLimit()));
+		// Advertised refs only provide ordering hints for already selected objects.
+		// Included tags can add objects, so their effective visibility is keyed.
+		appendRefs(key, allTags);
+		try {
+			return Hex.toHexString(MessageDigest.getInstance("SHA-256") //$NON-NLS-1$
+					.digest(key.toString().getBytes(StandardCharsets.UTF_8)));
+		} catch (NoSuchAlgorithmException e) {
+			throw new IllegalStateException(e);
+		}
+	}
+
+	private static void appendObjectIds(StringBuilder key,
+			Collection<? extends ObjectId> ids) {
+		appendCacheKey(key, Integer.toString(ids.size()));
+		ids.stream().map(ObjectId::name).sorted()
+				.forEach(id -> appendCacheKey(key, id));
+	}
+
+	private static void appendRefs(StringBuilder key,
+			@Nullable Collection<Ref> values) {
+		if (values == null) {
+			appendCacheKey(key, "null"); //$NON-NLS-1$
+			return;
+		}
+		appendCacheKey(key, Integer.toString(values.size()));
+		Map<String, Ref> sorted = new TreeMap<>();
+		for (Ref ref : values) {
+			sorted.put(ref.getName(), ref);
+		}
+		for (Ref ref : sorted.values()) {
+			appendCacheKey(key, ref.getName());
+			ObjectId id = ref.getObjectId();
+			ObjectId target = ref.getPeeledObjectId();
+			appendCacheKey(key, id == null ? "null" : id.name()); //$NON-NLS-1$
+			appendCacheKey(key, target == null ? "null" : target.name()); //$NON-NLS-1$
+		}
+	}
+
+	private static void appendCacheKey(StringBuilder key, String value) {
+		key.append(value.length()).append(':').append(value);
+	}
+
+	private static PackStatistics cachedPackStatistics(PackStatistics cached,
+			PackStatistics.Accumulator result, long timeWriting) {
+		result.totalObjects = cached.getTotalObjects();
+		result.totalDeltas = cached.getTotalDeltas();
+		result.totalBytes = cached.getTotalBytes();
+		result.thinPackBytes = cached.getThinPackBytes();
+		result.depth = cached.getDepth();
+		result.reusedObjects = cached.getReusedObjects();
+		result.reusedDeltas = cached.getReusedDeltas();
+		result.interestingObjects = cached.getInterestingObjects();
+		result.uninterestingObjects = cached.getUninterestingObjects();
+		result.clientShallowCommits = cached.getClientShallowCommits();
+		result.rootCommits = cached.getRootCommits();
+		result.reusedPacks = Collections.emptyList();
+		result.bitmapIndexMisses = 0;
+		result.timeWriting = timeWriting;
+		for (Map.Entry<Integer, PackStatistics.ObjectType> item : cached
+				.getObjectTypes().entrySet()) {
+			PackStatistics.ObjectType source = item.getValue();
+			PackStatistics.ObjectType.Accumulator target = result.objectTypes[item
+					.getKey().intValue()];
+			target.cntObjects = source.getObjects();
+			target.cntDeltas = source.getDeltas();
+			target.reusedObjects = source.getReusedObjects();
+			target.reusedDeltas = source.getReusedDeltas();
+			target.bytes = source.getBytes();
+			target.deltaBytes = source.getDeltaBytes();
+		}
+		return new PackStatistics(result);
+	}
+
+	private static final ProgressMonitor CACHE_PROGRESS = new ProgressMonitor() {
+		@Override
+		public void start(int totalTasks) {
+			// Shared producers have no client-specific progress stream.
+		}
+
+		@Override
+		public void beginTask(String title, int totalWork) {
+			// Do not emit client-specific progress.
+		}
+
+		@Override
+		public void update(int completed) {
+			// Do not emit client-specific progress.
+		}
+
+		@Override
+		public void endTask() {
+			// Do not emit client-specific progress.
+		}
+
+		@Override
+		public boolean isCancelled() {
+			return Thread.currentThread().isInterrupted();
+		}
+
+		@Override
+		public void showDuration(boolean enabled) {
+			// Do not emit client-specific progress.
+		}
+	};
+
+	private PackStatistics writePack(ProgressMonitor pm, PacketLineOut pckOut,
+			OutputStream packOut, FetchRequest req,
+			PackStatistics.Accumulator accumulator,
+			@Nullable Collection<Ref> allTags, List<ObjectId> unshallowCommits,
+			List<ObjectId> deepenNots, PackConfig cfg,
+			@Nullable Map<String, Ref> packRefs, boolean writeSectionHeader)
+			throws IOException {
 		@SuppressWarnings("resource") // PackWriter is referenced in the finally
 										// block, and is closed there
 		final PackWriter pw = new PackWriter(cfg, walk.getObjectReader(),
@@ -2363,9 +2645,9 @@ public class UploadPack implements Closeable {
 
 			// Objects named directly by references go at the beginning
 			// of the pack.
-			if (commonBase.isEmpty() && refs != null) {
+			if (commonBase.isEmpty() && packRefs != null) {
 				Set<ObjectId> tagTargets = new HashSet<>();
-				for (Ref ref : refs.values()) {
+				for (Ref ref : packRefs.values()) {
 					if (ref.getPeeledObjectId() != null)
 						tagTargets.add(ref.getPeeledObjectId());
 					else if (ref.getObjectId() == null)
@@ -2444,7 +2726,7 @@ public class UploadPack implements Closeable {
 				}
 			}
 
-			if (pckOut.isUsingSideband()) {
+			if (writeSectionHeader && pckOut.isUsingSideband()) {
 				if (req instanceof FetchV2Request &&
 						cachedPackUriProvider != null &&
 						!((FetchV2Request) req).getPackfileUriProtocols().isEmpty()) {
@@ -2465,17 +2747,10 @@ public class UploadPack implements Closeable {
 			pw.enableSearchForReuseTimeout();
 			pw.writePack(pm, NullProgressMonitor.INSTANCE, packOut);
 
-			if (msgOut != NullOutputStream.INSTANCE) {
-				String msg = pw.getStatistics().getMessage() + '\n';
-				msgOut.write(Constants.encode(msg));
-				msgOut.flush();
-			}
+			return pw.getStatistics();
 
 		} finally {
 			statistics = pw.getStatistics();
-			if (statistics != null) {
-				postUploadHook.onPostUpload(statistics);
-			}
 			pw.close();
 		}
 	}

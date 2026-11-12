@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -19,6 +20,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +33,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
@@ -47,6 +56,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -58,13 +68,16 @@ import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.transport.BasePackFetchConnection.FetchConfig;
 import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 /**
  * Tests for server upload-pack utilities.
@@ -85,6 +98,9 @@ public class UploadPackTest {
 	private TestRepository<InMemoryRepository> remote;
 
 	private PackStatistics stats;
+
+	@Rule
+	public TemporaryFolder packCacheDirectory = new TemporaryFolder();
 
 	@Before
 	public void setUp() throws Exception {
@@ -107,6 +123,605 @@ public class UploadPackTest {
 	private void generateBitmaps(InMemoryRepository repo) throws Exception {
 		new DfsGarbageCollector(repo).pack(null);
 		repo.scanForRepoChanges();
+	}
+
+	@Test
+	public void testGeneratedPackCacheReusesPackAndRunsHooks() throws Exception {
+		RevCommit tip = remote.commit().message("tip").create();
+		remote.update("master", tip);
+		AtomicInteger hooks = new AtomicInteger();
+		try (PackOutputCache cache = newPackOutputCache()) {
+			Consumer<UploadPack> setup = up -> up
+					.setPostUploadHook(ignored -> hooks.incrementAndGet());
+			CachedFetch first = cachedFetch(cache, "reader", setup, tip);
+			CachedFetch second = cachedFetch(cache, "reader", setup, tip);
+			assertFalse(first.upload().isPackOutputCacheHit());
+			assertTrue(second.upload().isPackOutputCacheHit());
+			assertEquals(2, hooks.get());
+			assertArrayEquals(rawPackBytes(first), rawPackBytes(second));
+			assertEquals(first.upload().getStatistics().getTotalBytes(),
+					second.upload().getStatistics().getTotalBytes());
+			assertEquals(0, second.upload().getStatistics().getTimeCounting());
+			assertEquals(0, second.upload().getStatistics().getTimeCompressing());
+			ByteArrayInputStream received = new ByteArrayInputStream(second.response());
+			assertEquals("packfile", new PacketLineIn(received).readString());
+			parsePack(received);
+			assertTrue(client.getObjectDatabase().has(tip));
+		}
+	}
+
+	@Test
+	public void testGeneratedPackCacheJoinsConcurrentFetches() throws Exception {
+		RevCommit tip = remote.commit().message("tip").create();
+		remote.update("master", tip);
+		assertConcurrentCacheReuse(tip);
+	}
+
+	@Test
+	public void testGeneratedPackCacheJoinsConcurrentShallowAndFilteredFetches()
+			throws Exception {
+		RevBlob blob = remote.blob("payload");
+		RevTree tree = remote.tree(remote.file("file", blob));
+		RevCommit parent = remote.commit(tree);
+		RevCommit tip = remote.commit(tree, parent);
+		remote.update("master", tip);
+		server.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+		assertConcurrentCacheReuse(tip, "filter blob:none\n");
+		assertFalse(client.getObjectDatabase().has(blob));
+		client = newRepo("shallow-client");
+		assertConcurrentCacheReuse(tip, "deepen 1\n");
+		assertFalse(client.getObjectDatabase().has(parent));
+		assertTrue(client.getObjectDatabase().has(blob));
+	}
+
+	private void assertConcurrentCacheReuse(ObjectId tip, String... options)
+			throws Exception {
+		CountDownLatch ready = new CountDownLatch(2);
+		ExecutorService executor = Executors.newFixedThreadPool(2);
+		try (PackOutputCache cache = newPackOutputCache()) {
+			Consumer<UploadPack> setup = up -> up.setPreUploadHook(
+					new PreUploadHook() {
+						@Override
+						public void onBeginNegotiateRound(UploadPack upload,
+								Collection<? extends ObjectId> wants, int offered) {
+							// Nothing to do.
+						}
+
+						@Override
+						public void onEndNegotiateRound(UploadPack upload,
+								Collection<? extends ObjectId> wants, int common,
+								int notFound, boolean readyToSend) {
+							// Nothing to do.
+						}
+
+						@Override
+						public void onSendPack(UploadPack upload,
+								Collection<? extends ObjectId> wants,
+								Collection<? extends ObjectId> haves)
+								throws ServiceMayNotContinueException {
+							ready.countDown();
+							try {
+								if (!ready.await(10, TimeUnit.SECONDS)) {
+									throw new ServiceMayNotContinueException("fetch did not start");
+								}
+							} catch (InterruptedException e) {
+								Thread.currentThread().interrupt();
+								throw new ServiceMayNotContinueException(e);
+							}
+						}
+					});
+			Future<CachedFetch> first = executor
+					.submit(() -> cachedFetch(cache, "reader", setup, tip, options));
+			Future<CachedFetch> second = executor
+					.submit(() -> cachedFetch(cache, "reader", setup, tip, options));
+			CachedFetch a = first.get(15, TimeUnit.SECONDS);
+			CachedFetch b = second.get(15, TimeUnit.SECONDS);
+			assertTrue(a.upload().isPackOutputCacheHit()
+					^ b.upload().isPackOutputCacheHit());
+			assertArrayEquals(rawPackBytes(a), rawPackBytes(b));
+			parsePack(cachedPackStream(b));
+			assertTrue(client.getObjectDatabase().has(tip));
+		} finally {
+			executor.shutdownNow();
+		}
+	}
+
+	@Test
+	public void testGeneratedPackCacheReplaysAcrossProtocolVersions()
+			throws Exception {
+		RevCommit tip = remote.commit().message("tip").create();
+		remote.update("master", tip);
+		try (PackOutputCache cache = newPackOutputCache()) {
+			cachedFetch(cache, "reader", null, tip);
+			AtomicReference<UploadPack> upload = new AtomicReference<>();
+			ByteArrayInputStream received = uploadPackV1(up -> {
+				up.setPackOutputCache(cache, "reader");
+				upload.set(up);
+			}, "want " + tip.name() + "\n", PacketLineIn.end(), "done\n");
+			assertTrue(upload.get().isPackOutputCacheHit());
+			assertEquals("NAK", new PacketLineIn(received).readString());
+			try (ObjectInserter inserter = client.newObjectInserter()) {
+				inserter.newPackParser(received).parse(NullProgressMonitor.INSTANCE);
+				inserter.flush();
+			}
+			assertEquals(-1, received.read());
+			assertTrue(client.getObjectDatabase().has(tip));
+		}
+	}
+
+	@Test
+	public void testGeneratedPackCacheReplaysWithSidebandAll() throws Exception {
+		RevCommit tip = remote.commit().message("tip").create();
+		remote.update("master", tip);
+		server.getConfig().setBoolean("uploadpack", null, "allowsidebandall", true);
+		try (PackOutputCache cache = newPackOutputCache()) {
+			cachedFetch(cache, "reader", null, tip);
+			CachedFetch fetched = cachedFetch(cache, "reader", null, tip,
+					"sideband-all\n");
+			assertTrue(fetched.upload().isPackOutputCacheHit());
+			ByteArrayInputStream received = new ByteArrayInputStream(fetched.response());
+			assertEquals("\001packfile", new PacketLineIn(received).readString());
+			parsePack(received);
+			assertTrue(client.getObjectDatabase().has(tip));
+		}
+	}
+
+	@Test
+	public void testGeneratedPackCacheReplaysOnReusedV2Connection() throws Exception {
+		RevCommit tip = remote.commit().message("tip").create();
+		remote.update("master", tip);
+		try (PackOutputCache cache = newPackOutputCache();
+				UploadPack up = new UploadPack(server)) {
+			up.setExtraParameters(Sets.of("version=2"));
+			up.setPackOutputCache(cache, "reader");
+			List<Boolean> hits = new ArrayList<>();
+			up.setPostUploadHook(ignored -> hits.add(up.isPackOutputCacheHit()));
+			ByteArrayInputStream input = linesAsInputStream(
+					"command=fetch\n", PacketLineIn.delimiter(),
+					"want " + tip.name() + "\n", "no-progress\n", "done\n",
+					PacketLineIn.end(),
+					"command=fetch\n", PacketLineIn.delimiter(),
+					"want " + tip.name() + "\n", "no-progress\n", "done\n",
+					PacketLineIn.end());
+			ByteArrayOutputStream output = new ByteArrayOutputStream();
+			up.upload(input, output, null);
+			assertEquals(List.of(false, true), hits);
+			ByteArrayInputStream received = new ByteArrayInputStream(output.toByteArray());
+			PacketLineIn packets = new PacketLineIn(received);
+			while (!PacketLineIn.isEnd(packets.readString())) {
+				// Skip capabilities, advertised once per connection.
+			}
+			assertEquals("packfile", packets.readString());
+			byte[] first = new SideBandInputStream(received,
+					NullProgressMonitor.INSTANCE, new StringWriter(),
+					NullOutputStream.INSTANCE).readAllBytes();
+			assertEquals("packfile", packets.readString());
+			byte[] second = new SideBandInputStream(received,
+					NullProgressMonitor.INSTANCE, new StringWriter(),
+					NullOutputStream.INSTANCE).readAllBytes();
+			assertArrayEquals(first, second);
+			assertEquals(-1, received.read());
+			try (ObjectInserter inserter = client.newObjectInserter()) {
+				inserter.newPackParser(new ByteArrayInputStream(second))
+						.parse(NullProgressMonitor.INSTANCE);
+				inserter.flush();
+			}
+			assertTrue(client.getObjectDatabase().has(tip));
+		}
+	}
+
+	@Test
+	public void testGeneratedPackCacheSeparatesScopeAndWants() throws Exception {
+		RevCommit first = remote.commit().message("first").create();
+		RevCommit second = remote.commit().message("second").create();
+		remote.update("first", first);
+		remote.update("second", second);
+		try (PackOutputCache cache = newPackOutputCache()) {
+			assertFalse(cachedFetch(cache, "reader", null, first).upload()
+					.isPackOutputCacheHit());
+			assertTrue(cachedFetch(cache, "reader", null, first).upload()
+					.isPackOutputCacheHit());
+			assertFalse(cachedFetch(cache, "other-reader", null, first).upload()
+					.isPackOutputCacheHit());
+			assertFalse(cachedFetch(cache, "reader", null, second).upload()
+					.isPackOutputCacheHit());
+		}
+	}
+
+	@Test
+	public void testGeneratedPackCacheSeparatesHavesAndPackCapabilities()
+			throws Exception {
+		RevCommit parent = remote.commit().message("parent").create();
+		RevCommit tip = remote.commit().parent(parent).message("tip").create();
+		remote.update("master", tip);
+		try (PackOutputCache cache = newPackOutputCache()) {
+			cachedFetch(cache, "reader", null, tip);
+			assertFalse(cachedFetch(cache, "reader", null, tip, "thin-pack\n")
+					.upload().isPackOutputCacheHit());
+			assertFalse(cachedFetch(cache, "reader", null, tip, "ofs-delta\n")
+					.upload().isPackOutputCacheHit());
+			assertFalse(cachedFetch(cache, "reader", null, tip,
+					"have " + parent.name() + "\n").upload().isPackOutputCacheHit());
+			assertTrue(cachedFetch(cache, "reader", null, tip,
+					"have " + parent.name() + "\n").upload().isPackOutputCacheHit());
+		}
+	}
+
+	@Test
+	public void testGeneratedPackCacheDoesNotSkipWantValidation() throws Exception {
+		RevCommit tip = remote.commit().message("tip").create();
+		remote.update("master", tip);
+		try (PackOutputCache cache = newPackOutputCache()) {
+			cachedFetch(cache, "reader", null, tip);
+			assertTrue(cachedFetch(cache, "reader", null, tip).upload()
+					.isPackOutputCacheHit());
+			assertThrows(IOException.class, () -> cachedFetch(cache, "reader",
+					up -> up.setRefFilter(ignored -> Collections.emptyMap()), tip));
+		}
+	}
+
+	@Test
+	public void testGeneratedPackCacheSharesAcrossAuthorizedValidationContexts()
+			throws Exception {
+		RevCommit parent = remote.commit().message("parent").create();
+		RevCommit tip = remote.commit().parent(parent).message("tip").create();
+		remote.update("master", tip);
+		AtomicInteger authorized = new AtomicInteger();
+		try (PackOutputCache cache = newPackOutputCache()) {
+			Consumer<UploadPack> allowed = up -> up.setRequestValidator(
+					(upload, wants) -> authorized.incrementAndGet());
+			CachedFetch first = cachedFetch(cache, "project", allowed, parent);
+			CachedFetch second = cachedFetch(cache, "project", allowed, parent);
+			assertFalse(first.upload().isPackOutputCacheHit());
+			assertTrue(second.upload().isPackOutputCacheHit());
+			assertEquals(2, authorized.get());
+			assertThrows(IOException.class, () -> cachedFetch(cache, "project",
+					up -> up.setRequestValidator((upload, wants) -> {
+						throw new org.eclipse.jgit.errors.PackProtocolException("not permitted");
+					}), parent));
+			assertArrayEquals(rawPackBytes(first), rawPackBytes(second));
+		}
+	}
+
+	@Test
+	public void testGeneratedPackCacheBypassesCustomWalk()
+			throws Exception {
+		RevCommit parent = remote.commit().message("parent").create();
+		RevCommit tip = remote.commit().parent(parent).message("tip").create();
+		remote.update("master", tip);
+		server.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+		try (PackOutputCache cache = newPackOutputCache()) {
+			cachedFetch(cache, "reader", null, tip);
+			assertFalse(cachedFetch(cache, "reader", up -> up.getRevWalk(), tip)
+					.upload().isPackOutputCacheHit());
+			assertTrue(cachedFetch(cache, "reader",
+					up -> up.setCachedPackUriProvider((pack, protocols) -> null), tip)
+					.upload().isPackOutputCacheHit());
+			assertTrue(cachedFetch(cache, "reader", null, tip).upload()
+					.isPackOutputCacheHit());
+		}
+	}
+
+	@Test
+	public void testGeneratedPackCacheInvalidatesIncludedTags() throws Exception {
+		RevCommit tip = remote.commit().message("tip").create();
+		remote.update("master", tip);
+		try (PackOutputCache cache = newPackOutputCache()) {
+			cachedFetch(cache, "reader", null, tip, "include-tag\n");
+			assertTrue(cachedFetch(cache, "reader", null, tip, "include-tag\n")
+					.upload().isPackOutputCacheHit());
+			remote.update("unrelated-ref", tip);
+			assertTrue(cachedFetch(cache, "reader", null, tip, "include-tag\n")
+					.upload().isPackOutputCacheHit());
+			RevTag tag = remote.tag("release", tip);
+			remote.update("refs/tags/release", tag);
+			CachedFetch fetched = cachedFetch(cache, "reader", null, tip,
+					"include-tag\n");
+			assertFalse(fetched.upload().isPackOutputCacheHit());
+			ByteArrayInputStream received = new ByteArrayInputStream(fetched.response());
+			assertEquals("packfile", new PacketLineIn(received).readString());
+			parsePack(received);
+			assertTrue(client.getObjectDatabase().has(tag));
+		}
+	}
+
+	@Test
+	public void testFailedPackTransfersRetainStatisticsAndPostUploadHook()
+			throws Exception {
+		RevCommit tip = remote.commit().message("tip").create();
+		remote.update("master", tip);
+		try (PackOutputCache cache = newPackOutputCache()) {
+			for (boolean uriRequest : new boolean[] { false, true }) {
+				for (boolean cached : new boolean[] { false, true }) {
+					for (int attempt = 0; attempt < 2; attempt++) {
+						AtomicInteger hooks = new AtomicInteger();
+						try (UploadPack up = new UploadPack(server)) {
+							up.setExtraParameters(List.of("version=2"));
+							up.setPostUploadHook(statistics -> hooks.incrementAndGet());
+							if (cached) {
+								up.setPackOutputCache(cache, "failure-hooks");
+							}
+							up.setCachedPackUriProvider((pack, protocols) -> null);
+							List<String> request = new ArrayList<>(List.of("command=fetch\n",
+									PacketLineIn.delimiter(), "want " + tip.name() + "\n"));
+							if (uriRequest) {
+								request.add("packfile-uris https\n");
+							}
+							request.addAll(List.of("done\n", PacketLineIn.end()));
+							java.io.OutputStream disconnected = new java.io.OutputStream() {
+								private int matched;
+								@Override
+								public void write(int value) throws IOException {
+									matched = value == "PACK".charAt(matched) ? matched + 1 : 0;
+									if (matched == 4) {
+										throw new IOException("client disconnected");
+									}
+								}
+							};
+							assertThrows(IOException.class, () -> up.uploadWithExceptionPropagation(
+									linesAsInputStream(request.toArray(new String[0])), disconnected, null));
+							assertNotNull(up.getStatistics());
+							assertEquals(1, hooks.get());
+						}
+						// Warm the same entry so the second failure exercises replay.
+						if (cached) {
+							cachedFetch(cache, "failure-hooks",
+									up -> up.setCachedPackUriProvider((pack, protocols) -> null), tip,
+									uriRequest ? "packfile-uris https\n" : "no-progress\n");
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@Test
+	public void testGeneratedPackCacheReusesShallowAndDeepenedFetches()
+			throws Exception {
+		PersonIdent identity = new PersonIdent(server);
+		RevCommit base = remote.commit().message("base")
+				.committer(new PersonIdent(identity, Instant.ofEpochSecond(1_500_000), UTC))
+				.create();
+		RevCommit middle = remote.commit().parent(base).message("middle")
+				.committer(new PersonIdent(identity, Instant.ofEpochSecond(2_000_000), UTC))
+				.create();
+		RevCommit tip = remote.commit().parent(middle).message("tip")
+				.committer(new PersonIdent(identity, Instant.ofEpochSecond(3_000_000), UTC))
+				.create();
+		remote.update("master", tip);
+		remote.update("excluded", base);
+		try (PackOutputCache cache = newPackOutputCache()) {
+			for (int depth : List.of(1, 2)) {
+				CachedFetch fetched = assertCachedMatchesUncached(cache, tip,
+						"deepen " + depth + "\n");
+				assertEquals(depth, fetched.upload().getStatistics().getDepth());
+			}
+			assertCachedMatchesUncached(cache, tip, "deepen-since 2500000\n");
+			assertCachedMatchesUncached(cache, tip, "deepen-not refs/heads/excluded\n");
+			CachedFetch unshallowed = assertCachedMatchesUncached(cache, tip,
+					"shallow " + middle.name() + "\n",
+					"have " + middle.name() + "\n", "deepen 3\n");
+			assertThat(new String(unshallowed.response(), StandardCharsets.ISO_8859_1),
+					containsString("unshallow " + middle.name()));
+			assertCachedMatchesUncached(cache, tip,
+					"shallow " + middle.name() + "\n",
+					"have " + middle.name() + "\n");
+		}
+	}
+
+	@Test
+	public void testGeneratedPackCacheReusesFilteredFetches() throws Exception {
+		RevBlob small = remote.blob("small");
+		RevBlob large = remote.blob("a larger payload");
+		RevTree tree = remote.tree(remote.file("small", small),
+				remote.file("directory/nested", large));
+		RevCommit tip = remote.commit(tree);
+		remote.update("master", tip);
+		server.getConfig().setBoolean("uploadpack", null, "allowfilter", true);
+		try (PackOutputCache cache = newPackOutputCache()) {
+			for (String filter : List.of("blob:none", "blob:limit=10", "tree:0", "tree:1")) {
+				assertCachedMatchesUncached(cache, tip, "filter " + filter + "\n");
+			}
+			assertCachedMatchesUncached(cache, tip);
+		}
+	}
+
+
+	@Test
+	public void testGeneratedPackCacheBypassesServerShallowRepository() throws Exception {
+		RevCommit base = remote.commit().message("base").create();
+		RevCommit middle = remote.commit().parent(base).message("middle").create();
+		RevCommit tip = remote.commit().parent(middle).message("tip").create();
+		Repository fileRepository = FileRepositoryBuilder
+				.create(packCacheDirectory.newFolder().toPath().resolve("repo.git").toFile());
+		fileRepository.create(true);
+		try (TestRepository<Repository> local = new TestRepository<>(fileRepository);
+				PackOutputCache cache = newPackOutputCache()) {
+			try (ObjectInserter inserter = fileRepository.newObjectInserter()) {
+				for (ObjectId id : List.of(tip.getTree(), base, middle, tip)) {
+					ObjectLoader object = server.open(id);
+					inserter.insert(object.getType(), object.getBytes());
+				}
+				inserter.flush();
+			}
+			local.update("master", tip);
+			CachedFetch full = cachedFetch(fileRepository, cache, "reader", null, tip,
+					"no-progress\n");
+			assertTrue(cachedFetch(fileRepository, cache, "reader", null, tip,
+					"no-progress\n").upload().isPackOutputCacheHit());
+			fileRepository.getObjectDatabase().setShallowCommits(Set.of(middle));
+			CachedFetch uncached = cachedFetch(fileRepository, null, "reader", null, tip,
+					"no-progress\n");
+			CachedFetch shallow = cachedFetch(fileRepository, cache, "reader", null, tip,
+					"no-progress\n");
+			assertFalse(shallow.upload().isPackOutputCacheHit());
+			assertFalse(cachedFetch(fileRepository, cache, "reader", null, tip,
+					"no-progress\n").upload().isPackOutputCacheHit());
+			assertArrayEquals(rawPackBytes(uncached), rawPackBytes(shallow));
+			assertTrue(shallow.upload().getStatistics().getTotalObjects()
+					< full.upload().getStatistics().getTotalObjects());
+		}
+	}
+
+	@Test
+	public void testGeneratedPackCacheReusesThinPackWithExternalDeltaBase()
+			throws Exception {
+		String common = "abcdefghijklmnopqrstuvwxyz";
+		RevBlob baseBlob = remote.blob(common + "a");
+		RevCommit base = remote.commit(remote.tree(remote.file("file", baseBlob)));
+		RevBlob tipBlob = remote.blob(common + "b");
+		RevCommit tip = remote.commit(remote.tree(remote.file("file", tipBlob)), base);
+		remote.update("master", tip);
+		try (PackOutputCache cache = newPackOutputCache()) {
+			CachedFetch first = cachedFetch(cache, "reader", null, tip,
+					"have " + base.name() + "\n", "thin-pack\n", "no-progress\n");
+			CachedFetch hit = cachedFetch(cache, "reader", null, tip,
+					"have " + base.name() + "\n", "thin-pack\n", "no-progress\n");
+			assertFalse(first.upload().isPackOutputCacheHit());
+			assertTrue(hit.upload().isPackOutputCacheHit());
+			assertArrayEquals(rawPackBytes(first), rawPackBytes(hit));
+			IOException missingBase = assertThrows(IOException.class,
+					() -> parseCachedThinPack(hit));
+			assertThat(missingBase.getMessage(), containsString("Missing delta base"));
+			try (ObjectInserter inserter = client.newObjectInserter()) {
+				for (ObjectId id : List.of(baseBlob, base.getTree(), base)) {
+					ObjectLoader object = server.open(id);
+					inserter.insert(object.getType(), object.getBytes());
+				}
+				inserter.flush();
+			}
+			ReceivedPackStatistics received = parseCachedThinPack(hit);
+			assertTrue(received.getNumRefDelta() > 0);
+			assertTrue(client.getObjectDatabase().has(tipBlob));
+		}
+	}
+
+	@Test
+	public void testGeneratedPackCacheResolvesTagsOnRequestThread() throws Exception {
+		Thread requestThread = Thread.currentThread();
+		server = new InMemoryRepository(new DfsRepositoryDescription("thread-bound")) {
+			@Override
+			public RefDatabase getRefDatabase() {
+				assertEquals(requestThread, Thread.currentThread());
+				return super.getRefDatabase();
+			}
+		};
+		remote = new TestRepository<>(server);
+		RevCommit tip = remote.commit().message("tip").create();
+		RevTag tag = remote.tag("release", tip);
+		remote.update("master", tip);
+		remote.update("refs/tags/release", tag);
+		try (PackOutputCache cache = newPackOutputCache()) {
+			Consumer<UploadPack> setup = up -> up.setPostUploadHook(
+					ignored -> assertEquals(requestThread, Thread.currentThread()));
+			cachedFetch(cache, "reader", setup, tip, "include-tag\n");
+			CachedFetch hit = cachedFetch(cache, "reader", setup, tip, "include-tag\n");
+			assertTrue(hit.upload().isPackOutputCacheHit());
+			parsePack(cachedPackStream(hit));
+			assertTrue(client.getObjectDatabase().has(tag));
+		}
+	}
+
+	private CachedFetch assertCachedMatchesUncached(PackOutputCache cache,
+			ObjectId want, String... options) throws Exception {
+		List<String> requestOptions = new ArrayList<>(Arrays.asList(options));
+		requestOptions.add("no-progress\n");
+		String[] request = requestOptions.toArray(new String[0]);
+		CachedFetch uncached = cachedFetch(null, "reader", null, want, request);
+		CachedFetch first = cachedFetch(cache, "reader", null, want, request);
+		CachedFetch hit = cachedFetch(cache, "reader", null, want, request);
+		assertFalse(first.upload().isPackOutputCacheHit());
+		assertTrue(hit.upload().isPackOutputCacheHit());
+		assertArrayEquals(rawPackBytes(uncached), rawPackBytes(first));
+		assertArrayEquals(rawPackBytes(uncached), rawPackBytes(hit));
+		assertEquals(cachedProtocolSections(uncached), cachedProtocolSections(hit));
+		parsePack(cachedPackStream(hit));
+		return hit;
+	}
+
+	private ReceivedPackStatistics parseCachedThinPack(CachedFetch fetched)
+			throws IOException {
+		SideBandInputStream stream = new SideBandInputStream(cachedPackStream(fetched),
+				NullProgressMonitor.INSTANCE, new StringWriter(), NullOutputStream.INSTANCE);
+		try (ObjectInserter inserter = client.newObjectInserter()) {
+			PackParser parser = inserter.newPackParser(stream);
+			parser.setAllowThin(true);
+			parser.parse(NullProgressMonitor.INSTANCE);
+			inserter.flush();
+			return parser.getReceivedPackStatistics();
+		}
+	}
+
+	private byte[] rawPackBytes(CachedFetch fetched) throws IOException {
+		SideBandInputStream stream = new SideBandInputStream(cachedPackStream(fetched),
+				NullProgressMonitor.INSTANCE, new StringWriter(), NullOutputStream.INSTANCE);
+		return stream.readAllBytes();
+	}
+
+	private List<String> cachedProtocolSections(CachedFetch fetched)
+			throws IOException {
+		PacketLineIn packets = new PacketLineIn(new ByteArrayInputStream(fetched.response()));
+		List<String> sections = new ArrayList<>();
+		String section;
+		do {
+			section = packets.readString();
+			sections.add(section);
+			assertFalse("packfile section is missing", PacketLineIn.isEnd(section));
+		} while (!"packfile".equals(section) && !"\001packfile".equals(section));
+		return sections;
+	}
+
+	private ByteArrayInputStream cachedPackStream(CachedFetch fetched)
+			throws IOException {
+		ByteArrayInputStream received = new ByteArrayInputStream(fetched.response());
+		PacketLineIn packets = new PacketLineIn(received);
+		String section;
+		do {
+			section = packets.readString();
+			assertFalse("packfile section is missing", PacketLineIn.isEnd(section));
+		} while (!"packfile".equals(section) && !"\001packfile".equals(section));
+		return received;
+	}
+
+	private PackOutputCache newPackOutputCache() throws IOException {
+		return new PackOutputCache(packCacheDirectory.newFolder().toPath(),
+				1024 * 1024, 16, Duration.ofMinutes(1), 0, 2);
+	}
+
+	private CachedFetch cachedFetch(PackOutputCache cache, String scope,
+			Consumer<UploadPack> setup, ObjectId want, String... options)
+			throws Exception {
+		return cachedFetch(server, cache, scope, setup, want, options);
+	}
+
+	private CachedFetch cachedFetch(Repository repository, PackOutputCache cache,
+			String scope, Consumer<UploadPack> setup, ObjectId want, String... options)
+			throws Exception {
+		List<String> lines = new ArrayList<>();
+		lines.add("command=fetch\n");
+		lines.add(PacketLineIn.delimiter());
+		lines.add("want " + want.name() + "\n");
+		lines.addAll(Arrays.asList(options));
+		lines.add("done\n");
+		lines.add(PacketLineIn.end());
+		try (UploadPack up = new UploadPack(repository)) {
+			up.setExtraParameters(Sets.of("version=2"));
+			up.setPackOutputCache(cache, scope);
+			if (setup != null) {
+				setup.accept(up);
+			}
+			ByteArrayOutputStream output = new ByteArrayOutputStream();
+			up.upload(linesAsInputStream(lines.toArray(new String[0])), output, null);
+			ByteArrayInputStream received = new ByteArrayInputStream(output.toByteArray());
+			PacketLineIn packets = new PacketLineIn(received);
+			while (!PacketLineIn.isEnd(packets.readString())) {
+				// Skip the protocol capability advertisement.
+			}
+			return new CachedFetch(up, received.readAllBytes());
+		}
+	}
+
+	private record CachedFetch(UploadPack upload, byte[] response) {
 	}
 
 	@Test
