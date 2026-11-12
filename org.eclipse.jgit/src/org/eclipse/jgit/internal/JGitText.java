@@ -506,6 +506,11 @@ public class JGitText extends TranslationBundle {
 	/***/ public String isAStaticFlagAndHasNorevWalkInstance;
 	/***/ public String JRELacksMD5Implementation;
 	/***/ public String kNotInRange;
+	/***/ public String largeObjectAlternateInvalidLink;
+	/***/ public String largeObjectAlternateLookupFailed;
+	/***/ public String largeObjectAlternateNotAvailable;
+	/***/ public String largeObjectAlternateOpenFailed;
+	/***/ public String largeObjectAlternatesReadFailed;
 	/***/ public String largeObjectExceedsByteArray;
 	/***/ public String largeObjectExceedsLimit;
 	/***/ public String largeObjectException;
