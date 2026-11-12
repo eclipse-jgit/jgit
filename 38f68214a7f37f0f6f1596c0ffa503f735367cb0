@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3610059f_b5b236d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-12T02:14:49Z",
+      "side": 1,
+      "message": "Couple nits. Looks good to me.",
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c042335_e9abed81",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-12T02:14:49Z",
+      "side": 1,
+      "message": "I am surprised this file didn\u0027t have license header!\n\nShould the Copyright be Qualcomm and others? not sure the legal value of it, but sounds a better representation of the history of the file.",
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d422fd7c_94b95a6e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-12T02:14:49Z",
+      "side": 1,
+      "message": "nit: we have getters for everything else, I would use a getter for this property and make it final.",
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
