@@ -65,7 +65,8 @@ import org.eclipse.jgit.util.FileUtils;
  * <p>
  * Optionally an object database can reference one or more alternates; other
  * ObjectDatabase instances that are searched in addition to the current
- * database. Large object alternates (see {@link LargeObjectAlternates}) are
+ * database. Large object alternates (see {@link LargeObjectAlternates}),
+ * such as the S3 stores listed in {@code objects/info/s3-alternates}, are
  * searched last, after all local packs, loose objects and file alternates.
  * <p>
  * Databases are divided into two halves: a half that is considered to be fast
@@ -146,7 +147,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		fileCommitGraph = new FileCommitGraph(objects);
 		this.fs = fs;
 		this.shallowFile = shallowFile;
-		largeObjectAlternates = List.of();
+		largeObjectAlternates = List.of(new S3Alternates(config, objects));
 
 		alternates = new AtomicReference<>();
 		if (alternatePaths != null) {
