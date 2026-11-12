@@ -65,7 +65,8 @@ import org.eclipse.jgit.util.FileUtils;
  * <p>
  * Optionally an object database can reference one or more alternates; other
  * ObjectDatabase instances that are searched in addition to the current
- * database.
+ * database. Large object alternates (see {@link LargeObjectAlternates}) are
+ * searched last, after all local packs, loose objects and file alternates.
  * <p>
  * Databases are divided into two halves: a half that is considered to be fast
  * to search (the {@code PackFile}s), and a half that is considered to be slow
@@ -103,6 +104,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 	private final FS fs;
 
 	private final AtomicReference<AlternateHandle[]> alternates;
+
+	/** Large object alternates, in lookup order. */
+	private final List<LargeObjectAlternates> largeObjectAlternates;
 
 	private final File shallowFile;
 
@@ -142,6 +146,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		fileCommitGraph = new FileCommitGraph(objects);
 		this.fs = fs;
 		this.shallowFile = shallowFile;
+		largeObjectAlternates = List.of();
 
 		alternates = new AtomicReference<>();
 		if (alternatePaths != null) {
@@ -367,6 +372,10 @@ public class ObjectDirectory extends FileObjectDatabase {
 			for(AlternateHandle od : alt)
 				od.close();
 		}
+
+		for (LargeObjectAlternates large : largeObjectAlternates) {
+			large.close();
+		}
 	}
 
 	@Override
@@ -433,6 +442,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	public boolean has(AnyObjectId objectId) {
 		return loose.hasCached(objectId)
 				|| hasPackedOrLooseInSelfOrAlternate(objectId)
+				|| hasInLargeObjectAlternates(objectId)
 				|| (restoreFromSelfOrAlternate(objectId, null)
 						&& hasPackedOrLooseInSelfOrAlternate(objectId));
 	}
@@ -532,7 +542,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 		if (ldr != null) {
 			return ldr;
 		}
-		return openLooseFromSelfOrAlternate(curs, objectId, null);
+		ldr = openLooseFromSelfOrAlternate(curs, objectId, null);
+		if (ldr != null) {
+			return ldr;
+		}
+		return openFromLargeObjectAlternates(objectId);
 	}
 
 	private ObjectLoader openPackedFromSelfOrAlternate(WindowCursor curs,
@@ -611,7 +625,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 		if (len >= 0) {
 			return len;
 		}
-		return getLooseSizeFromSelfOrAlternate(curs, id, null);
+		len = getLooseSizeFromSelfOrAlternate(curs, id, null);
+		if (len >= 0) {
+			return len;
+		}
+		return getSizeFromLargeObjectAlternates(id);
 	}
 
 	private long getPackedSizeFromSelfOrAlternate(WindowCursor curs,
@@ -851,6 +869,46 @@ public class ObjectDirectory extends FileObjectDatabase {
 				}
 			}
 		}
+	}
+
+	boolean hasInLargeObjectAlternates(AnyObjectId objectId) {
+		for (LargeObjectAlternates alt : largeObjectAlternates) {
+			if (alt.has(objectId)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	ObjectLoader openFromLargeObjectAlternates(AnyObjectId objectId)
+			throws IOException {
+		for (LargeObjectAlternates alt : largeObjectAlternates) {
+			ObjectLoader ldr = alt.open(objectId);
+			if (ldr != null) {
+				return ldr;
+			}
+		}
+		return null;
+	}
+
+	private long getSizeFromLargeObjectAlternates(AnyObjectId id)
+			throws IOException {
+		for (LargeObjectAlternates alt : largeObjectAlternates) {
+			long len = alt.getObjectSize(id);
+			if (len >= 0) {
+				return len;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Get the large object alternates, in lookup order. For tests.
+	 *
+	 * @return the large object alternates
+	 */
+	List<LargeObjectAlternates> getLargeObjectAlternates() {
+		return largeObjectAlternates;
 	}
 
 	AlternateHandle[] myAlternates() {
