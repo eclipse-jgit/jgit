@@ -378,6 +378,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String externalObjectIdMismatch;
 	/***/ public String externalObjectSizeMismatch;
 	/***/ public String externalObjectStoreBlobsOnly;
+	/***/ public String externalObjectStoreInvalidEndpoint;
+	/***/ public String externalObjectStoreMissingKey;
 	/***/ public String externalObjectStoreMissingPath;
 	/***/ public String externalObjectStoreUnsupportedType;
 	/***/ public String failedAtomicFileCreation;

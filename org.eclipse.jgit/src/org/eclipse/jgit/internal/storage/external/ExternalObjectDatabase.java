@@ -13,6 +13,10 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,17 +41,29 @@ import org.eclipse.jgit.lib.ObjectReader;
  * Abbreviated ids are not resolved against the store.
  * <p>
  * Stores are configured in the repository configuration, one subsection per
- * store:
+ * store. {@code type} is {@code local} (the default) or {@code s3}:
  *
  * <pre>
  * [objectStore "large"]
  *     type = local
  *     path = /mnt/bigdisk/large-objects
  *     minBlobSize = 10m
+ *
+ * [objectStore "s3"]
+ *     type = s3
+ *     bucket = jgit-large-blobs
+ *     region = eu-central-1
+ *     prefix = repos/foo.git
+ *     endpoint = http://localhost:9090
+ *     minBlobSize = 10m
  * </pre>
  *
- * {@code type} defaults to {@code local}, the only type supported so far. A
- * relative {@code path} is resolved against the objects directory.
+ * For {@code local}, a relative {@code path} is resolved against the objects
+ * directory. For {@code s3}, {@code prefix} and {@code endpoint} are optional;
+ * without an endpoint, AWS is used. The {@code accessKey} and
+ * {@code secretKey} of an {@code s3} store are read like any other key, so
+ * they can be kept in the user or system configuration instead of the
+ * repository's, for example in Gerrit's {@code etc/jgit.config}.
  */
 public class ExternalObjectDatabase extends ObjectDatabase {
 
@@ -63,8 +79,29 @@ public class ExternalObjectDatabase extends ObjectDatabase {
 	/** Configuration key for the smallest blob size kept in the store. */
 	public static final String CONFIG_KEY_MIN_BLOB_SIZE = "minBlobSize"; //$NON-NLS-1$
 
+	/** Configuration key for the S3 bucket. */
+	public static final String CONFIG_KEY_BUCKET = "bucket"; //$NON-NLS-1$
+
+	/** Configuration key for the S3 region. */
+	public static final String CONFIG_KEY_REGION = "region"; //$NON-NLS-1$
+
+	/** Configuration key for the S3 key prefix. */
+	public static final String CONFIG_KEY_PREFIX = "prefix"; //$NON-NLS-1$
+
+	/** Configuration key for the base URL of an S3-compatible service. */
+	public static final String CONFIG_KEY_ENDPOINT = "endpoint"; //$NON-NLS-1$
+
+	/** Configuration key for the S3 access key id. */
+	public static final String CONFIG_KEY_ACCESS_KEY = "accessKey"; //$NON-NLS-1$
+
+	/** Configuration key for the S3 secret access key. */
+	public static final String CONFIG_KEY_SECRET_KEY = "secretKey"; //$NON-NLS-1$
+
 	/** Store type keeping objects in a local directory. */
 	public static final String TYPE_LOCAL = "local"; //$NON-NLS-1$
+
+	/** Store type keeping objects in Amazon S3 or an S3-compatible service. */
+	public static final String TYPE_S3 = "s3"; //$NON-NLS-1$
 
 	/** Default smallest blob size kept in a store: 10 MiB. */
 	public static final long DEFAULT_MIN_BLOB_SIZE = 10 * 1024 * 1024;
@@ -121,11 +158,23 @@ public class ExternalObjectDatabase extends ObjectDatabase {
 			File objectsDirectory, String storeName) throws IOException {
 		String type = config.getString(CONFIG_SECTION, storeName,
 				CONFIG_KEY_TYPE);
-		if (type != null && !TYPE_LOCAL.equals(type)) {
+		ExternalObjectStore store;
+		if (type == null || TYPE_LOCAL.equals(type)) {
+			store = localStore(config, objectsDirectory, storeName);
+		} else if (TYPE_S3.equals(type)) {
+			store = s3Store(config, storeName);
+		} else {
 			throw new IOException(MessageFormat.format(
 					JGitText.get().externalObjectStoreUnsupportedType,
 					storeName, type));
 		}
+		long minBlobSize = config.getLong(CONFIG_SECTION, storeName,
+				CONFIG_KEY_MIN_BLOB_SIZE, DEFAULT_MIN_BLOB_SIZE);
+		return new ExternalObjectDatabase(storeName, minBlobSize, store);
+	}
+
+	private static ExternalObjectStore localStore(Config config,
+			File objectsDirectory, String storeName) throws IOException {
 		String path = config.getString(CONFIG_SECTION, storeName,
 				CONFIG_KEY_PATH);
 		if (path == null || path.isEmpty()) {
@@ -137,10 +186,47 @@ public class ExternalObjectDatabase extends ObjectDatabase {
 		if (!dir.isAbsolute()) {
 			dir = new File(objectsDirectory, path);
 		}
-		long minBlobSize = config.getLong(CONFIG_SECTION, storeName,
-				CONFIG_KEY_MIN_BLOB_SIZE, DEFAULT_MIN_BLOB_SIZE);
-		return new ExternalObjectDatabase(storeName, minBlobSize,
-				new LocalDirectoryObjectStore(dir));
+		return new LocalDirectoryObjectStore(dir);
+	}
+
+	private static ExternalObjectStore s3Store(Config config,
+			String storeName) throws IOException {
+		String bucket = required(config, storeName, CONFIG_KEY_BUCKET);
+		String region = required(config, storeName, CONFIG_KEY_REGION);
+		String accessKey = required(config, storeName, CONFIG_KEY_ACCESS_KEY);
+		String secretKey = required(config, storeName, CONFIG_KEY_SECRET_KEY);
+		String prefix = config.getString(CONFIG_SECTION, storeName,
+				CONFIG_KEY_PREFIX);
+		String endpoint = config.getString(CONFIG_SECTION, storeName,
+				CONFIG_KEY_ENDPOINT);
+		URL endpointUrl = null;
+		if (endpoint != null && !endpoint.isEmpty()) {
+			try {
+				endpointUrl = new URI(endpoint).toURL();
+			} catch (URISyntaxException | IllegalArgumentException
+					| MalformedURLException e) {
+				throw new IOException(MessageFormat.format(
+						JGitText.get().externalObjectStoreInvalidEndpoint,
+						storeName, endpoint), e);
+			}
+		}
+		try {
+			return new S3ObjectStore(bucket, region, prefix, endpointUrl,
+					accessKey, secretKey.toCharArray());
+		} catch (IllegalArgumentException e) {
+			throw new IOException(e.getMessage(), e);
+		}
+	}
+
+	private static String required(Config config, String storeName,
+			String key) throws IOException {
+		String value = config.getString(CONFIG_SECTION, storeName, key);
+		if (value == null || value.isEmpty()) {
+			throw new IOException(MessageFormat.format(
+					JGitText.get().externalObjectStoreMissingKey, storeName,
+					key));
+		}
+		return value;
 	}
 
 	/**

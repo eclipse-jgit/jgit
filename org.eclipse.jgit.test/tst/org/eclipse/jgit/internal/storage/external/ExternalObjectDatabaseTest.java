@@ -288,7 +288,7 @@ public class ExternalObjectDatabaseTest {
 	@Test
 	public void fromConfigRejectsUnsupportedType() throws Exception {
 		Config cfg = config(
-				"[objectStore \"large\"]\n  type = s3\n  path = x\n");
+				"[objectStore \"large\"]\n  type = nosuchtype\n  path = x\n");
 
 		assertThrows(IOException.class,
 				() -> ExternalObjectDatabase.fromConfig(cfg, tmp.getRoot()));
