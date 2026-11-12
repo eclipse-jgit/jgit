@@ -70,6 +70,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ed3bdc8_01058e30",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T01:34:32Z",
+      "side": 1,
+      "message": "Kept the regression and renamed it to `testV2PromisorAcceptanceSendsLocallyPresentBlobsWithoutFilter`: acceptance must not omit locally present blobs when the client requests no filter.",
+      "parentUuid": "c5279674_c382f144",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b16f935_de73c78a",
@@ -87,6 +105,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaf7b3e5_54fc703c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T01:34:32Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "8b16f935_de73c78a",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4c48de0_cadc9377",
@@ -100,6 +136,24 @@
       "writtenOn": "2026-11-12T00:36:31Z",
       "side": 1,
       "message": "same here, a comment noting correctly encoded string",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8243560a_f17a2761",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T01:34:32Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "c4c48de0_cadc9377",
       "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -139,6 +193,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "deeca52b_83bb3806",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T01:34:32Z",
+      "side": 1,
+      "message": "I get it now. Stored `partialCloneFilter` in the nested `PromisorRemoteConfig.Remote` record.",
+      "parentUuid": "5d2b938f_52f27fd7",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b30c7c5d_91c43e72",
@@ -152,6 +224,24 @@
       "writtenOn": "2026-11-11T22:52:57Z",
       "side": 1,
       "message": "private and add a getter.",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09ff796c_e1fb059f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T01:34:32Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "b30c7c5d_91c43e72",
       "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -191,6 +281,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73ead8d9_c7726477",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T01:34:32Z",
+      "side": 1,
+      "message": "Removed `advertisedNames` and its redundant tests; the child change now checks accepted names against the advertised remote records.",
+      "parentUuid": "8d883b37_518d0f6f",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c00fc3d0_a02fd5db",
@@ -204,6 +312,24 @@
       "writtenOn": "2026-11-11T22:52:57Z",
       "side": 1,
       "message": "We can calculate this advertisement when needed. If you decide to keep it, make it private with a getter.",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94e70711_016d61a6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T01:34:32Z",
+      "side": 1,
+      "message": "Removed the cached `advertisement` field. `toWireString()` now serializes the immutable snapshot on demand.",
+      "parentUuid": "c00fc3d0_a02fd5db",
       "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -225,6 +351,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45c08954_8b35230e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T01:34:32Z",
+      "side": 1,
+      "message": "Used existing `ConfigConstants` for remote and URL, and added constants for `promisor`, `advertise`, `partialCloneFilter`, and `sendFields`.",
+      "parentUuid": "5e165b69_00b96dc2",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77c7bfc1_330257ab",
@@ -238,6 +382,24 @@
       "writtenOn": "2026-11-11T22:52:57Z",
       "side": 1,
       "message": "nit: we can do this a public String toWireString() method and returns a well-formed line.",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60deafee_fec6d067",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T01:34:32Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "77c7bfc1_330257ab",
       "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -273,6 +435,24 @@
       "side": 1,
       "message": "It\u0027s in the git protocol as required.",
       "parentUuid": "533d7835_1cd7175e",
+      "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10644b52_c33130fc",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-12T01:34:32Z",
+      "side": 1,
+      "message": "Documented this better in the tests now.",
+      "parentUuid": "e67c8562_7fd1b108",
       "revId": "dccf5e2a051f4d5f4205c76df1ebeae8c99e1d31",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
