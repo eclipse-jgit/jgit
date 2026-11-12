@@ -44,10 +44,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedOutputStream;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
@@ -137,6 +141,10 @@ import org.eclipse.jgit.util.TemporaryBuffer;
  * </p>
  */
 public class PackWriter implements AutoCloseable {
+	private static final Logger LOG = LoggerFactory.getLogger(PackWriter.class);
+
+	private static final AtomicBoolean INVALID_URI_WARNING_LOGGED = new AtomicBoolean();
+
 	private static final int PACK_VERSION_GENERATED = 2;
 
 	/** Empty set of objects for {@code preparePack()}. */
@@ -288,6 +296,14 @@ public class PackWriter implements AutoCloseable {
 	private FilterSpec filterSpec = FilterSpec.NO_FILTER;
 
 	private PackfileUriConfig packfileUriConfig;
+
+	private List<CachedPackUriProvider.PackInfo> packfileUris;
+
+	private List<CachedPack> unwrittenCachedPacks;
+
+	private long offloadedObjectCount;
+
+	private boolean packfileUriHeaderWritten;
 
 	/**
 	 * Create writer for specified repository.
@@ -686,6 +702,10 @@ public class PackWriter implements AutoCloseable {
 	 */
 	public void setPackfileUriConfig(PackfileUriConfig config) {
 		packfileUriConfig = config;
+		packfileUris = null;
+		unwrittenCachedPacks = null;
+		offloadedObjectCount = 0;
+		packfileUriHeaderWritten = false;
 	}
 
 	/**
@@ -711,24 +731,84 @@ public class PackWriter implements AutoCloseable {
 		return stats.totalObjects;
 	}
 
-	private long getUnoffloadedObjectCount() throws IOException {
-		long objCnt = 0;
-
-		objCnt += objectsLists[OBJ_COMMIT].size();
-		objCnt += objectsLists[OBJ_TREE].size();
-		objCnt += objectsLists[OBJ_BLOB].size();
-		objCnt += objectsLists[OBJ_TAG].size();
-
-		for (CachedPack pack : cachedPacks) {
-			CachedPackUriProvider.PackInfo packInfo =
-				packfileUriConfig.cachedPackUriProvider.getInfo(
-					pack, packfileUriConfig.protocolsSupported);
-			if (packInfo == null) {
-				objCnt += pack.getObjectCount();
-			}
+	/**
+	 * Resolve URI decisions once, after preparing the pack. The snapshot is used
+	 * for both the object count and the bytes omitted from the inline pack.
+	 * Invalid metadata leaves the corresponding pack in the inline response.
+	 *
+	 * @return immutable URI metadata for the selected packs, in response order
+	 * @throws IOException
+	 *             the provider failed
+	 * @since 8.0
+	 */
+	public List<CachedPackUriProvider.PackInfo> getPackfileUris()
+			throws IOException {
+		if (packfileUriConfig == null) {
+			return Collections.emptyList();
 		}
+		if (packfileUris == null) {
+			List<CachedPackUriProvider.PackInfo> uris = new ArrayList<>();
+			List<CachedPack> inline = new ArrayList<>();
+			long objects = 0;
+			for (CachedPack pack : cachedPacks) {
+				CachedPackUriProvider.PackInfo info = packfileUriConfig
+						.cachedPackUriProvider.getInfo(pack,
+								packfileUriConfig.protocolsSupported);
+				if (info == null) {
+					inline.add(pack);
+				} else {
+					info = new CachedPackUriProvider.PackInfo(info.getHash(),
+							info.getUri(), info.getSize());
+					try {
+						info.validate(packfileUriConfig.protocolsSupported);
+					} catch (IOException invalidMetadata) {
+						if (INVALID_URI_WARNING_LOGGED.compareAndSet(false, true)) {
+							LOG.warn("Ignoring invalid cached pack URI metadata"); //$NON-NLS-1$
+						} else {
+							LOG.debug("Ignoring invalid cached pack URI metadata"); //$NON-NLS-1$
+						}
+						inline.add(pack);
+						continue;
+					}
+					uris.add(info);
+					objects += pack.getObjectCount();
+				}
+			}
+			unwrittenCachedPacks = List.copyOf(inline);
+			offloadedObjectCount = objects;
+			packfileUris = List.copyOf(uris);
+		}
+		return packfileUris;
+	}
 
-		return objCnt;
+	/**
+	 * Write this request's URI manifest and packfile section header separately
+	 * from its raw pack bytes. Repeated calls do not write the header again.
+	 *
+	 * @throws IOException
+	 *             resolving or writing the manifest failed
+	 * @since 8.0
+	 */
+	public void writePackfileUriHeader() throws IOException {
+		if (packfileUriConfig == null || packfileUriHeaderWritten) {
+			return;
+		}
+		List<CachedPackUriProvider.PackInfo> uris = getPackfileUris();
+		PacketLineOut out = packfileUriConfig.pckOut;
+		if (!uris.isEmpty()) {
+			out.writeString("packfile-uris\n"); //$NON-NLS-1$
+			for (CachedPackUriProvider.PackInfo info : uris) {
+				out.writeString(info.getHash() + ' ' + info.getUri() + '\n');
+			}
+			out.writeDelim();
+		}
+		out.writeString("packfile\n"); //$NON-NLS-1$
+		packfileUriHeaderWritten = true;
+	}
+
+	private long getUnoffloadedObjectCount() throws IOException {
+		getPackfileUris();
+		return getObjectCount() - offloadedObjectCount;
 	}
 
 	/**
@@ -1346,30 +1426,14 @@ public class PackWriter implements AutoCloseable {
 		beginPhase(PackingPhase.WRITING, writeMonitor, objCnt);
 		long writeStart = System.currentTimeMillis();
 		try {
-			List<CachedPack> unwrittenCachedPacks;
-
+			List<CachedPack> inlinePacks = cachedPacks;
 			if (packfileUriConfig != null) {
-				unwrittenCachedPacks = new ArrayList<>();
-				CachedPackUriProvider p = packfileUriConfig.cachedPackUriProvider;
-				PacketLineOut o = packfileUriConfig.pckOut;
-
-				o.writeString("packfile-uris\n"); //$NON-NLS-1$
-				for (CachedPack pack : cachedPacks) {
-					CachedPackUriProvider.PackInfo packInfo = p.getInfo(
-							pack, packfileUriConfig.protocolsSupported);
-					if (packInfo != null) {
-						o.writeString(packInfo.getHash() + ' ' +
-								packInfo.getUri() + '\n');
-						stats.offloadedPackfiles += 1;
-						stats.offloadedPackfileSize += packInfo.getSize();
-					} else {
-						unwrittenCachedPacks.add(pack);
-					}
+				writePackfileUriHeader();
+				inlinePacks = unwrittenCachedPacks;
+				for (CachedPackUriProvider.PackInfo info : getPackfileUris()) {
+					stats.offloadedPackfiles++;
+					stats.offloadedPackfileSize += info.getSize();
 				}
-				packfileUriConfig.pckOut.writeDelim();
-				packfileUriConfig.pckOut.writeString("packfile\n"); //$NON-NLS-1$
-			} else {
-				unwrittenCachedPacks = cachedPacks;
 			}
 
 			out.writeFileHeader(PACK_VERSION_GENERATED, objCnt);
@@ -1385,7 +1449,7 @@ public class PackWriter implements AutoCloseable {
 			}
 
 			stats.reusedPacks = Collections.unmodifiableList(cachedPacks);
-			for (CachedPack pack : unwrittenCachedPacks) {
+			for (CachedPack pack : inlinePacks) {
 				long deltaCnt = pack.getDeltaCount();
 				stats.reusedObjects += pack.getObjectCount();
 				stats.reusedDeltas += deltaCnt;

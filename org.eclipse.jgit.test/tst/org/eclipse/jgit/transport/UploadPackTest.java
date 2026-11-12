@@ -51,6 +51,7 @@ import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.internal.storage.pack.CachedPack;
 import org.eclipse.jgit.internal.storage.pack.CachedPackUriProvider;
+import org.eclipse.jgit.internal.storage.pack.CachedPackUriProvider.PackInfo;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -403,25 +404,85 @@ public class UploadPackTest {
 	}
 
 	@Test
-	public void testGeneratedPackCacheInvalidatesIncludedTags() throws Exception {
-		RevCommit tip = remote.commit().message("tip").create();
+	public void testGeneratedPackCacheWithFreshUrisAndChangedOffloadSet()
+			throws Exception {
+		RevCommit base = remote.commit().message("base").create();
+		remote.update("master", base);
+		generateBitmaps(server);
+		RevCommit tip = remote.commit().parent(base).message("tip").create();
 		remote.update("master", tip);
+		AtomicInteger lookups = new AtomicInteger();
+		AtomicReference<String> uri = new AtomicReference<>("https://example.com/base?first");
+		Consumer<UploadPack> setup = up -> up.setCachedPackUriProvider((pack, protocols) -> {
+			lookups.incrementAndGet();
+			return uri.get() == null ? null : new CachedPackUriProvider.PackInfo(
+					ObjectId.zeroId().name(), uri.get(), 100);
+		});
 		try (PackOutputCache cache = newPackOutputCache()) {
-			cachedFetch(cache, "reader", null, tip, "include-tag\n");
-			assertTrue(cachedFetch(cache, "reader", null, tip, "include-tag\n")
-					.upload().isPackOutputCacheHit());
-			remote.update("unrelated-ref", tip);
-			assertTrue(cachedFetch(cache, "reader", null, tip, "include-tag\n")
-					.upload().isPackOutputCacheHit());
-			RevTag tag = remote.tag("release", tip);
-			remote.update("refs/tags/release", tag);
-			CachedFetch fetched = cachedFetch(cache, "reader", null, tip,
-					"include-tag\n");
-			assertFalse(fetched.upload().isPackOutputCacheHit());
-			ByteArrayInputStream received = new ByteArrayInputStream(fetched.response());
-			assertEquals("packfile", new PacketLineIn(received).readString());
-			parsePack(received);
-			assertTrue(client.getObjectDatabase().has(tag));
+			CachedFetch first = cachedFetch(cache, "project", setup, tip,
+					"packfile-uris https\n", "thin-pack\n");
+			uri.set("HTTPS://example.com/base?second");
+			CachedFetch second = cachedFetch(cache, "project", setup, tip,
+					"packfile-uris https\n", "thin-pack\n");
+			assertEquals("packfile-uris", new PacketLineIn(
+					new ByteArrayInputStream(first.response())).readString());
+			assertFalse(first.upload().isPackOutputCacheHit());
+			assertTrue(second.upload().isPackOutputCacheHit());
+			assertEquals(2, lookups.get());
+			assertArrayEquals(rawPackBytes(first), rawPackBytes(second));
+			assertThat(new String(second.response(), StandardCharsets.ISO_8859_1),
+					containsString("HTTPS://example.com/base?second"));
+			assertEquals(1, second.upload().getStatistics().getOffloadedPackfiles());
+			parsePack(cachedPackStream(second));
+			assertFalse(client.getObjectDatabase().has(base));
+			assertTrue(client.getObjectDatabase().has(tip));
+
+			CachedFetch uncached = cachedFetch(cache, "project", up -> {
+				up.setPackOutputCache(null, null);
+				setup.accept(up);
+			}, tip, "packfile-uris https\n", "thin-pack\n");
+			assertEquals("packfile-uris", new PacketLineIn(
+					new ByteArrayInputStream(uncached.response())).readString());
+
+			uri.set(null);
+			CachedFetch inline = cachedFetch(cache, "project", setup, tip,
+					"packfile-uris https\n", "thin-pack\n");
+			assertEquals("packfile", new PacketLineIn(
+					new ByteArrayInputStream(inline.response())).readString());
+			assertFalse(inline.upload().isPackOutputCacheHit());
+			assertEquals(0, inline.upload().getStatistics().getOffloadedPackfiles());
+			parsePack(cachedPackStream(inline));
+			assertTrue(client.getObjectDatabase().has(base));
+			assertTrue(cachedFetch(cache, "project", setup, tip,
+					"packfile-uris https\n", "thin-pack\n").upload().isPackOutputCacheHit());
+		}
+	}
+
+	@Test
+	public void testInvalidPackfileUriMetadataFallsBackInline() throws Exception {
+		RevCommit base = remote.commit().message("base").create();
+		remote.update("master", base);
+		generateBitmaps(server);
+		RevCommit tip = remote.commit().parent(base).message("tip").create();
+		remote.update("master", tip);
+		server.getConfig().setBoolean("uploadpack", null, "allowsidebandall", true);
+		for (PackInfo info : List.of(
+				new PackInfo("invalid", "https://example.com/base", 100),
+				new PackInfo(ObjectId.zeroId().name(), "relative", 100),
+				new PackInfo(ObjectId.zeroId().name(), "http://example.com/base", 100))) {
+			AtomicInteger lookups = new AtomicInteger();
+			try (PackOutputCache cache = newPackOutputCache()) {
+				CachedFetch fetched = cachedFetch(cache, "project", up ->
+						up.setCachedPackUriProvider((pack, protocols) -> {
+							lookups.incrementAndGet();
+							return info;
+						}), tip, "packfile-uris https\n", "sideband-all\n");
+				assertEquals(1, lookups.get());
+				assertEquals(0, fetched.upload().getStatistics().getOffloadedPackfiles());
+				parsePack(cachedPackStream(fetched));
+				assertTrue(client.getObjectDatabase().has(base));
+				assertTrue(client.getObjectDatabase().has(tip));
+			}
 		}
 	}
 
@@ -472,6 +533,82 @@ public class UploadPackTest {
 					}
 				}
 			}
+		}
+	}
+
+	@Test
+	public void testUriPreparationFailureStartsPackfileBeforeSidebandError()
+			throws Exception {
+		RevCommit base = remote.commit().message("base").create();
+		remote.update("master", base);
+		generateBitmaps(server);
+		try (PackOutputCache cache = newPackOutputCache(); UploadPack up = new UploadPack(server)) {
+			up.setExtraParameters(List.of("version=2"));
+			up.setPackOutputCache(cache, "project");
+			up.setCachedPackUriProvider((pack, protocols) -> {
+				throw new IOException("provider unavailable");
+			});
+			ByteArrayOutputStream output = new ByteArrayOutputStream();
+			assertThrows(IOException.class, () -> up.upload(linesAsInputStream(
+					"command=fetch\n", PacketLineIn.delimiter(),
+					"want " + base.name() + "\n", "packfile-uris https\n",
+					"done\n", PacketLineIn.end()), output, null));
+			String response = output.toString(StandardCharsets.ISO_8859_1);
+			assertThat(response, containsString("packfile\n"));
+			assertTrue(response.indexOf("packfile\n") < response.indexOf('\003'));
+			assertNotNull(up.getStatistics());
+		}
+	}
+
+	@Test
+	public void testUriRemainderRetainsThinPackSupportWithoutPublisher() throws Exception {
+		byte[] data = new byte[128 * 1024];
+		new java.util.Random(17).nextBytes(data);
+		String contents = java.util.Base64.getEncoder().encodeToString(data);
+		RevCommit base = remote.commit().add("data", contents).message("base").create();
+		RevCommit tip = remote.commit().parent(base)
+				.add("data", contents.substring(0, contents.length() - 1024))
+				.message("tip").create();
+		remote.update("master", tip);
+		generateBitmaps(server);
+		Consumer<UploadPack> setup = up -> up.setCachedPackUriProvider((pack, protocols) -> null);
+		try (PackOutputCache cache = newPackOutputCache()) {
+			CachedFetch parent = cachedFetch(cache, "project", null, base);
+			parsePack(cachedPackStream(parent));
+			CachedFetch thin = cachedFetch(cache, "project", setup, tip,
+					"packfile-uris https\n", "thin-pack\n", "have " + base.name() + "\n");
+			CachedFetch full = cachedFetch(cache, "project", setup, tip,
+					"packfile-uris https\n", "have " + base.name() + "\n");
+			assertFalse(full.upload().isPackOutputCacheHit());
+			assertTrue(rawPackBytes(thin).length < rawPackBytes(full).length / 4);
+			parseCachedThinPack(thin);
+			assertTrue(client.getObjectDatabase().has(tip));
+			assertTrue(cachedFetch(cache, "project", setup, tip,
+					"packfile-uris https\n", "thin-pack\n", "have " + base.name() + "\n")
+					.upload().isPackOutputCacheHit());
+		}
+	}
+
+	@Test
+	public void testGeneratedPackCacheInvalidatesIncludedTags() throws Exception {
+		RevCommit tip = remote.commit().message("tip").create();
+		remote.update("master", tip);
+		try (PackOutputCache cache = newPackOutputCache()) {
+			cachedFetch(cache, "reader", null, tip, "include-tag\n");
+			assertTrue(cachedFetch(cache, "reader", null, tip, "include-tag\n")
+					.upload().isPackOutputCacheHit());
+			remote.update("unrelated-ref", tip);
+			assertTrue(cachedFetch(cache, "reader", null, tip, "include-tag\n")
+					.upload().isPackOutputCacheHit());
+			RevTag tag = remote.tag("release", tip);
+			remote.update("refs/tags/release", tag);
+			CachedFetch fetched = cachedFetch(cache, "reader", null, tip,
+					"include-tag\n");
+			assertFalse(fetched.upload().isPackOutputCacheHit());
+			ByteArrayInputStream received = new ByteArrayInputStream(fetched.response());
+			assertEquals("packfile", new PacketLineIn(received).readString());
+			parsePack(received);
+			assertTrue(client.getObjectDatabase().has(tag));
 		}
 	}
 
@@ -3330,6 +3467,7 @@ public class UploadPackTest {
 
 	@Test
 	public void testV2FetchPackfileUris() throws Exception {
+		AtomicInteger lookups = new AtomicInteger();
 		// Inside the pack
 		RevCommit commit = remote.commit().message("x").create();
 		remote.update("master", commit);
@@ -3351,7 +3489,11 @@ public class UploadPackTest {
 						assertThat(protocolsSupported, hasItems("https"));
 						if (!protocolsSupported.contains("https"))
 							return null;
-						return new PackInfo("myhash", "myuri", 100);
+						if (lookups.incrementAndGet() > 1) {
+							return null;
+						}
+						return new PackInfo(ObjectId.zeroId().name(),
+								"https://example.com/base.pack", 100);
 					}
 
 				});
@@ -3371,11 +3513,13 @@ public class UploadPackTest {
 			// do nothing
 		}
 		assertThat(s, is("\001packfile-uris"));
-		assertThat(pckIn.readString(), is("\001myhash myuri"));
+		assertThat(pckIn.readString(), is("\001" + ObjectId.zeroId().name()
+				+ " https://example.com/base.pack"));
 		assertTrue(PacketLineIn.isDelimiter(pckIn.readString()));
 		assertThat(pckIn.readString(), is("\001packfile"));
 		parsePack(recvStream);
 
+		assertEquals(1, lookups.get());
 		assertFalse(client.getObjectDatabase().has(commit.toObjectId()));
 		assertTrue(client.getObjectDatabase().has(commit2.toObjectId()));
 	}

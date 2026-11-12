@@ -10,8 +10,11 @@
 package org.eclipse.jgit.internal.storage.pack;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collection;
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * Provider of URIs corresponding to cached packs. For use with the
@@ -53,7 +56,8 @@ public interface CachedPackUriProvider {
 		 * Constructs an object containing information about a packfile.
 		 *
 		 * @param hash
-		 *            the hash of the packfile as a hexadecimal string
+		 *            trailer checksum of the exact pack bytes at the URI, as hex;
+		 *            must change when pack contents change, never a logical name
 		 * @param uri
 		 *            the URI corresponding to the packfile
 		 * @param size
@@ -63,6 +67,29 @@ public interface CachedPackUriProvider {
 			this.hash = hash;
 			this.uri = uri;
 			this.size = size;
+		}
+
+		/**
+		 * Validate metadata before including it in a protocol response.
+		 *
+		 * @param protocolsSupported
+		 *            schemes accepted by the client
+		 * @throws IOException
+		 *             hash, URI, size or scheme is invalid
+		 * @since 8.0
+		 */
+		public void validate(Collection<String> protocolsSupported)
+				throws IOException {
+			try {
+				URI parsed = new URI(uri);
+				if (!ObjectId.isId(hash) || size < -1 || !parsed.isAbsolute()
+						|| protocolsSupported.stream().noneMatch(
+							protocol -> protocol.equalsIgnoreCase(parsed.getScheme()))) {
+					throw new IOException("Invalid packfile URI metadata"); //$NON-NLS-1$
+				}
+			} catch (URISyntaxException | NullPointerException e) {
+				throw new IOException("Invalid packfile URI metadata", e); //$NON-NLS-1$
+			}
 		}
 
 		/**
