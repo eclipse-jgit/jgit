@@ -62,7 +62,9 @@ import org.eclipse.jgit.util.FileUtils;
  * <p>
  * Optionally an object database can reference one or more alternates; other
  * ObjectDatabase instances that are searched in addition to the current
- * database.
+ * database. Object databases listed as {@code s3://} links in
+ * {@code objects/info/s3-alternates} are searched last, after all local
+ * packs, loose objects and file alternates.
  * <p>
  * Databases are divided into two halves: a half that is considered to be fast
  * to search (the {@code PackFile}s), and a half that is considered to be slow
@@ -100,6 +102,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 	private final FS fs;
 
 	private final AtomicReference<AlternateHandle[]> alternates;
+
+	private final S3Alternates s3Alternates;
 
 	private final File shallowFile;
 
@@ -139,6 +143,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		fileCommitGraph = new FileCommitGraph(objects);
 		this.fs = fs;
 		this.shallowFile = shallowFile;
+		s3Alternates = new S3Alternates(config, objects);
 
 		alternates = new AtomicReference<>();
 		if (alternatePaths != null) {
@@ -214,6 +219,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 			for(AlternateHandle od : alt)
 				od.close();
 		}
+
+		s3Alternates.close();
 	}
 
 	@Override
@@ -280,6 +287,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	public boolean has(AnyObjectId objectId) {
 		return loose.hasCached(objectId)
 				|| hasPackedOrLooseInSelfOrAlternate(objectId)
+				|| s3Alternates.has(objectId)
 				|| (restoreFromSelfOrAlternate(objectId, null)
 						&& hasPackedOrLooseInSelfOrAlternate(objectId));
 	}
@@ -379,7 +387,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 		if (ldr != null) {
 			return ldr;
 		}
-		return openLooseFromSelfOrAlternate(curs, objectId, null);
+		ldr = openLooseFromSelfOrAlternate(curs, objectId, null);
+		if (ldr != null) {
+			return ldr;
+		}
+		return s3Alternates.open(objectId);
 	}
 
 	private ObjectLoader openPackedFromSelfOrAlternate(WindowCursor curs,
@@ -458,7 +470,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 		if (len >= 0) {
 			return len;
 		}
-		return getLooseSizeFromSelfOrAlternate(curs, id, null);
+		len = getLooseSizeFromSelfOrAlternate(curs, id, null);
+		if (len >= 0) {
+			return len;
+		}
+		return s3Alternates.getObjectSize(id);
 	}
 
 	private long getPackedSizeFromSelfOrAlternate(WindowCursor curs,
@@ -698,6 +714,17 @@ public class ObjectDirectory extends FileObjectDatabase {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Replace how {@code s3://} links in {@code objects/info/s3-alternates}
+	 * are opened. For tests.
+	 *
+	 * @param opener
+	 *            opener to use from now on
+	 */
+	void setS3AlternatesOpener(S3Alternates.Opener opener) {
+		s3Alternates.setOpener(opener);
 	}
 
 	AlternateHandle[] myAlternates() {
