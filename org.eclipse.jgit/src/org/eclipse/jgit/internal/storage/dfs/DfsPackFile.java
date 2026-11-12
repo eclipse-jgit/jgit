@@ -76,8 +76,6 @@ import org.eclipse.jgit.util.LongList;
  * objects are similar.
  */
 public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
-	private static final int REC_SIZE = Constants.OBJECT_ID_LENGTH + 8;
-
 	private static final long REF_POSITION = 0;
 
 	/**
@@ -234,10 +232,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 	}
 
 	void setPackIndex(PackIndex idx) {
-		long objCnt = idx.getObjectCount();
-		int recSize = Constants.OBJECT_ID_LENGTH + 8;
-		long sz = objCnt * recSize;
-		cache.putRef(desc.getStreamKey(INDEX), sz, idx);
+		cache.putRef(desc.getStreamKey(INDEX), idx.getMemorySize(), idx);
 		index = idx;
 	}
 
@@ -1663,8 +1658,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 				try (ReadableChannel rc = ctx.db.openFile(desc, INDEX)) {
 					PackIndex idx = PackIndex.read(alignTo8kBlocks(rc));
 					ctx.stats.readIdxBytes += rc.position();
-					return new RefWithSize<>(idx,
-							idx.getObjectCount() * REC_SIZE);
+					return new RefWithSize<>(idx, idx.getMemorySize());
 				} finally {
 					ctx.stats.readIdxMicros += elapsedMicros(start);
 				}

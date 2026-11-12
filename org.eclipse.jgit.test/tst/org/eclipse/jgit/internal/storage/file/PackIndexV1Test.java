@@ -12,14 +12,23 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.junit.Test;
 
 public class PackIndexV1Test extends PackIndexTestCase {
@@ -56,5 +65,35 @@ public class PackIndexV1Test extends PackIndexTestCase {
 		} catch (UnsupportedOperationException x) {
 			// expected
 		}
+	}
+
+	@Test
+	public void testMemorySize() throws IOException {
+		assertEquals(8, smallIdx.getObjectCount());
+		assertEquals(8L * (Constants.OBJECT_ID_LENGTH + 4L),
+				smallIdx.getMemorySize());
+
+		List<PackedObjectInfo> entries = new ArrayList<>();
+		PackedObjectInfo small = new PackedObjectInfo(ObjectId
+				.fromString("0000000000000000000000000000000000000001"));
+		small.setOffset(12L);
+		entries.add(small);
+		PackedObjectInfo over2GiB = new PackedObjectInfo(ObjectId
+				.fromString("8000000000000000000000000000000000000002"));
+		over2GiB.setOffset(0x80000000L);
+		entries.add(over2GiB);
+		Collections.sort(entries);
+
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		BasePackIndexWriter.createVersion(out, 1).write(entries,
+				new byte[Constants.OBJECT_ID_LENGTH]);
+		PackIndex idx = PackIndex
+				.read(new ByteArrayInputStream(out.toByteArray()));
+
+		// V1 stores 32-bit unsigned offsets inline without offset64.
+		assertEquals(2, idx.getObjectCount());
+		assertEquals(1, idx.getOffset64Count());
+		assertEquals(2L * (Constants.OBJECT_ID_LENGTH + 4L),
+				idx.getMemorySize());
 	}
 }

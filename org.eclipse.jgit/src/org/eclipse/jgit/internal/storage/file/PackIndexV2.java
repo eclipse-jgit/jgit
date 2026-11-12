@@ -289,6 +289,11 @@ class PackIndexV2 implements PackIndex {
 		return packChecksum;
 	}
 
+	@Override
+	public long getMemorySize() {
+		return (Constants.OBJECT_ID_LENGTH + 8L) * objectCnt + offset64.length;
+	}
+
 	private static class EntriesIteratorV2 extends EntriesIterator {
 		private int levelOne = 0;
 
