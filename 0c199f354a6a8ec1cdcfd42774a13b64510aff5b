@@ -21,6 +21,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d5395955_af680bf5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-11-12T12:12:38Z",
+      "side": 1,
+      "message": "We had earlier discussions whether to move to google-java-format and follow the approach taken by Gerrit. That would be ok for me and I remember Ivan was also in favour of this proposal. I just never found time to implement this.\n\nIf we agree on this I think we should initially reformat all source code with gjf on all branches we still want to be able to merge between. I would start this from stable-6.10.",
+      "parentUuid": "15fa0663_39c0a3d7",
+      "revId": "0c199f354a6a8ec1cdcfd42774a13b64510aff5b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2e2249f_35e199a9",
         "filename": "tools/formatter/FormatterTest.java",
         "patchSetId": 1
