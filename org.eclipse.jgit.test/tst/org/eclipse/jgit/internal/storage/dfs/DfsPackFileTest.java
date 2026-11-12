@@ -20,16 +20,22 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.zip.Deflater;
 
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.dfs.DfsReader.PackLoadListener;
+import org.eclipse.jgit.internal.storage.file.BasePackIndexWriter;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
+import org.eclipse.jgit.internal.storage.file.PackIndex;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
@@ -42,6 +48,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.Before;
 import org.junit.Test;
@@ -318,6 +325,83 @@ public class DfsPackFileTest {
 		CommitGraph cgWithCpfAgain = db.getObjectDatabase().getPacks()[0]
 				.getCommitGraph(reader);
 		assertNotNull(cgWithCpfAgain.getChangedPathFilter(0));
+	}
+
+	@Test
+	public void testPackIndexCacheSizeAccountsForOffset64OnLoad()
+			throws IOException {
+		DfsBlockCache.reconfigure(new DfsBlockCacheConfig().setBlockSize(512)
+				.setBlockLimit(512 * 100));
+
+		byte[] idxBytes = createV2IndexWithOffset64();
+		DfsPackDescription desc = db.getObjectDatabase().newPack(PackSource.GC);
+		try (DfsOutputStream out = db.getObjectDatabase().writeFile(desc,
+				PackExt.INDEX)) {
+			out.write(idxBytes);
+		}
+		desc.addFileExt(PackExt.PACK);
+		desc.addFileExt(PackExt.INDEX);
+		desc.setFileSize(PackExt.INDEX, idxBytes.length);
+		desc.setObjectCount(3);
+		db.getObjectDatabase().commitPack(Collections.singletonList(desc),
+				null);
+
+		try (DfsReader reader = db.getObjectDatabase().newReader()) {
+			DfsPackFile pack = db.getObjectDatabase().getPacks()[0];
+			PackIndex idx = pack.getPackIndex(reader);
+			long expectedSize = 3L * (Constants.OBJECT_ID_LENGTH + 8L)
+					+ 2L * 8L;
+			assertEquals(expectedSize, idx.getMemorySize());
+			assertEquals(expectedSize, DfsBlockCache.getInstance()
+					.getCurrentSize()[PackExt.INDEX.getPosition()]);
+		}
+	}
+
+	@Test
+	public void testSetPackIndexCacheSizeAccountsForOffset64()
+			throws IOException {
+		DfsBlockCache.reconfigure(new DfsBlockCacheConfig().setBlockSize(512)
+				.setBlockLimit(512 * 100));
+
+		byte[] idxBytes = createV2IndexWithOffset64();
+		PackIndex idx = PackIndex.read(new ByteArrayInputStream(idxBytes));
+
+		DfsPackDescription desc = db.getObjectDatabase()
+				.newPack(PackSource.INSERT);
+		desc.addFileExt(PackExt.PACK);
+		desc.addFileExt(PackExt.INDEX);
+		db.getObjectDatabase().commitPack(Collections.singletonList(desc),
+				null);
+
+		DfsPackFile pack = db.getObjectDatabase().getPacks()[0];
+		pack.setPackIndex(idx);
+
+		long expectedSize = 3L * (Constants.OBJECT_ID_LENGTH + 8L) + 2L * 8L;
+		assertEquals(expectedSize, idx.getMemorySize());
+		assertEquals(expectedSize, DfsBlockCache.getInstance()
+				.getCurrentSize()[PackExt.INDEX.getPosition()]);
+	}
+
+	private static byte[] createV2IndexWithOffset64() throws IOException {
+		List<PackedObjectInfo> entries = new ArrayList<>();
+		PackedObjectInfo o1 = new PackedObjectInfo(ObjectId
+				.fromString("0000000000000000000000000000000000000001"));
+		o1.setOffset(12L);
+		entries.add(o1);
+		PackedObjectInfo o2 = new PackedObjectInfo(ObjectId
+				.fromString("8000000000000000000000000000000000000002"));
+		o2.setOffset(0x80000000L);
+		entries.add(o2);
+		PackedObjectInfo o3 = new PackedObjectInfo(ObjectId
+				.fromString("ff00000000000000000000000000000000000003"));
+		o3.setOffset(10L * (1L << 30));
+		entries.add(o3);
+		Collections.sort(entries);
+
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		BasePackIndexWriter.createVersion(out, 2).write(entries,
+				new byte[Constants.OBJECT_ID_LENGTH]);
+		return out.toByteArray();
 	}
 
 	private ObjectId setupPack(int bs, int ps) throws IOException {
