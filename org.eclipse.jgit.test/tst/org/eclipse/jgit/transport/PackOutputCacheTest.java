@@ -363,7 +363,11 @@ public class PackOutputCacheTest {
 			cache.close();
 			assertEquals(pack.length, storedBytes());
 			assertFalse(reader.isDone());
-
+			try (PackOutputCache other = new PackOutputCache(directory, 1024, 8,
+					Duration.ofMinutes(1), 0, 2)) {
+				assertEquals(0, other.getStats().removedFiles());
+				assertEquals(pack.length, storedBytes());
+			}
 		} finally {
 			complete.countDown();
 		}
@@ -600,6 +604,32 @@ public class PackOutputCacheTest {
 			complete.countDown();
 		}
 		assertArrayEquals(new byte[] { 1 }, owner.get(5, TimeUnit.SECONDS));
+	}
+
+	@Test
+	public void cleansAbandonedInstancesAndPreservesLiveOrUnreadyDirectories()
+			throws Exception {
+		write("live", out -> {
+			out.write(1);
+			return statistics();
+		});
+		Path abandoned = Files.createDirectory(directory.resolve(
+				"jgit-pack-output-abandoned"));
+		Files.createFile(abandoned.resolve("lock"));
+		Files.createFile(abandoned.resolve("ready"));
+		Files.write(abandoned.resolve("pack-abandoned.pack"), new byte[] { 9 });
+		Path unready = Files.createDirectory(directory.resolve(
+				"jgit-pack-output-unready"));
+		Files.createFile(unready.resolve("lock"));
+		try (PackOutputCache other = new PackOutputCache(directory, 1024, 8,
+				Duration.ofMinutes(1), 0, 2)) {
+			assertFalse(Files.exists(abandoned));
+			assertTrue(Files.exists(unready));
+			assertEquals(1, other.getStats().removedFiles());
+			assertArrayEquals(new byte[] { 1 }, write("live", out -> {
+				throw new AssertionError("live instance must not be removed");
+			}));
+		}
 	}
 
 	private void awaitHits(long count) throws Exception {

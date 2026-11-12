@@ -14,8 +14,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.nio.channels.OverlappingFileLockException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -93,7 +99,7 @@ public final class PackOutputCache implements AutoCloseable {
 	 * @param servedBytes
 	 *            pack bytes successfully served, including uncached bypasses
 	 * @param removedFiles
-	 *            pack files deleted by eviction
+	 *            pack files deleted by eviction or abandoned-instance cleanup
 	 * @param activeProducers
 	 *            producers that have not terminated
 	 * @param entries
@@ -114,6 +120,10 @@ public final class PackOutputCache implements AutoCloseable {
 			.getLogger(PackOutputCache.class);
 
 	private static final String DIRECTORY_PREFIX = "jgit-pack-output-"; //$NON-NLS-1$
+
+	private static final String LOCK_FILE = "lock"; //$NON-NLS-1$
+
+	private static final String READY_FILE = "ready"; //$NON-NLS-1$
 
 	private static final int CHUNK_SIZE = 64 << 10;
 
@@ -162,7 +172,13 @@ public final class PackOutputCache implements AutoCloseable {
 		}
 	}
 
+	private final Path parent;
+
 	private final Path directory;
+
+	private final FileChannel lockChannel;
+
+	private final FileLock directoryLock;
 
 	private final long maxBytes;
 
@@ -210,8 +226,8 @@ public final class PackOutputCache implements AutoCloseable {
 	private boolean closed;
 
 	/**
-	 * Create a cache in a new private directory. Each instance owns only files
-	 * created below that directory and removes them when closed.
+	 * Create a cache in a new private directory, removing abandoned instances
+	 * whose ownership lock can be acquired. Live instances are never removed.
 	 *
 	 * @param directory
 	 *            parent directory dedicated to pack output caches
@@ -229,7 +245,7 @@ public final class PackOutputCache implements AutoCloseable {
 	 *            positive limit on background pack generators; excess misses
 	 *            bypass caching
 	 * @throws IOException
-	 *             cache storage cannot be created
+	 *             cache storage or its ownership lock cannot be created
 	 */
 	public PackOutputCache(Path directory, long maxBytes, int maxEntries,
 			Duration maxAge, int minOccurrences, int maxConcurrentProducers)
@@ -245,7 +261,14 @@ public final class PackOutputCache implements AutoCloseable {
 		this.minOccurrences = minOccurrences;
 		maxObservations = (int) Math.min((long) maxEntries * 4, 65536);
 		Files.createDirectories(directory);
-		this.directory = Files.createTempDirectory(directory, DIRECTORY_PREFIX);
+		parent = directory.toRealPath();
+		removedFiles = cleanAbandoned(parent);
+		this.directory = Files.createTempDirectory(parent, DIRECTORY_PREFIX);
+		Path lock = Files.createFile(this.directory.resolve(LOCK_FILE));
+		lockChannel = FileChannel.open(lock, StandardOpenOption.WRITE,
+				LinkOption.NOFOLLOW_LINKS);
+		directoryLock = lockChannel.lock();
+		Files.createFile(this.directory.resolve(READY_FILE));
 		producers = new ThreadPoolExecutor(maxConcurrentProducers,
 				maxConcurrentProducers, 0, TimeUnit.MILLISECONDS,
 				new SynchronousQueue<>(), r -> daemon(r, "JGit pack producer")); //$NON-NLS-1$
@@ -559,8 +582,21 @@ public final class PackOutputCache implements AutoCloseable {
 				files.size(), bytes, retainedBytes);
 	}
 
-	private synchronized void maintain() {
-		expire();
+	private void maintain() {
+		synchronized (this) {
+			expire();
+			if (closed) {
+				return;
+			}
+		}
+		try {
+			long removed = cleanAbandoned(parent);
+			synchronized (this) {
+				removedFiles += removed;
+			}
+		} catch (IOException e) {
+			LOG.warn("Cannot clean abandoned pack output caches", e); //$NON-NLS-1$
+		}
 	}
 
 	private void expire() {
@@ -635,14 +671,18 @@ public final class PackOutputCache implements AutoCloseable {
 	}
 
 	private void finishClose() throws IOException {
-		if (closed && files.isEmpty()) {
+		if (closed && files.isEmpty() && lockChannel.isOpen()) {
+			directoryLock.release();
+			lockChannel.close();
+			Files.deleteIfExists(directory.resolve(READY_FILE));
+			Files.deleteIfExists(directory.resolve(LOCK_FILE));
 			Files.deleteIfExists(directory);
 		}
 	}
 
 	/**
 	 * Stop admitting requests and retaining packs. Existing readers and their
-	 * producers can finish; their files are removed after all readers release them.
+	 * producers can finish; ownership is released after all files are removed.
 	 */
 	@Override
 	public synchronized void close() {
@@ -662,6 +702,65 @@ public final class PackOutputCache implements AutoCloseable {
 		}
 	}
 
+	private static long cleanAbandoned(Path parent) throws IOException {
+		long removed = 0;
+		try (DirectoryStream<Path> directories = Files.newDirectoryStream(parent,
+				DIRECTORY_PREFIX + '*')) {
+			for (Path directory : directories) {
+				if (!Files.isDirectory(directory, LinkOption.NOFOLLOW_LINKS)) {
+					continue;
+				}
+				Path lockPath = directory.resolve(LOCK_FILE);
+				if (!Files.isRegularFile(lockPath, LinkOption.NOFOLLOW_LINKS)
+						|| !Files.isRegularFile(directory.resolve(READY_FILE),
+								LinkOption.NOFOLLOW_LINKS)) {
+					continue;
+				}
+				try (FileChannel channel = FileChannel.open(lockPath,
+						StandardOpenOption.WRITE, LinkOption.NOFOLLOW_LINKS)) {
+					FileLock lock;
+					try {
+						lock = channel.tryLock();
+					} catch (OverlappingFileLockException e) {
+						continue;
+					}
+					if (lock == null) {
+						continue;
+					}
+					boolean ownedOnly = true;
+					try (lock;
+							DirectoryStream<Path> paths = Files
+									.newDirectoryStream(directory)) {
+						for (Path path : paths) {
+							String name = path.getFileName().toString();
+							if (name.equals(LOCK_FILE) || name.equals(READY_FILE)) {
+								continue;
+							}
+							if (name.startsWith("pack-") //$NON-NLS-1$
+									&& name.endsWith(".pack") //$NON-NLS-1$
+									&& Files.isRegularFile(path,
+											LinkOption.NOFOLLOW_LINKS)) {
+								if (Files.deleteIfExists(path)) {
+									removed++;
+								}
+							} else {
+								ownedOnly = false;
+							}
+						}
+					}
+					if (ownedOnly) {
+						channel.close();
+						Files.deleteIfExists(directory.resolve(READY_FILE));
+						Files.deleteIfExists(lockPath);
+						Files.deleteIfExists(directory);
+					}
+				} catch (java.nio.file.NoSuchFileException e) {
+					// Another cache may have removed this abandoned instance.
+				}
+			}
+		}
+		return removed;
+	}
 
 	private final class Spool extends OutputStream {
 		private final Entry entry;
