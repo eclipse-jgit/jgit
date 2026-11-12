@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -20,19 +21,25 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.GcConfig;
 import org.eclipse.jgit.lib.GcConfig.PackRefsMode;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.Transport;
+import org.eclipse.jgit.transport.URIish;
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
@@ -572,6 +579,107 @@ public class GcBasicPackingTest extends GcTestCase {
 				cruftPack.hasCruftMtimes());
 		assertEquals("cruft mtime of orphaned commit must match old pack mtime",
 				oldPackMtimeSecs, cruftPack.getCruftMtime(orphaned));
+	}
+
+	@Test
+	public void testCruftPackMtimesPreservedOnReGc() throws Exception {
+		BranchBuilder bb = tr.branch("refs/heads/master");
+		bb.commit().message("M").add("M", "M").create();
+
+		String tempRef = "refs/heads/soon-to-be-unreferenced";
+		BranchBuilder bb2 = tr.branch(tempRef);
+		RevCommit orphaned = bb2.commit().message("U").add("U", "U").create();
+
+		gc.setExpireAge(Duration.ZERO);
+		gc.gc().get();
+
+		fsTick();
+
+		RefUpdate update = tr.getRepository().getRefDatabase()
+				.newUpdate(tempRef, false);
+		update.setForceUpdate(true);
+		update.delete();
+
+		bb.commit().message("B").add("B", "Q").create();
+
+		gc.setGcConfig(gc.getGcConfig().withCruftPacks(true));
+		gc.setPackExpireAge(Duration.ZERO);
+
+		// first GC: produces the cruft pack
+		gc.gc().get();
+
+		Collection<Pack> packs = repo.getObjectDatabase().getPacks();
+		Pack cruftPack1 = null;
+		for (Pack p : packs) {
+			if (p.hasObject(orphaned)) {
+				cruftPack1 = p;
+				break;
+			}
+		}
+		assertNotNull(cruftPack1);
+		assertTrue(cruftPack1.hasCruftMtimes());
+		long originalMtime = cruftPack1.getCruftMtime(orphaned);
+
+		// fetch a new commit from a bare server repo into a temporary ref in
+		// repo; this lands the objects in a new non-cruft pack file
+		try (FileRepository server = createBareRepository();
+				TestRepository<FileRepository> serverTr = new TestRepository<>(
+						server)) {
+			RevCommit orphaned2 = serverTr.branch("refs/heads/tmp").commit()
+					.message("V").add("V", "V").create();
+			String fetchRef = "refs/heads/fetched-tmp";
+			URIish uri = new URIish(server.getDirectory().toURI().toString());
+			try (Transport tn = Transport.open(repo, uri)) {
+				tn.fetch(NullProgressMonitor.INSTANCE,
+						Collections.singletonList(
+								new RefSpec("refs/heads/tmp:" + fetchRef)));
+			}
+			// delete the ref so the fetched objects become garbage in the
+			// non-cruft pack
+			RefUpdate update2 = repo.getRefDatabase().newUpdate(fetchRef,
+					false);
+			update2.setForceUpdate(true);
+			update2.delete();
+
+			long expectedOrphaned2Mtime = 0;
+			for (Pack p : repo.getObjectDatabase().getPacks()) {
+				if (p.hasObject(orphaned2)) {
+					expectedOrphaned2Mtime = repo.getFS()
+							.lastModifiedInstant(p.getPackFile())
+							.getEpochSecond();
+					break;
+				}
+			}
+			assertTrue("fetched pack must be found",
+					expectedOrphaned2Mtime > 0);
+
+			fsTick();
+
+			// second GC: must consolidate the existing cruft pack and the new
+			// garbage from the fetched pack into a single new cruft pack
+			gc.gc().get();
+
+			packs = repo.getObjectDatabase().getPacks();
+			Pack cruftPack2 = null;
+			for (Pack p : packs) {
+				if (p.hasObject(orphaned)) {
+					cruftPack2 = p;
+					break;
+				}
+			}
+			assertNotNull(cruftPack2);
+			assertTrue(cruftPack2.hasCruftMtimes());
+			// the new garbage from the fetched pack must be in the same cruft
+			// pack
+			assertTrue(cruftPack2.hasObject(orphaned2));
+			assertEquals(
+					"fetched orphan mtime must equal the mtime of its source pack",
+					expectedOrphaned2Mtime,
+					cruftPack2.getCruftMtime(orphaned2));
+			assertEquals(
+					"re-GC must preserve the original cruft mtime of orphaned commit",
+					originalMtime, cruftPack2.getCruftMtime(orphaned));
+		}
 	}
 
 	private static void assertHasLooseRef(FileRepository repository)
