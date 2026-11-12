@@ -447,6 +447,17 @@ class FetchProcess {
 		for (Ref src : conn.getRefs()) {
 			if (spec.matchSource(src)) {
 				RefSpec expandedRefSpec = spec.expandFromSource(src);
+				String dst = expandedRefSpec.getDestination();
+				if (dst != null && !isValidFetchDestination(dst)) {
+					// The wildcard copied part of the remote-advertised name
+					// verbatim into the local destination. Drop an invalid
+					// result before it becomes a ref update, an object
+					// request, or a FETCH_HEAD entry. Warn so the drop is
+					// visible, like native git's "Ignoring funny ref" message.
+					LOG.warn(MessageFormat.format(
+							JGitText.get().ignoringFunnyRefLocally, dst));
+					continue;
+				}
 				if (!matchNegativeRefSpec(expandedRefSpec)
 						&& matched.add(src)) {
 					want(src, expandedRefSpec);
@@ -556,16 +567,6 @@ class FetchProcess {
 					src.getName()));
 		}
 		if (spec.getDestination() != null) {
-			if (!isValidFetchDestination(spec.getDestination())) {
-				// Drop an invalid expanded destination before it becomes a ref
-				// update, an object request, or a FETCH_HEAD entry. Warn so the
-				// drop is visible, like native git's "Ignoring funny ref"
-				// message.
-				LOG.warn(MessageFormat.format(
-						JGitText.get().ignoringFunnyRefLocally,
-						spec.getDestination()));
-				return;
-			}
 			final TrackingRefUpdate tru = createUpdate(spec, newId);
 			// if depth is set we need to update the ref
 			if (newId.equals(tru.getOldObjectId()) && transport.getDepth() == null) {
@@ -590,12 +591,18 @@ class FetchProcess {
 	}
 
 	/**
-	 * Checks whether an expanded local fetch destination is safe to store.
+	 * Checks whether a wildcard-expanded local fetch destination is safe to
+	 * store.
 	 * <p>
 	 * Matches native git's {@code get_fetch_map()} rule: the destination must
 	 * live under {@code refs/} and be a valid ref name. A wildcard refspec
 	 * copies the matched part of the remote name verbatim into the destination,
 	 * so a hostile remote could otherwise introduce path-traversal components.
+	 * <p>
+	 * Only applied to wildcard expansions, whose destination is partially
+	 * controlled by the remote. Explicit destinations are chosen by the caller
+	 * and may legitimately be outside {@code refs/}, e.g.
+	 * {@code refs/pull/1/head:FETCH_HEAD}.
 	 *
 	 * @param name
 	 *            expanded local destination from a fetch refspec.

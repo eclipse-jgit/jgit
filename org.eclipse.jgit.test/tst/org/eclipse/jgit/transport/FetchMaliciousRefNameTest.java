@@ -11,9 +11,11 @@ package org.eclipse.jgit.transport;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -161,6 +163,34 @@ public class FetchMaliciousRefNameTest extends LocalDiskRepositoryTestCase {
 				client.exactRef("refs/tags/good"));
 		assertNotNull("valid ref must still be fetched",
 				client.exactRef("refs/tags/alsogood"));
+	}
+
+	/**
+	 * An explicit (non-wildcard) destination outside {@code refs/} chosen by
+	 * the caller, such as {@code FETCH_HEAD}, must still be fetched. EGit uses
+	 * this to fetch GitHub pull requests and Gerrit changes.
+	 */
+	@Test
+	public void testFetchExplicitFetchHeadDestination() throws Exception {
+		Map<String, Ref> advertised = new HashMap<>();
+		advertise(advertised, HEAD);
+		advertise(advertised, "refs/pull/1/head");
+
+		testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+			UploadPack up = new UploadPack(db);
+			up.setAdvertisedRefs(advertised);
+			return up;
+		}, null);
+		URIish uri = testProtocol.register(ctx, server);
+		try (Transport tn = testProtocol.open(uri, client, "server")) {
+			tn.fetch(NullProgressMonitor.INSTANCE, Collections.singletonList(
+					new RefSpec("refs/pull/1/head:FETCH_HEAD")));
+		}
+		assertTrue("object must have been fetched",
+				client.getObjectDatabase().has(head));
+		Ref fetchHead = client.exactRef("FETCH_HEAD");
+		assertNotNull("FETCH_HEAD must be written", fetchHead);
+		assertEquals(head, fetchHead.getObjectId());
 	}
 
 	private void advertise(Map<String, Ref> refs, String name) {
