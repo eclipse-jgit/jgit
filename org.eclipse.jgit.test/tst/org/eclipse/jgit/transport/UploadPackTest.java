@@ -635,7 +635,7 @@ public class UploadPackTest {
 
 	private PackOutputCache newPackOutputCache() throws IOException {
 		return new PackOutputCache(packCacheDirectory.newFolder().toPath(),
-				1024 * 1024, 16, Duration.ofMinutes(1), 2);
+				1024 * 1024, 16, Duration.ofMinutes(1), 0, 2);
 	}
 
 	private CachedFetch cachedFetch(PackOutputCache cache, String scope,

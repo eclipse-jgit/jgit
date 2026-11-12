@@ -19,6 +19,7 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -34,6 +35,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.pack.PackStatistics;
+import org.eclipse.jgit.util.io.CountingOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,6 +77,39 @@ public final class PackOutputCache implements AutoCloseable {
 		PackStatistics write(OutputStream out) throws IOException;
 	}
 
+	/**
+	 * Immutable counters and current resource usage.
+	 *
+	 * @param hits
+	 *            requests joining an active or completed pack
+	 * @param misses
+	 *            admitted pack producers
+	 * @param bypasses
+	 *            requests generated without caching
+	 * @param generationFailures
+	 *            failed or cancelled producers
+	 * @param generatedBytes
+	 *            raw pack bytes generated, including uncached bypasses
+	 * @param servedBytes
+	 *            pack bytes successfully served, including uncached bypasses
+	 * @param removedFiles
+	 *            pack files deleted by eviction
+	 * @param activeProducers
+	 *            producers that have not terminated
+	 * @param entries
+	 *            live files, including evicted files with active readers
+	 * @param bytes
+	 *            total bytes in live pack files
+	 * @param retainedBytes
+	 *            completed bytes retained for future requests
+	 */
+	public record Stats(long hits, long misses, long bypasses,
+			long generationFailures, long generatedBytes, long servedBytes,
+			long removedFiles, int activeProducers, int entries, long bytes,
+			long retainedBytes) {
+		// Immutable snapshot.
+	}
+
 	private static final Logger LOG = LoggerFactory
 			.getLogger(PackOutputCache.class);
 
@@ -86,6 +121,11 @@ public final class PackOutputCache implements AutoCloseable {
 		long position;
 	}
 
+	private static final class Observation {
+		long count;
+
+		long seenAt;
+	}
 
 	private static final class Entry {
 		final String key;
@@ -130,15 +170,40 @@ public final class PackOutputCache implements AutoCloseable {
 
 	private final long maxAgeNanos;
 
+	private final int minOccurrences;
+
+	private final int maxObservations;
+
 	private final Map<String, Entry> entries = new HashMap<>();
 
 	private final Set<Entry> files = new HashSet<>();
+
+	private final Map<String, Observation> observations = new LinkedHashMap<>(
+			16, 0.75f, true);
 
 	private final ThreadPoolExecutor producers;
 
 	private final ScheduledExecutorService reaper;
 
 	private final ScheduledFuture<?> eviction;
+
+	private long hits;
+
+	private long misses;
+
+	private long bypasses;
+
+	private long generationFailures;
+
+	private long generatedBytes;
+
+	private long servedBytes;
+
+	private long removedFiles;
+
+	private int activeProducers;
+
+	private long bytes;
 
 	private long retainedBytes;
 
@@ -157,6 +222,9 @@ public final class PackOutputCache implements AutoCloseable {
 	 * @param maxAge
 	 *            positive time from entry creation until lookup expiry;
 	 *            existing producers and readers may finish after expiry
+	 * @param minOccurrences
+	 *            number of prior observations required before caching a key;
+	 *            zero admits its first request
 	 * @param maxConcurrentProducers
 	 *            positive limit on background pack generators; excess misses
 	 *            bypass caching
@@ -164,16 +232,18 @@ public final class PackOutputCache implements AutoCloseable {
 	 *             cache storage cannot be created
 	 */
 	public PackOutputCache(Path directory, long maxBytes, int maxEntries,
-			Duration maxAge, int maxConcurrentProducers)
+			Duration maxAge, int minOccurrences, int maxConcurrentProducers)
 			throws IOException {
 		if (maxBytes <= 0 || maxEntries <= 0 || maxAge.isZero()
-				|| maxAge.isNegative()
+				|| maxAge.isNegative() || minOccurrences < 0
 				|| maxConcurrentProducers <= 0) {
 			throw new IllegalArgumentException("Invalid pack output cache limits"); //$NON-NLS-1$
 		}
 		this.maxBytes = maxBytes;
 		this.maxEntries = maxEntries;
 		this.maxAgeNanos = maxAge.toNanos();
+		this.minOccurrences = minOccurrences;
+		maxObservations = (int) Math.min((long) maxEntries * 4, 65536);
 		Files.createDirectories(directory);
 		this.directory = Files.createTempDirectory(directory, DIRECTORY_PREFIX);
 		producers = new ThreadPoolExecutor(maxConcurrentProducers,
@@ -225,8 +295,10 @@ public final class PackOutputCache implements AutoCloseable {
 			expire();
 			entry = entries.get(key);
 			if (entry != null) {
+				admit(key);
+				hits++;
 				entry.readers.add(reader);
-			} else {
+			} else if (admit(key)) {
 				makeRoom();
 				if (files.size() < maxEntries) {
 					entry = new Entry(key, Files.createTempFile(directory,
@@ -235,10 +307,13 @@ public final class PackOutputCache implements AutoCloseable {
 					entries.put(key, entry);
 					files.add(entry);
 					Entry admitted = entry;
+					activeProducers++;
 					try {
 						producers.execute(() -> produce(admitted, producer, original));
+						misses++;
 						leader = true;
 					} catch (RejectedExecutionException e) {
+						activeProducers--;
 						entry.producing = false;
 						entry.readers.clear();
 						evict(entry);
@@ -247,9 +322,20 @@ public final class PackOutputCache implements AutoCloseable {
 					}
 				}
 			}
+			if (entry == null) {
+				bypasses++;
+			}
 		}
 		if (entry == null) {
-			return producer.write(out);
+			CountingOutputStream direct = new CountingOutputStream(out);
+			try {
+				return producer.write(direct);
+			} finally {
+				synchronized (this) {
+					generatedBytes += direct.getCount();
+					servedBytes += direct.getCount();
+				}
+			}
 		}
 		try {
 			PackStatistics statistics = consume(entry, reader, out);
@@ -273,6 +359,21 @@ public final class PackOutputCache implements AutoCloseable {
 		}
 	}
 
+	private boolean admit(String key) {
+		if (minOccurrences == 0) {
+			return true;
+		}
+		Observation observation = observations.computeIfAbsent(key,
+				unused -> new Observation());
+		observation.seenAt = System.nanoTime();
+		if (observation.count <= minOccurrences) {
+			observation.count++;
+		}
+		if (observations.size() > maxObservations) {
+			observations.remove(observations.keySet().iterator().next());
+		}
+		return observation.count > minOccurrences;
+	}
 
 	private void produce(Entry entry, PackProducer producer,
 			PackStatistics[] original) {
@@ -301,7 +402,9 @@ public final class PackOutputCache implements AutoCloseable {
 				entry.completedAt = System.nanoTime();
 				entry.failure = failure;
 				entry.statistics = statistics;
+				activeProducers--;
 				if (failure != null) {
+					generationFailures++;
 					evict(entry);
 				} else if (entry.retained && entry.bytes <= maxBytes) {
 					entry.counted = true;
@@ -346,6 +449,7 @@ public final class PackOutputCache implements AutoCloseable {
 				synchronized (this) {
 					reader.position += count;
 					entry.consumed = Math.max(entry.consumed, reader.position);
+					servedBytes += count;
 					notifyAll();
 				}
 			}
@@ -444,12 +548,24 @@ public final class PackOutputCache implements AutoCloseable {
 	}
 
 
+	/**
+	 * Get an immutable view of cumulative counters and current resource usage.
+	 *
+	 * @return current cache statistics
+	 */
+	public synchronized Stats getStats() {
+		return new Stats(hits, misses, bypasses, generationFailures,
+				generatedBytes, servedBytes, removedFiles, activeProducers,
+				files.size(), bytes, retainedBytes);
+	}
+
 	private synchronized void maintain() {
 		expire();
 	}
 
 	private void expire() {
 		long now = System.nanoTime();
+		observations.values().removeIf(o -> now - o.seenAt >= maxAgeNanos);
 		for (Entry entry : new HashSet<>(files)) {
 			if (entry.retained && now - entry.createdAt >= maxAgeNanos) {
 				evict(entry);
@@ -506,8 +622,12 @@ public final class PackOutputCache implements AutoCloseable {
 			return;
 		}
 		try {
-			Files.deleteIfExists(entry.path);
-			files.remove(entry);
+			if (Files.deleteIfExists(entry.path)) {
+				removedFiles++;
+			}
+			if (files.remove(entry)) {
+				bytes -= entry.bytes;
+			}
 			finishClose();
 		} catch (IOException e) {
 			LOG.warn("Cannot remove expired pack output {}", entry.path, e); //$NON-NLS-1$
@@ -530,6 +650,7 @@ public final class PackOutputCache implements AutoCloseable {
 		eviction.cancel(false);
 		reaper.shutdown();
 		producers.shutdown();
+		observations.clear();
 		for (Entry entry : new HashSet<>(files)) {
 			evict(entry);
 			cleanup(entry);
@@ -575,6 +696,8 @@ public final class PackOutputCache implements AutoCloseable {
 				file.write(buffer, offset, count);
 				synchronized (PackOutputCache.this) {
 					entry.bytes += count;
+					bytes += count;
+					generatedBytes += count;
 					PackOutputCache.this.notifyAll();
 				}
 				offset += count;
