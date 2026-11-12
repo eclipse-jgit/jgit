@@ -1,0 +1,76 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15fa0663_39c0a3d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-12T08:01:49Z",
+      "side": 1,
+      "message": "Thanks for the careful work here -- the whole-file formatter in the parent is a solid core, and the changed-line scoping is clearly well thought through. It even matches JGit\u0027s current Eclipse setting (`format_source_code_changes_only\u003dtrue`), so it\u0027s faithful to how the project formats today.\n\nBefore we settle on the approach, I\u0027d like to raise one project-direction question, since it\u0027s really a trade-off with no wrong answer.\n\nWhat I\u0027m really after is to harmonize JGit\u0027s formatting with gerrit\u0027s: the same `tools/gjf.sh run` workflow, which we could call `tools/jf.sh`:\n\n```\ngit show --diff-filter\u003dAM --name-only HEAD | grep \u0027java$\u0027 | xargs \u003cformatter\u003e\n```\n\nIt lists the files changed in the commit and reformats each one whole -- no changed-line scoping. Which formatter runs behind it (Eclipse JDT here, google-java-format in gerrit) is an implementation detail; the workflow and the developer experience are identical.\n\nJustification:\n\n- Harmonize across projects: gerrit and JGit are developed by largely the same group, who already know and use gerrit\u0027s `tools/gjf.sh run`. A matching `tools/jf.sh run` in JGit gives one consistent formatting workflow across both -- same command, same mental model.\n\n- Clean separation: changed-line scoping keeps diffs minimal, but it formats only the lines a change touches, so over time a file accumulates well-formatted edits while the rest stays as it was. The gerrit model keeps formatting and content strictly separate instead -- a whole-file reformat lands in its own prerequisite change (never mixed with content edits), and the content change follows on the clean file. With a one-time tree-wide format and a CI check to hold it, the tree converges to a consistent state.\n\n@matthias.sohn@sap.com which direction would you prefer -- the self-contained changed-line scoping here, or the gerrit model (a `tools/jf.sh run` doing whole-file formatting of changed files, plus a one-time tree-wide format and CI enforcement)?\n\n(Either way, one small prerequisite -- separate thread on the parent: the CLI would need to apply the project\u0027s `remove_trailing_whitespaces` save action, or a tree-wide format leaves trailing whitespace that Eclipse-on-save strips.)",
+      "isAi": false,
+      "revId": "0c199f354a6a8ec1cdcfd42774a13b64510aff5b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2e2249f_35e199a9",
+        "filename": "tools/formatter/FormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-12T08:01:49Z",
+      "side": 1,
+      "message": "This only asserts exit 1 + `Needs formatting:`, which is also what you get if native git were invoked and failed -- so it can\u0027t distinguish \"no subprocess\" from \"subprocess, errored, fell back\". Either assert no git lookup happened, or rename it: it checks headless operation, not the absence of a subprocess.",
+      "isAi": true,
+      "revId": "0c199f354a6a8ec1cdcfd42774a13b64510aff5b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "179d5598_f025dcbd",
+        "filename": "tools/formatter/GitDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-12T08:01:49Z",
+      "side": 1,
+      "message": "Nothing covers the merge branch here. Both the staged/unstaged and Myers tests produce ranges with a gap, so `current.firstLine() \u003c\u003d previousEnd` never runs. Add a case with two abutting ranges, e.g. `(2,1)` and `(3,1)` -\u003e `(2,2)`. The merge also assumes the input is sorted by `firstLine` -- worth sorting or asserting it.",
+      "isAi": true,
+      "revId": "0c199f354a6a8ec1cdcfd42774a13b64510aff5b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61c0abbf_f25a73d5",
+        "filename": "tools/formatter/JdtFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-12T08:01:49Z",
+      "side": 1,
+      "message": "`--changed-lines` corrupts multi-line statements. Commit `return \"a\"` / `+ \"b\"` / `+ \"c\";` on three lines, change only `+ \"b\"` to `+ \"B\"`, run `--changed-lines HEAD --write`: the unchanged `+ \"c\";` line gets merged onto the edited line. The region passed to the formatter ends at the start of the *next* line, so formatting that fragment as a `K_COMPILATION_UNIT` pulls the following line in (and can rewrite its indentation). `--check` flags it, then `--write` writes broken Java. The region should end at the end of the last changed line, not the start of the next. Please fix and add a regression test -- editing one line inside a multi-line statement isn\u0027t covered today.",
+      "isAi": true,
+      "revId": "0c199f354a6a8ec1cdcfd42774a13b64510aff5b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
