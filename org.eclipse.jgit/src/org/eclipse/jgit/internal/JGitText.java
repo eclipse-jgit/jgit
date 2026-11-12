@@ -377,6 +377,9 @@ public class JGitText extends TranslationBundle {
 	/***/ public String expectedReportForRefNotReceived;
 	/***/ public String externalObjectIdMismatch;
 	/***/ public String externalObjectSizeMismatch;
+	/***/ public String externalObjectStoreBlobsOnly;
+	/***/ public String externalObjectStoreMissingPath;
+	/***/ public String externalObjectStoreUnsupportedType;
 	/***/ public String failedAtomicFileCreation;
 	/***/ public String failedCreateLockFile;
 	/***/ public String failedPidLock;
