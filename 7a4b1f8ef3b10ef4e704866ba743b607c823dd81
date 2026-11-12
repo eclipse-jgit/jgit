@@ -16,6 +16,23 @@
       "message": "This should be on the stable-7.8 branch.",
       "revId": "7a4b1f8ef3b10ef4e704866ba743b607c823dd81",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bcf74df_54139938",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-11-12T23:46:39Z",
+      "side": 1,
+      "message": "please move this to branch stable-7.8 where the change causing this regression landed",
+      "revId": "7a4b1f8ef3b10ef4e704866ba743b607c823dd81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
