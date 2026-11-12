@@ -25,8 +25,13 @@ import java.nio.file.StandardOpenOption;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.zip.CRC32;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
@@ -63,6 +68,10 @@ final class RoutedPackWriter implements AutoCloseable {
 	private final CRC32 crc = new CRC32();
 
 	private final List<PackedObjectInfo> objects = new ArrayList<>();
+
+	private final Map<ObjectId, PackedObjectInfo> membership = new HashMap<>();
+
+	private final Map<ObjectId, ObjectId> dependencies = new HashMap<>();
 
 	private final List<File> installed = new ArrayList<>(3);
 
@@ -110,6 +119,9 @@ final class RoutedPackWriter implements AutoCloseable {
 					|| type > Constants.OBJ_TAG) {
 				throw new IllegalArgumentException();
 			}
+			if (alreadyWritten(id, type, fullSize)) {
+				return;
+			}
 			beginPack();
 			long offset = output.getFilePointer();
 			crc.reset();
@@ -148,9 +160,131 @@ final class RoutedPackWriter implements AutoCloseable {
 			object.setFullSize(fullSize);
 			object.setCRC((int) crc.getValue());
 			objects.add(object);
+			membership.put(object.copy(), object);
 		} catch (IOException | RuntimeException | Error failure) {
 			failed = true;
 			throw failure;
+		}
+	}
+
+	/**
+	 * Copy validated INPUT bytes, independently checking original and output CRCs.
+	 */
+	void appendCopied(ReceivedPackEntry entry, IncomingPackSpool spool)
+			throws IOException {
+		checkWritable();
+		try {
+			if (entry.selected) {
+				throw corruptSource();
+			}
+			if (alreadyWritten(entry.id, entry.type, entry.fullSize)) {
+				return;
+			}
+			byte[] originalHeader = entry.source.originalHeader();
+			validateSource(entry, spool, originalHeader.length);
+			beginPack();
+			long offset = output.getFilePointer();
+			crc.reset();
+			copySource(entry, spool, originalHeader);
+			PackedObjectInfo object = new PackedObjectInfo(entry.id);
+			object.setOffset(offset);
+			object.setType(entry.type);
+			object.setFullSize(entry.fullSize);
+			object.setCRC((int) crc.getValue());
+			objects.add(object);
+			membership.put(object.copy(), object);
+			if (!entry.whole) {
+				dependencies.put(object.copy(), entry.baseId);
+			}
+		} catch (IOException | RuntimeException | Error failure) {
+			failed = true;
+			throw failure;
+		}
+	}
+
+	private void validateSource(ReceivedPackEntry entry, IncomingPackSpool spool,
+			int headerLength) throws IOException {
+		ReceivedPackEntry.Source source = entry.source;
+		if (source.offset < 12 || headerLength == 0 || headerLength > header.length
+				|| source.offset > Long.MAX_VALUE - headerLength
+				|| source.payloadOffset != source.offset + headerLength
+				|| source.payloadLength <= 0 || source.declaredSize < 0
+				|| source.payloadLength > Long.MAX_VALUE - source.payloadOffset
+				|| source.payloadOffset + source.payloadLength > spool.length()
+				|| entry.type < Constants.OBJ_COMMIT || entry.type > Constants.OBJ_TAG
+				|| entry.fullSize < 0
+				|| (entry.whole && (source.encodedType != entry.type
+						|| source.declaredSize != entry.fullSize))
+				|| (!entry.whole && entry.baseId == null)) {
+			throw corruptSource();
+		}
+	}
+
+	private void copySource(ReceivedPackEntry entry, IncomingPackSpool spool,
+			byte[] originalHeader) throws IOException {
+		ReceivedPackEntry.Source source = entry.source;
+		CRC32 originalCrc = new CRC32();
+		originalCrc.update(originalHeader);
+		try (InputStream input = spool.openRange(source.offset,
+				originalHeader.length + source.payloadLength)) {
+			byte[] archivedHeader = input.readNBytes(originalHeader.length);
+			if (!Arrays.equals(originalHeader, archivedHeader)) {
+				throw corruptSource();
+			}
+			if (entry.whole) {
+				write(originalHeader, 0, originalHeader.length);
+			} else {
+				write(header, 0, encodeTypeSize(Constants.OBJ_REF_DELTA,
+						source.declaredSize));
+				entry.baseId.copyRawTo(header, 0);
+				write(header, 0, Constants.OBJECT_ID_LENGTH);
+			}
+			for (int n; (n = input.read(buffer)) != -1;) {
+				originalCrc.update(buffer, 0, n);
+				write(buffer, 0, n);
+			}
+		}
+		if ((int) originalCrc.getValue() != source.crc) {
+			throw corruptSource();
+		}
+	}
+
+	private boolean alreadyWritten(ObjectId id, int type, long fullSize)
+			throws IOException {
+		PackedObjectInfo previous = membership.get(id);
+		if (previous == null) {
+			return false;
+		}
+		if (previous.getType() != type || previous.getFullSize() != fullSize) {
+			throw new IOException(MessageFormat.format(
+					JGitText.get().receivedObjectMetadataMismatch, id.name()));
+		}
+		return true;
+	}
+
+	private static IOException corruptSource() {
+		return new IOException(JGitText.get().packCorruptedWhileWritingToFilesystem);
+	}
+
+	/** Validate completed dependencies, allowing forward but not missing/cyclic bases. */
+	private void validateDependencies() throws IOException {
+		Set<ObjectId> complete = new HashSet<>();
+		for (PackedObjectInfo object : objects) {
+			checkCancelled();
+			Set<ObjectId> path = new HashSet<>();
+			ObjectId id = object;
+			while (!complete.contains(id)) {
+				checkCancelled();
+				if (!membership.containsKey(id) || !path.add(id)) {
+					throw corruptSource();
+				}
+				ObjectId base = dependencies.get(id);
+				if (base == null) {
+					break;
+				}
+				id = base;
+			}
+			complete.addAll(path);
 		}
 	}
 
@@ -205,6 +339,7 @@ final class RoutedPackWriter implements AutoCloseable {
 			return null;
 		}
 		checkCancelled();
+		validateDependencies();
 		byte[] packHash = finishPack();
 		Collections.sort(objects);
 		writeIndexes(packHash);

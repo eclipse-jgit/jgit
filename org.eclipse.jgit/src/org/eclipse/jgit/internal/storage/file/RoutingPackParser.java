@@ -14,12 +14,15 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.zip.CRC32;
 
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.transport.PackLock;
@@ -28,7 +31,7 @@ import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.transport.ReceivedObjectFilter;
 
 /**
- * Exclusive receive routing with an unindexed input spool and whole main output.
+ * Exclusive receive routing with an unindexed spool and self-contained output.
  */
 class RoutingPackParser extends PackParser implements AutoCloseable {
 	private final ObjectDirectory main;
@@ -39,7 +42,19 @@ class RoutingPackParser extends PackParser implements AutoCloseable {
 
 	private final Map<ObjectId, ReceivedPackEntry> received = new LinkedHashMap<>();
 
+	private final Map<Long, ReceivedPackEntry.Source> sources = new HashMap<>();
+
 	private final CRC32 crc = new CRC32();
+
+	private long inputOffset;
+
+	private int inputType;
+
+	private long inputSize;
+
+	private byte[] inputHeader;
+
+	private long payloadLength;
 
 	private IncomingPackSpool spool;
 
@@ -94,12 +109,9 @@ class RoutingPackParser extends PackParser implements AutoCloseable {
 				}
 			}
 			for (ReceivedPackEntry entry : received.values()) {
-				if (entry.whole && !entry.selected) {
+				if (!entry.selected && !entry.outputEmitted) {
 					checkCancelled();
-					replayWholeObject(entry.replaySource(), (type, size, data) -> {
-						writer.appendWhole(entry.id, type, size, cancellable(data));
-						return entry.id;
-					});
+					writer.appendCopied(entry, spool);
 					entry.outputEmitted = true;
 				}
 				if (entry.selected == entry.outputEmitted) {
@@ -141,14 +153,15 @@ class RoutingPackParser extends PackParser implements AutoCloseable {
 
 	@Override
 	protected void onEndWholeObject(PackedObjectInfo object) throws IOException {
-		object.setCRC((int) crc.getValue());
-		record(object, true);
+		ReceivedPackEntry.Source source = finishSource();
+		object.setCRC(source.crc);
+		record(object);
 	}
 
 	@Override
 	protected void onInflatedObjectData(PackedObjectInfo object, int type,
 			byte[] data) throws IOException {
-		ReceivedPackEntry entry = record(object, false);
+		ReceivedPackEntry entry = record(object);
 		if (entry == null) {
 			// Whole non-blobs already completed; duplicate representations never
 			// replace the first entry's metadata or emit another physical output.
@@ -156,14 +169,16 @@ class RoutingPackParser extends PackParser implements AutoCloseable {
 		}
 		if (entry.selected) {
 			insertLoose(entry, new ByteArrayInputStream(data));
-		} else {
+		} else if (!receivedBaseIsKnownRetained(entry)) {
+			// Membership may still be unknown when resolving via an external
+			// representation. Expand now, without rejecting input or caching data.
 			writer.appendWhole(entry.id, entry.type, entry.fullSize,
 					new ByteArrayInputStream(data));
 			entry.outputEmitted = true;
 		}
 	}
 
-	private ReceivedPackEntry record(PackedObjectInfo object, boolean whole)
+	private ReceivedPackEntry record(PackedObjectInfo object)
 			throws IOException {
 		ObjectId id = object.copy();
 		ReceivedPackEntry previous = received.get(id);
@@ -175,10 +190,39 @@ class RoutingPackParser extends PackParser implements AutoCloseable {
 			}
 			return null;
 		}
-		ReceivedPackEntry entry = new ReceivedPackEntry(object, whole,
+		ReceivedPackEntry.Source source = sources
+				.get(Long.valueOf(object.getOffset()));
+		ObjectId baseId = object instanceof IncomingObjectInfo
+				? ((IncomingObjectInfo) object).baseId : null;
+		ReceivedPackEntry entry = new ReceivedPackEntry(object, source, baseId,
 				filter.select(id, object.getType(), object.getFullSize()));
 		received.put(id, entry);
 		return entry;
+	}
+
+	private boolean receivedBaseIsKnownRetained(ReceivedPackEntry entry) {
+		ReceivedPackEntry base = received.get(entry.baseId);
+		// A newly recorded identity delta cannot establish its own base membership.
+		return base != null && base != entry && !base.selected;
+	}
+
+	@Override
+	protected PackedObjectInfo newInfo(AnyObjectId id, UnresolvedDelta delta,
+			ObjectId deltaBase) {
+		IncomingObjectInfo info = new IncomingObjectInfo(id, deltaBase);
+		if (delta != null) {
+			info.setCRC(delta.getCRC());
+		}
+		return info;
+	}
+
+	private static final class IncomingObjectInfo extends PackedObjectInfo {
+		final ObjectId baseId;
+
+		IncomingObjectInfo(AnyObjectId id, AnyObjectId baseId) {
+			super(id);
+			this.baseId = baseId != null ? baseId.copy() : null;
+		}
 	}
 
 	private ObjectId insertLoose(ReceivedPackEntry entry, InputStream data)
@@ -229,24 +273,41 @@ class RoutingPackParser extends PackParser implements AutoCloseable {
 
 	@Override
 	protected void onBeginWholeObject(long offset, int type, long size) {
-		crc.reset();
+		beginSource(offset, type, size);
 	}
 
 	@Override
 	protected void onBeginOfsDelta(long offset, long baseOffset, long size) {
-		crc.reset();
+		beginSource(offset, Constants.OBJ_OFS_DELTA, size);
 	}
 
 	@Override
 	protected void onBeginRefDelta(long offset, AnyObjectId base, long size) {
-		crc.reset();
+		beginSource(offset, Constants.OBJ_REF_DELTA, size);
 	}
 
 	@Override
 	protected UnresolvedDelta onEndDelta() {
 		UnresolvedDelta delta = new UnresolvedDelta();
-		delta.setCRC((int) crc.getValue());
+		delta.setCRC(finishSource().crc);
 		return delta;
+	}
+
+	private void beginSource(long offset, int type, long size) {
+		crc.reset();
+		inputOffset = offset;
+		inputType = type;
+		inputSize = size;
+		inputHeader = null;
+		payloadLength = 0;
+	}
+
+	private ReceivedPackEntry.Source finishSource() {
+		ReceivedPackEntry.Source source = new ReceivedPackEntry.Source(inputOffset,
+				inputType, inputSize, inputHeader, inputOffset + inputHeader.length,
+				payloadLength, (int) crc.getValue());
+		sources.put(Long.valueOf(inputOffset), source);
+		return source;
 	}
 
 	@Override
@@ -258,11 +319,17 @@ class RoutingPackParser extends PackParser implements AutoCloseable {
 	@Override
 	protected void onObjectHeader(Source source, byte[] data, int offset, int count) {
 		crc.update(data, offset, count);
+		if (source == Source.INPUT) {
+			inputHeader = Arrays.copyOfRange(data, offset, offset + count);
+		}
 	}
 
 	@Override
 	protected void onObjectData(Source source, byte[] data, int offset, int count) {
 		crc.update(data, offset, count);
+		if (source == Source.INPUT) {
+			payloadLength += count;
+		}
 	}
 
 	@Override
@@ -303,7 +370,7 @@ class RoutingPackParser extends PackParser implements AutoCloseable {
 
 	@Override
 	protected void onEndThinPack() {
-		// The input is never installed. Whole output needs no thin-pack repair.
+		// The input is never installed; boundary expansion avoids thin-pack repair.
 	}
 
 	private void releaseParserResources(Throwable failure) {

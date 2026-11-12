@@ -49,7 +49,7 @@ import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.junit.Test;
 
 /**
- * Tests exclusive placement, whole-output orchestration and operation ownership.
+ * Tests exclusive placement, immediate-base policy and operation ownership.
  */
 public class RoutingPackParserTest extends RepositoryTestCase {
 	private static final ObjectId A = ObjectId
@@ -61,10 +61,13 @@ public class RoutingPackParserTest extends RepositoryTestCase {
 	private static final ObjectId C = idFor(Constants.encode("0123456789bc"));
 
 	@Test
-	public void exclusivePlacementMatrixProducesAtMostOneWholeMainPack()
+	public void exclusivePlacementMatrixPreservesOnlyKnownRetainedImmediateBases()
 			throws Exception {
 		List<Set<ObjectId>> selections = List.of(Set.of(), Set.of(A), Set.of(B),
 				Set.of(C), Set.of(A, C), Set.of(A, B, C));
+		// Literal encoded-kind expectations for A, B, C; zero means absent.
+		int[][] kinds = { { 3, 7, 7 }, { 0, 3, 7 }, { 3, 0, 3 },
+				{ 3, 7, 0 }, { 0, 3, 0 }, { 0, 0, 0 } };
 		for (int caseNumber = 0; caseNumber < selections.size(); caseNumber++) {
 			Set<ObjectId> selected = selections.get(caseNumber);
 			try (FileRepository repository = createBareRepository();
@@ -91,7 +94,7 @@ public class RoutingPackParserTest extends RepositoryTestCase {
 						})) {
 					parser = inserter.newPackParser(input.toInputStream());
 					parser.setNeedNewObjectIds(true);
-					parser.setLockMessage("whole-only routing");
+					parser.setLockMessage("retained delta routing");
 					lock = parser.parse(null);
 					inserter.flush();
 					inserter.flush();
@@ -129,7 +132,8 @@ public class RoutingPackParserTest extends RepositoryTestCase {
 						if (output != null) {
 							assertEquals(!selected.contains(id), output.hasObject(id));
 							if (!selected.contains(id)) {
-								assertEquals(Constants.OBJ_BLOB, storedType(output, id));
+								assertEquals(kinds[caseNumber][id.equals(A) ? 0 : id.equals(B) ? 1 : 2],
+										storedType(output, id));
 							}
 						}
 						assertArrayEquals(Constants.encode(id.equals(A) ? "0123456789"
@@ -212,6 +216,73 @@ public class RoutingPackParserTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void thinIdentityDeltaCannotUseItselfAsReceivedBase() throws Exception {
+		for (boolean selected : new boolean[] { true, false }) {
+			try (FileRepository repository = createBareRepository();
+					FileRepository bases = createBareRepository();
+					FileRepository alternate = createBareRepository()) {
+				ObjectDirectory main = repository.getObjectDatabase();
+				ObjectDirectory external = bases.getObjectDatabase();
+				ObjectDirectory destination = alternate.getObjectDatabase();
+				configureAlternates(main, List.of(external, destination));
+				byte[] contents = Constants.encode("0123456789");
+				try (ObjectInserter inserter = external.newInserter()) {
+					assertEquals(A, inserter.insert(Constants.OBJ_BLOB, contents));
+					inserter.flush();
+				}
+				// The received result is identical to its external base, not an
+				// already-known received base for preserving this representation.
+				InMemoryPack input = new InMemoryPack().header(1);
+				input.write(Constants.OBJ_REF_DELTA << 4 | 4).copyRaw(A)
+						.deflate(new byte[] { 10, 10, (byte) 0x90, 10 }).digest();
+				assertEquals(65, input.toByteArray().length);
+				List<ObjectId> calls = new ArrayList<>();
+				try (ObjectInserter inserter = main.newRoutingInserter(destination,
+						(id, type, size) -> {
+							calls.add(id);
+							assertEquals(Constants.OBJ_BLOB, type);
+							assertEquals(10, size);
+							return selected;
+						})) {
+					PackParser parser = inserter.newPackParser(input.toInputStream());
+					parser.setAllowThin(true);
+					parser.setNeedNewObjectIds(true);
+					parser.setNeedBaseObjectIds(true);
+					assertNull(parser.parse(null));
+					assertEquals(1, parser.getObjectCount());
+					assertTrue(parser.getNewObjectIds().contains(A));
+					assertTrue(parser.getBaseObjectIds().contains(A));
+					if (selected) {
+						assertEquals(0, parser.getPackSize());
+					}
+				}
+				assertEquals(List.of(A), calls);
+				assertEquals(selected, destination.fileFor(A).isFile());
+				assertArrayEquals(contents, repository.open(A).getBytes());
+				assertArrayEquals(contents, bases.open(A).getBytes());
+				assertEquals(selected ? 0 : 1, main.getPacks().size());
+				if (!selected) {
+					Pack output = main.getPacks().iterator().next();
+					assertEquals(1, output.getIndex().getObjectCount());
+					assertEquals(Constants.OBJ_BLOB, storedType(output, A));
+					// Independently import without alternates so external visibility
+					// cannot mask a non-self-contained identity delta in main output.
+					try (FileRepository independent = createBareRepository();
+							ObjectInserter inserter = independent.newObjectInserter();
+							InputStream bytes = Files.newInputStream(output.getPackFile().toPath())) {
+						PackParser parser = inserter.newPackParser(bytes);
+						parser.parse(null);
+						assertEquals(1, parser.getObjectCount());
+						assertArrayEquals(contents, independent.open(A).getBytes());
+					}
+				}
+				assertNoTemps(main);
+				assertNoKeeps(main);
+			}
+		}
+	}
+
+	@Test
 	public void duplicateRepresentationsFilterOnceAndEmitOnlyChosenObject()
 			throws Exception {
 		for (boolean selectDuplicate : new boolean[] { true, false }) {
@@ -248,9 +319,99 @@ public class RoutingPackParserTest extends RepositoryTestCase {
 				Pack output = main.getPacks().iterator().next();
 				assertEquals(selectDuplicate ? 2 : 3, output.getIndex().getObjectCount());
 				assertEquals(!selectDuplicate, output.hasObject(B));
-				assertEquals(Constants.OBJ_BLOB, storedType(output, C));
+				if (!selectDuplicate) {
+					// Whole B was reconstructed first during INPUT scan, even though
+					// a preceding delta B was encoded earlier in the incoming bytes.
+					assertEquals(Constants.OBJ_BLOB, storedType(output, B));
+				}
+				assertEquals(selectDuplicate ? Constants.OBJ_BLOB : Constants.OBJ_REF_DELTA,
+						storedType(output, C));
 				assertNoTemps(main);
 			}
+		}
+	}
+
+	@Test
+	public void firstResolvedDeltaKeepsItsSourceAndBaseAcrossDifferentBaseDuplicates()
+			throws Exception {
+		ObjectId otherBase = idFor(Constants.encode("012345678x"));
+		for (ObjectId selected : List.of(A, otherBase)) {
+			try (FileRepository repository = createBareRepository();
+					FileRepository alternate = createBareRepository()) {
+				ObjectDirectory main = repository.getObjectDatabase();
+				ObjectDirectory destination = alternate.getObjectDatabase();
+				configureAlternates(main, List.of(destination));
+				InMemoryPack input = new InMemoryPack().header(5);
+				whole(input, Constants.encode("0123456789"));
+				whole(input, Constants.encode("012345678x"));
+				refDelta(input, A, 10, 'b');
+				// A different base and different instructions reconstruct the same B.
+				input.write(Constants.OBJ_REF_DELTA << 4 | 7).copyRaw(otherBase)
+						.deflate(new byte[] { 10, 11, (byte) 0x90, 9, 2, '9', 'b' });
+				refDelta(input, B, 11, 'c');
+				List<ObjectId> calls = new ArrayList<>();
+				try (ObjectInserter inserter = main.newRoutingInserter(destination,
+						(id, type, size) -> {
+							calls.add(id);
+							return id.equals(selected);
+						})) {
+					PackParser parser = inserter.newPackParser(input.digest().toInputStream());
+					parser.parse(null);
+					assertEquals(5, parser.getObjectCount());
+				}
+				assertEquals(List.of(A, otherBase, B, C), calls);
+				Pack output = main.getPacks().iterator().next();
+				assertEquals(3, output.getIndex().getObjectCount());
+				assertFalse(output.hasObject(selected));
+				assertEquals(selected.equals(A) ? Constants.OBJ_BLOB : Constants.OBJ_REF_DELTA,
+						storedType(output, B));
+				assertEquals(Constants.OBJ_REF_DELTA, storedType(output, C));
+				assertArrayEquals(Constants.encode("0123456789bc"), repository.open(C).getBytes());
+				assertNoTemps(main);
+			}
+		}
+	}
+
+	@Test
+	public void unknownReceivedBaseExpandsImmediatelyEvenWhenItLaterBecomesRetained()
+			throws Exception {
+		try (FileRepository bases = createBareRepository();
+				FileRepository alternate = createBareRepository()) {
+			ObjectDirectory main = db.getObjectDatabase();
+			ObjectDirectory external = bases.getObjectDatabase();
+			ObjectDirectory destination = alternate.getObjectDatabase();
+			configureAlternates(main, List.of(external, destination));
+			ObjectId otherBase;
+			try (ObjectInserter inserter = external.newInserter()) {
+				assertEquals(A, inserter.insert(Constants.OBJ_BLOB, Constants.encode("0123456789")));
+				otherBase = inserter.insert(Constants.OBJ_BLOB, Constants.encode("012345678x"));
+			}
+			// The existing resolver visits external A (ad47...) before c80d...;
+			// A's received delta representation remains unresolved during B's callback.
+			InMemoryPack input = new InMemoryPack().header(3);
+			refDelta(input, A, 10, 'b');
+			refDelta(input, B, 11, 'c');
+			input.write(Constants.OBJ_REF_DELTA << 4 | 6).copyRaw(otherBase)
+					.deflate(new byte[] { 10, 10, (byte) 0x90, 9, 1, '9' });
+			List<ObjectId> calls = new ArrayList<>();
+			try (ObjectInserter inserter = main.newRoutingInserter(destination,
+					(id, type, size) -> {
+						calls.add(id);
+						return false;
+					})) {
+				PackParser parser = inserter.newPackParser(input.digest().toInputStream());
+				parser.setAllowThin(true);
+				parser.parse(null);
+			}
+			assertEquals(List.of(B, C, A), calls);
+			Pack output = main.getPacks().iterator().next();
+			assertEquals(3, output.getIndex().getObjectCount());
+			assertFalse(output.hasObject(otherBase));
+			assertEquals(Constants.OBJ_BLOB, storedType(output, A));
+			assertEquals(Constants.OBJ_BLOB, storedType(output, B));
+			assertEquals(Constants.OBJ_REF_DELTA, storedType(output, C));
+			assertArrayEquals(Constants.encode("0123456789bc"), db.open(C).getBytes());
+			assertNoTemps(main);
 		}
 	}
 
@@ -268,7 +429,10 @@ public class RoutingPackParserTest extends RepositoryTestCase {
 							calls.add(id);
 							return false;
 						}, new ByteArrayInputStream(new byte[0]))) {
+					parser.onBeginWholeObject(12, Constants.OBJ_BLOB, 10);
+					parser.onObjectHeader(PackParser.Source.INPUT, new byte[] { 0x3a }, 0, 1);
 					PackedObjectInfo first = new PackedObjectInfo(A);
+					first.setOffset(12);
 					first.setType(Constants.OBJ_BLOB);
 					first.setFullSize(10);
 					parser.onEndWholeObject(first);
@@ -279,30 +443,6 @@ public class RoutingPackParserTest extends RepositoryTestCase {
 							later, later.getType(), new byte[0]));
 					assertEquals(List.of(A), calls);
 				}
-			}
-		}
-	}
-
-	@Test
-	public void factoryRejectsDestinationWriteFailureBeforeReceiving()
-			throws Exception {
-		try (FileRepository alternate = createBareRepository()) {
-			ObjectDirectory main = db.getObjectDatabase();
-			ObjectDirectory destination = alternate.getObjectDatabase();
-			configureAlternates(main, List.of(destination));
-			main.myAlternates(); // Cache the valid direct alternate before the fault.
-			File objects = destination.getDirectory();
-			File moved = new File(objects.getParentFile(), "blocked-routing-objects");
-			Files.move(objects.toPath(), moved.toPath());
-			try {
-				Files.writeString(objects.toPath(), "blocked destination");
-				assertThrows(IOException.class, () -> main.newRoutingInserter(
-						destination, (id, type, size) -> true));
-				assertTrue(main.getPacks().isEmpty());
-				assertNoTemps(main);
-			} finally {
-				Files.deleteIfExists(objects.toPath());
-				Files.move(moved.toPath(), objects.toPath());
 			}
 		}
 	}
@@ -396,6 +536,43 @@ public class RoutingPackParserTest extends RepositoryTestCase {
 				assertNoTemps(main);
 				assertNoKeeps(main);
 			}
+		}
+	}
+
+	@Test
+	public void cancellationDuringCopiedPayloadPassAbortsTemporaryMainOutput()
+			throws Exception {
+		try (FileRepository alternate = createBareRepository()) {
+			ObjectDirectory main = db.getObjectDatabase();
+			ObjectDirectory destination = alternate.getObjectDatabase();
+			configureAlternates(main, List.of(destination));
+			CancellationMonitor monitor = new CancellationMonitor() {
+				private int ended;
+
+				@Override
+				public void endTask() {
+					ended++;
+				}
+
+				@Override
+				public boolean isCancelled() {
+					File[] outputs = main.getDirectory().listFiles((dir, name) ->
+							name.startsWith("routing_output_") && name.endsWith(".pack"));
+					// Cancel after copying A's header, before its payload can be written.
+					return ended == 1 && outputs != null && outputs.length == 1
+							&& outputs[0].length() == 13;
+				}
+			};
+			try (ObjectInserter inserter = main.newRoutingInserter(destination,
+					(id, type, size) -> false)) {
+				PackParser parser = inserter.newPackParser(chain().toInputStream());
+				IOException failure = assertThrows(IOException.class,
+						() -> parser.parse(null, monitor));
+				assertEquals(JGitText.get().downloadCancelled, failure.getMessage());
+			}
+			assertTrue(main.getPacks().isEmpty());
+			assertNoTemps(main);
+			assertNoKeeps(main);
 		}
 	}
 

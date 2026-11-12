@@ -210,8 +210,10 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 * <p>
 	 * Selected objects remain in the main pack; this consumes extra storage and
 	 * is not offloading. The destination must already be a configured direct
-	 * alternate, matched by canonical objects-directory identity. No other
-	 * alternate is written and a failed copy has no fallback destination.
+	 * alternate, matched by canonical objects-directory identity. Before
+	 * returning, the factory checks that the destination can be opened for loose
+	 * writes. No other alternate is written and a failed copy has no fallback
+	 * destination.
 	 * <p>
 	 * The caller owns both database handles. Closing the inserter does not close
 	 * them. Parsing closes its own readers, streams and loose inserter. Copies
@@ -234,7 +236,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 *            deterministic selection by resolved ID, type and full byte size.
 	 * @return a new receive-only inserter.
 	 * @throws IOException
-	 *             an objects-directory path cannot be canonicalized.
+	 *             canonicalization or opening the destination for writes failed.
 	 * @throws IllegalArgumentException
 	 *             the destination is this database or is not a direct alternate.
 	 * @throws NullPointerException
@@ -247,6 +249,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		Objects.requireNonNull(destinationAlternate, "destinationAlternate"); //$NON-NLS-1$
 		Objects.requireNonNull(filter, "filter"); //$NON-NLS-1$
 		validateReceiveObjectDestination(destinationAlternate);
+		probeReceiveObjectDestination(destinationAlternate);
 		return new MirroringObjectInserter(this, destinationAlternate, filter);
 	}
 
@@ -256,16 +259,25 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 * <p>
 	 * The destination must be a configured direct alternate, matched by
 	 * canonical objects-directory identity. Alternate order never selects a
-	 * target. There is no broadcast or fallback on a write failure.
+	 * target. Before returning, the factory checks that the destination can be
+	 * opened for loose writes. There is no broadcast or fallback on a write
+	 * failure.
 	 * <p>
 	 * The callback selects the first reconstructed representation per received
 	 * ID, by resolved type and full byte size. Selected IDs, including bases,
 	 * are not added to the new main pack. Historical copies are not removed.
-	 * Retained objects are emitted whole in at most one self-contained pack;
-	 * empty or all-selected receives produce no main pack.
+	 * Retained original whole entries reuse their header and compressed payload.
+	 * Deltas are preserved as REF_DELTA only when their immediate base is already
+	 * known to be a retained received object. Selected, external or unknown bases
+	 * cause immediate whole-child expansion, never supporting-base duplication.
+	 * At most one self-contained pack is produced; empty or all-selected receives
+	 * produce no main pack. No new deltas are computed.
 	 * <p>
 	 * Parsing validates the unindexed input archive, streams selected whole
-	 * objects and writes resolved deltas without retaining reconstructed data.
+	 * objects and copies retained compressed entries after validation. Original
+	 * header-plus-payload CRCs are checked independently of rewritten output CRCs.
+	 * Delta reconstruction retains the parser's existing memory costs; no
+	 * all-object reconstructed-data cache is added.
 	 * The alternate is flushed before protected main publication. Failure
 	 * discards operation-owned temporaries, not published loose objects.
 	 * The reported pack size includes only the final main pack and index.
@@ -274,9 +286,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 * Keep the databases open throughout receive. The server must configure
 	 * alternate visibility before receive and coordinate alternate GC and
 	 * borrowed-object retention; a main keep does not protect alternate loose
-	 * objects. Loose writes use destination {@code core.compression}; whole
-	 * output uses main {@code pack.compression}, falling back to
-	 * {@code core.compression}. Output may be larger than the incoming pack.
+	 * objects. Loose writes use destination {@code core.compression}; expanded
+	 * whole output uses main {@code pack.compression}, falling back to
+	 * {@code core.compression}. Copied payloads are not recompressed. Boundary
+	 * expansion may make output larger than input; budget simultaneous spool,
+	 * main output and alternate loose space independently of incoming size limits.
 	 * <p>
 	 * Enable through a
 	 * {@link org.eclipse.jgit.transport.ReceivePack#newObjectInserter()}
@@ -303,14 +317,19 @@ public class ObjectDirectory extends FileObjectDatabase {
 		Objects.requireNonNull(destinationAlternate, "destinationAlternate"); //$NON-NLS-1$
 		Objects.requireNonNull(filter, "filter"); //$NON-NLS-1$
 		validateReceiveObjectDestination(destinationAlternate);
+		probeReceiveObjectDestination(destinationAlternate);
+		return new RoutingObjectInserter(this, destinationAlternate, filter);
+	}
+
+	private static void probeReceiveObjectDestination(ObjectDirectory destination)
+			throws IOException {
 		File probe = File.createTempFile("routing_probe_", null, //$NON-NLS-1$
-				destinationAlternate.getDirectory());
+				destination.getDirectory());
 		try (TemporaryFileCleanup cleanup = () -> FileUtils.delete(probe,
 				FileUtils.RETRY | FileUtils.SKIP_MISSING);
 				OutputStream stream = Files.newOutputStream(probe.toPath())) {
 			stream.flush();
 		}
-		return new RoutingObjectInserter(this, destinationAlternate, filter);
 	}
 
 	@FunctionalInterface

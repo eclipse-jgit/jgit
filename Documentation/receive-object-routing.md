@@ -5,7 +5,8 @@ File-backed servers can opt into either of two explicit receive modes:
 * **Exclusive routing**, through `newRoutingInserter(destination, filter)`,
   writes selected received objects loose in one supplied alternate and excludes
   their IDs from the newly produced main pack, including supporting bases.
-  Retained objects are emitted whole in at most one self-contained main pack.
+  Retained objects occupy at most one self-contained main pack, reusing original
+  compressed entries and preserving deltas whose immediate bases are retained.
   Empty or all-selected receives produce no main pack.
 * **Mirroring**, through `newMirroringInserter(destination, filter)`, first
   imports the complete incoming pack through the ordinary
@@ -43,9 +44,10 @@ path containing `.` can identify the configured destination; the main directory,
 an unconfigured destination, and an indirect-only alternate are rejected.
 Multiple alternates are supported, but their order never chooses a write target.
 Only the supplied destination is written. There is no broadcast and no fallback
-on failure. The routing factory also checks that the destination can be opened
-for writes before accepting input. Neither factory configures alternates or
-creates repository refs.
+on failure. Both factories check that the destination can be opened for loose
+writes before accepting input, using an operation-owned temporary probe removed
+before returning. This preflight does not guarantee against later write failures.
+Neither factory configures alternates or creates repository refs.
 
 For example, an application can exclusively route blobs whose full size is
 **greater than or equal to** an application-supplied threshold:
@@ -102,19 +104,43 @@ validation, with original CRC, exact inflated length and returned-ID checks.
 Resolved selected deltas are written loose directly from the parser's existing
 reconstructed array. No all-object reconstructed-content cache is retained.
 
-Every retained received object is currently emitted **whole**. Retained deltas
-are expanded immediately using the reconstructed array; retained original whole
-entries are streamed from the archive into the output writer. External bases
-are never copied or appended to output, and selected local bases are never
-introduced to support a retained delta. The resulting main pack is
-self-contained without depending on selected or external delta bases. This
-whole-only implementation does not reuse incoming compressed payloads,
-preserve input deltas or compute new deltas, so its output may be substantially
-larger than the incoming pack.
+Retained original whole entries reuse their **exact original header and
+compressed payload**. Retained deltas reuse their original compressed
+instructions only when the immediate base is **already known** to be a retained
+received object. Preserved deltas become `REF_DELTA`, including incoming
+`OFS_DELTA`, and name the base's resolved object ID. Their headers declare the
+inflated instruction size, not the reconstructed full object size. Base entries
+may appear later in output; final dependency validation requires every chain to
+terminate at a whole entry in that same pack.
 
-Whole main output uses the main handle's `pack.compression`, falling back to
-`core.compression`. The final pack count, object CRCs, checksum and index are
-computed for the new output; incoming entry metadata and statistics remain
+If an immediate base is selected, external, or has unresolved received
+membership/disposition during the child's callback, the child is emitted whole
+immediately from the parser's existing reconstructed array. Unknown membership
+never rejects a valid pack or delays emission by caching reconstructed data,
+even if that base later becomes retained. The current received representation
+cannot establish its own base membership: a thin identity delta whose result ID
+equals its external base ID is expanded whole. External bases and selected local
+bases are never copied into main output just to save a delta.
+
+For a received chain `A -> B -> C` (base to child):
+
+| Selected IDs | A in main | B in main | C in main |
+| --- | --- | --- | --- |
+| None | Original whole | Delta against A | Delta against B |
+| A | Absent | Expanded whole | Delta against B |
+| B | Original whole | Absent | Expanded whole |
+| C | Original whole | Delta against A | Absent |
+| A and C | Absent | Expanded whole | Absent |
+
+Expanded boundary entries use the main handle's `pack.compression`, falling
+back to `core.compression`. Copied payloads are **not recompressed** to match
+those settings, and no new deltas are computed. Copying uses bounded buffers
+and checks the original header and original header-plus-payload CRC separately
+from each rewritten output CRC. Corruption after initial validation aborts main
+publication even if new output CRCs and checksum could otherwise be valid.
+
+The final pack count, object CRCs, checksum and index are computed for the new
+output; incoming entry metadata and statistics remain
 separate. After all selected writes succeed, the alternate is flushed before
 main publication. A final-name keep is created without overwriting any foreign
 keep before the main pack becomes visible. Only operation-owned output files
@@ -151,12 +177,14 @@ copies. Cancellation is checked using both supplied parser progress monitors
 through copying/replay and bounded output reads. Receive input limits and
 timeouts remain in force for the input phase.
 
-The server must budget incoming spool space, whole-expanded main output and
-alternate loose output for routing, or normal main pack space **and** additional
+The server must budget simultaneous incoming spool space, mixed main output
+(including potentially large whole-expanded boundary objects), and alternate
+loose output for routing, or normal main pack space **and** additional
 loose-copy space for mirroring. An incoming-pack size limit does not bound
 inflated/output disk use. No all-object reconstructed-content cache is
 introduced, but normal delta reconstruction can still require full objects in
-memory.
+memory. Compressed-entry reuse and preserved deltas reduce output expansion and
+recompression, not the parser's validation-time reconstruction costs.
 
 The caller owns the main and alternate database/repository handles and keeps
 them open for receive. Closing either receive inserter does not close those
@@ -171,7 +199,7 @@ objects from alternate GC.
 
 ## Failure and deployment responsibilities
 
-Routing validation, alternate insertion/flush, replay, cancellation or main
+Routing validation, alternate insertion/flush, replay/copy, cancellation or main
 publication failures reject receive ref updates. Temporary input/output files
 and any final files installed by a failed publication are cleaned up only when
 owned by this operation. The writer never removes foreign packs, indexes or

@@ -59,6 +59,9 @@ public class ReceivePackObjectRoutingTest extends RepositoryTestCase {
 	private static final ObjectId THIN_CHILD = ObjectId
 			.fromString("b206f8227cf099726af75b5cbe685a2f93b37cac");
 
+	private static final ObjectId SAFE_CHILD = idFor(Constants.OBJ_BLOB,
+			Constants.encode("012345678k"));
+
 	private static final String REF = "refs/tags/mirrored";
 
 	@Test
@@ -129,6 +132,7 @@ public class ReceivePackObjectRoutingTest extends RepositoryTestCase {
 			TreeFormatter tree = new TreeFormatter();
 			tree.append("large", FileMode.REGULAR_FILE, CHILD);
 			tree.append("small", FileMode.REGULAR_FILE, BASE);
+			tree.append("smallDelta", FileMode.REGULAR_FILE, SAFE_CHILD);
 			tree.append("thin", FileMode.REGULAR_FILE, THIN_CHILD);
 			tree.append("whole", FileMode.REGULAR_FILE, WHOLE);
 			byte[] treeBytes = tree.toByteArray();
@@ -167,8 +171,8 @@ public class ReceivePackObjectRoutingTest extends RepositoryTestCase {
 			ByteArrayOutputStream response = new ByteArrayOutputStream();
 			receive(receiver, input, commitId, ref, response);
 			assertEquals(commitId, db.resolve(ref));
-			assertEquals(6, calls.size());
-			assertEquals(Set.of(BASE, CHILD, WHOLE, THIN_CHILD, treeId, commitId),
+			assertEquals(7, calls.size());
+			assertEquals(Set.of(BASE, CHILD, WHOLE, THIN_CHILD, SAFE_CHILD, treeId, commitId),
 					Set.copyOf(calls));
 			PacketLineIn status = new PacketLineIn(
 					new ByteArrayInputStream(response.toByteArray()));
@@ -177,10 +181,14 @@ public class ReceivePackObjectRoutingTest extends RepositoryTestCase {
 			assertTrue(PacketLineIn.isEnd(status.readString()));
 			assertEquals(1, main.getPacks().size());
 			Pack output = main.getPacks().iterator().next();
-			assertEquals(4, output.getIndex().getObjectCount());
+			assertEquals(5, output.getIndex().getObjectCount());
 			assertFalse(output.hasObject(CHILD));
 			assertFalse(output.hasObject(WHOLE));
 			assertFalse(output.hasObject(EXTERNAL));
+			assertTrue(output.hasObject(SAFE_CHILD));
+			assertEquals(Constants.OBJ_REF_DELTA, storedType(output, SAFE_CHILD));
+			assertArrayEquals(Constants.encode("012345678k"), db.open(SAFE_CHILD).getBytes());
+			assertFalse(destination.fileFor(SAFE_CHILD).exists());
 			for (ObjectId id : List.of(BASE, THIN_CHILD, treeId, commitId)) {
 				assertTrue(output.hasObject(id));
 				assertEquals(id.equals(treeId) ? Constants.OBJ_TREE
@@ -204,10 +212,55 @@ public class ReceivePackObjectRoutingTest extends RepositoryTestCase {
 			ReceivedPackStatistics statistics = receiver.getReceivedPackStatistics();
 			assertEquals(input.toByteArray().length, statistics.getNumBytesRead());
 			assertEquals(2, statistics.getNumWholeBlob());
+			// Keep inherited accounting: the resolver reports two root blob chains.
 			assertEquals(2, statistics.getNumDeltaBlob());
-			assertEquals(2, statistics.getNumRefDelta());
+			assertEquals(3, statistics.getNumRefDelta());
 			assertEquals(1, statistics.getNumWholeTree());
 			assertEquals(1, statistics.getNumWholeCommit());
+			assertNoKeeps(main);
+			assertNoRoutingTemps(main);
+		}
+	}
+
+	@Test
+	public void copiedArchiveCorruptionRejectsRefsAndPreservesPublishedLooseObject()
+			throws Exception {
+		try (FileRepository alternate = createBareRepository()) {
+			ObjectDirectory main = db.getObjectDatabase();
+			ObjectDirectory destination = alternate.getObjectDatabase();
+			configureAlternate(main, destination);
+			ReceivePack receiver = new ReceivePack(db) {
+				@Override
+				protected ObjectInserter newObjectInserter() throws IOException {
+					return main.newRoutingInserter(destination, (id, type, size) -> {
+						if (!id.equals(CHILD)) {
+							return false;
+						}
+						// Delta classification follows successful input checksum validation.
+						// Corrupt retained WHOLE, which is not needed by delta reconstruction.
+						File[] archives = main.getDirectory()
+								.listFiles((dir, name) -> name.endsWith(".spool"));
+						assertEquals(1, archives.length);
+						try (RandomAccessFile archive = new RandomAccessFile(archives[0], "rw")) {
+							archive.seek(33); // WHOLE's valid zlib level hint; contents unchanged.
+							archive.write(0x01);
+						} catch (IOException failure) {
+							throw new AssertionError(failure);
+						}
+						return true;
+					});
+				}
+			};
+			ByteArrayOutputStream response = new ByteArrayOutputStream();
+			assertThrows(UnpackException.class, () -> receive(receiver, mixedPack(), response));
+			assertNull(db.resolve(REF));
+			PacketLineIn status = new PacketLineIn(
+					new ByteArrayInputStream(response.toByteArray()));
+			assertTrue(status.readString().startsWith("unpack error "));
+			assertEquals("ng " + REF + " n/a (unpacker error)", status.readString());
+			assertTrue(PacketLineIn.isEnd(status.readString()));
+			assertTrue(destination.fileFor(CHILD).isFile());
+			assertTrue(main.getPacks().isEmpty());
 			assertNoKeeps(main);
 			assertNoRoutingTemps(main);
 		}
@@ -339,11 +392,13 @@ public class ReceivePackObjectRoutingTest extends RepositoryTestCase {
 
 	private static InMemoryPack commitPack(byte[] tree, byte[] commit)
 			throws IOException {
-		InMemoryPack pack = new InMemoryPack().header(6);
+		InMemoryPack pack = new InMemoryPack().header(7);
 		mixedEntries(pack);
 		pack.write(Constants.OBJ_REF_DELTA << 4 | 6);
 		pack.copyRaw(EXTERNAL);
 		pack.deflate(new byte[] { 10, 10, (byte) 0x90, 9, 1, 'k' });
+		pack.write(Constants.OBJ_REF_DELTA << 4 | 6).copyRaw(BASE)
+				.deflate(new byte[] { 10, 10, (byte) 0x90, 9, 1, 'k' });
 		whole(pack, Constants.OBJ_TREE, tree);
 		whole(pack, Constants.OBJ_COMMIT, commit);
 		return pack.digest();

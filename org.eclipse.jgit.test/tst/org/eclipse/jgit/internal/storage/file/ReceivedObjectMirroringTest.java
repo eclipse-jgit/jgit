@@ -292,6 +292,51 @@ public class ReceivedObjectMirroringTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void factoryRejectsDestinationWriteFailureBeforeReceiving()
+			throws Exception {
+		try (FileRepository alternate = createBareRepository();
+				FileRepository unused = createBareRepository()) {
+			ObjectDirectory main = db.getObjectDatabase();
+			ObjectDirectory destination = alternate.getObjectDatabase();
+			ObjectDirectory other = unused.getObjectDatabase();
+			configureAlternates(main, other, destination);
+			main.myAlternates(); // Cache the valid direct alternate before the fault.
+			File objects = destination.getDirectory();
+			File moved = new File(objects.getParentFile(), "blocked-receive-objects");
+			Files.move(objects.toPath(), moved.toPath());
+			try {
+				Files.writeString(objects.toPath(), "blocked destination");
+				for (ReceiveFactory factory : RECEIVE_FACTORIES) {
+					for (boolean selected : new boolean[] { true, false }) {
+						List<ObjectId> calls = new ArrayList<>();
+						assertThrows(IOException.class, () -> {
+							try (ObjectInserter inserter = factory.create(main, destination,
+									(id, type, size) -> {
+										calls.add(id);
+										return selected;
+									})) {
+								// No pack input is supplied: rejection belongs to the factory.
+							}
+						});
+						assertTrue(calls.isEmpty());
+						assertTrue(main.getPacks().isEmpty());
+						assertNoFilesStartingWith(main.getDirectory(), "incoming_");
+						assertNoFilesStartingWith(main.getDirectory(), "routing_");
+						assertNoFilesEndingWith(main.getPackDirectory(), ".keep");
+						assertEquals("blocked destination", Files.readString(objects.toPath()));
+						assertTrue(other.getPacks().isEmpty());
+						assertFalse(other.fileFor(BASE).exists());
+						assertNoFilesStartingWith(other.getDirectory(), "routing_probe_");
+					}
+				}
+			} finally {
+				Files.deleteIfExists(objects.toPath());
+				Files.move(moved.toPath(), objects.toPath());
+			}
+		}
+	}
+
+	@Test
 	public void matchesCanonicalDestinationWithFileAndBuilderAlternates()
 			throws Exception {
 		try (FileRepository alternate = createBareRepository();
