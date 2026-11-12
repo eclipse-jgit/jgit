@@ -22,7 +22,10 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.sha1.SHA1;
 
 /**
  * {@link ExternalObjectStore} that keeps objects as plain files in a local
@@ -31,8 +34,8 @@ import org.eclipse.jgit.util.FileUtils;
  * Each object is stored uncompressed in a file named after its id, using the
  * same two-character fan-out as loose objects, for example
  * {@code ab/cdef0123...}. New objects are written to a temporary file in the
- * store's root directory and then renamed, so they become visible only when
- * complete.
+ * store's root directory, hashed while they are written, and renamed only if
+ * they are complete and hash to their id.
  */
 public class LocalDirectoryObjectStore implements ExternalObjectStore {
 
@@ -61,6 +64,15 @@ public class LocalDirectoryObjectStore implements ExternalObjectStore {
 	}
 
 	@Override
+	public long find(AnyObjectId id) throws IOException {
+		try {
+			return Files.size(fileFor(id).toPath());
+		} catch (NoSuchFileException e) {
+			return -1;
+		}
+	}
+
+	@Override
 	public InputStream open(AnyObjectId id) throws IOException {
 		try {
 			return Files.newInputStream(fileFor(id).toPath());
@@ -78,8 +90,19 @@ public class LocalDirectoryObjectStore implements ExternalObjectStore {
 		FileUtils.mkdirs(directory, true);
 		Path tmp = Files.createTempFile(directory.toPath(), "put_", ".tmp"); //$NON-NLS-1$ //$NON-NLS-2$
 		try {
+			SHA1 md = SHA1.newInstance();
+			md.update(Constants.encodedTypeString(Constants.OBJ_BLOB));
+			md.update((byte) ' ');
+			md.update(Constants.encodeASCII(size));
+			md.update((byte) 0);
 			try (OutputStream out = Files.newOutputStream(tmp)) {
-				copyExactly(id, size, content, out);
+				copyExactly(id, size, content, out, md);
+			}
+			ObjectId actual = md.toObjectId();
+			if (!actual.equals(id)) {
+				throw new IOException(MessageFormat.format(
+						JGitText.get().externalObjectIdMismatch, id.name(),
+						actual.name()));
 			}
 			File dst = fileFor(id);
 			FileUtils.mkdirs(dst.getParentFile(), true);
@@ -112,7 +135,7 @@ public class LocalDirectoryObjectStore implements ExternalObjectStore {
 	}
 
 	private static void copyExactly(AnyObjectId id, long size,
-			InputStream in, OutputStream out) throws IOException {
+			InputStream in, OutputStream out, SHA1 md) throws IOException {
 		byte[] buf = new byte[BUFFER_SIZE];
 		long remaining = size;
 		while (remaining > 0) {
@@ -120,6 +143,7 @@ public class LocalDirectoryObjectStore implements ExternalObjectStore {
 			if (n < 0) {
 				throw sizeMismatch(id, size);
 			}
+			md.update(buf, 0, n);
 			out.write(buf, 0, n);
 			remaining -= n;
 		}
