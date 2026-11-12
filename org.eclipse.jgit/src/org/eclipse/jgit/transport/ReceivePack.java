@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2008-2010, Google Inc. and others
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -1545,6 +1546,30 @@ public class ReceivePack {
 	}
 
 	/**
+	 * Create the inserter used to receive an incoming pack.
+	 * <p>
+	 * The default returns {@link Repository#newObjectInserter()}. Applications
+	 * using file storage may override this to return an
+	 * {@link org.eclipse.jgit.internal.storage.file.ObjectDirectory#newMirroringInserter(
+	 * org.eclipse.jgit.internal.storage.file.ObjectDirectory, ReceivedObjectFilter)}.
+	 * The destination and filter are supplied by the application, not repository
+	 * configuration. The destination must be a configured direct alternate, and
+	 * the server owns alternate GC and retention coordination.
+	 * <p>
+	 * ReceivePack configures the returned parser's normal validation, statistics,
+	 * size limits and thin-pack flags, and closes the inserter after parsing and
+	 * flushing. Database handles supplied by the application remain caller-owned.
+	 *
+	 * @return a new inserter for this receive.
+	 * @throws IOException
+	 *             the inserter cannot be created.
+	 * @since 8.0
+	 */
+	protected ObjectInserter newObjectInserter() throws IOException {
+		return db.newObjectInserter();
+	}
+
+	/**
 	 * Receive a pack from the input and store it in the repository.
 	 *
 	 * @throws IOException
@@ -1563,7 +1588,7 @@ public class ReceivePack {
 		if (sideBand && !quiet)
 			resolving = new SideBandProgressMonitor(msgOut);
 
-		try (ObjectInserter ins = db.newObjectInserter()) {
+		try (ObjectInserter ins = newObjectInserter()) {
 			String lockMsg = "jgit receive-pack"; //$NON-NLS-1$
 			if (getRefLogIdent() != null)
 				lockMsg += " from " + getRefLogIdent().toExternalString(); //$NON-NLS-1$

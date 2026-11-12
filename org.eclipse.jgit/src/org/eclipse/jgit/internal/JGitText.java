@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2010, 2013 Sasa Zivkov <sasa.zivkov@sap.com>
  * Copyright (C) 2012, 2021 Research In Motion Limited and others
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -692,6 +693,10 @@ public class JGitText extends TranslationBundle {
 	/***/ public String readingObjectsFromLocalRepositoryFailed;
 	/***/ public String readLastModifiedFailed;
 	/***/ public String readTimedOut;
+	/***/ public String receivedObjectIdMismatch;
+	/***/ public String receivedObjectMetadataMismatch;
+	/***/ public String receiveObjectDestinationIsMain;
+	/***/ public String receiveObjectDestinationNotAlternate;
 	/***/ public String receivePackObjectTooLarge1;
 	/***/ public String receivePackObjectTooLarge2;
 	/***/ public String receivePackInvalidLimit;

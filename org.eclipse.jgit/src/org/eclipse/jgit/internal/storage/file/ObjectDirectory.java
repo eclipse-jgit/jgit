@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2009, 2022 Google Inc. and others
+ * Copyright (c) 2026 Qualcomm Technologies, Inc. and/or its subsidiaries.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0 which is available at
@@ -46,9 +47,11 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
+import org.eclipse.jgit.transport.ReceivedObjectFilter;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 
@@ -199,6 +202,68 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 */
 	public PackInserter newPackInserter() {
 		return new PackInserter(this);
+	}
+
+	/**
+	 * Create a receive-only inserter that imports a pack normally, then mirrors
+	 * selected received objects as loose objects in an explicit alternate.
+	 * <p>
+	 * Selected objects remain in the main pack; this consumes extra storage and
+	 * is not offloading. The destination must already be a configured direct
+	 * alternate, matched by canonical objects-directory identity. No other
+	 * alternate is written and a failed copy has no fallback destination.
+	 * <p>
+	 * The caller owns both database handles. Closing the inserter does not close
+	 * them. Parsing closes its own readers, streams and loose inserter. Copies
+	 * use the destination's {@code core.compression}. The server must coordinate
+	 * alternate visibility, garbage collection and long-term object retention.
+	 * <p>
+	 * A copy failure prevents receive ref updates, but leaves the valid normally
+	 * installed main pack and any published loose copies in place. Only a keep
+	 * acquired by this operation is released on failure. Successful parsing
+	 * returns the normal nullable pack lock for the caller to release.
+	 * <p>
+	 * Use with a {@link org.eclipse.jgit.transport.ReceivePack#newObjectInserter()}
+	 * override. Only pack parsing is supported; individual object insertion is
+	 * not supported. Default inserters and receives do not mirror objects.
+	 *
+	 * @param destinationAlternate
+	 *            explicitly selected objects directory, already configured as a
+	 *            direct alternate of this database.
+	 * @param filter
+	 *            deterministic selection by resolved ID, type and full byte size.
+	 * @return a new receive-only inserter.
+	 * @throws IOException
+	 *             an objects-directory path cannot be canonicalized.
+	 * @throws IllegalArgumentException
+	 *             the destination is this database or is not a direct alternate.
+	 * @throws NullPointerException
+	 *             the destination or filter is null.
+	 * @since 8.0
+	 */
+	public ObjectInserter newMirroringInserter(
+			ObjectDirectory destinationAlternate, ReceivedObjectFilter filter)
+			throws IOException {
+		Objects.requireNonNull(destinationAlternate, "destinationAlternate"); //$NON-NLS-1$
+		Objects.requireNonNull(filter, "filter"); //$NON-NLS-1$
+		validateReceiveObjectDestination(destinationAlternate);
+		return new MirroringObjectInserter(this, destinationAlternate, filter);
+	}
+
+	void validateReceiveObjectDestination(ObjectDirectory destination)
+			throws IOException {
+		File target = destination.getDirectory().getCanonicalFile();
+		if (target.equals(getDirectory().getCanonicalFile())) {
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().receiveObjectDestinationIsMain, target));
+		}
+		for (AlternateHandle alternate : myAlternates()) {
+			if (target.equals(alternate.db.getDirectory().getCanonicalFile())) {
+				return;
+			}
+		}
+		throw new IllegalArgumentException(MessageFormat.format(
+				JGitText.get().receiveObjectDestinationNotAlternate, target));
 	}
 
 	@Override
