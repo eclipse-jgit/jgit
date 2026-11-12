@@ -19,6 +19,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f7ea363_96e3fd1c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-12T10:09:03Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "ea26f957_7816fe37",
+      "revId": "805a9eb9f30942d3c10afb060277afdf6c1add27",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "892beece_f66b94c0",
@@ -33,6 +51,24 @@
       "side": 1,
       "message": "Please validate the full header read and the expected table length before decoding/allocating. count * 4 can overflow (a count of 2^30 with no table is accepted); negative counts and truncated headers throw unchecked IllegalArgumentException / ArrayIndexOutOfBoundsException where the javadoc promises IOException. When adopting the native layout, derive N from the .idx, use checked arithmetic, and report malformed input as IOException.",
       "isAi": true,
+      "revId": "805a9eb9f30942d3c10afb060277afdf6c1add27",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f7c9366_23633fd7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackCruftMtimesLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-12T10:09:03Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "892beece_f66b94c0",
       "revId": "805a9eb9f30942d3c10afb060277afdf6c1add27",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -55,6 +91,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca533e5e_e8afb922",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackCruftMtimesWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-12T10:09:03Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f5639f84_64a07de0",
+      "revId": "805a9eb9f30942d3c10afb060277afdf6c1add27",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0ff44ba_2bc7ea5b",
@@ -69,6 +123,24 @@
       "side": 1,
       "message": "This writes one 4-byte chunk per object to the unbuffered channel stream from GC.java:459 -- about 10,003 tiny writes for a 10,000-object table. This should be optimized: batch the timestamp table into a single buffer (or wrap the stream in a BufferedOutputStream flushed before the channel is forced) so large cruft packs do not incur one channel write per object.",
       "isAi": true,
+      "revId": "805a9eb9f30942d3c10afb060277afdf6c1add27",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa043a21_b0d628ab",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackCruftMtimesWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-12T10:09:03Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a0ff44ba_2bc7ea5b",
       "revId": "805a9eb9f30942d3c10afb060277afdf6c1add27",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
