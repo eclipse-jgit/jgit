@@ -750,7 +750,7 @@ public class UploadPack implements Closeable {
 	 * permission-filtered refs and tags are included in the key. Callers must use
 	 * separate scopes for repositories or additional pack policies not described
 	 * by those inputs. Pre-upload hooks still run for cache hits.
-	 * Only unfiltered, non-shallow fetches are eligible. Negotiated
+	 * Full, incremental, shallow and filtered fetches are eligible. Negotiated
 	 * packfile URI offload, server-side shallow repositories and connections
 	 * that expose their RevWalk bypass the cache. Clients stream raw pack bytes while shared generation proceeds;
 	 * progress during shared generation is suppressed.
@@ -2408,7 +2408,8 @@ public class UploadPack implements Closeable {
 				Map<String, Ref> cacheRefs = packRefs == null ? null
 						: new TreeMap<>(packRefs);
 				Collection<Ref> cacheTags = snapshotTags(req, allTags);
-				String key = packOutputCacheKey(req, cfg, cacheTags);
+				String key = packOutputCacheKey(req, cfg, cacheTags,
+						unshallowCommits, deepenNots);
 				if (pckOut.isUsingSideband()) {
 					pckOut.writeString(GitProtocolConstants.SECTION_PACKFILE + '\n');
 				}
@@ -2447,9 +2448,6 @@ public class UploadPack implements Closeable {
 
 	private boolean canCachePack(FetchRequest req) throws IOException {
 		return packOutputCache != null && !revWalkExposed
-				&& req.getFilterSpec().isNoOp() && req.getDepth() == 0
-				&& req.getDeepenSince() == 0 && req.getDeepenNots().isEmpty()
-				&& req.getClientShallowCommits().isEmpty()
 				&& !packCacheShallowRepository
 				&& walk.getObjectReader().getShallowCommits().isEmpty()
 				&& !(cachedPackUriProvider != null && req instanceof FetchV2Request
@@ -2479,9 +2477,10 @@ public class UploadPack implements Closeable {
 	}
 
 	private String packOutputCacheKey(FetchRequest req, PackConfig cfg,
-			Collection<Ref> allTags) {
+			Collection<Ref> allTags, List<ObjectId> unshallowCommits,
+			List<ObjectId> deepenNots) {
 		StringBuilder key = new StringBuilder();
-		appendCacheKey(key, "jgit-pack-output-v1"); //$NON-NLS-1$
+		appendCacheKey(key, "jgit-pack-output-v2"); //$NON-NLS-1$
 		appendCacheKey(key, packOutputCacheScope);
 		appendCacheKey(key, db.getIdentifier());
 		appendCacheKey(key, cfg.toString());
@@ -2495,6 +2494,19 @@ public class UploadPack implements Closeable {
 				req.getClientCapabilities().contains(OPTION_INCLUDE_TAG)));
 		appendObjectIds(key, wantAll.isEmpty() ? wantIds : wantAll);
 		appendObjectIds(key, commonBase);
+		appendCacheKey(key, Integer.toString(req.getDepth()));
+		appendCacheKey(key, Integer.toString(req.getDeepenSince()));
+		appendCacheKey(key, Boolean.toString(
+				req.getClientCapabilities().contains(OPTION_DEEPEN_RELATIVE)));
+		appendObjectIds(key, req.getClientShallowCommits());
+		appendObjectIds(key, unshallowCommits);
+		appendObjectIds(key, deepenNots);
+		FilterSpec filter = req.getFilterSpec();
+		for (int type = Constants.OBJ_COMMIT; type <= Constants.OBJ_TAG; type++) {
+			appendCacheKey(key, Boolean.toString(filter.allowsType(type)));
+		}
+		appendCacheKey(key, Long.toString(filter.getBlobLimit()));
+		appendCacheKey(key, Long.toString(filter.getTreeDepthLimit()));
 		// Advertised refs only provide ordering hints for already selected objects.
 		// Included tags can add objects, so their effective visibility is keyed.
 		appendRefs(key, allTags);
@@ -2543,6 +2555,7 @@ public class UploadPack implements Closeable {
 		result.totalDeltas = cached.getTotalDeltas();
 		result.totalBytes = cached.getTotalBytes();
 		result.thinPackBytes = cached.getThinPackBytes();
+		result.depth = cached.getDepth();
 		result.reusedObjects = cached.getReusedObjects();
 		result.reusedDeltas = cached.getReusedDeltas();
 		result.interestingObjects = cached.getInterestingObjects();
