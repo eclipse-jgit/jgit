@@ -135,7 +135,7 @@ public class UploadPackTest {
 			assertFalse(first.upload().isPackOutputCacheHit());
 			assertTrue(second.upload().isPackOutputCacheHit());
 			assertEquals(2, hooks.get());
-			assertArrayEquals(first.response(), second.response());
+			assertArrayEquals(rawPackBytes(first), rawPackBytes(second));
 			assertEquals(first.upload().getStatistics().getTotalBytes(),
 					second.upload().getStatistics().getTotalBytes());
 			assertEquals(0, second.upload().getStatistics().getTimeCounting());
@@ -193,7 +193,7 @@ public class UploadPackTest {
 			CachedFetch b = second.get(15, TimeUnit.SECONDS);
 			assertTrue(a.upload().isPackOutputCacheHit()
 					^ b.upload().isPackOutputCacheHit());
-			assertArrayEquals(a.response(), b.response());
+			assertArrayEquals(rawPackBytes(a), rawPackBytes(b));
 			ByteArrayInputStream received = new ByteArrayInputStream(b.response());
 			assertEquals("packfile", new PacketLineIn(received).readString());
 			parsePack(received);
@@ -308,7 +308,7 @@ public class UploadPackTest {
 					.upload().isPackOutputCacheHit());
 			assertFalse(cachedFetch(cache, "reader", up -> up.getRevWalk(), tip)
 					.upload().isPackOutputCacheHit());
-			assertFalse(cachedFetch(cache, "reader",
+			assertTrue(cachedFetch(cache, "reader",
 					up -> up.setCachedPackUriProvider((pack, protocols) -> null), tip)
 					.upload().isPackOutputCacheHit());
 			assertTrue(cachedFetch(cache, "reader", null, tip).upload()
@@ -336,9 +336,53 @@ public class UploadPackTest {
 		}
 	}
 
+	@Test
+	public void testGeneratedPackCacheResolvesTagsOnRequestThread() throws Exception {
+		Thread requestThread = Thread.currentThread();
+		server = new InMemoryRepository(new DfsRepositoryDescription("thread-bound")) {
+			@Override
+			public RefDatabase getRefDatabase() {
+				assertEquals(requestThread, Thread.currentThread());
+				return super.getRefDatabase();
+			}
+		};
+		remote = new TestRepository<>(server);
+		RevCommit tip = remote.commit().message("tip").create();
+		RevTag tag = remote.tag("release", tip);
+		remote.update("master", tip);
+		remote.update("refs/tags/release", tag);
+		try (PackOutputCache cache = newPackOutputCache()) {
+			Consumer<UploadPack> setup = up -> up.setPostUploadHook(
+					ignored -> assertEquals(requestThread, Thread.currentThread()));
+			cachedFetch(cache, "reader", setup, tip, "include-tag\n");
+			CachedFetch hit = cachedFetch(cache, "reader", setup, tip, "include-tag\n");
+			assertTrue(hit.upload().isPackOutputCacheHit());
+			parsePack(cachedPackStream(hit));
+			assertTrue(client.getObjectDatabase().has(tag));
+		}
+	}
+
+	private byte[] rawPackBytes(CachedFetch fetched) throws IOException {
+		SideBandInputStream stream = new SideBandInputStream(cachedPackStream(fetched),
+				NullProgressMonitor.INSTANCE, new StringWriter(), NullOutputStream.INSTANCE);
+		return stream.readAllBytes();
+	}
+
+	private ByteArrayInputStream cachedPackStream(CachedFetch fetched)
+			throws IOException {
+		ByteArrayInputStream received = new ByteArrayInputStream(fetched.response());
+		PacketLineIn packets = new PacketLineIn(received);
+		String section;
+		do {
+			section = packets.readString();
+			assertFalse("packfile section is missing", PacketLineIn.isEnd(section));
+		} while (!"packfile".equals(section) && !"\001packfile".equals(section));
+		return received;
+	}
+
 	private PackOutputCache newPackOutputCache() throws IOException {
 		return new PackOutputCache(packCacheDirectory.newFolder().toPath(),
-				1024 * 1024, 16, Duration.ofMinutes(1));
+				1024 * 1024, 16, Duration.ofMinutes(1), 2);
 	}
 
 	private CachedFetch cachedFetch(PackOutputCache cache, String scope,

@@ -35,6 +35,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -63,7 +64,7 @@ public class PackOutputCacheTest {
 	public void setUp() throws IOException {
 		directory = Files.createTempDirectory("pack-output-cache-test-");
 		executor = Executors.newFixedThreadPool(2);
-		cache = new PackOutputCache(directory, 1024, 8, Duration.ofMinutes(1));
+		cache = new PackOutputCache(directory, 1024, 8, Duration.ofMinutes(1), 2);
 	}
 
 	@After
@@ -140,12 +141,13 @@ public class PackOutputCacheTest {
 	}
 
 	@Test
-	public void failedProducerDoesNotPublishPartialPackAndCanRetry()
+	public void failedProducerDoesNotRetainPartialPackAndCanRetry()
 			throws Exception {
 		CountDownLatch producing = new CountDownLatch(1);
 		CountDownLatch complete = new CountDownLatch(1);
 		PackOutputCache.PackProducer failing = out -> {
 			out.write(1);
+			out.flush();
 			producing.countDown();
 			await(complete);
 			throw new IOException("generation failed");
@@ -172,8 +174,8 @@ public class PackOutputCacheTest {
 					() -> request.get(5, TimeUnit.SECONDS));
 			assertEquals("generation failed", error.getCause().getMessage());
 		}
-		assertEquals(0, first.size());
-		assertEquals(0, second.size());
+		assertTrue(first.size() <= 1);
+		assertTrue(second.size() <= 1);
 		assertEquals(0, storedBytes());
 		assertArrayEquals(new byte[] { 2 }, write("failure", out -> {
 			out.write(2);
@@ -190,6 +192,8 @@ public class PackOutputCacheTest {
 			out.write(new byte[] { 1, 2, 3 });
 			return statistics();
 		};
+		assertArrayEquals(new byte[] { 1, 2, 3 },
+				write("disconnect", producer));
 		assertThrows(IOException.class, () -> cache.write("disconnect",
 				new OutputStream() {
 					@Override
@@ -242,18 +246,16 @@ public class PackOutputCacheTest {
 	}
 
 	@Test
-	public void oversizedPackContinuesWithoutRegeneratingItsPrefix()
+	public void oversizedPackStreamsSuccessfullyWithoutRetention()
 			throws Exception {
 		cache.close();
-		cache = new PackOutputCache(directory, 3, 1, Duration.ofMinutes(1));
+		cache = new PackOutputCache(directory, 3, 1, Duration.ofMinutes(1), 2);
 		AtomicInteger generated = new AtomicInteger();
 		byte[] pack = { 1, 2, 3, 4, 5 };
 		PackOutputCache.PackProducer producer = out -> {
 			generated.incrementAndGet();
 			out.write(pack, 0, 2);
-			assertTrue(storedBytes() <= 3);
 			out.write(pack, 2, 3);
-			assertTrue(storedBytes() <= 3);
 			return statistics();
 		};
 		assertArrayEquals(pack, write("oversized", producer));
@@ -264,9 +266,9 @@ public class PackOutputCacheTest {
 	}
 
 	@Test
-	public void entryLimitBypassesCache() throws Exception {
+	public void entryLimitEvictsIdleCompletedPacks() throws Exception {
 		cache.close();
-		cache = new PackOutputCache(directory, 1024, 1, Duration.ofMinutes(1));
+		cache = new PackOutputCache(directory, 1024, 1, Duration.ofMinutes(1), 2);
 		write("retained", out -> {
 			out.write(1);
 			return statistics();
@@ -277,18 +279,20 @@ public class PackOutputCacheTest {
 			return statistics();
 		};
 		assertArrayEquals(new byte[] { 1 }, write("bypassed", producer));
-		assertArrayEquals(new byte[] { 2 }, write("bypassed", producer));
+		assertArrayEquals(new byte[] { 1 }, write("bypassed", producer));
+		assertEquals(1, generated.get());
 		assertEquals(1, storedBytes());
 	}
 
 	@Test
-	public void byteLimitIncludesOtherInflightPacks() throws Exception {
+	public void retentionBudgetDoesNotFailConcurrentInflightPacks() throws Exception {
 		cache.close();
-		cache = new PackOutputCache(directory, 3, 2, Duration.ofMinutes(1));
+		cache = new PackOutputCache(directory, 3, 2, Duration.ofMinutes(1), 2);
 		CountDownLatch producing = new CountDownLatch(1);
 		CountDownLatch complete = new CountDownLatch(1);
 		Future<byte[]> first = executor.submit(() -> write("inflight", out -> {
 			out.write(new byte[] { 1, 2 });
+			out.flush();
 			producing.countDown();
 			await(complete);
 			return statistics();
@@ -297,10 +301,8 @@ public class PackOutputCacheTest {
 		try {
 			assertArrayEquals(new byte[] { 3, 4 }, write("other", out -> {
 				out.write(new byte[] { 3, 4 });
-				assertTrue(storedBytes() <= 3);
 				return statistics();
 			}));
-			assertEquals(2, storedBytes());
 		} finally {
 			complete.countDown();
 		}
@@ -311,7 +313,7 @@ public class PackOutputCacheTest {
 	public void idleEntriesExpireAndClosePreservesUnrelatedFiles()
 			throws Exception {
 		cache.close();
-		cache = new PackOutputCache(directory, 1024, 8, Duration.ofMillis(20));
+		cache = new PackOutputCache(directory, 1024, 8, Duration.ofMillis(20), 2);
 		Path unrelated = directory.resolve("unrelated");
 		Files.write(unrelated, new byte[] { 42 });
 		write("expiring", out -> {
@@ -357,6 +359,7 @@ public class PackOutputCacheTest {
 			cache.close();
 			assertEquals(pack.length, storedBytes());
 			assertFalse(reader.isDone());
+
 		} finally {
 			complete.countDown();
 		}
@@ -364,6 +367,212 @@ public class PackOutputCacheTest {
 		assertArrayEquals(pack, received.toByteArray());
 		assertEquals(0, storedBytes());
 	}
+
+	@Test
+	public void streamsBeforeProducerCompletes() throws Exception {
+		CountDownLatch prefix = new CountDownLatch(1);
+		CountDownLatch complete = new CountDownLatch(1);
+		ByteArrayOutputStream received = new ByteArrayOutputStream();
+		Future<?> request = executor.submit(() -> cache.write("streaming",
+				new OutputStream() {
+					@Override
+					public void write(int value) {
+						received.write(value);
+						prefix.countDown();
+					}
+				}, out -> {
+					out.write(1);
+					out.flush();
+					await(complete);
+					out.write(2);
+					return statistics();
+				}));
+		try {
+			assertTrue(prefix.await(5, TimeUnit.SECONDS));
+			assertFalse(request.isDone());
+			assertArrayEquals(new byte[] { 1 }, received.toByteArray());
+		} finally {
+			complete.countDown();
+		}
+		request.get(5, TimeUnit.SECONDS);
+		assertArrayEquals(new byte[] { 1, 2 }, received.toByteArray());
+	}
+
+	@Test
+	public void producerWaitsForConsumerProgress() throws Exception {
+		CountDownLatch reading = new CountDownLatch(1);
+		CountDownLatch complete = new CountDownLatch(1);
+		CountDownLatch secondChunk = new CountDownLatch(1);
+		byte[] chunk = new byte[64 << 10];
+		AtomicInteger received = new AtomicInteger();
+		Future<?> request = executor.submit(() -> cache.write("backpressure",
+				new OutputStream() {
+					@Override
+					public void write(int value) {
+						throw new AssertionError("bulk writes expected");
+					}
+
+					@Override
+					public void write(byte[] data, int offset, int length)
+							throws IOException {
+						reading.countDown();
+						await(complete);
+						received.addAndGet(length);
+					}
+				}, out -> {
+					out.write(chunk);
+					out.write(chunk);
+					secondChunk.countDown();
+					return statistics();
+				}));
+		try {
+			assertTrue(reading.await(5, TimeUnit.SECONDS));
+			assertFalse(secondChunk.await(100, TimeUnit.MILLISECONDS));
+		} finally {
+			complete.countDown();
+		}
+		request.get(5, TimeUnit.SECONDS);
+		assertEquals(2 * chunk.length, received.get());
+	}
+
+	@Test
+	public void ownerDisconnectWaitsForActualProducerTermination()
+			throws Exception {
+		CountDownLatch interrupted = new CountDownLatch(1);
+		CountDownLatch cleanup = new CountDownLatch(1);
+		AtomicInteger terminated = new AtomicInteger();
+		Future<?> request = executor.submit(() -> cache.write("cancelled",
+				new OutputStream() {
+					@Override
+					public void write(int value) throws IOException {
+						throw new IOException("client disconnected");
+					}
+				}, out -> {
+					out.write(1);
+					out.flush();
+					try {
+						new CountDownLatch(1).await();
+					} catch (InterruptedException e) {
+						interrupted.countDown();
+						await(cleanup);
+					}
+					terminated.incrementAndGet();
+					return statistics();
+				}));
+		try {
+			assertTrue(interrupted.await(5, TimeUnit.SECONDS));
+			assertFalse(request.isDone());
+		} finally {
+			cleanup.countDown();
+		}
+		ExecutionException error = assertThrows(ExecutionException.class,
+				() -> request.get(5, TimeUnit.SECONDS));
+		assertEquals("client disconnected", error.getCause().getMessage());
+		assertEquals(1, terminated.get());
+		assertEquals(0, storedBytes());
+	}
+
+	@Test
+	public void ownerDisconnectDoesNotStopFollowingClient() throws Exception {
+		CountDownLatch producing = new CountDownLatch(1);
+		CountDownLatch prefix = new CountDownLatch(1);
+		CountDownLatch complete = new CountDownLatch(1);
+		AtomicInteger generated = new AtomicInteger();
+		PackOutputCache.PackProducer producer = out -> {
+			generated.incrementAndGet();
+			producing.countDown();
+			await(prefix);
+			out.write(1);
+			out.flush();
+			await(complete);
+			out.write(2);
+			return statistics();
+		};
+		Future<?> owner = executor.submit(() -> cache.write("shared",
+				new OutputStream() {
+					@Override
+					public void write(int value) throws IOException {
+						throw new IOException("owner disconnected");
+					}
+				}, producer));
+		assertTrue(producing.await(5, TimeUnit.SECONDS));
+		CountDownLatch following = new CountDownLatch(1);
+		Future<byte[]> follower = executor.submit(() -> {
+			following.countDown();
+			return write("shared", producer);
+		});
+		try {
+			assertTrue(following.await(5, TimeUnit.SECONDS));
+			assertThrows(TimeoutException.class,
+					() -> follower.get(100, TimeUnit.MILLISECONDS));
+			prefix.countDown();
+			assertThrows(TimeoutException.class,
+					() -> owner.get(100, TimeUnit.MILLISECONDS));
+		} finally {
+			prefix.countDown();
+			complete.countDown();
+		}
+		ExecutionException error = assertThrows(ExecutionException.class,
+				() -> owner.get(5, TimeUnit.SECONDS));
+		assertEquals("owner disconnected", error.getCause().getMessage());
+		assertArrayEquals(new byte[] { 1, 2 }, follower.get(5, TimeUnit.SECONDS));
+		assertEquals(1, generated.get());
+	}
+
+	@Test
+	public void executorSaturationBypassesWithoutQueueing() throws Exception {
+		cache.close();
+		cache = new PackOutputCache(directory, 1024, 8, Duration.ofMinutes(1), 1);
+		CountDownLatch producing = new CountDownLatch(1);
+		CountDownLatch complete = new CountDownLatch(1);
+		Future<byte[]> owner = executor.submit(() -> write("busy", out -> {
+			producing.countDown();
+			await(complete);
+			out.write(1);
+			return statistics();
+		}));
+		assertTrue(producing.await(5, TimeUnit.SECONDS));
+		try {
+			Thread requestThread = Thread.currentThread();
+			AtomicReference<Thread> generationThread = new AtomicReference<>();
+			assertArrayEquals(new byte[] { 2 }, write("bypass", out -> {
+				generationThread.set(Thread.currentThread());
+				out.write(2);
+				return statistics();
+			}));
+			assertEquals(requestThread, generationThread.get());
+		} finally {
+			complete.countDown();
+		}
+		assertArrayEquals(new byte[] { 1 }, owner.get(5, TimeUnit.SECONDS));
+	}
+
+	@Test
+	public void expiredInflightEntryFinishesWithoutAdmittingNewReaders()
+			throws Exception {
+		cache.close();
+		cache = new PackOutputCache(directory, 1024, 8, Duration.ofMillis(20), 2);
+		CountDownLatch producing = new CountDownLatch(1);
+		CountDownLatch complete = new CountDownLatch(1);
+		Future<byte[]> owner = executor.submit(() -> write("expired", out -> {
+			producing.countDown();
+			await(complete);
+			out.write(1);
+			return statistics();
+		}));
+		assertTrue(producing.await(5, TimeUnit.SECONDS));
+		try {
+			Thread.sleep(100);
+			assertArrayEquals(new byte[] { 2 }, write("expired", out -> {
+				out.write(2);
+				return statistics();
+			}));
+		} finally {
+			complete.countDown();
+		}
+		assertArrayEquals(new byte[] { 1 }, owner.get(5, TimeUnit.SECONDS));
+	}
+
 
 	private byte[] write(String key, PackOutputCache.PackProducer producer)
 			throws IOException {
