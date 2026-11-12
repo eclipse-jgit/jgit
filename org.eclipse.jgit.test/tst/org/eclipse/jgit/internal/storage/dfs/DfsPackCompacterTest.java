@@ -15,6 +15,8 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.IN
 import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.eclipse.jgit.lib.Constants.OBJ_REF_DELTA;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -32,8 +34,11 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.InMemoryPack;
+import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.Before;
 import org.junit.Test;
@@ -229,6 +234,97 @@ public class DfsPackCompacterTest {
 		assertTrue(odb.has(o3));
 		assertEquals(o1, repo.getRefDatabase().findRef(MAIN).getObjectId());
 		assertEquals(o2, repo.getRefDatabase().findRef(DEV).getObjectId());
+	}
+
+	@Test
+	public void testCompactDeepCrossPackDeltaChain() throws Throwable {
+		int chainDepth = 6000;
+		ObjectId[] blobIds = new ObjectId[chainDepth + 1];
+		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
+
+		// Pack 1 (older): b_0 as whole blob followed by b_1..b_{chainDepth-1},
+		// each stored as a REF_DELTA against the preceding blob.
+		InMemoryPack pack1 = new InMemoryPack(1024 * 1024);
+		pack1.header(chainDepth);
+		byte[] baseBytes = new byte[4];
+		blobIds[0] = fmt.idFor(OBJ_BLOB, baseBytes);
+		pack1.write((OBJ_BLOB << 4) | baseBytes.length);
+		pack1.deflate(baseBytes);
+
+		for (int i = 1; i < chainDepth; i++) {
+			byte[] target = new byte[] { (byte) (i >>> 24), (byte) (i >>> 16),
+					(byte) (i >>> 8), (byte) i };
+			byte[] delta = new byte[] { 0x04, 0x04, 0x04, target[0], target[1],
+					target[2], target[3] };
+			pack1.write((OBJ_REF_DELTA << 4) | delta.length);
+			pack1.copyRaw(blobIds[i - 1]);
+			pack1.deflate(delta);
+			blobIds[i] = fmt.idFor(OBJ_BLOB, target);
+		}
+		pack1.digest();
+
+		try (ObjectInserter ins = repo.newObjectInserter()) {
+			PackParser parser = ins.newPackParser(pack1.toInputStream());
+			parser.parse(NullProgressMonitor.INSTANCE,
+					NullProgressMonitor.INSTANCE);
+			ins.flush();
+		}
+
+		// Pack 2 (newer): thin pack with b_{chainDepth} as a REF_DELTA against
+		// b_{chainDepth-1}. Because DfsPackCompactor scans newer packs first,
+		// b_{chainDepth} is added to PackWriter before b_0..b_{chainDepth-1},
+		// forcing writeObjectImpl to traverse the full chainDepth base chain.
+		byte[] tipTarget = new byte[] { (byte) (chainDepth >>> 24),
+				(byte) (chainDepth >>> 16), (byte) (chainDepth >>> 8),
+				(byte) chainDepth };
+		byte[] tipDelta = new byte[] { 0x04, 0x04, 0x04, tipTarget[0],
+				tipTarget[1], tipTarget[2], tipTarget[3] };
+		InMemoryPack pack2 = new InMemoryPack();
+		pack2.header(1);
+		pack2.write((OBJ_REF_DELTA << 4) | tipDelta.length);
+		pack2.copyRaw(blobIds[chainDepth - 1]);
+		pack2.deflate(tipDelta);
+		pack2.digest();
+
+		try (ObjectInserter ins = repo.newObjectInserter()) {
+			PackParser parser = ins.newPackParser(pack2.toInputStream());
+			parser.setAllowThin(true);
+			parser.parse(NullProgressMonitor.INSTANCE,
+					NullProgressMonitor.INSTANCE);
+			ins.flush();
+		}
+		blobIds[chainDepth] = fmt.idFor(OBJ_BLOB, tipTarget);
+
+		DfsPackCompactor compactor = new DfsPackCompactor(repo);
+		for (DfsPackFile pack : odb.getPacks()) {
+			compactor.add(pack);
+		}
+
+		Throwable[] thrown = new Throwable[1];
+		Thread worker = new Thread(null, () -> {
+			try {
+				compactor.compact(NullProgressMonitor.INSTANCE);
+			} catch (Throwable t) {
+				thrown[0] = t;
+			}
+		}, "compact-deep-delta-chain", 256 * 1024);
+		worker.start();
+		worker.join();
+		if (thrown[0] != null) {
+			throw thrown[0];
+		}
+
+		odb.clearCache();
+		assertEquals(1, odb.getPacks().length);
+		assertEquals(chainDepth,
+				compactor.getNewPackStatistics().get(0).getTotalDeltas());
+		assertArrayEquals(baseBytes, repo.open(blobIds[0]).getBytes());
+		int mid = chainDepth / 2;
+		assertArrayEquals(
+				new byte[] { (byte) (mid >>> 24), (byte) (mid >>> 16),
+						(byte) (mid >>> 8), (byte) mid },
+				repo.open(blobIds[mid]).getBytes());
+		assertArrayEquals(tipTarget, repo.open(blobIds[chainDepth]).getBytes());
 	}
 
 	private TestRepository<InMemoryRepository>.CommitBuilder commit() {
