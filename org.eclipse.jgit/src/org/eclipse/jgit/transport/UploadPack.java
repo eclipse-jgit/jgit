@@ -74,6 +74,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -114,11 +116,17 @@ import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
 import org.eclipse.jgit.util.io.TimeoutOutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implements the server side of a fetch connection, transmitting objects.
  */
 public class UploadPack implements Closeable {
+	private static final Logger LOG = LoggerFactory.getLogger(UploadPack.class);
+
+	private static final AtomicBoolean GENERATED_URI_WARNING_LOGGED = new AtomicBoolean();
+
 	/** Policy the server uses to validate client requests */
 	public enum RequestPolicy {
 		/** Client may only ask for objects the server advertised a reference for. */
@@ -335,13 +343,17 @@ public class UploadPack implements Closeable {
 
 	private PackOutputCache packOutputCache;
 
+	private GeneratedPackUriProvider generatedPackUriProvider;
+
+	private boolean generatedPackUriHit;
+
+	private boolean packfileSectionWritten;
+
 	private String packOutputCacheScope;
 
 	private boolean revWalkExposed;
 
 	private boolean packOutputCacheHit;
-
-	private boolean packfileSectionWritten;
 
 	private boolean packCacheShallowRepository;
 
@@ -791,6 +803,32 @@ public class UploadPack implements Closeable {
 		return packOutputCacheHit;
 	}
 
+	/**
+	 * Configure optional remote distribution of generated fetch packs. Requires
+	 * an output cache with a caller-versioned scope. Only negotiated URI requests
+	 * use this provider; their generated packs are self-contained rather than
+	 * thin. Publication currently excludes shallow and filtered requests.
+	 *
+	 * @param provider
+	 *            thread-safe lookup and publisher, or null to disable
+	 * @since 8.0
+	 */
+	public void setGeneratedPackUriProvider(
+			@Nullable GeneratedPackUriProvider provider) {
+		generatedPackUriProvider = provider;
+	}
+
+	/**
+	 * Whether this fetch sent a URI for a previously published generated pack.
+	 * This is distinct from a local output-cache hit.
+	 *
+	 * @return true for a generated-pack URI hit
+	 * @since 8.0
+	 */
+	public boolean isGeneratedPackUriHit() {
+		return generatedPackUriHit;
+	}
+
 	private boolean useProtocolV2() {
 		return (transferConfig.protocolVersion == null
 			|| ProtocolVersion.V2.equals(transferConfig.protocolVersion))
@@ -1236,6 +1274,7 @@ public class UploadPack implements Closeable {
 	private void fetchV2(PacketLineOut pckOut) throws IOException {
 		statistics = null;
 		packOutputCacheHit = false;
+		generatedPackUriHit = false;
 		packfileSectionWritten = false;
 		ProtocolV2Parser parser = new ProtocolV2Parser(transferConfig);
 		FetchV2Request req = parser.parseFetchRequest(pckIn);
@@ -1457,7 +1496,7 @@ public class UploadPack implements Closeable {
 				+ (transferConfig.isAdvertiseSidebandAll()
 						? OPTION_SIDEBAND_ALL + ' '
 						: "")
-				+ (cachedPackUriProvider != null ? "packfile-uris " : "")
+				+ (hasPackfileUriProvider() ? "packfile-uris " : "")
 				+ (transferConfig.isAdvertiseWaitForDone()
 						? OPTION_WAIT_FOR_DONE + ' '
 						: "")
@@ -2415,6 +2454,7 @@ public class UploadPack implements Closeable {
 			List<ObjectId> deepenNots) throws IOException {
 		statistics = null;
 		packOutputCacheHit = false;
+		generatedPackUriHit = false;
 		if (wantAll.isEmpty()) {
 			preUploadHook.onSendPack(this, wantIds, commonBase);
 		} else {
@@ -2483,7 +2523,10 @@ public class UploadPack implements Closeable {
 	}
 
 	private boolean useThinPack(FetchRequest req) {
-		return req.getClientCapabilities().contains(OPTION_THIN_PACK);
+		return req.getClientCapabilities().contains(OPTION_THIN_PACK)
+				&& !(req instanceof FetchV2Request
+						&& !((FetchV2Request) req).getPackfileUriProtocols().isEmpty()
+						&& !packfileSectionWritten && canDistributeGeneratedPack(req));
 	}
 
 	private boolean canCachePack() throws IOException {
@@ -2492,8 +2535,22 @@ public class UploadPack implements Closeable {
 				&& walk.getObjectReader().getShallowCommits().isEmpty();
 	}
 
+	private boolean hasPackfileUriProvider() {
+		return cachedPackUriProvider != null
+				|| (generatedPackUriProvider != null && packOutputCache != null);
+	}
+
+	private boolean canDistributeGeneratedPack(FetchRequest req) {
+		return generatedPackUriProvider != null && packOutputCache != null
+				&& !revWalkExposed && !packCacheShallowRepository
+				&& req.getFilterSpec().isNoOp() && req.getDepth() == 0
+				&& req.getDeepenSince() == 0 && req.getDeepenNots().isEmpty()
+				&& req.getClientShallowCommits().isEmpty();
+	}
+
 	private boolean usesPackfileUris(FetchRequest req) {
-		return cachedPackUriProvider != null && req instanceof FetchV2Request
+		return (cachedPackUriProvider != null || canDistributeGeneratedPack(req))
+				&& req instanceof FetchV2Request
 				&& !((FetchV2Request) req).getPackfileUriProtocols().isEmpty();
 	}
 
@@ -2511,19 +2568,49 @@ public class UploadPack implements Closeable {
 				unshallowCommits, deepenNots, cfg, packRefs)) {
 			pw.setPackfileUriConfig(new PackWriter.PackfileUriConfig(pckOut,
 					((FetchV2Request) req).getPackfileUriProtocols(),
-					cachedPackUriProvider));
+					cachedPackUriProvider != null ? cachedPackUriProvider
+							: (pack, protocols) -> null));
 			List<CachedPackUriProvider.PackInfo> uris = pw.getPackfileUris();
 			StringBuilder key = new StringBuilder();
 			appendCacheKey(key, "jgit-pack-remainder-v1"); //$NON-NLS-1$
 			appendCacheKey(key, requestKey);
 			uris.stream().map(CachedPackUriProvider.PackInfo::getHash).sorted()
 					.forEach(hash -> appendCacheKey(key, hash));
+			String cacheKey = hashCacheKey(key);
+			GeneratedPackUriProvider provider = generatedPackUriProvider;
+			boolean publishable = canDistributeGeneratedPack(req);
+			if (publishable) {
+				CachedPackUriProvider.PackInfo generated = lookupGeneratedPack(
+						provider, cacheKey,
+						((FetchV2Request) req).getPackfileUriProtocols());
+				if (generated != null) {
+					List<CachedPackUriProvider.PackInfo> manifest = new ArrayList<>(uris);
+					manifest.add(generated);
+					pckOut.writeString("packfile-uris\n"); //$NON-NLS-1$
+					for (CachedPackUriProvider.PackInfo info : manifest) {
+						pckOut.writeString(info.getHash() + ' ' + info.getUri() + '\n');
+					}
+					pckOut.writeDelim();
+					writePackfileSection(pckOut);
+					packfileSectionWritten = true;
+					accumulator.offloadedPackfiles = manifest.size();
+					accumulator.offloadedPackfileSize = manifest.stream()
+							.mapToLong(CachedPackUriProvider.PackInfo::getSize).sum();
+					try (PackWriter empty = new PackWriter(cfg,
+							db.newObjectReader(), accumulator)) {
+						empty.writePack(pm, NullProgressMonitor.INSTANCE, packOut);
+						packOut.flush();
+						generatedPackUriHit = true;
+						return empty.getStatistics();
+					}
+				}
+			}
 			pw.writePackfileUriHeader();
 			packfileSectionWritten = true;
 			PackStatistics[] produced = new PackStatistics[1];
 			long started = System.nanoTime();
 			Thread requestThread = Thread.currentThread();
-			PackStatistics result = packOutputCache.write(hashCacheKey(key),
+			PackStatistics result = packOutputCache.write(cacheKey,
 					packOut, out -> {
 						ProgressMonitor progress = Thread.currentThread() == requestThread
 								? pm : CACHE_PROGRESS;
@@ -2533,6 +2620,10 @@ public class UploadPack implements Closeable {
 						return produced[0];
 					});
 			packOut.flush();
+			if (publishable) {
+				packOutputCache.publish(cacheKey, (in, size, checksum) ->
+						provider.publish(cacheKey, in, size, checksum));
+			}
 			packOutputCacheHit = produced[0] == null;
 			if (packOutputCacheHit) {
 				cachedPackStatistics(result, accumulator,
@@ -2543,6 +2634,29 @@ public class UploadPack implements Closeable {
 				return new PackStatistics(accumulator);
 			}
 			return result;
+		}
+	}
+
+	private static CachedPackUriProvider.PackInfo lookupGeneratedPack(
+			GeneratedPackUriProvider provider, String key,
+			Collection<String> protocols) {
+		try {
+			CachedPackUriProvider.PackInfo info = provider.getInfo(key, protocols);
+			if (info != null) {
+				info = new CachedPackUriProvider.PackInfo(info.getHash(),
+						info.getUri(), info.getSize());
+				info.validate(protocols);
+			}
+			return info;
+		} catch (IOException | RuntimeException e) {
+			if (GENERATED_URI_WARNING_LOGGED.compareAndSet(false, true)) {
+				LOG.warn("Cannot look up generated pack URI ({})", //$NON-NLS-1$
+						e.getClass().getSimpleName());
+			} else {
+				LOG.debug("Cannot look up generated pack URI ({})", //$NON-NLS-1$
+						e.getClass().getSimpleName());
+			} //$NON-NLS-1$
+			return null;
 		}
 	}
 
