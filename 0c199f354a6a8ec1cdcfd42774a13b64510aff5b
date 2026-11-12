@@ -39,6 +39,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6af99cb1_df9c3f3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-12T13:05:20Z",
+      "side": 1,
+      "message": "We had earlier discussions about moving to `google-java-format` and following Gerrit\u0027s approach. I\u0027d defer the decision to @matthias.sohn@sap.com and @ifrade@google.com as maintainers, but I\u0027d strongly support it.\n\nYour plan sounds right to me: reformat the whole tree with gjf on the branches we still cross-merge, starting from stable-6.10, then add `tools/gjf.sh` to JGit and keep it enforced going forward.\n\nJGit isn\u0027t a Google project, but a 2-space, no-tabs layout is a widely-adopted convention in the Java ecosystem — google-java-format itself exposes only `--aosp` (4-space instead of the default 2) and no CLI option for tabs (quoting the Google style guide [1], \"Tab characters are not used for indentation.\"). Settling on a single, auto-enforced style shared with Gerrit would end the manual formatting churn for good — from my perspective it\u0027s long overdue.\n\n[1]: https://google.github.io/styleguide/javaguide.html#231-whitespace-characters",
+      "parentUuid": "d5395955_af680bf5",
+      "revId": "0c199f354a6a8ec1cdcfd42774a13b64510aff5b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2e2249f_35e199a9",
         "filename": "tools/formatter/FormatterTest.java",
         "patchSetId": 1
