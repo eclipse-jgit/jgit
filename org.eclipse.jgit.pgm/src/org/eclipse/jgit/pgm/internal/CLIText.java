@@ -149,6 +149,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String everythingUpToDate;
 	/***/ public String expectedNumberOfbytes;
 	/***/ public String exporting;
+	/***/ public String externalObjectStoreNotFound;
 	/***/ public String failedToCommitIndex;
 	/***/ public String failedToLockIndex;
 	/***/ public String fatalError;
