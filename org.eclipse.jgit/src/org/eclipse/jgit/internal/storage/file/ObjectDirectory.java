@@ -790,7 +790,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private AlternateHandle openAlternate(File objdir) throws IOException {
 		final File parent = objdir.getParentFile();
-		if (FileKey.isGitRepository(parent, fs)) {
+		if (Constants.OBJECTS.equals(objdir.getName()) &&
+				FileKey.isGitRepository(parent, fs)) {
+			// If the alternate is a Git repository, reuse the a potential
+			// existing repository so that the object directory is only
+			// monitored and tracked once in the JVM.
 			FileKey key = FileKey.exact(parent, fs);
 			FileRepository db = (FileRepository) RepositoryCache.open(key);
 			return new AlternateRepository(db);
