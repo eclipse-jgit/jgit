@@ -19,6 +19,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14d1863a_642d2124",
+        "filename": "org.eclipse.jgit.test/exttst/org/eclipse/jgit/internal/storage/file/CGitCruftPackCompatibilityTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-11-13T15:10:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bde6939e_6e9cd130",
+      "revId": "e8d26e6c694d5052b1a230133e3821423088a67a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ad95b38_9c1ef2c9",
@@ -33,6 +51,24 @@
       "side": 1,
       "message": "The `.mtimes` format here is byte-identical to C git and round-trips cleanly (verified against git 2.54.0) -- but the mtime *values* aren\u0027t preserved across re-GC. `deleteOldPacks` stamps every object with the old pack *file\u0027s* mtime (`putIfAbsent(oid, packMtimeSecs)`), including objects that came from an existing cruft pack. So `getCruftMtime` is effectively write-only (no production consumer -- only tests read it), and every GC resets each cruft object\u0027s grace-period clock to \"now\".\n\nEffect: once expiration is wired up nothing ages out; and `git repack --cruft --cruft-expiration\u003d...` over a repo whose cruft pack JGit last rewrote retains objects that should have expired. C git carries each object\u0027s stored mtime forward across re-GC (reads the old `.mtimes`); JGit does not.\n\nWhen `oldPack.hasCruftMtimes()`, source each object\u0027s mtime from `oldPack.getCruftMtime(oid)` instead of the pack-file mtime (and prefer a per-object max over `putIfAbsent`). The tests only cover regular-\u003ecruft, so they\u0027re green but blind to cruft-\u003ecruft; please add a cruft-\u003ecruft preservation test. If mtime preservation is intended as a follow-up, worth scoping that explicitly and noting the gap.",
       "isAi": true,
+      "revId": "e8d26e6c694d5052b1a230133e3821423088a67a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79e49bf5_85d54a07",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-11-13T15:10:14Z",
+      "side": 1,
+      "message": "fixed in If9497134e8926910d6619fc8e2a47cfb546b5af4",
+      "parentUuid": "7ad95b38_9c1ef2c9",
       "revId": "e8d26e6c694d5052b1a230133e3821423088a67a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
