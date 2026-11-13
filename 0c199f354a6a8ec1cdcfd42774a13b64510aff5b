@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a9c5e42a_714d910b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-13T22:19:23Z",
+      "side": 1,
+      "message": "I am also fine with the move to google-java-format",
+      "parentUuid": "6af99cb1_df9c3f3a",
+      "revId": "0c199f354a6a8ec1cdcfd42774a13b64510aff5b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2e2249f_35e199a9",
         "filename": "tools/formatter/FormatterTest.java",
         "patchSetId": 1
