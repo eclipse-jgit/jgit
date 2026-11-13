@@ -47,7 +47,7 @@ public class UserAgent {
 		StringBuilder b = new StringBuilder(s.length());
 		for (int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
-			if (c <= 32 || c >= 127) {
+			if (c < 32 || c >= 127) {
 				if (b.length() > 0 && b.charAt(b.length() - 1) == '.')
 					continue;
 				c = '.';
