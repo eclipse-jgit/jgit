@@ -677,6 +677,9 @@ public abstract class RefUpdate {
 	public Result link(String target) throws IOException {
 		if (!target.startsWith(Constants.R_REFS))
 			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().illegalArgumentNotA, Constants.R_REFS));
+		if (!Repository.isValidRefName(target))
+			throw new IllegalArgumentException(
+					MessageFormat.format(JGitText.get().invalidRefName, target));
 		if (checkConflicting && getRefDatabase().isNameConflicting(getName()))
 			return Result.LOCK_FAILURE;
 		try {

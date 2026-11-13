@@ -71,6 +71,18 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		return ref;
 	}
 
+	@Test
+	public void testLinkRejectsControlCharTarget() throws IOException {
+		RefUpdate u = db.updateRef(Constants.HEAD);
+		try {
+			u.link("refs/heads/x\nforged");
+			fail("link must reject a target with a control character");
+		} catch (IllegalArgumentException expected) {
+			// A hostile advertised HEAD symref target must not be written
+			// verbatim into .git/HEAD.
+		}
+	}
+
 	private void delete(RefUpdate ref, Result expected)
 			throws IOException {
 		delete(ref, expected, true, true);
