@@ -476,3 +476,8 @@ package_group(
         "//org.eclipse.jgit.test/...",
     ],
 )
+
+exports_files(
+    ["eclipse-JGit-Format.xml"],
+    visibility = ["//visibility:public"],
+)
