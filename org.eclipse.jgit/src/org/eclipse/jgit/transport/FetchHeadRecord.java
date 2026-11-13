@@ -30,7 +30,12 @@ class FetchHeadRecord {
 
 	URIish sourceURI;
 
-	void write(Writer pw) throws IOException {
+	boolean write(Writer pw) throws IOException {
+		if (!isSafeSourceName(sourceName)) {
+			// A control character in the source name would forge a
+			// FETCH_HEAD line, so refuse the record. The caller warns.
+			return false;
+		}
 		final String type;
 		final String name;
 		if (sourceName.startsWith(R_HEADS)) {
@@ -58,5 +63,26 @@ class FetchHeadRecord {
 		pw.write("' of "); //$NON-NLS-1$
 		pw.write(sourceURI.toString());
 		pw.write("\n"); //$NON-NLS-1$
+		return true;
+	}
+
+	/**
+	 * Whether a source name is safe for the line-based FETCH_HEAD file. A
+	 * valid ref name has no control character or space (see
+	 * {@link org.eclipse.jgit.lib.Repository#isValidRefName}), which could
+	 * otherwise forge a spurious entry.
+	 *
+	 * @param name
+	 *            remote-advertised source ref name.
+	 * @return {@code true} if it is safe to write into FETCH_HEAD.
+	 */
+	private static boolean isSafeSourceName(String name) {
+		for (int i = 0; i < name.length(); i++) {
+			char c = name.charAt(i);
+			if (c <= ' ' || c == 0x7f) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
