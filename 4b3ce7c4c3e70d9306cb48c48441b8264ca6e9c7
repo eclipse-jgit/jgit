@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d52c03d0_f5aa4210",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1037131
+      },
+      "writtenOn": "2026-11-13T12:24:28Z",
+      "side": 1,
+      "message": "Thanks, this is superset of my patch, and I\u0027ve verified it fixes EGit problem with fetching Github PR\u0027s.",
+      "revId": "4b3ce7c4c3e70d9306cb48c48441b8264ca6e9c7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
