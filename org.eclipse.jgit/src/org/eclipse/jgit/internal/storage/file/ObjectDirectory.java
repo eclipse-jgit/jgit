@@ -750,7 +750,10 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private AlternateHandle openAlternate(File objdir) throws IOException {
 		final File parent = objdir.getParentFile();
-		if (FileKey.isGitRepository(parent, fs)) {
+		if (Constants.OBJECTS.equals(objdir.getName()) &&
+				FileKey.isGitRepository(parent, fs)) {
+			// Instead of opening the 'parent/objects' directly, open the
+			// repository at 'parent' instead.
 			FileKey key = FileKey.exact(parent, fs);
 			FileRepository db = (FileRepository) RepositoryCache.open(key);
 			return new AlternateRepository(db);
