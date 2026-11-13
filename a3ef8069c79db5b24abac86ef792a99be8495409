@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6d2d101_37651ff8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-13T23:01:37Z",
+      "side": 1,
+      "message": "Maybe we don\u0027t need to do it in this change, but it seems like this should be configurable so that someone could also use this for a traditional storage backend, for example, a cheaper, but less performant, networked storage (NFS).",
+      "revId": "a3ef8069c79db5b24abac86ef792a99be8495409",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
