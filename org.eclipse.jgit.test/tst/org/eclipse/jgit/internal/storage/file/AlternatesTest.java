@@ -10,6 +10,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.lib.Constants.INFO_ALTERNATES;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -58,6 +59,31 @@ public class AlternatesTest extends SampleDataRepositoryTestCase {
 		RevCommit c = createCommit();
 		assertCommit(c);
 		assertAlternateObjects(db2);
+	}
+
+	@Test
+	public void testAlternateAddedAfterFirstAccess() throws Exception {
+		ObjectId id = ObjectId
+				.fromString("49322bb17d3acc9146f98c97d078513228bbf3c0");
+		ObjectDirectory od = db2.getObjectDatabase();
+		assertFalse(od.has(id));
+
+		setAlternate(db2, db);
+		assertTrue(od.has(id));
+		assertAlternateObjects(db2);
+	}
+
+	@Test
+	public void testAlternateRemovedAfterFirstAccess() throws Exception {
+		setAlternate(db2, db);
+		assertAlternateObjects(db2);
+
+		File alt = new File(db2.getObjectDatabase().getDirectory(),
+				INFO_ALTERNATES);
+		assertTrue(alt.delete());
+		ObjectId id = ObjectId
+				.fromString("49322bb17d3acc9146f98c97d078513228bbf3c0");
+		assertFalse(db2.getObjectDatabase().has(id));
 	}
 
 	@Test

@@ -101,6 +101,12 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private final AtomicReference<AlternateHandle[]> alternates;
 
+	/**
+	 * Snapshot of the alternates file taken when it was last loaded, or null
+	 * if the alternates were given explicitly and must not be refreshed.
+	 */
+	private volatile FileSnapshot alternatesSnapshot;
+
 	private final File shallowFile;
 
 	private FileSnapshot shallowFileSnapshot = FileSnapshot.DIRTY;
@@ -148,6 +154,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 			for (int i = 0; i < alternatePaths.length; i++)
 				alt[i] = openAlternate(alternatePaths[i]);
 			alternates.set(alt);
+		} else {
+			alternatesSnapshot = FileSnapshot.DIRTY;
 		}
 	}
 
@@ -702,20 +710,47 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	AlternateHandle[] myAlternates() {
 		AlternateHandle[] alt = alternates.get();
-		if (alt == null) {
-			synchronized (alternates) {
-				alt = alternates.get();
-				if (alt == null) {
-					try {
-						alt = loadAlternates();
-					} catch (IOException e) {
-						alt = new AlternateHandle[0];
-					}
-					alternates.set(alt);
-				}
+		FileSnapshot snap = alternatesSnapshot;
+		if (alt != null && (snap == null || !snap.isModified(alternatesFile))) {
+			return alt;
+		}
+		synchronized (alternates) {
+			alt = alternates.get();
+			snap = alternatesSnapshot;
+			if (alt != null
+					&& (snap == null || !snap.isModified(alternatesFile))) {
+				return alt;
+			}
+			AlternateHandle[] old = alt;
+			FileSnapshot newSnap = FileSnapshot.save(alternatesFile);
+			try {
+				alt = loadAlternates(old);
+			} catch (IOException e) {
+				alt = new AlternateHandle[0];
+			}
+			alternates.set(alt);
+			alternatesSnapshot = newSnap;
+			if (old != null) {
+				closeUnused(old, alt);
 			}
 		}
 		return alt;
+	}
+
+	private static void closeUnused(AlternateHandle[] old,
+			AlternateHandle[] current) {
+		for (AlternateHandle o : old) {
+			boolean kept = false;
+			for (AlternateHandle c : current) {
+				if (c == o) {
+					kept = true;
+					break;
+				}
+			}
+			if (!kept) {
+				o.close();
+			}
+		}
 	}
 
 	Set<AlternateHandle.Id> addMe(Set<AlternateHandle.Id> skips) {
@@ -726,12 +761,23 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return skips;
 	}
 
-	private AlternateHandle[] loadAlternates() throws IOException {
+	private AlternateHandle[] loadAlternates(AlternateHandle[] previous)
+			throws IOException {
 		final List<AlternateHandle> l = new ArrayList<>(4);
 		try (BufferedReader br = open(alternatesFile)) {
 			String line;
 			while ((line = br.readLine()) != null) {
-				l.add(openAlternate(line));
+				File objdir = fs.resolve(objects, line);
+				AlternateHandle reuse = null;
+				if (previous != null) {
+					for (AlternateHandle p : previous) {
+						if (p.db.objects.equals(objdir)) {
+							reuse = p;
+							break;
+						}
+					}
+				}
+				l.add(reuse != null ? reuse : openAlternate(objdir));
 			}
 		}
 		return l.toArray(new AlternateHandle[0]);
