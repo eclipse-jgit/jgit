@@ -517,6 +517,12 @@ public class JGitText extends TranslationBundle {
 	/***/ public String largeObjectExceedsLimit;
 	/***/ public String largeObjectException;
 	/***/ public String largeObjectOutOfMemory;
+	/***/ public String largeObjectRoutingInvalidLink;
+	/***/ public String largeObjectRoutingLinkNotListed;
+	/***/ public String largeObjectRoutingNoLink;
+	/***/ public String largeObjectRoutingNotOpen;
+	/***/ public String largeObjectRoutingReadFailed;
+	/***/ public String largeObjectRoutingSeveralLinks;
 	/***/ public String lengthExceedsMaximumArraySize;
 	/***/ public String lfsHookConflict;
 	/***/ public String listingAlternates;

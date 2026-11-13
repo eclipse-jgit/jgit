@@ -77,6 +77,24 @@ receiver. Do not select the first alternate as an implicit destination. Both
 receive-only inserters support one pack parser and ordinary main readers, not
 individual `insert(...)` calls. Flush and close never publish another pack.
 
+### Routing to a large object alternate
+
+`newLargeObjectRoutingInserter(filter)` routes exclusively, like
+`newRoutingInserter`, to the object database behind the only link listed in a
+large object alternates file such as `objects/info/s3-alternates`. Selected
+objects are written through that database's inserter, which decides how an
+object it already has is written, and must make each object readable through
+the same database before returning. No write probe is made before input is
+consumed. Thin packs may use delta bases stored in large object alternates.
+When several links are listed, `newLargeObjectRoutingInserter(link, filter)`
+writes to the given one, which must be listed exactly as given.
+
+The factory fails, so the receive is rejected, if no link or several links are
+listed (or the given link is not listed), a listed line is not an accepted link,
+the file cannot be read, or the chosen link has no open database. The destination database belongs to the main
+`ObjectDirectory`, not the caller, and is closed if its link is removed from the
+file, so do not change the file while receives are running.
+
 ## Selection
 
 The callback receives a resolved object ID, ordinary object type (never

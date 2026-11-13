@@ -15,6 +15,7 @@ import java.io.UncheckedIOException;
 import java.util.Objects;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -25,7 +26,7 @@ import org.eclipse.jgit.transport.ReceivedObjectFilter;
 final class RoutingObjectInserter extends ObjectInserter {
 	private final ObjectDirectory main;
 
-	private final ObjectDirectory alternate;
+	private final ObjectDatabase alternate;
 
 	private final ReceivedObjectFilter filter;
 
@@ -33,7 +34,7 @@ final class RoutingObjectInserter extends ObjectInserter {
 
 	private boolean closed;
 
-	RoutingObjectInserter(ObjectDirectory main, ObjectDirectory alternate,
+	RoutingObjectInserter(ObjectDirectory main, ObjectDatabase alternate,
 			ReceivedObjectFilter filter) {
 		this.main = main;
 		this.alternate = alternate;

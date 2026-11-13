@@ -23,7 +23,9 @@ import java.util.zip.CRC32;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.transport.PackLock;
 import org.eclipse.jgit.transport.PackParser;
@@ -36,7 +38,7 @@ import org.eclipse.jgit.transport.ReceivedObjectFilter;
 class RoutingPackParser extends PackParser implements AutoCloseable {
 	private final ObjectDirectory main;
 
-	private final ObjectDirectory alternate;
+	private final ObjectDatabase alternate;
 
 	private final ReceivedObjectFilter filter;
 
@@ -60,7 +62,7 @@ class RoutingPackParser extends PackParser implements AutoCloseable {
 
 	private RoutedPackWriter writer;
 
-	private ObjectDirectoryInserter loose;
+	private ObjectInserter loose;
 
 	private ProgressMonitor receiving;
 
@@ -74,7 +76,7 @@ class RoutingPackParser extends PackParser implements AutoCloseable {
 
 	private boolean closed;
 
-	RoutingPackParser(ObjectDirectory main, ObjectDirectory alternate,
+	RoutingPackParser(ObjectDirectory main, ObjectDatabase alternate,
 			ReceivedObjectFilter filter, InputStream input) {
 		super(main, input);
 		this.main = main;
@@ -96,7 +98,7 @@ class RoutingPackParser extends PackParser implements AutoCloseable {
 		try (IncomingPackSpool archive = new IncomingPackSpool(main);
 				RoutedPackWriter output = new RoutedPackWriter(main, receiving,
 						resolving);
-				ObjectDirectoryInserter destination = alternate.newInserter()) {
+				ObjectInserter destination = alternate.newInserter()) {
 			spool = archive;
 			writer = output;
 			loose = destination;
@@ -228,14 +230,23 @@ class RoutingPackParser extends PackParser implements AutoCloseable {
 	private ObjectId insertLoose(ReceivedPackEntry entry, InputStream data)
 			throws IOException {
 		checkCancelled();
-		ObjectId inserted = loose.insert(entry.type, entry.fullSize,
-				cancellable(data), true);
+		ObjectId inserted = insertSelected(entry.type, entry.fullSize,
+				cancellable(data));
 		if (!entry.id.equals(inserted)) {
 			throw new IOException(MessageFormat.format(
 					JGitText.get().receivedObjectIdMismatch, entry.id.name(),
 					ObjectId.toString(inserted)));
 		}
 		return inserted;
+	}
+
+	private ObjectId insertSelected(int type, long size, InputStream data)
+			throws IOException {
+		if (loose instanceof ObjectDirectoryInserter files) {
+			// Write a loose copy even if the alternate has the object packed.
+			return files.insert(type, size, data, true);
+		}
+		return loose.insert(type, size, data);
 	}
 
 	private InputStream cancellable(InputStream data) {
@@ -393,7 +404,7 @@ class RoutingPackParser extends PackParser implements AutoCloseable {
 		Throwable closeFailure = null;
 		try (IncomingPackSpool archive = spool;
 				RoutedPackWriter output = writer;
-				ObjectDirectoryInserter destination = loose) {
+				ObjectInserter destination = loose) {
 			// Only abort operation-owned resources; never publish or close databases.
 		} catch (IOException | RuntimeException | Error failure) {
 			closeFailure = failure;

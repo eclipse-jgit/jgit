@@ -327,6 +327,110 @@ public class ObjectDirectory extends FileObjectDatabase {
 		return new RoutingObjectInserter(this, destinationAlternate, filter);
 	}
 
+	/**
+	 * Create a receive-only inserter that writes selected received objects to
+	 * this database's large object alternate, excluding them from its new main
+	 * pack.
+	 * <p>
+	 * The destination is the object database behind the only link listed in a
+	 * large object alternates file, such as {@code objects/info/s3-alternates}.
+	 * Selected objects are written through that database's inserter, which
+	 * decides how an object it already has is written, and must make each
+	 * object readable through the same database before it returns. Otherwise
+	 * this routes like
+	 * {@link #newRoutingInserter(ObjectDirectory, ReceivedObjectFilter)}, except
+	 * that no write probe is made before input is consumed.
+	 * <p>
+	 * The destination database belongs to this database, not the caller. It is
+	 * closed if its link is removed from the file, so do not change the file
+	 * while receives are running.
+	 *
+	 * @param filter
+	 *            deterministic selection by resolved ID, type and full byte size.
+	 * @return a new receive-only inserter.
+	 * @throws IOException
+	 *             no link or several links are listed, a listed line is not an
+	 *             accepted link, the file cannot be read, or the listed link has
+	 *             no open database.
+	 * @throws NullPointerException
+	 *             the filter is null.
+	 * @since 8.0
+	 */
+	public ObjectInserter newLargeObjectRoutingInserter(
+			ReceivedObjectFilter filter) throws IOException {
+		Objects.requireNonNull(filter, "filter"); //$NON-NLS-1$
+		return routeToLargeObjectAlternate(null, filter);
+	}
+
+	/**
+	 * Create a receive-only inserter like
+	 * {@link #newLargeObjectRoutingInserter(ReceivedObjectFilter)}, but write to
+	 * the given link, which must be listed in a large object alternates file.
+	 * Use this when several links are listed.
+	 *
+	 * @param link
+	 *            the link to write to, exactly as listed.
+	 * @param filter
+	 *            deterministic selection by resolved ID, type and full byte size.
+	 * @return a new receive-only inserter.
+	 * @throws IOException
+	 *             the link is not listed, a listed line is not an accepted link,
+	 *             the file cannot be read, or the link has no open database.
+	 * @throws NullPointerException
+	 *             the link or filter is null.
+	 * @since 8.0
+	 */
+	public ObjectInserter newLargeObjectRoutingInserter(String link,
+			ReceivedObjectFilter filter) throws IOException {
+		Objects.requireNonNull(link, "link"); //$NON-NLS-1$
+		Objects.requireNonNull(filter, "filter"); //$NON-NLS-1$
+		return routeToLargeObjectAlternate(link, filter);
+	}
+
+	/** Route to {@code link}, or to the only listed link if it is null. */
+	private ObjectInserter routeToLargeObjectAlternate(String link,
+			ReceivedObjectFilter filter) throws IOException {
+		List<LargeObjectAlternates.ListedLink> listed = new ArrayList<>();
+		List<String> files = new ArrayList<>();
+		for (LargeObjectAlternates large : largeObjectAlternates) {
+			listed.addAll(large.listedLinks());
+			files.add(large.getFile().getAbsolutePath());
+		}
+		LargeObjectAlternates.ListedLink target = null;
+		if (link != null) {
+			for (LargeObjectAlternates.ListedLink l : listed) {
+				if (l.link().equals(link)) {
+					target = l;
+				}
+			}
+			if (target == null) {
+				throw new IOException(MessageFormat.format(
+						JGitText.get().largeObjectRoutingLinkNotListed, link,
+						String.join(", ", files))); //$NON-NLS-1$
+			}
+		} else if (listed.isEmpty()) {
+			throw new IOException(MessageFormat.format(
+					JGitText.get().largeObjectRoutingNoLink,
+					String.join(", ", files))); //$NON-NLS-1$
+		} else if (listed.size() > 1) {
+			List<String> links = new ArrayList<>();
+			for (LargeObjectAlternates.ListedLink l : listed) {
+				links.add(l.link());
+			}
+			throw new IOException(MessageFormat.format(
+					JGitText.get().largeObjectRoutingSeveralLinks,
+					String.join(", ", links))); //$NON-NLS-1$
+		} else {
+			target = listed.get(0);
+		}
+		if (target.database() == null) {
+			throw new IOException(MessageFormat.format(
+					JGitText.get().largeObjectRoutingNotOpen, target.link()),
+					target.openFailure());
+		}
+		return new RoutingObjectInserter(this, target.database(), filter);
+	}
+
 	private static void probeReceiveObjectDestination(ObjectDirectory destination)
 			throws IOException {
 		File probe = File.createTempFile("routing_probe_", null, //$NON-NLS-1$

@@ -103,6 +103,19 @@ abstract class LargeObjectAlternates {
 	/** Open databases by link, in file order. */
 	private Map<String, ObjectDatabase> opened = new LinkedHashMap<>();
 
+	/** Links accepted at the last read, in file order, opened or not. */
+	private List<String> acceptedLinks = Collections.emptyList();
+
+	/** Lines at the last read that are not accepted links. */
+	private List<String> rejectedLines = Collections.emptyList();
+
+	/** Why opening a link failed at the last read, by link. */
+	private Map<String, Exception> openFailures = Collections.emptyMap();
+
+	/** Why the last attempt to read the file failed, or null if it worked. */
+	@Nullable
+	private IOException readFailure;
+
 	private List<ObjectDatabase> databases = Collections.emptyList();
 
 	/**
@@ -191,9 +204,60 @@ abstract class LargeObjectAlternates {
 		return -1;
 	}
 
+	/**
+	 * A link listed in the file, with the database opened for it.
+	 *
+	 * @param link
+	 *            the link as listed
+	 * @param database
+	 *            the open database, or {@code null} if none could be opened
+	 * @param openFailure
+	 *            why opening failed, or {@code null}
+	 */
+	record ListedLink(String link, ObjectDatabase database,
+			Exception openFailure) {
+	}
+
+	/**
+	 * Get the links listed in the file, to write to.
+	 *
+	 * @return accepted links in file order, each with its open database
+	 * @throws IOException
+	 *             the file could not be read, or lists a line that is not an
+	 *             accepted link
+	 */
+	synchronized List<ListedLink> listedLinks() throws IOException {
+		databases(); // re-reads the file if it changed
+		if (readFailure != null) {
+			throw new IOException(MessageFormat.format(
+					JGitText.get().largeObjectRoutingReadFailed,
+					file.getAbsolutePath()), readFailure);
+		}
+		if (!rejectedLines.isEmpty()) {
+			throw new IOException(MessageFormat.format(
+					JGitText.get().largeObjectRoutingInvalidLink,
+					rejectedLines.get(0), file.getAbsolutePath(),
+					linkExample()));
+		}
+		List<ListedLink> result = new ArrayList<>();
+		for (String link : acceptedLinks) {
+			result.add(new ListedLink(link, opened.get(link),
+					openFailures.get(link)));
+		}
+		return result;
+	}
+
+	File getFile() {
+		return file;
+	}
+
 	synchronized void close() {
 		closeAll(opened.values());
 		opened = new LinkedHashMap<>();
+		acceptedLinks = Collections.emptyList();
+		rejectedLines = Collections.emptyList();
+		openFailures = Collections.emptyMap();
+		readFailure = null;
 		databases = Collections.emptyList();
 		loadedLinks = null;
 		snapshot = FileSnapshot.DIRTY;
@@ -215,8 +279,10 @@ abstract class LargeObjectAlternates {
 			LOG.warn(MessageFormat.format(
 					JGitText.get().largeObjectAlternatesReadFailed,
 					file.getAbsolutePath()), e);
+			readFailure = e;
 			return; // keep the current databases and retry next time
 		}
+		readFailure = null;
 
 		if (links.equals(loadedLinks)) {
 			// Unchanged, e.g. a snapshot taken too soon after the file was
@@ -231,21 +297,27 @@ abstract class LargeObjectAlternates {
 		}
 
 		Map<String, ObjectDatabase> next = new LinkedHashMap<>();
+		List<String> accepted = new ArrayList<>();
+		List<String> rejected = new ArrayList<>();
+		Map<String, Exception> failures = new LinkedHashMap<>();
 		boolean failed = false;
 		for (String line : links) {
-			if (next.containsKey(line)) {
+			if (accepted.contains(line) || rejected.contains(line)) {
 				continue;
 			}
 			ObjectDatabase db = opened.remove(line);
 			if (db == null) {
 				URI link = parseLink(line);
 				if (link == null) {
+					rejected.add(line);
 					continue;
 				}
+				accepted.add(line);
 				try {
 					db = opener.open(config, objectsDir, link);
 				} catch (IOException | RuntimeException e) {
 					failed = true;
+					failures.put(line, e);
 					LOG.warn(MessageFormat.format(
 							JGitText.get().largeObjectAlternateOpenFailed,
 							line, file.getAbsolutePath()), e);
@@ -257,6 +329,8 @@ abstract class LargeObjectAlternates {
 							line, file.getAbsolutePath()));
 					continue;
 				}
+			} else {
+				accepted.add(line);
 			}
 			next.put(line, db);
 		}
@@ -264,6 +338,9 @@ abstract class LargeObjectAlternates {
 		// Close only the databases whose links were removed.
 		closeAll(opened.values());
 		opened = next;
+		acceptedLinks = Collections.unmodifiableList(accepted);
+		rejectedLines = Collections.unmodifiableList(rejected);
+		openFailures = failures;
 		databases = Collections
 				.unmodifiableList(new ArrayList<>(next.values()));
 		loadedLinks = failed ? null : links;
