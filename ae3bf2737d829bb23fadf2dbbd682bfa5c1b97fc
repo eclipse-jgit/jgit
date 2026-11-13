@@ -19,6 +19,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88601fa8_5824a4d7",
+        "filename": "tools/formatter/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-13T20:49:13Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "8d3547c3_081136f6",
+      "revId": "ae3bf2737d829bb23fadf2dbbd682bfa5c1b97fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccab8745_d0ed474a",
@@ -37,6 +55,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "156a0f31_55271286",
+        "filename": "tools/formatter/JdtFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-13T20:49:13Z",
+      "side": 1,
+      "message": "Added trailing space/tab removal to whole-file formatting, matching the Eclipse save action. One regression test reproduces the blank Javadoc line issue and covers LF, CRLF, and CR delimiters. Formatter tests pass with Java 25 and Java 27.",
+      "parentUuid": "ccab8745_d0ed474a",
+      "revId": "ae3bf2737d829bb23fadf2dbbd682bfa5c1b97fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7cbfe345_1fbb2153",
@@ -51,6 +87,24 @@
       "side": 1,
       "message": "Emit the EDL header (and a \"generated -- do not edit\" line) in the generated `FormatterConfig.java`, so it carries the standard header like every other source file, even though it only lands in bazel-out.",
       "isAi": true,
+      "revId": "ae3bf2737d829bb23fadf2dbbd682bfa5c1b97fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "258fdd60_7ea0277c",
+        "filename": "tools/formatter/java_version.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-13T20:49:13Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "7cbfe345_1fbb2153",
       "revId": "ae3bf2737d829bb23fadf2dbbd682bfa5c1b97fc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
