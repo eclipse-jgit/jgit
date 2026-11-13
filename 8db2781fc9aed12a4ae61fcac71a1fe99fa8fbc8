@@ -16,6 +16,24 @@
       "message": "wantTag() also passes a remote name to want() verbatim (setDestination(r.getName())). Checking only expandWildcard() leaves it open: a refs/tags/../../ESCAPED tag via --tags/auto-follow still escapes. wantTag() must be guarded too.\n\nI have uploaded a similar fix, see I21e88a7c33.",
       "revId": "8db2781fc9aed12a4ae61fcac71a1fe99fa8fbc8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "050a37b1_8346d1c0",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1037131
+      },
+      "writtenOn": "2026-11-13T11:43:41Z",
+      "side": 1,
+      "message": "Hi David, thanks, I will close this PR, I assume you will take over then?",
+      "parentUuid": "1f5c7bbd_6424b8d7",
+      "revId": "8db2781fc9aed12a4ae61fcac71a1fe99fa8fbc8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
