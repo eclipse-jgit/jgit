@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "26369e6e_13373afb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-13T01:41:43Z",
+      "side": 1,
+      "message": "Added to the message now",
+      "parentUuid": "912d1678_802c229d",
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3610059f_b5b236d6",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -69,6 +87,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "196154f9_2b04bc36",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-13T01:41:43Z",
+      "side": 1,
+      "message": "Removed. Also reworked the config documentation throughout the stack to match the existing style.",
+      "parentUuid": "813d099e_68fe9dd5",
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c042335_e9abed81",
@@ -86,6 +122,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dee78815_16880eb4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/UploadPackTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-13T01:41:43Z",
+      "side": 1,
+      "message": "Added \"and others\" to acknowledge the file\u0027s existing contributors.",
+      "parentUuid": "6c042335_e9abed81",
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0362c3b4_edcd3757",
@@ -99,6 +153,24 @@
       "writtenOn": "2026-11-12T17:26:01Z",
       "side": 1,
       "message": "Why copy here?",
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aecbbc3b_6babe04f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-13T01:41:43Z",
+      "side": 1,
+      "message": "Removed the extra copy. `RemoteConfig` getters use `Collections.unmodifiableList()`, so this now follows that convention.",
+      "parentUuid": "0362c3b4_edcd3757",
       "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -140,6 +212,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "33d58ba4_2de4d602",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-13T01:41:43Z",
+      "side": 1,
+      "message": "\u003e Seems like jgit should already have something that does this?\n\nReplaced the custom encoder with `HttpSupport.urlEncode(value, false).replace(\"+\", \"%20\")`.\n\n\u003e By the code itself it is no clear what encoding is trying to support. I don\u0027t think we do this with any other line in the protocol (?)\n\nThis is escaping of `promisor-remote` field values, not validation of the whole incoming request. Git\u0027s [gitprotocol-v2](https://git-scm.com/docs/gitprotocol-v2#_promisor_remotepr_info) requires URL-encoded values, including escaping `,` and `;` even for ASCII input. `HttpSupport.urlEncode()` supplies UTF-8 encoding. We need the additional `.replace()` to convert form-encoded spaces to `%20` because the protocol decoder treats `+` literally. Literal plus signs are encoded as `%2B`.\n\n`HttpSupport.urlEncode()` produces more escapes than native Git, but preserves the decoded values and meets the protocol requirements, so I think it\u0027s ok.\n\nDoes this seem better?",
+      "parentUuid": "0ea00ebe_fa90335c",
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d422fd7c_94b95a6e",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
         "patchSetId": 2
@@ -151,6 +241,24 @@
       "writtenOn": "2026-11-12T02:14:49Z",
       "side": 1,
       "message": "nit: we have getters for everything else, I would use a getter for this property and make it final.",
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cfcce5b_ebcd7b34",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransferConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-13T01:41:43Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "d422fd7c_94b95a6e",
       "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -168,6 +276,24 @@
       "writtenOn": "2026-11-12T17:26:01Z",
       "side": 1,
       "message": "While I don\u0027t have a great alternate suggestin, toWireSting() doesn\u0027t feel like it matches the style in here.",
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88df4d2b_90ce0eef",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1402,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-13T01:41:43Z",
+      "side": 1,
+      "message": "`toWireString()` was Ivan\u0027s suggestion 🙂\n\nI renamed the outer method to `getAdvertisement()`, matching the surrounding `getV2CapabilityAdvertisement()` naming, and I kept `Remote.toWireString(boolean)` as a private helper for formatting individual entries.",
+      "parentUuid": "353c5f44_5f3059a9",
       "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
