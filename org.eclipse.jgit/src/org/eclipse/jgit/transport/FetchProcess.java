@@ -406,8 +406,16 @@ class FetchProcess {
 				try (Writer w = new OutputStreamWriter(
 						lock.getOutputStream(), UTF_8)) {
 					for (FetchHeadRecord h : fetchHeadUpdates) {
-						h.write(w);
-						result.add(h);
+						if (h.write(w)) {
+							result.add(h);
+						} else {
+							// Warn like native git's "Ignoring funny ref",
+							// with control chars escaped so the name cannot
+							// forge a log line.
+							LOG.warn(MessageFormat.format(
+									JGitText.get().ignoringFunnyRefLocally,
+									escapeControlChars(h.sourceName)));
+						}
 					}
 				}
 				lock.commit();
@@ -415,6 +423,19 @@ class FetchProcess {
 		} finally {
 			lock.unlock();
 		}
+	}
+
+	private static String escapeControlChars(String name) {
+		StringBuilder b = new StringBuilder(name.length());
+		for (int i = 0; i < name.length(); i++) {
+			char c = name.charAt(i);
+			if (c < ' ' || c == 0x7f) {
+				b.append(String.format("\\x%02x", (int) c)); //$NON-NLS-1$
+			} else {
+				b.append(c);
+			}
+		}
+		return b.toString();
 	}
 
 	private boolean askForIsComplete() throws TransportException {
