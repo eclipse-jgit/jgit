@@ -16,6 +16,24 @@
       "message": "Instead of repeating the code here, can you add the explanation as to why instead (if you want a comment)?",
       "revId": "3c3b7b7c366f3174ac9141316c5ac885fc994088",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d774bdb1_e74b4230",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1009609
+      },
+      "writtenOn": "2026-11-13T22:06:56Z",
+      "side": 1,
+      "message": "Thank you, I updated with the rationale.",
+      "parentUuid": "12fe16c2_0dd85d74",
+      "revId": "3c3b7b7c366f3174ac9141316c5ac885fc994088",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
