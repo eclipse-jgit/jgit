@@ -18,6 +18,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collection;
@@ -257,6 +258,27 @@ public class FetchMaliciousRefNameTest extends LocalDiskRepositoryTestCase {
 				// acceptable
 			}
 		}
+	}
+
+	/**
+	 * A source name with a control character (e.g. a newline) must not forge
+	 * a FETCH_HEAD line. {@link FetchHeadRecord} refuses the record.
+	 */
+	@Test
+	public void testFetchHeadRecordSkipsControlCharSourceName()
+			throws Exception {
+		FetchHeadRecord fhr = new FetchHeadRecord();
+		fhr.newValue = head.toObjectId();
+		fhr.notForMerge = true;
+		fhr.sourceName = "refs/heads/x\n" + head.name()
+				+ "\t\tbranch 'injected' of evil.example.com";
+		fhr.sourceURI = new URIish("test://test/x");
+
+		StringWriter sw = new StringWriter();
+
+		assertFalse("control-char source name must be refused", fhr.write(sw));
+		assertEquals("control-char source name must write no FETCH_HEAD line",
+				"", sw.toString());
 	}
 
 	private void advertise(Map<String, Ref> refs, String name) {
