@@ -11,9 +11,11 @@ package org.eclipse.jgit.transport;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -161,6 +163,100 @@ public class FetchMaliciousRefNameTest extends LocalDiskRepositoryTestCase {
 				client.exactRef("refs/tags/good"));
 		assertNotNull("valid ref must still be fetched",
 				client.exactRef("refs/tags/alsogood"));
+	}
+
+	/**
+	 * An explicit, caller-chosen destination (here {@code FETCH_HEAD}, not under
+	 * {@code refs/}) is not remote-derived and must not be dropped. Regression
+	 * for EGit's "Fetch GitHub Pull Request" / "Fetch from Gerrit".
+	 */
+	@Test
+	public void testFetchExplicitFetchHeadDestination() throws Exception {
+		Map<String, Ref> advertised = new HashMap<>();
+		advertise(advertised, HEAD);
+		advertise(advertised, "refs/pull/1/head");
+
+		testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+			UploadPack up = new UploadPack(db);
+			up.setAdvertisedRefs(advertised);
+			return up;
+		}, null);
+		URIish uri = testProtocol.register(ctx, server);
+		try (Transport tn = testProtocol.open(uri, client, "server")) {
+			tn.fetch(NullProgressMonitor.INSTANCE, Collections.singletonList(
+					new RefSpec("refs/pull/1/head:FETCH_HEAD")));
+		}
+		assertTrue("object must have been fetched",
+				client.getObjectDatabase().has(head));
+		Ref fetchHead = client.exactRef("FETCH_HEAD");
+		assertNotNull("FETCH_HEAD must be written", fetchHead);
+		assertEquals(head, fetchHead.getObjectId());
+	}
+
+	/**
+	 * A traversal tag name reaches the destination verbatim through the
+	 * tag-following path ({@code --tags} / auto-follow), not wildcard
+	 * expansion. It must be dropped while valid tags are still fetched.
+	 */
+	@Test
+	public void testFetchTagsDropsTraversalTagName() throws Exception {
+		Map<String, Ref> advertised = new HashMap<>();
+		advertise(advertised, HEAD);
+		advertise(advertised, "refs/heads/master");
+		advertise(advertised, TRAVERSAL_REF);
+		advertise(advertised, "refs/tags/good");
+
+		fetchWithTags(advertised, TagOpt.FETCH_TAGS);
+
+		assertNoEscape();
+		assertNull("traversal tag must not be created locally",
+				client.exactRef(TRAVERSAL_REF));
+		assertNotNull("valid tag must still be fetched",
+				client.exactRef("refs/tags/good"));
+	}
+
+	/**
+	 * Same traversal tag via the default {@code AUTO_FOLLOW} path, the other
+	 * caller of {@code wantTag}. The tag points at the fetched head, so it is
+	 * auto-followed. Its name must still be dropped.
+	 */
+	@Test
+	public void testAutoFollowDropsTraversalTagName() throws Exception {
+		Map<String, Ref> advertised = new HashMap<>();
+		advertise(advertised, HEAD);
+		advertise(advertised, "refs/heads/master");
+		advertise(advertised, TRAVERSAL_REF);
+		advertise(advertised, "refs/tags/good");
+
+		fetchWithTags(advertised, TagOpt.AUTO_FOLLOW);
+
+		assertNoEscape();
+		assertNull("traversal tag must not be created locally",
+				client.exactRef(TRAVERSAL_REF));
+		assertNotNull("valid tag must still be fetched",
+				client.exactRef("refs/tags/good"));
+	}
+
+	private void fetchWithTags(Map<String, Ref> advertised, TagOpt tagOpt)
+			throws Exception {
+		testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+			UploadPack up = new UploadPack(db);
+			up.setAdvertisedRefs(advertised);
+			return up;
+		}, null);
+		URIish uri = testProtocol.register(ctx, server);
+		try (Transport tn = testProtocol.open(uri, client, "server")) {
+			tn.setTagOpt(tagOpt);
+			// Tolerate either drop-and-continue or fail-closed. The
+			// security property under test is that nothing escapes the
+			// repository.
+			try {
+				tn.fetch(NullProgressMonitor.INSTANCE, Collections.singletonList(
+						new RefSpec("+refs/heads/master:refs/heads/master")));
+			} catch (TransportException rejected) {
+				// acceptable
+			}
+		}
 	}
 
 	private void advertise(Map<String, Ref> refs, String name) {
