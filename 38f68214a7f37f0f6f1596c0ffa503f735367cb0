@@ -142,6 +142,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a45a7ae4_67ba7c77",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-13T20:35:17Z",
+      "side": 1,
+      "message": "Nit: PromisorRemoteConfig looks like it is the config itself, but this is the parsed remotes. Maybe rename to \"PromisorRemotes\" (in plural).\n\npromisorRemotes.getAdvertisement() reads well.",
+      "range": {
+        "startLine": 28,
+        "startChar": 12,
+        "endLine": 28,
+        "endChar": 32
+      },
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0362c3b4_edcd3757",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
         "patchSetId": 2
@@ -224,6 +247,24 @@
       "side": 1,
       "message": "\u003e Seems like jgit should already have something that does this?\n\nReplaced the custom encoder with `HttpSupport.urlEncode(value, false).replace(\"+\", \"%20\")`.\n\n\u003e By the code itself it is no clear what encoding is trying to support. I don\u0027t think we do this with any other line in the protocol (?)\n\nThis is escaping of `promisor-remote` field values, not validation of the whole incoming request. Git\u0027s [gitprotocol-v2](https://git-scm.com/docs/gitprotocol-v2#_promisor_remotepr_info) requires URL-encoded values, including escaping `,` and `;` even for ASCII input. `HttpSupport.urlEncode()` supplies UTF-8 encoding. We need the additional `.replace()` to convert form-encoded spaces to `%20` because the protocol decoder treats `+` literally. Literal plus signs are encoded as `%2B`.\n\n`HttpSupport.urlEncode()` produces more escapes than native Git, but preserves the decoded values and meets the protocol requirements, so I think it\u0027s ok.\n\nDoes this seem better?",
       "parentUuid": "0ea00ebe_fa90335c",
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a6aa72a_f5d715cb",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-13T20:35:17Z",
+      "side": 1,
+      "message": "This is much clearer, thanks!\n\nI guess most of the incoming request is fixed strings (or sha1s), not so much content that needs to encode special characters.",
+      "parentUuid": "33d58ba4_2de4d602",
       "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
