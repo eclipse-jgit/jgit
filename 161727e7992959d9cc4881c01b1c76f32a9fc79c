@@ -22,6 +22,30 @@
       },
       "revId": "161727e7992959d9cc4881c01b1c76f32a9fc79c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "201e7a3c_1000ad3c",
+        "filename": "Documentation/config-options.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-14T01:02:14Z",
+      "side": 1,
+      "message": "Actually removed in PS6.",
+      "parentUuid": "f855bc93_94a1f116",
+      "range": {
+        "startLine": 175,
+        "startChar": 0,
+        "endLine": 176,
+        "endChar": 40
+      },
+      "revId": "161727e7992959d9cc4881c01b1c76f32a9fc79c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

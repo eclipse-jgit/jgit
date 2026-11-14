@@ -163,6 +163,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9039aad9_ec128b06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-14T01:02:14Z",
+      "side": 1,
+      "message": "Agreed, that makes sense. Done.",
+      "parentUuid": "a45a7ae4_67ba7c77",
+      "range": {
+        "startLine": 28,
+        "startChar": 12,
+        "endLine": 28,
+        "endChar": 32
+      },
+      "revId": "38f68214a7f37f0f6f1596c0ffa503f735367cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0362c3b4_edcd3757",

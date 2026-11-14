@@ -16,6 +16,24 @@
       "message": "Optional: make this a static creation method and add a private constructor:\n\nstatic PromisorRemotes fromConfig(Config config) {\n   // all the current parsing code\n   return new PromisorRemotes(advertisedRemotes);\n}",
       "revId": "17d719cb4db545f7b920b412f96ecd36e70dca4f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa4910ec_96d5bcb5",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PromisorRemoteConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-14T01:02:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fb1ce91_ec159fe3",
+      "revId": "17d719cb4db545f7b920b412f96ecd36e70dca4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
