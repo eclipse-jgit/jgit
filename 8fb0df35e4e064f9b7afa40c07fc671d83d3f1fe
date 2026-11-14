@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cf2d238_6813230e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-14T11:27:40Z",
+      "side": 1,
+      "message": "`InterruptedIOException` returns null but `finally` still sets `attemptLoadMtimes`, so this `Pack` never retries. Move the flag out of the unconditional `finally` — returning doesn\u0027t skip it.",
+      "isAi": true,
+      "revId": "8fb0df35e4e064f9b7afa40c07fc671d83d3f1fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
