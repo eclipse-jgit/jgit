@@ -181,6 +181,28 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
+	public void atomicUpdateRemovesDirectoriesCreatedForLocks()
+			throws IOException {
+		assumeTrue(atomic);
+		assumeFalse(useReftable);
+		writeLooseRefs("refs/heads/z/y/c", A, "refs/heads/z/keep", A);
+
+		List<ReceiveCommand> cmds = Arrays.asList(
+				new ReceiveCommand(A, zeroId(), "refs/heads/z/y/c", DELETE),
+				new ReceiveCommand(zeroId(), B, "refs/heads/n/m/new", CREATE),
+				new ReceiveCommand(zeroId(), B, "refs/heads/n/m/new2", CREATE));
+		execute(newBatchUpdate(cmds));
+
+		assertResults(cmds, OK, OK, OK);
+		assertRefs("refs/heads/n/m/new", B, "refs/heads/n/m/new2", B,
+				"refs/heads/z/keep", A);
+		File heads = new File(diskRepo.getDirectory(), "refs/heads");
+		assertFalse(new File(heads, "z/y").exists());
+		assertFalse(new File(heads, "n").exists());
+		assertTrue(new File(heads, "z/keep").exists());
+	}
+
+	@Test
 	public void simpleNoForce() throws IOException {
 		writeLooseRefs("refs/heads/master", A, "refs/heads/masters", B);
 

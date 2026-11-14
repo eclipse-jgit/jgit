@@ -20,6 +20,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_EXCESSIVE_B
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_EXCLUDED_REFS_PREFIXES;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_INACTIVE_BRANCH_AGE_INDAYS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_RECENT_COMMIT_COUNT;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_RECENT_COMMIT_SPAN;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BUILD_BITMAPS;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_COMPRESSION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_CUT_DELTACHAINS;
@@ -1449,7 +1450,7 @@ public class PackConfig {
 				CONFIG_KEY_BITMAP_RECENT_COMMIT_COUNT,
 				getBitmapRecentCommitCount()));
 		setBitmapRecentCommitSpan(rc.getInt(CONFIG_PACK_SECTION,
-				CONFIG_KEY_BITMAP_RECENT_COMMIT_COUNT,
+				CONFIG_KEY_BITMAP_RECENT_COMMIT_SPAN,
 				getBitmapRecentCommitSpan()));
 		setBitmapDistantCommitSpan(rc.getInt(CONFIG_PACK_SECTION,
 				CONFIG_KEY_BITMAP_DISTANT_COMMIT_SPAN,
