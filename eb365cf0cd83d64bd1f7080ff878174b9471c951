@@ -1,0 +1,76 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9156b988_c95c1fa8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-14T11:28:02Z",
+      "side": 1,
+      "message": "Objects are copied with no expiry cutoff; the existing-cruft branch at `:583-585` ignores `expired`. No per-object cruft expiry exists, so cruft never ages out. Reuse `getExpireDate()`/`gc.pruneExpire` and drop expired objects via a closure from recent objects — a flat per-object filter drops older deps of retained recent commits.",
+      "isAi": true,
+      "revId": "eb365cf0cd83d64bd1f7080ff878174b9471c951",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ece60080_c4d69ac2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-14T11:28:02Z",
+      "side": 1,
+      "message": "First-copy-wins: `putIfAbsent` plus the `ids.contains` skip drops later copies; native keeps the max (`pack-objects.c:4204`). An old packed copy plus a newer loose copy records the old mtime and removes the loose copy; native then prunes it early from JGit\u0027s output. Merge duplicates with max and let recent loose copies contribute first — swapping `putIfAbsent` for `merge` alone isn\u0027t enough while `ids.contains` skips them.",
+      "isAi": true,
+      "revId": "eb365cf0cd83d64bd1f7080ff878174b9471c951",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "283b7e9a_c067d944",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-14T11:28:02Z",
+      "side": 1,
+      "message": "`computeName()` hashes the object set, so an unchanged unreachable set reuses the old cruft pack\u0027s name queued here; the replacement installs at that path, then `:623` prunes it. Object loss on consecutive GCs within the grace window (reproduced, default settings). Exclude the written cruft pack from pruning, like `:570-572` does for reachable packs.",
+      "isAi": true,
+      "revId": "eb365cf0cd83d64bd1f7080ff878174b9471c951",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a695228_c68c4116",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-14T11:28:02Z",
+      "side": 1,
+      "message": "Inverted: `lastModified \u003e\u003d expireDate` skips recent loose objects and packs old/expired ones into cruft; native does the opposite (retain recent, expire old). Fix with the expiry/closure traversal, preserving index/reflog roots; test the exact boundary.",
+      "isAi": true,
+      "revId": "eb365cf0cd83d64bd1f7080ff878174b9471c951",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
