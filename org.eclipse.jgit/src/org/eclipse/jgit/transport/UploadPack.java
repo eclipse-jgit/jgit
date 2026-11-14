@@ -278,6 +278,8 @@ public class UploadPack implements Closeable {
 	/** Raw ObjectIds the client has asked for, before validating them. */
 	private Set<ObjectId> wantIds = new HashSet<>();
 
+	private boolean wantsChecked;
+
 	/** Objects the client wants to obtain. */
 	private final Set<RevObject> wantAll = new HashSet<>();
 
@@ -1060,6 +1062,7 @@ public class UploadPack implements Closeable {
 				return;
 			}
 			accumulator.wants = req.getWantIds().size();
+			checkWants(accumulator);
 
 			if (req.getClientCapabilities().contains(OPTION_MULTI_ACK_DETAILED)) {
 				multiAck = MultiAck.DETAILED;
@@ -1895,7 +1898,12 @@ public class UploadPack implements Closeable {
 		return readySent;
 	}
 
-	private void parseWants(PackStatistics.Accumulator accumulator) throws IOException {
+	// This throws for invalid wants, stopping the request
+	private void checkWants(PackStatistics.Accumulator accumulator)
+			throws IOException {
+		if (wantsChecked) {
+			return;
+		}
 		List<ObjectId> notAdvertisedWants = null;
 		for (ObjectId obj : wantIds) {
 			if (!advertised.contains(obj)) {
@@ -1915,6 +1923,12 @@ public class UploadPack implements Closeable {
 					.between(startReachabilityChecking, Instant.now())
 					.toMillis();
 		}
+		wantsChecked = true;
+	}
+
+	private void parseWants(PackStatistics.Accumulator accumulator)
+			throws IOException {
+		checkWants(accumulator);
 
 		AsyncRevObjectQueue q = walk.parseAny(wantIds, true);
 		try {

@@ -1,5 +1,6 @@
 package org.eclipse.jgit.transport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.time.ZoneOffset.UTC;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -3321,5 +3322,76 @@ public class UploadPackTest {
 				() -> uploadPackV2("command=object-info\n", "size",
 						"oid invalid",
 						PacketLineIn.end()));
+	}
+
+	@Test
+	public void testV0DeepenUnreachableCommitDoesNotLeakShallow() throws Exception {
+		RevCommit parent = remote.commit().message("parent").create();
+		RevCommit secret = remote.commit().message("secret").parent(parent).create();
+		RevCommit advertisedCommit = remote.commit().message("advertised").create();
+		remote.update("master", advertisedCommit);
+
+		ByteArrayInputStream send = linesAsInputStream(
+				"want " + secret.name() + "\n",
+				"deepen 2\n",
+				PacketLineIn.end());
+
+		ByteArrayOutputStream recv = new ByteArrayOutputStream();
+		try (UploadPack up = new UploadPack(server)) {
+			up.setRequestPolicy(UploadPack.RequestPolicy.REACHABLE_COMMIT);
+			assertThrows(UploadPackInternalServerErrorException.class,
+					() -> up.upload(send, recv, null));
+		}
+		String output = recv.toString(UTF_8);
+		assertFalse("Output should not leak shallow lines: " + output,
+				output.contains("shallow " + parent.name())
+						|| output.contains("shallow " + secret.name()));
+	}
+
+	@Test
+	public void testV0DeepenUnreachableCommitWithDoneDoesNotLeakShallow() throws Exception {
+		RevCommit parent = remote.commit().message("parent").create();
+		RevCommit secret = remote.commit().message("secret").parent(parent).create();
+		RevCommit advertisedCommit = remote.commit().message("advertised").create();
+		remote.update("master", advertisedCommit);
+
+		ByteArrayInputStream send = linesAsInputStream(
+				"want " + secret.name() + "\n",
+				"deepen 2\n",
+				PacketLineIn.end(),
+				"done\n");
+
+		ByteArrayOutputStream recv = new ByteArrayOutputStream();
+		try (UploadPack up = new UploadPack(server)) {
+			up.setRequestPolicy(UploadPack.RequestPolicy.REACHABLE_COMMIT);
+			assertThrows(UploadPackInternalServerErrorException.class,
+					() -> up.upload(send, recv, null));
+		}
+		String output = recv.toString(UTF_8);
+		assertFalse("Output should not leak shallow lines: " + output,
+				output.contains("shallow " + parent.name())
+						|| output.contains("shallow " + secret.name()));
+	}
+
+	@Test
+	public void testV0UnreachableWantWithShallowBlobThrowsWantNotValidBeforeShallowCheck()
+			throws Exception {
+		RevBlob blob = remote.blob("some content");
+		RevCommit secret = remote.commit().message("secret").create();
+		RevCommit advertisedCommit = remote.commit().message("advertised").create();
+		remote.update("master", advertisedCommit);
+
+		ByteArrayInputStream send = linesAsInputStream(
+				"want " + secret.name() + "\n",
+				"shallow " + blob.name() + "\n",
+				"deepen 1\n",
+				PacketLineIn.end());
+
+		ByteArrayOutputStream recv = new ByteArrayOutputStream();
+		try (UploadPack up = new UploadPack(server)) {
+			up.setRequestPolicy(UploadPack.RequestPolicy.REACHABLE_COMMIT);
+			assertThrows(UploadPackInternalServerErrorException.class,
+					() -> up.upload(send, recv, null));
+		}
 	}
 }
