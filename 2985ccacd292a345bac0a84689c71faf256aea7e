@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "feed38c1_11914b05",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GcConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-14T11:28:17Z",
+      "side": 1,
+      "message": "Defer default-on until self-deletion, mtime max-merge, and per-object expiry (with dependency preservation) land — the default path loses retained objects on repeated GC. Document `gc.cruftPacks` and its prune/CLI interaction.",
+      "isAi": true,
+      "revId": "2985ccacd292a345bac0a84689c71faf256aea7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2aac26c4_1017a419",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GcConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-14T11:28:17Z",
+      "side": 1,
+      "message": "Hardcoding `cruftPacks\u003dtrue` makes the pack-refs path (`Gc.java:72-74`) override an explicit `gc.cruftPacks\u003dfalse`. Preserve repo config, override only pack-refs; test both config values against both flags.",
+      "isAi": true,
+      "revId": "2985ccacd292a345bac0a84689c71faf256aea7e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
