@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88cd3ba9_71444f6e",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/GcBasicPackingTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-14T11:27:51Z",
+      "side": 1,
+      "message": "`testCruftPackMtimesPreservedOnReGc` tests the `getCruftMtime` carry-forward that lands in I33a98221b — move it into that change, next to the code. Space the timestamps by a full second (currently not distinct at second resolution, so it can pass against a resetting implementation), use a different candidate set, and assert exact preservation.",
+      "isAi": true,
+      "revId": "fce439b52f793969268f250b4fdbb4c473b1c54d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
