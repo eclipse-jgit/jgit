@@ -3394,4 +3394,116 @@ public class UploadPackTest {
 					() -> up.upload(send, recv, null));
 		}
 	}
+
+	@Test
+	public void testV2FetchUnreachableWantWithHaveDoesNotLeakAck()
+			throws Exception {
+		RevCommit reachable = remote.commit().message("reachable").create();
+		remote.update("master", reachable);
+		RevCommit secret = remote.commit().message("secret").create();
+
+		ByteArrayInputStream send = linesAsInputStream(
+				"command=fetch\n",
+				PacketLineIn.delimiter(),
+				"want " + secret.name() + "\n",
+				"have " + reachable.name() + "\n",
+				PacketLineIn.end());
+
+		ByteArrayOutputStream recv = new ByteArrayOutputStream();
+		server.getConfig().setString(ConfigConstants.CONFIG_PROTOCOL_SECTION,
+				null, ConfigConstants.CONFIG_KEY_VERSION,
+				TransferConfig.ProtocolVersion.V2.version());
+		try (UploadPack up = new UploadPack(server)) {
+			up.setExtraParameters(Sets.of("version=2"));
+			up.setRequestPolicy(UploadPack.RequestPolicy.REACHABLE_COMMIT);
+			assertThrows(UploadPackInternalServerErrorException.class,
+					() -> up.upload(send, recv, null));
+		}
+		String output = recv.toString(UTF_8);
+		assertFalse("Output should not leak ACK before want validation: " + output,
+				output.contains("ACK " + reachable.name()));
+	}
+
+	@Test
+	public void testV2FetchZeroRefsDoesNotLeakAck() throws Exception {
+		RevCommit secret = remote.commit().message("secret").create();
+		remote.update("master", secret);
+
+		ByteArrayInputStream send = linesAsInputStream(
+				"command=fetch\n",
+				PacketLineIn.delimiter(),
+				"have " + secret.name() + "\n",
+				PacketLineIn.end());
+
+		ByteArrayOutputStream recv = new ByteArrayOutputStream();
+		server.getConfig().setString(ConfigConstants.CONFIG_PROTOCOL_SECTION,
+				null, ConfigConstants.CONFIG_KEY_VERSION,
+				TransferConfig.ProtocolVersion.V2.version());
+		try (UploadPack up = new UploadPack(server)) {
+			up.setExtraParameters(Sets.of("version=2"));
+			up.setRequestPolicy(UploadPack.RequestPolicy.REACHABLE_COMMIT);
+			up.setRefFilter(new RejectAllRefFilter());
+			up.upload(send, recv, null);
+		}
+		String output = recv.toString(UTF_8);
+		assertFalse("Output should not leak ACK on zero-ref repo: " + output,
+				output.contains("ACK " + secret.name()));
+	}
+
+	@Test
+	public void testV2FetchZeroRefsWithWantThrowsAndDoesNotLeakAck()
+			throws Exception {
+		RevCommit secret = remote.commit().message("secret").create();
+		remote.update("master", secret);
+
+		ByteArrayInputStream send = linesAsInputStream(
+				"command=fetch\n",
+				PacketLineIn.delimiter(),
+				"want " + secret.name() + "\n",
+				"have " + secret.name() + "\n",
+				PacketLineIn.end());
+
+		ByteArrayOutputStream recv = new ByteArrayOutputStream();
+		server.getConfig().setString(ConfigConstants.CONFIG_PROTOCOL_SECTION,
+				null, ConfigConstants.CONFIG_KEY_VERSION,
+				TransferConfig.ProtocolVersion.V2.version());
+		try (UploadPack up = new UploadPack(server)) {
+			up.setExtraParameters(Sets.of("version=2"));
+			up.setRequestPolicy(UploadPack.RequestPolicy.REACHABLE_COMMIT);
+			up.setRefFilter(new RejectAllRefFilter());
+			assertThrows(UploadPackInternalServerErrorException.class,
+					() -> up.upload(send, recv, null));
+		}
+		String output = recv.toString(UTF_8);
+		assertFalse("Output should not leak ACK on zero-ref repo: " + output,
+				output.contains("ACK " + secret.name()));
+	}
+
+	@Test
+	public void testV2FetchHiddenRefWithRequestPolicyAny() throws Exception {
+		RevCommit base = remote.commit().message("base").create();
+		RevCommit secret = remote.commit().message("secret").parent(base).create();
+		remote.update("master", secret);
+
+		ByteArrayInputStream send = linesAsInputStream(
+				"command=fetch\n",
+				PacketLineIn.delimiter(),
+				"want " + secret.name() + "\n",
+				"have " + base.name() + "\n",
+				PacketLineIn.end());
+
+		ByteArrayOutputStream recv = new ByteArrayOutputStream();
+		server.getConfig().setString(ConfigConstants.CONFIG_PROTOCOL_SECTION,
+				null, ConfigConstants.CONFIG_KEY_VERSION,
+				TransferConfig.ProtocolVersion.V2.version());
+		try (UploadPack up = new UploadPack(server)) {
+			up.setExtraParameters(Sets.of("version=2"));
+			up.setRequestPolicy(UploadPack.RequestPolicy.ANY);
+			up.setRefFilter(new RejectAllRefFilter());
+			up.upload(send, recv, null);
+		}
+		String output = recv.toString(UTF_8);
+		assertTrue("Negotiation should succeed with RequestPolicy.ANY: " + output,
+				output.contains("ACK " + base.name()));
+	}
 }

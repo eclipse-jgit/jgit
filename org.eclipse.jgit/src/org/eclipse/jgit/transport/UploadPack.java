@@ -1218,13 +1218,16 @@ public class UploadPack implements Closeable {
 		accumulator.wants = wantIds.size();
 
 		boolean sectionSent = false;
+		if (!wantIds.isEmpty()) {
+			checkWants(accumulator);
+		}
 		boolean mayHaveShallow = req.getDepth() != 0
 				|| req.getDeepenSince() != 0
 				|| !req.getDeepenNots().isEmpty();
 		List<ObjectId> shallowCommits = new ArrayList<>();
 		List<ObjectId> unshallowCommits = new ArrayList<>();
 
-		if (!req.getClientShallowCommits().isEmpty()) {
+		if (!wantIds.isEmpty() && !req.getClientShallowCommits().isEmpty()) {
 			verifyClientShallow(req.getClientShallowCommits());
 		}
 		if (mayHaveShallow) {
@@ -1242,22 +1245,34 @@ public class UploadPack implements Closeable {
 					new PacketLineOut(NullOutputStream.INSTANCE, false),
 					accumulator, req.wasWaitForDoneReceived() ? Option.WAIT_FOR_DONE : Option.NONE);
 		} else {
-			pckOut.writeString(
-					GitProtocolConstants.SECTION_ACKNOWLEDGMENTS + '\n');
-			for (ObjectId id : req.getPeerHas()) {
-				if (walk.getObjectReader().has(id)) {
-					pckOut.writeString(PACKET_ACK + id.getName() + '\n');
-				}
-			}
-			processHaveLines(req.getPeerHas(), ObjectId.zeroId(),
-					new PacketLineOut(NullOutputStream.INSTANCE, false),
-					accumulator, Option.NONE);
-			if (!req.wasWaitForDoneReceived() && okToGiveUp()) {
-				pckOut.writeString("ready\n"); //$NON-NLS-1$
-			} else if (commonBase.isEmpty()) {
+			List<ObjectId> peerHas = new ArrayList<>(req.getPeerHas());
+			if (advertised.isEmpty()
+					&& !(requestValidator instanceof AnyRequestValidator
+							|| requestValidator instanceof TipRequestValidator
+							|| requestValidator instanceof ReachableCommitTipRequestValidator)) {
+				pckOut.writeString(
+						GitProtocolConstants.SECTION_ACKNOWLEDGMENTS + '\n');
 				pckOut.writeString("NAK\n"); //$NON-NLS-1$
+				sectionSent = true;
+			} else {
+				processHaveLines(peerHas, ObjectId.zeroId(),
+						new PacketLineOut(NullOutputStream.INSTANCE, false),
+						accumulator, Option.NONE);
+				pckOut.writeString(
+						GitProtocolConstants.SECTION_ACKNOWLEDGMENTS + '\n');
+				for (ObjectId id : req.getPeerHas()) {
+					RevObject obj = walk.lookupOrNull(id);
+					if (obj != null && obj.has(COMMON)) {
+						pckOut.writeString(PACKET_ACK + id.getName() + '\n');
+					}
+				}
+				if (!req.wasWaitForDoneReceived() && okToGiveUp()) {
+					pckOut.writeString("ready\n"); //$NON-NLS-1$
+				} else if (commonBase.isEmpty()) {
+					pckOut.writeString("NAK\n"); //$NON-NLS-1$
+				}
+				sectionSent = true;
 			}
-			sectionSent = true;
 		}
 
 		if (req.wasDoneReceived() || (!req.wasWaitForDoneReceived() && okToGiveUp())) {
