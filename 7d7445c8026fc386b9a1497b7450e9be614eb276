@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "873ce846_7ab65004",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-14T00:05:18Z",
+      "side": 1,
+      "message": "It looks fine to me and the chain passes tests locally.",
+      "revId": "7d7445c8026fc386b9a1497b7450e9be614eb276",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
