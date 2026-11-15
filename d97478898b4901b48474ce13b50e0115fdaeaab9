@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61173cec_19b7285d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-11-15T17:13:55Z",
+      "side": 1,
+      "message": "This is s significant amount of complexity. Are you using soft references for your indexes, and if so, what problems are you seeing with them that you think this changes addresses?",
+      "revId": "d97478898b4901b48474ce13b50e0115fdaeaab9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
