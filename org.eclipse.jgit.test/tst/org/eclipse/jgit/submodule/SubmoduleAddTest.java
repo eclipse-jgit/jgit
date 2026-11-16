@@ -215,6 +215,21 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void addSubmoduleWithPathEnteringDotGit() throws Exception {
+		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		command.setPath(".git/hooks");
+		command.setName("sub");
+		command.setURI("file:///does/not/exist");
+		try {
+			command.call().close();
+			fail("Exception not thrown");
+		} catch (IllegalArgumentException e) {
+			assertEquals("Invalid submodule path '.git/hooks'",
+					e.getMessage());
+		}
+	}
+
+	@Test
 	public void addSubmoduleWithInvalidUri() throws Exception {
 		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
 		command.setPath("valid-path");

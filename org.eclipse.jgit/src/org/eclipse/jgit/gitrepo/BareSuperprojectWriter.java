@@ -32,6 +32,8 @@ import org.eclipse.jgit.gitrepo.RepoProject.CopyFile;
 import org.eclipse.jgit.gitrepo.RepoProject.LinkFile;
 import org.eclipse.jgit.gitrepo.internal.RepoText;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.submodule.SubmoduleValidator;
+import org.eclipse.jgit.internal.submodule.SubmoduleValidator.SubmoduleValidationException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -153,6 +155,11 @@ class BareSuperprojectWriter {
 			String name = proj.getName();
 			String path = proj.getPath();
 			String url = proj.getUrl();
+			try {
+				SubmoduleValidator.assertValidSubmoduleUri(url);
+			} catch (SubmoduleValidationException e) {
+				throw new ManifestErrorException(e);
+			}
 			ObjectId objectId;
 			if (ObjectId.isId(proj.getRevision())) {
 				objectId = ObjectId.fromString(proj.getRevision());
