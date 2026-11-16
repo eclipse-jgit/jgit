@@ -161,13 +161,48 @@ class Candidate {
 		Region r = b.clearRegionList();
 		Region aTail = null;
 		Region bTail = null;
+		int eCnt = editList.size();
+		int eIdx = 0;
 
-		for (int eIdx = 0; eIdx < editList.size();) {
-			// If there are no more regions left, neither side has any
-			// more responsibility for the result. Remaining edits can
-			// be safely ignored.
-			if (r == null)
-				return;
+		// If there are no more regions left, neither side has any
+		// more responsibility for the result. Remaining edits can
+		// be safely ignored.
+		while (r != null) {
+			// The region list is sorted by result position, but its source
+			// positions are not always disjoint and increasing. For example,
+			// they go backwards when regions from different branches were
+			// merged into one list, and they repeat when an ignored commit
+			// mapped several lines onto the same parent line. In forward
+			// blame, go back to the first edit that does not end before this
+			// region. Skip ReverseCandidate because reverse blame copies
+			// regions across merge branches, so rewinding can emit the same
+			// deletion twice.
+			if (!(b instanceof ReverseCandidate)) {
+				while (eIdx > 0
+						&& r.sourceStart < editList.get(eIdx - 1).getEndB()) {
+					eIdx--;
+				}
+			}
+
+			if (eIdx == eCnt) {
+				// No more edits ahead. Pass the blame onto A, shifting
+				// sourceStart when the region is after the last edit (a
+				// ReverseCandidate can reach here without rewinding).
+				Edit last = editList.get(eCnt - 1);
+				Region next = r.next;
+				if (last.getEndB() <= r.sourceStart) {
+					r.sourceStart -= last.getEndB() - last.getEndA();
+				}
+				r.next = null;
+				if (aTail == null) {
+					a.regionList = r;
+				} else {
+					aTail.next = r;
+				}
+				aTail = r;
+				r = next;
+				continue;
+			}
 
 			Edit e = editList.get(eIdx);
 
@@ -231,24 +266,6 @@ class Candidate {
 			r.slideAndShrink(len);
 			eIdx++;
 		}
-
-		if (r == null)
-			return;
-
-		// For any remaining region, pass the blame onto A after shifting
-		// the source start to account for the difference between the two.
-		Edit e = editList.get(editList.size() - 1);
-		int endB = e.getEndB();
-		int d = endB - e.getEndA();
-		if (aTail == null)
-			a.regionList = r;
-		else
-			aTail.next = r;
-		do {
-			if (endB <= r.sourceStart)
-				r.sourceStart -= d;
-			r = r.next;
-		} while (r != null);
 	}
 
 	/**
