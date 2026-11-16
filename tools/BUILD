@@ -6,10 +6,10 @@ load("@rules_java//java:defs.bzl", "java_package_configuration")
 
 # JDK version -> Bazel module providing its remote JDK runtime.
 # rules_java ships only LTS runtimes (<= 25); non-LTS (27) comes from
-# java_toolchains.
+# jdk_catalog.
 JDK_RUNTIME_MODULE = {
     "25": "@rules_java",
-    "27": "@java_toolchains",
+    "27": "@jdk_catalog",
 }
 
 [default_java_toolchain(
@@ -475,4 +475,9 @@ package_group(
         "//org.eclipse.jgit.ssh.apache.test/...",
         "//org.eclipse.jgit.test/...",
     ],
+)
+
+exports_files(
+    ["eclipse-JGit-Format.xml"],
+    visibility = ["//visibility:public"],
 )

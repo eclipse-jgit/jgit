@@ -248,7 +248,7 @@ class PackIndexV1 implements PackIndex {
 
 	@Override
 	public long getMemorySize() {
-		return (long) RECORD_SIZE * objectCnt;
+		return RECORD_SIZE * objectCnt;
 	}
 
 	private static class EntriesIteratorV1 extends EntriesIterator {

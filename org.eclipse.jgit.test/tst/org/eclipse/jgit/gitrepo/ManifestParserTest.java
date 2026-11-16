@@ -23,6 +23,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -252,6 +253,26 @@ public class ManifestParserTest {
 						.read(new ByteArrayInputStream(
 								xmlContent.toString().getBytes(UTF_8))));
 		assertTrue(e.getCause().getMessage().contains("DOCTYPE"));
+	}
+
+	@Test
+	public void testIncludeEscapingManifestDirRejected() throws Exception {
+		String baseUrl = "https://git.google.com/";
+		for (String badInclude : List.of("../evil.xml", "sub/../../evil.xml",
+				"/etc/passwd", "a/../../b.xml", "..\\evil.xml")) {
+			StringBuilder xmlContent = new StringBuilder();
+			xmlContent.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+					.append("<manifest>").append("<include name=\"")
+					.append(badInclude).append("\" />").append("</manifest>");
+			IOException e = assertThrows(IOException.class,
+					() -> new ManifestParser(null, "sub/manifest.xml", "master",
+							baseUrl, null, null)
+							.read(new ByteArrayInputStream(xmlContent.toString()
+									.getBytes(UTF_8))));
+			assertTrue("expected traversal rejection for " + badInclude,
+					e.getCause().getMessage()
+							.contains("escapes the manifest directory"));
+		}
 	}
 
 	@Test
