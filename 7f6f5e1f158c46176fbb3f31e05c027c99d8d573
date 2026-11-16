@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12d0a001_f545bcda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-16T16:28:37Z",
+      "side": 1,
+      "message": "Last couple of adjustments and then it\u0027s ready-to-go on my side 🙂",
+      "revId": "7f6f5e1f158c46176fbb3f31e05c027c99d8d573",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbcc8e5c_e3b4f37c",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Reset.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-16T16:28:37Z",
+      "side": 1,
+      "message": "🟢 Optional: this change adds the `--merge` option to the `jgit reset` command, but no test calls it. The command line tests of `reset` are in `org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/ResetTest.java`. You could add a test next to `testResetPrevious()`. It checks that the option is accepted and that HEAD and the file content are reset:\n\n```java\n\t@Test\n\tpublic void testResetMerge() throws Exception {\n\t\twriteTrashFile(\"a.txt\", \"a1\");\n\t\tgit.add().addFilepattern(\"a.txt\").call();\n\t\tRevCommit commit \u003d git.commit().setMessage(\"initial commit\").call();\n\t\twriteTrashFile(\"a.txt\", \"a2\");\n\t\tgit.add().addFilepattern(\"a.txt\").call();\n\t\tgit.commit().setMessage(\"second commit\").call();\n\t\tassertStringArrayEquals(\"\",\n\t\t\t\texecute(\"git reset --merge \" + commit.getId().name()));\n\t\tassertEquals(commit.getId(),\n\t\t\t\tgit.getRepository().exactRef(\"HEAD\").getObjectId());\n\t\tassertEquals(\"a1\", read(\"a.txt\"));\n\t}\n```\n\n*(Created by Claude)*",
+      "revId": "7f6f5e1f158c46176fbb3f31e05c027c99d8d573",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2674a9ca_a97e0f5f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-16T16:28:37Z",
+      "side": 1,
+      "message": "🟢 The Javadoc lists fewer abort reasons than the commit message. You could make them match:\n\n```java\n\t\t/**\n\t\t * Resets the index and updates the files in the working tree that are\n\t\t * different between respective commit and HEAD, but keeps those which\n\t\t * are different between the index and working tree. The reset is\n\t\t * aborted with a\n\t\t * {@link org.eclipse.jgit.api.errors.CheckoutConflictException} if a\n\t\t * file that is different between the commit and the index has unstaged\n\t\t * changes, if an untracked file that is not ignored would be\n\t\t * overwritten or removed, or if a checked-out submodule would be\n\t\t * replaced by a file. Unmerged index entries are reset\n\t\t * unconditionally.\n\t\t */\n```\n\n*(Created by Claude)*",
+      "range": {
+        "startLine": 90,
+        "startChar": 2,
+        "endLine": 99,
+        "endChar": 5
+      },
+      "revId": "7f6f5e1f158c46176fbb3f31e05c027c99d8d573",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab316582_29b819a1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-16T16:28:37Z",
+      "side": 1,
+      "message": "🟢 I like the fact that JGit is safer than Git here (compared against Git 2.55).\n\nYou should document this deliberate difference from Git so that nobody \"fixes\" it later:\n\n```java\n\t\t\t\t} else if (cFileIter !\u003d null \u0026\u0026 wtFileIter !\u003d null\n\t\t\t\t\t\t\u0026\u0026 isGitlink(wtFileIter) \u0026\u0026 !isGitlink(cFileIter)) {\n\t\t\t\t\t// Native git deletes the submodule repository here. Abort\n\t\t\t\t\t// instead (safer) since the repository may contain unpushed work.\n\t\t\t\t\tconflicts.add(path);\n```\n\nYou could also add it to the commit message, e.g.:\n\n```\n- a checked-out submodule would be replaced by a file (native Git\n  deletes the submodule repository in this case).\n```\n\n*(Co-created by Claude)*",
+      "revId": "7f6f5e1f158c46176fbb3f31e05c027c99d8d573",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
