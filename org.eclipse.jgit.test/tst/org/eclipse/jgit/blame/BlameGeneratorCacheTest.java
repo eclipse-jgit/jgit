@@ -11,6 +11,8 @@ package org.eclipse.jgit.blame;
 
 import static java.lang.String.join;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -449,6 +451,41 @@ public class BlameGeneratorCacheTest extends RepositoryTestCase {
 			assertEquals(c4, result.getSourceCommit(2));
 			assertEquals(c2, result.getSourceCommit(3));
 			assertEquals(true, gen.getStats().isCacheHit());
+		}
+	}
+
+	@Test
+	public void blame_withIgnoreRevs_wrappedLine_sameResultWithCache()
+			throws Exception {
+		RevCommit c1, c2, c3;
+		try (TestRepository<FileRepository> r = new TestRepository<>(db)) {
+			c1 = commit(r, lines("L1C1", "L2C1", "L3C1"));
+			c2 = commit(r, lines("L1C1", "L2C2", "L3C1"), c1);
+			// c3 is a formatting commit that wraps L2C2 into two lines
+			c3 = commit(r, lines("L1C1", "L2C3", "L3C3", "L3C1"), c2);
+		}
+
+		record Case(String label, InMemoryBlameCache cache, boolean expectHit) {
+		}
+		for (Case tc : List.of(new Case("cached c2", blameAndCache(c2), true),
+				new Case("no cache", null, false),
+				new Case("empty cache", emptyCache(), false),
+				new Case("cached c3", blameAndCache(c3), true))) {
+			try (BlameGenerator gen = new BlameGenerator(db, FILE,
+					tc.cache())) {
+				gen.setIgnoreRevs(Set.of(c3));
+				gen.push(null, db.parseCommit(c3));
+				BlameResult result = gen.computeBlameResult();
+				if (tc.expectHit()) {
+					assertTrue(tc.label(), gen.getStats().isCacheHit());
+				} else {
+					assertFalse(tc.label(), gen.getStats().isCacheHit());
+				}
+				assertEquals(tc.label(), c1, result.getSourceCommit(0));
+				assertEquals(tc.label(), c2, result.getSourceCommit(1));
+				assertEquals(tc.label(), c2, result.getSourceCommit(2));
+				assertEquals(tc.label(), c1, result.getSourceCommit(3));
+			}
 		}
 	}
 
