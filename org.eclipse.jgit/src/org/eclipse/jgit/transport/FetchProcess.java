@@ -46,12 +46,18 @@ import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class FetchProcess {
+	private static final Logger LOG = LoggerFactory
+			.getLogger(FetchProcess.class);
+
 	/** Transport we will fetch over. */
 	private final Transport transport;
 
@@ -400,8 +406,16 @@ class FetchProcess {
 				try (Writer w = new OutputStreamWriter(
 						lock.getOutputStream(), UTF_8)) {
 					for (FetchHeadRecord h : fetchHeadUpdates) {
-						h.write(w);
-						result.add(h);
+						if (h.write(w)) {
+							result.add(h);
+						} else {
+							// Warn like native git's "Ignoring funny ref",
+							// with control chars escaped so the name cannot
+							// forge a log line.
+							LOG.warn(MessageFormat.format(
+									JGitText.get().ignoringFunnyRefLocally,
+									escapeControlChars(h.sourceName)));
+						}
 					}
 				}
 				lock.commit();
@@ -409,6 +423,19 @@ class FetchProcess {
 		} finally {
 			lock.unlock();
 		}
+	}
+
+	private static String escapeControlChars(String name) {
+		StringBuilder b = new StringBuilder(name.length());
+		for (int i = 0; i < name.length(); i++) {
+			char c = name.charAt(i);
+			if (c < ' ' || c == 0x7f) {
+				b.append(String.format("\\x%02x", (int) c)); //$NON-NLS-1$
+			} else {
+				b.append(c);
+			}
+		}
+		return b.toString();
 	}
 
 	private boolean askForIsComplete() throws TransportException {
@@ -441,6 +468,15 @@ class FetchProcess {
 		for (Ref src : conn.getRefs()) {
 			if (spec.matchSource(src)) {
 				RefSpec expandedRefSpec = spec.expandFromSource(src);
+				String dst = expandedRefSpec.getDestination();
+				if (dst != null && !isValidFetchDestination(dst)) {
+					// A wildcard copies part of the remote-advertised name
+					// into the destination. Drop an invalid one and warn,
+					// like native git's "Ignoring funny ref".
+					LOG.warn(MessageFormat.format(
+							JGitText.get().ignoringFunnyRefLocally, dst));
+					continue;
+				}
 				if (!matchNegativeRefSpec(expandedRefSpec)
 						&& matched.add(src)) {
 					want(src, expandedRefSpec);
@@ -537,8 +573,17 @@ class FetchProcess {
 	}
 
 	private void wantTag(Ref r) throws TransportException {
-		want(r, new RefSpec().setSource(r.getName())
-				.setDestination(r.getName()).setForceUpdate(true));
+		String name = r.getName();
+		if (!isValidFetchDestination(name)) {
+			// A --tags or auto-followed destination is the advertised tag
+			// name used verbatim. Drop a funny/traversal one and warn, like
+			// native git's "Ignoring funny ref".
+			LOG.warn(MessageFormat.format(
+					JGitText.get().ignoringFunnyRefLocally, name));
+			return;
+		}
+		want(r, new RefSpec().setSource(name).setDestination(name)
+				.setForceUpdate(true));
 	}
 
 	private void want(Ref src, RefSpec spec)
@@ -571,6 +616,22 @@ class FetchProcess {
 	private void want(ObjectId id) {
 		askFor.put(id,
 				new ObjectIdRef.Unpeeled(Ref.Storage.NETWORK, id.name(), id));
+	}
+
+	/**
+	 * Whether a remote-derived fetch destination is safe to store: under
+	 * {@code refs/} and a valid ref name, matching native git's
+	 * {@code get_fetch_map()} funny-ref check. Applied to wildcard and tag
+	 * destinations, not to explicit caller-chosen ones like
+	 * {@code refs/pull/1/head:FETCH_HEAD}.
+	 *
+	 * @param name
+	 *            remote-derived local destination from a fetch refspec or tag.
+	 * @return {@code true} if it is safe to turn into a local ref update.
+	 */
+	private static boolean isValidFetchDestination(String name) {
+		return name.startsWith(Constants.R_REFS)
+				&& Repository.isValidRefName(name);
 	}
 
 	private TrackingRefUpdate createUpdate(RefSpec spec, ObjectId newId)

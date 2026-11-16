@@ -48,3 +48,4 @@ Export-Package: org.eclipse.jgit.junit;version="8.0.0";
    org.junit.runner,
    org.eclipse.jgit.util.time",
  org.eclipse.jgit.junit.time;version="8.0.0";uses:="org.eclipse.jgit.util.time"
+

@@ -29,3 +29,4 @@ Import-Package: org.eclipse.jgit.api;version="[8.0.0,8.1.0)",
  org.junit.runner;version="[4.13,5.0.0)",
  org.junit.runners;version="[4.13,5.0.0)"
 Export-Package: org.eclipse.jgit.lfs.test;version="8.0.0";x-friends:="org.eclipse.jgit.lfs.server.test"
+

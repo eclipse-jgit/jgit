@@ -332,7 +332,7 @@ public class ApacheSshTest extends SshTestBase {
 		generator.initialize(2048);
 		KeyPair proxyHostKey = generator.generateKeyPair();
 		srv.setKeyPairProvider(
-				session -> Collections.singletonList(proxyHostKey));
+				_ -> Collections.singletonList(proxyHostKey));
 		// Allow (only) publickey authentication
 		srv.setUserAuthFactories(Collections.singletonList(
 				ServerAuthenticationManager.DEFAULT_USER_AUTH_PUBLIC_KEY_FACTORY));
@@ -341,7 +341,7 @@ public class ApacheSshTest extends SshTestBase {
 				.readAuthorizedKeys(userKey.toPath()).get(0)
 				.resolvePublicKey(null, PublicKeyEntryResolver.IGNORING);
 		srv.setPublickeyAuthenticator(
-				(userName, publicKey, session) -> user.equals(userName)
+				(userName, publicKey, _) -> user.equals(userName)
 						&& KeyUtils.compareKeys(userProxyKey, publicKey));
 		return srv;
 	}

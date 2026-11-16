@@ -14,19 +14,27 @@ import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_REST;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC_REST_PART;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.INSERT;
+import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.RECEIVE;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.REFTABLE;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -449,6 +457,110 @@ public class DfsObjDatabaseTest {
 		assertFalse(db.getObjectDatabase().listPacks().contains(midx1));
 		assertFalse(db.getObjectDatabase().listPacks().contains(midx2));
 		assertTrue(db.getObjectDatabase().listPacks().contains(midxAll));
+	}
+
+	@Test
+	public void addPack_uncommittedPackWithEmptyCache_scansExistingAndPrependsPack()
+			throws IOException {
+		byte[] blob1Data = "committed".getBytes(StandardCharsets.UTF_8);
+		ObjectId blob1Id;
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			blob1Id = ins.insert(OBJ_BLOB, blob1Data);
+			ins.flush();
+		}
+		DfsPackDescription committedPack = db.getObjectDatabase().getPacks()[0]
+				.getPackDescription();
+		db.getObjectDatabase().clearCache();
+
+		byte[] blob2Data = "uncommitted".getBytes(StandardCharsets.UTF_8);
+		ObjectId blob2Id = new ObjectInserter.Formatter().idFor(OBJ_BLOB,
+				blob2Data);
+		DfsPackDescription uncommittedPack = writeUncommittedPack(blob2Data);
+		assertFalse(
+				db.getObjectDatabase().listPacks().contains(uncommittedPack));
+
+		db.getObjectDatabase().addPack(uncommittedPack);
+
+		assertFalse(
+				db.getObjectDatabase().listPacks().contains(uncommittedPack));
+		assertPackList(db.getObjectDatabase().getPacks(), uncommittedPack,
+				committedPack);
+		assertArrayEquals(blob1Data, db.open(blob1Id).getBytes());
+		assertArrayEquals(blob2Data, db.open(blob2Id).getBytes());
+	}
+
+	@Test
+	public void addPack_uncommittedPackWithInitializedCache_prependsWithoutRescan()
+			throws IOException {
+		byte[] blob1Data = "committed".getBytes(StandardCharsets.UTF_8);
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			ins.insert(OBJ_BLOB, blob1Data);
+			ins.flush();
+		}
+		DfsPackDescription committedPack = db.getObjectDatabase().getPacks()[0]
+				.getPackDescription();
+
+		byte[] blob2Data = "uncommitted".getBytes(StandardCharsets.UTF_8);
+		ObjectId blob2Id = new ObjectInserter.Formatter().idFor(OBJ_BLOB,
+				blob2Data);
+		DfsPackDescription uncommittedPack = writeUncommittedPack(blob2Data);
+		assertFalse(db.getObjectDatabase().has(blob2Id));
+
+		db.getObjectDatabase().addPack(uncommittedPack);
+
+		assertFalse(
+				db.getObjectDatabase().listPacks().contains(uncommittedPack));
+		assertPackList(db.getObjectDatabase().getPacks(), uncommittedPack,
+				committedPack);
+		assertTrue(db.getObjectDatabase().has(blob2Id));
+		assertArrayEquals(blob2Data, db.open(blob2Id).getBytes());
+	}
+
+	@Test
+	public void addPack_alreadyCommittedWhenCacheEmpty_doesNotDuplicate()
+			throws IOException {
+		DfsPackDescription pack1 = pack("aaaa", INSERT, 100, PACK);
+		db.getObjectDatabase().commitPack(List.of(pack1), null);
+
+		db.getObjectDatabase().addPack(pack1);
+
+		assertPackList(db.getObjectDatabase().getPacks(), pack1);
+	}
+
+	private DfsPackDescription writeUncommittedPack(byte[] blobData)
+			throws IOException {
+		try (InMemoryRepository tmp = new InMemoryRepository(repoDesc)) {
+			try (ObjectInserter ins = tmp.newObjectInserter()) {
+				ins.insert(OBJ_BLOB, blobData);
+				ins.flush();
+			}
+			DfsPackDescription src = tmp.getObjectDatabase().listPacks().get(0);
+			DfsPackDescription dst = db.getObjectDatabase().newPack(RECEIVE);
+			copyExt(tmp.getObjectDatabase(), src, dst, PACK);
+			copyExt(tmp.getObjectDatabase(), src, dst, INDEX);
+			dst.setIndexVersion(src.getIndexVersion());
+			dst.setObjectCount(src.getObjectCount());
+			return dst;
+		}
+	}
+
+	private void copyExt(DfsObjDatabase srcDb, DfsPackDescription src,
+			DfsPackDescription dst, PackExt ext) throws IOException {
+		byte[] bytes = new byte[(int) src.getFileSize(ext)];
+		ByteBuffer buf = ByteBuffer.wrap(bytes);
+		try (ReadableChannel ch = srcDb.openFile(src, ext)) {
+			while (buf.hasRemaining()) {
+				int n = ch.read(buf);
+				if (n < 0) {
+					break;
+				}
+			}
+		}
+		try (DfsOutputStream out = db.getObjectDatabase().writeFile(dst, ext)) {
+			out.write(bytes);
+		}
+		dst.addFileExt(ext);
+		dst.setFileSize(ext, bytes.length);
 	}
 
 	private static DfsPackDescription pack(String name,

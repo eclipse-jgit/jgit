@@ -52,6 +52,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
+import org.eclipse.jgit.lib.RefStorageFormat;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.ReflogReader;
@@ -177,13 +178,33 @@ public class FileRepository extends Repository {
 		String reftype = repoConfig.getString(
 				ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
 				ConfigConstants.CONFIG_KEY_REF_STORAGE);
-		if (repositoryFormatVersion >= 1 && reftype != null) {
+		boolean creating = !repoConfig.getFile().exists();
+		String requestedFormat = options.getRefStorageFormat();
+		if (creating && requestedFormat == null) {
+			requestedFormat = defaultRefStorageFormat(userConfig);
+		}
+		boolean reftableRequested = requestedFormat != null
+				&& isReftableFormat(requestedFormat);
+		boolean reftable;
+		if (creating && requestedFormat != null) {
+			reftable = reftableRequested;
+		} else if (!creating && repositoryFormatVersion >= 1
+				&& reftype != null) {
 			if (StringUtils.equalsIgnoreCase(reftype,
 					ConfigConstants.CONFIG_REF_STORAGE_REFTABLE)) {
-				refs = new FileReftableDatabase(this);
+				reftable = true;
 			} else {
 				throw new IOException(JGitText.get().unknownRepositoryFormat);
 			}
+		} else {
+			reftable = false;
+		}
+		if (!creating && requestedFormat != null
+				&& reftableRequested != reftable) {
+			throw new IOException(JGitText.get().cannotChangeRefStorageFormat);
+		}
+		if (reftable) {
+			refs = new FileReftableDatabase(this);
 		} else {
 			refs = new RefDirectory(this);
 		}
@@ -204,6 +225,34 @@ public class FileRepository extends Repository {
 		if (!isBare()) {
 			snapshot = FileSnapshot.save(getIndexFile());
 		}
+	}
+
+	private static String defaultRefStorageFormat(StoredConfig config) {
+		String format = SystemReader.getInstance()
+				.getenv(Constants.GIT_DEFAULT_REF_FORMAT_KEY);
+		if (format != null) {
+			return format;
+		}
+		format = config.getString(ConfigConstants.CONFIG_INIT_SECTION, null,
+				ConfigConstants.CONFIG_KEY_DEFAULT_REF_FORMAT);
+		if (format != null && RefStorageFormat.fromConfigValue(format) == null) {
+			// Like git init, warn and fall back for an unknown config default.
+			LOG.warn(MessageFormat.format(
+					JGitText.get().unknownRefStorageFormat, format));
+			return null;
+		}
+		return format;
+	}
+
+	private static boolean isReftableFormat(String format) throws IOException {
+		if (ConfigConstants.CONFIG_REF_STORAGE_REFTABLE.equals(format)) {
+			return true;
+		}
+		if (ConfigConstants.CONFIG_REF_STORAGE_FILES.equals(format)) {
+			return false;
+		}
+		throw new IOException(MessageFormat.format(
+				JGitText.get().unknownRefStorageFormat, format));
 	}
 
 	private void loadRepoConfig() throws IOException {
@@ -271,6 +320,12 @@ public class FileRepository extends Repository {
 		head.disableRefLog();
 		head.link(Constants.R_HEADS + getInitialBranch());
 
+		// The active backend, not the config, decides the layout.
+		final boolean reftable = refs instanceof FileReftableDatabase;
+		if (reftable) {
+			createReftableCompatLayout();
+		}
+
 		final boolean fileMode;
 		if (getFS().supportsExecute()) {
 			File tmp = File.createTempFile("try", "execute", getDirectory()); //$NON-NLS-1$ //$NON-NLS-2$
@@ -303,7 +358,13 @@ public class FileRepository extends Repository {
 					ConfigConstants.CONFIG_KEY_SYMLINKS, symLinks.name()
 							.toLowerCase(Locale.ROOT));
 		cfg.setInt(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 0);
+				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION,
+				reftable ? 1 : 0);
+		if (reftable) {
+			cfg.setString(ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
+					ConfigConstants.CONFIG_KEY_REF_STORAGE,
+					ConfigConstants.CONFIG_REF_STORAGE_REFTABLE);
+		}
 		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_FILEMODE, fileMode);
 		if (bare)
@@ -634,7 +695,7 @@ public class FileRepository extends Repository {
 	 */
 	void convertToPackedRefs(boolean writeLogs, boolean backup) throws IOException {
 		File commonDirectory = getCommonDirectory();
-		List<Ref> all = refs.getRefs();
+		List<Ref> all = FileReftableDatabase.getRefsForConversion(refs);
 		File packedRefs = new File(commonDirectory, Constants.PACKED_REFS);
 		if (packedRefs.exists()) {
 			throw new IOException(MessageFormat.format(JGitText.get().fileAlreadyExists,
@@ -703,6 +764,7 @@ public class FileRepository extends Repository {
 
 		for (Ref s : symrefs) {
 			RefUpdate up = refs.newUpdate(s.getName(), false);
+			up.disableRefLog();
 			up.setForceUpdate(true);
 			RefUpdate.Result res = up.link(s.getTarget().getName());
 			if (res != RefUpdate.Result.NEW
@@ -790,17 +852,7 @@ public class FileRepository extends Repository {
 			}
 		}
 
-		FileUtils.mkdir(refsFile, true);
-
-		// By putting in a dummy HEAD, old versions of Git still detect a repo
-		// (that they can't read)
-		try (OutputStream os = new FileOutputStream(headFile)) {
-			os.write(Constants.encodeASCII("ref: refs/heads/.invalid"));
-		}
-
-		// Some tools might write directly into .git/refs/heads/BRANCH. By
-		// putting a file here, this fails spectacularly.
-		FileUtils.createNewFile(new File(refsFile, Constants.HEADS));
+		createReftableCompatLayout();
 
 		repoConfig.setString(ConfigConstants.CONFIG_EXTENSIONS_SECTION, null,
 				ConfigConstants.CONFIG_KEY_REF_STORAGE,
@@ -813,10 +865,39 @@ public class FileRepository extends Repository {
 	}
 
 	/**
+	 * Writes the backward-compatibility layout for a reftable repository: a
+	 * {@code refs/} directory, a dummy {@code HEAD}, and a {@code refs/heads}
+	 * blocker file. The real HEAD and refs live in the reftable.
+	 *
+	 * @throws IOException
+	 *             on IO problem
+	 */
+	@SuppressWarnings("nls")
+	private void createReftableCompatLayout() throws IOException {
+		File commonDirectory = getCommonDirectory();
+		File refsFile = new File(commonDirectory, "refs");
+		File headFile = new File(getDirectory(), Constants.HEAD);
+		FileUtils.mkdir(refsFile, true);
+		// By putting in a dummy HEAD, old versions of Git still detect a repo
+		// (that they can't read).
+		try (OutputStream os = new FileOutputStream(headFile)) {
+			os.write(Constants.encodeASCII("ref: refs/heads/.invalid\n"));
+		}
+		// Some tools might write directly into .git/refs/heads/BRANCH. By
+		// putting a file here, this fails spectacularly.
+		try (OutputStream os = new FileOutputStream(
+				new File(refsFile, Constants.HEADS))) {
+			os.write(Constants.encodeASCII(
+					"this repository uses the reftable format\n"));
+		}
+	}
+
+	/**
 	 * Converts between ref storage formats.
 	 *
 	 * @param format
-	 *            the format to convert to, either "reftable" or "refdir"
+	 *            the format to convert to, either "reftable" or "files".
+	 *            "refdir" is accepted as a legacy alias for "files".
 	 * @param writeLogs
 	 *            whether to write reflogs
 	 * @param backup
@@ -830,7 +911,8 @@ public class FileRepository extends Repository {
 			if (refs instanceof RefDirectory) {
 				convertToReftable(writeLogs, backup);
 			}
-		} else if (format.equals("refdir")) {//$NON-NLS-1$
+		} else if (ConfigConstants.CONFIG_REF_STORAGE_FILES.equals(format)
+				|| format.equals("refdir")) {//$NON-NLS-1$
 			if (refs instanceof FileReftableDatabase) {
 				convertToPackedRefs(writeLogs, backup);
 			}
@@ -838,5 +920,26 @@ public class FileRepository extends Repository {
 			throw new IOException(MessageFormat
 					.format(JGitText.get().unknownRefStorageFormat, format));
 		}
+	}
+
+	/**
+	 * Convert the ref storage of this repository to the given format.
+	 * <p>
+	 * Type-safe variant of
+	 * {@link #convertRefStorage(String, boolean, boolean)}.
+	 *
+	 * @param format
+	 *            target ref storage format.
+	 * @param writeLogs
+	 *            whether to write reflogs to the new storage.
+	 * @param backup
+	 *            whether to keep a backup of the old ref storage.
+	 * @throws IOException
+	 *             on I/O problems.
+	 * @since 8.0
+	 */
+	public void convertRefStorage(RefStorageFormat format, boolean writeLogs,
+			boolean backup) throws IOException {
+		convertRefStorage(format.toConfigValue(), writeLogs, backup);
 	}
 }

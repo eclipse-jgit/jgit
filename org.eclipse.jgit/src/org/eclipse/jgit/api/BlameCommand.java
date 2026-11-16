@@ -159,8 +159,6 @@ public class BlameCommand extends GitCommand<BlameResult> {
 
 	/**
 	 * Set revisions to ignore during blame.
-	 * <p>
-	 * Specifying revisions to ignore disables using cached blame results.
 	 *
 	 * @param revs
 	 *            collection of commit {@link org.eclipse.jgit.lib.ObjectId}s to

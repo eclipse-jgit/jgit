@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.junit.Assert.assertTrue;
 
+import java.time.Duration;
 import java.util.Collections;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -24,7 +25,7 @@ public class GcTagTest extends GcTestCase {
 	public void lightweightTag_objectNotPruned() throws Exception {
 		RevBlob a = tr.blob("a");
 		tr.lightweightTag("t", a);
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
 		assertTrue(repo.getObjectDatabase().has(a));
@@ -36,7 +37,7 @@ public class GcTagTest extends GcTestCase {
 		RevTag t = tr.tag("t", a); // this doesn't create the refs/tags/t ref
 		tr.lightweightTag("t", t);
 
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
 		assertTrue(repo.getObjectDatabase().has(t));

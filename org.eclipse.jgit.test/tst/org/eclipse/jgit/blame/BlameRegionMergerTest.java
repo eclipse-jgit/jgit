@@ -15,8 +15,10 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -285,6 +287,49 @@ public class BlameRegionMergerTest extends RepositoryTestCase {
 		assertNull(blamed.queueNext);
 	}
 
+	@Test
+	public void blame_fromCandidate_withIgnoreIds_partialResolution() {
+		BlameRegionMerger mergerWithIgnore = new BlameRegionMergerFakeCommits(
+				fakeCommits, cachedRegions, Set.of(O2));
+		Candidate c = new Candidate(null, null, null);
+		c.regionList = new Region(0, 5, 20);
+
+		Candidate blamed = mergerWithIgnore.mergeCandidate(c);
+		assertNotNull(blamed);
+		assertCandidateSingleRegion(O1, 5, blamed);
+		assertEquals(0, blamed.regionList.resultStart);
+		assertEquals(5, blamed.regionList.sourceStart);
+
+		assertNotNull(blamed.queueNext);
+		assertCandidateSingleRegion(O3, 5, blamed.queueNext);
+		assertEquals(15, blamed.queueNext.regionList.resultStart);
+		assertEquals(20, blamed.queueNext.regionList.sourceStart);
+		assertNull(blamed.queueNext.queueNext);
+
+		// O2 [10, 20) remains unblamed on c.regionList
+		assertNotNull(c.regionList);
+		assertEquals(5, c.regionList.resultStart);
+		assertEquals(10, c.regionList.sourceStart);
+		assertEquals(10, c.regionList.length);
+		assertNull(c.regionList.next);
+	}
+
+	@Test
+	public void blame_fromCandidate_withIgnoreIds_allIgnored() {
+		BlameRegionMerger mergerWithIgnore = new BlameRegionMergerFakeCommits(
+				fakeCommits, cachedRegions, Set.of(O1, O2, O3));
+		Candidate c = new Candidate(null, null, null);
+		c.regionList = new Region(0, 5, 20);
+
+		Candidate blamed = mergerWithIgnore.mergeCandidate(c);
+		assertNull(blamed);
+		assertNotNull(c.regionList);
+		assertEquals(0, c.regionList.resultStart);
+		assertEquals(5, c.regionList.sourceStart);
+		assertEquals(20, c.regionList.length);
+		assertNull(c.regionList.next);
+	}
+
 	private static void assertCandidateSingleRegion(ObjectId expectedOid,
 			int expectedLength, Candidate actual) {
 		assertNotNull("candidate", actual);
@@ -301,7 +346,12 @@ public class BlameRegionMergerTest extends RepositoryTestCase {
 
 		BlameRegionMergerFakeCommits(List<RevCommit> commits,
 				List<CacheRegion> blamedRegions) {
-			super(null, null, blamedRegions);
+			this(commits, blamedRegions, Collections.emptySet());
+		}
+
+		BlameRegionMergerFakeCommits(List<RevCommit> commits,
+				List<CacheRegion> blamedRegions, Set<ObjectId> ignoreIds) {
+			super(null, null, blamedRegions, ignoreIds);
 			cache = commits.stream().collect(Collectors
 					.toMap(RevCommit::toObjectId, Function.identity()));
 		}

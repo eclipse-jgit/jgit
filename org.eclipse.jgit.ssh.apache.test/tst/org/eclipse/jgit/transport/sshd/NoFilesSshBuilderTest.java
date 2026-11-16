@@ -54,9 +54,9 @@ public class NoFilesSshBuilderTest extends SshTestHarness {
 				.setProxyDataFactory(null)
 				// No ssh-agent in tests
 				.setConnectorFactory(null)
-				.setConfigStoreFactory((h, f, u) -> null)
-				.setDefaultKeysProvider(f -> new KeyAuthenticator())
-				.setServerKeyDatabase((h, s) -> new ServerKeyDatabase() {
+				.setConfigStoreFactory((_, _, _) -> null)
+				.setDefaultKeysProvider(_ -> new KeyAuthenticator())
+				.setServerKeyDatabase((_, _) -> new ServerKeyDatabase() {
 
 					@Override
 					public List<PublicKey> lookup(String connectAddress,

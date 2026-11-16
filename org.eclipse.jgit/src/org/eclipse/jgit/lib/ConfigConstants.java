@@ -775,6 +775,13 @@ public final class ConfigConstants {
 	public static final String CONFIG_REF_STORAGE_REFTABLE = "reftable";
 
 	/**
+	 * The "files" refStorage format
+	 *
+	 * @since 8.0
+	 */
+	public static final String CONFIG_REF_STORAGE_FILES = "files";
+
+	/**
 	 * The "jmx" section
 	 * @since 5.1.13
 	 */
@@ -824,10 +831,16 @@ public final class ConfigConstants {
 	public static final String CONFIG_KEY_BITMAP_INACTIVE_BRANCH_AGE_INDAYS = "bitmapinactivebranchageindays";
 
 	/**
-	 * The "pack.bitmapRecentCommitSpan" key
+	 * The "pack.bitmapRecentCommitCount" key
 	 * @since 5.8
 	 */
-	public static final String CONFIG_KEY_BITMAP_RECENT_COMMIT_COUNT = "bitmaprecentcommitspan";
+	public static final String CONFIG_KEY_BITMAP_RECENT_COMMIT_COUNT = "bitmaprecentcommitcount";
+
+	/**
+	 * The "pack.bitmapRecentCommitSpan" key
+	 * @since 8.0
+	 */
+	public static final String CONFIG_KEY_BITMAP_RECENT_COMMIT_SPAN = "bitmaprecentcommitspan";
 
 	/**
 	 * The "pack.writeReverseIndex" key
@@ -975,6 +988,13 @@ public final class ConfigConstants {
 	 * @since 5.11
 	 */
 	public static final String CONFIG_KEY_DEFAULT_BRANCH = "defaultbranch";
+
+	/**
+	 * The "init.defaultRefFormat" key.
+	 *
+	 * @since 8.0
+	 */
+	public static final String CONFIG_KEY_DEFAULT_REF_FORMAT = "defaultRefFormat";
 
 	/**
 	 * The "pack.searchForReuseTimeout" key

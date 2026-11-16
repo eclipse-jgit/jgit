@@ -401,7 +401,7 @@ public class JGitPublicKeyAuthentication extends UserAuthPublicKey {
 			Map<String, KeyAgentIdentity> fromAgent = new LinkedHashMap<>();
 			allAgentKeys.forEach(k -> fromAgent.computeIfAbsent(
 					KeyUtils.getFingerPrint(k.getKeyIdentity().getPublic()),
-					x -> k));
+					_ -> k));
 			List<KeyAgentIdentity> result = new ArrayList<>();
 			for (PublicKey pk : explicitKeys) {
 				KeyAgentIdentity id = fromAgent

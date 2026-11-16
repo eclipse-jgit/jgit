@@ -13,6 +13,7 @@ package org.eclipse.jgit.internal.storage.file;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.Collections;
 
 import org.eclipse.jgit.api.Git;
@@ -34,7 +35,7 @@ public class GcReflogTest extends GcTestCase {
 				.delete();
 		stats = gc.getStatistics();
 		assertEquals(8, stats.numberOfLooseObjects);
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
 		stats = gc.getStatistics();
@@ -103,7 +104,7 @@ public class GcReflogTest extends GcTestCase {
 		FileUtils.delete(
 				new File(repo.getDirectory(), "logs/refs/heads/master"),
 				FileUtils.RETRY | FileUtils.SKIP_MISSING);
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		gc.gc().get();
 
 		stats = gc.getStatistics();

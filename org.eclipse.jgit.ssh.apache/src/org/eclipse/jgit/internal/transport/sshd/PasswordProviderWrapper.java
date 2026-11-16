@@ -83,7 +83,7 @@ public class PasswordProviderWrapper implements FilePasswordProvider {
 		String key = resource.getName();
 		PerSessionState state = getState(session);
 		int attempt = state.counts
-				.computeIfAbsent(key, k -> new AtomicInteger()).get();
+				.computeIfAbsent(key, _ -> new AtomicInteger()).get();
 		char[] passphrase = state.delegate.getPassphrase(toUri(key), attempt);
 		if (passphrase == null) {
 			return null;

@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Collection;
 
 import org.eclipse.jgit.internal.storage.pack.PackExt;
@@ -187,7 +188,7 @@ public class GcObjectSizeIndexTest extends GcTestCase {
 
 		// pack loose object into packfile
 		configureGc(gc, 0);
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		gc.gc().get();
 		Collection<Pack> oldPacks = tr.getRepository().getObjectDatabase()
 				.getPacks();
@@ -200,7 +201,7 @@ public class GcObjectSizeIndexTest extends GcTestCase {
 		// repack again but now without a grace period for packfiles. We should
 		// end up with a new packfile and the old one should be placed in the
 		// preserved directory
-		gc.setPackExpireAgeMillis(0);
+		gc.setPackExpireAge(Duration.ZERO);
 		configureGc(gc, 0).setPreserveOldPacks(true);
 		gc.gc().get();
 
@@ -223,8 +224,8 @@ public class GcObjectSizeIndexTest extends GcTestCase {
 
 		// Force all referenced objects into packs (to avoid having loose objects)
 		configureGc(gc, 0);
-		gc.setExpireAgeMillis(0);
-		gc.setPackExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
+		gc.setPackExpireAge(Duration.ZERO);
 		gc.gc().get();
 		stats = gc.getStatistics();
 		assertEquals(0, stats.numberOfLooseObjects);

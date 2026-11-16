@@ -98,7 +98,7 @@ public class SshdSession implements RemoteSession2 {
 		}
 		try {
 			session = connect(uri, Collections.emptyList(),
-					future -> notifyCloseListeners(), timeout, MAX_DEPTH);
+					_ -> notifyCloseListeners(), timeout, MAX_DEPTH);
 		} catch (IOException e) {
 			disconnect(e);
 			throw e;
@@ -149,7 +149,7 @@ public class SshdSession implements RemoteSession2 {
 			if (proxySession != null) {
 				final PortForwardingTracker tracker = portForward;
 				final ClientSession pSession = proxySession;
-				resultSession.addCloseFutureListener(future -> {
+				resultSession.addCloseFutureListener(_ -> {
 					IoUtils.closeQuietly(tracker);
 					String sessionName = pSession.toString();
 					try {
@@ -507,7 +507,7 @@ public class SshdSession implements RemoteSession2 {
 
 		@Override
 		public void cd(String path) throws IOException {
-			cwd = map(x -> ftp.canonicalPath(absolute(path)));
+			cwd = map(_ -> ftp.canonicalPath(absolute(path)));
 			if (cwd.isEmpty()) {
 				cwd += '/';
 			}
@@ -520,7 +520,7 @@ public class SshdSession implements RemoteSession2 {
 
 		@Override
 		public Collection<DirEntry> ls(String path) throws IOException {
-			return map(x -> {
+			return map(_ -> {
 				List<DirEntry> result = new ArrayList<>();
 				for (SftpClient.DirEntry remote : ftp.readDir(absolute(path))) {
 					result.add(new DirEntry() {
@@ -549,7 +549,7 @@ public class SshdSession implements RemoteSession2 {
 
 		@Override
 		public void rmdir(String path) throws IOException {
-			map(x -> {
+			map(_ -> {
 				ftp.rmdir(absolute(path));
 				return null;
 			});
@@ -558,7 +558,7 @@ public class SshdSession implements RemoteSession2 {
 
 		@Override
 		public void mkdir(String path) throws IOException {
-			map(x -> {
+			map(_ -> {
 				ftp.mkdir(absolute(path));
 				return null;
 			});
@@ -566,17 +566,17 @@ public class SshdSession implements RemoteSession2 {
 
 		@Override
 		public InputStream get(String path) throws IOException {
-			return map(x -> ftp.read(absolute(path)));
+			return map(_ -> ftp.read(absolute(path)));
 		}
 
 		@Override
 		public OutputStream put(String path) throws IOException {
-			return map(x -> ftp.write(absolute(path)));
+			return map(_ -> ftp.write(absolute(path)));
 		}
 
 		@Override
 		public void rm(String path) throws IOException {
-			map(x -> {
+			map(_ -> {
 				ftp.remove(absolute(path));
 				return null;
 			});
@@ -584,7 +584,7 @@ public class SshdSession implements RemoteSession2 {
 
 		@Override
 		public void rename(String from, String to) throws IOException {
-			map(x -> {
+			map(_ -> {
 				String src = absolute(from);
 				String dest = absolute(to);
 				try {

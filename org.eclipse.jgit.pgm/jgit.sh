@@ -61,6 +61,8 @@ this_script=`which "$0" 2>/dev/null`
 [ $? -gt 0 -a -f "$0" ] && this_script="$0"
 cp=$this_script
 
+java_args="$java_args -XX:+UseCompactObjectHeaders"
+
 platform="`uname`"
 if [ -n "$JGIT_CLASSPATH" ]
 then

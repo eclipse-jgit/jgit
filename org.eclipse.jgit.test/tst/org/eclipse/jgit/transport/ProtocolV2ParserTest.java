@@ -348,6 +348,70 @@ public class ProtocolV2ParserTest {
 	}
 
 	@Test
+	public void testLsRefsAcceptsValidPartialRefPrefixes() throws IOException {
+		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
+				"ref-prefix r", "ref-prefix refs/heads/maste",
+				"ref-prefix refs/heads/", "ref-prefix refs/heads/v1.0",
+				PacketLineIn.end());
+
+		ProtocolV2Parser parser = new ProtocolV2Parser(
+				ConfigBuilder.getDefault());
+		LsRefsV2Request req = parser.parseLsRefsRequest(pckIn);
+		assertThat(req.getRefPrefixes(), hasItems("r", "refs/heads/maste",
+				"refs/heads/", "refs/heads/v1.0"));
+	}
+
+	@Test
+	public void testLsRefsRejectsTraversalRefPrefix() throws IOException {
+		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
+				"ref-prefix refs/heads/../../../victim/refs/private/",
+				PacketLineIn.end());
+
+		ProtocolV2Parser parser = new ProtocolV2Parser(
+				ConfigBuilder.getDefault());
+		assertThrows(PackProtocolException.class,
+				() -> parser.parseLsRefsRequest(pckIn));
+	}
+
+	@Test
+	public void testLsRefsRejectsInvalidRefPrefixes() throws IOException {
+		for (String bad : new String[] { "refs/heads/./x", "refs/heads\\x",
+				"refs/heads/x:y", "/refs/heads/x", "refs//heads/x" }) {
+			PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
+					"ref-prefix " + bad, PacketLineIn.end());
+			ProtocolV2Parser parser = new ProtocolV2Parser(
+					ConfigBuilder.getDefault());
+			assertThrows(PackProtocolException.class,
+					() -> parser.parseLsRefsRequest(pckIn));
+		}
+	}
+
+	@Test
+	public void testFetchAllowsHeadWantRef() throws IOException {
+		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
+				"want e4980cdc48cfa1301493ca94eb70523f6788b819",
+				"want-ref HEAD", PacketLineIn.end());
+
+		ProtocolV2Parser parser = new ProtocolV2Parser(
+				ConfigBuilder.start().allowRefInWant().done());
+		FetchV2Request request = parser.parseFetchRequest(pckIn);
+		assertThat(request.getWantedRefs(), hasItems("HEAD"));
+	}
+
+	@Test
+	public void testFetchRejectsTraversalWantRef() throws IOException {
+		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
+				"want e4980cdc48cfa1301493ca94eb70523f6788b819",
+				"want-ref refs/heads/../../../victim/refs/private/admin",
+				PacketLineIn.end());
+
+		ProtocolV2Parser parser = new ProtocolV2Parser(
+				ConfigBuilder.start().allowRefInWant().done());
+		assertThrows(PackProtocolException.class,
+				() -> parser.parseFetchRequest(pckIn));
+	}
+
+	@Test
 	public void testLsRefsRefPrefixes() throws IOException {
 		PacketLineIn pckIn = formatAsPacketLine(PacketLineIn.delimiter(),
 				"ref-prefix refs/for", "ref-prefix refs/heads",

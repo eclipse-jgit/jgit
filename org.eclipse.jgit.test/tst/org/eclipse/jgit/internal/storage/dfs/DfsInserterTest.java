@@ -313,6 +313,44 @@ public class DfsInserterTest {
 				insertPack.findIdxPosition(reader, fooId)));
 	}
 
+	@Test
+	public void testInserterReusesReader() throws IOException {
+		int[] newReaderCalls = new int[1];
+		int[] closeReaderCalls = new int[1];
+		try (InMemoryRepository repo = new InMemoryRepository(
+				new DfsRepositoryDescription("test")) {
+			private final MemObjDatabase odb = new MemObjDatabase(this) {
+				@Override
+				public DfsReader newReader() {
+					newReaderCalls[0]++;
+					return new DfsReader(this) {
+						@Override
+						public void close() {
+							closeReaderCalls[0]++;
+							super.close();
+						}
+					};
+				}
+			};
+
+			@Override
+			public MemObjDatabase getObjectDatabase() {
+				return odb;
+			}
+		}) {
+			try (ObjectInserter ins = repo.newObjectInserter()) {
+				ins.insert(Constants.OBJ_BLOB, Constants.encode("foo"));
+				ins.insert(Constants.OBJ_BLOB, Constants.encode("bar"));
+				ins.insert(Constants.OBJ_BLOB, Constants.encode("baz"));
+				ins.flush();
+				assertEquals(1, newReaderCalls[0]);
+				assertEquals(0, closeReaderCalls[0]);
+			}
+			assertEquals(1, newReaderCalls[0]);
+			assertEquals(1, closeReaderCalls[0]);
+		}
+	}
+
 	private static String readString(ObjectLoader loader) throws IOException {
 		return RawParseUtils.decode(readStream(loader));
 	}

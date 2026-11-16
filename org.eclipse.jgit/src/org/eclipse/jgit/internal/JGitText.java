@@ -112,6 +112,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotBeCombined;
 	/***/ public String cannotBeRecursiveWhenTreesAreIncluded;
 	/***/ public String cannotChangeActionOnComment;
+	/***/ public String cannotChangeRefStorageFormat;
 	/***/ public String cannotCheckoutFromUnbornBranch;
 	/***/ public String cannotCheckoutOursSwitchBranch;
 	/***/ public String cannotCombineSquashWithNoff;
@@ -412,6 +413,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String hunkBelongsToAnotherFile;
 	/***/ public String hunkDisconnectedFromFile;
 	/***/ public String hunkHeaderDoesNotMatchBodyLineCountOf;
+	/***/ public String ignoringFunnyRefLocally;
 	/***/ public String illegalArgumentNotA;
 	/***/ public String illegalCombinationOfArguments;
 	/***/ public String illegalHookName;
@@ -858,7 +860,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unableToCreateNewObject;
 	/***/ public String unableToReadFullInt;
 	/***/ public String unableToReadFullArray;
-	/***/ public String unableToReadPackfile;
 	/***/ public String unableToRemovePath;
 	/***/ public String unableToWrite;
 	/***/ public String unableToSignCommitNoSecretKey;

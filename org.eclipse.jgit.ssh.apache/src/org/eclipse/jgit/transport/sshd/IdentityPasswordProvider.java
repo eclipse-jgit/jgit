@@ -132,7 +132,7 @@ public class IdentityPasswordProvider implements KeyPasswordProvider {
 	@Override
 	public char[] getPassphrase(URIish uri, int attempt) throws IOException {
 		return getPassword(uri, attempt,
-				current.computeIfAbsent(uri, r -> new State()));
+				current.computeIfAbsent(uri, _ -> new State()));
 	}
 
 	/**

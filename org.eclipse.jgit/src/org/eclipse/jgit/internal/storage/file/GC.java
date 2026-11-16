@@ -40,6 +40,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.text.ParseException;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -161,11 +162,11 @@ public class GC {
 
 	private ProgressMonitor pm;
 
-	private long expireAgeMillis = -1;
+	private Duration expireAge;
 
 	private Instant expire;
 
-	private long packExpireAgeMillis = -1;
+	private Duration packExpireAge;
 
 	private Instant packExpire;
 
@@ -721,23 +722,17 @@ public class GC {
 	}
 
 	private long getExpireDate() throws ParseException {
-		long expireDate = Long.MAX_VALUE;
-
-		if (expire == null && expireAgeMillis == -1) {
+		if (expire == null && expireAge == null) {
 			String pruneExpireStr = getPruneExpireStr();
 			if (pruneExpireStr == null) {
 				pruneExpireStr = PRUNE_EXPIRE_DEFAULT;
 			}
 			expire = GitTimeParser.parseInstant(pruneExpireStr);
-			expireAgeMillis = -1;
 		}
-		if (expire != null) {
-			expireDate = expire.toEpochMilli();
+		if (expireAge != null) {
+			return Instant.now().minus(expireAge).toEpochMilli();
 		}
-		if (expireAgeMillis != -1) {
-			expireDate = System.currentTimeMillis() - expireAgeMillis;
-		}
-		return expireDate;
+		return expire != null ? expire.toEpochMilli() : Long.MAX_VALUE;
 	}
 
 	private String getPruneExpireStr() {
@@ -747,9 +742,7 @@ public class GC {
 	}
 
 	private long getPackExpireDate() throws ParseException {
-		long packExpireDate = Long.MAX_VALUE;
-
-		if (packExpire == null && packExpireAgeMillis == -1) {
+		if (packExpire == null && packExpireAge == null) {
 			String prunePackExpireStr = repo.getConfig().getString(
 					ConfigConstants.CONFIG_GC_SECTION, null,
 					ConfigConstants.CONFIG_KEY_PRUNEPACKEXPIRE);
@@ -757,15 +750,11 @@ public class GC {
 				prunePackExpireStr = PRUNE_PACK_EXPIRE_DEFAULT;
 			}
 			packExpire = GitTimeParser.parseInstant(prunePackExpireStr);
-			packExpireAgeMillis = -1;
 		}
-		if (packExpire != null) {
-			packExpireDate = packExpire.toEpochMilli();
+		if (packExpireAge != null) {
+			return Instant.now().minus(packExpireAge).toEpochMilli();
 		}
-		if (packExpireAgeMillis != -1) {
-			packExpireDate = System.currentTimeMillis() - packExpireAgeMillis;
-		}
-		return packExpireDate;
+		return packExpire != null ? packExpire.toEpochMilli() : Long.MAX_VALUE;
 	}
 
 	/**
@@ -1676,9 +1665,28 @@ public class GC {
 	 *
 	 * @param expireAgeMillis
 	 *            minimal age of objects to be pruned in milliseconds.
+	 * @deprecated use {@link #setExpireAge(Duration)} instead
 	 */
+	@Deprecated(since = "8.0", forRemoval = true)
 	public void setExpireAgeMillis(long expireAgeMillis) {
-		this.expireAgeMillis = expireAgeMillis;
+		this.expireAge = expireAgeMillis < 0 ? null
+				: Duration.ofMillis(expireAgeMillis);
+		expire = null;
+	}
+
+	/**
+	 * During gc() or prune() each unreferenced, loose object which has been
+	 * created or modified within the last <code>expireAge</code> duration will
+	 * not be pruned. Only older objects may be pruned. If set to
+	 * {@link Duration#ZERO} then every object is a candidate for pruning.
+	 *
+	 * @param expireAge
+	 *            minimal age of objects to be pruned, or {@code null} to reset
+	 *            to the configured default
+	 * @since 8.0
+	 */
+	public void setExpireAge(Duration expireAge) {
+		this.expireAge = expireAge;
 		expire = null;
 	}
 
@@ -1690,10 +1698,29 @@ public class GC {
 	 *
 	 * @param packExpireAgeMillis
 	 *            minimal age of packfiles to be deleted in milliseconds.
+	 * @deprecated use {@link #setPackExpireAge(Duration)} instead
 	 */
+	@Deprecated(since = "8.0", forRemoval = true)
 	public void setPackExpireAgeMillis(long packExpireAgeMillis) {
-		this.packExpireAgeMillis = packExpireAgeMillis;
-		expire = null;
+		this.packExpireAge = packExpireAgeMillis < 0 ? null
+				: Duration.ofMillis(packExpireAgeMillis);
+		packExpire = null;
+	}
+
+	/**
+	 * During gc() or prune() packfiles which are created or modified within the
+	 * last <code>packExpireAge</code> duration will not be deleted. Only older
+	 * packfiles may be deleted. If set to {@link Duration#ZERO} then every
+	 * packfile is a candidate for deletion.
+	 *
+	 * @param packExpireAge
+	 *            minimal age of packfiles to be deleted, or {@code null} to
+	 *            reset to the configured default
+	 * @since 8.0
+	 */
+	public void setPackExpireAge(Duration packExpireAge) {
+		this.packExpireAge = packExpireAge;
+		packExpire = null;
 	}
 
 	/**
@@ -1725,7 +1752,7 @@ public class GC {
 	@Deprecated(since = "7.2")
 	public void setExpire(Date expire) {
 		this.expire = expire.toInstant();
-		expireAgeMillis = -1;
+		expireAge = null;
 	}
 
 	/**
@@ -1742,7 +1769,7 @@ public class GC {
 	 */
 	public void setExpire(Instant expire) {
 		this.expire = expire;
-		expireAgeMillis = -1;
+		expireAge = null;
 	}
 
 	/**
@@ -1758,7 +1785,7 @@ public class GC {
 	@Deprecated(since = "7.2")
 	public void setPackExpire(Date packExpire) {
 		this.packExpire = packExpire.toInstant();
-		packExpireAgeMillis = -1;
+		packExpireAge = null;
 	}
 
 	/**
@@ -1772,7 +1799,7 @@ public class GC {
 	 */
 	public void setPackExpire(Instant packExpire) {
 		this.packExpire = packExpire;
-		packExpireAgeMillis = -1;
+		packExpireAge = null;
 	}
 
 	/**

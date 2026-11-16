@@ -1,10 +1,28 @@
+# TODO(davido): On Bazel 10.x the --experimental_use_compact_object_headers
+# startup option is on by default; drop this manual host_jvm_args then.
+startup --host_jvm_args=-XX:+UseCompactObjectHeaders
+
 common --lockfile_mode=error
+common --@rules_python//python/config_settings:incompatible_default_to_explicit_init_py=true
 
 build --workspace_status_command="python3 ./tools/workspace_status.py"
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository
 build --incompatible_strict_action_env
 build --action_env=PATH
 build --disk_cache=~/.gerritcodereview/bazel-cache/cas
+
+# Builds using remote_jdk27, executes using remote_jdk27 or local_jdk
+build:java27 --java_language_version=27
+build:java27 --java_runtime_version=remotejdk_27
+build:java27 --tool_java_language_version=27
+build:java27 --tool_java_runtime_version=remotejdk_27
+
+# Builds and executes on RBE using remotejdk_27
+build:remote27 --java_language_version=27
+build:remote27 --java_runtime_version=remotejdk_27
+build:remote27 --tool_java_language_version=27
+build:remote27 --tool_java_runtime_version=remotejdk_27
+build:remote27 --config=remote
 
 # Builds using remote_jdk25, executes using remote_jdk25 or local_jdk
 build --java_language_version=25
@@ -19,6 +37,8 @@ build:remote25 --tool_java_language_version=25
 build:remote25 --tool_java_runtime_version=remotejdk_25
 build:remote25 --config=remote
 
+# TODO(davido): Remove after upgrade to JDK 27 (on by default).
+test --jvmopt=-XX:+UseCompactObjectHeaders
 test --build_tests_only
 test --test_output=errors
 test --flaky_test_attempts=3

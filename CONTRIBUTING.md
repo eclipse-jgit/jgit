@@ -33,3 +33,30 @@ people coming from the bug report can find it.
 corrected, amend your commit and push it again.
 
 Have fun :).
+
+## Java formatting
+
+The standalone JDT formatter uses the checked-in Eclipse profile at
+`tools/eclipse-JGit-Format.xml`. From the repository root, pass the Java files
+to check or format explicitly:
+
+```bash
+tools/format-java --check org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java
+tools/format-java --write org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java
+```
+
+`--check` never modifies files and exits with status 1 if a selected file needs
+formatting. `--write` updates only the explicitly named files.
+
+Bazel can run the formatter directly without a wrapper or an explicit profile:
+
+```bash
+bazel run //tools/formatter:formatter -- --check path/to/File.java
+bazel run format -- --check path/to/File.java     # from the repository root
+bazel run //:format -- --write path/to/File.java  # from any workspace directory
+```
+
+Relative file paths are resolved from the invocation directory. The default
+profile is resolved from Bazel's workspace directory. `tools/format-java` is a
+convenience wrapper; it does not change the working directory, so run it within
+the workspace (using its absolute path from a subdirectory if needed).

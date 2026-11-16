@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.junit.Assert.assertTrue;
 
+import java.time.Duration;
 import java.util.Collections;
 
 import org.eclipse.jgit.junit.TestRepository.CommitBuilder;
@@ -29,7 +30,7 @@ public class GcBranchPrunedTest extends GcTestCase {
 	public void branch_historyNotPruned() throws Exception {
 		RevCommit tip = commitChain(10);
 		tr.branch("b").update(tip);
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
 		do {
@@ -49,7 +50,7 @@ public class GcBranchPrunedTest extends GcTestCase {
 		RefUpdate update = repo.updateRef("refs/heads/b");
 		update.setForceUpdate(true);
 		update.delete();
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
 		assertTrue(gc.getStatistics().numberOfLooseObjects == 0);
@@ -78,7 +79,7 @@ public class GcBranchPrunedTest extends GcTestCase {
 		update.setForceUpdate(true);
 		update.delete();
 
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		fsTick();
 		gc.prune(Collections.<ObjectId> emptySet());
 		assertTrue(repo.getObjectDatabase().has(b2Tip));

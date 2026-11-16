@@ -175,7 +175,7 @@ public class SshTestGitServer {
 				.signatureFactories(getSignatureFactories());
 		server = builder.build();
 		hostKeys.add(hostKey);
-		server.setKeyPairProvider((session) -> hostKeys);
+		server.setKeyPairProvider(_ -> hostKeys);
 
 		configureAuthentication();
 
@@ -186,7 +186,7 @@ public class SshTestGitServer {
 
 		configureShell();
 
-		server.setCommandFactory((channel, command) -> {
+		server.setCommandFactory((_, command) -> {
 			if (command.startsWith(RemoteConfig.DEFAULT_UPLOAD_PACK)) {
 				return new GitUploadPackCommand(command, executorService);
 			} else if (command.startsWith(RemoteConfig.DEFAULT_RECEIVE_PACK)) {
@@ -303,7 +303,7 @@ public class SshTestGitServer {
 			}
 		});
 		// Accept only the test user/public key
-		server.setPublickeyAuthenticator((userName, publicKey, session) -> {
+		server.setPublickeyAuthenticator((userName, publicKey, _) -> {
 			return SshTestGitServer.this.testUser.equals(userName) && KeyUtils
 					.compareKeys(SshTestGitServer.this.testKey, publicKey);
 		});
@@ -381,7 +381,7 @@ public class SshTestGitServer {
 	 * name, converted to all upper-case, as password.
 	 */
 	public void enablePasswordAuthentication() {
-		server.setPasswordAuthenticator((user, pwd, session) -> {
+		server.setPasswordAuthenticator((user, pwd, _) -> {
 			return testUser.equals(user)
 					&& testUser.toUpperCase(Locale.ROOT).equals(pwd);
 		});
@@ -392,7 +392,7 @@ public class SshTestGitServer {
 	 * test user's name, converted to all upper-case, as password.
 	 */
 	public void enableKeyboardInteractiveAuthentication() {
-		server.setPasswordAuthenticator((user, pwd, session) -> {
+		server.setPasswordAuthenticator((user, pwd, _) -> {
 			return testUser.equals(user)
 					&& testUser.toUpperCase(Locale.ROOT).equals(pwd);
 		});

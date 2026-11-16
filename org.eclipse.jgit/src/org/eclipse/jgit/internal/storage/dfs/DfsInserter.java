@@ -84,6 +84,8 @@ public class DfsInserter extends ObjectInserter {
 	PackStream packOut;
 	private boolean rollback;
 
+	private ObjectReader reader;
+
 	/**
 	 * Initialize a new inserter.
 	 *
@@ -117,7 +119,7 @@ public class DfsInserter extends ObjectInserter {
 		if (objectMap != null && objectMap.contains(id))
 			return id;
 		// Ignore unreachable (garbage) objects here.
-		if (db.has(id, true)) {
+		if (has(id)) {
 			return id;
 		}
 
@@ -125,6 +127,14 @@ public class DfsInserter extends ObjectInserter {
 		packOut.compress.write(data, off, len);
 		packOut.compress.finish();
 		return endObject(id, offset, len, type);
+	}
+
+	private boolean has(AnyObjectId id) throws IOException {
+		if (reader == null) {
+			reader = db.newReader();
+			reader.setAvoidUnreachableObjects(true);
+		}
+		return reader.has(id);
 	}
 
 	@Override
@@ -215,6 +225,13 @@ public class DfsInserter extends ObjectInserter {
 			} finally {
 				packDsc = null;
 				rollback = false;
+			}
+		}
+		if (reader != null) {
+			try {
+				reader.close();
+			} finally {
+				reader = null;
 			}
 		}
 		clear();

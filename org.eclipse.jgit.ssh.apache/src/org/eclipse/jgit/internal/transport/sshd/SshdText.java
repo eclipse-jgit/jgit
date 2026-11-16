@@ -103,7 +103,9 @@ public final class SshdText extends TranslationBundle {
 	/***/ public String pkcs11Warning;
 	/***/ public String proxyCannotAuthenticate;
 	/***/ public String proxyHttpFailure;
+	/***/ public String proxyHttpHeadersTooLong;
 	/***/ public String proxyHttpInvalidUserName;
+	/***/ public String proxyHttpMessageTooLong;
 	/***/ public String proxyHttpUnexpectedReply;
 	/***/ public String proxyHttpUnspecifiedFailureReason;
 	/***/ public String proxyJumpAbort;

@@ -12,6 +12,8 @@ package org.eclipse.jgit.internal.storage.file;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.Duration;
+
 import org.eclipse.jgit.junit.TestRepository.BranchBuilder;
 import org.junit.Test;
 
@@ -41,7 +43,7 @@ public class GcDirCacheSavesObjectsTest extends GcTestCase {
 		stats = gc.getStatistics();
 		assertEquals(9, stats.numberOfLooseObjects);
 		assertEquals(0, stats.numberOfPackedObjects);
-		gc.setExpireAgeMillis(0);
+		gc.setExpireAge(Duration.ZERO);
 		fsTick();
 		gc.gc().get();
 		stats = gc.getStatistics();

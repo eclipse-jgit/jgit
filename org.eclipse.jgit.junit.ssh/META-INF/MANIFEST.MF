@@ -47,3 +47,4 @@ Import-Package: org.apache.sshd.common;version="[2.20.0,3.0.0)",
  org.junit.experimental.theories;version="[4.13,5.0.0)",
  org.slf4j;version="[1.7.0,3.0.0)"
 Export-Package: org.eclipse.jgit.junit.ssh;version="8.0.0"
+
