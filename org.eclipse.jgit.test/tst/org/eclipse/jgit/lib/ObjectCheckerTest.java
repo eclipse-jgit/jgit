@@ -32,11 +32,14 @@ import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.TREE_NOT_SORTED;
 import static org.eclipse.jgit.lib.ObjectChecker.ErrorType.ZERO_PADDED_FILEMODE;
 import static org.eclipse.jgit.util.RawParseUtils.decode;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 
 import java.text.MessageFormat;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.internal.JGitText;
@@ -127,6 +130,64 @@ public class ObjectCheckerTest {
 	public void testCheckBlobWithBlobObjectCheckerCorrupt() {
 		assertThrows(CorruptObjectException.class, () -> SECRET_KEY_BLOB_CHECKER
 				.check(OBJ_BLOB, encodeASCII("key = \"secret_key\"")));
+	}
+
+	@Test
+	public void testDefaultNewBlobObjectCheckerReturnsNull() {
+		assertNull(checker.newBlobObjectChecker());
+		assertNull(checker.newBlobObjectChecker(10));
+	}
+
+	@Test
+	public void testLegacyNewBlobObjectCheckerCalledFromSizeOverload() {
+		assertNotNull(SECRET_KEY_BLOB_CHECKER.newBlobObjectChecker(10));
+	}
+
+	@Test
+	public void testNewBlobObjectCheckerWithSize()
+			throws CorruptObjectException {
+		AtomicLong seenSize = new AtomicLong(Long.MIN_VALUE);
+		ObjectChecker sizeBoundedChecker = new ObjectChecker() {
+			@Override
+			public BlobObjectChecker newBlobObjectChecker(long size) {
+				seenSize.set(size);
+				if (size > 20) {
+					return null;
+				}
+				return new BlobObjectChecker() {
+					private boolean containSecretKey;
+
+					@Override
+					public void update(byte[] in, int offset, int len) {
+						String str = decode(in, offset, offset + len);
+						if (str.contains("secret_key")) {
+							containSecretKey = true;
+						}
+					}
+
+					@Override
+					public void endBlob(AnyObjectId id)
+							throws CorruptObjectException {
+						if (containSecretKey) {
+							throw new CorruptObjectException(
+									"don't add a secret key");
+						}
+					}
+				};
+			}
+		};
+
+		byte[] smallSecret = encodeASCII("key = \"secret_key\"");
+		assertThrows(CorruptObjectException.class,
+				() -> sizeBoundedChecker.check(OBJ_BLOB, smallSecret));
+		assertEquals(smallSecret.length, seenSize.get());
+
+		byte[] largeSecret = encodeASCII("01234567890123456789secret_key");
+		sizeBoundedChecker.check(OBJ_BLOB, largeSecret);
+		assertEquals(largeSecret.length, seenSize.get());
+
+		assertNotNull(sizeBoundedChecker.newBlobObjectChecker());
+		assertEquals(-1L, seenSize.get());
 	}
 
 	@Test

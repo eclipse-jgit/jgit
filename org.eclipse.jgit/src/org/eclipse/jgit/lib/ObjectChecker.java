@@ -237,6 +237,11 @@ public class ObjectChecker {
 	private boolean windows;
 	private boolean macosx;
 
+	// Guards against mutual recursion between the newBlobObjectChecker() and
+	// newBlobObjectChecker(long) default implementations when neither is
+	// overridden.
+	private boolean inNewBlobObjectChecker;
+
 	private final List<GitmoduleEntry> gitsubmodules = new ArrayList<>();
 
 	/**
@@ -399,7 +404,7 @@ public class ObjectChecker {
 			checkTree(id, raw);
 			break;
 		case OBJ_BLOB:
-			BlobObjectChecker checker = newBlobObjectChecker();
+			BlobObjectChecker checker = newBlobObjectChecker(raw.length);
 			if (checker == null) {
 				checkBlob(raw);
 			} else {
@@ -1242,13 +1247,54 @@ public class ObjectChecker {
 
 	/**
 	 * Create a new {@link org.eclipse.jgit.lib.BlobObjectChecker}.
+	 * <p>
+	 * Delegates to {@link #newBlobObjectChecker(long)} with {@code -1} as the
+	 * blob size. Callers that know the blob size and subclasses should prefer
+	 * {@link #newBlobObjectChecker(long)}.
 	 *
 	 * @return new BlobObjectChecker or null if it's not provided.
 	 * @since 4.9
 	 */
 	@Nullable
 	public BlobObjectChecker newBlobObjectChecker() {
-		return null;
+		if (inNewBlobObjectChecker) {
+			return null;
+		}
+		inNewBlobObjectChecker = true;
+		try {
+			return newBlobObjectChecker(-1);
+		} finally {
+			inNewBlobObjectChecker = false;
+		}
+	}
+
+	/**
+	 * Create a new {@link org.eclipse.jgit.lib.BlobObjectChecker} for a blob of
+	 * the given uncompressed size.
+	 * <p>
+	 * By default this delegates to {@link #newBlobObjectChecker()} for
+	 * backwards compatibility with subclasses that only override the no-arg
+	 * method. Subclasses overriding this method should handle {@code -1} when
+	 * the caller does not pass in a size.
+	 *
+	 * @param size
+	 *            uncompressed size of the blob in bytes, or {@code -1} if the
+	 *            size is not known in advance.
+	 * @return new BlobObjectChecker, or {@code null} if blob checking is not
+	 *         provided or should be skipped for this blob.
+	 * @since 8.0
+	 */
+	@Nullable
+	public BlobObjectChecker newBlobObjectChecker(long size) {
+		if (inNewBlobObjectChecker) {
+			return null;
+		}
+		inNewBlobObjectChecker = true;
+		try {
+			return newBlobObjectChecker();
+		} finally {
+			inNewBlobObjectChecker = false;
+		}
 	}
 
 	/**
@@ -1256,7 +1302,7 @@ public class ObjectChecker {
 	 *
 	 * <p>
 	 * This may not be called from PackParser in some cases. Use
-	 * {@link #newBlobObjectChecker} instead.
+	 * {@link #newBlobObjectChecker(long)} instead.
 	 *
 	 * @param raw
 	 *            the blob data. The array is never modified.
@@ -1298,5 +1344,6 @@ public class ObjectChecker {
 	 */
 	public void reset() {
 		gitsubmodules.clear();
+		inNewBlobObjectChecker = false;
 	}
 }
