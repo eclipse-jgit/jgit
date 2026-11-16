@@ -410,7 +410,7 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 		List<ObjectToPack> notFoundHere = new BlockList<>();
 		for (ObjectToPack obj : objects) {
 			DfsObjectToPack otp = (DfsObjectToPack) obj;
-			if (skipFound && otp.isFound()) {
+			if (otp.isSatisfied() || (skipFound && otp.isFound())) {
 				continue;
 			}
 			int pos = midx(ctx).findPosition(otp);

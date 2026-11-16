@@ -331,7 +331,7 @@ public final class DfsPackFileMidxSingle extends DfsPackFileMidx {
 		List<ObjectToPack> notFoundHere = new BlockList<>();
 		for (ObjectToPack obj : objects) {
 			DfsObjectToPack otp = (DfsObjectToPack) obj;
-			if (skipFound && otp.isFound()) {
+			if (otp.isSatisfied() || (skipFound && otp.isFound())) {
 				continue;
 			}
 			long p = offsetCalculator.encode(find(ctx, otp));

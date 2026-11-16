@@ -1156,4 +1156,11 @@ public final class ConfigConstants {
 	 * @since 7.6
 	 */
 	public static final String CONFIG_KEY_PACK_REFS = "packRefs";
+
+	/**
+	 * The "optimizeSelectRepresentation" key
+	 *
+	 * @since 8.0
+	 */
+	public static final String CONFIG_KEY_OPTIMIZE_SELECT_REPRESENTATION = "optimizeSelectRepresentation";
 }

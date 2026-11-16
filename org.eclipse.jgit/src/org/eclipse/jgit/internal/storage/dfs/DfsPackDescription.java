@@ -136,6 +136,41 @@ public class DfsPackDescription {
 		};
 	}
 
+	private static final Comparator<PackSource> REUSE_SOURCE_COMPARATOR_OPTIMIZED = new DfsObjDatabase.PackSource.ComparatorBuilder()
+			.add(PackSource.GC, PackSource.GC_PART)
+			.add(PackSource.GC_REST, PackSource.GC_REST_PART)
+			.add(PackSource.COMPACT).add(PackSource.RECEIVE, PackSource.INSERT)
+			.add(PackSource.UNREACHABLE_GARBAGE).build();
+
+	static Comparator<DfsPackDescription> reuseComparatorOptimized() {
+		return Comparator
+				.comparing(DfsPackDescription::getPackSource,
+						REUSE_SOURCE_COMPARATOR_OPTIMIZED)
+				.thenComparing((a, b) -> {
+					PackSource as = a.getPackSource();
+					PackSource bs = b.getPackSource();
+
+					if (as == bs && isGC(as)) {
+						// Push smaller GC files first; these likely have higher
+						// quality delta compression.
+						int cmp = Long.signum(
+								a.getFileSize(PACK) - b.getFileSize(PACK));
+						if (cmp != 0) {
+							return cmp;
+						}
+					}
+
+					// Older packs should sort first.
+					int cmp = Long
+							.signum(a.getLastModified() - b.getLastModified());
+					if (cmp != 0) {
+						return cmp;
+					}
+
+					return Long.signum(b.getObjectCount() - a.getObjectCount());
+				});
+	}
+
 	private final DfsRepositoryDescription repoDesc;
 	private final String packName;
 	private PackSource packSource;

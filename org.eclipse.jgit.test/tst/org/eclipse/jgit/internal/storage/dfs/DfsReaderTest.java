@@ -9,25 +9,43 @@
  */
 package org.eclipse.jgit.internal.storage.dfs;
 
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DFS_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_OPTIMIZE_SELECT_REPRESENTATION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.internal.storage.dfs.DfsReader.PackLoadListener;
 import org.eclipse.jgit.internal.storage.pack.PackExt;
+import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.TestRng;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.revwalk.RevBlob;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -280,6 +298,159 @@ public class DfsReaderTest {
 			assertFalse(has);
 			// The 3 indices were loaded only once each
 			assertEquals(Integer.valueOf(3),
+					listener.callsPerExt.get(PackExt.INDEX));
+		}
+	}
+
+	@Test
+	public void readerOptions_optimizeSelectRepresentation_fromConfig() {
+		DfsReaderOptions opts = new DfsReaderOptions();
+		assertFalse(opts.shouldOptimizeSelectRepresentation());
+
+		Config cfg = new Config();
+		cfg.setBoolean(CONFIG_CORE_SECTION, CONFIG_DFS_SECTION,
+				CONFIG_KEY_OPTIMIZE_SELECT_REPRESENTATION, true);
+		opts.fromConfig(cfg);
+		assertTrue(opts.shouldOptimizeSelectRepresentation());
+	}
+
+	@Test
+	public void selectObjectRepresentation_deltaInCompactPack_shortCircuitsSubsequentPacks()
+			throws IOException {
+		byte[] baseBytes = new TestRng(JGitTestUtil.getName()).nextBytes(520);
+		byte[] deltaBytes = Arrays.copyOf(baseBytes, 512);
+
+		ObjectId baseId;
+		ObjectId deltaId;
+		ByteArrayOutputStream packOut = new ByteArrayOutputStream();
+		try (InMemoryRepository srcRepo = new InMemoryRepository(
+				new DfsRepositoryDescription("src"))) {
+			try (ObjectInserter ins = srcRepo.newObjectInserter()) {
+				baseId = ins.insert(OBJ_BLOB, baseBytes);
+				deltaId = ins.insert(OBJ_BLOB, deltaBytes);
+				ins.flush();
+			}
+			try (DfsReader srcCtx = srcRepo.getObjectDatabase().newReader();
+					PackWriter pw = new PackWriter(new PackConfig(srcRepo),
+							srcCtx)) {
+				pw.preparePack(NullProgressMonitor.INSTANCE,
+						Set.of(baseId, deltaId), Set.of());
+				pw.writePack(NullProgressMonitor.INSTANCE,
+						NullProgressMonitor.INSTANCE, packOut);
+				assertEquals(1, pw.getStatistics().getTotalDeltas());
+			}
+		}
+
+		try (ObjectInserter ins = db.newObjectInserter()) {
+			ins.newPackParser(new ByteArrayInputStream(packOut.toByteArray()))
+					.parse(NullProgressMonitor.INSTANCE);
+			ins.flush();
+		}
+
+		DfsObjDatabase odb = db.getObjectDatabase();
+		DfsPackCompactor compactor = new DfsPackCompactor(db);
+		compactor.add(odb.getPacks()[0]);
+		compactor.compact(NullProgressMonitor.INSTANCE);
+		assertEquals(1,
+				compactor.getNewPackStatistics().get(0).getTotalDeltas());
+
+		// Add a newer INSERT pack after the COMPACT pack.
+		insertBlobWithSize(150);
+
+		RevBlob baseBlob;
+		try (RevWalk rw = new RevWalk(db)) {
+			baseBlob = rw.lookupBlob(baseId);
+		}
+
+		DfsBlockCache.reconfigure(new DfsBlockCacheConfig());
+		odb.clearCache();
+		assertEquals(2, odb.getPacks().length);
+		odb.getReaderOptions().setOptimizeSelectRepresentation(true);
+		try (DfsReader ctx = odb.newReader();
+				PackWriter pw = new PackWriter(new PackConfig(db), ctx)) {
+			pw.addObject(baseBlob);
+			CounterPackLoadListener listener = new CounterPackLoadListener();
+			ctx.addPackLoadListener(listener);
+			DfsObjectToPack deltaOtp = ctx.newObjectToPack(deltaId, OBJ_BLOB);
+			ctx.selectObjectRepresentation(pw, NullProgressMonitor.INSTANCE,
+					Collections.singletonList(deltaOtp));
+			assertSame(PackSource.COMPACT,
+					deltaOtp.pack.getPackDescription().getPackSource());
+			assertTrue(deltaOtp.isDeltaRepresentation());
+			assertTrue(deltaOtp.isSatisfied());
+			// COMPACT sorts before INSERT and satisfies deltaId via delta
+			// reuse, skipping the INSERT pack index.
+			assertEquals(Integer.valueOf(1),
+					listener.callsPerExt.get(PackExt.INDEX));
+		}
+	}
+
+	@Test
+	public void selectObjectRepresentation_missingFromNormalPacks_checksGarbagePack()
+			throws IOException {
+		ObjectId reachableId = insertBlobWithSize(200);
+		RefUpdate ru = db.updateRef("refs/heads/master");
+		ru.setNewObjectId(reachableId);
+		ru.forceUpdate();
+
+		ObjectId unreachableId = insertBlobWithSize(180);
+
+		DfsGarbageCollector gc = new DfsGarbageCollector(db);
+		assertTrue(gc.pack(NullProgressMonitor.INSTANCE));
+
+		DfsObjDatabase odb = db.getObjectDatabase();
+		odb.clearCache();
+		odb.getReaderOptions().setOptimizeSelectRepresentation(true);
+		try (DfsReader ctx = odb.newReader();
+				PackWriter pw = new PackWriter(new PackConfig(db), ctx)) {
+			DfsObjectToPack reachableOtp = ctx.newObjectToPack(reachableId,
+					OBJ_BLOB);
+			DfsObjectToPack unreachableOtp = ctx.newObjectToPack(unreachableId,
+					OBJ_BLOB);
+			ctx.selectObjectRepresentation(pw, NullProgressMonitor.INSTANCE,
+					List.of(reachableOtp, unreachableOtp));
+			assertSame(PackSource.GC,
+					reachableOtp.pack.getPackDescription().getPackSource());
+			assertTrue(reachableOtp.isSatisfied());
+			assertSame(PackSource.UNREACHABLE_GARBAGE,
+					unreachableOtp.pack.getPackDescription().getPackSource());
+			assertTrue(unreachableOtp.isFound());
+		}
+	}
+
+	@Test
+	public void selectObjectRepresentation_gcWholeObject_shortCircuitsSubsequentPacks()
+			throws IOException {
+		ObjectId oid = insertBlobWithSize(200);
+		RefUpdate ru = db.updateRef("refs/heads/master");
+		ru.setNewObjectId(oid);
+		ru.forceUpdate();
+
+		DfsGarbageCollector gc = new DfsGarbageCollector(db);
+		gc.setGarbageTtl(0, TimeUnit.MILLISECONDS);
+		assertTrue(gc.pack(NullProgressMonitor.INSTANCE));
+
+		// Insert another blob in a new INSERT pack after GC.
+		insertBlobWithSize(150);
+
+		DfsObjDatabase odb = db.getObjectDatabase();
+		odb.clearCache();
+		assertEquals(2, odb.getPacks().length);
+
+		odb.getReaderOptions().setOptimizeSelectRepresentation(true);
+		try (DfsReader ctx = odb.newReader();
+				PackWriter pw = new PackWriter(new PackConfig(db), ctx)) {
+			CounterPackLoadListener listener = new CounterPackLoadListener();
+			ctx.addPackLoadListener(listener);
+			DfsObjectToPack otp = ctx.newObjectToPack(oid, OBJ_BLOB);
+			ctx.selectObjectRepresentation(pw, NullProgressMonitor.INSTANCE,
+					Collections.singletonList(otp));
+			assertSame(PackSource.GC,
+					otp.pack.getPackDescription().getPackSource());
+			assertTrue(otp.isSatisfied());
+			// Only the GC pack index should be loaded; the INSERT pack is
+			// skipped.
+			assertEquals(Integer.valueOf(1),
 					listener.callsPerExt.get(PackExt.INDEX));
 		}
 	}
