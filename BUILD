@@ -27,3 +27,8 @@ genrule(
         "zip -qr $$p/$@ .",
     ]),
 )
+
+alias(
+    name = "format",
+    actual = "//tools/formatter:formatter",
+)

@@ -22,11 +22,11 @@ git_repository(
 # JDK 27 (non-LTS) runtime and compile toolchains, layered on rules_java. Not
 # yet in the Bazel Central Registry, so pin the GitHub source; drop this
 # git_override once it is published to the BCR.
-bazel_dep(name = "java_toolchains", version = "0.0.1")
+bazel_dep(name = "jdk_catalog", version = "0.0.2-catalog.1")
 git_override(
-    module_name = "java_toolchains",
-    commit = "5ba7b4f08019bccab1f560f29d1734ed55e3e985",
-    remote = "https://github.com/davido/java_toolchains.git",
+    module_name = "jdk_catalog",
+    commit = "002ecea3317579078b8b878ff11260e604886c43",
+    remote = "https://github.com/davido/jdk_catalog.git",
 )
 
 BOUNCYCASTLE_VERSION = "1.87"
@@ -64,7 +64,7 @@ maven.install(
         "net.sf.jopt-simple:jopt-simple:5.0.4",
         "org.apache.ant:ant:1.10.15",
         "org.apache.commons:commons-compress:1.28.0",
-        "org.apache.commons:commons-lang3:3.21.0",
+        "org.apache.commons:commons-lang3:3.22.0",
         "org.apache.commons:commons-math3:3.6.1",
         "org.apache.httpcomponents:httpclient:4.5.14",
         "org.apache.httpcomponents:httpcore:4.4.16",
@@ -106,3 +106,16 @@ maven.install(
     strict_visibility = True,
 )
 use_repo(maven, "external_deps")
+
+maven.install(
+    name = "formatter_deps",
+    artifacts = [
+        "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0",
+        "org.eclipse.platform:org.eclipse.text:3.14.800",
+    ],
+    fail_on_missing_checksum = True,
+    fetch_sources = False,
+    repositories = ["https://repo1.maven.org/maven2"],
+    strict_visibility = True,
+)
+use_repo(maven, "formatter_deps")

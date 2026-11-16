@@ -10,6 +10,8 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.lib.Constants.INFO_ALTERNATES;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -26,7 +28,9 @@ import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.junit.JGitTestUtil;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.test.resources.SampleDataRepositoryTestCase;
 import org.junit.Test;
@@ -58,6 +62,52 @@ public class AlternatesTest extends SampleDataRepositoryTestCase {
 		RevCommit c = createCommit();
 		assertCommit(c);
 		assertAlternateObjects(db2);
+	}
+
+	@Test
+	public void testAlternateAddedAfterFirstAccess() throws Exception {
+		ObjectId id = ObjectId
+				.fromString("49322bb17d3acc9146f98c97d078513228bbf3c0");
+		ObjectDirectory od = db2.getObjectDatabase();
+		assertFalse(od.has(id));
+
+		setAlternate(db2, db);
+		assertTrue(od.has(id));
+		assertAlternateObjects(db2);
+	}
+
+	@Test
+	public void testAlternateRemovedAfterFirstAccess() throws Exception {
+		setAlternate(db2, db);
+		assertAlternateObjects(db2);
+
+		File alt = new File(db2.getObjectDatabase().getDirectory(),
+				INFO_ALTERNATES);
+		assertTrue(alt.delete());
+		ObjectId id = ObjectId
+				.fromString("49322bb17d3acc9146f98c97d078513228bbf3c0");
+		assertFalse(db2.getObjectDatabase().has(id));
+	}
+
+	@Test
+	public void testAlternateInsideBareRepository() throws Exception {
+		FileRepository bare = createBareRepository();
+		File alternate = new File(bare.getDirectory(), "directly-inside-repo");
+		byte[] content = Constants.encode("alternate blob");
+		ObjectId blob;
+		try (ObjectDirectory objects = new ObjectDirectory(bare.getConfig(),
+				alternate, null, bare.getFS(), null)) {
+			objects.create();
+			try (ObjectInserter inserter = objects.newInserter()) {
+				blob = inserter.insert(Constants.OBJ_BLOB, content);
+				inserter.flush();
+			}
+		}
+		write(new File(bare.getObjectDatabase().getDirectory(), INFO_ALTERNATES),
+				alternate.getAbsolutePath() + "\n");
+		assertTrue(bare.getObjectDatabase().has(blob));
+		assertArrayEquals(content,
+				bare.open(blob, Constants.OBJ_BLOB).getBytes());
 	}
 
 	@Test
