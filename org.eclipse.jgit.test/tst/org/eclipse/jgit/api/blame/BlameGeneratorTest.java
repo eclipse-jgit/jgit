@@ -20,7 +20,9 @@ import java.util.Set;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.blame.BlameGenerator;
 import org.eclipse.jgit.blame.BlameResult;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.RepositoryTestCase;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -733,6 +735,113 @@ public class BlameGeneratorTest extends RepositoryTestCase {
 				// Line 9 should be attributed to c3
 				assertEquals(c3, result.getSourceCommit(9));
 			}
+		}
+	}
+
+	@Test
+	public void testBlameIgnoreLineWrappedByIgnoredCommit() throws Exception {
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "line 1", "line 2", "line 3" };
+			writeTrashFile(FILE, join(content1));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c1 = git.commit().setMessage("c1: initial").call();
+
+			// c2 changes line 2
+			String[] content2 = new String[] { "line 1", "line 2 changed by c2",
+					"line 3" };
+			writeTrashFile(FILE, join(content2));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c2 = git.commit().setMessage("c2: change line 2").call();
+
+			// c3 is a formatting commit that wraps line 2 into two lines
+			String[] content3 = new String[] { "line 1", "line 2 changed",
+					"    by c2", "line 3" };
+			writeTrashFile(FILE, join(content3));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c3 = git.commit().setMessage("c3: wrap line 2").call();
+
+			try (BlameGenerator generator = new BlameGenerator(db, FILE)) {
+				generator.setIgnoreRevs(Collections.singleton(c3));
+				generator.push(null, c3);
+				BlameResult result = generator.computeBlameResult();
+
+				assertEquals(4, result.getResultContents().size());
+				assertEquals(c1, result.getSourceCommit(0));
+				// Both halves of the wrapped line come from the line c2 wrote
+				assertEquals(c2, result.getSourceCommit(1));
+				assertEquals(c2, result.getSourceCommit(2));
+				assertEquals(c1, result.getSourceCommit(3));
+			}
+		}
+	}
+
+	@Test
+	public void testBlameIgnoreInsertionBeforeLastLineOfHunk()
+			throws Exception {
+		try (Git git = new Git(db)) {
+			String[] content1 = new String[] { "line 1", "line 2", "line 3" };
+			writeTrashFile(FILE, join(content1));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c1 = git.commit().setMessage("c1: initial").call();
+
+			// c2 rewrites lines 1 and 2
+			String[] content2 = new String[] { "line 1 by c2", "line 2 by c2",
+					"line 3" };
+			writeTrashFile(FILE, join(content2));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c2 = git.commit().setMessage("c2: rewrite two lines")
+					.call();
+
+			// c3 inserts a line between the two lines c2 wrote
+			String[] content3 = new String[] { "line 1 by c2", "inserted",
+					"line 2 by c2", "line 3" };
+			writeTrashFile(FILE, join(content3));
+			git.add().addFilepattern(FILE).call();
+			RevCommit c3 = git.commit().setMessage("c3: insert a line").call();
+
+			try (BlameGenerator generator = new BlameGenerator(db, FILE)) {
+				generator.setIgnoreRevs(Collections.singleton(c3));
+				generator.push(null, c3);
+				BlameResult result = generator.computeBlameResult();
+
+				assertEquals(4, result.getResultContents().size());
+				assertEquals(c2, result.getSourceCommit(0));
+				// The inserted line is passed to the line that follows it
+				assertEquals(c2, result.getSourceCommit(1));
+				// c3 did not change this line, c2 wrote it
+				assertEquals(c2, result.getSourceCommit(2));
+				assertEquals(c1, result.getSourceCommit(3));
+			}
+		}
+	}
+
+	@Test
+	public void testBlameMergeBaseReachedInDifferentLineOrder()
+			throws Exception {
+		RevCommit c1, c2;
+		RevCommit merge;
+		try (TestRepository<FileRepository> r = new TestRepository<>(db)) {
+			c1 = r.commit().add(FILE, join("a", "b", "c")).create();
+			// c2 replaces the first line
+			c2 = r.commit().parent(c1).add(FILE, join("x", "b", "c")).create();
+			// Two branches from c2. One keeps only "c", the other only "x".
+			RevCommit left = r.commit().parent(c2).add(FILE, join("c", "left"))
+					.create();
+			RevCommit right = r.commit().parent(c2)
+					.add(FILE, join("x", "right")).create();
+			// The merge has "c" before "x", the reverse of their order in c2
+			merge = r.commit().parent(left).parent(right)
+					.add(FILE, join("c", "x")).create();
+		}
+
+		try (BlameGenerator generator = new BlameGenerator(db, FILE)) {
+			generator.push(null, merge);
+			BlameResult result = generator.computeBlameResult();
+
+			assertEquals(2, result.getResultContents().size());
+			assertEquals(c1, result.getSourceCommit(0));
+			// "x" was written by c2. c1 does not contain it.
+			assertEquals(c2, result.getSourceCommit(1));
 		}
 	}
 }
