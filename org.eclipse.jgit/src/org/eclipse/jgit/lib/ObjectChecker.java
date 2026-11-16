@@ -399,7 +399,7 @@ public class ObjectChecker {
 			checkTree(id, raw);
 			break;
 		case OBJ_BLOB:
-			BlobObjectChecker checker = newBlobObjectChecker();
+			BlobObjectChecker checker = newBlobObjectChecker(raw.length);
 			if (checker == null) {
 				checkBlob(raw);
 			} else {
@@ -1242,6 +1242,8 @@ public class ObjectChecker {
 
 	/**
 	 * Create a new {@link org.eclipse.jgit.lib.BlobObjectChecker}.
+	 * <p>
+	 * Callers and subclasses should prefer {@link #newBlobObjectChecker(long)}.
 	 *
 	 * @return new BlobObjectChecker or null if it's not provided.
 	 * @since 4.9
@@ -1252,11 +1254,32 @@ public class ObjectChecker {
 	}
 
 	/**
+	 * Create a new {@link org.eclipse.jgit.lib.BlobObjectChecker} for a blob of
+	 * the given uncompressed size.
+	 * <p>
+	 * By default this delegates to {@link #newBlobObjectChecker()} for
+	 * backwards compatibility with subclasses that only override the no-arg
+	 * method. Subclasses overriding this method should handle {@code -1} when
+	 * the caller does not know the size in advance.
+	 *
+	 * @param size
+	 *            uncompressed size of the blob in bytes, or {@code -1} if the
+	 *            size is not known in advance.
+	 * @return new BlobObjectChecker, or {@code null} if blob checking is not
+	 *         provided or should be skipped for this blob.
+	 * @since 8.0
+	 */
+	@Nullable
+	public BlobObjectChecker newBlobObjectChecker(long size) {
+		return newBlobObjectChecker();
+	}
+
+	/**
 	 * Check a blob for errors.
 	 *
 	 * <p>
 	 * This may not be called from PackParser in some cases. Use
-	 * {@link #newBlobObjectChecker} instead.
+	 * {@link #newBlobObjectChecker(long)} instead.
 	 *
 	 * @param raw
 	 *            the blob data. The array is never modified.
