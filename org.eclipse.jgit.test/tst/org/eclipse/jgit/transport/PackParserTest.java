@@ -13,7 +13,9 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.util.RawParseUtils.decode;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -23,10 +25,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.TooLargeObjectInPackException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.ObjectDirectoryPackParser;
@@ -34,8 +39,11 @@ import org.eclipse.jgit.internal.storage.file.Pack;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BlobObjectChecker;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
@@ -544,6 +552,85 @@ public class PackParserTest extends RepositoryTestCase {
 		p.parse(NullProgressMonitor.INSTANCE);
 
 		assertEquals(0x7e, in.read());
+	}
+
+	@Test
+	public void testBlobObjectCheckerReceivesBlobSize() throws Exception {
+		byte[] baseBlob = Constants.encode("0123456789");
+		byte[] wholeSecret = Constants.encode("0123456789012345secret");
+
+		InMemoryPack pack = new InMemoryPack();
+		pack.header(1);
+		pack.write(Constants.OBJ_BLOB << 4 | 0x80 | 6);
+		pack.write(1);
+		pack.deflate(wholeSecret);
+		pack.digest();
+
+		InMemoryPack deltaOnly = new InMemoryPack();
+		deltaOnly.header(2);
+		deltaOnly.write(Constants.OBJ_BLOB << 4 | 10); // offset 12
+		deltaOnly.deflate(baseBlob);
+		deltaOnly.write(Constants.OBJ_OFS_DELTA << 4 | 11); // offset 31
+		deltaOnly.write(19);
+		// Base size 10, result size 16 ("0123456789secret")
+		deltaOnly.deflate(new byte[] { 10, 16, (byte) 0x90, 10, 6, 's', 'e',
+				'c', 'r', 'e', 't' });
+		deltaOnly.digest();
+
+		List<Long> wholeSizes = new ArrayList<>();
+		PackParser pWholeSkip = index(pack.toInputStream());
+		pWholeSkip.setObjectChecker(secretCheckerWithMaxSize(15, wholeSizes));
+		pWholeSkip.parse(NullProgressMonitor.INSTANCE);
+		assertEquals(Arrays.asList(Long.valueOf(wholeSecret.length)),
+				wholeSizes);
+
+		PackParser pWholeReject = index(pack.toInputStream());
+		pWholeReject.setObjectChecker(
+				secretCheckerWithMaxSize(30, new ArrayList<>()));
+		assertThrows(CorruptObjectException.class,
+				() -> pWholeReject.parse(NullProgressMonitor.INSTANCE));
+
+		List<Long> deltaSizes = new ArrayList<>();
+		PackParser pDeltaSkip = index(deltaOnly.toInputStream());
+		pDeltaSkip.setObjectChecker(secretCheckerWithMaxSize(15, deltaSizes));
+		pDeltaSkip.parse(NullProgressMonitor.INSTANCE);
+		assertEquals(Arrays.asList(Long.valueOf(10), Long.valueOf(16)),
+				deltaSizes);
+
+		PackParser pDeltaReject = index(deltaOnly.toInputStream());
+		pDeltaReject.setObjectChecker(
+				secretCheckerWithMaxSize(20, new ArrayList<>()));
+		assertThrows(CorruptObjectException.class,
+				() -> pDeltaReject.parse(NullProgressMonitor.INSTANCE));
+	}
+
+	private static ObjectChecker secretCheckerWithMaxSize(long maxSize,
+			List<Long> seenSizes) {
+		return new ObjectChecker() {
+			@Override
+			public BlobObjectChecker newBlobObjectChecker(long size) {
+				seenSizes.add(Long.valueOf(size));
+				if (size >= 0 && size > maxSize) {
+					return null;
+				}
+				return new BlobObjectChecker() {
+					private final StringBuilder content = new StringBuilder();
+
+					@Override
+					public void update(byte[] in, int offset, int len) {
+						content.append(decode(in, offset, offset + len));
+					}
+
+					@Override
+					public void endBlob(AnyObjectId id)
+							throws CorruptObjectException {
+						if (content.toString().contains("secret")) {
+							throw new CorruptObjectException("secret rejected");
+						}
+					}
+				};
+			}
+		};
 	}
 
 	private ObjectInserter inserter;

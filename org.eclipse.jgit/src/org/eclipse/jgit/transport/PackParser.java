@@ -1056,7 +1056,7 @@ public abstract class PackParser {
 			byte[] readBuffer = buffer();
 			BlobObjectChecker checker = null;
 			if (objCheck != null) {
-				checker = objCheck.newBlobObjectChecker();
+				checker = objCheck.newBlobObjectChecker(sz);
 			}
 			if (checker == null) {
 				checker = BlobObjectChecker.NULL_CHECKER;
