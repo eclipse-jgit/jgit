@@ -14,6 +14,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_DFS_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_DELTA_BASE_CACHE_LIMIT;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_LOAD_REV_INDEX_IN_PARALLEL;
+import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_OPTIMIZE_SELECT_REPRESENTATION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_BUFFER;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_STREAM_FILE_THRESHOLD;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_USE_OBJECT_SIZE_INDEX;
@@ -41,6 +42,8 @@ public class DfsReaderOptions {
 	private boolean useObjectSizeIndex;
 
 	private boolean useMidxBitmaps;
+
+	private boolean optimizeSelectRepresentation;
 
 	/**
 	 * Create a default reader configuration.
@@ -188,6 +191,30 @@ public class DfsReaderOptions {
 	}
 
 	/**
+	 * Check whether representation selection should optimize search order and
+	 * short-circuit when an optimal representation is found.
+	 *
+	 * @return true if representation selection is optimized.
+	 */
+	public boolean shouldOptimizeSelectRepresentation() {
+		return optimizeSelectRepresentation;
+	}
+
+	/**
+	 * Set if representation selection should optimize search order and
+	 * short-circuit when an optimal representation is found.
+	 *
+	 * @param optimizeSelectRepresentation
+	 *            true to optimize, false for legacy behavior.
+	 * @return {@code this}
+	 */
+	public DfsReaderOptions setOptimizeSelectRepresentation(
+			boolean optimizeSelectRepresentation) {
+		this.optimizeSelectRepresentation = optimizeSelectRepresentation;
+		return this;
+	}
+
+	/**
 	 * Update properties by setting fields from the configuration.
 	 * <p>
 	 * If a property is not defined in the configuration, then it is left
@@ -226,6 +253,9 @@ public class DfsReaderOptions {
 		setLoadRevIndexInParallel(
 				rc.getBoolean(CONFIG_CORE_SECTION, CONFIG_DFS_SECTION,
 						CONFIG_KEY_LOAD_REV_INDEX_IN_PARALLEL, false));
+		setOptimizeSelectRepresentation(
+				rc.getBoolean(CONFIG_CORE_SECTION, CONFIG_DFS_SECTION,
+						CONFIG_KEY_OPTIMIZE_SELECT_REPRESENTATION, false));
 		return this;
 	}
 }

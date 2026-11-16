@@ -510,7 +510,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 		List<DfsObjectToPack> tmp = new BlockList<>();
 		for (ObjectToPack obj : objects) {
 			DfsObjectToPack otp = (DfsObjectToPack) obj;
-			if (skipFound && otp.isFound()) {
+			if (otp.isSatisfied() || (skipFound && otp.isFound())) {
 				continue;
 			}
 			long p = getPackIndex(ctx).findOffset(otp);

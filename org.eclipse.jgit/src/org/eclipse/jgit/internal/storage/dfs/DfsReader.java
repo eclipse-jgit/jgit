@@ -611,6 +611,11 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	public void selectObjectRepresentation(PackWriter packer,
 			ProgressMonitor monitor, Iterable<ObjectToPack> objects)
 			throws IOException, MissingObjectException {
+		if (getOptions().shouldOptimizeSelectRepresentation()) {
+			selectObjectRepresentationOptimized(packer, monitor, objects);
+			return;
+		}
+
 		// Don't check dirty bit on PackList; assume ObjectToPacks all came
 		// from the current list.
 		List<DfsPackFile> packs = sortPacksForSelectRepresentation();
@@ -620,6 +625,88 @@ public class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		if (!garbage.isEmpty() && checkGarbagePacks(objects)) {
 			trySelectRepresentation(packer, monitor, objects, garbage, true);
 		}
+	}
+
+	private void selectObjectRepresentationOptimized(PackWriter packer,
+			ProgressMonitor monitor, Iterable<ObjectToPack> objects)
+			throws IOException {
+		int remaining = 0;
+		if (objects instanceof Collection<?> c) {
+			remaining = c.size();
+		} else {
+			Iterator<ObjectToPack> it = objects.iterator();
+			while (it.hasNext()) {
+				it.next();
+				remaining++;
+			}
+		}
+		if (remaining == 0) {
+			return;
+		}
+
+		List<DfsPackFile> packs = sortPacksForSelectRepresentationOptimized();
+		remaining = trySelectRepresentationOptimized(packer, monitor, objects,
+				packs, false, remaining);
+		if (remaining == 0) {
+			return;
+		}
+
+		List<DfsPackFile> garbage = garbagePacksForSelectRepresentation();
+		if (!garbage.isEmpty() && checkGarbagePacks(objects)) {
+			trySelectRepresentationOptimized(packer, monitor, objects, garbage,
+					true, remaining);
+		}
+	}
+
+	private int trySelectRepresentationOptimized(PackWriter packer,
+			ProgressMonitor monitor, Iterable<ObjectToPack> objects,
+			List<DfsPackFile> packs, boolean skipFound, int remaining)
+			throws IOException {
+		for (DfsPackFile pack : packs) {
+			List<DfsObjectToPack> inPack = pack.findAllFromPack(this, objects,
+					skipFound);
+			if (inPack.isEmpty()) {
+				continue;
+			}
+			DfsObjectRepresentation rep = new DfsObjectRepresentation(pack);
+			for (DfsObjectToPack otp : inPack) {
+				if (otp.isSatisfied()) {
+					continue;
+				}
+				pack.fillRepresentation(rep, otp.getOffset(), this);
+				otp.setOffset(0);
+				boolean continueSearch = packer.select(otp, rep);
+				if (!otp.isFound()) {
+					otp.setFound();
+					monitor.update(1);
+				}
+				if (!continueSearch
+						|| (otp.isReuseAsIs() && rep.wasDeltaAttempted())) {
+					otp.setSatisfied();
+					if (--remaining == 0) {
+						return 0;
+					}
+				}
+			}
+		}
+		return remaining;
+	}
+
+	private static final Comparator<DfsPackFile> PACK_SORT_FOR_REUSE_OPTIMIZED = Comparator
+			.comparing(DfsPackFile::getPackDescription,
+					DfsPackDescription.reuseComparatorOptimized());
+
+	private List<DfsPackFile> sortPacksForSelectRepresentationOptimized()
+			throws IOException {
+		DfsPackFile[] packs = db.getPacks();
+		List<DfsPackFile> sorted = new ArrayList<>(packs.length);
+		for (DfsPackFile p : packs) {
+			if (p.getPackDescription().getPackSource() != UNREACHABLE_GARBAGE) {
+				sorted.add(p);
+			}
+		}
+		Collections.sort(sorted, PACK_SORT_FOR_REUSE_OPTIMIZED);
+		return sorted;
 	}
 
 	private void trySelectRepresentation(PackWriter packer,

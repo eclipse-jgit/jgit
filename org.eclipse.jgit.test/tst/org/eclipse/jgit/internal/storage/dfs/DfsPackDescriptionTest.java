@@ -227,6 +227,80 @@ public final class DfsPackDescriptionTest {
 		assertComparesLessThan(DfsPackDescription.reuseComparator(), b, a);
 	}
 
+	@Test
+	public void reuseComparatorOptimizedEqual() {
+		DfsPackDescription a = create(RECEIVE);
+		a.setFileSize(PACK, 1);
+		a.setLastModified(1);
+		a.setObjectCount(1);
+
+		DfsPackDescription b = create(INSERT);
+		b.setFileSize(PACK, 2);
+		b.setLastModified(1);
+		b.setObjectCount(1);
+
+		assertComparesEqual(DfsPackDescription.reuseComparatorOptimized(), a,
+				b);
+	}
+
+	@Test
+	public void reuseComparatorOptimizedPackSourceOrder() {
+		Comparator<DfsPackDescription> cmp = DfsPackDescription
+				.reuseComparatorOptimized();
+		DfsPackDescription gc = create(GC);
+		gc.setLastModified(10);
+		DfsPackDescription gcRest = create(GC_REST);
+		gcRest.setLastModified(5);
+		DfsPackDescription compact = create(COMPACT);
+		compact.setLastModified(3);
+		DfsPackDescription receive = create(RECEIVE);
+		receive.setLastModified(2);
+		DfsPackDescription garbage = create(UNREACHABLE_GARBAGE);
+		garbage.setLastModified(1);
+
+		assertComparesLessThan(cmp, gc, gcRest);
+		assertComparesLessThan(cmp, gcRest, compact);
+		assertComparesLessThan(cmp, compact, receive);
+		assertComparesLessThan(cmp, receive, garbage);
+	}
+
+	@Test
+	public void reuseComparatorOptimizedGcPacksOrderByAgeNotSize() {
+		DfsPackDescription olderLarger = create(GC);
+		olderLarger.setFileSize(PACK, 200);
+		olderLarger.setLastModified(1);
+		olderLarger.setObjectCount(2);
+
+		DfsPackDescription newerSmaller = create(GC);
+		newerSmaller.setFileSize(PACK, 100);
+		newerSmaller.setLastModified(2);
+		newerSmaller.setObjectCount(1);
+
+		assertComparesLessThan(DfsPackDescription.reuseComparatorOptimized(),
+				olderLarger, newerSmaller);
+	}
+
+	@Test
+	public void reuseComparatorOptimizedLastModifiedAndObjectCount() {
+		Comparator<DfsPackDescription> cmp = DfsPackDescription
+				.reuseComparatorOptimized();
+		DfsPackDescription older = create(COMPACT);
+		older.setLastModified(1);
+		older.setObjectCount(1);
+
+		DfsPackDescription newer = create(COMPACT);
+		newer.setLastModified(2);
+		newer.setObjectCount(10);
+
+		assertComparesLessThan(cmp, older, newer);
+
+		DfsPackDescription sameTimeMoreObjects = create(COMPACT);
+		sameTimeMoreObjects.setLastModified(1);
+		sameTimeMoreObjects.setObjectCount(5);
+
+		assertComparesLessThan(cmp, sameTimeMoreObjects, older);
+	}
+
 	private DfsPackDescription create(PackSource source) {
 		return new DfsPackDescription(
 				new DfsRepositoryDescription("repo"),
