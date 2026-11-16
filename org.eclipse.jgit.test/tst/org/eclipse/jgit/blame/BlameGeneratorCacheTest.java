@@ -452,6 +452,32 @@ public class BlameGeneratorCacheTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void blame_withIgnoreRevs_wrappedLine_sameResultWithCache()
+			throws Exception {
+		RevCommit c1, c2, c3;
+		try (TestRepository<FileRepository> r = new TestRepository<>(db)) {
+			c1 = commit(r, lines("L1C1", "L2C1", "L3C1"));
+			c2 = commit(r, lines("L1C1", "L2C2", "L3C1"), c1);
+			// c3 is a formatting commit that wraps L2C2 into two lines
+			c3 = commit(r, lines("L1C1", "L2C3", "L3C3", "L3C1"), c2);
+		}
+
+		for (InMemoryBlameCache cache : Arrays.asList(null, emptyCache(),
+				blameAndCache(c2), blameAndCache(c3))) {
+			try (BlameGenerator gen = new BlameGenerator(db, FILE, cache)) {
+				gen.setIgnoreRevs(Set.of(c3));
+				gen.push(null, db.parseCommit(c3));
+				BlameResult result = gen.computeBlameResult();
+				String msg = String.valueOf(cache);
+				assertEquals(msg, c1, result.getSourceCommit(0));
+				assertEquals(msg, c2, result.getSourceCommit(1));
+				assertEquals(msg, c2, result.getSourceCommit(2));
+				assertEquals(msg, c1, result.getSourceCommit(3));
+			}
+		}
+	}
+
 	private void assertRegions(RevCommit commit, InMemoryBlameCache cache,
 			List<EmittedRegion> expectedRegions, int resultLineCount)
 			throws IOException {
