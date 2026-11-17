@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8288ee90_8b834a93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-17T10:50:06Z",
+      "side": 1,
+      "message": "\u003e ...the code no longer depends on `HEAD`, it uses a temporary probe file.\n\nThat part was meant for [this other thread](https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1258524/comment/7a084798_9bc3b8e1/). Sorry for the confusion.",
+      "parentUuid": "b9168b99_afd60a5d",
+      "revId": "416414d35137811799d91fff84afec21b684ad82",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35b1fb32_21a225d0",
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "Addressed in PS2",
       "parentUuid": "7a084798_9bc3b8e1",
+      "revId": "416414d35137811799d91fff84afec21b684ad82",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59d4d8cb_7126b9f6",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-17T10:50:06Z",
+      "side": 1,
+      "message": "The code no longer depends on `HEAD`, it uses a temporary probe file.",
+      "parentUuid": "dcb62beb_393267cd",
       "revId": "416414d35137811799d91fff84afec21b684ad82",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
