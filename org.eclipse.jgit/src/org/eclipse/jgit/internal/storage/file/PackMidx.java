@@ -218,6 +218,17 @@ public class PackMidx extends Pack {
 	}
 
 	@Override
+	int getPackFileCount() {
+		return getCoveredPacks().size();
+	}
+
+	@Override
+	long getPackFileSize() {
+		return getCoveredPacks().stream().mapToLong(Pack::getPackFileSize)
+				.sum();
+	}
+
+	@Override
 	ObjectId findObjectForOffset(long offset) throws IOException {
 		MultiPackIndex.PackOffset decode = offsetCalculator.decode(offset);
 		if (decode == null) {

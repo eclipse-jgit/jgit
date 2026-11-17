@@ -87,6 +87,29 @@ public class PackMidxTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
+	public void midx_getPackFileCountAndSize() throws Exception {
+		createThreePacks();
+		long packFileSize = sumPackFileSizes();
+		PackMidx midx = writeAndOpenMidxAllPacks();
+		assertEquals(3, midx.getPackFileCount());
+		assertEquals(packFileSize, midx.getPackFileSize());
+	}
+
+	@Test
+	public void midx_gcStatisticsCountCoveredPacks() throws Exception {
+		createThreePacks();
+		long packFileSize = sumPackFileSizes();
+		writeAndOpenMidxAllPacks(null);
+
+		GC.RepoStatistics stats = new GC(repo).getStatistics();
+		assertEquals(3, stats.numberOfPackFiles);
+		assertEquals(3, stats.numberOfPackFilesSinceBitmap);
+		assertEquals(9, stats.numberOfObjectsSinceBitmap);
+		assertEquals(0, stats.numberOfBitmaps);
+		assertEquals(packFileSize, stats.sizeOfPackedObjects);
+	}
+
+	@Test
 	public void midx_getObjectSize_byId() throws Exception {
 		TestRepoObjects objs = createThreePacks();
 		PackMidx midx = writeAndOpenMidxAllPacks();
@@ -328,7 +351,17 @@ public class PackMidxTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	private long sumPackFileSizes() {
+		return repo.getObjectDatabase().getPacks().stream()
+				.mapToLong(p -> p.getPackFile().length()).sum();
+	}
+
 	private PackMidx writeAndOpenMidxAllPacks() throws IOException {
+		return writeAndOpenMidxAllPacks(new PackConfig(repo));
+	}
+
+	private PackMidx writeAndOpenMidxAllPacks(PackConfig packConfig)
+			throws IOException {
 		Collection<Pack> packs = ((ObjectDirectory) tr.getRepository()
 				.getObjectDatabase()).getPacks();
 		assertEquals(3, packs.size());
@@ -336,7 +369,7 @@ public class PackMidxTest extends LocalDiskRepositoryTestCase {
 		File midxDest = new File(repo.getObjectDatabase().getPackDirectory(),
 				Constants.MIDX_FILE);
 		MidxWriter.writeMidx(new TextProgressMonitor(), repo, packs, midxDest,
-				new PackConfig(repo));
+				packConfig);
 
 		return new PackMidx(new Config(), midxDest, packs.stream().toList());
 
