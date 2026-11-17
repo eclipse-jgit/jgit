@@ -43,8 +43,10 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
@@ -55,9 +57,12 @@ import static org.mockito.Mockito.verify;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Field;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -65,6 +70,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.internal.util.Optionally;
 import org.eclipse.jgit.junit.RepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -322,6 +328,76 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 		gc.gc().get();
 		assertTrue(dir.getCommitGraph().isPresent());
 		assertEquals(2, dir.getCommitGraph().get().getCommitCnt());
+	}
+
+	@Test
+	public void testSoftIndexRefsReloadAfterClear() throws Exception {
+		db.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_PACKED_INDEX_GIT_USE_STRONGREFS,
+				false);
+		db.getConfig().save();
+		ObjectDirectory dir = db.getObjectDatabase();
+		commitFile("file.txt", "content", "master");
+		new GC(db).gc().get();
+		Pack gcPack = dir.getPacks().iterator().next();
+		assertNotNull(gcPack.getBitmapIndex());
+
+		List<ObjectId> blobs = new ArrayList<>();
+		for (int i = 0; i < 2; i++) {
+			try (PackInserter ins = dir.newPackInserter()) {
+				ins.checkExisting(false);
+				blobs.add(ins.insert(Constants.OBJ_BLOB,
+						Constants.encode("blob " + i)));
+				ins.flush();
+			}
+		}
+		ObjectId missing = ObjectId
+				.fromString("c0ffee09d0b63d694bf49bc1e6847473f42d4a8c");
+		assertEquals(3, dir.getPacks().size());
+		assertSoftPacksReadable(dir, blobs, missing);
+		assertSoftIndexes(gcPack);
+
+		// Simulate the garbage collector clearing the soft referents.
+		for (Pack pack : dir.getPacks()) {
+			for (Optionally<?> ref : softIndexRefs(pack)) {
+				ref.clear();
+				assertNull(ref.get());
+			}
+		}
+		assertSoftPacksReadable(dir, blobs, missing);
+		assertNotNull(gcPack.getBitmapIndex());
+		assertSoftIndexes(gcPack);
+	}
+
+	private static void assertSoftPacksReadable(ObjectDirectory dir,
+			List<ObjectId> blobs, ObjectId missing) throws IOException {
+		for (int i = 0; i < blobs.size(); i++) {
+			assertTrue(dir.has(blobs.get(i)));
+			try (WindowCursor curs = new WindowCursor(dir)) {
+				assertArrayEquals(Constants.encode("blob " + i),
+						dir.openObject(curs, blobs.get(i)).getBytes());
+			}
+		}
+		assertFalse(dir.has(missing));
+	}
+
+	private static void assertSoftIndexes(Pack pack) throws Exception {
+		for (Optionally<?> ref : softIndexRefs(pack)) {
+			assertTrue(ref instanceof Optionally.Soft);
+			assertNotNull(ref.get());
+		}
+	}
+
+	private static List<Optionally<?>> softIndexRefs(Pack pack)
+			throws Exception {
+		List<Optionally<?>> refs = new ArrayList<>();
+		for (String name : new String[] { "loadedIdx", "reverseIdx",
+				"bitmapIdx" }) {
+			Field field = Pack.class.getDeclaredField(name);
+			field.setAccessible(true);
+			refs.add((Optionally<?>) field.get(pack));
+		}
+		return refs;
 	}
 
 	private Collection<Callable<ObjectId>> blobInsertersForTheSameFanOutDir(
