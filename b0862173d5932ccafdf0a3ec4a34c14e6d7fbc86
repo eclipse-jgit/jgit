@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e0fe74d_687ebe2d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1040165
+      },
+      "writtenOn": "2026-11-17T01:45:56Z",
+      "side": 1,
+      "message": "@mfick@nvidia.com Commented \"I don\u0027t believe that a failure on the first write always indicates an output stream error. The intent of the original code is to catch failed reads due to repacking. Could it be that we need to look at the exception better to determine whether it came from a read or a write?\"\n\nOn abandoned change: https://gerrit-review.googlesource.com/c/jgit/+/657143",
+      "revId": "b0862173d5932ccafdf0a3ec4a34c14e6d7fbc86",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
