@@ -185,8 +185,8 @@ public class FileReftableDatabase extends RefDatabase {
 
 	@Override
 	public Ref exactRef(String name) throws IOException {
-		autoRefresh();
-		return reftableDatabase.exactRef(name);
+		return readWithStaleFileHandleRetry(
+				() -> reftableDatabase.exactRef(name));
 	}
 
 	@Override
@@ -196,8 +196,8 @@ public class FileReftableDatabase extends RefDatabase {
 
 	@Override
 	public Map<String, Ref> getRefs(String prefix) throws IOException {
-		autoRefresh();
-		List<Ref> refs = reftableDatabase.getRefsByPrefix(prefix);
+		List<Ref> refs = readWithStaleFileHandleRetry(
+				() -> reftableDatabase.getRefsByPrefix(prefix));
 		RefList.Builder<Ref> builder = new RefList.Builder<>(refs.size());
 		for (Ref r : refs) {
 			builder.add(r);
@@ -209,8 +209,34 @@ public class FileReftableDatabase extends RefDatabase {
 	@Override
 	public List<Ref> getRefsByPrefixWithExclusions(String include, Set<String> excludes)
 			throws IOException {
-		autoRefresh();
-		return reftableDatabase.getRefsByPrefixWithExclusions(include, excludes);
+		return readWithStaleFileHandleRetry(() -> reftableDatabase
+				.getRefsByPrefixWithExclusions(include, excludes));
+	}
+
+	/**
+	 * Runs a ref read, reloading the stack and retrying if it hits a stale NFS
+	 * file handle. When another host compacts the stack it deletes the tables
+	 * this one still has open, and on NFS reading those fails with ESTALE
+	 * instead of returning the old data.
+	 */
+	private <T> T readWithStaleFileHandleRetry(
+			FileReftableStack.StaleFileHandleRetryable<T> read)
+			throws IOException {
+		return FileReftableStack.retryOnStaleFileHandle(() -> {
+			autoRefresh();
+			return read.run();
+		}, attempt -> reloadReopeningAllTables());
+	}
+
+	private void reloadReopeningAllTables() throws IOException {
+		ReentrantLock lock = getLock();
+		lock.lock();
+		try {
+			reftableDatabase.clearCache();
+			reftableStack.reload(true);
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	@Override
