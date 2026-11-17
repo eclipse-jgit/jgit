@@ -34,6 +34,24 @@
       "parentUuid": "7e0fe74d_687ebe2d",
       "revId": "b0862173d5932ccafdf0a3ec4a34c14e6d7fbc86",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56d7cf07_1e731682",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-11-17T02:18:18Z",
+      "side": 1,
+      "message": "I agree with your analysis except for one nit, there is retrying, just not at this level. When PackWriter catches StoredObjectRepresentationNotAvailableException, it looks for another representation, and can recover as long as the header wasn\u0027t written. However, this doesn\u0027t change your point, I agree that it still will work.",
+      "parentUuid": "4303eee4_d7d3c2a9",
+      "revId": "b0862173d5932ccafdf0a3ec4a34c14e6d7fbc86",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
