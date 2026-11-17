@@ -1600,8 +1600,8 @@ public class GC {
 		for (Pack p : packs) {
 			long packedObjects = p.getIndex().getObjectCount();
 			ret.numberOfPackedObjects += packedObjects;
-			ret.numberOfPackFiles++;
-			ret.sizeOfPackedObjects += p.getPackFile().length();
+			ret.numberOfPackFiles += p.getPackFileCount();
+			ret.sizeOfPackedObjects += p.getPackFileSize();
 			ret.numberOfSizeIndexedObjects += p.getObjectSizeIndexCount();
 			if (p.getBitmapIndex() != null) {
 				ret.numberOfBitmaps += p.getBitmapIndex().getBitmapCount();

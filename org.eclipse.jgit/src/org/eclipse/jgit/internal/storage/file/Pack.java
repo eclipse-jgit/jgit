@@ -503,6 +503,25 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	/**
+	 * Get the number of pack files on disk represented by this pack.
+	 *
+	 * @return number of pack files, 1 for a regular pack
+	 */
+	int getPackFileCount() {
+		return 1;
+	}
+
+	/**
+	 * Get the size of the pack files on disk represented by this pack.
+	 *
+	 * @return size in bytes of the pack files, the size of the .pack file for a
+	 *         regular pack
+	 */
+	long getPackFileSize() {
+		return getPackFile().length();
+	}
+
+	/**
 	 * Search for object id with the specified start offset in associated pack
 	 * (reverse) index.
 	 *
