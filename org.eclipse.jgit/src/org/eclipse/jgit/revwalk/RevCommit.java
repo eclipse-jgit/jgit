@@ -195,9 +195,12 @@ public class RevCommit extends RevObject {
 				buffer = raw;
 			}
 			parseInGraph(walk);
-			return;
+		} else {
+			parseFromObject(walk, raw);
 		}
+	}
 
+	final void parseFromObject(RevWalk walk, byte[] raw) {
 		final MutableObjectId idBuffer = walk.idBuffer;
 		idBuffer.fromString(raw, 5);
 		tree = walk.lookupTree(idBuffer);
@@ -268,7 +271,6 @@ public class RevCommit extends RevObject {
 			// know about it, something went wrong.
 			throw new IllegalStateException();
 		}
-
 
 		this.tree = walk.lookupTree(data.getTree());
 		this.commitTime = (int) data.getCommitTime();
