@@ -14,15 +14,20 @@ import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeFalse;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.internal.storage.file.FileReftableStack.Segment;
@@ -152,6 +157,84 @@ public class FileReftableStackTest {
 		assertThrows(FileNotFoundException.class,
 				() -> new FileReftableStack(reftableDir, null,
 						() -> new Config()));
+	}
+
+	@Test
+	public void retryOnStaleFileHandleRetriesUntilSuccess() throws Exception {
+		AtomicInteger calls = new AtomicInteger();
+		List<Integer> retried = new ArrayList<>();
+		String result = FileReftableStack.retryOnStaleFileHandle(() -> {
+			if (calls.getAndIncrement() < 2) {
+				throw staleFileHandle();
+			}
+			return "ok";
+		}, attempt -> retried.add(Integer.valueOf(attempt)));
+		assertEquals("ok", result);
+		assertEquals(3, calls.get());
+		assertEquals(Arrays.asList(Integer.valueOf(0), Integer.valueOf(1)),
+				retried);
+	}
+
+	@Test
+	public void retryOnStaleFileHandleRetriesWrappedStaleFileHandle()
+			throws Exception {
+		AtomicInteger calls = new AtomicInteger();
+		String result = FileReftableStack.retryOnStaleFileHandle(() -> {
+			if (calls.getAndIncrement() == 0) {
+				throw new UncheckedIOException(staleFileHandle());
+			}
+			return "ok";
+		}, attempt -> {
+			// nothing to prepare
+		});
+		assertEquals("ok", result);
+		assertEquals(2, calls.get());
+	}
+
+	@Test
+	public void retryOnStaleFileHandleDoesNotRetryOtherErrors() {
+		AtomicInteger calls = new AtomicInteger();
+		IOException e = assertThrows(IOException.class,
+				() -> FileReftableStack.retryOnStaleFileHandle(() -> {
+					calls.incrementAndGet();
+					throw new IOException("No space left on device");
+				}, attempt -> fail("must not retry")));
+		assertEquals("No space left on device", e.getMessage());
+		assertEquals(1, calls.get());
+	}
+
+	@Test
+	public void retryOnStaleFileHandleGivesUp() {
+		AtomicInteger calls = new AtomicInteger();
+		assertThrows(IOException.class,
+				() -> FileReftableStack.retryOnStaleFileHandle(() -> {
+					calls.incrementAndGet();
+					throw staleFileHandle();
+				}, attempt -> {
+					// nothing to prepare
+				}));
+		assertEquals(FileReftableStack.STALE_FILE_HANDLE_RETRIES + 1,
+				calls.get());
+	}
+
+	@Test
+	public void reloadReopeningAllTablesKeepsRefs() throws Exception {
+		try (FileReftableStack stack = new FileReftableStack(reftableDir, null,
+				() -> new Config())) {
+			writeBranches(stack, "refs/heads/branch%d", 0, 5);
+			stack.reload(true);
+			MergedReftable table = stack.getMergedReftable();
+			for (int i = 0; i < 5; i++) {
+				RefCursor c = table.seekRef(String.format("refs/heads/branch%d",
+						Integer.valueOf(i)));
+				assertTrue(c.next());
+				assertEquals(ObjectId.zeroId(), c.getRef().getObjectId());
+			}
+		}
+	}
+
+	private static IOException staleFileHandle() {
+		return new IOException("Stale file handle");
 	}
 
 	@Test
