@@ -12,7 +12,8 @@
 package org.eclipse.jgit.internal.util;
 
 import java.lang.ref.SoftReference;
-import java.util.Optional;
+
+import org.eclipse.jgit.annotations.Nullable;
 
 /**
  * Interface representing a reference to a potentially mutable optional object.
@@ -37,8 +38,8 @@ public interface Optionally<T> {
 		}
 
 		@Override
-		public Optional<T> getOptional() {
-			return Optional.empty();
+		public T get() {
+			return null;
 		}
 	}
 
@@ -53,24 +54,24 @@ public interface Optionally<T> {
 		/**
 		 * The mutable optional object
 		 */
-		protected Optional<T> optional;
+		protected T element;
 
 		/**
 		 * @param element
 		 *            the mutable optional object
 		 */
 		public Hard(T element) {
-			optional = Optional.ofNullable(element);
+			this.element = element;
 		}
 
 		@Override
 		public void clear() {
-			optional = Optional.empty();
+			element = null;
 		}
 
 		@Override
-		public Optional<T> getOptional() {
-			return optional;
+		public T get() {
+			return element;
 		}
 	}
 
@@ -88,11 +89,6 @@ public interface Optionally<T> {
 		 */
 		public Soft(T t) {
 			super(t);
-		}
-
-		@Override
-		public Optional<T> getOptional() {
-			return Optional.ofNullable(get());
 		}
 	}
 
@@ -119,9 +115,12 @@ public interface Optionally<T> {
 	void clear();
 
 	/**
-	 * Get an Optional representing the current state of the object
+	 * Get the current state of the object
 	 *
-	 * @return the mutable optional object
+	 * @return the object, or {@code null} if there is none or it was cleared
+	 *         or garbage collected
+	 * @since 6.10.2
 	 */
-	Optional<T> getOptional();
+	@Nullable
+	T get();
 }

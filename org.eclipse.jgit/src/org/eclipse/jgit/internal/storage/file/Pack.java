@@ -34,7 +34,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.CRC32;
@@ -163,17 +162,17 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	private PackIndex idx() throws IOException {
-		Optional<PackIndex> optional = loadedIdx.getOptional();
-		if (optional.isPresent()) {
-			return optional.get();
+		PackIndex current = loadedIdx.get();
+		if (current != null) {
+			return current;
 		}
 		return memoizeIdxIfNeeded();
 	}
 
 	private synchronized PackIndex memoizeIdxIfNeeded() throws IOException {
-		Optional<PackIndex> optional = loadedIdx.getOptional();
-		if (optional.isPresent()) {
-			return optional.get();
+		PackIndex current = loadedIdx.get();
+		if (current != null) {
+			return current;
 		}
 		if (invalid) {
 			throw new PackInvalidException(packFile, invalidatingCause);
@@ -1191,9 +1190,9 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	PackBitmapIndex getBitmapIndex() throws IOException {
-		Optional<PackBitmapIndex> optional = bitmapIdx.getOptional();
-		if (optional.isPresent()) {
-			return optional.get();
+		PackBitmapIndex current = bitmapIdx.get();
+		if (current != null) {
+			return current;
 		}
 		return memoizeBitmapIndexIfNeeded();
 	}
@@ -1202,9 +1201,9 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		if (invalid || bitmapIdxFile == null) {
 			return null;
 		}
-		Optional<PackBitmapIndex> optional = bitmapIdx.getOptional();
-		if (optional.isPresent()) {
-			return optional.get();
+		PackBitmapIndex current = bitmapIdx.get();
+		if (current != null) {
+			return current;
 		}
 		try {
 			PackBitmapIndex idx = PackBitmapIndex.open(bitmapIdxFile, idx(),
@@ -1234,9 +1233,9 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	private PackReverseIndex getReverseIdx() throws IOException {
-		Optional<PackReverseIndex> optional = reverseIdx.getOptional();
-		if (optional.isPresent()) {
-			return optional.get();
+		PackReverseIndex current = reverseIdx.get();
+		if (current != null) {
+			return current;
 		}
 		return memoizeReverseIdxIfNeeded();
 	}
@@ -1245,9 +1244,9 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		if (invalid) {
 			throw new PackInvalidException(packFile, invalidatingCause);
 		}
-		Optional<PackReverseIndex> optional = reverseIdx.getOptional();
-		if (optional.isPresent()) {
-			return optional.get();
+		PackReverseIndex current = reverseIdx.get();
+		if (current != null) {
+			return current;
 		}
 		PackFile reverseIndexFile = packFile.create(REVERSE_INDEX);
 		PackReverseIndex revIdx = PackReverseIndexFactory.openOrCompute(reverseIndexFile,
