@@ -44,6 +44,8 @@ import org.eclipse.jgit.hooks.CommitMsgHook;
 import org.eclipse.jgit.hooks.Hooks;
 import org.eclipse.jgit.hooks.PostCommitHook;
 import org.eclipse.jgit.hooks.PreCommitHook;
+import org.eclipse.jgit.hooks.PrepareCommitMsgHook;
+import org.eclipse.jgit.hooks.PrepareCommitMsgHook.MessageSource;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.CommitConfig;
@@ -118,6 +120,13 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 */
 	private boolean noVerify;
 
+	/**
+	 * Whether to skip the prepare-commit-msg hook. Only set by JGit commands
+	 * that commit internally and can't stop in a resumable state if the hook
+	 * fails.
+	 */
+	private boolean skipPrepareCommitMsgHook;
+
 	private HashMap<String, PrintStream> hookOutRedirect = new HashMap<>(3);
 
 	private HashMap<String, PrintStream> hookErrRedirect = new HashMap<>(3);
@@ -184,7 +193,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						.call();
 			}
 
-			processOptions(state, rw);
+			MessageSource messageSource = processOptions(state, rw);
 
 			if (all && !repo.isBare()) {
 				try (Git git = new Git(repo)) {
@@ -217,6 +226,23 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				} else {
 					parents.add(0, headId);
 				}
+			}
+			// prepare-commit-msg is not skipped by --no-verify
+			boolean modifiedByPrepareCommitMessageHook = false;
+			if (!skipPrepareCommitMsgHook) {
+				String originalMessage = message;
+				message = Hooks
+						.prepareCommitMsg(repo,
+								hookOutRedirect.get(PrepareCommitMsgHook.NAME),
+								hookErrRedirect.get(PrepareCommitMsgHook.NAME))
+						.setCommitMessage(message)
+						.setMessageSource(messageSource).call();
+				// null if the hook deleted COMMIT_EDITMSG
+				if (message == null) {
+					throw new NoMessageException(
+							JGitText.get().commitMessageNotSpecified);
+				}
+				modifiedByPrepareCommitMessageHook = !message.equals(originalMessage);
 			}
 			if (!noVerify) {
 				message = Hooks
@@ -252,6 +278,13 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				}
 			}
 			message = CommitConfig.cleanText(message, cleanupMode, comments);
+			// Abort if prepare-commit-msg left nothing but
+			// whitespace or comments. An explicitly empty message is still
+			// accepted.
+			if (modifiedByPrepareCommitMessageHook && message.isBlank()) {
+				throw new NoMessageException(
+						JGitText.get().commitMessageNotSpecified);
+			}
 
 			RevCommit revCommit;
 			DirCache index = repo.lockDirCache();
@@ -587,14 +620,17 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 *            the state of the repository we are working on
 	 * @param rw
 	 *            the RevWalk to use
+	 * @return the source of the commit message, or {@code null} if none
 	 *
 	 * @throws NoMessageException
 	 *             if the commit message has not been specified
 	 * @throws UnsupportedSigningFormatException
 	 *             if the configured gpg.format is not supported
 	 */
-	private void processOptions(RepositoryState state, RevWalk rw)
+	private MessageSource processOptions(RepositoryState state, RevWalk rw)
 			throws NoMessageException, UnsupportedSigningFormatException {
+		MessageSource messageSource = message != null ? MessageSource.MESSAGE
+				: null;
 		if (committer == null)
 			committer = new PersonIdent(repo);
 		if (author == null && !amend)
@@ -623,6 +659,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						Constants.MERGE_HEAD, e), e);
 			}
 			if (message == null) {
+				messageSource = MessageSource.MERGE;
 				try {
 					message = repo.readMergeCommitMsg();
 				} catch (IOException e) {
@@ -634,8 +671,10 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		} else if (state == RepositoryState.SAFE && message == null) {
 			try {
 				message = repo.readSquashCommitMsg();
-				if (message != null)
+				if (message != null) {
+					messageSource = MessageSource.SQUASH;
 					repo.writeSquashCommitMsg(null /* delete */);
+				}
 			} catch (IOException e) {
 				throw new JGitInternalException(MessageFormat.format(
 						JGitText.get().exceptionOccurredDuringReadingOfGIT_DIR,
@@ -655,6 +694,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			signCommit = gpgConfig.isSignCommits() ? Boolean.TRUE
 					: Boolean.FALSE;
 		}
+		return messageSource;
 	}
 
 	private boolean isMergeDuringRebase(RepositoryState state) {
@@ -967,6 +1007,18 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Skips the prepare-commit-msg hook for commits that JGit commands create
+	 * internally (cherry-pick, rebase) and that can't yet stop in a resumable
+	 * state when the hook fails.
+	 *
+	 * @return {@code this}
+	 */
+	CommitCommand skipPrepareCommitMsgHook() {
+		this.skipPrepareCommitMsgHook = true;
+		return this;
+	}
+
+	/**
 	 * Set the output stream for all hook scripts executed by this command
 	 * (pre-commit, commit-msg, post-commit). If not set it defaults to
 	 * {@code System.out}.
@@ -978,6 +1030,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 */
 	public CommitCommand setHookOutputStream(PrintStream hookStdOut) {
 		setHookOutputStream(PreCommitHook.NAME, hookStdOut);
+		setHookOutputStream(PrepareCommitMsgHook.NAME, hookStdOut);
 		setHookOutputStream(CommitMsgHook.NAME, hookStdOut);
 		setHookOutputStream(PostCommitHook.NAME, hookStdOut);
 		return this;
@@ -995,6 +1048,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 */
 	public CommitCommand setHookErrorStream(PrintStream hookStdErr) {
 		setHookErrorStream(PreCommitHook.NAME, hookStdErr);
+		setHookErrorStream(PrepareCommitMsgHook.NAME, hookStdErr);
 		setHookErrorStream(CommitMsgHook.NAME, hookStdErr);
 		setHookErrorStream(PostCommitHook.NAME, hookStdErr);
 		return this;
@@ -1015,6 +1069,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	public CommitCommand setHookOutputStream(String hookName,
 			PrintStream hookStdOut) {
 		if (!(PreCommitHook.NAME.equals(hookName)
+				|| PrepareCommitMsgHook.NAME.equals(hookName)
 				|| CommitMsgHook.NAME.equals(hookName)
 				|| PostCommitHook.NAME.equals(hookName))) {
 			throw new IllegalArgumentException(
@@ -1040,6 +1095,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	public CommitCommand setHookErrorStream(String hookName,
 			PrintStream hookStdErr) {
 		if (!(PreCommitHook.NAME.equals(hookName)
+				|| PrepareCommitMsgHook.NAME.equals(hookName)
 				|| CommitMsgHook.NAME.equals(hookName)
 				|| PostCommitHook.NAME.equals(hookName))) {
 			throw new IllegalArgumentException(MessageFormat

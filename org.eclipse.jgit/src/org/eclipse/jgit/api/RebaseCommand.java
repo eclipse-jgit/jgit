@@ -466,6 +466,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 						.setMessage(newMessage)
 						.setAmend(true)
 						.setNoVerify(true)
+						.skipPrepareCommitMsgHook()
 						.setInsertChangeId(doChangeId[0])
 						.call();
 			}
@@ -832,6 +833,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 						.setMessage(commitMessage)
 						.setAmend(true)
 						.setNoVerify(true)
+						.skipPrepareCommitMsgHook()
 						.setInsertChangeId(doChangeId[0])
 						.call();
 				rebaseState.getFile(MESSAGE_SQUASH).delete();
@@ -839,7 +841,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			} else {
 				// Next step is either Squash or Fixup
 				retNewHead = git.commit().setMessage(commitMessage)
-						.setAmend(true).setNoVerify(true).call();
+						.setAmend(true).setNoVerify(true)
+						.skipPrepareCommitMsgHook().call();
 			}
 		}
 		return retNewHead;
