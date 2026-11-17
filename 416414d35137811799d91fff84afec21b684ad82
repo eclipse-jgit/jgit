@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9168b99_afd60a5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-17T10:46:34Z",
+      "side": 1,
+      "message": "Addressed in PS2: the code no longer depends on `HEAD`, it uses a temporary probe file.",
+      "parentUuid": "544bce87_e42ff481",
+      "revId": "416414d35137811799d91fff84afec21b684ad82",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35b1fb32_21a225d0",
@@ -35,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bc2f684_f10499ae",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/T0003_BasicTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-17T10:46:34Z",
+      "side": 1,
+      "message": "Addressed in PS2",
+      "parentUuid": "35b1fb32_21a225d0",
+      "revId": "416414d35137811799d91fff84afec21b684ad82",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a084798_9bc3b8e1",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-11-17T10:43:55Z",
       "side": 1,
       "message": "🟡 Use `getFS().exists(...)` instead of `new File(...).exists()`. The rest of `create()` probes the file system through `getFS()` (`supportsExecute()`, `createSymLink()`), and it makes the positive path testable with an `FS` subclass (see my comment in the test).\n\n🟢 Add braces to the new `if` (current JGit style for new code), and say in the comment that the probe relies on `HEAD` already being written above (by `head.link(...)` or `createReftableCompatLayout()`). C git probes `CoNfIg` instead, because there `config` already exists; here it is only saved at the end.\n\n_(Created by Claude)_",
+      "revId": "416414d35137811799d91fff84afec21b684ad82",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcb62beb_393267cd",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-17T10:46:34Z",
+      "side": 1,
+      "message": "Addressed in PS2",
+      "parentUuid": "7a084798_9bc3b8e1",
       "revId": "416414d35137811799d91fff84afec21b684ad82",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
