@@ -89,6 +89,23 @@ public class Hooks {
 	}
 
 	/**
+	 * Create prepare-commit-msg hook for the given repository
+	 *
+	 * @param repo
+	 *            a {@link org.eclipse.jgit.lib.Repository} object.
+	 * @param outputStream
+	 *            The output stream, or {@code null} to use {@code System.out}
+	 * @param errorStream
+	 *            The error stream, or {@code null} to use {@code System.err}
+	 * @return The prepare-commit-msg hook for the given repository.
+	 * @since 8.0
+	 */
+	public static PrepareCommitMsgHook prepareCommitMsg(Repository repo,
+			PrintStream outputStream, PrintStream errorStream) {
+		return new PrepareCommitMsgHook(repo, outputStream, errorStream);
+	}
+
+	/**
 	 * Create commit-msg hook for the given repository with the default error
 	 * stream
 	 *
