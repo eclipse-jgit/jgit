@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "544bce87_e42ff481",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-17T10:43:55Z",
+      "side": 1,
+      "message": "🟢 Shorten the subject (71 chars) below the ~65 chars the contributor guide asks for, e.g. `Init: Set core.ignorecase on case-insensitive file systems`.\n\n🟡 Add one sentence that JGit itself does not evaluate `core.ignorecase`, so JGit\u0027s behavior does not change and only native git is affected. Reviewers will likely ask this.\n\n_(Created by Claude)_",
+      "revId": "416414d35137811799d91fff84afec21b684ad82",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35b1fb32_21a225d0",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/T0003_BasicTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-17T10:43:55Z",
+      "side": 1,
+      "message": "🟡 The Gerrit verification runs on Linux, so CI only checks that nothing is written. The `true` case runs only on developer machines with Windows/macOS. With `getFS().exists(...)` in `create()`, add a test that builds the repository with an `FS` whose `exists()` also answers `true` for the lower-case name (`FileRepositoryBuilder.setFS(...)`), and assert `core.ignorecase \u003d true`. This covers the fix on every platform.\n\n🟢 Consider moving the tests to `InitCommandTest` (and one assert into `CloneCommandTest`, since the reported problem is a clone), with descriptive names instead of the legacy `test001_` prefix. `assertIgnoreCaseMatchesFileSystem` can also declare `throws Exception` instead of wrapping `ConfigInvalidException`.\n\n_(Created by Claude)_",
+      "revId": "416414d35137811799d91fff84afec21b684ad82",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a084798_9bc3b8e1",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-17T10:43:55Z",
+      "side": 1,
+      "message": "🟡 Use `getFS().exists(...)` instead of `new File(...).exists()`. The rest of `create()` probes the file system through `getFS()` (`supportsExecute()`, `createSymLink()`), and it makes the positive path testable with an `FS` subclass (see my comment in the test).\n\n🟢 Add braces to the new `if` (current JGit style for new code), and say in the comment that the probe relies on `HEAD` already being written above (by `head.link(...)` or `createReftableCompatLayout()`). C git probes `CoNfIg` instead, because there `config` already exists; here it is only saved at the end.\n\n_(Created by Claude)_",
+      "revId": "416414d35137811799d91fff84afec21b684ad82",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
