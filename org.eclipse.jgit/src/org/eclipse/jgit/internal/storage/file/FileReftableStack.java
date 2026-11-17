@@ -20,6 +20,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.InterruptedIOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.security.SecureRandom;
@@ -53,6 +55,9 @@ import org.eclipse.jgit.util.SystemReader;
  * open reftables.
  */
 public class FileReftableStack implements AutoCloseable {
+	/** How often a stack read is retried after a stale NFS file handle. */
+	static final int STALE_FILE_HANDLE_RETRIES = 5;
+
 	private static class StackEntry {
 
 		String name;
@@ -147,12 +152,14 @@ public class FileReftableStack implements AutoCloseable {
 	 *
 	 * @param names
 	 *            holds the names of the tables to load.
+	 * @param reopenAll
+	 *            open every table again instead of reusing the open readers.
 	 * @throws FileNotFoundException
 	 *             load must be retried.
 	 * @throws IOException
 	 *             on other IO errors.
 	 */
-	private void reloadOnce(List<String> names)
+	private void reloadOnce(List<String> names, boolean reopenAll)
 			throws IOException, FileNotFoundException {
 		Map<String, ReftableReader> current = stack.stream()
 				.collect(Collectors.toMap(e -> e.name, e -> e.reftableReader));
@@ -165,7 +172,9 @@ public class FileReftableStack implements AutoCloseable {
 				entry.name = name;
 
 				ReftableReader t = null;
-				if (current.containsKey(name)) {
+				// After a stale NFS file handle the open readers cannot be
+				// trusted, so every table is opened again.
+				if (!reopenAll && current.containsKey(name)) {
 					t = current.remove(name);
 				} else {
 					File subtable = new File(reftableDir, name);
@@ -189,7 +198,9 @@ public class FileReftableStack implements AutoCloseable {
 				try {
 					r.close();
 				} catch (IOException e) {
-					throw new AssertionError(e);
+					if (!FileUtils.isStaleFileHandle(e)) {
+						throw new AssertionError(e);
+					}
 				}
 			});
 		} finally {
@@ -198,13 +209,29 @@ public class FileReftableStack implements AutoCloseable {
 					t.close();
 				} catch (IOException ioe) {
 					// reader close should not generate errors.
-					throw new AssertionError(ioe);
+					if (!FileUtils.isStaleFileHandle(ioe)) {
+						throw new AssertionError(ioe);
+					}
 				}
 			});
 		}
 	}
 
 	void reload() throws IOException {
+		reload(false);
+	}
+
+	/**
+	 * Reloads the stack.
+	 *
+	 * @param reopenAll
+	 *            open every table again instead of reusing the open readers,
+	 *            e.g. after a read failed with a stale NFS file handle because
+	 *            another host compacted the table away.
+	 * @throws IOException
+	 *             on IO errors.
+	 */
+	void reload(boolean reopenAll) throws IOException {
 		// Try for 2.5 seconds.
 		long deadline = System.currentTimeMillis() + 2500;
 		// A successful reftable transaction is 2 atomic file writes
@@ -214,6 +241,8 @@ public class FileReftableStack implements AutoCloseable {
 		long max = 1000;
 		long delay = 0;
 		boolean success = false;
+		boolean reopen = reopenAll;
+		long curr = 0;
 
 		// Don't check deadline for the first 3 retries, so we can step with a
 		// debugger without worrying about deadlines.
@@ -222,7 +251,13 @@ public class FileReftableStack implements AutoCloseable {
 			List<String> names = readTableNames();
 			tries++;
 			try {
-				reloadOnce(names);
+				reloadOnce(names, reopen);
+				// Keep mergedReftable in sync with the swapped stack even if
+				// a later attempt fails.
+				mergedReftable = new MergedReftable(
+						stack.stream().map(x -> x.reftableReader)
+								.collect(Collectors.toList()));
+				curr = nextUpdateIndex();
 				success = true;
 				break;
 			} catch (FileNotFoundException e) {
@@ -230,6 +265,14 @@ public class FileReftableStack implements AutoCloseable {
 				if (changed.equals(names)) {
 					throw e;
 				}
+			} catch (IOException e) {
+				// On NFS, another host replacing tables.list or compacting a
+				// table away shows up here as a stale file handle instead of a
+				// missing file. Retry with freshly opened tables.
+				if (!FileUtils.isStaleFileHandle(e)) {
+					throw e;
+				}
+				reopen = true;
 			}
 
 			delay = FileUtils.delay(delay, min, max);
@@ -245,9 +288,6 @@ public class FileReftableStack implements AutoCloseable {
 			throw new LockFailedException(tablesListFile);
 		}
 
-		mergedReftable = new MergedReftable(stack.stream()
-				.map(x -> x.reftableReader).collect(Collectors.toList()));
-		long curr = nextUpdateIndex();
 		if (lastNextUpdateIndex > 0 && lastNextUpdateIndex != curr
 				&& onChange != null) {
 			onChange.run();
@@ -282,6 +322,73 @@ public class FileReftableStack implements AutoCloseable {
 	}
 
 	private List<String> readTableNames() throws IOException {
+		// tables.list is replaced by rename, so on NFS a reader on another
+		// host can see a stale file handle; read it again.
+		return retryOnStaleFileHandle(this::readTableNamesOnce,
+				FileReftableStack::sleepBeforeRetry);
+	}
+
+	private static void sleepBeforeRetry(int attempt)
+			throws InterruptedIOException {
+		try {
+			Thread.sleep(attempt + 1L);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+			throw new InterruptedIOException();
+		}
+	}
+
+	/**
+	 * An operation on the stack that may fail with a stale NFS file handle.
+	 *
+	 * @param <T>
+	 *            type of the result
+	 */
+	@FunctionalInterface
+	interface StaleFileHandleRetryable<T> {
+		T run() throws IOException;
+	}
+
+	/** Prepares the next attempt, e.g. by reloading the stack. */
+	@FunctionalInterface
+	interface BeforeRetry {
+		void run(int attempt) throws IOException;
+	}
+
+	/**
+	 * Runs {@code op} and retries it if it fails with a stale NFS file handle.
+	 * <p>
+	 * On NFS, a file that another host deleted or replaced by rename shows up
+	 * as {@code ESTALE} instead of as a missing file. With reftable that
+	 * happens whenever another host updates {@code tables.list} or compacts
+	 * tables that this host still has open.
+	 *
+	 * @param op
+	 *            the operation
+	 * @param beforeRetry
+	 *            called with the number of the failed attempt before each retry
+	 * @return the result of {@code op}
+	 * @throws IOException
+	 *             if {@code op} fails for another reason, or still fails with a
+	 *             stale file handle after {@link #STALE_FILE_HANDLE_RETRIES}
+	 *             retries
+	 */
+	static <T> T retryOnStaleFileHandle(StaleFileHandleRetryable<T> op,
+			BeforeRetry beforeRetry) throws IOException {
+		for (int attempt = 0;; attempt++) {
+			try {
+				return op.run();
+			} catch (IOException | UncheckedIOException e) {
+				if (attempt >= STALE_FILE_HANDLE_RETRIES
+						|| !FileUtils.isStaleFileHandleInCausalChain(e)) {
+					throw e;
+				}
+				beforeRetry.run(attempt);
+			}
+		}
+	}
+
+	private List<String> readTableNamesOnce() throws IOException {
 		FileSnapshot old;
 		List<String> names = new ArrayList<>(stack.size() + 1);
 		old = snapshot.get();
