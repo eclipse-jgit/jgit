@@ -16,6 +16,24 @@
       "message": "This is s significant amount of complexity. Are you using soft references for your indexes, and if so, what problems are you seeing with them that you think this changes addresses?",
       "revId": "d97478898b4901b48474ce13b50e0115fdaeaab9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1f1c218_7aaf584d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-11-17T00:53:56Z",
+      "side": 1,
+      "message": "Yes, we\u0027re using soft refs (JDK 21, generational ZGC, ~300 GB heap). Soft refs are kept until the heap is full and then cleared all at once, hot or cold, after threads have already stalled. We see `Major Collection (Allocation Stall)` evicting them several times a day.\n\nOur load is skewed. A few busy repos with large packs (.idx up to ~200 MB) should always stay resident, and the long tail touched by replication or an occasional fetch can go. A byte limit with LRU keeps the busy set and evicts the tail gradually, before the heap fills. Tuning `SoftRefLRUPolicyMSPerMB` doesn\u0027t help, since it is JVM-wide and only age-based.\n\nIt\u0027s the same reason JGit moved other caches off soft refs (WindowCache 709f83d48, RepositoryCache dea47b936, dfs.DeltaBaseCache 2eb16aa6c), and why DfsBlockCache already bounds index memory for DFS.",
+      "parentUuid": "61173cec_19b7285d",
+      "revId": "d97478898b4901b48474ce13b50e0115fdaeaab9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
