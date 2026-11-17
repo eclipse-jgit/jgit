@@ -29,6 +29,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1124,6 +1125,42 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 				pw.writeIndex(idxOS);
 			}
 			return PackIndex.open(idxFile);
+		}
+	}
+
+	@Test
+	public void testWriteFailureOnOutputStreamThrowsIOException()
+			throws Exception {
+		FileRepository repo = createBareRepository();
+		try (TestRepository<FileRepository> testRepo = new TestRepository<>(
+				repo)) {
+			testRepo.branch("refs/heads/master").commit()
+					.add("file", "content").create();
+
+			Set<ObjectId> wants = new HashSet<>();
+			for (Ref r : repo.getRefDatabase().getRefs()) {
+				wants.add(r.getObjectId());
+			}
+
+			OutputStream failingStream = new OutputStream() {
+				@Override
+				public void write(int b) throws IOException {
+					throw new IOException("simulated client disconnect");
+				}
+
+				@Override
+				public void write(byte[] b, int off, int len)
+						throws IOException {
+					throw new IOException("simulated client disconnect");
+				}
+			};
+
+			try (PackWriter pw = new PackWriter(repo)) {
+				NullProgressMonitor m = NullProgressMonitor.INSTANCE;
+				pw.preparePack(m, wants, NONE);
+				assertThrows(IOException.class,
+						() -> pw.writePack(m, m, failingStream));
+			}
 		}
 	}
 
