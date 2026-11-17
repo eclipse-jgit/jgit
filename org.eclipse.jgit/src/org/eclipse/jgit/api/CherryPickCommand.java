@@ -184,7 +184,8 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 									.setReflogComment(reflogPrefix + " " //$NON-NLS-1$
 											+ srcCommit.getShortMessage())
 									.setAuthor(srcCommit.getAuthorIdent())
-									.setNoVerify(true).call();
+									.setNoVerify(true)
+									.skipPrepareCommitMsgHook().call();
 						}
 					}
 					cherryPickedRefs.add(src);
