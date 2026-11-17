@@ -52,6 +52,24 @@
       "parentUuid": "4303eee4_d7d3c2a9",
       "revId": "b0862173d5932ccafdf0a3ec4a34c14e6d7fbc86",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d01d0351_03174700",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1040165
+      },
+      "writtenOn": "2026-11-17T02:58:23Z",
+      "side": 1,
+      "message": "Yes, you\u0027re right. I covered it from the angle of no retry after the header was written.\n\nThere is a retry as long as nothing has been written yet.",
+      "parentUuid": "56d7cf07_1e731682",
+      "revId": "b0862173d5932ccafdf0a3ec4a34c14e6d7fbc86",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
