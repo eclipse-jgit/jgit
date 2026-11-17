@@ -16,6 +16,24 @@
       "message": "@mfick@nvidia.com Commented \"I don\u0027t believe that a failure on the first write always indicates an output stream error. The intent of the original code is to catch failed reads due to repacking. Could it be that we need to look at the exception better to determine whether it came from a read or a write?\"\n\nOn abandoned change: https://gerrit-review.googlesource.com/c/jgit/+/657143",
       "revId": "b0862173d5932ccafdf0a3ec4a34c14e6d7fbc86",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4303eee4_d7d3c2a9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1040165
+      },
+      "writtenOn": "2026-11-17T02:00:31Z",
+      "side": 1,
+      "message": "So there\u0027s three branches here where isWriteStarted is set to true:\n- quickCopy (line 712) -\u003e there\u0027s no read after this\n- small object (line 730) -\u003e no read after this either\n- large object (line 748) -\u003e this is the branch to inspect closer\n\nThe readFully on the second iteration might cause issues on line 742.\n\nBut right after starting the write, the header is immediately written:\n```\nisWriteStarted \u003d true;\nout.writeHeader(src, inflatedLength);\n```\n\nThere was no retrying in the old code either, regardless of a repack. There\u0027s also no real way of retrying either way, because the header is already written, we\u0027re locked into writing and we\u0027re expecting a fail because otp.getOffset() !\u003d out.length()\n\nI think the proposed code still works.\n\nreadFully just throws a plain EOFException so it would be hard to inspect the error deeper",
+      "parentUuid": "7e0fe74d_687ebe2d",
+      "revId": "b0862173d5932ccafdf0a3ec4a34c14e6d7fbc86",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
