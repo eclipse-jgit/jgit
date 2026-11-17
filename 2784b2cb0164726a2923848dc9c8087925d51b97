@@ -16,6 +16,24 @@
       "message": "I disagree with inlining this method, I would keep it for the sake of readability",
       "revId": "2784b2cb0164726a2923848dc9c8087925d51b97",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec015d95_85479462",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-11-17T22:16:50Z",
+      "side": 0,
+      "message": "This is a cherry-pick from master. Should I be making changes to it?",
+      "parentUuid": "49f49983_196b66ef",
+      "revId": "2784b2cb0164726a2923848dc9c8087925d51b97",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
