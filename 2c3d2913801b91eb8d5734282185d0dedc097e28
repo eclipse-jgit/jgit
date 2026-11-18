@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b8ae9b4_1ed8d0d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-18T00:38:05Z",
+      "side": 1,
+      "message": "Can you use more of a plain-English wording instead of \"escape analysis\"? Something like:\n```\nA sufficiently optimizing JVM can sometimes recognize that these temporary\nOptional objects aren\u0027t observable and optimize their allocations away.\nBut profiling indicates that this optimization isn\u0027t reliably happening\nunder the real server workload: \u003cdata\u003e\n```",
+      "revId": "2c3d2913801b91eb8d5734282185d0dedc097e28",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8394653_8892eabd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-18T00:38:05Z",
+      "side": 1,
+      "message": "I feel like there\u0027s a word or two missing here. What exactly are the allocation profiles reporting? 17% of what exactly?",
+      "range": {
+        "startLine": 18,
+        "startChar": 27,
+        "endLine": 20,
+        "endChar": 29
+      },
+      "revId": "2c3d2913801b91eb8d5734282185d0dedc097e28",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "726d2d56_902d62df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-18T00:38:05Z",
+      "side": 1,
+      "message": "```suggestion\ncreating an Optional. Soft gets it from SoftReference.get(), so the soft\n```",
+      "revId": "2c3d2913801b91eb8d5734282185d0dedc097e28",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6e6ca03_e47c6ec9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-18T00:38:05Z",
+      "side": 1,
+      "message": "Why keep it? Just to avoid the null checks for some caller that might not call it as often? I don\u0027t see any other callers beyond those 6 (in stable-6.10; there are 2 more in master, but they should use `get()` too), so I think it\u0027s better to remove `getOptional()` so that this issue doesn\u0027t reappear in the future.",
+      "range": {
+        "startLine": 29,
+        "startChar": 14,
+        "endLine": 29,
+        "endChar": 54
+      },
+      "revId": "2c3d2913801b91eb8d5734282185d0dedc097e28",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1a17d8e_21988377",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-18T00:38:05Z",
+      "side": 1,
+      "message": "I\u0027m sure I can go look up with C1 is, but I don\u0027t think every JGit developer needs to be a JVM expert too, so can you put enough context around this (maybe with a link to more info) so that I can understand what this is and why it\u0027s important?",
+      "range": {
+        "startLine": 32,
+        "startChar": 32,
+        "endLine": 32,
+        "endChar": 35
+      },
+      "revId": "2c3d2913801b91eb8d5734282185d0dedc097e28",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a617877_fdf98dfe",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/Optionally.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-18T00:38:05Z",
+      "side": 1,
+      "message": "I don\u0027t think we can/typically do patch versions in `@since` tags. We should change it to 6.10 and then add an exception for it in the api checker metadata file(s).\n```suggestion\n\t * @since 6.10\n```",
+      "revId": "2c3d2913801b91eb8d5734282185d0dedc097e28",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
