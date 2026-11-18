@@ -119,11 +119,15 @@ public class ManifestParser extends DefaultHandler {
 			// default means "all,-notdefault"
 			minusGroups.add("notdefault"); //$NON-NLS-1$
 		} else {
-			for (String group : groups.split(",")) { //$NON-NLS-1$
-				if (group.startsWith("-")) //$NON-NLS-1$
+			for (String group : groups.split(",", -1)) { //$NON-NLS-1$
+				if (group.isEmpty()) {
+					continue;
+				}
+				if (group.startsWith("-")) { //$NON-NLS-1$
 					minusGroups.add(group.substring(1));
-				else
+				} else {
 					plusGroups.add(group);
+				}
 			}
 		}
 
