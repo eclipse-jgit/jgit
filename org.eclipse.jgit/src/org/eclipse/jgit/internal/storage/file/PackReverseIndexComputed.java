@@ -16,13 +16,13 @@ import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.util.IntList;
 
 /**
  * Reverse index for forward pack index which is computed from the forward pack
  * index.
  * <p>
- * Creating an instance uses an insertion sort of the entries in the forward
- * index, so it runs in quadratic time on average.
+ * Creating an instance uses bucket sort on the entries in the forward index.
  */
 final class PackReverseIndexComputed implements PackReverseIndex {
 	/**
@@ -123,22 +123,16 @@ final class PackReverseIndexComputed implements PackReverseIndex {
 		int nthByOffset = 0;
 		indexPosInOffsetOrder = new int[cnt];
 		nextBucketStart = headValues; // Reuse the allocation
+		IntList bucketBuffer = new IntList();
 		for (int bi = 0; bi < headValues.length; bi++) {
-			// Insertion sort of the values in the bucket.
-			int start = nthByOffset;
+			bucketBuffer.clear();
 			for (int vi = headValues[bi]; vi > 0; vi = furtherValues[vi]) {
-				int nthBySha1 = vi - 1;
-				long o = offsetsInIndexOrder[nthBySha1];
-				int insertion = nthByOffset++;
-				for (; start < insertion; insertion--) {
-					if (o > offsetsInIndexOrder[indexPosInOffsetOrder[insertion
-							- 1]]) {
-						break;
-					}
-					indexPosInOffsetOrder[insertion] = indexPosInOffsetOrder[insertion
-							- 1];
-				}
-				indexPosInOffsetOrder[insertion] = nthBySha1;
+				bucketBuffer.add(vi - 1);
+			}
+			bucketBuffer.sort((a, b) -> Long.compare(offsetsInIndexOrder[a],
+					offsetsInIndexOrder[b]));
+			for (int j = 0; j < bucketBuffer.size(); j++) {
+				indexPosInOffsetOrder[nthByOffset++] = bucketBuffer.get(j);
 			}
 			nextBucketStart[bi] = nthByOffset;
 		}
