@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eea2b47f_ab9cad6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-11-18T09:37:39Z",
+      "side": 1,
+      "message": "looks like we need to pin maven version to 3.9.x",
+      "revId": "002345b05c6520a0370922fa4e271e5e241b7b7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
