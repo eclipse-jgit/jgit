@@ -22,6 +22,30 @@
       },
       "revId": "858b47943af5b6bedb3ee823c6851b8928f4e767",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e508e285_1d5a8041",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/Optionally.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-11-18T05:01:59Z",
+      "side": 1,
+      "message": "Updated, thanks",
+      "parentUuid": "1a7ef01d_b1ba08d2",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 76
+      },
+      "revId": "858b47943af5b6bedb3ee823c6851b8928f4e767",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
