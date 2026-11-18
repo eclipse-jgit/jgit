@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00965705_850c304c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/InitCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-11-18T13:55:45Z",
+      "side": 1,
+      "message": "Although it\u0027s possible to \"mock\" the file system to behave case-sensitive/-insensitive for this test case, testing this against the real file system behavior should be preferred in my opinion.\n\nOther tests achieve this by using `org.junit.Assume` (see for example `org.eclipse.jgit.util.HookTest` or `org.eclipse.jgit.indexdiff.IndexDiffWithSymlinkTest`). `FS` already provides the case-sensitivity information via `org.eclipse.jgit.util.FS.isCaseSensitive()`.\n\nThat said: As far as I can tell, all tests are only run on a linux test runner, so some of these test cases would not run in CI at all (but this is already an existing problem, e.g. for `org.eclipse.egit.core.internal.util.RepositoryPathCheckerTest.testLocalAbsoluteFileWindows()`)",
+      "range": {
+        "startLine": 345,
+        "startChar": 1,
+        "endLine": 394,
+        "endChar": 2
+      },
+      "revId": "5e56c3a37caaeb6075b165f8c0b34037fc6b4eb9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
