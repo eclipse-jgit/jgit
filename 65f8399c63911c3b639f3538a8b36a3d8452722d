@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e17e6afe_3a58c65a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-11-18T12:21:45Z",
+      "side": 1,
+      "message": "With `nextUpdateIndex()` now inside the try, `reloadOnce` may already have swapped `stack` and closed the old readers when it throws ESTALE, but `mergedReftable` is only rebuilt after the loop. If a later attempt then fails (deadline, or the FileNotFoundException rethrow), `mergedReftable` still points at the closed readers. `isUpToDate()` compares against the new `stack`, so it says up to date and reads hit ClosedChannelException until tables.list changes again. Building `mergedReftable` right after `reloadOnce` keeps the two in sync.\n\n\n```suggestion\n\t\t\t\treloadOnce(names, reopen);\n\t\t\t\tmergedReftable \u003d new MergedReftable(stack.stream()\n\t\t\t\t\t\t.map(x -\u003e x.reftableReader).collect(Collectors.toList()));\n\t\t\t\tcurr \u003d nextUpdateIndex();\n\t\t\t\tsuccess \u003d true;\n\t\t\t\tbreak;\n```",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 10
+      },
+      "revId": "65f8399c63911c3b639f3538a8b36a3d8452722d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
