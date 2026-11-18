@@ -297,4 +297,36 @@ public class ManifestParserTest {
 		assertEquals("https://review-2.com", map.get("bar").getReview());
 	}
 
+	@Test
+	public void testManifestParserGroupsFiltering() throws Exception {
+		String baseUrl = "https://git.google.com/";
+		String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+				+ "<manifest>"
+				+ "<remote name=\"remote1\" fetch=\".\" />"
+				+ "<default revision=\"master\" remote=\"remote1\" />"
+				+ "<project path=\"foo\" name=\"foo\" groups=\"a,test\" />"
+				+ "<project path=\"bar\" name=\"bar\" groups=\"notdefault\" />"
+				+ "<project path=\"baz\" name=\"baz\" groups=\"b\" />"
+				+ "</manifest>";
+
+		assertEquals(Set.of("foo"), parseFilteredPaths(xml, baseUrl, "a"));
+		assertEquals(Set.of("foo"), parseFilteredPaths(xml, baseUrl, "a,"));
+		assertEquals(Set.of("foo"), parseFilteredPaths(xml, baseUrl, ",a"));
+		assertEquals(Set.of("foo", "baz"),
+				parseFilteredPaths(xml, baseUrl, "a,,b"));
+		assertEquals(Set.of("bar", "baz"),
+				parseFilteredPaths(xml, baseUrl, "-a,"));
+		assertEquals(Set.of("foo", "bar", "baz"),
+				parseFilteredPaths(xml, baseUrl, ","));
+	}
+
+	private static Set<String> parseFilteredPaths(String xml, String baseUrl,
+			String groups) throws IOException {
+		ManifestParser parser = new ManifestParser(null, null, "master",
+				baseUrl, groups, null);
+		parser.read(new ByteArrayInputStream(xml.getBytes(UTF_8)));
+		return parser.getFilteredProjects().stream().map(RepoProject::getPath)
+				.collect(Collectors.toSet());
+	}
+
 }
