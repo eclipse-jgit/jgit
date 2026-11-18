@@ -34,6 +34,24 @@
       "parentUuid": "49f49983_196b66ef",
       "revId": "2784b2cb0164726a2923848dc9c8087925d51b97",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07cebb6e_64885f06",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-11-18T00:19:10Z",
+      "side": 0,
+      "message": "ok, reverted this inlining in a follow-up change",
+      "parentUuid": "ec015d95_85479462",
+      "revId": "2784b2cb0164726a2923848dc9c8087925d51b97",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
