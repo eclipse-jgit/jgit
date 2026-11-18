@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "504c8c93_3abc6296",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1156,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-11-18T12:26:53Z",
+      "side": 1,
+      "message": "I don\u0027t think this test reaches the changed code. The stream throws on the very first write, which is `writeFileHeader` in `writePack`, before any object is written. The objects are also still loose, so `copyAsIs` wouldn\u0027t be used anyway. With `testRepo.packAndPrune()` and a stream that lets the 12-byte pack header through, it hits `copyAsIs2`, and the old code then loops forever, so a timeout on the test is worth having too.",
+      "range": {
+        "startLine": 1145,
+        "startChar": 0,
+        "endLine": 1156,
+        "endChar": 5
+      },
+      "revId": "b0862173d5932ccafdf0a3ec4a34c14e6d7fbc86",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e0fe74d_687ebe2d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
         "patchSetId": 1
