@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68ce6d68_1165c756",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-11-18T01:38:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b8ae9b4_1ed8d0d3",
+      "revId": "2c3d2913801b91eb8d5734282185d0dedc097e28",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8394653_8892eabd",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-11-18T00:38:05Z",
       "side": 1,
       "message": "I feel like there\u0027s a word or two missing here. What exactly are the allocation profiles reporting? 17% of what exactly?",
+      "range": {
+        "startLine": 18,
+        "startChar": 27,
+        "endLine": 20,
+        "endChar": 29
+      },
+      "revId": "2c3d2913801b91eb8d5734282185d0dedc097e28",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddb3ce4d_8ea0328d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-11-18T01:38:39Z",
+      "side": 1,
+      "message": "Ack. Updated",
+      "parentUuid": "c8394653_8892eabd",
       "range": {
         "startLine": 18,
         "startChar": 27,
@@ -58,6 +100,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c55a079d_6406c728",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-11-18T01:38:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "726d2d56_902d62df",
+      "revId": "2c3d2913801b91eb8d5734282185d0dedc097e28",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6e6ca03_e47c6ec9",
@@ -71,6 +131,30 @@
       "writtenOn": "2026-11-18T00:38:05Z",
       "side": 1,
       "message": "Why keep it? Just to avoid the null checks for some caller that might not call it as often? I don\u0027t see any other callers beyond those 6 (in stable-6.10; there are 2 more in master, but they should use `get()` too), so I think it\u0027s better to remove `getOptional()` so that this issue doesn\u0027t reappear in the future.",
+      "range": {
+        "startLine": 29,
+        "startChar": 14,
+        "endLine": 29,
+        "endChar": 54
+      },
+      "revId": "2c3d2913801b91eb8d5734282185d0dedc097e28",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33da23de_c172789b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-11-18T01:38:39Z",
+      "side": 1,
+      "message": "Agreed, there were no other callers. getOptional() is removed. Optionally.Hard now holds the element directly, since its cached Optional only existed for getOptional(). When this is merged to master, PackMidx\u0027s two getOptional() calls will need to switch to get().",
+      "parentUuid": "d6e6ca03_e47c6ec9",
       "range": {
         "startLine": 29,
         "startChar": 14,
@@ -104,6 +188,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9583b60d_51532ff2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-11-18T01:38:39Z",
+      "side": 1,
+      "message": "Good point. I added a short explanation.",
+      "parentUuid": "e1a17d8e_21988377",
+      "range": {
+        "startLine": 32,
+        "startChar": 32,
+        "endLine": 32,
+        "endChar": 35
+      },
+      "revId": "2c3d2913801b91eb8d5734282185d0dedc097e28",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a617877_fdf98dfe",
@@ -117,6 +225,24 @@
       "writtenOn": "2026-11-18T00:38:05Z",
       "side": 1,
       "message": "I don\u0027t think we can/typically do patch versions in `@since` tags. We should change it to 6.10 and then add an exception for it in the api checker metadata file(s).\n```suggestion\n\t * @since 6.10\n```",
+      "revId": "2c3d2913801b91eb8d5734282185d0dedc097e28",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6b343e6_2c49859d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/util/Optionally.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-11-18T01:38:39Z",
+      "side": 1,
+      "message": "I checked before changing it. Patch versions are used in @since quite a lot, including on this branch: there are eight `@since 6.10.1` tags (e.g. RevWalk#isMergedIntoAnyCommit in a8efd046f, DiffFormatter, UploadPack), and each has a matching .api_filters entry. `@since 6.10` would also be inaccurate, since get() isn\u0027t in 6.10.0/6.10.1. No filter should be needed here because Optionally is in an x-friends internal package, which the API tools don\u0027t check (.api_filters has no entries for internal packages). So I\u0027ve left it as 6.10.2. If you\u0027d rather drop the tag entirely, since it\u0027s internal, I\u0027m happy to do that.",
+      "parentUuid": "1a617877_fdf98dfe",
       "revId": "2c3d2913801b91eb8d5734282185d0dedc097e28",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
