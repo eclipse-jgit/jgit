@@ -22,6 +22,30 @@
       },
       "revId": "65f8399c63911c3b639f3538a8b36a3d8452722d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e439f6ce_a4c41d40",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/FileReftableStack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1040168
+      },
+      "writtenOn": "2026-11-18T14:46:10Z",
+      "side": 1,
+      "message": "Done, thanks. mergedReftable is now rebuilt right after reloadOnce(), so it always matches the stack, also when a later attempt throws.",
+      "parentUuid": "e17e6afe_3a58c65a",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 10
+      },
+      "revId": "65f8399c63911c3b639f3538a8b36a3d8452722d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
