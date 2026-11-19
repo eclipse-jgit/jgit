@@ -16,6 +16,24 @@
       "message": "Wrong method?\n\n```suggestion\nRevert inlining of RevCommit#parseFromObject\n```",
       "revId": "e77804d02259e1667f2c6795772bcca546553f42",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6bb7d42_bb82fb69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-11-19T12:24:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "079619df_b50364e9",
+      "revId": "e77804d02259e1667f2c6795772bcca546553f42",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
