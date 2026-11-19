@@ -19,11 +19,13 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACKED_INDEX_GIT_USE_STRONGREFS;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
 
+import java.io.BufferedInputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.RandomAccessFile;
 import java.nio.MappedByteBuffer;
@@ -247,8 +249,11 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 					attemptLoadObjSizeIdx = true;
 					return null;
 				}
-				sizeIdx = PackObjectSizeIndexLoader.load(
-						new FileInputStream(sizeIdxFile.getAbsoluteFile()));
+				try (FileInputStream fd = new FileInputStream(
+						sizeIdxFile.getAbsoluteFile());
+						InputStream in = new BufferedInputStream(fd)) {
+					sizeIdx = PackObjectSizeIndexLoader.load(in);
+				}
 				if (LOG.isDebugEnabled()) {
 					LOG.debug(String.format(
 							"Opening obj size index %s, size %.3f MB took %d ms", //$NON-NLS-1$
