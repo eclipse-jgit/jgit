@@ -56,6 +56,29 @@
       },
       "revId": "d30dbefdb66f98fd6b31fabaa3b006087bb74298",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77f789da_5f0aa396",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-11-19T10:18:38Z",
+      "side": 1,
+      "message": "for `getMergedInto` over lots of tags it\u0027s closer to O(refs × depth). Every tip that contains the needle re-carries its flag all the way down to the needle, where the old loop stopped at the previous tip\u0027s `TEMP_MARK`. That\u0027s the \"included in\" shape on repos with many tags. Could we keep the old loop for EVALUATE_ALL, or only use merge bases for tips the old walk can\u0027t settle cheaply?",
+      "range": {
+        "startLine": 681,
+        "startChar": 2,
+        "endLine": 681,
+        "endChar": 35
+      },
+      "revId": "d30dbefdb66f98fd6b31fabaa3b006087bb74298",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
