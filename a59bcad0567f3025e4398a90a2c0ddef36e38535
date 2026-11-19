@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93a19c08_bf491a2e",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-19T23:19:48Z",
+      "side": 0,
+      "message": "I think you want to keep this side?",
+      "revId": "a59bcad0567f3025e4398a90a2c0ddef36e38535",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
