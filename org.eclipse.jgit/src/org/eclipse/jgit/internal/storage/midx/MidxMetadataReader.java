@@ -14,6 +14,7 @@ import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.CHU
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_PACKNAMES;
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_SIGNATURE;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -80,9 +81,10 @@ public class MidxMetadataReader {
 	 */
 	public static MidxMetadata read(File midxFile) throws FileNotFoundException,
 			MultiPackIndexFormatException, IOException {
-		try (SilentFileInputStream fd = new SilentFileInputStream(midxFile)) {
+		try (SilentFileInputStream fd = new SilentFileInputStream(midxFile);
+				InputStream in = new BufferedInputStream(fd)) {
 			try {
-				return read(fd);
+				return read(in);
 			} catch (MultiPackIndexFormatException fe) {
 				throw fe;
 			} catch (IOException ioe) {
