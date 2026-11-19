@@ -13,6 +13,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
 import static org.eclipse.jgit.internal.storage.dfs.MidxTestUtils.writePackWithBlobs;
 import static org.eclipse.jgit.internal.storage.dfs.MidxTestUtils.writeSinglePackMidx;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
@@ -27,18 +28,25 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.storage.dfs.DfsPackFileMidx.DfsPackOffset;
 import org.eclipse.jgit.internal.storage.dfs.DfsPackFileMidxSingle.SingleVOffsetCalculator;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.PackOffset;
+import org.eclipse.jgit.internal.storage.midx.MultiPackIndexLoader;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.junit.JGitTestUtil;
@@ -1029,6 +1037,94 @@ public class DfsPackFileMidxSingleTest {
 	}
 
 	@Test
+	public void getChecksum_seeksWithoutReadingFullStream() throws Exception {
+		AtomicLong lastSeekPos = new AtomicLong(-1);
+		AtomicLong totalBytesRead = new AtomicLong();
+		AtomicBoolean instrumentReads = new AtomicBoolean(false);
+		db = new InMemoryRepository(new DfsRepositoryDescription("test")) {
+			private final MemObjDatabase trackingDb = new MemObjDatabase(this) {
+				@Override
+				protected ReadableChannel openFile(DfsPackDescription desc,
+						PackExt ext) throws IOException {
+					ReadableChannel delegate = super.openFile(desc, ext);
+					if (ext != MULTI_PACK_INDEX || !instrumentReads.get()) {
+						return delegate;
+					}
+					return new PartialReadTrackingChannel(delegate, 7,
+							lastSeekPos, totalBytesRead);
+				}
+			};
+
+			@Override
+			public MemObjDatabase getObjectDatabase() {
+				return trackingDb;
+			}
+		};
+
+		writePackWithBlobs(db, "something", "something else", "and more");
+		DfsPackFileMidx midx = writeSinglePackMidx(db);
+		byte[] expectedChecksum;
+		try (ReadableChannel rc = db.getObjectDatabase()
+				.openFile(midx.getPackDescription(), MULTI_PACK_INDEX)) {
+			expectedChecksum = MultiPackIndexLoader
+					.read(Channels.newInputStream(rc)).getChecksum();
+		}
+
+		long midxSize = midx.getPackDescription().getFileSize(MULTI_PACK_INDEX);
+		instrumentReads.set(true);
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			byte[] checksum = midx.getChecksum(ctx);
+			assertArrayEquals(expectedChecksum, checksum);
+		}
+		assertEquals(midxSize - 20, lastSeekPos.get());
+		assertEquals(20, totalBytesRead.get());
+	}
+
+	@Test
+	public void getChecksum_shortReadDoesNotCacheCorruptChecksum()
+			throws Exception {
+		AtomicBoolean truncateChannel = new AtomicBoolean(false);
+		db = new InMemoryRepository(new DfsRepositoryDescription("test")) {
+			private final MemObjDatabase truncatingDb = new MemObjDatabase(
+					this) {
+				@Override
+				protected ReadableChannel openFile(DfsPackDescription desc,
+						PackExt ext) throws IOException {
+					ReadableChannel delegate = super.openFile(desc, ext);
+					if (ext != MULTI_PACK_INDEX || !truncateChannel.get()) {
+						return delegate;
+					}
+					long truncatedLimit = delegate.size() - 5;
+					return new TruncatedReadableChannel(delegate,
+							truncatedLimit);
+				}
+			};
+
+			@Override
+			public MemObjDatabase getObjectDatabase() {
+				return truncatingDb;
+			}
+		};
+
+		writePackWithBlobs(db, "something", "something else", "and more");
+		DfsPackFileMidx midx = writeSinglePackMidx(db);
+		byte[] expectedChecksum;
+		try (ReadableChannel rc = db.getObjectDatabase()
+				.openFile(midx.getPackDescription(), MULTI_PACK_INDEX)) {
+			expectedChecksum = MultiPackIndexLoader
+					.read(Channels.newInputStream(rc)).getChecksum();
+		}
+
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			truncateChannel.set(true);
+			assertThrows(EOFException.class, () -> midx.getChecksum(ctx));
+
+			truncateChannel.set(false);
+			assertArrayEquals(expectedChecksum, midx.getChecksum(ctx));
+		}
+	}
+
+	@Test
 	public void voffsetcalculator_encode() {
 		DfsPackFile pack = createDfsPackFile(900);
 		SingleVOffsetCalculator calc = new SingleVOffsetCalculator(pack, null);
@@ -1240,5 +1336,141 @@ public class DfsPackFileMidxSingleTest {
 		byte[] data = ol.getBytes();
 		assertNotNull(data);
 		return data;
+	}
+
+	private static final class PartialReadTrackingChannel
+			implements ReadableChannel {
+		private final ReadableChannel delegate;
+
+		private final int maxBytesPerRead;
+
+		private final AtomicLong lastSeekPos;
+
+		private final AtomicLong totalBytesRead;
+
+		PartialReadTrackingChannel(ReadableChannel delegate,
+				int maxBytesPerRead, AtomicLong lastSeekPos,
+				AtomicLong totalBytesRead) {
+			this.delegate = delegate;
+			this.maxBytesPerRead = maxBytesPerRead;
+			this.lastSeekPos = lastSeekPos;
+			this.totalBytesRead = totalBytesRead;
+		}
+
+		@Override
+		public int read(ByteBuffer dst) throws IOException {
+			int oldLimit = dst.limit();
+			if (dst.remaining() > maxBytesPerRead) {
+				dst.limit(dst.position() + maxBytesPerRead);
+			}
+			try {
+				int n = delegate.read(dst);
+				if (n > 0) {
+					totalBytesRead.addAndGet(n);
+				}
+				return n;
+			} finally {
+				dst.limit(oldLimit);
+			}
+		}
+
+		@Override
+		public void close() throws IOException {
+			delegate.close();
+		}
+
+		@Override
+		public boolean isOpen() {
+			return delegate.isOpen();
+		}
+
+		@Override
+		public long position() throws IOException {
+			return delegate.position();
+		}
+
+		@Override
+		public void position(long newPosition) throws IOException {
+			lastSeekPos.set(newPosition);
+			delegate.position(newPosition);
+		}
+
+		@Override
+		public long size() throws IOException {
+			return delegate.size();
+		}
+
+		@Override
+		public int blockSize() {
+			return delegate.blockSize();
+		}
+
+		@Override
+		public void setReadAheadBytes(int bufferSize) throws IOException {
+			delegate.setReadAheadBytes(bufferSize);
+		}
+	}
+
+	private static final class TruncatedReadableChannel
+			implements ReadableChannel {
+		private final ReadableChannel delegate;
+
+		private final long limit;
+
+		TruncatedReadableChannel(ReadableChannel delegate, long limit) {
+			this.delegate = delegate;
+			this.limit = limit;
+		}
+
+		@Override
+		public int read(ByteBuffer dst) throws IOException {
+			long pos = delegate.position();
+			if (pos >= limit) {
+				return -1;
+			}
+			int maxToRead = (int) Math.min(dst.remaining(), limit - pos);
+			int oldLimit = dst.limit();
+			dst.limit(dst.position() + maxToRead);
+			try {
+				return delegate.read(dst);
+			} finally {
+				dst.limit(oldLimit);
+			}
+		}
+
+		@Override
+		public void close() throws IOException {
+			delegate.close();
+		}
+
+		@Override
+		public boolean isOpen() {
+			return delegate.isOpen();
+		}
+
+		@Override
+		public long position() throws IOException {
+			return delegate.position();
+		}
+
+		@Override
+		public void position(long newPosition) throws IOException {
+			delegate.position(newPosition);
+		}
+
+		@Override
+		public long size() {
+			return limit;
+		}
+
+		@Override
+		public int blockSize() {
+			return delegate.blockSize();
+		}
+
+		@Override
+		public void setReadAheadBytes(int bufferSize) throws IOException {
+			delegate.setReadAheadBytes(bufferSize);
+		}
 	}
 }
