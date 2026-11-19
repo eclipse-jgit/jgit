@@ -125,11 +125,12 @@ public class UploadPackLsRefsFileRepositoryTest
 		ByteArrayInputStream send = linesAsInputStream(inputLines);
 
 		repository.getConfig().setString("protocol", null, "version", "2");
-		UploadPack up = new UploadPack(repository);
-		up.setExtraParameters(Sets.of("version=2"));
 
 		ByteArrayOutputStream recv = new ByteArrayOutputStream();
-		up.upload(send, recv, null);
+		try (UploadPack up = new UploadPack(repository)) {
+			up.setExtraParameters(Sets.of("version=2"));
+			up.upload(send, recv, null);
+		}
 
 		return new ByteArrayInputStream(recv.toByteArray());
 	}
