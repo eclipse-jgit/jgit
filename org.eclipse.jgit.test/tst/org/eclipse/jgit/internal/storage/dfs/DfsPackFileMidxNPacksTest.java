@@ -11,6 +11,7 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
+import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_BITMAP_DISTANT_COMMIT_SPAN;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_PACK_SECTION;
@@ -28,10 +29,12 @@ import static org.junit.Assert.assertTrue;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.Deflater;
 
 import org.eclipse.jgit.annotations.Nullable;
@@ -41,6 +44,7 @@ import org.eclipse.jgit.internal.storage.dfs.DfsPackFileMidxNPacks.VOffsetCalcul
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.PackOffset;
 import org.eclipse.jgit.internal.storage.pack.ObjectToPack;
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.internal.storage.pack.PackOutputStream;
 import org.eclipse.jgit.internal.storage.pack.PackWriter;
 import org.eclipse.jgit.junit.JGitTestUtil;
@@ -87,6 +91,49 @@ public class DfsPackFileMidxNPacksTest {
 			assertEquals(1, midx.findIdxPosition(ctx, o3));
 			assertEquals(-1, midx.findIdxPosition(ctx, NOT_IN_PACK));
 		}
+	}
+
+	@Test
+	public void midx_loadMultiPackIndex_usesBufferedAlignedReads()
+			throws IOException {
+		AtomicInteger midxReadCalls = new AtomicInteger();
+		AtomicInteger firstReadCapacity = new AtomicInteger();
+		db = new InMemoryRepository(new DfsRepositoryDescription("test")) {
+			private final MemObjDatabase countingDb = new MemObjDatabase(this) {
+				@Override
+				protected ReadableChannel openFile(DfsPackDescription desc,
+						PackExt ext) throws IOException {
+					ReadableChannel delegate = super.openFile(desc, ext);
+					if (ext != MULTI_PACK_INDEX) {
+						return delegate;
+					}
+					return new CountingReadableChannel(delegate, midxReadCalls,
+							firstReadCapacity);
+				}
+			};
+
+			@Override
+			public MemObjDatabase getObjectDatabase() {
+				return countingDb;
+			}
+		};
+		db.getObjectDatabase().setReadableChannelBlockSizeForTest(500);
+
+		ObjectId o1 = writePackWithBlob("something".getBytes(UTF_8));
+		ObjectId o2 = writePackWithBlob("something else".getBytes(UTF_8));
+		ObjectId o3 = writePackWithBlob("and more".getBytes(UTF_8));
+		DfsPackFile midx = writeMultipackIndex();
+		DfsBlockCache.reconfigure(new DfsBlockCacheConfig());
+		midxReadCalls.set(0);
+		firstReadCapacity.set(0);
+
+		try (DfsReader ctx = db.getObjectDatabase().newReader()) {
+			assertEquals(2, midx.findIdxPosition(ctx, o1));
+			assertEquals(0, midx.findIdxPosition(ctx, o2));
+			assertEquals(1, midx.findIdxPosition(ctx, o3));
+		}
+		assertEquals(1, midxReadCalls.get());
+		assertEquals(8000, firstReadCapacity.get());
 	}
 
 	@Test
@@ -1338,5 +1385,64 @@ public class DfsPackFileMidxNPacksTest {
 		byte[] data = ol.getBytes();
 		assertNotNull(data);
 		return data;
+	}
+
+	private static final class CountingReadableChannel
+			implements ReadableChannel {
+		private final ReadableChannel delegate;
+
+		private final AtomicInteger readCalls;
+
+		private final AtomicInteger firstReadCapacity;
+
+		CountingReadableChannel(ReadableChannel delegate,
+				AtomicInteger readCalls, AtomicInteger firstReadCapacity) {
+			this.delegate = delegate;
+			this.readCalls = readCalls;
+			this.firstReadCapacity = firstReadCapacity;
+		}
+
+		@Override
+		public int read(ByteBuffer dst) throws IOException {
+			if (readCalls.getAndIncrement() == 0) {
+				firstReadCapacity.set(dst.remaining());
+			}
+			return delegate.read(dst);
+		}
+
+		@Override
+		public void close() throws IOException {
+			delegate.close();
+		}
+
+		@Override
+		public boolean isOpen() {
+			return delegate.isOpen();
+		}
+
+		@Override
+		public long position() throws IOException {
+			return delegate.position();
+		}
+
+		@Override
+		public void position(long newPosition) throws IOException {
+			delegate.position(newPosition);
+		}
+
+		@Override
+		public long size() throws IOException {
+			return delegate.size();
+		}
+
+		@Override
+		public int blockSize() {
+			return delegate.blockSize();
+		}
+
+		@Override
+		public void setReadAheadBytes(int bufferSize) throws IOException {
+			delegate.setReadAheadBytes(bufferSize);
+		}
 	}
 }

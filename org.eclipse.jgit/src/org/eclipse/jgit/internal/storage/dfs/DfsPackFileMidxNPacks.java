@@ -14,7 +14,6 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.PACK;
 
 import java.io.IOException;
-import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -116,7 +115,7 @@ public final class DfsPackFileMidxNPacks extends DfsPackFileMidx {
 			DfsPackDescription desc) throws IOException {
 		try (ReadableChannel rc = ctx.db.openFile(desc, MULTI_PACK_INDEX)) {
 			MultiPackIndex midx = MultiPackIndexLoader
-					.read(Channels.newInputStream(rc));
+					.read(DfsPackFile.alignTo8kBlocks(rc));
 			// ctx.stats.readIdxBytes += rc.position();
 			return new RefWithSize(midx, midx.getMemorySize());
 		}

@@ -1373,7 +1373,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 		try (ReadableChannel rc = ctx.db.openFile(desc, OBJECT_SIZE_INDEX)) {
 			try {
 				objectSizeIndex = PackObjectSizeIndexLoader
-						.load(Channels.newInputStream(rc));
+						.load(alignTo8kBlocks(rc));
 				size = rc.position();
 			} catch (IOException e) {
 				parsingError = e;
@@ -1455,7 +1455,7 @@ public sealed class DfsPackFile extends BlockBasedFile permits DfsPackFileMidx {
 		}
 	}
 
-	private static InputStream alignTo8kBlocks(ReadableChannel rc) {
+	static InputStream alignTo8kBlocks(ReadableChannel rc) {
 		// TODO(ifrade): This is not reading from DFS, so the channel should
 		// know better the right blocksize. I don't know why this was done in
 		// the first place, verify and remove if not needed.
