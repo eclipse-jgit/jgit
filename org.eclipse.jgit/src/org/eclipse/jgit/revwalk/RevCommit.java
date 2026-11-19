@@ -197,7 +197,6 @@ public class RevCommit extends RevObject {
 			parseInGraph(walk);
 			return;
 		}
-
 		final MutableObjectId idBuffer = walk.idBuffer;
 		idBuffer.fromString(raw, 5);
 		tree = walk.lookupTree(idBuffer);
