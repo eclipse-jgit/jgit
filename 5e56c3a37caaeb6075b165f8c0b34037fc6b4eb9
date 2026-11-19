@@ -22,6 +22,30 @@
       },
       "revId": "5e56c3a37caaeb6075b165f8c0b34037fc6b4eb9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a072642_51e0cfa2",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/InitCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-19T12:57:19Z",
+      "side": 1,
+      "message": "I agree that it would be better to run this test on a real system. But, as you mentioned, the CI only seems to run on Linux today. \n\nI couldn\u0027t find any evidence that the upstream changes run on Windows or Mac and I don\u0027t see anything hinting the existence of nightly builds either. I looked in https://ci.eclipse.org/jgit/ and I can only see that there are CI jobs for Windows but they are disabled.\n\nBecause of this, I can\u0027t use `Assume(FS.isCaseSensitive())` because that would disable the test for Linux, the only system running the tests today.\n\n@matthias.sohn@sap.com if any of my assumptions here are wrong and there *are* tests running on Windows and/or Mac, please let me know and I\u0027ll change the test.",
+      "parentUuid": "00965705_850c304c",
+      "range": {
+        "startLine": 345,
+        "startChar": 1,
+        "endLine": 394,
+        "endChar": 2
+      },
+      "revId": "5e56c3a37caaeb6075b165f8c0b34037fc6b4eb9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
