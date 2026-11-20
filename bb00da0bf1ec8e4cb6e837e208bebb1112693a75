@@ -70,6 +70,30 @@
       },
       "revId": "bb00da0bf1ec8e4cb6e837e208bebb1112693a75",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c5535f6_cdea8c17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1022030
+      },
+      "writtenOn": "2026-11-20T03:17:05Z",
+      "side": 1,
+      "message": "I\u0027m trying to do some testing with this. Sorry I\u0027ve been away from it and haven\u0027t updated you. Based on the results so far, I\u0027m leaning towards merging it.",
+      "parentUuid": "0e7cd28f_38815e12",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "bb00da0bf1ec8e4cb6e837e208bebb1112693a75",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
