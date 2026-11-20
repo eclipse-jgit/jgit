@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2618668b_af18ac55",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-11-20T22:49:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e7e98a_3bf4542a",
+      "revId": "b74f125c1a3ed9cb36a0adc849ece1c9089c7af0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb0c9667_f1a24b4f",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-11-20T20:30:26Z",
       "side": 1,
       "message": "Does this have any other use?  if not, we could mark it as deprecated, warning subclasses to move to the new method with size.",
+      "revId": "b74f125c1a3ed9cb36a0adc849ece1c9089c7af0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54af1b98_c55ced34",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1259,
+      "author": {
+        "id": 1037595
+      },
+      "writtenOn": "2026-11-20T22:49:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb0c9667_f1a24b4f",
       "revId": "b74f125c1a3ed9cb36a0adc849ece1c9089c7af0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
