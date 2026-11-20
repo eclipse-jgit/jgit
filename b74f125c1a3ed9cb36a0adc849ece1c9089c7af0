@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2e7e98a_3bf4542a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-20T20:30:26Z",
+      "side": 1,
+      "message": "This mutual recursion hurts. \n\nCan we leave the previous method as it is, maybe marking it as deprecated and just add the new method calling the old? That is API compatible and leaves implementors to decide what to do.",
+      "revId": "b74f125c1a3ed9cb36a0adc849ece1c9089c7af0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb0c9667_f1a24b4f",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1259,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-20T20:30:26Z",
+      "side": 1,
+      "message": "Does this have any other use?  if not, we could mark it as deprecated, warning subclasses to move to the new method with size.",
+      "revId": "b74f125c1a3ed9cb36a0adc849ece1c9089c7af0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
