@@ -22,6 +22,30 @@
       },
       "revId": "498d617e25662bbe2dbdb133e89315fba53f8140",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "238053fc_277ec1d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-22T12:09:26Z",
+      "side": 1,
+      "message": "Thanks, Nasser.\n\n\"Porting\" was misleading wording. I consulted native Git as a reference, but this change adapts JGit’s existing reverse-index binary search and PackOffset comparison to implement the required pseudo-pack ordering. It is not a line-by-line translation of the C implementation.\n\nI’ve updated the commit message to explain this and acknowledge the reference, and changed the code comments to describe the ordering directly.",
+      "parentUuid": "5ef1eaa3_7933f057",
+      "range": {
+        "startLine": 21,
+        "startChar": 45,
+        "endLine": 22,
+        "endChar": 16
+      },
+      "revId": "498d617e25662bbe2dbdb133e89315fba53f8140",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
