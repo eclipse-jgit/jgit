@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbbe94f6_22449781",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/PackMidxTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-22T11:26:27Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "9b77468e_b0cb74c4",
+      "revId": "7b6a6f4590ce227d1695eeec1ac2a216b2c31677",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f53bb0c2_cbac46dc",
