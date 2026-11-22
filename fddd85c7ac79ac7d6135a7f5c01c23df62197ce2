@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78ff5977_e37f1c4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-11-22T18:47:14Z",
+      "side": 1,
+      "message": "```suggestion\nPreviously, findBitmapPosition() keyed its search off the optional BITMAPPEDPACKS\n```",
+      "revId": "fddd85c7ac79ac7d6135a7f5c01c23df62197ce2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ae4e0af_b6d7d053",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-11-22T18:47:14Z",
+      "side": 1,
+      "message": "```suggestion\n(BTMP) chunk and returned -1 when it was absent. However, BTMP is not required\n```",
+      "revId": "fddd85c7ac79ac7d6135a7f5c01c23df62197ce2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b31635ca_ab210188",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-11-22T18:47:14Z",
+      "side": 1,
+      "message": "```suggestion\ninput, not a synthetic one. When an in-bitmap object that resolves to -1, it is\ntreated as a miss because it already has a packIndex position from a\n```",
+      "range": {
+        "startLine": 13,
+        "startChar": 28,
+        "endLine": 14,
+        "endChar": 18
+      },
+      "revId": "fddd85c7ac79ac7d6135a7f5c01c23df62197ce2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82cff2c1_91082854",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-11-22T18:47:14Z",
+      "side": 1,
+      "message": "```suggestion\nFix this by searching the whole reverse index in MIDX pseudo-pack order instead:\n```",
+      "revId": "fddd85c7ac79ac7d6135a7f5c01c23df62197ce2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef1fe872_aafceaa4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-11-22T18:47:14Z",
+      "side": 1,
+      "message": "```suggestion\npreferred pack first, then pack ID, then object offset.\n\nDetermine the preferred pack directly from the object at\nreverse-index position 0, eliminating the dependency on the BTMP chunk.\n```",
+      "range": {
+        "startLine": 21,
+        "startChar": 56,
+        "endLine": 22,
+        "endChar": 52
+      },
+      "revId": "fddd85c7ac79ac7d6135a7f5c01c23df62197ce2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
