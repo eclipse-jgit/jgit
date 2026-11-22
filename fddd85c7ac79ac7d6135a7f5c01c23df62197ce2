@@ -53,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22151829_2baa5d00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-22T18:58:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ae4e0af_b6d7d053",
+      "revId": "fddd85c7ac79ac7d6135a7f5c01c23df62197ce2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b31635ca_ab210188",
@@ -148,6 +166,30 @@
       "writtenOn": "2026-11-22T18:47:14Z",
       "side": 1,
       "message": "```suggestion\npreferred pack first, then pack ID, then object offset.\n\nDetermine the preferred pack directly from the object at\nreverse-index position 0, eliminating the dependency on the BTMP chunk.\n```",
+      "range": {
+        "startLine": 21,
+        "startChar": 56,
+        "endLine": 22,
+        "endChar": 52
+      },
+      "revId": "fddd85c7ac79ac7d6135a7f5c01c23df62197ce2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "099252ec_6fd7dec8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-22T18:58:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef1fe872_aafceaa4",
       "range": {
         "startLine": 21,
         "startChar": 56,
