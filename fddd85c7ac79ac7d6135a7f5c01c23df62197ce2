@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9395d59_67ccc225",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-22T18:51:13Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "78ff5977_e37f1c4c",
+      "revId": "fddd85c7ac79ac7d6135a7f5c01c23df62197ce2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ae4e0af_b6d7d053",
@@ -58,6 +76,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7222116_6d4f5a57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-22T18:51:13Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "b31635ca_ab210188",
+      "range": {
+        "startLine": 13,
+        "startChar": 28,
+        "endLine": 14,
+        "endChar": 18
+      },
+      "revId": "fddd85c7ac79ac7d6135a7f5c01c23df62197ce2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82cff2c1_91082854",
@@ -71,6 +113,24 @@
       "writtenOn": "2026-11-22T18:47:14Z",
       "side": 1,
       "message": "```suggestion\nFix this by searching the whole reverse index in MIDX pseudo-pack order instead:\n```",
+      "revId": "fddd85c7ac79ac7d6135a7f5c01c23df62197ce2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a395ce57_cb6d12b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-22T18:51:13Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "82cff2c1_91082854",
       "revId": "fddd85c7ac79ac7d6135a7f5c01c23df62197ce2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
