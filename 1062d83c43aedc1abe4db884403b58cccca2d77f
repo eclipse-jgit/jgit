@@ -16,6 +16,24 @@
       "message": "Same loop, `numberOfPackFilesSinceBitmap++` still counts the midx as one pack. With a midx without bitmap over 3 packs you now get `numberOfPackFiles\u003d3` but `numberOfPackFilesSinceBitmap\u003d1`. Should this be `+\u003d p.getPackFileCount()` too?\n\n```suggestion\n                          ret.numberOfPackFilesSinceBitmap +\u003d p.getPackFileCount();\n```",
       "revId": "1062d83c43aedc1abe4db884403b58cccca2d77f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f228265_b79550f2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1612,
+      "author": {
+        "id": 1038550
+      },
+      "writtenOn": "2026-11-23T10:00:15Z",
+      "side": 1,
+      "message": "Good catch! Fixed in patch set 3 by using `+\u003d p.getPackFileCount()` there, and updated the test to write the midx without bitmaps so this branch is actually covered (`numberOfPackFilesSinceBitmap \u003d\u003d 3`).",
+      "parentUuid": "76fb18c2_b0bd00e6",
+      "revId": "1062d83c43aedc1abe4db884403b58cccca2d77f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
