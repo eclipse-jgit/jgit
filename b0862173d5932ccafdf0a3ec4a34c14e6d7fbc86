@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1080adda_401ad0ad",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/file/BasePackWriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1156,
+      "author": {
+        "id": 1040165
+      },
+      "writtenOn": "2026-11-23T04:40:39Z",
+      "side": 1,
+      "message": "Good point, I\u0027ve addressed this so a tests now lets the header through, and then it should catch an exception, and not time out after 12s.",
+      "parentUuid": "504c8c93_3abc6296",
+      "range": {
+        "startLine": 1145,
+        "startChar": 0,
+        "endLine": 1156,
+        "endChar": 5
+      },
+      "revId": "b0862173d5932ccafdf0a3ec4a34c14e6d7fbc86",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e0fe74d_687ebe2d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/Pack.java",
         "patchSetId": 1
