@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dee4cc33_962e3323",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-11-23T14:36:01Z",
+      "side": 1,
+      "message": "Since this is s bug fix, can we get it moved to the oldest active stable branch?",
+      "revId": "af955b49b10fdd171df8eac0c68b82ecdf7d4ac3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
