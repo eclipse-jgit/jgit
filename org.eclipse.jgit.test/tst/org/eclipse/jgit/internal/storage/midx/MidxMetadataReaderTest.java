@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.internal.storage.midx;
 
+import static org.eclipse.jgit.lib.ObjectFormat.SHA1;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
@@ -63,7 +64,8 @@ public class MidxMetadataReaderTest {
 				.addPack("pack-a.idx", FakeIndexFactory.indexOf(p1))
 				.addPack("pack-b.idx", FakeIndexFactory.indexOf(p2)).build();
 		ByteArrayOutputStream rawOut = new ByteArrayOutputStream();
-		new MultiPackIndexWriter().write(NullProgressMonitor.INSTANCE, rawOut,
+		new MultiPackIndexWriter(SHA1).write(NullProgressMonitor.INSTANCE,
+				rawOut,
 				data);
 		byte[] rawMidx = rawOut.toByteArray();
 		assertTrue(rawMidx.length > 16 * 1024);

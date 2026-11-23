@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.internal.storage.midx;
 
+import static org.eclipse.jgit.lib.ObjectFormat.SHA1;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -441,7 +442,7 @@ public class PackIndexMergerTest {
 	private static MultiPackIndex midxOf(String s1, PackIndex idx1, String s2,
 			PackIndex idx2, String s3, PackIndex idx3) throws IOException {
 		PackIndexMerger merger = createMergerFor(s1, idx1, s2, idx2, s3, idx3);
-		MultiPackIndexWriter w = new MultiPackIndexWriter();
+		MultiPackIndexWriter w = new MultiPackIndexWriter(SHA1);
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		w.write(NullProgressMonitor.INSTANCE, out, merger);
