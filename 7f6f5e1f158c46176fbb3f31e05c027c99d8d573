@@ -35,6 +35,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32eda383_6ee2fdb5",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Reset.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-11-23T13:47:57Z",
+      "side": 1,
+      "message": "Testcase added in PS5 (slightly modified since this test would also pass for `reset --hard`",
+      "parentUuid": "bbcc8e5c_e3b4f37c",
+      "revId": "7f6f5e1f158c46176fbb3f31e05c027c99d8d573",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2674a9ca_a97e0f5f",
@@ -58,6 +76,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "088dd84b_0bbdb2b8",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-11-23T13:47:57Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s a good idea, I\u0027ve updated the docs.",
+      "parentUuid": "2674a9ca_a97e0f5f",
+      "range": {
+        "startLine": 90,
+        "startChar": 2,
+        "endLine": 99,
+        "endChar": 5
+      },
+      "revId": "7f6f5e1f158c46176fbb3f31e05c027c99d8d573",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab316582_29b819a1",
@@ -71,6 +113,24 @@
       "writtenOn": "2026-11-16T16:28:37Z",
       "side": 1,
       "message": "🟢 I like the fact that JGit is safer than Git here (compared against Git 2.55).\n\nYou should document this deliberate difference from Git so that nobody \"fixes\" it later:\n\n```java\n\t\t\t\t} else if (cFileIter !\u003d null \u0026\u0026 wtFileIter !\u003d null\n\t\t\t\t\t\t\u0026\u0026 isGitlink(wtFileIter) \u0026\u0026 !isGitlink(cFileIter)) {\n\t\t\t\t\t// Native git deletes the submodule repository here. Abort\n\t\t\t\t\t// instead (safer) since the repository may contain unpushed work.\n\t\t\t\t\tconflicts.add(path);\n```\n\nYou could also add it to the commit message, e.g.:\n\n```\n- a checked-out submodule would be replaced by a file (native Git\n  deletes the submodule repository in this case).\n```\n\n*(Co-created by Claude)*",
+      "revId": "7f6f5e1f158c46176fbb3f31e05c027c99d8d573",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06efe538_8ac4b81a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-11-23T13:47:57Z",
+      "side": 1,
+      "message": "Inline comment and commit message updated in PS5",
+      "parentUuid": "ab316582_29b819a1",
       "revId": "7f6f5e1f158c46176fbb3f31e05c027c99d8d573",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }

@@ -91,6 +91,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e9b13af3_f244753f",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ResetCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-11-23T13:47:57Z",
+      "side": 1,
+      "message": "Testcases for both the commited and untracked repository added in PS5",
+      "parentUuid": "ddbf03ee_1fdd202d",
+      "revId": "c271d14e41e27fc078eec276182ab8ff66e3ec1e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a21b31b3_7a16c51b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
         "patchSetId": 2
