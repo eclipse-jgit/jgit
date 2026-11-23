@@ -94,6 +94,30 @@
       },
       "revId": "bb00da0bf1ec8e4cb6e837e208bebb1112693a75",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5527d99f_466d45bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-23T10:52:10Z",
+      "side": 1,
+      "message": "Thank you for looking into it. \n\nPlease be aware that in my last comment I say \"get rid of\" i.e. \"delete\". This doesn\u0027t need to be done right away but I suggest we do it (less code to maintain). \n\nIn eclipse-platform and other TLPs we would do it [2 years after having deprecated it for removal](https://github.com/eclipse-platform/eclipse.platform/blob/2518f7ff712d85942866e902bca441611745f072/docs/ApiRemovalProcess.md?plain\u003d1#L12). If you agree, I can deprecate `DateRevQueue` for removal in this same change or in another change. Just let me know if and how you want to have it since you are a JGit committer 🙂",
+      "parentUuid": "3c5535f6_cdea8c17",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "bb00da0bf1ec8e4cb6e837e208bebb1112693a75",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
