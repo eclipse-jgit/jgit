@@ -23,11 +23,13 @@ import static org.junit.Assert.assertTrue;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.Deflater;
 
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
@@ -140,6 +142,58 @@ public class DfsPackFileTest {
 		assertTrue(pack.hasObjectSizeIndex(reader));
 		assertEquals(800, pack.getIndexedObjectSize(reader,
 				pack.findIdxPosition(reader, blobId)));
+	}
+
+	@Test
+	public void testLoadObjectSizeIndex_usesBufferedAlignedReads()
+			throws IOException {
+		AtomicInteger objSizeReadCalls = new AtomicInteger();
+		AtomicInteger firstReadCapacity = new AtomicInteger();
+		db = new InMemoryRepository(new DfsRepositoryDescription("test")) {
+			private final MemObjDatabase countingDb = new MemObjDatabase(this) {
+				@Override
+				protected ReadableChannel openFile(DfsPackDescription desc,
+						PackExt ext) throws IOException {
+					ReadableChannel delegate = super.openFile(desc, ext);
+					if (ext != PackExt.OBJECT_SIZE_INDEX) {
+						return delegate;
+					}
+					return new CountingReadableChannel(delegate,
+							objSizeReadCalls, firstReadCapacity);
+				}
+			};
+
+			@Override
+			public MemObjDatabase getObjectDatabase() {
+				return countingDb;
+			}
+		};
+		db.getObjectDatabase().setReadableChannelBlockSizeForTest(500);
+		bypassCache = false;
+		clearCache = true;
+		setObjectSizeIndexMinBytes(0);
+		ObjectId blobId = setupPack(512, 800);
+
+		db.getObjectDatabase().getReaderOptions().setUseObjectSizeIndex(true);
+		long expectedObjSizeBytes;
+		DfsPackFile pack = db.getObjectDatabase().getPacks()[0];
+		try (ReadableChannel rc = db.getObjectDatabase()
+				.openFile(pack.getPackDescription(),
+						PackExt.OBJECT_SIZE_INDEX)) {
+			expectedObjSizeBytes = rc.size();
+		}
+		objSizeReadCalls.set(0);
+		firstReadCapacity.set(0);
+
+		try (DfsReader reader = db.getObjectDatabase().newReader()) {
+			assertTrue(pack.hasObjectSizeIndex(reader));
+			assertEquals(800, pack.getIndexedObjectSize(reader,
+					pack.findIdxPosition(reader, blobId)));
+			assertEquals(expectedObjSizeBytes,
+					reader.stats.readObjectSizeIndexBytes);
+		}
+		assertEquals(1, objSizeReadCalls.get());
+		assertEquals(8000, firstReadCapacity.get());
 	}
 
 	@Test
@@ -443,5 +497,64 @@ public class DfsPackFileTest {
 	private void setReadChangedPaths(boolean enable) {
 		db.getConfig().setBoolean(CONFIG_COMMIT_GRAPH_SECTION, null,
 				CONFIG_KEY_READ_CHANGED_PATHS, enable);
+	}
+
+	private static final class CountingReadableChannel
+			implements ReadableChannel {
+		private final ReadableChannel delegate;
+
+		private final AtomicInteger readCalls;
+
+		private final AtomicInteger firstReadCapacity;
+
+		CountingReadableChannel(ReadableChannel delegate,
+				AtomicInteger readCalls, AtomicInteger firstReadCapacity) {
+			this.delegate = delegate;
+			this.readCalls = readCalls;
+			this.firstReadCapacity = firstReadCapacity;
+		}
+
+		@Override
+		public int read(ByteBuffer dst) throws IOException {
+			if (readCalls.getAndIncrement() == 0) {
+				firstReadCapacity.set(dst.remaining());
+			}
+			return delegate.read(dst);
+		}
+
+		@Override
+		public void close() throws IOException {
+			delegate.close();
+		}
+
+		@Override
+		public boolean isOpen() {
+			return delegate.isOpen();
+		}
+
+		@Override
+		public long position() throws IOException {
+			return delegate.position();
+		}
+
+		@Override
+		public void position(long newPosition) throws IOException {
+			delegate.position(newPosition);
+		}
+
+		@Override
+		public long size() throws IOException {
+			return delegate.size();
+		}
+
+		@Override
+		public int blockSize() {
+			return delegate.blockSize();
+		}
+
+		@Override
+		public void setReadAheadBytes(int bufferSize) throws IOException {
+			delegate.setReadAheadBytes(bufferSize);
+		}
 	}
 }

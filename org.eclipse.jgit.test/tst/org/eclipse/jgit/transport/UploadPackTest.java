@@ -10,6 +10,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -61,6 +62,7 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.storage.pack.PackStatistics;
 import org.eclipse.jgit.transport.BasePackFetchConnection.FetchConfig;
 import org.eclipse.jgit.transport.UploadPack.RequestPolicy;
+import org.eclipse.jgit.transport.UploadPack.RequestValidator;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.junit.After;
 import org.junit.Before;
@@ -3321,5 +3323,79 @@ public class UploadPackTest {
 				() -> uploadPackV2("command=object-info\n", "size",
 						"oid invalid",
 						PacketLineIn.end()));
+	}
+
+	@Test
+	public void testRequestValidatorRequiresAdvertisedRefs() {
+		assertTrue(new UploadPack.AdvertisedRequestValidator()
+				.requiresAdvertisedRefs());
+		assertTrue(new UploadPack.ReachableCommitRequestValidator()
+				.requiresAdvertisedRefs());
+		assertFalse(new UploadPack.TipRequestValidator()
+				.requiresAdvertisedRefs());
+		assertFalse(new UploadPack.ReachableCommitTipRequestValidator()
+				.requiresAdvertisedRefs());
+		assertFalse(new UploadPack.AnyRequestValidator()
+				.requiresAdvertisedRefs());
+
+		RequestValidator customDefault = (up, wants) -> {
+			// Default implementation should require advertised refs.
+		};
+		assertTrue(customDefault.requiresAdvertisedRefs());
+	}
+
+	@Test
+	public void testV2FetchCustomValidatorSkippingAdvertisedRefs()
+			throws Exception {
+		RevCommit commit = remote.commit().message("y").create();
+		remote.update("master", commit);
+		AtomicReference<Map<String, Ref>> seenAdvertisedRefs = new AtomicReference<>();
+		AtomicReference<List<ObjectId>> seenWants = new AtomicReference<>();
+
+		RequestValidator customValidator = new RequestValidator() {
+			@Override
+			public void checkWants(UploadPack up, List<ObjectId> wants) {
+				seenAdvertisedRefs.set(up.getAdvertisedRefs());
+				seenWants.set(new ArrayList<>(wants));
+			}
+
+			@Override
+			public boolean requiresAdvertisedRefs() {
+				return false;
+			}
+		};
+
+		uploadPackV2(up -> up.setRequestValidator(customValidator),
+				"command=fetch\n", PacketLineIn.delimiter(),
+				"want " + commit.name() + "\n", "done\n",
+				PacketLineIn.end());
+
+		assertEquals(0, stats.getAdvertised());
+		assertNull(seenAdvertisedRefs.get());
+		assertEquals(Collections.singletonList(commit.toObjectId()),
+				seenWants.get());
+	}
+
+	@Test
+	public void testV2FetchCustomValidatorRequiringAdvertisedRefs()
+			throws Exception {
+		RevCommit reachable = remote.commit().message("y").create();
+		remote.update("master", reachable);
+		RevCommit unadvertised = remote.commit().message("z").create();
+		AtomicReference<Map<String, Ref>> seenAdvertisedRefs = new AtomicReference<>();
+
+		RequestValidator customValidator = (up, wants) -> {
+			// Inherits default requiresAdvertisedRefs() == true.
+			seenAdvertisedRefs.set(up.getAdvertisedRefs());
+		};
+
+		uploadPackV2(up -> up.setRequestValidator(customValidator),
+				"command=fetch\n", PacketLineIn.delimiter(),
+				"want " + unadvertised.name() + "\n", "done\n",
+				PacketLineIn.end());
+
+		assertEquals(1, stats.getAdvertised());
+		assertNotNull(seenAdvertisedRefs.get());
+		assertTrue(seenAdvertisedRefs.get().containsKey("refs/heads/master"));
 	}
 }

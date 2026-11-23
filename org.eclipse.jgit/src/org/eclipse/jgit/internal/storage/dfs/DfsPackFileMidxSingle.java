@@ -11,9 +11,8 @@ package org.eclipse.jgit.internal.storage.dfs;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
 
+import java.io.EOFException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +20,7 @@ import java.util.Set;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.PackMismatchException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.commitgraph.CommitGraph;
 import org.eclipse.jgit.internal.storage.file.PackBitmapIndex;
 import org.eclipse.jgit.internal.storage.file.PackIndex;
@@ -141,11 +141,13 @@ public final class DfsPackFileMidxSingle extends DfsPackFileMidx {
 				throw new IllegalStateException("Midx stream too short");
 			}
 
-			try (ReadableChannel rc = ctx.db.openFile(desc, MULTI_PACK_INDEX);
-					InputStream in = Channels.newInputStream(rc)) {
-				checksum = new byte[20];
-				in.skip(checksumPos);
-				IO.readFully(in, checksum, 0, 20);
+			try (ReadableChannel rc = ctx.db.openFile(desc, MULTI_PACK_INDEX)) {
+				rc.position(checksumPos);
+				byte[] buf = new byte[20];
+				if (IO.read(rc, buf, 0, 20) != 20) {
+					throw new EOFException(JGitText.get().shortReadOfBlock);
+				}
+				checksum = buf;
 			}
 		}
 		return checksum;

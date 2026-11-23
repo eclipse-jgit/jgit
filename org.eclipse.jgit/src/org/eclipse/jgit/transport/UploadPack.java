@@ -187,6 +187,30 @@ public class UploadPack implements Closeable {
 		 */
 		void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException;
+
+		/**
+		 * Returns whether this validator requires {@link UploadPack} to compute
+		 * the set of advertised references before validating wants.
+		 *
+		 * <p>
+		 * Validators that only permit objects reachable from advertised
+		 * references (such as {@link AdvertisedRequestValidator} and
+		 * {@link ReachableCommitRequestValidator}) return {@code true}.
+		 * Validators that may permit unadvertised objects (such as
+		 * {@link TipRequestValidator},
+		 * {@link ReachableCommitTipRequestValidator}, and
+		 * {@link AnyRequestValidator}) return {@code false}, allowing
+		 * {@link UploadPack} to avoid loading the full reference advertisement
+		 * when it is not needed.
+		 *
+		 * @return {@code true} if advertised references must be computed for
+		 *         validation (default); {@code false} if this validator does
+		 *         not depend on advertised references.
+		 * @since 8.0
+		 */
+		default boolean requiresAdvertisedRefs() {
+			return true;
+		}
 	}
 
 	/**
@@ -1173,9 +1197,7 @@ public class UploadPack implements Closeable {
 		// require that advertised be set. Set it only in the required
 		// circumstances (to avoid a full ref lookup in the case that
 		// we don't need it).
-		if (requestValidator instanceof TipRequestValidator ||
-				requestValidator instanceof ReachableCommitTipRequestValidator ||
-				requestValidator instanceof AnyRequestValidator) {
+		if (!requestValidator.requiresAdvertisedRefs()) {
 			advertised = Collections.emptySet();
 		} else {
 			if (req.wantIds.isEmpty()) {
@@ -1995,6 +2017,11 @@ public class UploadPack implements Closeable {
 				}
 			}
 		}
+
+		@Override
+		public boolean requiresAdvertisedRefs() {
+			return false;
+		}
 	}
 
 	/**
@@ -2010,6 +2037,11 @@ public class UploadPack implements Closeable {
 			checkNotAdvertisedWants(up, wants,
 					up.getRepository().getRefDatabase().getRefs());
 		}
+
+		@Override
+		public boolean requiresAdvertisedRefs() {
+			return false;
+		}
 	}
 
 	/**
@@ -2022,6 +2054,11 @@ public class UploadPack implements Closeable {
 		public void checkWants(UploadPack up, List<ObjectId> wants)
 				throws PackProtocolException, IOException {
 			// All requests are valid.
+		}
+
+		@Override
+		public boolean requiresAdvertisedRefs() {
+			return false;
 		}
 	}
 

@@ -86,22 +86,23 @@ public class DfsMidxWriterBitmapsTest {
 			assertTrue(mainBitmap.and(devBitmap).isEmpty());
 			assertEquals(420, ti.midx().getObjectCount(ctx));
 
-			RevWalk rw = new RevWalk(ti.db());
-			rw.markStart(rw.parseCommit(mainTip));
-			for (RevCommit c; (c = rw.next()) != null;) {
-				int bitmapPos = bi.findPosition(c);
-				assertTrue(mainBitmap.get(bitmapPos));
-				assertFalse(devBitmap.get(bitmapPos));
-			}
-			rw.reset();
+			try (RevWalk rw = new RevWalk(ti.db())) {
+				rw.markStart(rw.parseCommit(mainTip));
+				for (RevCommit c; (c = rw.next()) != null;) {
+					int bitmapPos = bi.findPosition(c);
+					assertTrue(mainBitmap.get(bitmapPos));
+					assertFalse(devBitmap.get(bitmapPos));
+				}
+				rw.reset();
 
-			// dev is an independent chain of commits. None of them
-			// should be in the bitmap of "main"
-			rw.markStart(rw.parseCommit(devTip));
-			for (RevCommit c; (c = rw.next()) != null;) {
-				int bitmapPos = bi.findPosition(c);
-				assertTrue(devBitmap.get(bitmapPos));
-				assertFalse(mainBitmap.get(bitmapPos));
+				// dev is an independent chain of commits. None of them
+				// should be in the bitmap of "main"
+				rw.markStart(rw.parseCommit(devTip));
+				for (RevCommit c; (c = rw.next()) != null;) {
+					int bitmapPos = bi.findPosition(c);
+					assertTrue(devBitmap.get(bitmapPos));
+					assertFalse(mainBitmap.get(bitmapPos));
+				}
 			}
 		}
 	}
