@@ -20,7 +20,6 @@ import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MID
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_PACKNAMES;
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_REVINDEX;
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_SIGNATURE;
-import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -32,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ObjectFormat;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.io.SilentFileInputStream;
@@ -130,6 +130,8 @@ public class MultiPackIndexLoader {
 			throw new MultiPackIndexFormatException(
 					JGitText.get().incorrectOBJECT_ID_LENGTH);
 		}
+		ObjectFormat objectFormat = ObjectFormat
+				.fromObjectIdVersion(commitIdVersion);
 
 		// Read the number of "chunkOffsets" (1 byte)
 		int chunkCount = hdr[6];
@@ -155,7 +157,8 @@ public class MultiPackIndexLoader {
 			chunks.add(new ChunkSegment(id, offset));
 		}
 
-		MultiPackIndexBuilder builder = MultiPackIndexBuilder.builder();
+		MultiPackIndexBuilder builder = MultiPackIndexBuilder
+				.builder(objectFormat);
 		builder.setPackCount(packCount);
 		for (int i = 0; i < chunkCount; i++) {
 			long chunkOffset = chunks.get(i).offset;
@@ -198,8 +201,8 @@ public class MultiPackIndexLoader {
 						Integer.toHexString(chunkId)));
 			}
 		}
-		byte[] checksum = new byte[20];
-		IO.readFully(fd, checksum, 0, 20);
+		byte[] checksum = new byte[objectFormat.getByteLength()];
+		IO.readFully(fd, checksum, 0, objectFormat.getByteLength());
 		builder.addChecksum(checksum);
 		return builder.build();
 	}
@@ -234,8 +237,8 @@ public class MultiPackIndexLoader {
 
 		private byte[] checksum;
 
-		private MultiPackIndexBuilder(int hashLength) {
-			this.hashLength = hashLength;
+		private MultiPackIndexBuilder(ObjectFormat objectFormat) {
+			this.hashLength = objectFormat.getByteLength();
 		}
 
 		/**
@@ -243,8 +246,8 @@ public class MultiPackIndexLoader {
 		 *
 		 * @return A builder of {@link MultiPackIndex}.
 		 */
-		static MultiPackIndexBuilder builder() {
-			return new MultiPackIndexBuilder(OBJECT_ID_LENGTH);
+		static MultiPackIndexBuilder builder(ObjectFormat objectFormat) {
+			return new MultiPackIndexBuilder(objectFormat);
 		}
 
 		MultiPackIndexBuilder setPackCount(int packCount) {
