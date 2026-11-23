@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "102d892d_a02fd73a",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexV1.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-23T19:09:59Z",
+      "side": 1,
+      "message": "IIRC bitmappedPackFiles is used to limit the range of the binary search and that is valuable optimization. Can we use it when available and fallback to search the whole range when it is not?",
+      "revId": "81c352b26ecbd41a35f2cb1078cdfb0835eeccc1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f46e068_f5412fb9",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/midx/MultiPackIndexV1.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-23T19:09:59Z",
+      "side": 1,
+      "message": "This comparison is the same than comparing the packIds inside a.compareTo(b) because in JGit the preferred pack is always the first in the list.\n\nDelete the extra comparison and add a comment explaining this (\"// No need to check preferred pack because in JGit it is the first in the list\").\n\nSo far there has been no need to implement a \"use an arbitrary pack as preferred\", but if one day we do it, we must readd this check.",
+      "revId": "81c352b26ecbd41a35f2cb1078cdfb0835eeccc1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
