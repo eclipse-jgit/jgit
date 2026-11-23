@@ -14,6 +14,7 @@ import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MID
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_OIDFANOUT;
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_OIDLOOKUP;
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_PACKNAMES;
+import static org.eclipse.jgit.lib.ObjectFormat.SHA1;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -96,7 +97,7 @@ public class CgitMidxCompatibilityTest extends SampleDataRepositoryTestCase {
 			builder.addPack(packFile.getName(), pack.getIndex());
 		}
 
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, builder.build());
 		return out.toByteArray();
