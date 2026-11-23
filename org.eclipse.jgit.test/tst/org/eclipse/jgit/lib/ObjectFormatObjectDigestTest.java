@@ -65,7 +65,7 @@ public class ObjectFormatObjectDigestTest {
 	@Test
 	public void sha1ObjectDigestMatchesPlainSha1() {
 		MessageDigest md = ObjectFormat.SHA1.newObjectDigest();
-		assertEquals(ObjectFormat.SHA1.getNumBytes(), md.getDigestLength());
+		assertEquals(ObjectFormat.SHA1.getByteLength(), md.getDigestLength());
 		byte[] id = md.digest(EMPTY_BLOB);
 		assertArrayEquals(
 				ObjectFormat.SHA1.newMessageDigest().digest(EMPTY_BLOB), id);
@@ -78,7 +78,7 @@ public class ObjectFormatObjectDigestTest {
 	public void sha256ObjectDigestIsPlainSha256() throws IOException {
 		byte[] pdf = shattered1();
 		MessageDigest md = ObjectFormat.SHA256.newObjectDigest();
-		assertEquals(ObjectFormat.SHA256.getNumBytes(), md.getDigestLength());
+		assertEquals(ObjectFormat.SHA256.getByteLength(), md.getDigestLength());
 		assertArrayEquals(ObjectFormat.SHA256.newMessageDigest().digest(pdf),
 				md.digest(pdf));
 		assertEquals(
