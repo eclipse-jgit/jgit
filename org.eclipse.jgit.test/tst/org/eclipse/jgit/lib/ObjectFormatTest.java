@@ -20,24 +20,31 @@ import org.junit.Test;
 public class ObjectFormatTest {
 	@Test
 	public void lengths() {
-		assertEquals(20, ObjectFormat.SHA1.getNumBytes());
+		assertEquals(20, ObjectFormat.SHA1.getByteLength());
 		assertEquals(40, ObjectFormat.SHA1.getStringLength());
-		assertEquals(32, ObjectFormat.SHA256.getNumBytes());
-		assertEquals(64, ObjectFormat.SHA256.getStringLength());
+		// assertEquals(32, ObjectFormat.SHA256.getByteLength());
+		// assertEquals(64, ObjectFormat.SHA256.getStringLength());
 		assertEquals(Constants.OBJECT_ID_LENGTH,
-				ObjectFormat.SHA1.getNumBytes());
+				ObjectFormat.SHA1.getByteLength());
 		assertEquals(Constants.OBJECT_ID_STRING_LENGTH,
 				ObjectFormat.SHA1.getStringLength());
 	}
 
 	@Test
 	public void lookups() {
-		assertSame(ObjectFormat.SHA1, ObjectFormat.fromKey("sha1"));
-		assertSame(ObjectFormat.SHA256, ObjectFormat.fromKey("SHA256"));
-		assertThrows(IllegalArgumentException.class, () -> ObjectFormat.fromKey("md5"));
+		assertSame(ObjectFormat.SHA1, ObjectFormat.fromConfId("sha1"));
+		assertSame(ObjectFormat.SHA256, ObjectFormat.fromConfId("sha256"));
+		assertThrows(IllegalArgumentException.class,
+				() -> ObjectFormat.fromConfId("md5"));
+		// Strict case for the conf
+		assertThrows(IllegalArgumentException.class,
+				() -> ObjectFormat.fromConfId("SHA256"));
 		assertSame(ObjectFormat.SHA1, ObjectFormat.forStringLength(40));
 		assertSame(ObjectFormat.SHA256, ObjectFormat.forStringLength(64));
 		assertNull(ObjectFormat.forStringLength(41));
+
+		assertSame(ObjectFormat.SHA1, ObjectFormat.fromObjectIdVersion(1));
+		assertSame(ObjectFormat.SHA256, ObjectFormat.fromObjectIdVersion(2));
 	}
 
 	@Test

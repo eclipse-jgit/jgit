@@ -12,6 +12,8 @@ package org.eclipse.jgit.lib;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.MessageFormat;
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * The hash algorithms Git uses to name objects.
@@ -23,38 +25,38 @@ import java.security.NoSuchAlgorithmException;
  *
  * @since 8.0
  */
+// Errorprone considers ObjectId mutable. It is not, and we use only zeroId and locally created instances.
+@SuppressWarnings("ImmutableEnumChecker")
 public enum ObjectFormat {
-	/** SHA-1 hash format. */
-	SHA1("sha1", //$NON-NLS-1$
-			"SHA-1", //$NON-NLS-1$
-			20, 1, "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391", //$NON-NLS-1$
+
+	SHA1("SHA-1", //$NON-NLS-1$
+			20, "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391", //$NON-NLS-1$
 			"4b825dc642cb6eb9a060e54bf8d69288fbee4904"), //$NON-NLS-1$
 
-	/** SHA-256 hash format. */
-	SHA256("sha256", //$NON-NLS-1$
-			"SHA-256", //$NON-NLS-1$
-			32, 2,
+	SHA256("SHA-256", //$NON-NLS-1$
+			32,
 			"473a0f4c3be8a93681a267e3b1e9a7dcda1185436fe141f7749120a303721813", //$NON-NLS-1$
 			"6ef19b41225c5369f1c104d45d8d85efa9b057b53b14b4b9b939dd74decc5321"); //$NON-NLS-1$
 
-	private final String key;
-
+	/**
+	 * Name of this format for java.security.MessageDigest ("SHA-1", "SHA-256")
+	 */
 	private final String algorithmName;
 
-	private final int numBytes;
+	/** Binary length of the hash (e.g. SHA-1 is 20 bytes) */
+	private final int oidByteLength;
 
-	private final int algorithmIndex;
-
+	// TODO: Make the empty ids ObjectId once we have a SH-A256 version of it
+	// This reparses the id on every call, but postpones the failure to parse
+	// SHA-256 to runtime allowing us to create the enum
 	private final String emptyBlobId;
 
 	private final String emptyTreeId;
 
-	ObjectFormat(String key, String algorithmName, int numBytes,
-			int algorithmIndex, String emptyBlobId, String emptyTreeId) {
-		this.key = key;
+	ObjectFormat(String algorithmName, int oidByteLength, String emptyBlobId,
+			String emptyTreeId) {
 		this.algorithmName = algorithmName;
-		this.numBytes = numBytes;
-		this.algorithmIndex = algorithmIndex;
+		this.oidByteLength = oidByteLength;
 		this.emptyBlobId = emptyBlobId;
 		this.emptyTreeId = emptyTreeId;
 	}
@@ -84,26 +86,9 @@ public enum ObjectFormat {
 	 * @return the all-zeros id
 	 */
 	public ObjectId zeroId() {
-		return this == SHA1 ? ObjectId.zeroId() : Sha256ZeroId.ID;
-	}
-
-	/**
-	 * Holds the SHA-256 all-zeros id, parsed once on first use so that
-	 * {@link ObjectFormat#zeroId()} does not allocate.
-	 */
-	private static final class Sha256ZeroId {
-		static final ObjectId ID = ObjectId
-				.fromString("0".repeat(SHA256.getStringLength())); //$NON-NLS-1$
-	}
-
-	/**
-	 * Get the name of this format in Git configuration.
-	 *
-	 * @return {@code "sha1"} or {@code "sha256"}, as in
-	 *         {@code extensions.objectFormat}
-	 */
-	public String getKey() {
-		return key;
+		// TODO: move this to a field once we can create a SHA256 Objectid
+		return this == SHA1 ? ObjectId.zeroId()
+				: ObjectId.fromString("0".repeat(64));
 	}
 
 	/**
@@ -112,7 +97,7 @@ public enum ObjectFormat {
 	 * @return 40 for SHA-1, 64 for SHA-256
 	 */
 	public int getStringLength() {
-		return numBytes * 2;
+		return oidByteLength * 2;
 	}
 
 	/**
@@ -120,18 +105,20 @@ public enum ObjectFormat {
 	 *
 	 * @return 20 for SHA-1, 32 for SHA-256
 	 */
-	public int getNumBytes() {
-		return numBytes;
+	public int getByteLength() {
+		return oidByteLength;
 	}
 
 	/**
-	 * Get the hash function id Git writes in commit-graph, multi-pack-index and
-	 * reverse index headers.
+	 * Git object id version for this format
+	 * <p>
+	 * 1 for SHA-1 and 2 for SHA-256 is shared convention across Git's newer
+	 * binary index formats.
 	 *
 	 * @return 1 for SHA-1, 2 for SHA-256
 	 */
-	public int getAlgorithmIndex() {
-		return algorithmIndex;
+	public int getObjectIdVersion() {
+		return ordinal() + 1;
 	}
 
 	/**
@@ -184,7 +171,7 @@ public enum ObjectFormat {
 
 		@Override
 		protected int engineGetDigestLength() {
-			return SHA1.getNumBytes();
+			return SHA1.getByteLength();
 		}
 
 		@Override
@@ -237,13 +224,28 @@ public enum ObjectFormat {
 	 * @throws IllegalArgumentException
 	 *             if {@code name} is not a recognized object format
 	 */
-	public static ObjectFormat fromKey(String name) {
-		for (ObjectFormat f : values()) {
-			if (f.key.equalsIgnoreCase(name)) {
-				return f;
-			}
+	public static ObjectFormat fromConfId(String name) {
+		return switch (name) {
+		case "sha1" -> ObjectFormat.SHA1; //$NON-NLS-1$
+		case "sha256" -> ObjectFormat.SHA256; //$NON-NLS-1$
+		default -> throw new IllegalArgumentException(
+				MessageFormat.format(JGitText.get().unknownObjectConfId, name));
+		};
+	}
+
+	/**
+	 * Lookup a format from its object id version, as defined in git
+	 *
+	 * @param oidVersion
+	 *            object id version, as used e.g. in the midx spec
+	 * @return the corresponding ObjectFormat
+	 */
+	public static ObjectFormat fromObjectIdVersion(int oidVersion) {
+		if (oidVersion <= 0 || oidVersion > ObjectFormat.values().length + 1) {
+			throw new IllegalArgumentException(MessageFormat
+					.format(JGitText.get().unknownObjectVersion, oidVersion));
 		}
-		throw new IllegalArgumentException(
-				String.format("Unknown object format %s", name)); //$NON-NLS-1$
+
+		return ObjectFormat.values()[oidVersion - 1];
 	}
 }
