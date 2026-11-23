@@ -11,6 +11,7 @@
 package org.eclipse.jgit.internal.storage.midx;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.ObjectFormat.SHA1;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -79,7 +80,7 @@ public class MultiPackIndexLoaderTest {
 
 		PackIndexMerger data = PackIndexMerger.builder().addPack("p1", idxOne)
 				.addPack("p2", idxTwo).addPack("p3", idxThree).build();
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, data);
 
@@ -153,7 +154,7 @@ public class MultiPackIndexLoaderTest {
 				.addPack("pack-1.idx", FakeIndexFactory.indexOf(p1))
 				.addPack("pack-2.idx", FakeIndexFactory.indexOf(p2)).build();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		new MultiPackIndexWriter().write(NullProgressMonitor.INSTANCE, out,
+		new MultiPackIndexWriter(SHA1).write(NullProgressMonitor.INSTANCE, out,
 				data);
 		return out.toByteArray();
 	}
