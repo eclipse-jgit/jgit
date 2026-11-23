@@ -9,6 +9,7 @@
  */
 package org.eclipse.jgit.internal.storage.midx;
 
+import static org.eclipse.jgit.lib.ObjectFormat.SHA1;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -128,7 +129,7 @@ public class MultiPackIndexTest {
 						"0000000000000000000000000000000000000003", 13)));
 		PackIndexMerger packs = midxDataFor("p1", idxOne,
 				"p2", idxTwo);
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, packs);
 
@@ -159,7 +160,7 @@ public class MultiPackIndexTest {
 						"0000000000000000000000000000000000000003", 13)));
 		PackIndexMerger packs = midxDataFor("p1", idxOne,
 				"p2", idxTwo);
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, packs);
 
@@ -196,7 +197,7 @@ public class MultiPackIndexTest {
 
 		PackIndexMerger packs = midxDataFor("p1", idxOne,
 				"p2", idxTwo);
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, packs);
 		MultiPackIndex midx = MultiPackIndexLoader
@@ -240,7 +241,7 @@ public class MultiPackIndexTest {
 
 		PackIndexMerger packs = midxDataFor("r1", idxOne,
 				"r2", idxTwo);
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, packs);
 		MultiPackIndex midx = MultiPackIndexLoader
@@ -275,7 +276,7 @@ public class MultiPackIndexTest {
 
 		PackIndexMerger packs = midxDataFor("p1", idxOne,
 				"p2", idxTwo);
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, packs);
 		MultiPackIndex midx = MultiPackIndexLoader
@@ -306,7 +307,7 @@ public class MultiPackIndexTest {
 
 		PackIndexMerger packs = midxDataFor("p1", idxOne,
 				"p2", idxTwo);
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, packs);
 		MultiPackIndex midx = MultiPackIndexLoader
@@ -328,7 +329,7 @@ public class MultiPackIndexTest {
 
 		PackIndexMerger data = midxDataFor("p1", idxOne,
 				"p2", idxTwo);
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, data);
 		MultiPackIndex midx = MultiPackIndexLoader
@@ -391,7 +392,7 @@ public class MultiPackIndexTest {
 
 		PackIndexMerger data = midxDataFor("p1", idxOne,
 				"p2", idxTwo, "p3", idxThree);
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, data);
 
@@ -412,7 +413,7 @@ public class MultiPackIndexTest {
 
 		PackIndexMerger data = midxDataFor("p1", idxOne,
 				"p2", idxTwo);
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, data);
 		MultiPackIndex midx = MultiPackIndexLoader
@@ -447,7 +448,7 @@ public class MultiPackIndexTest {
 
 		PackIndexMerger data = midxDataFor("p1", idxOne,
 				"p2", idxTwo, "p3", idxThree);
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, data);
 
@@ -509,7 +510,7 @@ public class MultiPackIndexTest {
 
 		PackIndexMerger data = midxDataFor("p1", idxOne,
 				"p2", idxTwo, "p3", idxThree);
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, data);
 
@@ -577,7 +578,7 @@ public class MultiPackIndexTest {
 
 		PackIndexMerger data = midxDataFor("p1", idxOne,
 				"p2", idxTwo);
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, data);
 		MultiPackIndex midx = MultiPackIndexLoader
@@ -605,7 +606,7 @@ public class MultiPackIndexTest {
 
 		PackIndexMerger data = midxDataFor("p1", idxOne,
 				"p2", idxTwo);
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, data);
 

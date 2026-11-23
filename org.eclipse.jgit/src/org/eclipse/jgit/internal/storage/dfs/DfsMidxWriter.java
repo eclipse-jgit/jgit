@@ -13,6 +13,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.eclipse.jgit.internal.storage.dfs.DfsObjDatabase.PackSource.GC;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.MULTI_PACK_INDEX;
+import static org.eclipse.jgit.lib.ObjectFormat.SHA1;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -123,7 +124,7 @@ public class DfsMidxWriter {
 		DfsPackDescription midxPackDesc = objdb.newPack(GC);
 		try (DfsOutputStream out = objdb.writeFile(midxPackDesc,
 				MULTI_PACK_INDEX)) {
-			MultiPackIndexWriter w = new MultiPackIndexWriter();
+			MultiPackIndexWriter w = new MultiPackIndexWriter(SHA1);
 			MultiPackIndexWriter.Result result = w.write(pm, out, data);
 			midxPackDesc.addFileExt(MULTI_PACK_INDEX);
 			midxPackDesc.setFileSize(MULTI_PACK_INDEX, result.bytesWritten());

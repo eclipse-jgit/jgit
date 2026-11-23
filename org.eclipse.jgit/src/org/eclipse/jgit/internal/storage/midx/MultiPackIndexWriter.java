@@ -20,8 +20,6 @@ import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MID
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_SIGNATURE;
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_VERSION;
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MULTIPACK_INDEX_FANOUT_SIZE;
-import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.OID_HASH_VERSION;
-import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -37,6 +35,7 @@ import java.util.Map;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.storage.io.CancellableDigestOutputStream;
 import org.eclipse.jgit.internal.storage.midx.MultiPackIndex.MutableEntry;
+import org.eclipse.jgit.lib.ObjectFormat;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.NB;
@@ -71,6 +70,15 @@ public class MultiPackIndexWriter {
 	 */
 	public record Result(long bytesWritten, int objectCount,
 			List<String> packNames, String checksum) {
+	}
+
+	private final int oidByteLength;
+
+	private final byte oidVersion;
+
+	public MultiPackIndexWriter(ObjectFormat objectFormat) {
+		this.oidByteLength = objectFormat.getByteLength();
+		this.oidVersion = (byte) objectFormat.getObjectIdVersion();
 	}
 
 	/**
@@ -130,7 +138,7 @@ public class MultiPackIndexWriter {
 		chunkHeaders.add(new ChunkHeader(MIDX_CHUNKID_OIDFANOUT,
 				MULTIPACK_INDEX_FANOUT_SIZE, this::writeFanoutTable));
 		chunkHeaders.add(new ChunkHeader(MIDX_CHUNKID_OIDLOOKUP,
-				(long) data.getUniqueObjectCount() * OBJECT_ID_LENGTH,
+				(long) data.getUniqueObjectCount() * oidByteLength,
 				this::writeOidLookUp));
 		chunkHeaders.add(new ChunkHeader(MIDX_CHUNKID_OBJECTOFFSETS,
 				8L * data.getUniqueObjectCount(), this::writeObjectOffsets));
@@ -171,7 +179,7 @@ public class MultiPackIndexWriter {
 			int packCount) throws IOException {
 		byte[] headerBuffer = new byte[MIDX_HEADER_SIZE];
 		NB.encodeInt32(headerBuffer, 0, MIDX_SIGNATURE);
-		byte[] buff = { MIDX_VERSION, OID_HASH_VERSION, (byte) numChunks,
+		byte[] buff = { MIDX_VERSION, oidVersion, (byte) numChunks,
 				(byte) 0 };
 		System.arraycopy(buff, 0, headerBuffer, 4, 4);
 		NB.encodeInt32(headerBuffer, 8, packCount);
@@ -251,13 +259,13 @@ public class MultiPackIndexWriter {
 	 *             error writing to the output stream
 	 */
 	private void writeOidLookUp(WriteContext ctx) throws IOException {
-		byte[] tmp = new byte[OBJECT_ID_LENGTH];
+		byte[] tmp = new byte[oidByteLength];
 
 		Iterator<MutableEntry> iterator = ctx.data.bySha1Iterator();
 		while (iterator.hasNext()) {
 			MutableEntry e = iterator.next();
 			e.getObjectId().copyRawTo(tmp, 0);
-			ctx.out.write(tmp, 0, OBJECT_ID_LENGTH);
+			ctx.out.write(tmp, 0, oidByteLength);
 		}
 	}
 

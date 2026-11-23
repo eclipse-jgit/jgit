@@ -17,6 +17,7 @@ import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MID
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_OIDLOOKUP;
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_PACKNAMES;
 import static org.eclipse.jgit.internal.storage.midx.MultiPackIndexConstants.MIDX_CHUNKID_REVINDEX;
+import static org.eclipse.jgit.lib.ObjectFormat.SHA1;
 import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
@@ -50,7 +51,7 @@ public class MultiPackIndexWriterTest {
 				.addPack("packname1", index1).addPack("packname2", index2)
 				.build();
 
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, data);
 		// header (12 bytes)
@@ -88,7 +89,7 @@ public class MultiPackIndexWriterTest {
 				.addPack("packname1", index1).addPack("packname2", index2)
 				.build();
 
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, data);
 		// header (12 bytes)
@@ -125,7 +126,7 @@ public class MultiPackIndexWriterTest {
 				.addPack("bbbbbbbbb", index1).addPack("aaaaaaaaa", index2)
 				.build();
 
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		MultiPackIndexWriter.Result result = writer
 				.write(NullProgressMonitor.INSTANCE, out, data);
@@ -160,7 +161,7 @@ public class MultiPackIndexWriterTest {
 		PackIndex idxTwo = FakeIndexFactory.indexOf(List.of());
 		PackIndexMerger packs = PackIndexMerger.builder().addPack("p1", idxOne)
 				.addPack("p2", idxTwo).build();
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		writer.write(NullProgressMonitor.INSTANCE, out, packs);
 		List<Integer> chunkIds = readChunkIds(out);
@@ -177,7 +178,7 @@ public class MultiPackIndexWriterTest {
 	@Test
 	public void jgit_noPacks() throws IOException {
 		PackIndexMerger packs = PackIndexMerger.builder().build();
-		MultiPackIndexWriter writer = new MultiPackIndexWriter();
+		MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		MultiPackIndexWriter.Result result = writer
 				.write(NullProgressMonitor.INSTANCE, out, packs);
