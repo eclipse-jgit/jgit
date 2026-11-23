@@ -10,6 +10,7 @@
 package org.eclipse.jgit.internal.storage.file;
 
 import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
+import static org.eclipse.jgit.lib.ObjectFormat.SHA1;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -114,7 +115,7 @@ public class MidxWriter {
 			String midxFilename = midxOut.getAbsolutePath();
 			File midxOutTmp = new File(
 					midxFilename + BITMAP_INDEX.getTmpExtension());
-			MultiPackIndexWriter writer = new MultiPackIndexWriter();
+			MultiPackIndexWriter writer = new MultiPackIndexWriter(SHA1);
 			MultiPackIndexWriter.Result result;
 			try (FileOutputStream out = new FileOutputStream(
 					midxOutTmp.getAbsolutePath())) {
