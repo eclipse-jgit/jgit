@@ -233,7 +233,9 @@ public enum ObjectFormat {
 	 *
 	 * @param name
 	 *            the name, such as the value of {@code extensions.objectFormat}
-	 * @return the format with that name, or {@code null} if none
+	 * @return the format with that name
+	 * @throws IllegalArgumentException
+	 *             if {@code name} is not a recognized object format
 	 */
 	public static ObjectFormat fromKey(String name) {
 		for (ObjectFormat f : values()) {
@@ -241,6 +243,7 @@ public enum ObjectFormat {
 				return f;
 			}
 		}
-		return null;
+		throw new IllegalArgumentException(
+				String.format("Unknown object format %s", name)); //$NON-NLS-1$
 	}
 }
