@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77cc20c6_042974e4",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-23T12:37:14Z",
+      "side": 1,
+      "message": "Good catch, thanks. Fixed in PS3: `caseInsensitiveFs()`, `caseSensitiveFs()` and `readIgnoreCase()` now live in a new helper class: `IgnoreCaseTestHelper`. I added that class to `HELPERS` in `org.eclipse.jgit.test/BUILD`. `InitCommandTest` and `CloneCommandTest` both use it now. I ran `bazel test` on both classes (`org_eclipse_jgit_api_InitCommandTest` and `org_eclipse_jgit_api_CloneCommandTest`) and they pass; they also pass with Maven.",
+      "parentUuid": "9aa17ed4_577e7361",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 59
+      },
+      "revId": "5e56c3a37caaeb6075b165f8c0b34037fc6b4eb9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00965705_850c304c",
