@@ -12,6 +12,8 @@ package org.eclipse.jgit.lib;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.MessageFormat;
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * The hash algorithms Git uses to name objects.
@@ -37,24 +39,24 @@ public enum ObjectFormat {
 			"473a0f4c3be8a93681a267e3b1e9a7dcda1185436fe141f7749120a303721813", //$NON-NLS-1$
 			"6ef19b41225c5369f1c104d45d8d85efa9b057b53b14b4b9b939dd74decc5321"); //$NON-NLS-1$
 
-	private final String key;
+	private final String confId;
 
 	private final String algorithmName;
 
-	private final int numBytes;
+	private final int oidByteLength;
 
-	private final int algorithmIndex;
+	private final int oidVersion;
 
 	private final String emptyBlobId;
 
 	private final String emptyTreeId;
 
-	ObjectFormat(String key, String algorithmName, int numBytes,
-			int algorithmIndex, String emptyBlobId, String emptyTreeId) {
-		this.key = key;
+	ObjectFormat(String confId, String algorithmName, int oidByteLength,
+			int oidVersion, String emptyBlobId, String emptyTreeId) {
+		this.confId = confId;
 		this.algorithmName = algorithmName;
-		this.numBytes = numBytes;
-		this.algorithmIndex = algorithmIndex;
+		this.oidByteLength = oidByteLength;
+		this.oidVersion = oidVersion;
 		this.emptyBlobId = emptyBlobId;
 		this.emptyTreeId = emptyTreeId;
 	}
@@ -102,8 +104,8 @@ public enum ObjectFormat {
 	 * @return {@code "sha1"} or {@code "sha256"}, as in
 	 *         {@code extensions.objectFormat}
 	 */
-	public String getKey() {
-		return key;
+	public String getConfId() {
+		return confId;
 	}
 
 	/**
@@ -112,7 +114,7 @@ public enum ObjectFormat {
 	 * @return 40 for SHA-1, 64 for SHA-256
 	 */
 	public int getStringLength() {
-		return numBytes * 2;
+		return oidByteLength * 2;
 	}
 
 	/**
@@ -120,18 +122,20 @@ public enum ObjectFormat {
 	 *
 	 * @return 20 for SHA-1, 32 for SHA-256
 	 */
-	public int getNumBytes() {
-		return numBytes;
+	public int getByteLength() {
+		return oidByteLength;
 	}
 
 	/**
-	 * Get the hash function id Git writes in commit-graph, multi-pack-index and
-	 * reverse index headers.
+	 * Git object id version for this format
+	 * 
+	 * 1 for SHA-1 and 2 for SHA-256 is shared convention across Git's newer
+	 * binary index formats.
 	 *
 	 * @return 1 for SHA-1, 2 for SHA-256
 	 */
-	public int getAlgorithmIndex() {
-		return algorithmIndex;
+	public int getObjectIdVersion() {
+		return oidVersion;
 	}
 
 	/**
@@ -184,7 +188,7 @@ public enum ObjectFormat {
 
 		@Override
 		protected int engineGetDigestLength() {
-			return SHA1.getNumBytes();
+			return SHA1.getByteLength();
 		}
 
 		@Override
@@ -237,13 +241,35 @@ public enum ObjectFormat {
 	 * @throws IllegalArgumentException
 	 *             if {@code name} is not a recognized object format
 	 */
-	public static ObjectFormat fromKey(String name) {
+	public static ObjectFormat fromConfId(String name) {
 		for (ObjectFormat f : values()) {
-			if (f.key.equalsIgnoreCase(name)) {
+			if (f.confId.equalsIgnoreCase(name)) {
 				return f;
 			}
 		}
 		throw new IllegalArgumentException(
-				String.format("Unknown object format %s", name)); //$NON-NLS-1$
+				MessageFormat.format(JGitText.get().unknownObjectConfId, name));
+	}
+
+	/**
+	 * Lookup a format from its object id version, as defined in git
+	 * 
+	 * @param oidVersion
+	 *            object id version, as used e.g. in the midx spec
+	 * @return the corresponding ObjectFormat
+	 */
+	public static ObjectFormat fromObjectIdVersion(int oidVersion) {
+		if (oidVersion > 2) {
+			throw new IllegalArgumentException(MessageFormat
+					.format(JGitText.get().unknownObjectVersion, oidVersion));
+		}
+
+		for (ObjectFormat f : values()) {
+			if (f.getObjectIdVersion() == oidVersion) {
+				return f;
+			}
+		}
+		throw new IllegalArgumentException(MessageFormat
+				.format(JGitText.get().unknownObjectVersion, oidVersion));
 	}
 }

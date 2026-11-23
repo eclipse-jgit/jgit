@@ -881,9 +881,11 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unknownDIRCVersion;
 	/***/ public String unknownHost;
 	/***/ public String unknownObject;
+	/***/ public String unknownObjectConfId;
 	/***/ public String unknownObjectInIndex;
 	/***/ public String unknownObjectType;
 	/***/ public String unknownObjectType2;
+	/***/ public String unknownObjectVersion;
 	/***/ public String unknownPackExtension;
 	/***/ public String unknownPositionEncoding;
 	/***/ public String unknownRefStorageFormat;
