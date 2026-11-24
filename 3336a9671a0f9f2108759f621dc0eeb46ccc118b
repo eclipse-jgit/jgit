@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29cb9ef2_c0b4a903",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2026-11-24T22:13:37Z",
+      "side": 1,
+      "message": "The revised I32ef1cc0 retains the BTMP-bounded search when the chunk is present and falls back to a full reverse-index search when it is absent.\n\nBTMP is therefore still used, so removing its storage is no longer appropriate. Abandoning this change.",
+      "revId": "3336a9671a0f9f2108759f621dc0eeb46ccc118b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
