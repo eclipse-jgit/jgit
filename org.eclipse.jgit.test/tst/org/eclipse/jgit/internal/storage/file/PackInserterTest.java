@@ -590,7 +590,7 @@ public class PackInserterTest extends RepositoryTestCase {
 	}
 
 	private void assertNoObjects() throws Exception {
-		new BadFileCollector(f -> true)
+		new BadFileCollector(_ -> true)
 				.assertNoBadFiles(db.getObjectDatabase().getDirectory());
 	}
 

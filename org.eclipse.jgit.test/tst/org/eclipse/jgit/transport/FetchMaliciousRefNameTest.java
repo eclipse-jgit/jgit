@@ -177,7 +177,7 @@ public class FetchMaliciousRefNameTest extends LocalDiskRepositoryTestCase {
 		advertise(advertised, HEAD);
 		advertise(advertised, "refs/pull/1/head");
 
-		testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+		testProtocol = new TestProtocol<>((Object _, Repository db) -> {
 			UploadPack up = new UploadPack(db);
 			up.setAdvertisedRefs(advertised);
 			return up;
@@ -240,7 +240,7 @@ public class FetchMaliciousRefNameTest extends LocalDiskRepositoryTestCase {
 
 	private void fetchWithTags(Map<String, Ref> advertised, TagOpt tagOpt)
 			throws Exception {
-		testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+		testProtocol = new TestProtocol<>((Object _, Repository db) -> {
 			UploadPack up = new UploadPack(db);
 			up.setAdvertisedRefs(advertised);
 			return up;
@@ -300,7 +300,7 @@ public class FetchMaliciousRefNameTest extends LocalDiskRepositoryTestCase {
 
 	private void fetchWildcardTags(Map<String, Ref> advertised)
 			throws Exception {
-		testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+		testProtocol = new TestProtocol<>((Object _, Repository db) -> {
 			UploadPack up = new UploadPack(db);
 			up.setAdvertisedRefs(advertised);
 			return up;

@@ -84,7 +84,7 @@ public class JDKHttpConnectionFactory implements HttpConnectionFactory2 {
 					}
 				};
 			}
-			conn.setHostnameVerifier((name, session) -> true);
+			conn.setHostnameVerifier((_, _) -> true);
 			((HttpsURLConnection) conn.wrappedUrlConnection)
 					.setSSLSocketFactory(socketFactory);
 			return conn;

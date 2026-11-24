@@ -320,7 +320,7 @@ public class HttpSupport {
 				new NoCheckX509TrustManager() };
 		try {
 			conn.configure(null, trustAllCerts, null);
-			conn.setHostnameVerifier((name, session) -> true);
+			conn.setHostnameVerifier((_, _) -> true);
 		} catch (KeyManagementException | NoSuchAlgorithmException e) {
 			throw new IOException(e.getMessage(), e);
 		}

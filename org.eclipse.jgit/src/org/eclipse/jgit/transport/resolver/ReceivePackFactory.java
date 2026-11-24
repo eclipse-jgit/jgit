@@ -24,7 +24,7 @@ public interface ReceivePackFactory<C> {
 	/**
 	 * A factory disabling the ReceivePack service for all repositories
 	 */
-	ReceivePackFactory<?> DISABLED = (Object req, Repository db) -> {
+	ReceivePackFactory<?> DISABLED = (Object _, Repository _) -> {
 		throw new ServiceNotEnabledException();
 	};
 

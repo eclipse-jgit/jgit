@@ -270,7 +270,7 @@ public class RawText extends Sequence {
 	 */
 	public static int setBufferSize(int bufferSize) {
 		int newSize = Math.max(FIRST_FEW_BYTES, bufferSize);
-		return BUFFER_SIZE.updateAndGet(curr -> newSize);
+		return BUFFER_SIZE.updateAndGet(_ -> newSize);
 	}
 
 	/**

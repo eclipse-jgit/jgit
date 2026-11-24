@@ -118,7 +118,7 @@ public class UploadPackTest {
 		RevCommit tip = remote.commit().message("2").parent(commit1).create();
 		remote.update("master", tip);
 
-		testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+		testProtocol = new TestProtocol<>((Object _, Repository db) -> {
 			UploadPack up = new UploadPack(db);
 			up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
 			// assume client has a shallow commit
@@ -153,7 +153,7 @@ public class UploadPackTest {
 			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
 					true);
 
-			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+			testProtocol = new TestProtocol<>((Object _, Repository db) -> {
 				UploadPack up = new UploadPack(db);
 				return up;
 			}, null);
@@ -186,7 +186,7 @@ public class UploadPackTest {
 			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
 					true);
 
-			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+			testProtocol = new TestProtocol<>((Object _, Repository db) -> {
 				UploadPack up = new UploadPack(db);
 				return up;
 			}, null);
@@ -218,7 +218,7 @@ public class UploadPackTest {
 			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
 					true);
 
-			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+			testProtocol = new TestProtocol<>((Object _, Repository db) -> {
 				UploadPack up = new UploadPack(db);
 				return up;
 			}, null);
@@ -256,7 +256,7 @@ public class UploadPackTest {
 			new DfsGarbageCollector(server2).pack(null);
 			server2.scanForRepoChanges();
 
-			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+			testProtocol = new TestProtocol<>((Object _, Repository db) -> {
 				UploadPack up = new UploadPack(db);
 				return up;
 			}, null);
@@ -291,7 +291,7 @@ public class UploadPackTest {
 			new DfsGarbageCollector(server2).pack(null);
 			server2.scanForRepoChanges();
 
-			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+			testProtocol = new TestProtocol<>((Object _, Repository db) -> {
 				UploadPack up = new UploadPack(db);
 				return up;
 			}, null);
@@ -324,7 +324,7 @@ public class UploadPackTest {
 			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
 					true);
 
-			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+			testProtocol = new TestProtocol<>((Object _, Repository db) -> {
 				UploadPack up = new UploadPack(db);
 				return up;
 			}, null);
@@ -354,7 +354,7 @@ public class UploadPackTest {
 			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
 					false);
 
-			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+			testProtocol = new TestProtocol<>((Object _, Repository db) -> {
 				UploadPack up = new UploadPack(db);
 				return up;
 			}, null);
@@ -2267,7 +2267,7 @@ public class UploadPackTest {
 			clientRepo.update("branchFoo", localFooParent);
 			clientRepo.update("branchBar", localBarParent);
 
-			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+			testProtocol = new TestProtocol<>((Object _, Repository db) -> {
 				UploadPack up = new UploadPack(db);
 				up.setPreUploadHook(countHavesHook);
 				uploadPack.set(up);
@@ -2389,7 +2389,7 @@ public class UploadPackTest {
 			}
 			clientRepo.update("branchBar", localParentBar);
 
-			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+			testProtocol = new TestProtocol<>((Object _, Repository db) -> {
 				UploadPack up = new UploadPack(db);
 				up.setPreUploadHook(countHavesHook);
 				uploadPack.set(up);
@@ -2456,7 +2456,7 @@ public class UploadPackTest {
 		// Client does not have branchFoo & branchBar
 		try (TestRepository<InMemoryRepository> clientRepo = new TestRepository<>(
 				client)) {
-			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+			testProtocol = new TestProtocol<>((Object _, Repository db) -> {
 				UploadPack up = new UploadPack(db);
 				up.setPreUploadHook(countHavesHook);
 				uploadPack.set(up);
@@ -3019,7 +3019,7 @@ public class UploadPackTest {
 		remote = new TestRepository<>(server);
 		RevCommit one = remote.commit().message("1").create();
 		remote.update("one", one);
-		testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+		testProtocol = new TestProtocol<>((Object _, Repository db) -> {
 			UploadPack up = new UploadPack(db);
 			return up;
 		}, null);
@@ -3338,7 +3338,7 @@ public class UploadPackTest {
 		assertFalse(new UploadPack.AnyRequestValidator()
 				.requiresAdvertisedRefs());
 
-		RequestValidator customDefault = (up, wants) -> {
+		RequestValidator customDefault = (_, _) -> {
 			// Default implementation should require advertised refs.
 		};
 		assertTrue(customDefault.requiresAdvertisedRefs());
@@ -3384,7 +3384,7 @@ public class UploadPackTest {
 		RevCommit unadvertised = remote.commit().message("z").create();
 		AtomicReference<Map<String, Ref>> seenAdvertisedRefs = new AtomicReference<>();
 
-		RequestValidator customValidator = (up, wants) -> {
+		RequestValidator customValidator = (up, _) -> {
 			// Inherits default requiresAdvertisedRefs() == true.
 			seenAdvertisedRefs.set(up.getAdvertisedRefs());
 		};

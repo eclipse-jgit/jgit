@@ -81,7 +81,7 @@ public class ReceivePackTest {
 		clientTestRepo = new TestRepository<>(client);
 		serverTestRepo = new TestRepository<>(server);
 
-		testProtocol = new TestProtocol<>(null, (Object req, Repository db) -> {
+		testProtocol = new TestProtocol<>(null, (Object _, Repository db) -> {
 			ReceivePack rp = new ReceivePack(db);
 			return rp;
 		});

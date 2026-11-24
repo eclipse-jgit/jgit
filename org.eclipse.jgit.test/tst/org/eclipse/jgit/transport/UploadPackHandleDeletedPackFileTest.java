@@ -91,7 +91,7 @@ public class UploadPackHandleDeletedPackFileTest
 			throws Exception {
 		Object ctx = new Object();
 		TestProtocol<Object> testProtocol = new TestProtocol<>(
-				(Object req, Repository db) -> {
+				(Object _, Repository db) -> {
 					UploadPack up = new UploadPack(db);
 					up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
 					Collection<Pack> packs = server.getObjectDatabase()

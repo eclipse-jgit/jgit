@@ -58,7 +58,7 @@ public class PushOptionsTest extends RepositoryTestCase {
 		client = newRepo("client");
 
 		testProtocol = new TestProtocol<>(null,
-				(Object req, Repository git) -> {
+				(Object _, Repository git) -> {
 					receivePack = new ReceivePack(git);
 					receivePack.setAllowPushOptions(true);
 					receivePack.setAtomic(true);

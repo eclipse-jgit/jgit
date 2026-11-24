@@ -83,7 +83,7 @@ public class GitServletResponseTests extends HttpTestCase {
 
 		ServletContextHandler app = server.addContext("/git");
 		gs = new GitServlet();
-		gs.setRepositoryResolver((HttpServletRequest req, String name) -> {
+		gs.setRepositoryResolver((HttpServletRequest _, String name) -> {
 			if (!name.equals(repoName)) {
 				throw new RepositoryNotFoundException(name);
 			}
@@ -140,7 +140,7 @@ public class GitServletResponseTests extends HttpTestCase {
 
 		maxPackSize = 0;
 		postHook = null;
-		preHook = (ReceivePack rp, Collection<ReceiveCommand> commands) -> {
+		preHook = (ReceivePack _, Collection<ReceiveCommand> _) -> {
 			throw new IllegalStateException();
 		};
 
@@ -220,7 +220,7 @@ public class GitServletResponseTests extends HttpTestCase {
 		maxPackSize = 100;
 		// this PostReceiveHook when called after an unsuccesfull unpack will
 		// lead to an IllegalStateException
-		postHook = (ReceivePack rp, Collection<ReceiveCommand> commands) -> {
+		postHook = (ReceivePack rp, Collection<ReceiveCommand> _) -> {
 			// the maxPackSize setting caused that the packfile couldn't be
 			// saved to disk. Calling getPackSize() now will lead to a
 			// IllegalStateException.

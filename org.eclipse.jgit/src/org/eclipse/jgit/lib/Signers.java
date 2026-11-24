@@ -72,7 +72,7 @@ public final class Signers {
 	 * @return a {@link Signer}, or {@code null} if none is available
 	 */
 	public static Signer get(@NonNull GpgConfig.GpgFormat format) {
-		return SIGNERS.computeIfAbsent(format, f -> {
+		return SIGNERS.computeIfAbsent(format, _ -> {
 			SignerFactory factory = SIGNER_FACTORIES.get(format);
 			if (factory == null) {
 				return null;

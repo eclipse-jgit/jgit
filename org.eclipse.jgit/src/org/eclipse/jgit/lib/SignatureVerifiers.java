@@ -89,7 +89,7 @@ public final class SignatureVerifiers {
 	 * @return a {@link Signer}, or {@code null} if none is available
 	 */
 	public static SignatureVerifier get(@NonNull GpgConfig.GpgFormat format) {
-		return VERIFIERS.computeIfAbsent(format, f -> {
+		return VERIFIERS.computeIfAbsent(format, _ -> {
 			SignatureVerifierFactory factory = FACTORIES.get(format);
 			if (factory == null) {
 				return null;

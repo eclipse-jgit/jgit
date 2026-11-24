@@ -168,7 +168,7 @@ public class GitTimeParser {
 	private static LocalDateTime parseSimple(String dateStr,
 			ParseableSimpleDateFormat f) throws DateTimeParseException {
 		DateTimeFormatter dateFormat = formatCache.computeIfAbsent(f,
-				format -> DateTimeFormatter
+				_ -> DateTimeFormatter
 						.ofPattern(f.formatStr)
 						.withLocale(SystemReader.getInstance().getLocale()));
 		TemporalAccessor parsed = dateFormat.parse(dateStr);

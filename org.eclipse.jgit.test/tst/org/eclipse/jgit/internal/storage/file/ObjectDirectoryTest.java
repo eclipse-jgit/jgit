@@ -176,7 +176,7 @@ public class ObjectDirectoryTest extends RepositoryTestCase {
 			Thread.sleep(2600);
 
 			File[] ret = packsFolder.listFiles(
-					(File dir, String name) -> name.endsWith(".pack"));
+					(File _, String name) -> name.endsWith(".pack"));
 			assertTrue(ret != null && ret.length == 1);
 			FS fs = db.getFS();
 			Assume.assumeTrue(fs.lastModifiedInstant(tmpFile)

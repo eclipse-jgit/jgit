@@ -43,7 +43,7 @@ public class AtomicPushTest {
 		server = newRepo("server");
 		client = newRepo("client");
 		testProtocol = new TestProtocol<>(null,
-				(req, db) -> new ReceivePack(db));
+				(_, db) -> new ReceivePack(db));
 		uri = testProtocol.register(ctx, server);
 
 		try (TestRepository<?> clientRepo = new TestRepository<>(client)) {

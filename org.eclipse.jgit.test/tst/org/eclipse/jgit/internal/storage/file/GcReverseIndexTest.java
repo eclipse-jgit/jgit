@@ -110,7 +110,7 @@ public class GcReverseIndexTest extends GcTestCase {
 	private static void assertRidxDoesNotExist(FileRepository repo) {
 		File packDir = repo.getObjectDatabase().getPackDirectory();
 		String[] reverseIndexFilenames = packDir.list(
-				(dir, name) -> name.endsWith(REVERSE_INDEX.getExtension()));
+				(_, name) -> name.endsWith(REVERSE_INDEX.getExtension()));
 		assertEquals(0, reverseIndexFilenames.length);
 	}
 }

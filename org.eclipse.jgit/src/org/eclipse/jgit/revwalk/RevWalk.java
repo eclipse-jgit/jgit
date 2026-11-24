@@ -591,7 +591,7 @@ public class RevWalk implements Iterable<RevCommit>, AutoCloseable {
 			if (!(o instanceof RevCommit)) {
 				continue;
 			}
-			refsByCommit.computeIfAbsent((RevCommit) o, c -> new ArrayList<>()).add(r);
+			refsByCommit.computeIfAbsent((RevCommit) o, _ -> new ArrayList<>()).add(r);
 		}
 		monitor.update(1);
 		List<Ref> result = new ArrayList<>();

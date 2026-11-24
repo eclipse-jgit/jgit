@@ -566,7 +566,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		final int[] count = new int[1];
 
 		ListenerHandle listener = Repository.getGlobalListenerList()
-				.addRefsChangedListener((RefsChangedEvent event) -> {
+				.addRefsChangedListener((RefsChangedEvent _) -> {
 					count[0]++;
 				});
 
@@ -1487,7 +1487,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		final AtomicReference<IOException> exception = new AtomicReference<>();
 		final AtomicInteger changeCount = new AtomicInteger();
 		newRepo.getListenerList()
-				.addRefsChangedListener((RefsChangedEvent event) -> {
+				.addRefsChangedListener((RefsChangedEvent _) -> {
 					try {
 						refDb.getRefsByPrefix("ref");
 						changeCount.incrementAndGet();

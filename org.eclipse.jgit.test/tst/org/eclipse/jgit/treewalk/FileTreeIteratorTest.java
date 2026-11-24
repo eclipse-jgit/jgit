@@ -563,7 +563,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	private final FileTreeIterator.FileModeStrategy NO_GITLINKS_STRATEGY = (
-			File f, FS.Attributes attributes) -> {
+			File _, FS.Attributes attributes) -> {
 		if (attributes.isSymbolicLink()) {
 			return FileMode.SYMLINK;
 		} else if (attributes.isDirectory()) {

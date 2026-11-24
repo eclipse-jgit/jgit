@@ -53,7 +53,7 @@ class Glog extends RevWalkTextBuiltin {
 		final JPanel buttons = new JPanel(new FlowLayout());
 		final JButton repaint = new JButton();
 		repaint.setText(CLIText.get().repaint);
-		repaint.addActionListener((ActionEvent e) -> {
+		repaint.addActionListener((ActionEvent _) -> {
 			graphPane.repaint();
 		});
 		buttons.add(repaint);
