@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9c4bd3b_474ecdd2",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-11-24T08:40:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6945e59_9597c410",
+      "range": {
+        "startLine": 494,
+        "startChar": 6,
+        "endLine": 494,
+        "endChar": 51
+      },
+      "revId": "ca72cc1115644fad313222da62afb8a56993668f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "354ed727_e7ebac32",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "I would close this thread and, if necessary, add a comment in the code. This open thread reads like \"there is still something to do\", which may not be the case (?).",
       "parentUuid": "354ed727_e7ebac32",
+      "range": {
+        "startLine": 581,
+        "startChar": 3,
+        "endLine": 583,
+        "endChar": 4
+      },
+      "revId": "ca72cc1115644fad313222da62afb8a56993668f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c52f1ba_dfabab9c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-11-24T08:40:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f87b592e_18cf5300",
       "range": {
         "startLine": 581,
         "startChar": 3,
