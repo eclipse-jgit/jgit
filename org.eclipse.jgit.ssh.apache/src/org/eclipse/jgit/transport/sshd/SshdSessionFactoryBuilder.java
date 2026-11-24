@@ -12,6 +12,7 @@ package org.eclipse.jgit.transport.sshd;
 import java.io.File;
 import java.nio.file.Path;
 import java.security.KeyPair;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiFunction;
@@ -269,6 +270,27 @@ public final class SshdSessionFactoryBuilder {
 	}
 
 	/**
+	 * Adds a {@link SshdSessionListener} to receive lifecycle, negotiation,
+	 * disconnect, and failure events for SSH sessions created by built
+	 * factories.
+	 *
+	 * @param listener
+	 *            listener to add; ignored if {@code null}
+	 * @return this {@link SshdSessionFactoryBuilder}
+	 * @since 8.0
+	 */
+	public SshdSessionFactoryBuilder addSessionListener(
+			SshdSessionListener listener) {
+		if (listener != null) {
+			if (this.state.sessionListeners == null) {
+				this.state.sessionListeners = new ArrayList<>();
+			}
+			this.state.sessionListeners.add(listener);
+		}
+		return this;
+	}
+
+	/**
 	 * Builds a {@link SshdSessionFactory} as configured, using the given
 	 * {@link KeyCache} for caching keys.
 	 * <p>
@@ -317,6 +339,8 @@ public final class SshdSessionFactoryBuilder {
 
 		boolean connectorFactorySet;
 
+		List<SshdSessionListener> sessionListeners;
+
 		State copy() {
 			State c = new State();
 			c.proxyDataFactory = proxyDataFactory;
@@ -332,6 +356,9 @@ public final class SshdSessionFactoryBuilder {
 			c.serverKeyDatabaseCreator = serverKeyDatabaseCreator;
 			c.connectorFactory = connectorFactory;
 			c.connectorFactorySet = connectorFactorySet;
+			if (sessionListeners != null) {
+				c.sessionListeners = new ArrayList<>(sessionListeners);
+			}
 			return c;
 		}
 
@@ -438,6 +465,14 @@ public final class SshdSessionFactoryBuilder {
 				}
 				// Use default via ServiceLoader
 				return super.getConnectorFactory();
+			}
+
+			@Override
+			protected List<SshdSessionListener> getSessionListeners() {
+				if (sessionListeners != null) {
+					return Collections.unmodifiableList(sessionListeners);
+				}
+				return super.getSessionListeners();
 			}
 		}
 	}
