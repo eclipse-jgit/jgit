@@ -114,7 +114,7 @@ public class BatchRefUpdateTest extends LocalDiskRepositoryTestCase {
 
 	private ListenerHandle handle;
 
-	private RefsChangedListener refsChangedListener = event -> {
+	private RefsChangedListener refsChangedListener = _ -> {
 		refsChangedEvents++;
 	};
 

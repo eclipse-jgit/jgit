@@ -169,7 +169,7 @@ class SnapshottingRefDirectory extends RefDirectory {
 	private static <T> T invalidateSnapshotOnError(
 			SupplierThrowsException<T, IOException> f, SnapshottingRefDirectory refDb)
 			throws IOException {
-		return invalidateSnapshotOnError(a -> f.call(), null, refDb);
+		return invalidateSnapshotOnError(_ -> f.call(), null, refDb);
 	}
 
 	private static <A, R> R invalidateSnapshotOnError(
@@ -292,7 +292,7 @@ class SnapshottingRefDirectory extends RefDirectory {
 		@Override
 		public void execute(RevWalk walk, ProgressMonitor monitor)
 				throws IOException {
-			invalidateSnapshotOnError((rw, m, a3) -> super.execute(rw, m), walk,
+			invalidateSnapshotOnError((rw, m, _) -> super.execute(rw, m), walk,
 					monitor, null, getRefDatabase());
 		}
 

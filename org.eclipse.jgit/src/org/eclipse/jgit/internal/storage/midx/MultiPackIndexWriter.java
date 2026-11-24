@@ -314,7 +314,7 @@ public class MultiPackIndexWriter {
 			MutableEntry e = iterator.next();
 			OffsetPosition op = new OffsetPosition(e.getOffset(), midxPosition);
 			midxPosition++;
-			packOffsets.computeIfAbsent(e.getPackId(), k -> new ArrayList<>())
+			packOffsets.computeIfAbsent(e.getPackId(), _ -> new ArrayList<>())
 					.add(op);
 		}
 

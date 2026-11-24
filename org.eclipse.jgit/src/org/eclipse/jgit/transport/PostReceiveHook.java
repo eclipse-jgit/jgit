@@ -30,8 +30,8 @@ import java.util.Collection;
  */
 public interface PostReceiveHook {
 	/** A simple no-op hook. */
-	PostReceiveHook NULL = (final ReceivePack rp,
-			final Collection<ReceiveCommand> commands) -> {
+	PostReceiveHook NULL = (final ReceivePack _,
+			final Collection<ReceiveCommand> _) -> {
 		// Do nothing.
 	};
 

@@ -24,7 +24,7 @@ public interface RepositoryResolver<C> {
 	/**
 	 * Resolver configured to open nothing.
 	 */
-	RepositoryResolver<?> NONE = (Object req, String name) -> {
+	RepositoryResolver<?> NONE = (Object _, String name) -> {
 		throw new RepositoryNotFoundException(name);
 	};
 

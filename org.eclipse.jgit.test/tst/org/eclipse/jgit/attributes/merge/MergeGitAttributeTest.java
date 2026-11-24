@@ -94,19 +94,19 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 	@Test
 	public void mergeTextualFile_NoAttr() throws NoWorkTreeException,
 			NoFilepatternException, GitAPIException, IOException {
-		try (Git git = createRepositoryBinaryConflict(g -> {
+		try (Git git = createRepositoryBinaryConflict(_ -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "D\n");
 			} catch (IOException e) {
 				throw new UncheckedIOException(e);
 			}
-		}, g -> {
+		}, _ -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "F\n");
 			} catch (IOException e) {
 				throw new UncheckedIOException(e);
 			}
-		}, g -> {
+		}, _ -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "E\n" + "C\n" + "D\n");
 			} catch (IOException e) {
@@ -135,20 +135,20 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 	public void mergeTextualFile_UnsetMerge_Conflict()
 			throws NoWorkTreeException, NoFilepatternException, GitAPIException,
 			IOException {
-		try (Git git = createRepositoryBinaryConflict(g -> {
+		try (Git git = createRepositoryBinaryConflict(_ -> {
 			try {
 				writeTrashFile(".gitattributes", "*.cat -merge");
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "D\n");
 			} catch (IOException e) {
 				throw new UncheckedIOException(e);
 			}
-		}, g -> {
+		}, _ -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "F\n");
 			} catch (IOException e) {
 				throw new UncheckedIOException(e);
 			}
-		}, g -> {
+		}, _ -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "E\n" + "C\n" + "D\n");
 			} catch (IOException e) {
@@ -180,20 +180,20 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 	public void mergeTextualFile_UnsetMerge_NoConflict()
 			throws NoWorkTreeException, NoFilepatternException, GitAPIException,
 			IOException {
-		try (Git git = createRepositoryBinaryConflict(g -> {
+		try (Git git = createRepositoryBinaryConflict(_ -> {
 			try {
 				writeTrashFile(".gitattributes", "*.txt -merge");
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "D\n");
 			} catch (IOException e) {
 				throw new UncheckedIOException(e);
 			}
-		}, g -> {
+		}, _ -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "F\n");
 			} catch (IOException e) {
 				throw new UncheckedIOException(e);
 			}
-		}, g -> {
+		}, _ -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "E\n" + "C\n" + "D\n");
 			} catch (IOException e) {
@@ -224,20 +224,20 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 	public void mergeTextualFile_SetBinaryMerge_Conflict()
 			throws NoWorkTreeException, NoFilepatternException, GitAPIException,
 			IOException {
-		try (Git git = createRepositoryBinaryConflict(g -> {
+		try (Git git = createRepositoryBinaryConflict(_ -> {
 			try {
 				writeTrashFile(".gitattributes", "*.cat merge=binary");
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "D\n");
 			} catch (IOException e) {
 				throw new UncheckedIOException(e);
 			}
-		}, g -> {
+		}, _ -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "F\n");
 			} catch (IOException e) {
 				throw new UncheckedIOException(e);
 			}
-		}, g -> {
+		}, _ -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "E\n" + "C\n" + "D\n");
 			} catch (IOException e) {
@@ -270,20 +270,20 @@ public class MergeGitAttributeTest extends RepositoryTestCase {
 	@Test
 	public void mergeTextualFile_SetUnionMerge() throws NoWorkTreeException,
 			NoFilepatternException, GitAPIException, IOException {
-		try (Git git = createRepositoryBinaryConflict(g -> {
+		try (Git git = createRepositoryBinaryConflict(_ -> {
 			try {
 				writeTrashFile(".gitattributes", "*.cat merge=union");
 				writeTrashFile("main.cat", "A\n" + "B\n" + "C\n" + "D\n");
 			} catch (IOException e) {
 				throw new UncheckedIOException(e);
 			}
-		}, g -> {
+		}, _ -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "G\n" + "C\n" + "F\n");
 			} catch (IOException e) {
 				throw new UncheckedIOException(e);
 			}
-		}, g -> {
+		}, _ -> {
 			try {
 				writeTrashFile("main.cat", "A\n" + "E\n" + "C\n" + "D\n");
 			} catch (IOException e) {

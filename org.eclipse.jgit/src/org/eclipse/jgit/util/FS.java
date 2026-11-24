@@ -390,7 +390,7 @@ public abstract class FS {
 				f = CompletableFuture
 						.supplyAsync(() -> {
 							Lock lock = locks.computeIfAbsent(s,
-									l -> new ReentrantLock());
+									_ -> new ReentrantLock());
 							if (!lock.tryLock()) {
 								LOG.debug(
 										"{}: couldn't get lock to measure timestamp resolution in {}", //$NON-NLS-1$

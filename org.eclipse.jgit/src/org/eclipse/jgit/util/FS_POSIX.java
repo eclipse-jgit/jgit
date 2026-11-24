@@ -388,7 +388,7 @@ public class FS_POSIX extends FS {
 		}
 		try {
 			Boolean canLink = CAN_HARD_LINK.computeIfAbsent(store,
-					s -> Boolean.TRUE);
+					_ -> Boolean.TRUE);
 			if (Boolean.FALSE.equals(canLink)) {
 				return token(true, null);
 			}

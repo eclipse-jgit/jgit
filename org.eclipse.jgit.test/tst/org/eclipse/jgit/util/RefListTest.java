@@ -104,7 +104,7 @@ public class RefListTest {
 		builder.add(REF_c);
 
 		builder.sort();
-		builder.dedupe((a, b) -> b);
+		builder.dedupe((_, b) -> b);
 		RefList<Ref> list = builder.toRefList();
 
 		assertEquals(3, list.size());
@@ -117,14 +117,14 @@ public class RefListTest {
 	public void testBuilder_AddThenDedupe_Border() {
 		RefList.Builder<Ref> builder = new RefList.Builder<>(1);
 		builder.sort();
-		builder.dedupe((a, b) -> b);
+		builder.dedupe((_, b) -> b);
 		RefList<Ref> list = builder.toRefList();
 		assertTrue(list.isEmpty());
 
 		builder = new RefList.Builder<>(1);
 		builder.add(REF_A);
 		builder.sort();
-		builder.dedupe((a, b) -> b);
+		builder.dedupe((_, b) -> b);
 		list = builder.toRefList();
 		assertEquals(1, list.size());
 	}

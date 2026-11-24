@@ -61,12 +61,13 @@ public class PushConnectionTest {
 		server = newRepo("server");
 		client = newRepo("client");
 		processedRefs = new ArrayList<>();
-		testProtocol = new TestProtocol<>(null, (Object req, Repository db) -> {
+		testProtocol = new TestProtocol<>(null, (Object _, Repository db) -> {
 			ReceivePack rp = new ReceivePack(db);
 			if (maxPackSize > 0) {
 				rp.setMaxPackSizeLimit(maxPackSize);
 			}
-			rp.setPreReceiveHook((ReceivePack receivePack,
+			rp.setPreReceiveHook(
+					(ReceivePack _,
 					Collection<ReceiveCommand> cmds) -> {
 				for (ReceiveCommand cmd : cmds) {
 					processedRefs.add(cmd.getRefName());

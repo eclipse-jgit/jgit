@@ -84,7 +84,7 @@ public class HttpClientConnectionFactory implements HttpConnectionFactory2 {
 					TrustManager[] trustAllCerts = {
 							new NoCheckX509TrustManager() };
 					securityContext.init(null, trustAllCerts, null);
-					verifier = (name, session) -> true;
+					verifier = (_, _) -> true;
 				}
 				socketFactory = new SSLConnectionSocketFactory(securityContext,
 						verifier) {

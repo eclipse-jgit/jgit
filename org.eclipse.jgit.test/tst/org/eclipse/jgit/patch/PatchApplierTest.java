@@ -929,9 +929,9 @@ public class PatchApplierTest {
 		public void testFiltering() throws Exception {
 			// Set up filter
 			FilterCommandFactory clean =
-					(repo, in, out) -> new ReplaceFilter(in, out, 'A', 'E');
+					(_, in, out) -> new ReplaceFilter(in, out, 'A', 'E');
 			FilterCommandFactory smudge =
-					(repo, in, out) -> new ReplaceFilter(in, out, 'E', 'A');
+					(_, in, out) -> new ReplaceFilter(in, out, 'E', 'A');
 			FilterCommandRegistry.register("jgit://builtin/a2e/clean", clean);
 			FilterCommandRegistry.register("jgit://builtin/a2e/smudge", smudge);
 			Config config = db.getConfig();

@@ -68,7 +68,7 @@ public class HookMessageTest extends AllFactoriesHttpTestCase {
 
 		ServletContextHandler app = server.addContext("/git");
 		GitServlet gs = new GitServlet();
-		gs.setRepositoryResolver((HttpServletRequest req, String name) -> {
+		gs.setRepositoryResolver((HttpServletRequest _, String name) -> {
 			if (!name.equals(srcName)) {
 				throw new RepositoryNotFoundException(name);
 			}
@@ -83,7 +83,7 @@ public class HookMessageTest extends AllFactoriesHttpTestCase {
 					ServiceNotAuthorizedException {
 				ReceivePack recv = super.create(req, db);
 				recv.setPreReceiveHook((ReceivePack rp,
-						Collection<ReceiveCommand> commands) -> {
+						Collection<ReceiveCommand> _) -> {
 					rp.sendMessage("message line 1");
 					rp.sendError("no soup for you!");
 					rp.sendMessage("come back next year!");

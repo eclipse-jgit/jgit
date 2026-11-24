@@ -114,7 +114,7 @@ public class HttpClientTests extends AllFactoriesHttpTestCase {
 
 	private ServletContextHandler smart(String path) {
 		GitServlet gs = new GitServlet();
-		gs.setRepositoryResolver((HttpServletRequest req, String name) -> {
+		gs.setRepositoryResolver((HttpServletRequest _, String name) -> {
 			final Repository db = remoteRepository.getRepository();
 			if (!name.equals(nameOf(db))) {
 				throw new RepositoryNotFoundException(name);

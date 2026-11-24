@@ -82,7 +82,7 @@ public class Daemon {
 
 		repositoryResolver = (RepositoryResolver<DaemonClient>) RepositoryResolver.NONE;
 
-		uploadPackFactory = (DaemonClient req, Repository db) -> {
+		uploadPackFactory = (DaemonClient _, Repository db) -> {
 			UploadPack up = new UploadPack(db);
 			up.setTimeout(getTimeout());
 			up.setPackConfig(getPackConfig());
@@ -275,7 +275,7 @@ public class Daemon {
 
 		@Override
 		public void run() {
-			setUncaughtExceptionHandler((thread, throwable) -> terminate());
+			setUncaughtExceptionHandler((_, _) -> terminate());
 			while (isRunning()) {
 				try {
 					startClient(listenSocket.accept());

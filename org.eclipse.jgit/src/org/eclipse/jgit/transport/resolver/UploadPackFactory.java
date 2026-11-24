@@ -24,7 +24,7 @@ public interface UploadPackFactory<C> {
 	/**
 	 * A factory disabling the UploadPack service for all repositories.
 	 */
-	UploadPackFactory<?> DISABLED = (Object req, Repository db) -> {
+	UploadPackFactory<?> DISABLED = (Object _, Repository _) -> {
 		throw new ServiceNotEnabledException();
 	};
 

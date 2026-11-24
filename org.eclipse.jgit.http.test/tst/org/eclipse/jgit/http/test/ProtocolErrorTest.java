@@ -59,7 +59,7 @@ public class ProtocolErrorTest extends HttpTestCase {
 
 		ServletContextHandler app = server.addContext("/git");
 		GitServlet gs = new GitServlet();
-		gs.setRepositoryResolver((HttpServletRequest req, String name) -> {
+		gs.setRepositoryResolver((HttpServletRequest _, String name) -> {
 			if (!name.equals(srcName)) {
 				throw new RepositoryNotFoundException(name);
 			}

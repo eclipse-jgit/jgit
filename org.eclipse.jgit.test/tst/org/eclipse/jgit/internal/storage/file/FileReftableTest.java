@@ -236,7 +236,7 @@ public class FileReftableTest extends SampleDataRepositoryTestCase {
 		// Without the lock, concurrent exactRef() uses that closed cached reader
 		// and throws ClosedChannelException.
 		Thread reloader = new Thread(new FutureTask<>(
-				() -> refDb.addReftable(w -> {
+				() -> refDb.addReftable(_ -> {
 					// noop
 				})));
 

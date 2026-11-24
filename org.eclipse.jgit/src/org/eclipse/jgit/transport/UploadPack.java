@@ -930,7 +930,7 @@ public class UploadPack implements Closeable {
 			// Fall back to all refs.
 			setAdvertisedRefs(
 					db.getRefDatabase().getRefs().stream()
-							.collect(toRefMap((a, b) -> b)));
+							.collect(toRefMap((_, b) -> b)));
 		}
 		return refs;
 	}
@@ -949,7 +949,7 @@ public class UploadPack implements Closeable {
 			String[] prefixes = refPrefixes.toArray(new String[0]);
 			Map<String, Ref> rs =
 					db.getRefDatabase().getRefsByPrefix(prefixes).stream()
-							.collect(toRefMap((a, b) -> b));
+							.collect(toRefMap((_, b) -> b));
 			if (refFilter != RefFilter.DEFAULT) {
 				return refFilter.filter(rs);
 			}
@@ -961,7 +961,7 @@ public class UploadPack implements Closeable {
 		return refs.values().stream()
 				.filter(ref -> refPrefixes.stream()
 						.anyMatch(ref.getName()::startsWith))
-				.collect(toRefMap((a, b) -> b));
+				.collect(toRefMap((_, b) -> b));
 	}
 
 	/**
@@ -984,7 +984,7 @@ public class UploadPack implements Closeable {
 				names.stream()
 					.map(refs::get)
 					.filter(Objects::nonNull)
-						.collect(toRefMap((a, b) -> b)));
+						.collect(toRefMap((_, b) -> b)));
 	}
 
 	/**

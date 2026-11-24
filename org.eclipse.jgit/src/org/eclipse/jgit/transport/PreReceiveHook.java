@@ -46,8 +46,8 @@ import java.util.Collection;
  */
 public interface PreReceiveHook {
 	/** A simple no-op hook. */
-	PreReceiveHook NULL = (final ReceivePack rp,
-			final Collection<ReceiveCommand> commands) -> {
+	PreReceiveHook NULL = (final ReceivePack _,
+			final Collection<ReceiveCommand> _) -> {
 		// Do nothing.
 	};
 

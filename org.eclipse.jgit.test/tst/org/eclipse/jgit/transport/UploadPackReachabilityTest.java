@@ -119,7 +119,7 @@ public class UploadPackReachabilityTest {
 			server2.getConfig().setBoolean("uploadpack", null, "allowfilter",
 					true);
 
-			testProtocol = new TestProtocol<>((Object req, Repository db) -> {
+			testProtocol = new TestProtocol<>((Object _, Repository db) -> {
 				UploadPack up = new UploadPack(db);
 				up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
 				return up;
@@ -261,7 +261,7 @@ public class UploadPackReachabilityTest {
 	}
 
 	private static TestProtocol<Object> generateReachableCommitUploadPackProtocol() {
-		return new TestProtocol<>((req, db) -> {
+		return new TestProtocol<>((_, db) -> {
 			UploadPack up = new UploadPack(db);
 			up.setRequestPolicy(RequestPolicy.REACHABLE_COMMIT);
 			return up;

@@ -563,7 +563,7 @@ public class TestProtocolTest {
 	}
 
 	private <T extends AnyObjectId> URIish registerTestProtocolUpdatingRef(TestRepositoryUpdateFunc repositoryUpdateFunc) {
-		TestProtocol<User> proto = registerProto((User req, Repository db) -> {
+		TestProtocol<User> proto = registerProto((User _, Repository db) -> {
 			try {
 				repositoryUpdateFunc.call(local);
 			} catch (Exception e) {

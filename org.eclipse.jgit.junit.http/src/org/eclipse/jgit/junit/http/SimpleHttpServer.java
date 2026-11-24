@@ -106,7 +106,7 @@ public class SimpleHttpServer {
 
 	private ServletContextHandler smart(String path) {
 		GitServlet gs = new GitServlet();
-		gs.setRepositoryResolver((HttpServletRequest req, String name) -> {
+		gs.setRepositoryResolver((HttpServletRequest _, String name) -> {
 			if (!name.equals(nameOf(db))) {
 				throw new RepositoryNotFoundException(name);
 			}

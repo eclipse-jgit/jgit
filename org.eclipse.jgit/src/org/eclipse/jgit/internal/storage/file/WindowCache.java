@@ -248,11 +248,11 @@ public class WindowCache {
 			openByteCount.add(delta);
 			String repositoryId = repositoryId(pack);
 			LongAdder la = openByteCountPerRepository
-					.computeIfAbsent(repositoryId, k -> new LongAdder());
+					.computeIfAbsent(repositoryId, _ -> new LongAdder());
 			la.add(delta);
 			if (delta < 0) {
 				openByteCountPerRepository.computeIfPresent(repositoryId,
-						(k, v) -> v.longValue() == 0 ? null : v);
+						(_, v) -> v.longValue() == 0 ? null : v);
 			}
 		}
 
@@ -323,7 +323,7 @@ public class WindowCache {
 					openByteCountPerRepository.entrySet().stream()
 							.collect(Collectors.toMap(Map.Entry::getKey,
 									e -> Long.valueOf(e.getValue().sum()),
-									(u, v) -> v)));
+									(_, v) -> v)));
 		}
 	}
 

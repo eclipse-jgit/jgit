@@ -104,7 +104,7 @@ public class MetaServlet extends HttpServlet {
 	protected void service(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 		filter.doFilter(req, res,
-				(ServletRequest request, ServletResponse response) -> {
+				(ServletRequest _, ServletResponse response) -> {
 					((HttpServletResponse) response).sendError(SC_NOT_FOUND);
 				});
 	}

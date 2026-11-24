@@ -90,7 +90,7 @@ public class LockFile {
 	}
 
 	/** Filter to skip over active lock files when listing a directory. */
-	static final FilenameFilter FILTER = (File dir,
+	static final FilenameFilter FILTER = (File _,
 			String name) -> !name.endsWith(LOCK_SUFFIX);
 
 	private final File ref;
