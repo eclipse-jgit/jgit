@@ -47,6 +47,18 @@ public class MidxMetadataReaderTest {
 	}
 
 	@Test
+	public void load_validFile_basic_upstream_sha256() throws Exception {
+		MidxMetadataReader.MidxMetadata meta = MidxMetadataReader.read(
+				JGitTestUtil.getTestResourceFile("multi-pack-index.sha256.v1"));
+		assertEquals(2, meta.packNames().size());
+
+		byte[] expected = new byte[] { 23, -1, 54, -45, 15, -8, -61, 9, -59,
+				-82, 82, -125, -112, 101, 46, 63, 100, 48, 80, -51, 117, -125,
+				-71, -26, 127, -5, 17, 50, -20, -71, -124, 84 };
+		assertArrayEquals(expected, meta.checksum());
+	}
+
+	@Test
 	public void read_largeFileOverBufferBoundaryAndErrorCases()
 			throws Exception {
 		List<FakeIndexFactory.IndexObject> p1 = new ArrayList<>();
