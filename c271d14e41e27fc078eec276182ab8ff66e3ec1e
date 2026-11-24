@@ -127,6 +127,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e7e5fc57_c560393c",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ResetCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-11-24T13:30:39Z",
+      "side": 1,
+      "message": "You\u0027re right, those got lost. I\u0027ve fixed this in PS7",
+      "parentUuid": "484344b2_cf890bbf",
+      "revId": "c271d14e41e27fc078eec276182ab8ff66e3ec1e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a21b31b3_7a16c51b",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
         "patchSetId": 2
