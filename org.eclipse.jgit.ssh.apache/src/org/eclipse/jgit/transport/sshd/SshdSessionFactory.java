@@ -54,6 +54,7 @@ import org.eclipse.jgit.internal.transport.sshd.JGitSshConfig;
 import org.eclipse.jgit.internal.transport.sshd.JGitUserInteraction;
 import org.eclipse.jgit.internal.transport.sshd.OpenSshServerKeyDatabase;
 import org.eclipse.jgit.internal.transport.sshd.PasswordProviderWrapper;
+import org.eclipse.jgit.internal.transport.sshd.SshdSessionListenerAdapter;
 import org.eclipse.jgit.internal.transport.sshd.SshdText;
 import org.eclipse.jgit.internal.transport.sshd.agent.JGitSshAgentFactory;
 import org.eclipse.jgit.transport.CredentialsProvider;
@@ -251,6 +252,11 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 					} catch (SecurityException | InvalidPathException e) {
 					// Ignore
 					}
+				}
+				List<SshdSessionListener> sessionListeners = getSessionListeners();
+				if (!sessionListeners.isEmpty()) {
+					client.addSessionListener(new SshdSessionListenerAdapter(
+							uri, new ArrayList<>(sessionListeners)));
 				}
 				// Other things?
 				return client;
@@ -639,6 +645,18 @@ public class SshdSessionFactory extends SshSessionFactory implements Closeable {
 	 */
 	protected String getDefaultPreferredAuthentications() {
 		return null;
+	}
+
+	/**
+	 * Returns listeners to be notified of lifecycle, negotiation, disconnect,
+	 * and failure events for SSH sessions created by this factory.
+	 *
+	 * @return a non-null list of {@link SshdSessionListener} instances
+	 * @since 8.0
+	 */
+	@NonNull
+	protected List<SshdSessionListener> getSessionListeners() {
+		return Collections.emptyList();
 	}
 
 	/**
