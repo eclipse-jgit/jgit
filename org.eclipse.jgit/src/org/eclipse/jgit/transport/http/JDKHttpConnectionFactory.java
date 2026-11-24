@@ -21,6 +21,7 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.internal.transport.http.DelegatingSSLSocketFactory;
 import org.eclipse.jgit.util.HttpSupport;
@@ -32,6 +33,29 @@ import org.eclipse.jgit.util.HttpSupport;
  * @since 3.3
  */
 public class JDKHttpConnectionFactory implements HttpConnectionFactory2 {
+
+	private final @Nullable SSLSocketFactory sslSocketFactory;
+
+	/**
+	 * Creates a factory using the JDK defaults for verified HTTPS connections.
+	 */
+	public JDKHttpConnectionFactory() {
+		this(null);
+	}
+
+	/**
+	 * Creates a factory that applies {@code sslSocketFactory} to verified HTTPS
+	 * connections.
+	 *
+	 * @param sslSocketFactory
+	 *            custom {@link SSLSocketFactory} for verified HTTPS
+	 *            connections, or {@code null} to use the JDK defaults
+	 * @since 8.0
+	 */
+	public JDKHttpConnectionFactory(
+			@Nullable SSLSocketFactory sslSocketFactory) {
+		this.sslSocketFactory = sslSocketFactory;
+	}
 
 	@Override
 	public HttpConnection create(URL url) throws IOException {
@@ -46,14 +70,20 @@ public class JDKHttpConnectionFactory implements HttpConnectionFactory2 {
 
 	@Override
 	public GitSession newSession() {
-		return new JdkConnectionSession();
+		return new JdkConnectionSession(sslSocketFactory);
 	}
 
 	private static class JdkConnectionSession implements GitSession {
 
+		private final @Nullable SSLSocketFactory verifiedSocketFactory;
+
 		private SSLContext securityContext;
 
 		private SSLSocketFactory socketFactory;
+
+		JdkConnectionSession(@Nullable SSLSocketFactory verifiedSocketFactory) {
+			this.verifiedSocketFactory = verifiedSocketFactory;
+		}
 
 		@Override
 		public JDKHttpConnection configure(HttpConnection connection,
@@ -66,8 +96,14 @@ public class JDKHttpConnectionFactory implements HttpConnectionFactory2 {
 			}
 			JDKHttpConnection conn = (JDKHttpConnection) connection;
 			String scheme = conn.getURL().getProtocol();
-			if (!"https".equals(scheme) || sslVerify) { //$NON-NLS-1$
-				// sslVerify == true: use the JDK defaults
+			if (!"https".equals(scheme)) { //$NON-NLS-1$
+				return conn;
+			}
+			if (sslVerify) {
+				if (verifiedSocketFactory != null) {
+					((HttpsURLConnection) conn.wrappedUrlConnection)
+							.setSSLSocketFactory(verifiedSocketFactory);
+				}
 				return conn;
 			}
 			if (securityContext == null) {
