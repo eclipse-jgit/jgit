@@ -111,7 +111,7 @@ public enum ObjectFormat {
 
 	/**
 	 * Git object id version for this format
-	 * 
+	 *
 	 * 1 for SHA-1 and 2 for SHA-256 is shared convention across Git's newer
 	 * binary index formats.
 	 *
@@ -226,8 +226,8 @@ public enum ObjectFormat {
 	 */
 	public static ObjectFormat fromConfId(String name) {
 		return switch (name) {
-		case "sha1" -> ObjectFormat.SHA1;
-		case "sha256" -> ObjectFormat.SHA256;
+		case "sha1" -> ObjectFormat.SHA1; //$NON-NLS-1$
+		case "sha256" -> ObjectFormat.SHA256; //$NON-NLS-1$
 		default -> throw new IllegalArgumentException(
 				MessageFormat.format(JGitText.get().unknownObjectConfId, name));
 		};
