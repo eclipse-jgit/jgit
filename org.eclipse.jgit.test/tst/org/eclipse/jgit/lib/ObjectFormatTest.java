@@ -13,6 +13,7 @@ package org.eclipse.jgit.lib;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
 
@@ -33,7 +34,7 @@ public class ObjectFormatTest {
 	public void lookups() {
 		assertSame(ObjectFormat.SHA1, ObjectFormat.fromKey("sha1"));
 		assertSame(ObjectFormat.SHA256, ObjectFormat.fromKey("SHA256"));
-		assertNull(ObjectFormat.fromKey("md5"));
+		assertThrows(IllegalArgumentException.class, () -> ObjectFormat.fromKey("md5"));
 		assertSame(ObjectFormat.SHA1, ObjectFormat.forStringLength(40));
 		assertSame(ObjectFormat.SHA256, ObjectFormat.forStringLength(64));
 		assertNull(ObjectFormat.forStringLength(41));
