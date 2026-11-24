@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.ObjectFormat;
 import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
@@ -135,11 +136,14 @@ public class MidxMetadataReader {
 		// algorithm,
 		// the multi-pack-index file should be ignored with a warning
 		// presented to the user.
-		int commitIdVersion = hdr[5];
-		if (commitIdVersion != 1) {
+		int objectIdVersion = hdr[5];
+		if (objectIdVersion > 2) {
 			throw new MultiPackIndexFormatException(
 					JGitText.get().incorrectOBJECT_ID_LENGTH);
 		}
+
+		ObjectFormat objectFormat = ObjectFormat
+				.fromObjectIdVersion(objectIdVersion);
 
 		// Read the number of "chunkOffsets" (1 byte)
 		int chunkCount = hdr[6];
@@ -172,8 +176,8 @@ public class MidxMetadataReader {
 		// We should be at packNamesEnd
 		long endLastChunk = chunkIndex.getLastOffset();
 		IO.skipFully(fd, endLastChunk - packNamesEnd);
-		byte[] checksum = new byte[20];
-		IO.readFully(fd, checksum, 0, 20);
+		byte[] checksum = new byte[objectFormat.getByteLength()];
+		IO.readFully(fd, checksum, 0, objectFormat.getByteLength());
 
 		return new MidxMetadata(packNames, Base64.encodeBytes(checksum));
 	}
