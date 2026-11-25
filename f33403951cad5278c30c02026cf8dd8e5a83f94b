@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcdf3839_5feb6be0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1039063
+      },
+      "writtenOn": "2026-11-25T18:19:09Z",
+      "side": 1,
+      "message": "Thank you, @florian.schwabe@vector.com!\n\n@ajagup@qti.qualcomm.com, @ifrade@google.com I trust your comments have been addressed too? Would you kindly approve or comment?",
+      "revId": "f33403951cad5278c30c02026cf8dd8e5a83f94b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
