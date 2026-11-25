@@ -16,6 +16,24 @@
       "message": "Since this is s bug fix, can we get it moved to the oldest active stable branch?",
       "revId": "af955b49b10fdd171df8eac0c68b82ecdf7d4ac3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d27d8205_18d33549",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1040165
+      },
+      "writtenOn": "2026-11-25T04:01:39Z",
+      "side": 1,
+      "message": "Done, I\u0027ve targeted to stable-6.10 now: https://gerrit-review.googlesource.com/c/jgit/+/659943\n\nLooks like even with keeping the change-id, Gerrit created a new CR, most likely because we switched target branches.\n\nLet me know if that\u0027s the correct oldest active stable branch, but it looks like it is. Once that merges, anything else I\u0027ll have to do to get the fix propagated to all active branches?",
+      "parentUuid": "dee4cc33_962e3323",
+      "revId": "af955b49b10fdd171df8eac0c68b82ecdf7d4ac3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
