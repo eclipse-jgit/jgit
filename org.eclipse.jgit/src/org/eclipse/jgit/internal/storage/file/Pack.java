@@ -19,11 +19,13 @@ import static org.eclipse.jgit.internal.storage.pack.PackExt.REVERSE_INDEX;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_CORE_SECTION;
 import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_PACKED_INDEX_GIT_USE_STRONGREFS;
 
+import java.io.BufferedInputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.RandomAccessFile;
 import java.nio.MappedByteBuffer;
@@ -270,8 +272,11 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 					attemptLoadObjSizeIdx = true;
 					return null;
 				}
-				sizeIdx = PackObjectSizeIndexLoader.load(
-						new FileInputStream(sizeIdxFile.getAbsoluteFile()));
+				try (FileInputStream fd = new FileInputStream(
+						sizeIdxFile.getAbsoluteFile());
+						InputStream in = new BufferedInputStream(fd)) {
+					sizeIdx = PackObjectSizeIndexLoader.load(in);
+				}
 				if (LOG.isDebugEnabled()) {
 					LOG.debug(String.format(
 							"Opening obj size index %s, size %.3f MB took %d ms", //$NON-NLS-1$
@@ -573,7 +578,10 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		final CRC32 crc2 = validate ? new CRC32() : null;
 		final byte[] buf = out.getCopyBuffer();
 
-		boolean isHeaderWritten = false;
+		// Set before the first write to out.
+		// A failure after this point is an output-stream error,
+		// not a missing object, and must not be retried.
+		boolean isWriteStarted = false;
 		// Rip apart the header so we can discover the size.
 		//
 		try {
@@ -706,8 +714,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 				// The entire object fits into a single byte array window slice,
 				// and we have it pinned.  Write this out without copying.
 				//
+				isWriteStarted = true;
 				out.writeHeader(src, inflatedLength);
-				isHeaderWritten = true;
 				quickCopy.write(out, dataOffset, (int) dataLength);
 
 			} else if (dataLength <= buf.length) {
@@ -724,8 +732,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 						cnt -= n;
 					}
 				}
+				isWriteStarted = true;
 				out.writeHeader(src, inflatedLength);
-				isHeaderWritten = true;
 				out.write(buf, 0, (int) dataLength);
 			} else {
 				// Now we are committed to sending the object. As we spool it out,
@@ -742,15 +750,15 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 						crc2.update(buf, 0, n);
 					}
 					cnt -= n;
-					if (!isHeaderWritten) {
+					if (!isWriteStarted) {
 						if (invalid && cnt > 0) {
 							// Since this is not the last iteration and the packfile is invalid,
 							// better to assume the iterations will not all complete here while
 							// it is still likely recoverable.
 							throw new StoredObjectRepresentationNotAvailableException(invalidatingCause);
 						}
+						isWriteStarted = true;
 						out.writeHeader(src, inflatedLength);
-						isHeaderWritten = true;
 					}
 					out.write(buf, 0, n);
 					pos += n;
@@ -765,7 +773,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 				}
 			}
 		} catch (IOException ioError) {
-			if (!isHeaderWritten) {
+			if (!isWriteStarted) {
 				throw new StoredObjectRepresentationNotAvailableException(ioError);
 			}
 			throw ioError;
