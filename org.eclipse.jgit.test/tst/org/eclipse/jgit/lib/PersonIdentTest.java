@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -118,7 +119,7 @@ public class PersonIdentTest {
 		assertEquals(email, personIdent.getEmailAddress());
 
 		String externalString = personIdent.toExternalString();
-		assertTrue(externalString.startsWith("Foo\rBar <Baz\u1234Quux>"));
+		assertTrue(externalString.startsWith("FooBar <Baz\u1234Quux>"));
 	}
 
 	@Test
@@ -136,6 +137,23 @@ public class PersonIdentTest {
 		StringBuilder r = new StringBuilder();
 		PersonIdent.appendSanitized(r, " Baz>\n\u1234<Quux ");
 		assertEquals("Baz\u1234Quux", r.toString());
+	}
+
+	@Test
+	public void testAppendSanitizedStripsCarriageReturnAndNul() {
+		StringBuilder r = new StringBuilder();
+		PersonIdent.appendSanitized(r, "A\rB\0C\r\nD");
+		assertEquals("ABCD", r.toString());
+	}
+
+	@Test
+	public void testToExternalStringStripsCarriageReturnAndNul() {
+		PersonIdent personIdent = new PersonIdent("A\r0000 refs/heads/x\r#",
+				"a\0@example.com", Instant.ofEpochSecond(1142878501L),
+				ZoneOffset.UTC);
+		String externalString = personIdent.toExternalString();
+		assertEquals("A0000 refs/heads/x# <a@example.com> 1142878501 +0000",
+				externalString);
 	}
 }
 

@@ -48,7 +48,27 @@ public class ReflogWriterTest extends SampleDataRepositoryTestCase {
 		assertEquals(oneLine, new String(buffer, UTF_8));
 	}
 
-	private void readReflog(byte[] buffer)
+	@Test
+	public void shouldFilterCarriageReturnAndNulFromIdentAndMessage()
+			throws Exception {
+		ReflogWriter writer =
+				new ReflogWriter((RefDirectory) db.getRefDatabase());
+		PersonIdent ident = new PersonIdent("John\r Doe", "john@doe\0.com",
+				Instant.ofEpochMilli(1243028200000L), ZoneOffset.ofHours(2));
+		ObjectId oldId = ObjectId
+				.fromString("da85355dfc525c9f6f3927b876f379f46ccf826e");
+		ObjectId newId = ObjectId
+				.fromString("3e7549db262d1e836d9bf0af7e22355468f1717c");
+
+		writer.log("refs/heads/master", oldId, newId, ident,
+				"stash: Add\rmessage\0\r\nwith line feeds");
+
+		byte[] buffer = new byte[oneLine.getBytes(UTF_8).length + 1];
+		int n = readReflog(buffer);
+		assertEquals(oneLine, new String(buffer, 0, n, UTF_8));
+	}
+
+	private int readReflog(byte[] buffer)
 			throws FileNotFoundException, IOException {
 		File logfile = new File(db.getCommonDirectory(), "logs/refs/heads/master");
 		if (!logfile.getParentFile().mkdirs()
@@ -58,7 +78,7 @@ public class ReflogWriterTest extends SampleDataRepositoryTestCase {
 							+ logfile);
 		}
 		try (FileInputStream fileInputStream = new FileInputStream(logfile)) {
-			fileInputStream.read(buffer);
+			return fileInputStream.read(buffer);
 		}
 	}
 }

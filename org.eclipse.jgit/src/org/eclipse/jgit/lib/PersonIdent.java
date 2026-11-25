@@ -108,8 +108,9 @@ public class PersonIdent implements Serializable {
 	/**
 	 * Sanitize the given string for use in an identity and append to output.
 	 * <p>
-	 * Trims whitespace from both ends and special characters {@code \n < >} that
-	 * interfere with parsing; appends all other characters to the output.
+	 * Trims whitespace from both ends and special characters
+	 * {@code \n \r \0 < >} that interfere with parsing; appends all other
+	 * characters to the output.
 	 * Analogous to the C git function {@code strbuf_addstr_without_crud}.
 	 *
 	 * @param r
@@ -133,6 +134,8 @@ public class PersonIdent implements Serializable {
 			char c = str.charAt(i);
 			switch (c) {
 				case '\n':
+				case '\r':
+				case '\0':
 				case '<':
 				case '>':
 					continue;

@@ -186,11 +186,27 @@ public class ReflogWriter {
 		r.append(' ');
 		r.append(ident.toExternalString());
 		r.append('\t');
-		r.append(
-				message.replace("\r\n", " ") //$NON-NLS-1$ //$NON-NLS-2$
-						.replace("\n", " ")); //$NON-NLS-1$ //$NON-NLS-2$
+		appendSanitizedMessage(r, message);
 		r.append('\n');
 		return Constants.encode(r.toString());
+	}
+
+	private static void appendSanitizedMessage(StringBuilder r,
+			String message) {
+		int len = message.length();
+		for (int i = 0; i < len; i++) {
+			char c = message.charAt(i);
+			if (c == '\r') {
+				r.append(' ');
+				if (i + 1 < len && message.charAt(i + 1) == '\n') {
+					i++;
+				}
+			} else if (c == '\n') {
+				r.append(' ');
+			} else if (c != '\0') {
+				r.append(c);
+			}
+		}
 	}
 
 	private FileOutputStream getFileOutputStream(File log) throws IOException {
