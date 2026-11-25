@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5911c804_0e33cdc7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectFormat.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2026-11-25T17:20:16Z",
+      "side": 1,
+      "message": "objectIdVersion and ConfId are the same thing? can you make object hash type an enum then the index can be inferred from enum value instead?",
+      "range": {
+        "startLine": 137,
+        "startChar": 12,
+        "endLine": 137,
+        "endChar": 30
+      },
+      "revId": "d50ec6f92e957126e410fb8edfa208a9aa688303",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
