@@ -1442,12 +1442,19 @@ public class ConfigTest {
 		assertInvalidValue(JGitText.get().endOfFileInEscape, "x\\");
 		assertInvalidValue(
 				MessageFormat.format(JGitText.get().badEscape, 'q'), "x\\q");
+		assertInvalidValue(JGitText.get().configValueContainsNullByte, "x\0y");
+		assertInvalidValue(
+				JGitText.get().configValueContainsNullByte, "\"x\0y\"");
 	}
 
 	@Test
 	public void testParseInvalidSubsections() {
 		assertInvalidSubsection(
 				JGitText.get().newlineInQuotesNotAllowed, "\"x\ny\"");
+		assertInvalidSubsection(
+				JGitText.get().configSubsectionContainsNullByte, "\"x\0y\"");
+		assertInvalidSubsection(
+				JGitText.get().configSubsectionContainsNullByte, "\"x\\\0y\"");
 	}
 
 	@Test

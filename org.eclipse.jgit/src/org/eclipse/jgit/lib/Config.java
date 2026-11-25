@@ -1611,8 +1611,12 @@ public class Config {
 		StringBuilder r = new StringBuilder();
 		for (;;) {
 			int c = in.read();
-			if (c < 0) {
-				break;
+			if (c <= 0) {
+				if (c < 0) {
+					break;
+				}
+				throw new ConfigInvalidException(
+						JGitText.get().configSubsectionContainsNullByte);
 			}
 
 			if ('\n' == c) {
@@ -1624,6 +1628,10 @@ public class Config {
 				switch (c) {
 				case -1:
 					throw new ConfigInvalidException(JGitText.get().endOfFileInEscape);
+
+				case 0:
+					throw new ConfigInvalidException(
+							JGitText.get().configSubsectionContainsNullByte);
 
 				case '\\':
 				case '"':
@@ -1655,8 +1663,12 @@ public class Config {
 
 		for (;;) {
 			int c = in.read();
-			if (c < 0) {
-				break;
+			if (c <= 0) {
+				if (c < 0) {
+					break;
+				}
+				throw new ConfigInvalidException(
+						JGitText.get().configValueContainsNullByte);
 			}
 			if ('\n' == c) {
 				if (quote) {
