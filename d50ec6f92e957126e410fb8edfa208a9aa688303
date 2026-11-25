@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f1b9c10_bd2b7770",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectFormat.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-25T20:30:32Z",
+      "side": 1,
+      "message": "AFAIK this is needed only to parse the conf.\n\nMoved to a method and we don\u0027t need this string in the enum, reducing the confusion.",
+      "parentUuid": "9292e374_c9aeb8f7",
+      "range": {
+        "startLine": 107,
+        "startChar": 8,
+        "endLine": 107,
+        "endChar": 25
+      },
+      "revId": "d50ec6f92e957126e410fb8edfa208a9aa688303",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5911c804_0e33cdc7",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-11-25T17:20:16Z",
       "side": 1,
       "message": "objectIdVersion and ConfId are the same thing? can you make object hash type an enum then the index can be inferred from enum value instead?",
+      "range": {
+        "startLine": 137,
+        "startChar": 12,
+        "endLine": 137,
+        "endChar": 30
+      },
+      "revId": "d50ec6f92e957126e410fb8edfa208a9aa688303",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b610c7b_baea34ee",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectFormat.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1020855
+      },
+      "writtenOn": "2026-11-25T20:30:32Z",
+      "side": 1,
+      "message": "Using ordinal() now to map git conf value to object format.",
+      "parentUuid": "5911c804_0e33cdc7",
       "range": {
         "startLine": 137,
         "startChar": 12,
