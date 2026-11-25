@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9292e374_c9aeb8f7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectFormat.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1037542
+      },
+      "writtenOn": "2026-11-25T17:21:28Z",
+      "side": 1,
+      "message": "making object hash type String is error prone: sha1 vs sha-1 vs SHA1 vs SHA-1, which one is it?",
+      "range": {
+        "startLine": 107,
+        "startChar": 8,
+        "endLine": 107,
+        "endChar": 25
+      },
+      "revId": "d50ec6f92e957126e410fb8edfa208a9aa688303",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5911c804_0e33cdc7",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectFormat.java",
         "patchSetId": 1
