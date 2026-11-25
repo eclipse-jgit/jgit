@@ -34,6 +34,24 @@
       "parentUuid": "dee4cc33_962e3323",
       "revId": "af955b49b10fdd171df8eac0c68b82ecdf7d4ac3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05234442_9d2a875e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-11-25T15:45:10Z",
+      "side": 1,
+      "message": "Thanks! Moving a change can be done via the \u0027Move\u0027 menu item in the dropdown. It cannot be done by pushing. As for getting it to all the other branches, you will need to merge each branch forward after submitting the change on 6.10.",
+      "parentUuid": "d27d8205_18d33549",
+      "revId": "af955b49b10fdd171df8eac0c68b82ecdf7d4ac3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
