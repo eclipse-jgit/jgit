@@ -29,6 +29,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1124,6 +1125,58 @@ public class BasePackWriterTest extends SampleDataRepositoryTestCase {
 				pw.writeIndex(idxOS);
 			}
 			return PackIndex.open(idxFile);
+		}
+	}
+
+	// An output-stream failure during copyAsIs2 must occur as a plain
+	// IOException, not as StoredObjectRepresentationNotAvailableException.
+	// This will prevent the PackWriter to retry forever if the client is gone.
+	// The test timeout guards against that infinite loop in case of a regression.
+	@Test(timeout = 10_000)
+	public void testCopyAsIsWriteFailureThrowsIOException()
+			throws Exception {
+		FileRepository repo = createBareRepository();
+		try (TestRepository<FileRepository> testRepo = new TestRepository<>(
+				repo)) {
+			testRepo.branch("refs/heads/master").commit()
+					.add("file", "content").create();
+			testRepo.packAndPrune();
+
+			Set<ObjectId> wants = new HashSet<>();
+			for (Ref r : repo.getRefDatabase().getRefs()) {
+				wants.add(r.getObjectId());
+			}
+
+			// Let the 12-byte pack header through, then fail on
+			// the first object write inside copyAsIs2.
+			OutputStream failingStream = new OutputStream() {
+				private int remaining = 12;
+
+				@Override
+				public void write(int b) throws IOException {
+					if (--remaining < 0) {
+						throw new IOException(
+								"simulated client disconnect");
+					}
+				}
+
+				@Override
+				public void write(byte[] b, int off, int len)
+						throws IOException {
+					remaining -= len;
+					if (remaining < 0) {
+						throw new IOException(
+								"simulated client disconnect");
+					}
+				}
+			};
+
+			try (PackWriter pw = new PackWriter(repo)) {
+				NullProgressMonitor m = NullProgressMonitor.INSTANCE;
+				pw.preparePack(m, wants, NONE);
+				assertThrows(IOException.class,
+						() -> pw.writePack(m, m, failingStream));
+			}
 		}
 	}
 
