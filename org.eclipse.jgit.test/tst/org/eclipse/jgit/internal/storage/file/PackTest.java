@@ -16,6 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -54,6 +55,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.transport.PackedObjectInfo;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -320,6 +322,34 @@ public class PackTest extends LocalDiskRepositoryTestCase {
 				ObjectId.fromString("1111111111111111111111111111111111111111")));
 		assertEquals(-1, packs.get(0).getIndexedObjectSize(
 				ObjectId.fromString("1111111111111111111111111111111111111111")));
+	}
+
+	@Test
+	public void testObjectSizeIndex_corruptFileClosesStream() throws Exception {
+		RevBlob aBlob = tr.blob(getRng().nextBytes(300));
+		tr.branch("master").commit().add("A", aBlob).create();
+		repo.getConfig().setInt(CONFIG_PACK_SECTION, null,
+				ConfigConstants.CONFIG_KEY_MIN_BYTES_OBJ_SIZE_INDEX, 0);
+		tr.packAndPrune();
+
+		Pack existingPack = repo.getObjectDatabase().getPacks().iterator()
+				.next();
+		PackFile sizeIdxFile = existingPack.getPackFile()
+				.create(PackExt.OBJECT_SIZE_INDEX);
+		FileUtils.delete(sizeIdxFile);
+		try (FileOutputStream out = new FileOutputStream(sizeIdxFile)) {
+			out.write(new byte[] { 'b', 'a', 'd', '!' });
+		}
+
+		Pack freshPack = new Pack(repo.getConfig(), existingPack.getPackFile(),
+				null);
+		try {
+			assertThrows(IOException.class, freshPack::hasObjectSizeIndex);
+			FileUtils.delete(sizeIdxFile);
+			assertFalse(sizeIdxFile.exists());
+		} finally {
+			freshPack.close();
+		}
 	}
 
 	private static byte[] clone(int first, byte[] base) {
