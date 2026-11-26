@@ -16,6 +16,40 @@
       "message": "trigger build",
       "revId": "2e49b78a8782cc07aa760a0eef73cd0375d52b52",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17350587_eca25733",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSessionFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-11-26T01:57:56Z",
+      "side": 1,
+      "message": "Would it make sense to call a createSshClient() method here that would contain everything from line 197-257? By overriding such a method, the overrider could configure the SshClient after it was created while allowing even more behavior to be overridden. Example:\n\n```\nSshClient createSshClient() {\n  SshClient client \u003d super.createSshClient();\n  // configure client here\n  return client;\n}\n```",
+      "revId": "2e49b78a8782cc07aa760a0eef73cd0375d52b52",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8667bd4f_735838ca",
+        "filename": "org.eclipse.jgit.ssh.apache/src/org/eclipse/jgit/transport/sshd/SshdSessionFactoryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1038403
+      },
+      "writtenOn": "2026-11-26T01:57:56Z",
+      "side": 1,
+      "message": "Following in the createSshClient() method idea, this would become something like:\n\n```c.clientFactory \u003d clientFactory;```",
+      "revId": "2e49b78a8782cc07aa760a0eef73cd0375d52b52",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
