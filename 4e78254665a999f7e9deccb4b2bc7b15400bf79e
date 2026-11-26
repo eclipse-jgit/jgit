@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef4b4c64_ca80330c",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-11-26T06:08:29Z",
+      "side": 1,
+      "message": "Dropping `\\0` here makes sense (git fsck rejects NUL in headers). For `\\r`, though, the line-splitting problem only affects reflog lines. Commit and tag headers, `ReflogReaderImpl` and C git all split on LF only, and packed-refs, the example in the commit message, never contains an identity. Since this is shared with `CommitBuilder`/`TagBuilder`, rewriting a C git commit whose author has a CR will now silently change the author. Would it be enough to strip CR from the ident in `ReflogWriter.encode()` and keep `appendSanitized` in line with `strbuf_addstr_without_crud`?",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 14
+      },
+      "revId": "4e78254665a999f7e9deccb4b2bc7b15400bf79e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
