@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13edcc7e_aebc579b",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-11-26T08:44:47Z",
+      "side": 1,
+      "message": "You\u0027re right, thanks for finding this. Since this problem isn\u0027t really related to the new hook and existed before, I\u0027ve fixed this as a separate change in https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1262129/1 (",
+      "parentUuid": "fba33733_e668c2fe",
+      "revId": "264224475c40e0686a4ae59016ecdda9120b82a3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f3e1ff5_a17534bc",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-11-26T06:07:53Z",
       "side": 1,
       "message": "These setters now also cover prepare-commit-msg, but the javadoc of all four (lines 1023, 1041, 1059, 1085) still says \"(pre-commit, commit-msg, post-commit)\". Can you add prepare-commit-msg to those lists?",
+      "revId": "264224475c40e0686a4ae59016ecdda9120b82a3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57758a34_e1e64570",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1033,
+      "author": {
+        "id": 1039515
+      },
+      "writtenOn": "2026-11-26T08:44:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f3e1ff5_a17534bc",
       "revId": "264224475c40e0686a4ae59016ecdda9120b82a3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
