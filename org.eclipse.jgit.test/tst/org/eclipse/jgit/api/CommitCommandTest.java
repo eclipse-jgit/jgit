@@ -14,6 +14,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
@@ -612,6 +613,24 @@ public class CommitCommandTest extends RepositoryTestCase {
 			git.commit().setAuthor("New Author", "newauthor@example.org")
 					.setMessage("again no change").setOnly("file1")
 					.setAllowEmpty(true).call();
+		}
+	}
+
+	@Test
+	public void failedCommitKeepsSquashMessage() throws Exception {
+		try (Git git = new Git(db)) {
+			writeTrashFile("file1", "file1");
+			git.add().addFilepattern("file1").call();
+			git.commit().setMessage("initial commit").call();
+			db.writeSquashCommitMsg("squashed");
+
+			assertThrows(EmptyCommitException.class,
+					() -> git.commit().setAllowEmpty(false).call());
+			assertEquals("squashed", db.readSquashCommitMsg());
+
+			RevCommit commit = git.commit().call();
+			assertEquals("squashed", commit.getFullMessage());
+			assertNull(db.readSquashCommitMsg());
 		}
 	}
 

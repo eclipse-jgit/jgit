@@ -118,6 +118,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 */
 	private boolean noVerify;
 
+	/**
+	 * Whether the commit message was taken from SQUASH_MSG, which then has to
+	 * be deleted once the commit succeeded.
+	 */
+	private boolean squashMessageUsed;
+
 	private HashMap<String, PrintStream> hookOutRedirect = new HashMap<>(3);
 
 	private HashMap<String, PrintStream> hookErrRedirect = new HashMap<>(3);
@@ -373,6 +379,9 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			} else if (state == RepositoryState.REVERTING_RESOLVED) {
 				repo.writeMergeCommitMsg(null);
 				repo.writeRevertHead(null);
+			}
+			if (squashMessageUsed) {
+				repo.writeSquashCommitMsg(null);
 			}
 			break;
 		}
@@ -634,8 +643,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		} else if (state == RepositoryState.SAFE && message == null) {
 			try {
 				message = repo.readSquashCommitMsg();
-				if (message != null)
-					repo.writeSquashCommitMsg(null /* delete */);
+				// SQUASH_MSG is deleted only after the commit succeeded
+				squashMessageUsed = message != null;
 			} catch (IOException e) {
 				throw new JGitInternalException(MessageFormat.format(
 						JGitText.get().exceptionOccurredDuringReadingOfGIT_DIR,

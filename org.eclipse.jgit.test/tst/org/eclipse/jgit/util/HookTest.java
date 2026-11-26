@@ -12,6 +12,8 @@ package org.eclipse.jgit.util;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
@@ -102,6 +104,29 @@ public class HookTest extends RepositoryTestCase {
 				.setHookOutputStream(new PrintStream(out)).call();
 		assertEquals(".git/COMMIT_EDITMSG\n",
 				out.toString(UTF_8));
+	}
+
+	@Test
+	public void testFailedCommitMsgHookKeepsSquashMessage() throws Exception {
+		assumeSupportedPlatform();
+
+		Git git = Git.wrap(db);
+		writeTrashFile("a.txt", "content");
+		git.add().addFilepattern("a.txt").call();
+		db.writeSquashCommitMsg("squashed");
+
+		File hook = writeHookFile(CommitMsgHook.NAME, "#!/bin/sh\nexit 1");
+		assertThrows(AbortedByHookException.class,
+				() -> git.commit()
+						.setHookErrorStream(
+								new PrintStream(new ByteArrayOutputStream()))
+						.call());
+		assertEquals("squashed", db.readSquashCommitMsg());
+
+		assertTrue(hook.delete());
+		RevCommit revCommit = git.commit().call();
+		assertEquals("squashed", revCommit.getFullMessage());
+		assertNull(db.readSquashCommitMsg());
 	}
 
 	@Test
