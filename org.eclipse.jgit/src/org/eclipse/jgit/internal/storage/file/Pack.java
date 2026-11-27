@@ -12,6 +12,7 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.eclipse.jgit.internal.storage.pack.PackExt.BITMAP_INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.INDEX;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.KEEP;
 import static org.eclipse.jgit.internal.storage.pack.PackExt.OBJECT_SIZE_INDEX;
@@ -237,7 +238,7 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 								PackExt.INDEX.getExtension(),
 							Hex.toHexString(idx.getChecksum())));
 			}
-			loadedIdx = optionally(idx);
+			loadedIdx = optionally(INDEX, idx, idx.getMemorySize());
 			return idx;
 		} catch (InterruptedIOException e) {
 			// don't invalidate the pack, we are interrupted from
@@ -1347,7 +1348,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	private synchronized PackBitmapIndex memoizeBitmapIndexIfNeeded() throws IOException {
-		if (invalid || bitmapIdxFile == null) {
+		PackFile file = bitmapIdxFile;
+		if (invalid || file == null) {
 			return null;
 		}
 		Optional<PackBitmapIndex> optional = bitmapIdx.getOptional();
@@ -1355,11 +1357,11 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 			return optional.get();
 		}
 		try {
-			PackBitmapIndex idx = PackBitmapIndex.open(bitmapIdxFile,
-					getIndex(), getReverseIdx());
+			PackBitmapIndex idx = PackBitmapIndex.open(file, getIndex(),
+					getReverseIdx());
 			// At this point, idx() will have set packChecksum.
 			if (Arrays.equals(packChecksum, idx.getPackChecksum())) {
-				bitmapIdx = optionally(idx);
+				bitmapIdx = optionally(BITMAP_INDEX, idx, file.length());
 				return idx;
 			}
 		} catch (FileNotFoundException e) {
@@ -1428,7 +1430,8 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 		PackReverseIndex revIdx = PackReverseIndexFactory.openOrCompute(reverseIndexFile,
 					getObjectCount(), () -> getIndex());
 		revIdx.verifyPackChecksum(getPackFile().getPath());
-		reverseIdx = optionally(revIdx);
+		// As in DFS, assume a computed reverse index of 8 bytes per object.
+		reverseIdx = optionally(REVERSE_INDEX, revIdx, getObjectCount() * 8);
 		return revIdx;
 	}
 
@@ -1476,5 +1479,29 @@ public class Pack implements Iterable<PackIndex.MutableEntry> {
 	 */
 	protected <T> Optionally<T> optionally(T element) {
 		return useStrongRefs ? new Optionally.Hard<>(element) : new Optionally.Soft<>(element);
+	}
+
+	/**
+	 * Wrap an index of this pack in an Optionally
+	 * <p>
+	 * If
+	 * {@link org.eclipse.jgit.storage.file.WindowCacheConfig#getPackedIndexGitLimit()}
+	 * is set, the index is held by a cache bounded by that limit, and the
+	 * Optionally becomes empty when the cache drops it. Otherwise this is
+	 * {@link #optionally(Object)}.
+	 *
+	 * @param ext
+	 *            type of the index
+	 * @param index
+	 *            the index
+	 * @param size
+	 *            estimated number of heap bytes used by the index
+	 * @return Optionally with the index inside
+	 * @param <T>
+	 *            the type
+	 */
+	protected <T> Optionally<T> optionally(PackExt ext, T index, long size) {
+		Optionally<T> cached = PackIndexCache.put(ext, index, size);
+		return cached != null ? cached : optionally(index);
 	}
 }

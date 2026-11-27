@@ -353,7 +353,8 @@ public class PackMidx extends Pack {
 		try {
 			MultiPackIndex loadedMidx = MultiPackIndexLoader
 					.open(getPackFile());
-			midx = optionally(loadedMidx);
+			midx = optionally(PackExt.MULTI_PACK_INDEX, loadedMidx,
+					loadedMidx.getMemorySize());
 			return loadedMidx;
 		} catch (IOException e) {
 			setInvalid();

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.internal.storage.pack.PackExt;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -96,6 +97,33 @@ public class PackMidxTest extends LocalDiskRepositoryTestCase {
 		assertNotSame(ridx, reloadedRidx);
 		assertEquals(offsetOfA, reloadedIdx.findOffset(objs.commitA));
 		assertEquals(objs.commitA, reloadedRidx.findObject(offsetOfA));
+	}
+
+	@Test
+	public void midx_droppedMidxIsReloaded() throws Exception {
+		TestRepoObjects objs = createThreePacks();
+		PackMidx midx = writeAndOpenMidxAllPacks();
+		String contentsOfB = midxGet(midx, objs.contentsOfB);
+		int offsetOfC = objs.midxOffsets().get(objs.commitC).intValue();
+		String commitC = midxLoad(midx, offsetOfC);
+		midx.close();
+		WindowCacheConfig cfg = new WindowCacheConfig();
+		cfg.setStreamFileThreshold(streamThreshold);
+		cfg.setPackedIndexGitLimit(1);
+		cfg.install();
+		try {
+			for (int round = 0; round < 3; round++) {
+				assertTrue(midx.hasObject(objs.commitA));
+				assertEquals(contentsOfB, midxGet(midx, objs.contentsOfB));
+				assertEquals(commitC, midxLoad(midx, offsetOfC));
+			}
+			long[] evictions = PackIndexCache.getTable().getBlockCacheStats()
+					.get(0).getEvictions();
+			assertTrue(evictions[PackExt.MULTI_PACK_INDEX.getPosition()] > 0);
+		} finally {
+			cfg.setPackedIndexGitLimit(0);
+			cfg.install();
+		}
 	}
 
 	@Test
