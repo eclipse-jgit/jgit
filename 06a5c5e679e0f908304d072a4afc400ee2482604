@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d81ffaad_48687018",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1039835
+      },
+      "writtenOn": "2026-11-27T10:56:57Z",
+      "side": 1,
+      "message": "Native git unlinks SQUASH_MSG after every successful commit, not only when it supplied the message. Here it is kept when the caller passes `setMessage(...)` after a squash merge, so a later `commit()` without a message silently reuses the old squash text. Since this is moving into the cleanup block anyway, could it just delete it whenever `state \u003d\u003d RepositoryState.SAFE`? Then `squashMessageUsed` isn\u0027t needed.",
+      "range": {
+        "startLine": 383,
+        "startChar": 0,
+        "endLine": 385,
+        "endChar": 4
+      },
+      "revId": "06a5c5e679e0f908304d072a4afc400ee2482604",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
