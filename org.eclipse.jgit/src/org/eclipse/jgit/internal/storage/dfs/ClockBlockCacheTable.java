@@ -47,7 +47,7 @@ import org.eclipse.jgit.internal.storage.pack.PackExt;
  * size at cache creation time. The internal lock table used to gate load
  * invocations is also fixed in size.
  */
-final class ClockBlockCacheTable implements DfsBlockCacheTable {
+public final class ClockBlockCacheTable implements DfsBlockCacheTable {
 	/**
 	 * Table name.
 	 */
@@ -104,7 +104,13 @@ final class ClockBlockCacheTable implements DfsBlockCacheTable {
 	/** Stores timestamps of the last eviction of indexes. */
 	private final Map<EvictKey, Long> indexEvictionMap = new ConcurrentHashMap<>();
 
-	ClockBlockCacheTable(DfsBlockCacheConfig cfg) {
+	/**
+	 * Create a cache table.
+	 *
+	 * @param cfg
+	 *            the cache configuration
+	 */
+	public ClockBlockCacheTable(DfsBlockCacheConfig cfg) {
 		this.tableSize = tableSize(cfg);
 		if (tableSize < 1) {
 			throw new IllegalArgumentException(

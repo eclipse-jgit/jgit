@@ -282,7 +282,14 @@ public final class DfsBlockCache {
 				.fromStatsList(dfsBlockCacheTable.getBlockCacheStats());
 	}
 
-	static final class Ref<T> {
+	/**
+	 * A value held by a {@link DfsBlockCacheTable}, cleared when the table
+	 * evicts it.
+	 *
+	 * @param <T>
+	 *            type of the value
+	 */
+	public static final class Ref<T> {
 		final DfsStreamKey key;
 
 		final long position;
@@ -307,6 +314,24 @@ public final class DfsBlockCache {
 		T get() {
 			T v = value;
 			if (v != null) {
+				markHotter();
+			}
+			return v;
+		}
+
+		/**
+		 * Get the value and mark it as recently used if it is not hot.
+		 * <p>
+		 * Unlike {@code get()} this does not write to the Ref while it is hot,
+		 * so many threads can call it on every object lookup without
+		 * contending on it. The value survives at least one sweep of the clock
+		 * after it was last read.
+		 *
+		 * @return the value, or {@code null} if it was evicted
+		 */
+		public T getAndMarkIfCold() {
+			T v = value;
+			if (v != null && !isHot()) {
 				markHotter();
 			}
 			return v;
