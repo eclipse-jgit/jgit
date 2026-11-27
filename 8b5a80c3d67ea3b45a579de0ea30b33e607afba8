@@ -16,6 +16,24 @@
       "message": "we already have AnyLongObjectId, LongObjectId etc. which was implemented for LFS support",
       "revId": "8b5a80c3d67ea3b45a579de0ea30b33e607afba8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6310345a_08f0f5e7",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectFormat.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2026-11-27T21:52:23Z",
+      "side": 1,
+      "message": "if we want to use that we should move these classes from bundle `org.eclipse.jgit.lfs` to `org.eclipse.jgit` asap while we can still do this breaking change in 8.0. I\u0027ll have to tag 8.0 latest next Tuesday which is shipped with Eclipse IDE 2026-12 on Dec 9.",
+      "parentUuid": "d1abf9d9_9ec3d55c",
+      "revId": "8b5a80c3d67ea3b45a579de0ea30b33e607afba8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
