@@ -10,7 +10,11 @@
 
 package org.eclipse.jgit.internal.storage.file;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jgit.internal.storage.file.GC.RepoStatistics;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
@@ -125,5 +129,17 @@ public abstract class GcTestCase extends LocalDiskRepositoryTestCase {
 
 	protected static void fsTick() throws InterruptedException, IOException {
 		RepositoryTestCase.fsTick(null);
+	}
+
+	/**
+	 * Get the only pack of the repository.
+	 *
+	 * @return the pack
+	 */
+	protected Pack singlePack() {
+		List<Pack> packs = new ArrayList<>(
+				repo.getObjectDatabase().getPacks());
+		assertEquals(1, packs.size());
+		return packs.get(0);
 	}
 }

@@ -260,15 +260,18 @@ class PackBitmapIndexV1 extends BasePackBitmapIndex {
 
 	@Override
 	public boolean equals(Object o) {
-		// TODO(cranger): compare the pack checksum?
-		if (o instanceof PackBitmapIndexV1)
-			return getPackIndex() == ((PackBitmapIndexV1) o).getPackIndex();
+		// Indexes of the same pack, e.g. loaded again after the pack's
+		// indexes were dropped, use the same bit positions.
+		if (o instanceof PackBitmapIndexV1) {
+			return Arrays.equals(packChecksum,
+					((PackBitmapIndexV1) o).packChecksum);
+		}
 		return false;
 	}
 
 	@Override
 	public int hashCode() {
-		return getPackIndex().hashCode();
+		return Arrays.hashCode(packChecksum);
 	}
 
 	@Override
