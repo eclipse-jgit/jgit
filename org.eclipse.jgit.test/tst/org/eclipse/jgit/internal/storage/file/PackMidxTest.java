@@ -12,6 +12,7 @@ package org.eclipse.jgit.internal.storage.file;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -77,6 +78,24 @@ public class PackMidxTest extends LocalDiskRepositoryTestCase {
 		assertTrue(midx.hasObject(objs.contentsOfB));
 		assertTrue(midx.hasObject(objs.contentsOfA));
 		assertFalse(midx.hasObject(UNKNOWN_OBJ));
+	}
+
+	@Test
+	public void midx_indexViewsAreDroppedWithMidx() throws Exception {
+		TestRepoObjects objs = createThreePacks();
+		PackMidx midx = writeAndOpenMidxAllPacks();
+		PackIndex idx = midx.getIndex();
+		PackReverseIndex ridx = midx.getReverseIdx();
+		long offsetOfA = idx.findOffset(objs.commitA);
+
+		midx.close();
+
+		PackIndex reloadedIdx = midx.getIndex();
+		PackReverseIndex reloadedRidx = midx.getReverseIdx();
+		assertNotSame(idx, reloadedIdx);
+		assertNotSame(ridx, reloadedRidx);
+		assertEquals(offsetOfA, reloadedIdx.findOffset(objs.commitA));
+		assertEquals(objs.commitA, reloadedRidx.findObject(offsetOfA));
 	}
 
 	@Test

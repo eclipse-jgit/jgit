@@ -53,11 +53,7 @@ public class PackMidx extends Pack {
 
 	private final OffsetCalculator offsetCalculator;
 
-	private Optionally<MultiPackIndex> midx = Optionally.empty();
-
-	private volatile PackIndex idx;
-
-	private volatile PackReverseIndex ridx;
+	private volatile Optionally<MultiPackIndex> midx = Optionally.empty();
 
 	// TODO(ifrade): Encapsulate invalid/invalidatingCause in Pack to reuse here
 	private IOException invalidatingCause;
@@ -124,37 +120,24 @@ public class PackMidx extends Pack {
 		return Collections.emptyList();
 	}
 
+	// The index views are created on each call, so that only the Optionally
+	// holding the midx keeps it reachable.
 	@Override
 	public PackIndex getIndex() {
-		if (idx == null) {
-			synchronized (this) {
-				if (idx == null) {
-					try {
-						idx = new MidxPackIndex(getMidx(), offsetCalculator);
-					} catch (IOException e) {
-						throw new UncheckedIOException(e);
-					}
-				}
-			}
+		try {
+			return new MidxPackIndex(getMidx(), offsetCalculator);
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
 		}
-		return idx;
 	}
 
 	@Override
 	public PackReverseIndex getReverseIdx() {
-		if (ridx == null) {
-			synchronized (this) {
-				if (ridx == null) {
-					try {
-						ridx = new MidxPackReverseIndex(getMidx(),
-								offsetCalculator);
-					} catch (IOException e) {
-						throw new UncheckedIOException(e);
-					}
-				}
-			}
+		try {
+			return new MidxPackReverseIndex(getMidx(), offsetCalculator);
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
 		}
-		return ridx;
 	}
 
 	@Override
